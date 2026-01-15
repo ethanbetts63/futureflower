@@ -1,13 +1,12 @@
 import pytest
 from django.conf import settings
 from django.utils import timezone
-from events.models import Event, Notification
+from events.models import Event
 from payments.models import Tier
 from users.models import User
 from events.utils.create_admin_tasks_for_notification import create_admin_tasks_for_notification
 from users.tests.factories.user_factory import UserFactory
 from events.tests.factories.event_factory import EventFactory
-from payments.tests.factories.tier_factory import TierFactory
 
 pytestmark = pytest.mark.django_db
 
