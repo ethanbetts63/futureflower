@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Allow: /articles/
+Allow: /static/
+Disallow: /dashboard/
+Disallow: /create-flow/
+Disallow: /confirmation
+Disallow: /terms-and-conditions/
+
+Sitemap: https://www.foreverflower.app/sitemap.xml

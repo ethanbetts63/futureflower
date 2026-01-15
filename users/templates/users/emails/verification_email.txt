@@ -1,0 +1,11 @@
+Hi {{ user.username }},
+
+Welcome to ForeverFlower! To start receiving notifications, please verify your email address by visiting the link below.
+
+Verify Your Email:
+{{ verification_url }}
+
+If you did not sign up for an account, please disregard this email.
+
+Thanks,
+The ForeverFlower Team

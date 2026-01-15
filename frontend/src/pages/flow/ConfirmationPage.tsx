@@ -1,0 +1,218 @@
+import { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { CheckCircle, User, Heart, Calendar, CreditCard, AlertCircle, Loader2 } from 'lucide-react';
+import { getUserProfile, getEmergencyContacts, getEvent } from '@/api';
+import type { UserProfile, EmergencyContact, Event } from '@/types';
+import { ArticleCarousel } from '@/components/ArticleCarousel';
+import Seo from '@/components/Seo';
+
+const ConfirmationPage = () => {
+  const { eventId } = useParams<{ eventId: string }>();
+  
+  const [event, setEvent] = useState<Event | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [contacts, setContacts] = useState<EmergencyContact[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!eventId) {
+      setError('No event ID provided.');
+      setLoading(false);
+      return;
+    }
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [eventData, profileData, contactsData] = await Promise.all([
+          getEvent(eventId),
+          getUserProfile(),
+          getEmergencyContacts(),
+        ]);
+        setEvent(eventData);
+        setProfile(profileData);
+        setContacts(contactsData);
+        setError(null);
+      } catch (err) {
+        setError('Failed to load your reminder details. Please refresh the page.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [eventId]);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8 flex justify-center items-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <p className="ml-4 text-muted-foreground">Loading your confirmation details...</p>
+      </div>
+    );
+  }
+
+  if (error || !event) {
+    return (
+      <div className="container mx-auto px-4 py-8 text-center">
+        <h1 className="text-2xl font-bold mb-2">Could Not Load Reminder</h1>
+        <p>{error || 'An unexpected error occurred.'}</p>
+        <Button asChild className="mt-4">
+          <Link to="/dashboard">Go to Your Dashboard</Link>
+        </Button>
+      </div>
+    );
+  }
+  
+  const eventDate = new Date(event.event_date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC'
+  });
+
+  return (
+    <>
+      <Seo title="Event Confirmed | ForeverFlower" />
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="space-y-8">
+          <Card className="text-center w-full bg-gradient-to-br from-background to-muted/50">
+            <CardHeader>
+              <div className="flex justify-center items-center mb-4">
+                <CheckCircle className="h-16 w-16 text-green-500" />
+              </div>
+              <CardTitle className="text-3xl">Your Reminder is Locked In!</CardTitle>
+              <CardDescription>
+                Here is a summary of the information we've recorded. You can manage these details from your account page.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          {loading && (
+            <div className="flex justify-center items-center py-8">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <p className="ml-4 text-muted-foreground">Loading your details...</p>
+            </div>
+          )}
+
+          {error && (
+            <Card className="border-destructive bg-destructive/10">
+              <CardHeader className="flex flex-row items-center space-x-4">
+                <AlertCircle className="h-8 w-8 text-destructive" />
+                <div>
+                  <CardTitle>Error</CardTitle>
+                  <CardDescription className="text-destructive">{error}</CardDescription>
+                </div>
+              </CardHeader>
+            </Card>
+          )}
+
+          {!loading && !error && (
+            <div className="space-y-6">
+              {/* Payment Details Section */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                        <CreditCard className="h-6 w-6 text-primary" />
+                        <CardTitle>Payment Details</CardTitle>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                  {event.payment_details ? (
+                    <div className="space-y-2">
+                        <p><strong>Payment Date:</strong> {new Date(event.payment_details.date).toLocaleDateString()}</p>
+                        <p><strong>Amount Paid:</strong> ${parseFloat(String(event.payment_details.amount)).toFixed(2)}</p>
+                        <p className="text-sm text-muted-foreground pt-2">Your payment was successful and the event is now active.</p>
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground">Your payment was successful and the event is now active.</p>
+                  )}
+                </CardContent>
+              </Card>
+                            {/* Event Details Section */}
+              <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                          <Calendar className="h-6 w-6 text-primary" />
+                          <CardTitle>Event Details</CardTitle>
+                      </div>
+                      <Button asChild size="sm">
+                          <Link to="/dashboard/events">Manage Events</Link>
+                      </Button>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                      <p><strong>Event Name:</strong> {event.name}</p>
+                      <p><strong>Event Date:</strong> {eventDate}</p>
+                      <p><strong>Lead Time:</strong> {event.weeks_in_advance} {event.weeks_in_advance === 1 ? 'week' : 'weeks'}</p>
+                      {event.notes && <p><strong>Notes:</strong> {event.notes}</p>}
+                  </CardContent>
+              </Card>
+
+              {/* Profile Details Section */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <User className="h-6 w-6 text-primary" />
+                    <CardTitle>Your Profile</CardTitle>
+                  </div>
+                  <Button asChild size="sm">
+                    <Link to="/dashboard/account">Edit Profile</Link>
+                  </Button>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+                  <p><strong>First Name:</strong> {profile?.first_name || 'Not provided'}</p>
+                  <p><strong>Last Name:</strong> {profile?.last_name || 'Not provided'}</p>
+                  <p><strong>Email:</strong> {profile?.email || 'Not provided'}</p>
+                  <p><strong>Phone:</strong> {profile?.country_code && profile?.phone ? `+${profile.country_code} ${profile.phone}` : 'Not provided'}</p>
+                  <p><strong>Backup Email:</strong> {profile?.backup_email || 'Not provided'}</p>
+                  <p><strong>Facebook:</strong> {profile?.facebook_handle || 'Not provided'}</p>
+                  <p><strong>Instagram:</strong> {profile?.instagram_handle || 'Not provided'}</p>
+                  <p><strong>Snapchat:</strong> {profile?.snapchat_handle || 'Not provided'}</p>
+                  <p><strong>X (Twitter):</strong> {profile?.x_handle || 'Not provided'}</p>
+                </CardContent>
+              </Card>
+
+              {/* Emergency Contacts Section */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <Heart className="h-6 w-6 text-primary" />
+                    <CardTitle>Emergency Contacts</CardTitle>
+                  </div>
+                  <Button asChild size="sm">
+                    <Link to="/dashboard/account">Edit Contacts</Link>
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                  {contacts.length > 0 ? (
+                    <ul className="space-y-4">
+                      {contacts.map(contact => (
+                        <li key={contact.id} className="p-3 border rounded-md bg-muted/20">
+                          <p><strong>Name:</strong> {contact.first_name} {contact.last_name}</p>
+                          <p className="text-sm"><strong>Relationship:</strong> {contact.relationship || 'N/A'}</p>
+                          <p className="text-sm"><strong>Phone:</strong> {contact.phone}</p>
+                          {contact.email && <p className="text-sm"><strong>Email:</strong> {contact.email}</p>}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-muted-foreground">No emergency contacts were added.</p>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </div>
+      </div>
+      <section className="mt-10">
+        <ArticleCarousel />
+      </section>
+    </>
+  );
+};
+
+export default ConfirmationPage;

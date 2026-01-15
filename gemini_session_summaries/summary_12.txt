@@ -1,0 +1,39 @@
+# Session Summary: Email Verification and System Hardening
+
+This session focused on implementing a complete user email verification system, hardening the user deletion process, and fixing several bugs and structural issues along the way.
+
+## Key Features Implemented
+
+### 1. User Email Verification Flow
+- **Goal:** To ensure users verify their email address before any notifications are sent.
+- **Model Changes:** Added an `is_email_verified` boolean field to the `User` model.
+- **Backend Logic:**
+    - Created a `send_verification_email` utility that generates a secure token and sends a templated email.
+    - This function is now automatically called from the `RegisterSerializer` whenever a new user is created.
+    - An `EmailVerificationView` endpoint was created to handle the verification link, which sets `is_email_verified` to `True` and redirects the user.
+    - After discussion, the redirect was changed from a homepage query parameter to dedicated `/verification-success/` and `/verification-failed/` pages for simplicity.
+- **Enforcement:** The core `process_notifications` command was updated to only process reminders for users where `user.is_email_verified` is `True`.
+
+### 2. Frontend "Not Verified" Banner
+- **Goal:** To persistently remind unverified users to check their email.
+- **Implementation:**
+    - A new React `Banner.tsx` component was created.
+    - This banner was integrated into the main `NavBar.tsx` and is conditionally rendered for any logged-in user whose `is_email_verified` status is false.
+    - Several TypeScript build errors were resolved by adding missing imports (`useAuth`, `Banner`) and updating the frontend `UserProfile` type definition to include the `is_email_verified` property.
+
+### 3. "Resend Verification Email" Functionality
+- **Goal:** Allow users to request a new verification email from the banner.
+- **Backend:** A new `ResendVerificationView` API endpoint was created. This authenticated endpoint calls the `send_verification_email` service.
+- **Frontend:** The "Resend Email" button in the banner was wired up to call this new API endpoint and display a success or error toast notification using the `sonner` component.
+
+### 4. Rate Limiting on Resend
+- **Goal:** Prevent users from spamming the "Resend Email" button.
+- **Implementation:**
+    - A `verification_email_last_sent_at` timestamp field was added to the `User` model.
+    - The `ResendVerificationView` was updated to check this timestamp, returning a `429 Too Many Requests` error if a request is made less than 60 seconds after the previous one.
+
+## Bug Fixes and Refactoring
+
+- **`TemplateDoesNotExist` Error:** Diagnosed and fixed a critical error that was preventing verification emails from being sent. The fix involved creating the proper Django template namespacing by moving the user email templates into a `users/templates/users/` directory.
+- **Code Organization:** The `users/services.py` file was broken up into smaller, more specific utility files within the `users/utils/` directory (`anonymization_utils.py`, `email_utils.py`, etc.) and all relevant imports were updated, following user direction.
+- **Database Migrations:** All model changes (`User` and `Notification` models) were captured in new migration files, which were then successfully applied. This ensures the database schema is fully up-to-date with the application code.

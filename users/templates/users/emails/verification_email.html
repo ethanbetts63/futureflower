@@ -1,0 +1,28 @@
+{% extends "notifications/emails/base.html" %}
+
+{% block title %}Verify Your ForeverFlower Account{% endblock %}
+
+{% block preheader %}
+Welcome to ForeverFlower! Just one more step to activate your account and start setting up your long-term reminders.
+{% endblock %}
+
+{% block content %}
+<h1 style="font-size: 24px; font-weight: 700; margin: 0 0 20px 0; color: #ffffff;">Welcome to ForeverFlower!</h1>
+
+<p style="margin: 0 0 20px 0;">Hello {{ user.username }},</p>
+<p style="margin: 0 0 30px 0;">Thank you for signing up. Please verify your email address by clicking the button below to get started.</p>
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+        <td align="center">
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td align="center" style="border-radius: 5px;" bgcolor="#5A95FF">
+                        <a href="{{ verification_url }}" target="_blank" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; border-radius: 5px; padding: 15px 25px; border: 1px solid #5A95FF; display: inline-block; font-weight: bold;">Verify Your Email</a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+{% endblock %}

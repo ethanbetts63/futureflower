@@ -1,0 +1,100 @@
+// src/types/index.ts
+
+export interface AuthResponse {
+    refresh: string;
+    access: string;
+    user: {
+        id: number;
+        email: string;
+        first_name: string;
+        last_name: string;
+    };
+}
+
+export interface EventCreationResponse {
+    event: {
+        name: string;
+        event_date: string;
+        notes: string | null;
+    };
+    user: {
+        email: string;
+    };
+}
+
+export interface Event {
+    id: number;
+    name:string;
+    notes: string | null;
+    event_date: string;
+    weeks_in_advance: number;
+    user: number;
+    is_active: boolean;
+    tier: Tier; // Add tier information
+    created_at: string;
+    updated_at: string;
+    payment_details: {
+        amount: number;
+        date: string;
+    } | null;
+}
+
+export interface UserProfile {
+    id: number;
+    username: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+    country_code: string;
+    phone: string | null;
+    backup_email: string | null;
+    secondary_backup_email: string | null;
+    backup_phone: string | null;
+    facebook_handle: string | null;
+    instagram_handle: string | null;
+    snapchat_handle: string | null;
+    x_handle: string | null;
+    is_staff: boolean;
+    is_superuser: boolean;
+    is_email_verified: boolean;
+}
+
+export interface EmergencyContact {
+    id: number;
+    first_name: string;
+    last_name: string;
+    phone: string;
+    email: string | null;
+    relationship: string;
+}
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface AppConfig {
+  priceId: number;
+  amount: number;
+  currency: string;
+}
+
+export interface Price {
+    id: number;
+    amount: number;
+    currency: string;
+    type: 'one_time' | 'recurring';
+}
+
+export interface Tier {
+    id: number;
+    name: string;
+    description: string;
+    prices: Price[];
+}
+
+export interface TermsAndConditions {
+    version: string;
+    content: string;
+    published_at: string;
+}
