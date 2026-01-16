@@ -5,6 +5,7 @@ import { Letter } from '../components/Letter';
 import { CtaCard } from '../components/CtaCard';
 import { HeroV2 } from '../components/HeroV2';
 import { DeliverySection } from '../components/DeliverySection';
+import { RomanceSection } from '../components/RomanceSection';
 
 
 const HomePage = () => {
@@ -26,6 +27,7 @@ const HomePage = () => {
         <ProductCarousel />
       </section>
 
+      <RomanceSection />
       <DeliverySection />
 
 
