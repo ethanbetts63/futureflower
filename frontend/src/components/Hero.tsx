@@ -11,8 +11,8 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ title, subtitle, imageSrc, srcSet, imageAlt, ctaElement }) => {
   return (
-    <section className="container mx-auto px-4 pt-4 lg:pt-8 pb-8">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-12 items-center">
+    <section className="container mx-auto px-4 pt-4 pb-8 lg:py-0">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-12">
         <div>
           <img 
             width="1536"
@@ -25,7 +25,7 @@ export const Hero: React.FC<HeroProps> = ({ title, subtitle, imageSrc, srcSet, i
             fetchPriority="high"
           />
         </div>
-        <div className="text-left px-4">
+        <div className="text-left px-4 flex flex-col justify-center lg:py-8">
           <h1 className="text-4xl font-bold tracking-tight text-primary-foreground sm:text-5xl md:text-6xl">
             {title}
           </h1>
