@@ -50,6 +50,20 @@ def calculate_upfront_price(request):
         years=years,
     )
 
+    # Formatted print for debugging in the terminal
+    print("\n--- Forever Flower Price Calculation ---")
+    print(f"Inputs:")
+    print(f"  - Bouquet Budget: ${bouquet_budget}")
+    print(f"  - Deliveries per Year: {deliveries_per_year}")
+    print(f"  - Years: {years}")
+    print("-" * 38)
+    print("Breakdown:")
+    for key, value in breakdown.items():
+        print(f"  - {key.replace('_', ' ').title()}: {value}")
+    print("-" * 38)
+    print(f"Calculated Upfront Price: ${upfront_price}")
+    print("--- End Calculation ---\n")
+
     response_data = {
         'upfront_price': upfront_price,
         'breakdown': breakdown

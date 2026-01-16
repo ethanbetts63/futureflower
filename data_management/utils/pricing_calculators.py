@@ -25,15 +25,18 @@ def forever_flower_upfront_price(
 
     r = annual_real_return
     N = years
+    annuity_factor = (1 - (1 + r) ** -N) / r
 
     # Present value of annuity
-    upfront_price = total_cost_year * (1 - (1 + r) ** -N) / r
+    upfront_price = total_cost_year * annuity_factor
+    total_service_fee = fee_year * annuity_factor
 
     breakdown = {
         "flower_cost_year": flower_cost_year,
         "fee_year": fee_year,
         "total_cost_year": total_cost_year,
         "fee_per_delivery": fee_per_delivery,
+        "total_service_fee": round(total_service_fee, 2),
         "assumed_return": r,
         "years": N,
     }
