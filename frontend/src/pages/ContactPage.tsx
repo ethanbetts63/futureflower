@@ -4,8 +4,6 @@ import { Hero } from '../components/Hero';
 import ContactDetails from '../components/ContactDetails';
 import OtherSites from '../components/OtherSites';
 import Seo from '@/components/Seo';
-
-// TODO: Replace with actual logo paths
 import allbikesLogo from '@/assets/allbikes_logo.png'; 
 import splitcartLogo from '@/assets/splitcart_logo.png';
 
