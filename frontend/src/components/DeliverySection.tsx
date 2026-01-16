@@ -10,23 +10,23 @@ const features = [
 
 export const DeliverySection: React.FC = () => {
   return (
-    <section className="py-12 md:py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-          
-          {/* Image Column */}
-          <div>
-            <img 
-              src={deliveryImage} 
-              alt="Florist delivering a bouquet of flowers" 
-              className="rounded-lg shadow-lg w-full h-auto"
-            />
-          </div>
+    <section className="bg-white">
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        
+        {/* Image Column */}
+        <div className="h-full">
+          <img 
+            src={deliveryImage} 
+            alt="Florist delivering a bouquet of flowers" 
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-          {/* Text Column */}
-          <div className="text-black">
+        {/* Text Column */}
+        <div className="text-black flex items-center p-8 md:p-16">
+          <div>
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Delivery you can trust
+              Delivery, handled properly.
             </h2>
             
             <ul className="space-y-4 mb-6">
@@ -42,8 +42,8 @@ export const DeliverySection: React.FC = () => {
               Our role is simple: quietly make sure flowers arrive, every time.
             </p>
           </div>
-
         </div>
+
       </div>
     </section>
   );

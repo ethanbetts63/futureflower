@@ -22,7 +22,7 @@ const HomePage = () => {
       />
       
       {/* --- Hierarchy Section --- */}
-      <section className="bg-primary mb-10">
+      <section className="bg-primary">
         <ProductCarousel />
       </section>
 
