@@ -10,9 +10,9 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title, subtitle }) => {
   return (
     <section 
       style={{ backgroundImage: `url(${heroImage})` }} 
-      className="h-screen w-full bg-cover bg-center flex items-center"
+      className="h-screen w-full bg-cover bg-right flex items-center"
     >
-      <div className="ml-24 w-1/3 bg-black/50 p-12 rounded-lg text-white">
+      <div className="ml-24 w-1/3 bg-black/70 p-12 rounded-lg text-white">
         <h1 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl">
           {title}
         </h1>
