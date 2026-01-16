@@ -9,7 +9,7 @@ const NavBar: React.FC = () => {
         
         {/* Center Title */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <Link to="/" className="font-bold text-4xl italic text-black font-['Playfair_Display',_serif]">
+            <Link to="/" className="font-bold text-6xl italic text-white font-['Playfair_Display',_serif]">
                 FOREVERFLOWER
             </Link>
         </div>
