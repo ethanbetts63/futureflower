@@ -7,6 +7,7 @@ import { Letter } from '../components/Letter';
 import { CtaCard } from '../components/CtaCard';
 import { CreateEventLink } from '../components/CreateEventLink';
 import { Hero } from '../components/Hero';
+import { HeroV2 } from '../components/HeroV2';
 
 const HomePage = () => {
   return (
@@ -16,6 +17,10 @@ const HomePage = () => {
         description="Standard calendars fail for distant or important events. ForeverFlower uses an escalating hierarchy of notifications to ensure you never miss a critical deadline or event again."
         canonicalPath="/"
         ogImage="/og-images/og-homepage.webp"
+      />
+      <HeroV2
+        title={<>The gift that <span className='italic'>keeps</span> on giving.</>}
+        subtitle={<>The most romantic gestures are those that plan for a future together. Choose the date, set the budget, and we quietly ensure flowers are delivered year after year - turning one decision into a lifetime of meaningful moments.</>}
       />
       <Hero
         title={<>The gift that <span className='italic'>keeps</span> on giving.</>}
