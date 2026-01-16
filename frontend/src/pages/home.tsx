@@ -8,6 +8,7 @@ import { CtaCard } from '../components/CtaCard';
 import { CreateEventLink } from '../components/CreateEventLink';
 import { Hero } from '../components/Hero';
 import { HeroV2 } from '../components/HeroV2';
+import { PriceCalculator } from '../components/PriceCalculator';
 
 const HomePage = () => {
   return (
@@ -26,6 +27,13 @@ const HomePage = () => {
       {/* --- Hierarchy Section --- */}
       <section className="bg-primary mb-10">
         <ProductCarousel />
+      </section>
+
+      {/* --- Price Calculator Section --- */}
+      <section className="py-12 md:py-20">
+        <div className="container mx-auto px-4">
+          <PriceCalculator />
+        </div>
       </section>
 
       {/* --- Main Content & Sticky Sidebar --- */}
