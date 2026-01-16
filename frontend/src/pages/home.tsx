@@ -19,7 +19,7 @@ const HomePage = () => {
       />
       <Hero
         title={<>The gift that <span className='italic'>keeps</span> on giving.</>}
-        subtitle={<>The most romantic gestures are those that plan for a future together. Choose the date, set the budget, and we quietly ensure flowers are delivered year after year - turning one decision into a lifetime of meaningful moments. <span className= "italic font-bold underline"></span></>}
+        subtitle={<>The most romantic gestures are those that plan for a future together. Choose the date, set the budget, and we quietly ensure flowers are delivered year after year - turning one decision into a lifetime of meaningful moments.</>}
         imageSrc={heroImage}
         imageAlt="A man sinking into a wormhole, sorrounded by examples of missed deadlines, to symbolize forgetting important events"
         ctaElement={<CreateEventLink size="lg" className="text-lg" />}
