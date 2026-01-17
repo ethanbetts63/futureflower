@@ -24,12 +24,12 @@ export const OtherServices: React.FC = () => {
             
             <div className="space-y-6">
                 <div>
-                    <h3 className="text-xl font-bold mb-2">One-off Single Deliveries</h3>
-                    <p>Perfect for those special, one-time events in the distant future. Plan years ahead for a single delivery, ensuring that a significant future occasion is never missed.</p>
+                    <h3 className="text-xl font-bold mb-2">🎁 One-off Single Deliveries</h3>
+                    <p>Plan months or even years ahead for a single delivery, ensuring that a significant future occasion is never missed.</p>
                 </div>
                 <div>
-                    <h3 className="text-xl font-bold mb-2">Transferable Subscriptions</h3>
-                    <p>Our subscriptions are as flexible as life is unpredictable. You can transfer your subscription to a different person, change the recipient, or even move it to a new address, hassle-free.</p>
+                    <h3 className="text-xl font-bold mb-2">🔄 Transferable Subscriptions</h3>
+                    <p>You can give a person access to your subscription. This allows them to be in control of delivery details such as address, dates and bouquet preferences, whilst you retain the ability to make changes and/or top up their account.</p>
                 </div>
             </div>
 

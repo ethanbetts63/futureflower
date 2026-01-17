@@ -6,6 +6,7 @@ import { CtaCard } from '../components/CtaCard';
 import { HeroV2 } from '../components/HeroV2';
 import { DeliverySection } from '../components/DeliverySection';
 import { RomanceSection } from '../components/RomanceSection';
+import { OtherServices } from '../components/OtherServices';
 
 
 const HomePage = () => {
@@ -51,6 +52,9 @@ const HomePage = () => {
         </aside>
 
       </div>
+
+      <OtherServices />
+      
       <section className="mb-16">
         <FaqV2
           title="Questions? We have answers."
