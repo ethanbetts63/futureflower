@@ -7,12 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import formImage from '@/assets/faq_image_landscape.webp';
-import formImage320 from '@/assets/faq_image_landscape-320w.webp';
-import formImage640 from '@/assets/faq_image_landscape-640w.webp';
-import formImage768 from '@/assets/faq_image_landscape-768w.webp';
-import formImage1024 from '@/assets/faq_image_landscape-1024w.webp';
-import formImage1280 from '@/assets/faq_image_landscape-1280w.webp';
+
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner"; // Import the spinner
@@ -120,16 +115,7 @@ export function LoginForm({
             </form>
           </div>
 
-          {/* Image Section */}
-          <div className="bg-muted relative hidden md:block">
-        <img
-          src={formImage}
-          srcSet={`${formImage320} 320w, ${formImage640} 640w, ${formImage768} 768w, ${formImage1024} 1024w, ${formImage1280} 1280w`}
-          sizes="50vw"
-          alt="Decorative"
-          className="w-full h-full object-cover"
-        />
-          </div>
+
 
         </CardContent>
       </Card>

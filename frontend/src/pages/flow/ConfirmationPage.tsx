@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle, User, Heart, Calendar, CreditCard, AlertCircle, Loader2 } from 'lucide-react';
 import { getUserProfile, getEmergencyContacts, getEvent } from '@/api';
 import type { UserProfile, EmergencyContact, Event } from '@/types';
-import { ArticleCarousel } from '@/components/ArticleCarousel';
+
 import Seo from '@/components/Seo';
 
 const ConfirmationPage = () => {
@@ -208,9 +208,7 @@ const ConfirmationPage = () => {
           )}
         </div>
       </div>
-      <section className="mt-10">
-        <ArticleCarousel />
-      </section>
+
     </>
   );
 };
