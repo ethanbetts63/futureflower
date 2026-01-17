@@ -1,12 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
+import logo from '../assets/logo.png';
 
 const NavBar: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-[var(--color2)] bg-[var(--color3)]">
-      <div className="relative flex h-20 w-full items-center justify-end px-4">
+      <div className="relative flex h-20 w-full items-center justify-between px-4">
         
+        {/* Left Section: Logo */}
+        <Link to="/">
+            <img src={logo} alt="ForeverFlower Logo" className="h-16 w-auto" />
+        </Link>
+
         {/* Center Title */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <Link to="/" className="font-bold text-6xl italic text-white font-['Playfair_Display',_serif]">
