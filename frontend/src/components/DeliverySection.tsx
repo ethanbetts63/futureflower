@@ -1,5 +1,10 @@
 import React from 'react';
 import deliveryImage from '../assets/delivery.webp';
+import deliveryImage320 from '../assets/delivery-320w.webp';
+import deliveryImage640 from '../assets/delivery-640w.webp';
+import deliveryImage768 from '../assets/delivery-768w.webp';
+import deliveryImage1024 from '../assets/delivery-1024w.webp';
+import deliveryImage1280 from '../assets/delivery-1280w.webp';
 import { Check } from 'lucide-react';
 
 const features = [
@@ -16,7 +21,9 @@ export const DeliverySection: React.FC = () => {
         {/* Image Column */}
         <div className="h-full">
           <img 
-            src={deliveryImage} 
+            src={deliveryImage}
+            srcSet={`${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`}
+            sizes="(max-width: 768px) 100vw, 50vw"
             alt="Florist delivering a bouquet of flowers" 
             className="w-full h-full object-cover"
           />

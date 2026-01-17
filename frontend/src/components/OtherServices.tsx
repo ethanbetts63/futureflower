@@ -1,5 +1,11 @@
 import React from 'react';
 import floristImage from '../assets/florist.webp';
+import floristImage320 from '../assets/florist-320w.webp';
+import floristImage640 from '../assets/florist-640w.webp';
+import floristImage768 from '../assets/florist-768w.webp';
+import floristImage1024 from '../assets/florist-1024w.webp';
+import floristImage1280 from '../assets/florist-1280w.webp';
+
 
 export const OtherServices: React.FC = () => {
   return (
@@ -10,6 +16,8 @@ export const OtherServices: React.FC = () => {
         <div className="h-full">
           <img 
             src={floristImage} 
+            srcSet={`${floristImage320} 320w, ${floristImage640} 640w, ${floristImage768} 768w, ${floristImage1024} 1024w, ${floristImage1280} 1280w`}
+            sizes="(max-width: 768px) 100vw, 50vw"
             alt="A florist arranging a beautiful bouquet of flowers." 
             className="w-full h-full object-cover"
           />
