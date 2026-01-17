@@ -1,5 +1,5 @@
 import React from 'react';
-import floristImage from '../assets/florist.png';
+import floristImage from '../assets/florist.webp';
 
 export const OtherServices: React.FC = () => {
   return (

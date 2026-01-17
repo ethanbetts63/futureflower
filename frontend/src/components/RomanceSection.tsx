@@ -1,5 +1,5 @@
 import React from 'react';
-import kitchenImage from '../assets/kitchen.png';
+import kitchenImage from '../assets/kitchen.webp';
 import { Check } from 'lucide-react';
 
 const features = [

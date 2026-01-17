@@ -1,5 +1,5 @@
 import React from 'react';
-import deliveryImage from '../assets/delivery.png';
+import deliveryImage from '../assets/delivery.webp';
 import { Check } from 'lucide-react';
 
 const features = [
