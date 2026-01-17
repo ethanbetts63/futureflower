@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import heroImage from '../assets/hero1.webp';
 import heroMobileImage from '../assets/hero_mobile.webp';
 
@@ -7,40 +7,21 @@ interface HeroV2Props {
   subtitle: React.ReactNode;
 }
 
-const useWindowWidth = () => {
-  const [windowWidth, setWindowWidth] = useState(0);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    setWindowWidth(window.innerWidth);
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  return windowWidth;
-};
-
 export const HeroV2: React.FC<HeroV2Props> = ({ title, subtitle }) => {
-  const width = useWindowWidth();
-  const imageUrl = width < 768 ? heroMobileImage : heroImage;
-
   return (
-    <section 
-      style={{ 
-        backgroundImage: `url(${imageUrl})`,
-        backgroundPosition: 'center center',
-      }} 
-      className="h-screen w-full bg-cover flex items-end md:items-center"
-    >
-      <div className="ml-0 sm:ml-12 md:ml-24 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-black/70 p-8 sm:p-12 rounded-none sm:rounded-lg text-white">
+    <section className="relative h-screen w-full flex items-end md:items-center">
+      <picture className="absolute inset-0 w-full h-full">
+        <source media="(min-width: 768px)" srcSet={heroImage} />
+        <img 
+          src={heroMobileImage} 
+          alt="A woman holding a large bouquet of flowers."
+          fetchPriority="high"
+          className="w-full h-full object-cover"
+        />
+      </picture>
+      
+      {/* Overlay Content */}
+      <div className="relative ml-0 sm:ml-12 md:ml-24 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-black/70 p-8 sm:p-12 rounded-none sm:rounded-lg text-white">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
           {title}
         </h1>
