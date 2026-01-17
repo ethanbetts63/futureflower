@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
                                 src={logo}
                                 srcSet={`${logo320} 320w, ${logo640} 640w, ${logo768} 768w, ${logo1024} 1024w, ${logo1280} 1280w`}
                                 sizes="80px"
-                                alt="Future Reminder Logo"
+                                alt="ForeverFlower Logo"
                             />
             <p className="text-sm">&copy; {currentYear} ForeverFlower. All rights reserved.</p>
           </div>
