@@ -21,7 +21,7 @@ export const Letter: React.FC = () => {
           </div>
           <div className="flex flex-col gap-4">
             <p>
-              We soon realized that you don't have to be dying for it to be a great gift. ForeverFlower is just as much for the son who wants to ensure his mother feels cherished every May, or the partner who wants to guarantee a decade of birthdays are celebrated with style.
+              We soon realized that you don't have to be dying for it to be a great gift. ForeverFlower is just as much for the son who wants to ensure his mother feels <span className="font-bold">cherished every May</span>, or the partner who wants to guarantee a decade of birthdays are celebrated with style.
             </p>
             <p>
               It's for the person who wants to be known as <span className="font-bold">the one who always remembers</span>—the one whose love isn't just felt today, but is promised for every year to come.
