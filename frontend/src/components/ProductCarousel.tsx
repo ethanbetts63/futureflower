@@ -3,13 +3,13 @@ const featurePoints = [
     level: 1,
     symbol: '🗓️',
     title: 'You decide once.',
-    description: 'Choose the dates, budget, and how long you want this to last. Then optionally attach meaningful messages to be sent with each delivery.',
+    description: 'Choose the dates, budget and frequency. Then optionally attach meaningful messages to be sent with each delivery. Finally, give us your preferences on bouquet composition and color.',
   },
   {
     level: 2,
     symbol: '🔒',
     title: 'Lock it in.',
-    description: 'We create a long-term plan and store every future delivery in our system. Payment can be upfront or subscription based depending on your preference.',
+    description: 'We create a long-term plan and store every future delivery in our system. Payment can be upfront or subscription based depending on your preference. Recieve up to a 38% discount for upfront payment.',
   },
   {
     level: 3,
