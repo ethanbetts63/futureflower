@@ -4,14 +4,15 @@ import { Hero } from '../components/Hero';
 import ContactDetails from '../components/ContactDetails';
 import OtherSites from '../components/OtherSites';
 import Seo from '@/components/Seo';
-import allbikesLogo from '@/assets/allbikes_logo.png'; 
+import allbikesLogo from '@/assets/allbikes_logo.webp'; 
 import splitcartLogo from '@/assets/splitcart_logo.png';
+import futureReminderLogo from '@/assets/futurereminder_logo.png';
 
 const otherSitesData = [
     {
         name: "Allbikes",
         logoSrc: allbikesLogo, 
-        description: "Your one-stop shop for motorcycle and scooter servicing and parts.",
+        description: "Your one-stop shop for motorcycle and scooter servicing and parts in Perth, Western Australia.",
         url: "https://www.allbikes.com.au", 
     },
     {
@@ -19,6 +20,12 @@ const otherSitesData = [
         logoSrc: splitcartLogo, 
         description: "Compare grocery prices across major Australian supermarkets.",
         url: "https://www.splitcart.com.au", 
+    },
+    {
+        name: "FutureReminder",
+        logoSrc: futureReminderLogo, 
+        description: "Distant and important reminder service with an escalating hierachy of notification. Including text message, email, and emergency contacts.",
+        url: "https://www.futurereminder.app", 
     },
 ];
 
