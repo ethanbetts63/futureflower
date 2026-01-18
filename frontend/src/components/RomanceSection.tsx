@@ -19,7 +19,7 @@ export const RomanceSection: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2">
 
         {/* Text Column */}
-        <div className="text-black flex items-center p-8 md:p-16">
+        <div className="text-black flex items-center p-8 md:p-16 order-2 md:order-1">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
               The art of thoughtful giving.
@@ -41,7 +41,7 @@ export const RomanceSection: React.FC = () => {
         </div>
 
         {/* Image Column */}
-        <div className="h-full">
+        <div className="h-full order-1 md:order-2">
           <img 
             src={kitchenImage} 
             srcSet={`${kitchenImage320} 320w, ${kitchenImage640} 640w, ${kitchenImage768} 768w, ${kitchenImage1024} 1024w, ${kitchenImage1280} 1280w`}
