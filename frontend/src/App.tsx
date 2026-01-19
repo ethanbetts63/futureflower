@@ -27,7 +27,8 @@ const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
 const ResetPasswordConfirmPage = lazy(() => import('./pages/ResetPasswordConfirmPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
-const TestArticle = lazy(() => import('./pages/articles/TestArticle'));
+const BestFlowerSubscriptionServicesUS = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesUS'));
+const BestFlowerSubscriptionServicesAU = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesAU'));
 
 // --- Lazy-loaded Admin Pages ---
 const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
@@ -61,7 +62,8 @@ function App() {
                 <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
                 <Route path="/verification-success" element={<VerificationSuccessPage />} />
                 <Route path="/blocklist-success" element={<BlocklistSuccessPage />} />
-                <Route path="/articles/test-article" element={<TestArticle />} />
+                <Route path="/articles/best-flower-subscription-services-us" element={<BestFlowerSubscriptionServicesUS />} />
+                <Route path="/articles/best-flower-subscription-services-au" element={<BestFlowerSubscriptionServicesAU />} />
 
                 {/* Event Creation Flow */}
                 <Route path="/event-gate" element={<EventGate />} />

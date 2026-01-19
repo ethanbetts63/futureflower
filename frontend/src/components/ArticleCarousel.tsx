@@ -6,14 +6,27 @@ import deliveryImage640 from '../assets/delivery-640w.webp';
 import deliveryImage768 from '../assets/delivery-768w.webp';
 import deliveryImage1024 from '../assets/delivery-1024w.webp';
 import deliveryImage1280 from '../assets/delivery-1280w.webp';
+import floristImage from '../assets/florist.webp';
+import floristImage320 from '../assets/florist-320w.webp';
+import floristImage640 from '../assets/florist-640w.webp';
+import floristImage768 from '../assets/florist-768w.webp';
+import floristImage1024 from '../assets/florist-1024w.webp';
+import floristImage1280 from '../assets/florist-1280w.webp';
 
 const articles = [
   {
-    title: 'Test Article',
+    title: 'The Best Flower Subscription Services in the United States (2026 Guide)',
     imageSrc: deliveryImage,
     srcSet: `${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`,
-    link: '/articles/test-article',
-    alt: 'A test article'
+    link: '/articles/best-flower-subscription-services-us',
+    alt: 'A guide to the best flower subscription services in the US'
+  },
+  {
+    title: 'The Best Flower Subscription Services in Australia (2026 Guide)',
+    imageSrc: floristImage,
+    srcSet: `${floristImage320} 320w, ${floristImage640} 640w, ${floristImage768} 768w, ${floristImage1024} 1024w, ${floristImage1280} 1280w`,
+    link: '/articles/best-flower-subscription-services-au',
+    alt: 'A guide to the best flower subscription services in Australia'
   }
 ];
 
