@@ -1,8 +1,7 @@
 import { ArticleLayout } from '../../components/ArticleLayout';
-import articleImage from '../../assets/buy_flowers_on_black_friday.webp';
+import articleImage from '../../assets/delivery.webp';
 import { ArticleCarousel } from '../../components/ArticleCarousel';
 import Seo from '../../components/Seo';
-import { Link } from 'react-router-dom';
 
 const TestArticle = () => {
   const articleDetails = {

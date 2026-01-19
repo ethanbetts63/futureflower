@@ -8,6 +8,7 @@ import { DeliverySection } from '../components/DeliverySection';
 import { RomanceSection } from '../components/RomanceSection';
 import { OtherServices } from '../components/OtherServices';
 import type { FaqItem } from '@/types';
+import { ArticleCarousel } from '../components/ArticleCarousel';
 
 
 const HomePage = () => {
@@ -94,6 +95,8 @@ const HomePage = () => {
 
       <OtherServices />
       
+      <ArticleCarousel />
+
       <div className="bg-[var(--color4)]">
         <section className="pb-8">
           <FaqV2
