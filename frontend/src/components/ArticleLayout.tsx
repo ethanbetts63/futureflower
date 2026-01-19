@@ -34,12 +34,10 @@ export const ArticleLayout: React.FC<ArticleLayoutProps> = ({ title, subtitle, i
             </div>
             {faqItems && (
               <section className="bg-transparent text-gray-900 rounded-lg">
-                <div className="container mx-auto px-4">
-                  <FaqV2
-                    title="Have Questions?"
-                    faqs={faqItems}
-                  />
-                </div>
+                <FaqV2
+                  title="Have Questions?"
+                  faqs={faqItems}
+                />
               </section>
             )}
           </div>

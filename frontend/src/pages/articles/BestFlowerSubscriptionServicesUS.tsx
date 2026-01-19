@@ -3,7 +3,7 @@ import articleImage from '../../assets/delivery.webp';
 import { ArticleCarousel } from '../../components/ArticleCarousel';
 import Seo from '../../components/Seo';
 
-const TestArticle = () => {
+const BestFlowerSubscriptionServicesUS = () => {
   const articleDetails = {
     title: "The Best Flower Subscription Services in the United States (2026 Guide) | ForeverFlower",
     description: "An in-depth guide to the best flower subscription services in the US, broken down by best overall, cheapest, and highest quality.",
@@ -57,7 +57,7 @@ const TestArticle = () => {
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> An in-depth guide to the best flower subscription services in the US, broken down by best overall, cheapest, and highest quality.</>}
         imageSrc={articleImage}
         imageAlt="A variety of flower bouquets from different subscription services."
-        faqPage="test-article"
+        faqPage="best-flower-subscription-services-us"
       >
         <div className="text-lg text-primary-foreground space-y-6">
           <p>Flower subscriptions have become a popular way to keep fresh flowers arriving without repeated effort. In the US market, a few providers clearly stand out depending on what you care about most: overall balance, price, or flower quality.</p>
@@ -97,6 +97,12 @@ const TestArticle = () => {
           <p><strong>Best for:</strong> People who prioritize freshness, longevity, and flower quality above all else.</p>
 
           <hr className="my-8 border-gray-600" />
+
+          <h2 className="text-3xl font-bold tracking-tight">For People Who Prefer to Set Things Up Once</h2>
+          <p>Buying flowers is usually a repeat task. You remember the date, place the order, choose a bouquet, and do it all again next year.</p>
+          <p>ForeverFlower is designed to remove that repetition. You select the important dates, choose a budget, and optionally add personal messages. Everything is then scheduled in advance.</p>
+          <p>It’s especially useful for recurring occasions like birthdays, anniversaries, and Mother’s Day — situations where the thought matters every year, not just once.</p>
+          <p>If that approach suits how you like to give gifts, it’s something you may find useful now or in the future.</p>
         </div>
       </ArticleLayout>
       <section>
@@ -106,4 +112,4 @@ const TestArticle = () => {
   );
 };
 
-export default TestArticle;
+export default BestFlowerSubscriptionServicesUS;

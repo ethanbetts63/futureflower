@@ -104,6 +104,21 @@ const BestFlowerDeliverySydney = () => {
             <li>Easy Flowers offers the most affordable bouquets with reasonable delivery times.</li>
           </ul>
           <p>Whether you’re surprising someone at the last minute, celebrating a milestone, or just brightening someone’s day, one of these services will likely suit your needs.</p>
+
+          <h2 className="text-3xl font-bold tracking-tight">A Different Way to Think About Gifting Flowers</h2>
+          <p>Most people use flower delivery for one-off moments — birthdays, anniversaries, Mother’s Day, apologies, celebrations. That’s usually where the story ends.</p>
+          <p>But some people want flowers to mean more than just a single delivery.</p>
+          <p>ForeverFlower exists for people who like the idea of deciding once and never forgetting again. Instead of ordering flowers every year, you choose the dates upfront (birthdays, anniversaries, Mother’s Day), set your budget, and everything runs automatically in the background.</p>
+          <p>It’s designed for:</p>
+          <ul className="list-disc list-inside space-y-2">
+            <li>People who want to be the one who always remembers</li>
+            <li>Long-term gifts (e.g. “flowers every anniversary for 10 years”)</li>
+            <li>Adult children who want to make sure their mum is celebrated every May</li>
+            <li>Partners who like the idea of locking in thoughtfulness once, instead of relying on reminders</li>
+            <li>Anyone who prefers planning ahead rather than scrambling for same-day delivery</li>
+          </ul>
+          <p>It’s not a replacement for local florists or services like Daily Blooms or Floraly. Those companies are great at delivering flowers today. ForeverFlower is for people who are thinking in years rather than days.</p>
+          <p>If that sounds like you, you might find ForeverFlower worth exploring — even if it’s just something you set up for the future.</p>
         </div>
       </ArticleLayout>
       <section>

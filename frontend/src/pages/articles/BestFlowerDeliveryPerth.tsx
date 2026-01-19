@@ -107,6 +107,12 @@ const BestFlowerDeliveryPerth = () => {
             <li>Easy Flowers is the most affordable option for simple deliveries.</li>
           </ul>
           <p>Which service is best depends on whether you value design, speed, or price, but for most occasions, one of these three will cover your needs.</p>
+
+          <h2 className="text-3xl font-bold tracking-tight">Thinking Beyond the Next Occasion</h2>
+          <p>Most flower gifts are tied to the next date on the calendar — the next birthday, the next anniversary, the next celebration.</p>
+          <p>ForeverFlower is built for people who occasionally think further ahead. It allows you to plan meaningful deliveries across future years rather than placing separate orders each time.</p>
+          <p>That can appeal to people who like the idea of creating a tradition, setting something in motion once, and knowing it will continue without needing attention every time an occasion comes around.</p>
+          <p>It’s not necessarily for everyone. But for those who value long-term intention over short-term convenience, it offers a different way to approach gifting.</p>
         </div>
       </ArticleLayout>
       <section>

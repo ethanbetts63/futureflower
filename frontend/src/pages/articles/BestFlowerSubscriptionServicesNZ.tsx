@@ -103,6 +103,13 @@ const BestFlowerSubscriptionServicesNZ = () => {
             <li>Teleflora via local florists gives you florist-style, high-quality bouquets on a schedule.</li>
           </ul>
           <p>Each approach has a slightly different strength — choice, price, or craft quality — so your best option depends on what you value most in regular flower deliveries.</p>
+
+          <h2 className="text-3xl font-bold tracking-tight">For People Who Like the Idea of a Longer Story</h2>
+          <p>Most flower deliveries are about a single moment.</p>
+          <p>But for some people, the meaning is in the repetition — showing up every year, without fail, without being prompted.</p>
+          <p>ForeverFlower exists for people who like the idea of turning flowers into a longer-term gesture. You choose the occasions, write the messages if you want to, and future deliveries are planned ahead rather than ordered one at a time.</p>
+          <p>It’s not a better way to buy flowers. It’s just a different mindset — one focused less on convenience today and more on intention over time.</p>
+          <p>If that idea resonates, it’s something worth exploring.</p>
         </div>
       </ArticleLayout>
       <section>
