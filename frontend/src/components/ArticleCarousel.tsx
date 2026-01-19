@@ -47,6 +47,13 @@ const articles = [
     srcSet: `${floristImage320} 320w, ${floristImage640} 640w, ${floristImage768} 768w, ${floristImage1024} 1024w, ${floristImage1280} 1280w`,
     link: '/articles/best-flower-subscription-services-eu',
     alt: 'A guide to the best flower subscription services in Europe'
+  },
+  {
+    title: 'The Best Flower Subscription Services in New Zealand (2026 Guide)',
+    imageSrc: deliveryImage,
+    srcSet: `${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`,
+    link: '/articles/best-flower-subscription-services-nz',
+    alt: 'A guide to the best flower subscription services in New Zealand'
   }
 ];
 

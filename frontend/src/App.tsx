@@ -31,6 +31,7 @@ const BestFlowerSubscriptionServicesUS = lazy(() => import('./pages/articles/Bes
 const BestFlowerSubscriptionServicesAU = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesAU'));
 const BestFlowerSubscriptionServicesUK = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesUK'));
 const BestFlowerSubscriptionServicesEU = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesEU'));
+const BestFlowerSubscriptionServicesNZ = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesNZ'));
 
 // --- Lazy-loaded Admin Pages ---
 const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
@@ -68,6 +69,7 @@ function App() {
                 <Route path="/articles/best-flower-subscription-services-au" element={<BestFlowerSubscriptionServicesAU />} />
                 <Route path="/articles/best-flower-subscription-services-uk" element={<BestFlowerSubscriptionServicesUK />} />
                 <Route path="/articles/best-flower-subscription-services-eu" element={<BestFlowerSubscriptionServicesEU />} />
+                <Route path="/articles/best-flower-subscription-services-nz" element={<BestFlowerSubscriptionServicesNZ />} />
 
                 {/* Event Creation Flow */}
                 <Route path="/event-gate" element={<EventGate />} />
