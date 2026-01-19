@@ -7,6 +7,7 @@ import { HeroV2 } from '../components/HeroV2';
 import { DeliverySection } from '../components/DeliverySection';
 import { RomanceSection } from '../components/RomanceSection';
 import { OtherServices } from '../components/OtherServices';
+import type { FaqItem } from '@/types';
 
 
 const HomePage = () => {
@@ -21,6 +22,29 @@ const HomePage = () => {
       "name": "Ethan Betts"
     }
   };
+
+  const homeFaqs: FaqItem[] = [
+    {
+      "question": "Will I get reminders or confirmations?",
+      "answer": "You will receive a reminder email 1 week and 1 day before the delivery date. They are not confirmation emails so you do not need to respond. They are simply to remind you."
+    },
+    {
+      "question": "What is your refund policy?",
+      "answer": "We can’t unsend flowers. But everything up until that point is fair game."
+    },
+    {
+      "question": "Can I increase or decrease the budget later?",
+      "answer": "Yes you can. For subscriptions this is as simple as increasing the subscription amount. For upfront payment plans, by lowering the cost of each bouquet we can increase the frequency or duration of the plan. By increasing the cost of each bouquet, we can do the opposite, or you can top off the amount, to maintain or increase the quality of the bouquets."
+    },
+    {
+      "question": "What countries do you operate in?",
+      "answer": "Currently we operate in the EU (Europe), United Kingdom, North America (USA & Canada), Australia and New Zealand."
+    },
+    {
+      "question": "Is delivery included in the price?",
+      "answer": "Cost of delivery is included in your yearly flower budget. Our service fee is placed seperately on top for transparency."
+    }
+  ];
 
   return (
     <main>
@@ -74,6 +98,7 @@ const HomePage = () => {
         <section className="pb-8">
           <FaqV2
             title="Questions? We have answers."
+            faqs={homeFaqs}
           />
         </section>
       </div>
