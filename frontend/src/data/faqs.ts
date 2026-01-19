@@ -21,12 +21,20 @@ export const faqs: { [key: string]: FaqItem[] } = {
   ],
   "best-flower-subscription-services-au": [
     {
-      "question": "This is a test question for AU?",
-      "answer": "This is a test answer for AU."
+      "question": "What is the best overall flower subscription service in Australia?",
+      "answer": "Floraly is the best all-around choice. It offers a great balance of convenience, quality, and broad delivery coverage across major Australian cities, with guaranteed on-time delivery."
     },
     {
-      "question": "This is another test question for AU?",
-      "answer": "This is another test answer for AU."
+      "question": "Which Australian flower subscription is the most affordable?",
+      "answer": "Little Flowers is the most budget-friendly option, with basic bouquets starting from as low as A$45. They are an excellent choice for value-minded buyers in Sydney who want regular fresh blooms."
+    },
+    {
+      "question": "I'm looking for a premium, high-quality flower subscription in Australia. What do you recommend?",
+      "answer": "For the highest quality, East End Flower Market is the top recommendation. They are known for larger, fuller arrangements and offer flexibility in bouquet size, colour tones, and delivery frequency nationwide."
+    },
+    {
+      "question": "Can I get a flower subscription with dried flowers in Australia?",
+      "answer": "Yes, Flowers Across Australia offers a bi-monthly subscription for dried bouquets. This is a great option if you're looking for long-lasting blooms for decor rather than fresh-cut flowers."
     }
   ],
   "best-flower-delivery-sydney": [
