@@ -24,23 +24,25 @@ export const ArticleLayout: React.FC<ArticleLayoutProps> = ({ title, subtitle, i
         imageAlt={imageAlt}
       />
       
-      <div className="container mx-auto px-4 mt-6">
-        
-        {/* Main Content Column (Full width) */}
-        <div style={{ backgroundColor: 'var(--color4)' }} className="text-primary-foreground rounded-lg px-4 md:p-0 lg:px-16 flex flex-col gap-8 max-w-4xl mx-auto">
-          <div>
-            {children}
+      <div style={{ backgroundColor: 'var(--color4)' }} className="py-12">
+        <div className="container mx-auto px-4">
+          
+          {/* Main Content Column (Full width) */}
+          <div style={{ backgroundColor: 'var(--color4)' }} className="text-primary-foreground rounded-lg px-4 md:p-0 lg:px-16 flex flex-col gap-8 max-w-4xl mx-auto">
+            <div>
+              {children}
+            </div>
+            {faqItems && (
+              <section className="bg-white text-gray-900 rounded-lg">
+                <div className="container mx-auto px-4">
+                  <FaqV2
+                    title="Have Questions?"
+                    faqs={faqItems}
+                  />
+                </div>
+              </section>
+            )}
           </div>
-          {faqItems && (
-            <section className="bg-white text-gray-900 rounded-lg">
-              <div className="container mx-auto px-4">
-                <FaqV2
-                  title="Have Questions?"
-                  faqs={faqItems}
-                />
-              </div>
-            </section>
-          )}
         </div>
       </div>
     </main>
