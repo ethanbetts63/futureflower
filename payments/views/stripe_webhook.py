@@ -6,14 +6,15 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from rest_framework.permissions import AllowAny
-from payments.models import Payment, Tier
+from payments.models import Payment
+from events.models import FlowerPlan
 from payments.utils.send_admin_payment_notification import send_admin_payment_notification
 
 class StripeWebhookView(APIView):
     """
     Listens for webhook events from Stripe.
     This view is responsible for handling payment confirmations and updating
-    the payment status in the local database.
+    the payment status and activating the associated FlowerPlan.
     """
     permission_classes = [AllowAny]
     
@@ -36,33 +37,29 @@ class StripeWebhookView(APIView):
         # Handle the event
         if event['type'] == 'payment_intent.succeeded':
             payment_intent = event['data']['object']
-            metadata = payment_intent.get('metadata', {})
-            target_tier_id = metadata.get('target_tier_id')
-
+            
             # Find the corresponding Payment in our database
             try:
                 payment = Payment.objects.get(stripe_payment_intent_id=payment_intent['id'])
                 payment.status = 'succeeded'
                 payment.save()
                 
-                # Upgrade Tier and Activate Event, if we have the necessary info
-                if payment.event and target_tier_id:
+                # Activate the associated FlowerPlan
+                if payment.flower_plan:
                     try:
-                        # Use the ID from the metadata to get the correct tier
-                        paid_tier = Tier.objects.get(id=target_tier_id)
-                        
-                        # Upgrade the event's tier and activate it
-                        event_to_update = payment.event
-                        event_to_update.tier = paid_tier
-                        event_to_update.is_active = True
-                        event_to_update.save() # The custom save method will validate
+                        flower_plan_to_activate = payment.flower_plan
+                        flower_plan_to_activate.is_active = True
+                        flower_plan_to_activate.save()
 
                         # Send a notification to the admin
                         send_admin_payment_notification(payment_id=payment.stripe_payment_intent_id)
 
-                    except Tier.DoesNotExist:
-                        print(f"CRITICAL ERROR: Tier with ID {target_tier_id} not found. Cannot upgrade event {payment.event.id}.")
+                    except FlowerPlan.DoesNotExist:
+                        # This case is unlikely if the payment has a valid foreign key
+                        print(f"CRITICAL ERROR: FlowerPlan with ID {payment.flower_plan.id} not found for payment {payment.id}.")
                         return HttpResponse(status=200)
+                else:
+                    print(f"CRITICAL ERROR: Payment {payment.id} succeeded but has no associated FlowerPlan.")
 
             except Payment.DoesNotExist:
                 print(f"Error: Received successful payment intent for non-existent charge ID: {payment_intent['id']}")
