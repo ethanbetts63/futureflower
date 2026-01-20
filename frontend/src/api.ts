@@ -208,10 +208,10 @@ export async function getTiers(): Promise<Tier[]> {
   return handleResponse(response);
 }
 
-export async function createPaymentIntent(eventId: number, targetTierId: number): Promise<{ clientSecret: string }> {
+export async function createPaymentIntent(flower_plan_id: number): Promise<{ clientSecret: string }> {
   const response = await authedFetch('/api/payments/create-payment-intent/', {
     method: 'POST',
-    body: JSON.stringify({ event_id: eventId, target_tier_id: targetTierId }),
+    body: JSON.stringify({ flower_plan_id: flower_plan_id }),
   });
   return handleResponse(response);
 }

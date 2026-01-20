@@ -42,15 +42,12 @@ const NavBar: React.FC = () => {
 
         {/* Right Section: Auth Buttons */}
         <div className="flex items-center gap-2">
-            {isAuthenticated ? (
-                <Button onClick={handleLogout} className="bg-white text-black font-bold hover:bg-gray-100">
-                    Logout
-                </Button>
-            ) : (
-                <Link to="/login">
-                    <Button className="bg-white text-black font-bold hover:bg-gray-100">Login</Button>
-                </Link>
-            )}
+            <Link to="/login">
+                <Button className="bg-white text-black font-bold hover:bg-gray-100">Login</Button>
+            </Link>
+            <Link to="/create-account">
+                <Button className="bg-white text-black font-bold hover:bg-gray-100">Sign Up</Button>
+            </Link>
             <Link to="/event-gate">
                 <Button className="bg-white text-black font-bold hover:bg-gray-100">Create Event</Button>
             </Link>

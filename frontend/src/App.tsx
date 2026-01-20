@@ -36,6 +36,8 @@ const BestFlowerSubscriptionServicesNZ = lazy(() => import('./pages/articles/Bes
 const BestFlowerDeliveryPerth = lazy(() => import('./pages/articles/BestFlowerDeliveryPerth'));
 const BestFlowerDeliverySydney = lazy(() => import('./pages/articles/BestFlowerDeliverySydney'));
 
+const CreateAccountPage = lazy(() => import('./pages/flow/CreateAccountPage'));
+
 // --- Lazy-loaded Admin Pages ---
 const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
 const AdminHomePage = lazy(() => import('./pages/admin/AdminHomePage'));
@@ -63,6 +65,7 @@ function App() {
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/confirmation/:eventId" element={<ConfirmationPage />} />
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/create-account" element={<CreateAccountPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password-confirm/:uid/:token" element={<ResetPasswordConfirmPage />} />
                 <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
@@ -76,6 +79,7 @@ function App() {
                 <Route path="/articles/best-flower-subscription-services-nz" element={<BestFlowerSubscriptionServicesNZ />} />
                 <Route path="/articles/best-flower-delivery-perth" element={<BestFlowerDeliveryPerth />} />
                 <Route path="/articles/best-flower-delivery-sydney" element={<BestFlowerDeliverySydney />} />
+
 
                 {/* Event Creation Flow */}
                 <Route path="/event-gate" element={<EventGate />} />
