@@ -9,6 +9,8 @@ class Event(models.Model):
         'events.FlowerPlan',
         on_delete=models.CASCADE,
         related_name="events",
+        blank=True,
+        null=True,
         help_text="The flower plan this event belongs to."
     )
     delivery_date = models.DateField(

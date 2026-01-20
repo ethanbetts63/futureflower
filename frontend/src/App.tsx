@@ -15,7 +15,7 @@ const UserDashboardLayout = lazy(() => import('./pages/UserDashboardLayout'));
 const AccountManagementPage = lazy(() => import('./pages/AccountManagementPage'));
 const EventGate = lazy(() => import('@/components/EventGate'));
 const ProfileCreationPage = lazy(() => import('./pages/flow/ProfileCreationPage'));
-const EventCreationPage = lazy(() => import('./pages/flow/FlowerPlanCreationPage'));
+const FlowerPlanCreationPage = lazy(() => import('./pages/flow/FlowerPlanCreationPage'));
 const ActivationSuccessPage = lazy(() => import('./pages/ActivationSuccessPage'));
 const PaymentPage = lazy(() => import('./pages/flow/PaymentPage'));
 const PaymentStatusPage = lazy(() => import('./pages/flow/PaymentStatusPage'));
@@ -80,7 +80,7 @@ function App() {
                 {/* Event Creation Flow */}
                 <Route path="/event-gate" element={<EventGate />} />
                 <Route path="/create-flow/profile" element={<ProfileCreationPage />} />
-                <Route path="/create-flow/event" element={<EventCreationPage />} />
+                <Route path="/book-flow" element={<FlowerPlanCreationPage />} />
                 <Route path="/create-flow/payment" element={<PaymentPage />} />
                 <Route path="/create-flow/success" element={<ActivationSuccessPage />} />
                 <Route path="/payment-status" element={<PaymentStatusPage />} />

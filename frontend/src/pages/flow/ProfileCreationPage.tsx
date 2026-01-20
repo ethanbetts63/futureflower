@@ -27,7 +27,7 @@ const ProfileCreationPage: React.FC = () => {
             toast.success("Account created successfully!");
             
             // Navigate to the next step in the flow
-            navigate('/create-flow/contacts');
+            navigate('/book-flow');
 
         } catch (error: any) {
             const errorData = error.data || {};
@@ -64,7 +64,7 @@ const ProfileCreationPage: React.FC = () => {
                             onClick={() => document.getElementById('profile-creation-submit')?.click()}
                         >
                             {isSubmitting && <Spinner className="mr-2 h-4 w-4" />}
-                            Next: Add Contacts
+                            Next: Create Your Plan
                         </Button>
                     </CardFooter>
                 </Card>
