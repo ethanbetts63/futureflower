@@ -1,8 +1,8 @@
 from django.core.management.base import BaseCommand
 from data_management.utils.generation_utils.terms_generator import TermsUpdateOrchestrator
 from data_management.utils.archive_db.database_archiver import DatabaseArchiver
-from data_management.utils.generation_utils.color_generator import ColorGenerator
-from data_management.utils.generation_utils.flower_generator import FlowerGenerator
+from data_management.utils.generation_utils.colors_generator import ColorGenerator
+from data_management.utils.generation_utils.flowers_generator import FlowerGenerator
 
 class Command(BaseCommand):
     help = 'Generates data for the application. Use flags to specify what to generate.'

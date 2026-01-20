@@ -1,30 +1,36 @@
-# foreverflower/data_management/utils/generate_flowers.py
+# foreverflower/data_management/utils/generation_utils/flowers_generator.py
 import json
 import os
 from events.models import FlowerType
 
-def generate_flowers():
-    """
-    Deletes all existing FlowerType objects and repopulates the database
-    with data from flowers.json.
-    """
-    print("Deleting all existing flower types...")
-    FlowerType.objects.all().delete()
-    print("All flower types deleted.")
+class FlowerGenerator:
+    def __init__(self, command):
+        self.command = command
+        self.file_path = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'flowers.json')
 
-    # Path to the JSON file
-    file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'flowers.json')
+    def run(self):
+        """
+        Deletes all existing FlowerType objects and repopulates the database
+        with data from flowers.json.
+        """
+        self.command.stdout.write("Deleting all existing flower types...")
+        FlowerType.objects.all().delete()
+        self.command.stdout.write("All flower types deleted.")
 
-    print(f"Loading flower type data from {file_path}...")
-    with open(file_path, 'r') as f:
-        flowers_data = json.load(f)
+        self.command.stdout.write(f"Loading flower type data from {self.file_path}...")
+        try:
+            with open(self.file_path, 'r') as f:
+                flowers_data = json.load(f)
+        except FileNotFoundError:
+            self.command.stderr.write(f"Error: flowers.json not found at {self.file_path}")
+            return
 
-    flowers_to_create = []
-    for flower_name in flowers_data:
-        flowers_to_create.append(
-            FlowerType(name=flower_name)
-        )
+        flowers_to_create = []
+        for flower_name in flowers_data:
+            flowers_to_create.append(
+                FlowerType(name=flower_name)
+            )
 
-    print(f"Creating {len(flowers_to_create)} new flower types...")
-    FlowerType.objects.bulk_create(flowers_to_create)
-    print("Successfully created new flower types.")
+        self.command.stdout.write(f"Creating {len(flowers_to_create)} new flower types...")
+        FlowerType.objects.bulk_create(flowers_to_create)
+        self.command.stdout.write(self.command.style.SUCCESS("Successfully created new flower types."))
