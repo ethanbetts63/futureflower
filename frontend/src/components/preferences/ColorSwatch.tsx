@@ -1,6 +1,6 @@
 // foreverflower/frontend/src/components/preferences/ColorSwatch.tsx
 import React from 'react';
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
 import { Check } from 'lucide-react';
 
 interface ColorSwatchProps {

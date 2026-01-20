@@ -1,6 +1,5 @@
 // foreverflower/frontend/src/components/preferences/SelectableTag.tsx
 import React from 'react';
-import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
 interface SelectableTagProps {

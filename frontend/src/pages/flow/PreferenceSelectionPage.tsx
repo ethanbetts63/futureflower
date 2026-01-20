@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getColors, getFlowerTypes, updateFlowerPlan, Color, FlowerType } from '@/api';
+import { getColors, getFlowerTypes, updateFlowerPlan } from '@/api';
+import type { Color, FlowerType } from '@/api';
 import { ColorSwatch, SelectableTag } from '@/components/preferences';
 import { Separator } from '@/components/ui/separator';
 
@@ -61,7 +62,7 @@ const PreferenceSelectionPage: React.FC = () => {
         fetchData();
     }, [isAuthenticated, navigate, planId]);
     
-    const handleToggle = (id: number, list: number[], setList: React.Dispatch<React.SetStateAction<number[]>>, otherList: number[], setOtherList: React.Dispatch<React.SetStateAction<number[]>>) => {
+    const handleToggle = (id: number, setList: React.Dispatch<React.SetStateAction<number[]>>, otherList: number[], setOtherList: React.Dispatch<React.SetStateAction<number[]>>) => {
         // If it's in the other list, remove it from there first
         if (otherList.includes(id)) {
             setOtherList(prev => prev.filter(itemId => itemId !== id));
@@ -123,7 +124,7 @@ const PreferenceSelectionPage: React.FC = () => {
                                                 key={color.id} 
                                                 hex={color.hex_code}
                                                 isSelected={preferredColors.includes(color.id)}
-                                                onClick={() => handleToggle(color.id, preferredColors, setPreferredColors, rejectedColors, setRejectedColors)}
+                                                onClick={() => handleToggle(color.id, setPreferredColors, rejectedColors, setRejectedColors)}
                                             />
                                         ))}
                                     </div>
@@ -136,7 +137,7 @@ const PreferenceSelectionPage: React.FC = () => {
                                                 key={color.id} 
                                                 hex={color.hex_code}
                                                 isSelected={rejectedColors.includes(color.id)}
-                                                onClick={() => handleToggle(color.id, rejectedColors, setRejectedColors, preferredColors, setPreferredColors)}
+                                                onClick={() => handleToggle(color.id, setRejectedColors, preferredColors, setPreferredColors)}
                                             />
                                         ))}
                                     </div>
@@ -159,7 +160,7 @@ const PreferenceSelectionPage: React.FC = () => {
                                                 key={ft.id}
                                                 label={ft.name}
                                                 isSelected={preferredFlowerTypes.includes(ft.id)}
-                                                onClick={() => handleToggle(ft.id, preferredFlowerTypes, setPreferredFlowerTypes, rejectedFlowerTypes, setRejectedFlowerTypes)}
+                                                onClick={() => handleToggle(ft.id, setPreferredFlowerTypes, rejectedFlowerTypes, setRejectedFlowerTypes)}
                                             />
                                         ))}
                                     </div>
@@ -172,7 +173,7 @@ const PreferenceSelectionPage: React.FC = () => {
                                                 key={ft.id}
                                                 label={ft.name}
                                                 isSelected={rejectedFlowerTypes.includes(ft.id)}
-                                                onClick={() => handleToggle(ft.id, rejectedFlowerTypes, setRejectedFlowerTypes, preferredFlowerTypes, setPreferredFlowerTypes)}
+                                                onClick={() => handleToggle(ft.id, setRejectedFlowerTypes, preferredFlowerTypes, setPreferredFlowerTypes)}
                                             />
                                         ))}
                                     </div>

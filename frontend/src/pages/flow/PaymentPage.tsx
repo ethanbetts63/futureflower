@@ -43,15 +43,17 @@ export default function PaymentPage() {
 
     // Fetch payment intent
     if (event?.id && targetTier?.id) {
-      createPaymentIntent(event.id, targetTier.id)
-        .then(data => {
-          setClientSecret(data.clientSecret);
-        })
-        .catch(error => {
-          toast.error("Failed to initialize payment", {
-            description: error.message || "Could not connect to the payment service."
-          });
-        });
+      // TODO: This page needs to be updated to the new FlowerPlan flow.
+      // The createPaymentIntent function now expects a flower_plan_id, not event.id and targetTier.id.
+      // createPaymentIntent(event.id, targetTier.id)
+      //   .then(data => {
+      //     setClientSecret(data.clientSecret);
+      //   })
+      //   .catch(error => {
+      //     toast.error("Failed to initialize payment", {
+      //       description: error.message || "Could not connect to the payment service."
+      //     });
+      //   });
     }
   }, [event, targetTier]);
 
