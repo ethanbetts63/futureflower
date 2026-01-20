@@ -5,20 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
-// Manually define the data type, removing the dependency on Zod
 export interface ProfileCreationData {
     first_name: string;
     last_name: string;
     email: string;
-    country_code: string;
-    phone: string;
     password?: string;
     confirmPassword?: string;
-    backup_email?: string;
-    facebook_handle?: string;
-    instagram_handle?: string;
-    snapchat_handle?: string;
-    x_handle?: string;
 }
 
 // Custom resolver to replace Zod
@@ -42,16 +34,6 @@ const profileFormResolver: Resolver<ProfileCreationData> = async (data) => {
         errors.email = { type: 'pattern', message: 'Please enter a valid email.' };
     }
 
-    // Country Code validation
-    if (!data.country_code) {
-        errors.country_code = { type: 'required', message: 'Country code is required.' };
-    }
-
-    // Phone validation
-    if (!data.phone) {
-        errors.phone = { type: 'required', message: 'Phone number is required.' };
-    }
-    
     // Password validation
     if (!data.password) {
         errors.password = { type: 'required', message: 'Password is required.' };
@@ -62,11 +44,6 @@ const profileFormResolver: Resolver<ProfileCreationData> = async (data) => {
     // Confirm Password validation
     if (data.password && data.confirmPassword !== data.password) {
         errors.confirmPassword = { type: 'validate', message: 'Passwords do not match.' };
-    }
-
-    // Backup Email validation
-    if (data.backup_email && !/\S+@\S+\.\S+/.test(data.backup_email)) {
-        errors.backup_email = { type: 'pattern', message: 'Invalid email format.' };
     }
 
     return {
@@ -108,42 +85,6 @@ export const ProfileCreationForm: React.FC<ProfileCreationFormProps> = ({ initia
                         <FormMessage />
                     </FormItem>
                 )} />
-                <div className="grid grid-cols-4 gap-x-4">
-                    <FormField control={form.control} name="country_code" render={({ field }) => (
-                        <FormItem className="col-span-1">
-                            <FormLabel>Country Code</FormLabel>
-                            <FormControl>
-                                <div className="relative">
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">+</span>
-                                    <Input 
-                                        {...field} 
-                                        placeholder="1"
-                                        className="pl-7"
-                                        inputMode="numeric"
-                                        onChange={(e) => {
-                                            const sanitizedValue = e.target.value.replace(/[^0-9]/g, '');
-                                            field.onChange(sanitizedValue);
-                                        }}
-                                    />
-                                </div>
-                            </FormControl>
-                            <FormDescription className="min-h-10">&nbsp;</FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )} />
-                    <FormField control={form.control} name="phone" render={({ field }) => (
-                        <FormItem className="col-span-3">
-                            <FormLabel>Phone Number</FormLabel>
-                            <FormControl>
-                                <Input {...field} value={field.value || ''} placeholder="5551234567" />
-                            </FormControl>
-                            <FormDescription className="min-h-10">
-                                We may not be able to contact numbers outside of North America, Europe, and ANZ.
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )} />
-                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                      <FormField control={form.control} name="password" render={({ field }) => (
@@ -154,24 +95,6 @@ export const ProfileCreationForm: React.FC<ProfileCreationFormProps> = ({ initia
                     )} />
                 </div>
                 
-                <h3 className="text-lg font-medium border-t pt-4">Contact & Social (Optional)</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                     <FormField control={form.control} name="backup_email" render={({ field }) => (
-                        <FormItem><FormLabel>Backup Email (optional)</FormLabel><FormControl><Input {...field} value={field.value || ''} type="email" /></FormControl><FormMessage /></FormItem>
-                    )} />
-<FormField control={form.control} name="facebook_handle" render={({ field }) => (
-                        <FormItem><FormLabel>Facebook (optional)</FormLabel><FormControl><Input placeholder="your.profile" {...field} value={field.value || ''} /></FormControl><FormMessage /></FormItem>
-                    )} />
-                    <FormField control={form.control} name="instagram_handle" render={({ field }) => (
-                        <FormItem><FormLabel>Instagram (optional)</FormLabel><FormControl><Input placeholder="@yourhandle" {...field} value={field.value || ''} /></FormControl><FormMessage /></FormItem>
-                    )} />
-                     <FormField control={form.control} name="snapchat_handle" render={({ field }) => (
-                        <FormItem><FormLabel>Snapchat (optional)</FormLabel><FormControl><Input placeholder="yourhandle" {...field} value={field.value || ''} /></FormControl><FormMessage /></FormItem>
-                    )} />
-                     <FormField control={form.control} name="x_handle" render={({ field }) => (
-                        <FormItem><FormLabel>X (optional)</FormLabel><FormControl><Input placeholder="@yourhandle" {...field} value={field.value || ''} /></FormControl><FormMessage /></FormItem>
-                    )} />
-                </div>
                 <Button type="submit" id="profile-creation-submit" className="hidden" />
             </form>
         </Form>

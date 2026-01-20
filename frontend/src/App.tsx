@@ -15,7 +15,7 @@ const UserDashboardLayout = lazy(() => import('./pages/UserDashboardLayout'));
 const AccountManagementPage = lazy(() => import('./pages/AccountManagementPage'));
 const EventGate = lazy(() => import('@/components/EventGate'));
 const ProfileCreationPage = lazy(() => import('./pages/flow/ProfileCreationPage'));
-const EventCreationPage = lazy(() => import('./pages/flow/EventCreationPage'));
+const EventCreationPage = lazy(() => import('./pages/flow/FlowerPlanCreationPage'));
 const ActivationSuccessPage = lazy(() => import('./pages/ActivationSuccessPage'));
 const PaymentPage = lazy(() => import('./pages/flow/PaymentPage'));
 const PaymentStatusPage = lazy(() => import('./pages/flow/PaymentStatusPage'));
@@ -39,8 +39,6 @@ const CreateAccountPage = lazy(() => import('./pages/flow/CreateAccountPage'));
 // --- Lazy-loaded Admin Pages ---
 const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
 const AdminHomePage = lazy(() => import('./pages/admin/AdminHomePage'));
-const AutomatedNotificationsPage = lazy(() => import('./pages/admin/AutomatedNotificationsPage'));
-const ManualNotificationsPage = lazy(() => import('./pages/admin/ManualNotificationsPage'));
 
 const LoadingFallback = () => (
   <div className="flex justify-center items-center h-screen">
@@ -90,8 +88,6 @@ function App() {
                 {/* Admin Section */}
                 <Route path="/admin-dashboard" element={<AdminLayout />}>
                   <Route index element={<AdminHomePage />} />
-                  <Route path="notifications/automated" element={<AutomatedNotificationsPage />} />
-                  <Route path="notifications/manual" element={<ManualNotificationsPage />} />
                 </Route>
 
                 {/* Logged-in user dashboard routes */}
