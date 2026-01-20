@@ -29,6 +29,30 @@ class FlowerPlan(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    # --- Preferences ---
+    preferred_colors = models.ManyToManyField(
+        'events.Color', 
+        related_name='preferred_plans', 
+        blank=True
+    )
+    preferred_flower_types = models.ManyToManyField(
+        'events.FlowerType', 
+        related_name='preferred_plans', 
+        blank=True
+    )
+    
+    rejected_colors = models.ManyToManyField(
+        'events.Color', 
+        related_name='rejected_plans', 
+        blank=True
+    )
+    rejected_flower_types = models.ManyToManyField(
+        'events.FlowerType', 
+        related_name='rejected_plans', 
+        blank=True
+    )
+
+
     def __str__(self):
         return f"Flower Plan {self.id} for {self.user.username}"
 
