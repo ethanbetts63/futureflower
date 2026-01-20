@@ -7,10 +7,8 @@ from .views.change_password_view import ChangePasswordView
 from .views.password_reset_request_view import PasswordResetRequestView
 from .views.password_reset_confirm_view import PasswordResetConfirmView
 from rest_framework.routers import DefaultRouter
-from .views.emergency_contact_view import EmergencyContactViewSet
 
 router = DefaultRouter()
-router.register(r'emergency-contacts', EmergencyContactViewSet, basename='emergencycontact')
 
 
 app_name = 'users'
