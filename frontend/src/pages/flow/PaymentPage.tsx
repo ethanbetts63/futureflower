@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 
 import CheckoutForm from '../../forms/CheckoutForm';
 import Summary from '../../components/Summary';
-import { createPaymentIntent, getUserProfile, getEmergencyContacts } from '@/api';
+import { getUserProfile, getEmergencyContacts } from '@/api';
 import type { Event, UserProfile, EmergencyContact, Tier } from '@/types';
 import { Spinner } from '@/components/ui/spinner';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -17,7 +17,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 
 
 export default function PaymentPage() {
   const location = useLocation();
-  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [clientSecret] = useState<string | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [contacts, setContacts] = useState<EmergencyContact[]>([]);
   const [, setIsLoading] = useState(true);
