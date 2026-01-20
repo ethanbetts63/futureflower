@@ -6,6 +6,7 @@ from events.models import FlowerType
 class FlowerGenerator:
     def __init__(self, command):
         self.command = command
+        # Corrected path from .../utils/generation_utils/ to .../data/
         self.file_path = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'flowers.json')
 
     def run(self):
@@ -22,14 +23,13 @@ class FlowerGenerator:
             with open(self.file_path, 'r') as f:
                 flowers_data = json.load(f)
         except FileNotFoundError:
-            self.command.stderr.write(f"Error: flowers.json not found at {self.file_path}")
+            self.command.stderr.write(self.command.style.ERROR(f"Error: flowers.json not found at {self.file_path}"))
             return
 
-        flowers_to_create = []
-        for flower_name in flowers_data:
-            flowers_to_create.append(
-                FlowerType(name=flower_name)
-            )
+        flowers_to_create = [
+            FlowerType(name=flower_name)
+            for flower_name in flowers_data
+        ]
 
         self.command.stdout.write(f"Creating {len(flowers_to_create)} new flower types...")
         FlowerType.objects.bulk_create(flowers_to_create)

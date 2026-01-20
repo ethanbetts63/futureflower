@@ -6,6 +6,7 @@ from events.models import Color
 class ColorGenerator:
     def __init__(self, command):
         self.command = command
+        # Corrected path from .../utils/generation_utils/ to .../data/
         self.file_path = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'colors.json')
 
     def run(self):
@@ -22,14 +23,13 @@ class ColorGenerator:
             with open(self.file_path, 'r') as f:
                 colors_data = json.load(f)
         except FileNotFoundError:
-            self.command.stderr.write(f"Error: colors.json not found at {self.file_path}")
+            self.command.stderr.write(self.command.style.ERROR(f"Error: colors.json not found at {self.file_path}"))
             return
 
-        colors_to_create = []
-        for color_data in colors_data:
-            colors_to_create.append(
-                Color(name=color_data['name'], hex_code=color_data.get('hex', ''))
-            )
+        colors_to_create = [
+            Color(name=color_data['name'], hex_code=color_data.get('hex', ''))
+            for color_data in colors_data
+        ]
 
         self.command.stdout.write(f"Creating {len(colors_to_create)} new colors...")
         Color.objects.bulk_create(colors_to_create)
