@@ -8,7 +8,8 @@ import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getFlowerPlan } from '@/api';
-import type { FlowerPlan, Event as EventType } from '@/api';
+import type { FlowerPlan } from '@/api';
+import type { Event } from '@/types';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from '@/components/ui/label';
@@ -21,14 +22,12 @@ const CustomMessagePage: React.FC = () => {
     // Core State
     const [flowerPlan, setFlowerPlan] = useState<FlowerPlan | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     // Message State
     type MessageMode = 'single' | 'multiple';
     const [messageMode, setMessageMode] = useState<MessageMode>('single');
     const [singleMessage, setSingleMessage] = useState('');
-    const [multipleMessages, setMultipleMessages] = useState<{ [eventId: number]: string }>({});
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -47,17 +46,6 @@ const CustomMessagePage: React.FC = () => {
             try {
                 const planData = await getFlowerPlan(planId);
                 setFlowerPlan(planData);
-
-                // Initialize messages state from fetched data
-                if (planData.events && planData.events.length > 0) {
-                    const initialMessages = planData.events.reduce((acc, event) => {
-                        if (event.message) {
-                            acc[event.id] = event.message;
-                        }
-                        return acc;
-                    }, {} as { [eventId: number]: string });
-                    setMultipleMessages(initialMessages);
-                }
 
             } catch (err) {
                 setError("Failed to load your flower plan. Please try again later.");
@@ -128,8 +116,8 @@ const CustomMessagePage: React.FC = () => {
                     </CardContent>
                     <CardFooter className="flex justify-between">
                         <Button variant="ghost" onClick={handleSkip}>Skip for Now</Button>
-                        <Button size="lg" onClick={handleSave} disabled={isSaving}>
-                            {isSaving ? <Spinner className="mr-2 h-4 w-4" /> : 'Save & Continue'}
+                        <Button size="lg" onClick={handleSave}>
+                            Save & Continue
                         </Button>
                     </CardFooter>
                 </Card>

@@ -24,18 +24,13 @@ export interface EventCreationResponse {
 
 export interface Event {
     id: number;
-    name:string;
-    notes: string | null;
-    event_date: string;
-    weeks_in_advance: number;
-    user: number;
-    is_active: boolean;
+    flower_plan: number;
+    delivery_date: string;
+    message: string | null;
+    bouquet_preference: string | null;
+    status: string;
     created_at: string;
     updated_at: string;
-    payment_details: {
-        amount: number;
-        date: string;
-    } | null;
 }
 
 export interface UserProfile {

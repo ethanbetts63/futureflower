@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, User, Heart, Calendar, CreditCard, AlertCircle, Loader2 } from 'lucide-react';
+import { CheckCircle, User, Calendar, CreditCard, AlertCircle, Loader2 } from 'lucide-react';
 import { getUserProfile, getEvent } from '@/api';
 import type { UserProfile, Event } from '@/types';
 
