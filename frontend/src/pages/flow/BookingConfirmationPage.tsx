@@ -79,15 +79,16 @@ const BookingConfirmationPage = () => {
   return (
     <>
       <Seo title="Confirm Your Plan | ForeverFlower" />
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
+        <div className="container mx-auto px-4 max-w-4xl">
         <div className="space-y-8">
-          <Card className="text-center w-full">
+          <Card className="text-center w-full bg-white shadow-md border-none text-black">
             <CardHeader>
               <div className="flex justify-center items-center mb-4">
                 <CheckCircle className="h-16 w-16 text-green-500" />
               </div>
               <CardTitle className="text-3xl">Confirm Your Flower Plan</CardTitle>
-              <CardDescription>
+              <CardDescription className="text-muted-foreground">
                 Please review the details of your plan below. This is the final step before payment.
               </CardDescription>
             </CardHeader>
@@ -95,7 +96,7 @@ const BookingConfirmationPage = () => {
 
           <div className="space-y-6">
             {/* Plan Details Section */}
-            <Card>
+            <Card className="bg-white shadow-md border-none text-black">
               <CardHeader><CardTitle>Plan Structure</CardTitle></CardHeader>
               <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                   <div className="flex flex-col items-center">
@@ -117,7 +118,7 @@ const BookingConfirmationPage = () => {
             </Card>
 
             {/* Preferences Section */}
-            <Card>
+            <Card className="bg-white shadow-md border-none text-black">
               <CardHeader><CardTitle>Your Preferences</CardTitle></CardHeader>
               <CardContent className="space-y-6">
                 <PreferenceList title="Preferred Colors" items={plan.preferred_colors} icon={Palette} variant="default" />
@@ -129,7 +130,7 @@ const BookingConfirmationPage = () => {
             </Card>
 
             {/* Pricing Summary */}
-            <Card className="bg-muted/50">
+            <Card className="bg-white shadow-md border-none text-black">
               <CardHeader>
                 <CardTitle className="flex items-center"><Tag className="mr-2 h-5 w-5" />Final Price</CardTitle>
               </CardHeader>
@@ -153,6 +154,7 @@ const BookingConfirmationPage = () => {
           </div>
         </div>
       </div>
+    </div>
     </>
   );
 };
