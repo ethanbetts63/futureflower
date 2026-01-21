@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -15,6 +16,8 @@ type Breakdown = {
 
 export const CtaCard: React.FC = () => {
   const [view, setView] = useState<'upfront' | 'subscription'>('upfront');
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   
   // Shared state
   const [bouquetBudget, setBouquetBudget] = useState(75);
@@ -32,6 +35,15 @@ export const CtaCard: React.FC = () => {
   // --- Instant Calculations for Subscription view ---
   const feePerDelivery = useMemo(() => Math.max(bouquetBudget * 0.05, 15), [bouquetBudget]);
   const pricePerDelivery = useMemo(() => bouquetBudget + feePerDelivery, [bouquetBudget, feePerDelivery]);
+
+  // --- Navigation Handler ---
+  const handleGetStarted = () => {
+    if (isAuthenticated) {
+      navigate('/book-flow/create-flower-plan');
+    } else {
+      navigate('/book-flow/create-account');
+    }
+  };
 
   // --- API Handler ---
   const handleCalculateUpfront = async () => {
@@ -80,14 +92,15 @@ export const CtaCard: React.FC = () => {
       <div className="mt-6 text-center">
         <Button onClick={handleCalculateUpfront} disabled={isLoading} className="w-full">{isLoading ? 'Calculating...' : 'Calculate Upfront Cost'}</Button>
       </div>
-      <div className="mt-4 text-center h-12 flex flex-col items-center justify-center">
+      <div className="mt-4 text-center h-20 flex flex-col items-center justify-center">
+        {error && <div className="text-red-500 text-sm">{error}</div>}
         {upfrontPrice !== null && (
           <>
             <div className="text-2xl font-bold">${upfrontPrice.toLocaleString()}</div>
-            {breakdown?.upfront_savings_percentage && <p className="text-xs text-gray-600">That's a ~{breakdown.upfront_savings_percentage}% savings compared to paying per delivery!</p>}
+            {breakdown?.upfront_savings_percentage && <p className="text-xs text-gray-600 mb-2">That's a ~{breakdown.upfront_savings_percentage}% savings compared to paying per delivery!</p>}
+            <Button onClick={handleGetStarted} className="mt-2">Get Started</Button>
           </>
         )}
-        {error && <div className="text-red-500 text-sm">{error}</div>}
       </div>
     </>
   );
@@ -104,10 +117,11 @@ export const CtaCard: React.FC = () => {
           <Slider id="deliveries-slider-sub" aria-label="Deliveries Per Year" min={1} max={12} step={1} value={[deliveriesPerYear]} onValueChange={(v) => setDeliveriesPerYear(v[0])} />
         </div>
       </div>
-       <div className="mt-4 pt-4 border-t border-gray-200 text-center">
+       <div className="mt-6 pt-4 border-t border-gray-200 text-center">
         <Label className="text-sm text-gray-600">Price Per Delivery</Label>
         <div className="text-2xl font-bold mt-1">${pricePerDelivery.toFixed(2)}</div>
-         <p className="text-xs text-gray-600 mt-2">Planning for {years} years or more? Switch to 'Pay Upfront' to save on the total cost.</p>
+        <p className="text-xs text-gray-600 mt-2">Planning for {years} years or more? Switch to 'Pay Upfront' to save on the total cost.</p>
+        <Button onClick={handleGetStarted} className="mt-4">Get Started</Button>
        </div>
     </>
   );

@@ -83,7 +83,7 @@ const FlowerPlanCreationPage: React.FC = () => {
                 years: years,
             });
             toast.success("Flower plan created successfully!");
-            navigate(`/flower-plan/${newPlan.id}/preferences`);
+            navigate(`/book-flow/flower-plan/${newPlan.id}/preferences`);
         } catch (err: any) {
             setError(err.message);
             toast.error("Failed to create plan:", err.message);

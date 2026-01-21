@@ -23,10 +23,10 @@ const EventGate: React.FC = () => {
 
         if (isAuthenticated) {
             // Logged-in users jump straight to the plan creation step
-            navigate('/book-flow', { replace: true });
+            navigate('/book-flow/create-flower-plan', { replace: true });
         } else {
             // Anonymous users are sent to the account creation page
-            navigate('/create-account', { replace: true });
+            navigate('/book-flow/create-account', { replace: true });
         }
     }, [isAuthenticated, isLoading, navigate]);
 

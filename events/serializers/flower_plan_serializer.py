@@ -4,7 +4,10 @@ from ..models import FlowerPlan, Color, FlowerType
 
 class FlowerPlanSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    
+    budget = serializers.DecimalField(max_digits=10, decimal_places=2, source='bouquet_budget')
+    number_of_years = serializers.IntegerField(source='years')
+    deliveries_per_year = serializers.IntegerField()
+
     preferred_colors = serializers.PrimaryKeyRelatedField(
         queryset=Color.objects.all(), many=True, required=False
     )
@@ -24,6 +27,9 @@ class FlowerPlanSerializer(serializers.ModelSerializer):
             'id',
             'user',
             'is_active',
+            'budget',
+            'deliveries_per_year',
+            'number_of_years',
             'recipient_details',
             'notes',
             'created_at',

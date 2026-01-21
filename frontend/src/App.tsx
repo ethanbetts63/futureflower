@@ -62,7 +62,6 @@ function App() {
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/confirmation/:eventId" element={<ConfirmationPage />} />
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/create-account" element={<CreateAccountPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password-confirm/:uid/:token" element={<ResetPasswordConfirmPage />} />
                 <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
@@ -80,9 +79,10 @@ function App() {
 
                 {/* Event Creation Flow */}
                 <Route path="/event-gate" element={<EventGate />} />
-                <Route path="/book-flow" element={<FlowerPlanCreationPage />} />
-                <Route path="/flower-plan/:planId/preferences" element={<PreferenceSelectionPage />} />
-                <Route path="/flower-plan/:planId/confirmation" element={<BookingConfirmationPage />} />
+                <Route path="/book-flow/create-account" element={<CreateAccountPage />} />
+                <Route path="/book-flow/create-flower-plan" element={<FlowerPlanCreationPage />} />
+                <Route path="/book-flow/flower-plan/:planId/preferences" element={<PreferenceSelectionPage />} />
+                <Route path="/book-flow/flower-plan/:planId/confirmation" element={<BookingConfirmationPage />} />
                 <Route path="/create-flow/payment" element={<PaymentPage />} />
                 <Route path="/create-flow/success" element={<ActivationSuccessPage />} />
                 <Route path="/payment-status" element={<PaymentStatusPage />} />
