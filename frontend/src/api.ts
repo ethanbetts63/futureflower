@@ -157,10 +157,16 @@ export interface FlowerPlan {
     notes: string | null;
     created_at: string;
     updated_at: string;
-    preferred_colors: number[];
-    preferred_flower_types: number[];
-    rejected_colors: number[];
-    rejected_flower_types: number[];
+    budget: number;
+    deliveries_per_year: number;
+    years: number;
+    total_amount: number;
+    currency: string;
+    preferred_colors: string[];
+    preferred_flower_types: string[];
+    rejected_colors: string[];
+    rejected_flower_types: string[];
+    events: Event[];
 }
 
 export async function getColors(): Promise<Color[]> {
@@ -173,7 +179,12 @@ export async function getFlowerTypes(): Promise<FlowerType[]> {
     return handleResponse(response);
 }
 
-export async function createFlowerPlan(planData: { budget: number, deliveries_per_year: number, years: number }): Promise<FlowerPlan> {
+export async function getFlowerPlan(planId: string): Promise<FlowerPlan> {
+    const response = await authedFetch(`/api/events/flower-plans/${planId}/`);
+    return handleResponse(response);
+}
+
+export async function createFlowerPlan(planData: { bouquet_budget: number, deliveries_per_year: number, years: number }): Promise<FlowerPlan> {
     const response = await authedFetch('/api/events/flower-plans/', {
         method: 'POST',
         body: JSON.stringify(planData),
@@ -215,35 +226,7 @@ export async function updateUserProfile(profileData: Partial<UserProfile>): Prom
     return handleResponse(response);
 }
 
-export async function getEmergencyContacts(): Promise<EmergencyContact[]> {
-    const response = await authedFetch('/api/users/emergency-contacts/', {
-        method: 'GET',
-    });
-    return handleResponse(response);
-}
 
-export async function createEmergencyContact(contactData: Omit<EmergencyContact, 'id'>): Promise<EmergencyContact> {
-    const response = await authedFetch('/api/users/emergency-contacts/', {
-        method: 'POST',
-        body: JSON.stringify(contactData),
-    });
-    return handleResponse(response);
-}
-
-export async function updateEmergencyContact(id: number, contactData: Partial<EmergencyContact>): Promise<EmergencyContact> {
-    const response = await authedFetch(`/api/users/emergency-contacts/${id}/`, {
-        method: 'PATCH',
-        body: JSON.stringify(contactData),
-    });
-    return handleResponse(response);
-}
-
-export async function deleteEmergencyContact(id: number): Promise<void> {
-    const response = await authedFetch(`/api/users/emergency-contacts/${id}/`, {
-        method: 'DELETE',
-    });
-    await handleResponse(response);
-}
 
 export async function changePassword(passwordData: { old_password: string, new_password: string, new_password_confirm: string }): Promise<{ detail: string }> {
   const response = await authedFetch('/api/users/change-password/', {

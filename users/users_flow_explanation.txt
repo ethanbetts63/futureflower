@@ -18,12 +18,6 @@ The payment step and a dedicated confirmation page are planned but not yet imple
 *   **System Action (Backend):** The `RegisterView` handles this request, creating a new `User` object with an associated password. Upon successful registration, JSON Web Tokens (JWTs) are returned, and the user is immediately authenticated and logged into the session.
 *   **Frontend Implementation:** The `ProfileCreationPage` (`/create-flow/profile`) handles this step, capturing user input and interacting with the backend registration API.
 
-### Step 3: Emergency Contacts (Optional)
-
-*   **User Experience:** The user is presented with the option to add emergency contacts. They can add multiple contacts or skip this step entirely and manage contacts later via their account settings.
-*   **System Action (Backend):** For the now-authenticated user, the `EmergencyContactsManager` component makes direct API calls (e.g., `/api/users/emergency-contacts/`) to create, retrieve, update, or delete emergency contacts associated with their profile.
-*   **Frontend Implementation:** The `EmergencyContactPage` (`/create-flow/contacts`) hosts the `EmergencyContactsManager`, which handles the persistence of contact data.
-
 ### Step 4: Event Details
 
 *   **User Experience:** The user provides the core details for their reminder event, including the event name, the specific event date, any supplementary notes, and how many weeks in advance notifications should begin.

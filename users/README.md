@@ -41,8 +41,6 @@ The following are the primary endpoints provided by this app, under the `/api/us
 *   `me/`: `GET`, `PATCH` - View or update the profile of the currently authenticated user.
 *   `delete/`: `DELETE` - Initiates the account anonymization process for the authenticated user.
 *   `change-password/`: `PUT` - Allows an authenticated user to change their password.
-*   `emergency-contacts/`: `GET`, `POST` - Manages the emergency contacts for the authenticated user.
-*   `emergency-contacts/<id>/`: `PATCH`, `DELETE` - Updates or deletes a specific emergency contact.
 *   `verify-email/<uidb64>/<token>/`: `GET` - Endpoint hit from the verification email link. (Public)
 *   `resend-verification/`: `POST` - Allows a logged-in user to request a new verification email.
 *   `password-reset/request/`: `POST` - Allows a user to request a password reset link. (Public)

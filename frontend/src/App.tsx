@@ -11,8 +11,10 @@ import { Spinner } from './components/ui/spinner';
 // --- Lazy-loaded Pages ---
 const ConfirmationPage = lazy(() => import('./pages/flow/ConfirmationPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
-const UserDashboardLayout = lazy(() => import('./pages/UserDashboardLayout'));
-const AccountManagementPage = lazy(() => import('./pages/AccountManagementPage'));
+const UserDashboardLayout = lazy(() => import('./pages/user_dashboard/UserDashboardLayout'));
+const UserDashboardPage = lazy(() => import('./pages/user_dashboard/UserDashboardPage'));
+const AccountManagementPage = lazy(() => import('./pages/user_dashboard/AccountManagementPage'));
+const FlowerPlanManagementPage = lazy(() => import('./pages/user_dashboard/FlowerPlanManagementPage'));
 const EventGate = lazy(() => import('@/components/EventGate'));
 const FlowerPlanCreationPage = lazy(() => import('./pages/flow/FlowerPlanCreationPage'));
 const PreferenceSelectionPage = lazy(() => import('./pages/flow/PreferenceSelectionPage'));
@@ -94,8 +96,9 @@ function App() {
 
                 {/* Logged-in user dashboard routes */}
                 <Route path="/dashboard" element={<UserDashboardLayout />}>
-                  <Route index element={<Navigate to="events" replace />} />
+                  <Route index element={<UserDashboardPage />} />
                   <Route path="account" element={<AccountManagementPage />} />
+                  <Route path="plans" element={<FlowerPlanManagementPage />} />
                 </Route>
 
               </Routes>

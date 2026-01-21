@@ -82,7 +82,7 @@ const PreferenceSelectionPage: React.FC = () => {
                 rejected_flower_types: rejectedFlowerTypes,
             });
             toast.success("Preferences saved!");
-            navigate(`/book-flow/flower-plan/${planId}/confirmation`); 
+            navigate(`/book-flow/flower-plan/${planId}/add-message`); 
         } catch (err) {
             toast.error("Failed to save preferences. Please try again.");
         } finally {
@@ -92,7 +92,7 @@ const PreferenceSelectionPage: React.FC = () => {
     
     const handleSkip = () => {
         toast.info("You can add preferences later from your dashboard.");
-        navigate(`/book-flow/flower-plan/${planId}/confirmation`);
+        navigate(`/book-flow/flower-plan/${planId}/add-message`);
     }
 
     if (!isAuthenticated) return null; // Redirecting

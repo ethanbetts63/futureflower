@@ -5,8 +5,10 @@ import logo from '../assets/logo.webp';
 import logo128 from '../assets/logo-128w.webp';
 import logo192 from '../assets/logo-192w.webp';
 import logo256 from '../assets/logo-256w.webp';
+import { useAuth } from '@/context/AuthContext';
 
 const NavBar: React.FC = () => {
+  const { isAuthenticated } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full border-[var(--color2)] bg-[var(--color3)]">
@@ -34,9 +36,15 @@ const NavBar: React.FC = () => {
 
         {/* Right Section: Auth Buttons */}
         <div className="flex items-center gap-2">
-            <Link to="/login">
-                <Button className="bg-white text-black font-bold hover:bg-gray-100">Login</Button>
-            </Link>
+            {isAuthenticated ? (
+                <Link to="/dashboard">
+                    <Button className="bg-white text-black font-bold hover:bg-gray-100">Account</Button>
+                </Link>
+            ) : (
+                <Link to="/login">
+                    <Button className="bg-white text-black font-bold hover:bg-gray-100">Login</Button>
+                </Link>
+            )}
             <Link to="/event-gate">
                 <Button className="bg-white text-black font-bold hover:bg-gray-100">Order Flowers</Button>
             </Link>
