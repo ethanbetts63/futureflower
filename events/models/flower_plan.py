@@ -31,6 +31,16 @@ class FlowerPlan(models.Model):
         help_text="The total number of years for the plan."
     )
 
+    # --- Pricing Details ---
+    total_amount = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00,
+        help_text="The final total amount for the plan."
+    )
+    currency = models.CharField(
+        max_length=3, default='usd',
+        help_text="The three-letter ISO currency code."
+    )
+
     recipient_details = models.JSONField(
         null=True,
         blank=True,

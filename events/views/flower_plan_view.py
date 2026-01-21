@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from ..models import FlowerPlan, Event
 from ..serializers.flower_plan_serializer import FlowerPlanSerializer
+from ..utils.pricing_calculators import forever_flower_upfront_price
 from datetime import date, timedelta
 
 class FlowerPlanViewSet(viewsets.ModelViewSet):
@@ -22,12 +23,21 @@ class FlowerPlanViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """
         Overrides the default create behavior to also generate all associated
-        Event instances for the new FlowerPlan.
+        Event instances for the new FlowerPlan and calculate the total price.
         """
         # First, save the FlowerPlan instance
         flower_plan = serializer.save()
 
-        # Now, create the events based on the plan details
+        # --- Calculate and save the total price ---
+        upfront_price, _ = forever_flower_upfront_price(
+            bouquet_budget=float(flower_plan.budget),
+            deliveries_per_year=flower_plan.deliveries_per_year,
+            years=flower_plan.years,
+        )
+        flower_plan.total_amount = upfront_price
+        flower_plan.save()
+
+        # --- Create the events based on the plan details ---
         events_to_create = []
         start_date = date.today()
         # Calculate the interval between deliveries

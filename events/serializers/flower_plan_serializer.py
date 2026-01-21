@@ -35,10 +35,13 @@ class FlowerPlanSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'user', 'is_active', 'budget', 'deliveries_per_year',
             'years', 'recipient_details', 'notes', 'created_at', 'updated_at',
+            'total_amount', 'currency',
             'preferred_colors', 'preferred_flower_types', 'rejected_colors', 'rejected_flower_types',
             'events',  
         ]
-        read_only_fields = ['id', 'is_active', 'created_at', 'updated_at']
+        read_only_fields = [
+            'id', 'is_active', 'created_at', 'updated_at', 'total_amount', 'currency'
+        ]
 
 
 
