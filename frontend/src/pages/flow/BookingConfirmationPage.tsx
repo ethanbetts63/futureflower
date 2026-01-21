@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Loader2, Palette, Sprout, Ban, ArrowRight, Tag, Milestone, Repeat, DollarSign } from 'lucide-react';
+import { CheckCircle, Loader2, Palette, Sprout, Ban, ArrowRight, Tag, Milestone, Repeat, DollarSign, ArrowLeft } from 'lucide-react';
 import { getFlowerPlan, getColors, getFlowerTypes } from '@/api';
 import type { FlowerPlan, Color, FlowerType } from '@/api';
 import Seo from '@/components/Seo';
@@ -189,8 +189,11 @@ const BookingConfirmationPage = () => {
               </CardContent>
             </Card>
 
-            {/* Action Button */}
-            <div className="text-center">
+            {/* Action Buttons */}
+            <div className="flex justify-between items-center mt-8">
+                <Button variant="ghost" onClick={() => navigate(-1)}>
+                    <ArrowLeft className="mr-2 h-4 w-4" /> Back
+                </Button>
                 <Button asChild size="lg">
                     <Link to={`/activation-success?plan_id=${planId}`}>
                         Complete Activation <ArrowRight className="ml-2 h-5 w-5" />
