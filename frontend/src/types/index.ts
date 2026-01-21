@@ -30,7 +30,6 @@ export interface Event {
     weeks_in_advance: number;
     user: number;
     is_active: boolean;
-    tier: Tier; // Add tier information
     created_at: string;
     updated_at: string;
     payment_details: {
@@ -49,15 +48,6 @@ export interface UserProfile {
     is_superuser?: boolean;
 }
 
-export interface EmergencyContact {
-    id: number;
-    first_name: string;
-    last_name: string;
-    phone: string;
-    email: string | null;
-    relationship: string;
-}
-
 export interface FaqItem {
   question: string;
   answer: string;
@@ -69,19 +59,6 @@ export interface AppConfig {
   currency: string;
 }
 
-export interface Price {
-    id: number;
-    amount: number;
-    currency: string;
-    type: 'one_time' | 'recurring';
-}
-
-export interface Tier {
-    id: number;
-    name: string;
-    description: string;
-    prices: Price[];
-}
 
 export interface TermsAndConditions {
     version: string;

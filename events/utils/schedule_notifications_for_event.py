@@ -28,7 +28,6 @@ TIER_MANIFESTS = {
         'primary_email',
         'backup_sms',
         'primary_email',
-        'emergency_contact_email',
         'social_media',
     ]
 }

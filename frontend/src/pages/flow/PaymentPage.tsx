@@ -7,8 +7,8 @@ import { toast } from 'sonner';
 
 import CheckoutForm from '../../forms/CheckoutForm';
 import Summary from '../../components/Summary';
-import { getUserProfile, getEmergencyContacts } from '@/api';
-import type { Event, UserProfile, EmergencyContact, Tier } from '@/types';
+import { getUserProfile } from '@/api';
+import type { Event, UserProfile } from '@/types';
 import { Spinner } from '@/components/ui/spinner';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import Seo from '@/components/Seo';
@@ -19,18 +19,16 @@ export default function PaymentPage() {
   const location = useLocation();
   const [clientSecret] = useState<string | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [contacts, setContacts] = useState<EmergencyContact[]>([]);
   const [, setIsLoading] = useState(true);
   
   const event: Event | undefined = location.state?.event;
-  const targetTier: Tier | undefined = location.state?.targetTier;
+  const targetTier: undefined = location.state?.targetTier;
 
   useEffect(() => {
     // Fetch user profile and contacts
-    Promise.all([getUserProfile(), getEmergencyContacts()])
-      .then(([userProfile, emergencyContacts]) => {
+    Promise.all([getUserProfile()])
+      .then(([userProfile]) => {
         setProfile(userProfile);
-        setContacts(emergencyContacts);
       })
       .catch(error => {
         toast.error("Failed to load user data", {
@@ -43,7 +41,7 @@ export default function PaymentPage() {
 
     // Fetch payment intent
     if (event?.id && targetTier?.id) {
-      // TODO: This page needs to be updated to the new FlowerPlan flow.
+      // TODO: This page needs to be updated to the new FlowerPlan flow. get rid of tiers and move to the custom pricing. 
       // The createPaymentIntent function now expects a flower_plan_id, not event.id and targetTier.id.
       // createPaymentIntent(event.id, targetTier.id)
       //   .then(data => {
@@ -122,7 +120,6 @@ export default function PaymentPage() {
           <Summary 
             event={event} 
             user={profile || undefined} 
-            emergencyContacts={contacts} 
             price={price}
             isPriceLoading={!price && !clientSecret}
           />

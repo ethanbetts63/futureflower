@@ -1,7 +1,7 @@
 // src/api.ts
 import { authedFetch } from '@/apiClient';
 import type { ProfileCreationData } from "@/forms/ProfileCreationForm";
-import type { AppConfig, AuthResponse, Event, UserProfile, EmergencyContact, FaqItem, Tier, TermsAndConditions } from "@/types";
+import type { AppConfig, AuthResponse, Event, UserProfile, FaqItem, TermsAndConditions } from "@/types";
 
 /**
  * A centralized module for all API interactions.
@@ -238,12 +238,6 @@ export async function changePassword(passwordData: { old_password: string, new_p
 
 // --- Payment Endpoints ---
 
-export async function getTiers(): Promise<Tier[]> {
-  const response = await authedFetch('/api/payments/tiers/', {
-    method: 'GET',
-  });
-  return handleResponse(response);
-}
 
 export async function createPaymentIntent(flower_plan_id: number): Promise<{ clientSecret: string }> {
   const response = await authedFetch('/api/payments/create-payment-intent/', {

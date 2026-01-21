@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import type { UserProfile, EmergencyContact } from '@/types';
-import { getUserProfile, getEmergencyContacts } from '@/api';
+import type { UserProfile } from '@/types';
+import { getUserProfile } from '@/api';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Terminal } from "lucide-react";
 import { ProfileForm } from '@/forms/ProfileForm'; 
-import { EmergencyContactsManager } from '@/components/EmergencyContactsManager';
 import { ChangePasswordForm } from '@/forms/ChangePasswordForm';
 import Seo from '@/components/Seo';
 import DeleteAccountSection from '@/components/DeleteAccountSection';
 
 const AccountManagementPage: React.FC = () => {
     const [profile, setProfile] = useState<UserProfile | null>(null);
-    const [contacts, setContacts] = useState<EmergencyContact[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -23,12 +21,10 @@ const AccountManagementPage: React.FC = () => {
         setLoading(true);
         setError(null);
         try {
-            const [profileData, contactsData] = await Promise.all([
+            const [profileData] = await Promise.all([
                 getUserProfile(),
-                getEmergencyContacts(),
             ]);
             setProfile(profileData);
-            setContacts(contactsData);
         } catch (err: any) {
             setError(err.message || 'Failed to fetch account details.');
         } finally {
@@ -60,13 +56,7 @@ const AccountManagementPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                 {/* Skeleton for Emergency Contacts */}
-                <div>
-                    <h2 className="text-2xl font-semibold mb-4">Emergency Contacts</h2>
-                     <div className="p-4 border rounded-lg">
-                        <Skeleton className="h-20 w-full" />
-                     </div>
-                </div>
+
             </div>
         );
     }
@@ -115,20 +105,6 @@ const AccountManagementPage: React.FC = () => {
                     </CardContent>
                 </Card>
             )}
-            <Card className="bg-foreground text-background">
-                <CardHeader>
-                    <CardTitle className="text-2xl">Emergency Contacts</CardTitle>
-                     <CardDescription className="text-black">
-                        This is the list of people we will contact if we cannot reach you. You may have up to 3 contacts. We will only contact them if you have not responded. It is very important that they have consented to be your emergency contact.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <EmergencyContactsManager 
-                        initialContacts={contacts} 
-                        onContactsChange={setContacts} 
-                    />
-                </CardContent>
-            </Card>
 
             <Card className="bg-foreground text-background">
                 <CardHeader>

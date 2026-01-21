@@ -3,8 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, User, Heart, Calendar, CreditCard, AlertCircle, Loader2 } from 'lucide-react';
-import { getUserProfile, getEmergencyContacts, getEvent } from '@/api';
-import type { UserProfile, EmergencyContact, Event } from '@/types';
+import { getUserProfile, getEvent } from '@/api';
+import type { UserProfile, Event } from '@/types';
 
 import Seo from '@/components/Seo';
 
@@ -13,7 +13,6 @@ const ConfirmationPage = () => {
   
   const [event, setEvent] = useState<Event | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [contacts, setContacts] = useState<EmergencyContact[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,14 +26,12 @@ const ConfirmationPage = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [eventData, profileData, contactsData] = await Promise.all([
+        const [eventData, profileData] = await Promise.all([
           getEvent(eventId),
           getUserProfile(),
-          getEmergencyContacts(),
         ]);
         setEvent(eventData);
         setProfile(profileData);
-        setContacts(contactsData);
         setError(null);
       } catch (err) {
         setError('Failed to load your reminder details. Please refresh the page.');
@@ -170,34 +167,7 @@ const ConfirmationPage = () => {
                 </CardContent>
               </Card>
 
-              {/* Emergency Contacts Section */}
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <Heart className="h-6 w-6 text-primary" />
-                    <CardTitle>Emergency Contacts</CardTitle>
-                  </div>
-                  <Button asChild size="sm">
-                    <Link to="/dashboard/account">Edit Contacts</Link>
-                  </Button>
-                </CardHeader>
-                <CardContent>
-                  {contacts.length > 0 ? (
-                    <ul className="space-y-4">
-                      {contacts.map(contact => (
-                        <li key={contact.id} className="p-3 border rounded-md bg-muted/20">
-                          <p><strong>Name:</strong> {contact.first_name} {contact.last_name}</p>
-                          <p className="text-sm"><strong>Relationship:</strong> {contact.relationship || 'N/A'}</p>
-                          <p className="text-sm"><strong>Phone:</strong> {contact.phone}</p>
-                          {contact.email && <p className="text-sm"><strong>Email:</strong> {contact.email}</p>}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-muted-foreground">No emergency contacts were added.</p>
-                  )}
-                </CardContent>
-              </Card>
+
             </div>
           )}
         </div>

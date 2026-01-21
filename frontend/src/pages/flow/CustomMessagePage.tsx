@@ -7,15 +7,28 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
+import { getFlowerPlan } from '@/api';
+import type { FlowerPlan, Event as EventType } from '@/api';
+import { Textarea } from '@/components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from '@/components/ui/label';
 
 const CustomMessagePage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
     
+    // Core State
+    const [flowerPlan, setFlowerPlan] = useState<FlowerPlan | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    // Message State
+    type MessageMode = 'single' | 'multiple';
+    const [messageMode, setMessageMode] = useState<MessageMode>('single');
+    const [singleMessage, setSingleMessage] = useState('');
+    const [multipleMessages, setMultipleMessages] = useState<{ [eventId: number]: string }>({});
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -23,8 +36,38 @@ const CustomMessagePage: React.FC = () => {
             navigate('/login');
             return;
         }
-        // Fetching logic will go here
-        setIsLoading(false);
+        if (!planId) {
+            toast.error("No flower plan specified.");
+            navigate('/book-flow/create-flower-plan');
+            return;
+        }
+
+        const fetchPlan = async () => {
+            setIsLoading(true);
+            try {
+                const planData = await getFlowerPlan(planId);
+                setFlowerPlan(planData);
+
+                // Initialize messages state from fetched data
+                if (planData.events && planData.events.length > 0) {
+                    const initialMessages = planData.events.reduce((acc, event) => {
+                        if (event.message) {
+                            acc[event.id] = event.message;
+                        }
+                        return acc;
+                    }, {} as { [eventId: number]: string });
+                    setMultipleMessages(initialMessages);
+                }
+
+            } catch (err) {
+                setError("Failed to load your flower plan. Please try again later.");
+                toast.error("Failed to load your flower plan.");
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchPlan();
     }, [isAuthenticated, navigate, planId]);
 
     const handleSave = () => {
@@ -53,9 +96,34 @@ const CustomMessagePage: React.FC = () => {
                     </CardHeader>
                     <CardContent className="space-y-8">
                         <div>
-                            <h3 className="text-xl font-semibold mb-2">Your Messages</h3>
-                            {/* Form UI will go here */}
-                            <p>Message form will be here.</p>
+                            <h3 className="text-xl font-semibold mb-4">Your Messages</h3>
+                            
+                            <RadioGroup defaultValue="single" onValueChange={(value: MessageMode) => setMessageMode(value)} className="mb-6">
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="single" id="r1" />
+                                    <Label htmlFor="r1">Use one message for all deliveries</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="multiple" id="r2" />
+                                    <Label htmlFor="r2">Write a custom message for each delivery</Label>
+                                </div>
+                            </RadioGroup>
+
+                            {messageMode === 'single' && (
+                                <Textarea
+                                    placeholder="e.g., Thinking of you always!"
+                                    value={singleMessage}
+                                    onChange={(e) => setSingleMessage(e.target.value)}
+                                    rows={4}
+                                />
+                            )}
+
+                            {messageMode === 'multiple' && (
+                                <div className="space-y-4">
+                                    <p className="text-sm text-gray-600">You have {flowerPlan?.events.length || 0} deliveries scheduled.</p>
+                                    {/* Will map over events here */}
+                                </div>
+                            )}
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-between">

@@ -16,7 +16,7 @@
 
 The Django project is organized into several applications:
 
-*   `users`: Manages the custom user model, authentication, and user profile data including emergency contacts.
+*   `users`: Manages the custom user model, authentication, and user profile data..
 *   `events`: Handles the creation, management, and scheduling of events and handles contracts. 
 *   `payments`: Integrates with Stripe to process payments for different service tiers.
 *   `data_management`: Manages static and semi-static content like FAQs and Terms & Conditions.
