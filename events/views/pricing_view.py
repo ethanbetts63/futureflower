@@ -11,7 +11,7 @@ def calculate_upfront_price(request):
     Calculates the upfront price for a Forever Flower subscription based on user inputs.
     """
     try:
-        bouquet_budget = float(request.data.get('bouquet_budget'))
+        budget = float(request.data.get('budget'))
         deliveries_per_year = int(request.data.get('deliveries_per_year'))
         years = int(request.data.get('years'))
     except (TypeError, ValueError, AttributeError):
@@ -20,9 +20,9 @@ def calculate_upfront_price(request):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    if not all([bouquet_budget, deliveries_per_year, years]):
+    if not all([budget, deliveries_per_year, years]):
         return Response(
-            {'error': 'Missing one or more required fields: bouquet_budget, deliveries_per_year, years.'},
+            {'error': 'Missing one or more required fields: budget, deliveries_per_year, years.'},
             status=status.HTTP_400_BAD_REQUEST
         )
 
@@ -37,7 +37,7 @@ def calculate_upfront_price(request):
             {'error': 'Years must be between 1 and 25.'},
             status=status.HTTP_400_BAD_REQUEST
         )
-    if not (bouquet_budget > 0):
+    if not (budget > 0):
         return Response(
             {'error': 'Bouquet budget must be greater than 0.'},
             status=status.HTTP_400_BAD_REQUEST
@@ -45,7 +45,7 @@ def calculate_upfront_price(request):
 
 
     upfront_price, breakdown = forever_flower_upfront_price(
-        bouquet_budget=bouquet_budget,
+        bouquet_budget=budget,
         deliveries_per_year=deliveries_per_year,
         years=years,
     )
@@ -53,7 +53,7 @@ def calculate_upfront_price(request):
     # Formatted print for debugging in the terminal
     print("\n--- Forever Flower Price Calculation ---")
     print(f"Inputs:")
-    print(f"  - Bouquet Budget: ${bouquet_budget}")
+    print(f"  - Bouquet Budget: ${budget}")
     print(f"  - Deliveries per Year: {deliveries_per_year}")
     print(f"  - Years: {years}")
     print("-" * 38)

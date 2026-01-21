@@ -26,7 +26,7 @@ class FlowerPlan(models.Model):
         default=1,
         help_text="How many deliveries are scheduled per year."
     )
-    number_of_years = models.PositiveIntegerField(
+    years = models.PositiveIntegerField(
         default=1,
         help_text="The total number of years for the plan."
     )

@@ -58,7 +58,7 @@ export const CtaCard: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          bouquet_budget: bouquetBudget,
+          budget: bouquetBudget,
           deliveries_per_year: deliveriesPerYear,
           years: years,
         }),

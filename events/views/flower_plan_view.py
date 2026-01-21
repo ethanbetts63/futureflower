@@ -2,22 +2,31 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from ..models import FlowerPlan, Event
-from ..serializers.flower_plan_serializer import FlowerPlanSerializer
+from ..serializers.flower_plan_serializer import FlowerPlanSerializer, FlowerPlanDetailSerializer
 from datetime import date, timedelta
 
 class FlowerPlanViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows flower plans to be viewed or edited.
+    It uses a different serializer for retrieve action to include nested events.
     """
     permission_classes = [IsAuthenticated]
-    serializer_class = FlowerPlanSerializer
+    queryset = FlowerPlan.objects.all() # The get_queryset method will filter this
+
+    def get_serializer_class(self):
+        """
+        Return the appropriate serializer class based on the action.
+        """
+        if self.action == 'retrieve':
+            return FlowerPlanDetailSerializer
+        return FlowerPlanSerializer
 
     def get_queryset(self):
         """
         This view should only return flower plans that belong to the
         currently authenticated user.
         """
-        return FlowerPlan.objects.filter(user=self.request.user)
+        return self.queryset.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         """
