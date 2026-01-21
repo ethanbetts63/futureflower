@@ -110,7 +110,7 @@ const BookingConfirmationPage = () => {
                   </div>
                   <div className="flex flex-col items-center">
                       <DollarSign className="h-8 w-8 mb-2 text-primary" />
-                      <p className="font-bold text-2xl">${plan.budget.toFixed(2)}</p>
+                      <p className="font-bold text-2xl">${Number(plan.budget).toFixed(2)}</p>
                       <p className="text-muted-foreground">Budget per Bouquet</p>
                   </div>
               </CardContent>
@@ -136,7 +136,7 @@ const BookingConfirmationPage = () => {
               <CardContent>
                 <div className="flex justify-between items-center text-2xl font-bold">
                     <span>One-Time Upfront Payment</span>
-                    <span>${plan.total_amount.toFixed(2)}</span>
+                    <span>${Number(plan.total_amount).toFixed(2)}</span>
                 </div>
                 <p className="text-sm text-muted-foreground mt-2">This is the total amount you will be charged today to activate your plan.</p>
               </CardContent>
