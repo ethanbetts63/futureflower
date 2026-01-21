@@ -58,9 +58,9 @@ const FlowerPlanManagementPage: React.FC = () => {
     }
 
     return (
-      <Table>
+      <Table className="border-separate border-spacing-y-3">
         <TableHeader>
-          <TableRow>
+          <TableRow className="border-none hover:bg-transparent">
             <TableHead className="text-black">Status</TableHead>
             <TableHead className="text-right text-black">Budget</TableHead>
             <TableHead className="text-right text-black">Deliveries/Year</TableHead>
@@ -70,8 +70,11 @@ const FlowerPlanManagementPage: React.FC = () => {
         </TableHeader>
         <TableBody>
           {plans.map((plan) => (
-            <TableRow key={plan.id}>
-              <TableCell>
+            <TableRow
+              key={plan.id}
+              className="bg-[hsl(347,100%,97%)] border-none hover:shadow-md transition-shadow"
+            >
+              <TableCell className="rounded-l-lg">
                 <span className="px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-black">
                   {plan.is_active ? 'Active' : 'Inactive'}
                 </span>
@@ -79,7 +82,7 @@ const FlowerPlanManagementPage: React.FC = () => {
               <TableCell className="text-right text-black">${parseFloat(plan.budget).toFixed(2)}</TableCell>
               <TableCell className="text-right text-black">{plan.deliveries_per_year}</TableCell>
               <TableCell className="text-right text-black">{plan.years}</TableCell>
-              <TableCell className="text-right">
+              <TableCell className="rounded-r-lg text-right">
                 <Button variant="outline" size="sm" disabled>
                   Edit
                 </Button>

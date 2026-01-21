@@ -41,11 +41,16 @@ class FlowerPlan(models.Model):
         help_text="The three-letter ISO currency code."
     )
 
-    recipient_details = models.JSONField(
-        null=True,
-        blank=True,
-        help_text="Recipient's details like name, address, etc."
-    )
+    # --- Recipient Details ---
+    recipient_first_name = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's first name.")
+    recipient_last_name = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's last name.")
+    recipient_street_address = models.CharField(max_length=255, blank=True, null=True, help_text="Recipient's street address.")
+    recipient_suburb = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's suburb or neighborhood.")
+    recipient_city = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's city.")
+    recipient_state = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's state, province, or region.")
+    recipient_postcode = models.CharField(max_length=20, blank=True, null=True, help_text="Recipient's postal code.")
+    recipient_country = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's country.")
+
     notes = models.TextField(
         blank=True,
         null=True,
