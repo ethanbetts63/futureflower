@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
+import { Spinner } from '@/components/ui/spinner';
 import { debounce } from '@/utils/debounce'; // Import debounce utility
 
 // Define a type for the breakdown for better type safety
@@ -110,19 +111,20 @@ export const CtaCard: React.FC = () => {
         </div>
       </div>
       <div className="mt-6 text-center">
-        {/* The button is now primarily for explicit recalculation if needed, or if debounce is not triggered by slider */}
-        <Button onClick={() => debouncedCalculateUpfront(bouquetBudget, deliveriesPerYear, years)} disabled={isLoading} className="w-full">
-            {isLoading ? 'Calculating...' : 'Calculate Upfront Cost'}
-        </Button>
+        {/* The button is removed as calculation is now automatic via debouncing */}
       </div>
       <div className="mt-4 text-center h-20 flex flex-col items-center justify-center">
         {error && <div className="text-red-500 text-sm">{error}</div>}
-        {upfrontPrice !== null && (
-          <>
-            <div className="text-2xl font-bold">${upfrontPrice.toLocaleString()}</div>
-            {breakdown?.upfront_savings_percentage && <p className="text-xs text-gray-600 mb-2">That's a ~{breakdown.upfront_savings_percentage}% savings compared to paying per delivery!</p>}
-            <Button onClick={handleGetStarted} className="mt-2">Get Started</Button>
-          </>
+        {isLoading ? (
+            <Spinner className="h-8 w-8" />
+        ) : (
+            upfrontPrice !== null && (
+            <>
+                <div className="text-2xl font-bold">${upfrontPrice.toLocaleString()}</div>
+                {breakdown?.upfront_savings_percentage && <p className="text-xs text-gray-600 mb-2">That's a ~{breakdown.upfront_savings_percentage}% savings compared to paying per delivery!</p>}
+                <Button onClick={handleGetStarted} className="mt-2">Get Started</Button>
+            </>
+            )
         )}
       </div>
     </>
