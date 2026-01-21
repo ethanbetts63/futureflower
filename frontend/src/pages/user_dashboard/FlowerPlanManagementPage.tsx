@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { authedFetch } from '@/apiClient';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { showErrorToast } from '@/utils/utils';
+import EditButton from '@/components/EditButton';
 
 // Based on events/models/flower_plan.py and api.ts
 interface FlowerPlan {
@@ -93,9 +93,7 @@ const FlowerPlanManagementPage: React.FC = () => {
               <TableCell className="text-right text-black text-base">{plan.deliveries_per_year}</TableCell>
               <TableCell className="text-right text-black text-base">{plan.years}</TableCell>
               <TableCell className="rounded-r-lg text-right text-base">
-                <Button variant="outline" size="sm" disabled>
-                  Edit
-                </Button>
+                <EditButton />
               </TableCell>
             </TableRow>
           ))}

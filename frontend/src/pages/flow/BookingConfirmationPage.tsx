@@ -9,7 +9,7 @@ import type { FlowerPlan, Color, FlowerType } from '@/api';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
-import EditButton from '@/components/ui/EditButton';
+import EditButton from '@/components/EditButton';
 
 // Helper component for displaying a single color swatch
 const ColorSwatchDisplay: React.FC<{ hex: string; name: string }> = ({ hex, name }) => (
