@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -9,6 +9,7 @@ import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { createFlowerPlan } from '@/api';
+import { debounce } from '@/utils/debounce';
 
 type Breakdown = {
   fee_per_delivery: number;
@@ -29,7 +30,8 @@ const FlowerPlanCreationPage: React.FC = () => {
     // API/Calculation result state
     const [upfrontPrice, setUpfrontPrice] = useState<number | null>(null);
     const [breakdown, setBreakdown] = useState<Breakdown | null>(null);
-    const [isCalculating, setIsCalculating] = useState(false);
+    const [isApiCalculating, setIsApiCalculating] = useState(false); // Renamed from isCalculating
+    const [isDebouncePending, setIsDebouncePending] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -40,10 +42,12 @@ const FlowerPlanCreationPage: React.FC = () => {
         }
     }, [isAuthenticated, navigate]);
 
-    const handleCalculateUpfront = async () => {
-        setIsCalculating(true);
+    // Memoize the core API call function to ensure debouncing works correctly
+    const calculateUpfront = useCallback(async (currentBudget: number, currentDeliveries: number, currentYears: number) => {
+        setIsDebouncePending(false); // Debounce has finished, API call is about to start
+        setIsApiCalculating(true);
         setError(null);
-        setUpfrontPrice(null);
+        setUpfrontPrice(null); // Clear previous results immediately
         setBreakdown(null);
 
         try {
@@ -51,9 +55,9 @@ const FlowerPlanCreationPage: React.FC = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    budget: bouquetBudget,
-                    deliveries_per_year: deliveriesPerYear,
-                    years: years,
+                    budget: currentBudget,
+                    deliveries_per_year: currentDeliveries,
+                    years: currentYears,
                 }),
             });
             const data = await response.json();
@@ -64,9 +68,26 @@ const FlowerPlanCreationPage: React.FC = () => {
             setError(err.message);
             toast.error(err.message);
         } finally {
-            setIsCalculating(false);
+            setIsApiCalculating(false);
         }
-    };
+    }, []); // Dependencies are empty as it gets values from parameters
+
+    // Create a debounced version of the calculateUpfront function
+    const debouncedCalculateUpfront = useMemo(() => {
+        return debounce(calculateUpfront, 500); // 500ms debounce time
+    }, [calculateUpfront]);
+
+    // Effect to trigger initial calculation and re-calculate on slider changes
+    useEffect(() => {
+        // Only trigger if authenticated and not currently creating a plan
+        if (isAuthenticated && !isCreating) {
+            debouncedCalculateUpfront(bouquetBudget, deliveriesPerYear, years);
+        }
+        // Cleanup function for debounce
+        return () => {
+            debouncedCalculateUpfront.cancel && debouncedCalculateUpfront.cancel();
+        };
+    }, [bouquetBudget, deliveriesPerYear, years, isAuthenticated, isCreating, debouncedCalculateUpfront]);
     
     const handleCreatePlan = async () => {
         if (!upfrontPrice) {
@@ -95,8 +116,6 @@ const FlowerPlanCreationPage: React.FC = () => {
         return null; // Render nothing while redirecting
     }
 
-    const isLoading = isCalculating || isCreating;
-
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-2xl py-12">
@@ -112,26 +131,42 @@ const FlowerPlanCreationPage: React.FC = () => {
                         <div className="space-y-6">
                             <div className="grid gap-2">
                                 <Label htmlFor="budget-slider" className="text-sm">Bouquet Budget: ${bouquetBudget}</Label>
-                                <Slider id="budget-slider" aria-label="Bouquet Budget" min={75} max={500} step={5} value={[bouquetBudget]} onValueChange={(v) => setBouquetBudget(v[0])} />
+                                <Slider id="budget-slider" aria-label="Bouquet Budget" min={75} max={500} step={5} value={[bouquetBudget]} onValueChange={(v) => {
+                                    setIsDebouncePending(true);
+                                    setBouquetBudget(v[0]);
+                                    debouncedCalculateUpfront(v[0], deliveriesPerYear, years);
+                                }} />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="deliveries-slider" className="text-sm">Deliveries Per Year: {deliveriesPerYear}</Label>
-                                <Slider id="deliveries-slider" aria-label="Deliveries Per Year" min={1} max={12} step={1} value={[deliveriesPerYear]} onValueChange={(v) => setDeliveriesPerYear(v[0])} />
+                                <Slider id="deliveries-slider" aria-label="Deliveries Per Year" min={1} max={12} step={1} value={[deliveriesPerYear]} onValueChange={(v) => {
+                                    setIsDebouncePending(true);
+                                    setDeliveriesPerYear(v[0]);
+                                    debouncedCalculateUpfront(bouquetBudget, v[0], years);
+                                }} />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="years-slider" className="text-sm">Years: {years}</Label>
-                                <Slider id="years-slider" aria-label="Years" min={1} max={25} step={1} value={[years]} onValueChange={(v) => setYears(v[0])} />
+                                <Slider id="years-slider" aria-label="Years" min={1} max={25} step={1} value={[years]} onValueChange={(v) => {
+                                    setIsDebouncePending(true);
+                                    setYears(v[0]);
+                                    debouncedCalculateUpfront(bouquetBudget, deliveriesPerYear, v[0]);
+                                }} />
                             </div>
                         </div>
                         <div className="mt-6 text-center">
-                            <Button onClick={handleCalculateUpfront} disabled={isLoading} className="w-full">{isCalculating ? <Spinner className="mr-2 h-4 w-4" /> : 'Calculate Upfront Cost'}</Button>
+                            {/* The calculate button is removed as calculation is now automatic via debouncing */}
                         </div>
                         <div className="mt-4 text-center h-12 flex flex-col items-center justify-center">
-                            {upfrontPrice !== null && (
-                            <>
-                                <div className="text-2xl font-bold">${upfrontPrice.toLocaleString()}</div>
-                                {breakdown?.upfront_savings_percentage && <p className="text-xs text-gray-600">That's a ~{breakdown.upfront_savings_percentage}% savings compared to paying per delivery!</p>}
-                            </>
+                            {(isApiCalculating || isDebouncePending) ? (
+                                <Spinner className="h-8 w-8" />
+                            ) : (
+                                upfrontPrice !== null && (
+                                <>
+                                    <div className="text-2xl font-bold">${upfrontPrice.toLocaleString()}</div>
+                                    {breakdown?.upfront_savings_percentage && <p className="text-xs text-gray-600">That's a ~{breakdown.upfront_savings_percentage}% savings compared to paying per delivery!</p>}
+                                </>
+                                )
                             )}
                             {error && !isCreating && <div className="text-red-500 text-sm">{error}</div>}
                         </div>
@@ -139,7 +174,7 @@ const FlowerPlanCreationPage: React.FC = () => {
                     <CardFooter className="flex justify-end">
                         <Button 
                             size="lg"
-                            disabled={!upfrontPrice || isLoading}
+                            disabled={!upfrontPrice || isApiCalculating || isDebouncePending || isCreating}
                             onClick={handleCreatePlan}
                         >
                             {isCreating ? <Spinner className="mr-2 h-4 w-4" /> : 'Next: Select Preferences'}
@@ -150,5 +185,4 @@ const FlowerPlanCreationPage: React.FC = () => {
         </div>
     );
 };
-
 export default FlowerPlanCreationPage;

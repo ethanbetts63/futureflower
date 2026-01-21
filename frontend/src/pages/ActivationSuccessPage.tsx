@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 const ActivationSuccessPage: React.FC = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const [plan, setPlan] = useState<FlowerPlan | null>(null);
+    const [, setPlan] = useState<FlowerPlan | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

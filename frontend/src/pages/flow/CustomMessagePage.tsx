@@ -27,6 +27,7 @@ const CustomMessagePage: React.FC = () => {
     type MessageMode = 'single' | 'multiple';
     const [messageMode, setMessageMode] = useState<MessageMode>('single');
     const [singleMessage, setSingleMessage] = useState('');
+    const [multipleMessages, setMultipleMessages] = useState<Record<number, string>>({});
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -56,6 +57,13 @@ const CustomMessagePage: React.FC = () => {
 
         fetchPlan();
     }, [isAuthenticated, navigate, planId]);
+
+    const handleMultipleMessageChange = (eventId: number, value: string) => {
+        setMultipleMessages(prev => ({
+            ...prev,
+            [eventId]: value,
+        }));
+    };
 
     const handleSave = () => {
         // Saving logic will go here
@@ -106,9 +114,22 @@ const CustomMessagePage: React.FC = () => {
                             )}
 
                             {messageMode === 'multiple' && (
-                                <div className="space-y-4">
+                                <div className="space-y-6">
                                     <p className="text-sm text-gray-600">You have {flowerPlan?.events.length || 0} deliveries scheduled.</p>
-                                    {/* Will map over events here */}
+                                    {flowerPlan?.events.map((event, index) => (
+                                        <div key={event.id} className="space-y-2">
+                                            <Label htmlFor={`message-${event.id}`}>
+                                                Delivery {index + 1} ({new Date(event.delivery_date).toLocaleDateString()})
+                                            </Label>
+                                            <Textarea
+                                                id={`message-${event.id}`}
+                                                placeholder={`e.g., Happy Anniversary!`}
+                                                value={multipleMessages[event.id] || ''}
+                                                onChange={(e) => handleMultipleMessageChange(event.id, e.target.value)}
+                                                rows={3}
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
                             )}
                         </div>
