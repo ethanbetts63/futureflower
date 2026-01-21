@@ -126,6 +126,42 @@ export const faqs: { [key: string]: FaqItem[] } = {
       "question": "What's the difference between using a local Perth florist versus a national service?",
       "answer": "Generally, local Perth florists may offer more unique, higher-quality designs. National services, on the other hand, often provide wider delivery coverage and later same-day cutoff times, giving you more flexibility."
     }
+  },
+  "best-flower-delivery-adelaide": [
+    {
+      "question": "What is the best overall flower delivery service in Adelaide?",
+      "answer": "Blooms on Brougham is considered the best overall option in Adelaide due to their consistently high-quality arrangements and strong customer care, ideal for premium bouquets and important occasions."
+    },
+    {
+      "question": "I need to send flowers in Adelaide today, but it's already late afternoon. What's my best bet?",
+      "answer": "Floraly is your best choice for last-minute orders in Adelaide. They offer one of the latest same-day delivery cutoff times, allowing orders placed by 3 pm on weekdays to be delivered that day."
+    },
+    {
+      "question": "Which service offers the most affordable flower delivery in Adelaide?",
+      "answer": "Easy Flowers is the most budget-friendly service, with bouquets starting around $40. It's a practical option for casual gifting or when budget is the primary concern."
+    },
+    {
+      "question": "What's the typical cutoff time for same-day flower delivery in Adelaide?",
+      "answer": "Most flower delivery services in Adelaide require orders to be placed between 1 pm and 3 pm on weekdays for same-day delivery. It's always best to check with the specific florist for their exact times."
+    }
+  ],
+  "best-flower-delivery-darwin": [
+    {
+      "question": "What is the best overall flower delivery service in Darwin?",
+      "answer": "Little Miss Flowers is widely considered the best florist in Darwin for quality, design, and customer satisfaction, offering beautifully curated bouquets from a locally owned and operated business."
+    },
+    {
+      "question": "Which service offers the fastest same-day flower delivery in Darwin?",
+      "answer": "Easy Flowers stands out as the fastest option for many Darwin orders, especially for late requests, with same-day delivery available for orders placed by 2 pm on weekdays."
+    },
+    {
+      "question": "What is the most affordable flower delivery service in Darwin?",
+      "answer": "Easy Flowers is also the most affordable service widely available in Darwin, with bouquets starting around $40, making it ideal for budget-conscious buyers who still want same-day service."
+    },
+    {
+      "question": "Do Darwin flower delivery services offer same-day delivery to regional areas?",
+      "answer": "Generally, same-day service is typically limited to Metro Darwin. Regional NT and outer suburbs usually require next-day delivery, so it's always best to check with the specific retailer."
+    }
   ]
 };
 

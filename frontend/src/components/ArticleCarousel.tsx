@@ -71,6 +71,20 @@ const articles = [
     srcSet: `${delivery1Image} 320w, ${delivery1Image} 640w, ${delivery1Image} 768w, ${delivery1Image} 1024w, ${delivery1Image} 1280w`,
     link: '/articles/best-flower-delivery-sydney',
     alt: 'A guide to the best flower delivery services in Sydney'
+  },
+  {
+    title: 'The Best Flower Delivery Services in Adelaide (2026 Guide)',
+    imageSrc: floristPackingImage,
+    srcSet: `${floristPackingImage} 320w, ${floristPackingImage} 640w, ${floristPackingImage} 768w, ${floristPackingImage} 1024w, ${floristPackingImage} 1280w`,
+    link: '/articles/best-flower-delivery-adelaide',
+    alt: 'A guide to the best flower delivery services in Adelaide'
+  },
+  {
+    title: 'The Best Flower Delivery Services in Darwin (2026 Guide)',
+    imageSrc: floristPackingImage,
+    srcSet: `${floristPackingImage} 320w, ${floristPackingImage} 640w, ${floristPackingImage} 768w, ${floristPackingImage} 1024w, ${floristPackingImage} 1280w`,
+    link: '/articles/best-flower-delivery-darwin',
+    alt: 'A guide to the best flower delivery services in Darwin'
   }
 ];
 
