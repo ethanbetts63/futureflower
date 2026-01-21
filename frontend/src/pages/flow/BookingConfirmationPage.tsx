@@ -1,28 +1,63 @@
 // src/pages/flow/BookingConfirmationPage.tsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Loader2, Palette, Sprout, Ban, ArrowRight, Tag, Milestone, Repeat, DollarSign } from 'lucide-react';
-import { getFlowerPlan } from '@/api';
-import type { FlowerPlan } from '@/api';
+import { getFlowerPlan, getColors, getFlowerTypes } from '@/api';
+import type { FlowerPlan, Color, FlowerType } from '@/api';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 
-// Helper component for displaying preference lists
-const PreferenceList: React.FC<{ title: string; items: string[]; icon: React.ElementType; variant: 'default' | 'destructive' }> = ({ title, items, icon: Icon, variant }) => (
-    <div>
-        <h4 className="font-semibold mb-2 flex items-center"><Icon className="mr-2 h-4 w-4" /> {title}</h4>
-        {items && items.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
-                {items.map(item => <Badge key={item} variant={variant}>{item}</Badge>)}
-            </div>
-        ) : (
-            <p className="text-sm text-muted-foreground">None specified.</p>
-        )}
+// Helper component for displaying a single color swatch
+const ColorSwatchDisplay: React.FC<{ hex: string; name: string }> = ({ hex, name }) => (
+    <div className="flex items-center gap-2">
+        <div title={name} className="h-6 w-6 rounded-full border" style={{ backgroundColor: hex }} />
+        <span>{name}</span>
     </div>
 );
+
+// Helper component for displaying a list of colors
+const ColorPreferenceList: React.FC<{ title: string; colorIds: string[]; colorMap: Map<number, Color>; icon: React.ElementType; }> = ({ title, colorIds, colorMap, icon: Icon }) => {
+    const colors = useMemo(() => 
+        colorIds.map(id => colorMap.get(Number(id))).filter((c): c is Color => !!c),
+    [colorIds, colorMap]);
+
+    return (
+        <div>
+            <h4 className="font-semibold mb-2 flex items-center"><Icon className="mr-2 h-4 w-4" /> {title}</h4>
+            {colors.length > 0 ? (
+                <div className="flex flex-wrap gap-4">
+                    {colors.map(color => <ColorSwatchDisplay key={color.id} hex={color.hex_code} name={color.name} />)}
+                </div>
+            ) : (
+                <p className="text-sm text-muted-foreground">None specified.</p>
+            )}
+        </div>
+    );
+};
+
+
+// Helper component for displaying a list of flower types by name
+const FlowerTypePreferenceList: React.FC<{ title: string; typeIds: string[]; typeMap: Map<number, FlowerType>; icon: React.ElementType; variant: 'default' | 'destructive' }> = ({ title, typeIds, typeMap, icon: Icon, variant }) => {
+    const types = useMemo(() =>
+        typeIds.map(id => typeMap.get(Number(id))).filter((ft): ft is FlowerType => !!ft),
+    [typeIds, typeMap]);
+
+    return (
+        <div>
+            <h4 className="font-semibold mb-2 flex items-center"><Icon className="mr-2 h-4 w-4" /> {title}</h4>
+            {types.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                    {types.map(type => <Badge key={type.id} variant={variant}>{type.name}</Badge>)}
+                </div>
+            ) : (
+                <p className="text-sm text-muted-foreground">None specified.</p>
+            )}
+        </div>
+    );
+};
 
 
 const BookingConfirmationPage = () => {
@@ -30,7 +65,12 @@ const BookingConfirmationPage = () => {
   const navigate = useNavigate();
   
   const [plan, setPlan] = useState<FlowerPlan | null>(null);
+  const [colors, setColors] = useState<Color[]>([]);
+  const [flowerTypes, setFlowerTypes] = useState<FlowerType[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const colorMap = useMemo(() => new Map(colors.map(c => [c.id, c])), [colors]);
+  const flowerTypeMap = useMemo(() => new Map(flowerTypes.map(ft => [ft.id, ft])), [flowerTypes]);
 
   useEffect(() => {
     if (!planId) {
@@ -42,8 +82,14 @@ const BookingConfirmationPage = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const planData = await getFlowerPlan(planId);
+        const [planData, colorsData, flowerTypesData] = await Promise.all([
+            getFlowerPlan(planId),
+            getColors(),
+            getFlowerTypes(),
+        ]);
         setPlan(planData);
+        setColors(colorsData);
+        setFlowerTypes(flowerTypesData);
       } catch (err: any) {
         toast.error('Failed to load plan details.', { description: err.message });
         console.error(err);
@@ -121,11 +167,11 @@ const BookingConfirmationPage = () => {
             <Card className="bg-white shadow-md border-none text-black">
               <CardHeader><CardTitle>Your Preferences</CardTitle></CardHeader>
               <CardContent className="space-y-6">
-                <PreferenceList title="Preferred Colors" items={plan.preferred_colors} icon={Palette} variant="default" />
-                <PreferenceList title="Preferred Flower Types" items={plan.preferred_flower_types} icon={Sprout} variant="default" />
+                <ColorPreferenceList title="Preferred Colors" colorIds={plan.preferred_colors} colorMap={colorMap} icon={Palette} />
+                <FlowerTypePreferenceList title="Preferred Flower Types" typeIds={plan.preferred_flower_types} typeMap={flowerTypeMap} icon={Sprout} variant="default" />
                 <div className="border-t"></div>
-                <PreferenceList title="Rejected Colors" items={plan.rejected_colors} icon={Ban} variant="destructive" />
-                <PreferenceList title="Rejected Flower Types" items={plan.rejected_flower_types} icon={Ban} variant="destructive" />
+                <ColorPreferenceList title="Rejected Colors" colorIds={plan.rejected_colors} colorMap={colorMap} icon={Ban} />
+                <FlowerTypePreferenceList title="Rejected Flower Types" typeIds={plan.rejected_flower_types} typeMap={flowerTypeMap} icon={Ban} variant="destructive" />
               </CardContent>
             </Card>
 
