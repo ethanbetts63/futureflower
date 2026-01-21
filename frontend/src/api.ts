@@ -173,7 +173,7 @@ export async function getFlowerTypes(): Promise<FlowerType[]> {
     return handleResponse(response);
 }
 
-export async function createFlowerPlan(planData: { bouquet_budget: number, deliveries_per_year: number, years: number }): Promise<FlowerPlan> {
+export async function createFlowerPlan(planData: { budget: number, deliveries_per_year: number, years: number }): Promise<FlowerPlan> {
     const response = await authedFetch('/api/events/flower-plans/', {
         method: 'POST',
         body: JSON.stringify(planData),

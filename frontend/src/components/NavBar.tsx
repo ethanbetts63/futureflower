@@ -37,11 +37,8 @@ const NavBar: React.FC = () => {
             <Link to="/login">
                 <Button className="bg-white text-black font-bold hover:bg-gray-100">Login</Button>
             </Link>
-            <Link to="/book-flow/create-account">
-                <Button className="bg-white text-black font-bold hover:bg-gray-100">Sign Up</Button>
-            </Link>
             <Link to="/event-gate">
-                <Button className="bg-white text-black font-bold hover:bg-gray-100">Create Event</Button>
+                <Button className="bg-white text-black font-bold hover:bg-gray-100">Order Flowers</Button>
             </Link>
         </div>
       </div>
