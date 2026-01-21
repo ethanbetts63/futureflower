@@ -33,7 +33,7 @@ class FlowerPlanViewSet(viewsets.ModelViewSet):
         # Calculate the interval between deliveries
         interval_days = 365 / flower_plan.deliveries_per_year
 
-        for year in range(flower_plan.number_of_years):
+        for year in range(flower_plan.years):
             for i in range(flower_plan.deliveries_per_year):
                 # Calculate the delivery date for this event
                 days_offset = (year * 365) + (i * interval_days)
