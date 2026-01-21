@@ -72,43 +72,44 @@ const AccountManagementPage: React.FC = () => {
     }
 
     return (
-        <div className="space-y-8">
-            <Seo title="Manage Account | ForeverFlower" />
-            {profile && (
-                <Card className="bg-foreground text-background">
-                    <CardHeader className="flex flex-row items-start justify-between">
-                        <div>
-                            <CardTitle className="text-2xl">Your Profile</CardTitle>
-                            <CardDescription className="text-black">
-                                Update your personal information and social media handles. The more contact methods you provide, the more secure your reminder will be.
-                            </CardDescription>
-                        </div>
-                        <div className="flex gap-2">
-                             {!isEditing ? (
-                                <Button variant="default" onClick={() => setIsEditing(true)}>Edit</Button>
-                            ) : (
-                                <>
-                                    <Button variant="ghost" onClick={() => setIsEditing(false)}>Cancel</Button>
-                                    <Button onClick={() => document.getElementById('profile-form-submit')?.click()}>
-                                        Save
-                                    </Button>
-                                </>
-                            )}
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <ProfileForm 
-                            profile={profile} 
-                            onProfileUpdate={handleProfileUpdate} 
-                            isEditing={isEditing}
-                        />
-                    </CardContent>
-                </Card>
-            )}
+        <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto space-y-8">
+                <Seo title="Manage Account | ForeverFlower" />
+                {profile && (
+                    <Card className="bg-white text-black border-none shadow-md">
+                        <CardHeader className="flex flex-row items-start justify-between">
+                            <div>
+                                <CardTitle className="text-2xl text-black">Your Profile</CardTitle>
+                                <CardDescription className="text-black">
+                                    Update your personal information and social media handles. The more contact methods you provide, the more secure your reminder will be.
+                                </CardDescription>
+                            </div>
+                            <div className="flex gap-2">
+                                {!isEditing ? (
+                                    <Button variant="default" onClick={() => setIsEditing(true)}>Edit</Button>
+                                ) : (
+                                    <>
+                                        <Button variant="ghost" onClick={() => setIsEditing(false)}>Cancel</Button>
+                                        <Button onClick={() => document.getElementById('profile-form-submit')?.click()}>
+                                            Save
+                                        </Button>
+                                    </>
+                                )}
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <ProfileForm
+                                profile={profile}
+                                onProfileUpdate={handleProfileUpdate}
+                                isEditing={isEditing}
+                            />
+                        </CardContent>
+                    </Card>
+                )}
 
-            <Card className="bg-foreground text-background">
+            <Card className="bg-white text-black border-none shadow-md">
                 <CardHeader>
-                    <CardTitle className="text-2xl">Change Your Password</CardTitle>
+                    <CardTitle className="text-2xl text-black">Change Your Password</CardTitle>
                      <CardDescription className="text-black">
                         Update your password below. After changing, you may be required to log in again.
                     </CardDescription>
@@ -119,6 +120,7 @@ const AccountManagementPage: React.FC = () => {
             </Card>
 
             <DeleteAccountSection />
+            </div>
         </div>
     );
 };

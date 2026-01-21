@@ -15,10 +15,10 @@ import CheckoutForm from '../../forms/CheckoutForm';
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const PlanSummary: React.FC<{ plan: FlowerPlan }> = ({ plan }) => (
-  <Card>
+  <Card className="bg-white shadow-md border-none text-black">
     <CardHeader>
       <CardTitle>Your Flower Plan</CardTitle>
-      <CardDescription>Review your one-time payment details below.</CardDescription>
+      <CardDescription className="text-muted-foreground">Review your one-time payment details below.</CardDescription>
     </CardHeader>
     <CardContent className="space-y-4">
       <div className="flex justify-between">
