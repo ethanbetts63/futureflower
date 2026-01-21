@@ -184,6 +184,18 @@ export async function getFlowerPlan(planId: string): Promise<FlowerPlan> {
     return handleResponse(response);
 }
 
+export async function getLatestInactiveFlowerPlan(): Promise<FlowerPlan | null> {
+    const response = await authedFetch('/api/events/flower-plans/get-latest-inactive/');
+    return handleResponse(response);
+}
+
+export async function deleteFlowerPlan(planId: string): Promise<void> {
+    const response = await authedFetch(`/api/events/flower-plans/${planId}/`, {
+        method: 'DELETE',
+    });
+    await handleResponse(response);
+}
+
 export async function createFlowerPlan(planData: { budget: number, deliveries_per_year: number, years: number }): Promise<FlowerPlan> {
     const response = await authedFetch('/api/events/flower-plans/', {
         method: 'POST',

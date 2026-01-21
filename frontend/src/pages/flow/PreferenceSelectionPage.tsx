@@ -97,7 +97,8 @@ const PreferenceSelectionPage: React.FC = () => {
     }
 
     const handleBack = () => {
-        navigate(-1);
+        // Reroute to the gate to ensure the inactive plan is detected
+        navigate('/book-flow');
     };
 
     if (!isAuthenticated) return null; // Redirecting

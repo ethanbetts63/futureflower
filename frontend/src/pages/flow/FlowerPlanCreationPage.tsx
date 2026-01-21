@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { createFlowerPlan } from '@/api';
+import { createFlowerPlan, getFlowerPlan, deleteFlowerPlan } from '@/api';
 import { debounce } from '@/utils/debounce';
 
 type Breakdown = {
@@ -21,7 +21,10 @@ type Breakdown = {
 const FlowerPlanCreationPage: React.FC = () => {
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
-    
+    const [searchParams] = useSearchParams();
+    const planId = searchParams.get('planId');
+    const isUpdateMode = !!planId;
+
     // State for the form
     const [bouquetBudget, setBouquetBudget] = useState(75);
     const [deliveriesPerYear, setDeliveriesPerYear] = useState(1);
@@ -30,24 +33,43 @@ const FlowerPlanCreationPage: React.FC = () => {
     // API/Calculation result state
     const [upfrontPrice, setUpfrontPrice] = useState<number | null>(null);
     const [breakdown, setBreakdown] = useState<Breakdown | null>(null);
-    const [isApiCalculating, setIsApiCalculating] = useState(false); // Renamed from isCalculating
+    const [isApiCalculating, setIsApiCalculating] = useState(false);
     const [isDebouncePending, setIsDebouncePending] = useState(false);
-    const [isCreating, setIsCreating] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false); // Combined create/update state
+    const [isInitialLoading, setIsInitialLoading] = useState(isUpdateMode); // Only true if we are fetching an existing plan
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!isAuthenticated) {
             toast.error("You must be logged in to create a flower plan.");
             navigate('/login');
+            return; // Early exit
         }
-    }, [isAuthenticated, navigate]);
 
-    // Memoize the core API call function to ensure debouncing works correctly
+        if (isUpdateMode && planId) {
+            const fetchPlan = async () => {
+                setIsInitialLoading(true);
+                try {
+                    const existingPlan = await getFlowerPlan(planId);
+                    setBouquetBudget(existingPlan.budget);
+                    setDeliveriesPerYear(existingPlan.deliveries_per_year);
+                    setYears(existingPlan.years);
+                } catch (err: any) {
+                    toast.error("Failed to load your saved plan.", { description: "Starting a new plan instead." });
+                    navigate('/book-flow/create-flower-plan', { replace: true }); // Redirect to clean create page
+                } finally {
+                    setIsInitialLoading(false);
+                }
+            };
+            fetchPlan();
+        }
+    }, [isAuthenticated, navigate, isUpdateMode, planId]);
+
     const calculateUpfront = useCallback(async (currentBudget: number, currentDeliveries: number, currentYears: number) => {
-        setIsDebouncePending(false); // Debounce has finished, API call is about to start
+        setIsDebouncePending(false);
         setIsApiCalculating(true);
         setError(null);
-        setUpfrontPrice(null); // Clear previous results immediately
+        setUpfrontPrice(null);
         setBreakdown(null);
 
         try {
@@ -70,61 +92,68 @@ const FlowerPlanCreationPage: React.FC = () => {
         } finally {
             setIsApiCalculating(false);
         }
-    }, []); // Dependencies are empty as it gets values from parameters
+    }, []);
 
-    // Create a debounced version of the calculateUpfront function
-    const debouncedCalculateUpfront = useMemo(() => {
-        return debounce(calculateUpfront, 500); // 500ms debounce time
-    }, [calculateUpfront]);
+    const debouncedCalculateUpfront = useMemo(() => debounce(calculateUpfront, 500), [calculateUpfront]);
 
-    // Effect to trigger initial calculation and re-calculate on slider changes
     useEffect(() => {
-        // Only trigger if authenticated and not currently creating a plan
-        if (isAuthenticated && !isCreating) {
+        if (isAuthenticated && !isSubmitting && !isInitialLoading) {
             debouncedCalculateUpfront(bouquetBudget, deliveriesPerYear, years);
         }
-        // Cleanup function for debounce
         return () => {
             debouncedCalculateUpfront.cancel && debouncedCalculateUpfront.cancel();
         };
-    }, [bouquetBudget, deliveriesPerYear, years, isAuthenticated, isCreating, debouncedCalculateUpfront]);
+    }, [bouquetBudget, deliveriesPerYear, years, isAuthenticated, isSubmitting, isInitialLoading, debouncedCalculateUpfront]);
     
-    const handleCreatePlan = async () => {
+    const handleSubmit = async () => {
         if (!upfrontPrice) {
-            toast.error("Please calculate the price before creating the plan.");
+            toast.error("Please wait for the price to be calculated.");
             return;
         }
-        setIsCreating(true);
+        setIsSubmitting(true);
         setError(null);
+
         try {
+            // In update mode, we delete the old plan first to ensure a clean state
+            // and re-trigger all the backend's `perform_create` logic.
+            if (isUpdateMode && planId) {
+                await deleteFlowerPlan(planId);
+            }
+
             const newPlan = await createFlowerPlan({
                 budget: bouquetBudget,
                 deliveries_per_year: deliveriesPerYear,
                 years: years,
             });
-            toast.success("Flower plan created successfully!");
+
+            toast.success(isUpdateMode ? "Plan updated successfully!" : "Flower plan created successfully!");
             navigate(`/book-flow/flower-plan/${newPlan.id}/preferences`);
         } catch (err: any) {
             setError(err.message);
-            toast.error("Failed to create plan:", err.message);
+            toast.error(isUpdateMode ? "Failed to update plan." : "Failed to create plan.", { description: err.message });
         } finally {
-            setIsCreating(false);
+            setIsSubmitting(false);
         }
     }
 
-    if (!isAuthenticated) {
-        return null; // Render nothing while redirecting
+    if (!isAuthenticated || isInitialLoading) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <Spinner className="h-12 w-12" />
+                <p className="ml-4 text-muted-foreground">{isInitialLoading ? "Loading your saved plan..." : "Redirecting..."}</p>
+            </div>
+        );
     }
 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-2xl py-12">
-                <Seo title="Create Plan | ForeverFlower" />
+                <Seo title={isUpdateMode ? "Update Your Plan" : "Create Plan"} />
                 <Card className="bg-white text-black border-none shadow-md">
                     <CardHeader>
-                        <CardTitle className="text-3xl">Create Your Flower Plan</CardTitle>
+                        <CardTitle className="text-3xl">{isUpdateMode ? "Continue Your Flower Plan" : "Create Your Flower Plan"}</CardTitle>
                         <CardDescription className="text-black">
-                            Design your perfect long-term flower plan. Pay upfront and save!
+                            {isUpdateMode ? "Adjust the details of your saved plan below." : "Design your perfect long-term flower plan. Pay upfront and save!"}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -134,7 +163,6 @@ const FlowerPlanCreationPage: React.FC = () => {
                                 <Slider id="budget-slider" aria-label="Bouquet Budget" min={75} max={500} step={5} value={[bouquetBudget]} onValueChange={(v) => {
                                     setIsDebouncePending(true);
                                     setBouquetBudget(v[0]);
-                                    debouncedCalculateUpfront(v[0], deliveriesPerYear, years);
                                 }} />
                             </div>
                             <div className="grid gap-2">
@@ -142,7 +170,6 @@ const FlowerPlanCreationPage: React.FC = () => {
                                 <Slider id="deliveries-slider" aria-label="Deliveries Per Year" min={1} max={12} step={1} value={[deliveriesPerYear]} onValueChange={(v) => {
                                     setIsDebouncePending(true);
                                     setDeliveriesPerYear(v[0]);
-                                    debouncedCalculateUpfront(bouquetBudget, v[0], years);
                                 }} />
                             </div>
                             <div className="grid gap-2">
@@ -150,12 +177,8 @@ const FlowerPlanCreationPage: React.FC = () => {
                                 <Slider id="years-slider" aria-label="Years" min={1} max={25} step={1} value={[years]} onValueChange={(v) => {
                                     setIsDebouncePending(true);
                                     setYears(v[0]);
-                                    debouncedCalculateUpfront(bouquetBudget, deliveriesPerYear, v[0]);
                                 }} />
                             </div>
-                        </div>
-                        <div className="mt-6 text-center">
-                            {/* The calculate button is removed as calculation is now automatic via debouncing */}
                         </div>
                         <div className="mt-4 text-center h-12 flex flex-col items-center justify-center">
                             {(isApiCalculating || isDebouncePending) ? (
@@ -168,16 +191,16 @@ const FlowerPlanCreationPage: React.FC = () => {
                                 </>
                                 )
                             )}
-                            {error && !isCreating && <div className="text-red-500 text-sm">{error}</div>}
+                            {error && !isSubmitting && <div className="text-red-500 text-sm">{error}</div>}
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-end">
                         <Button 
                             size="lg"
-                            disabled={!upfrontPrice || isApiCalculating || isDebouncePending || isCreating}
-                            onClick={handleCreatePlan}
+                            disabled={!upfrontPrice || isApiCalculating || isDebouncePending || isSubmitting}
+                            onClick={handleSubmit}
                         >
-                            {isCreating ? <Spinner className="mr-2 h-4 w-4" /> : 'Next: Select Preferences'}
+                            {isSubmitting ? <Spinner className="mr-2 h-4 w-4" /> : (isUpdateMode ? 'Save & Continue' : 'Next: Select Preferences')}
                         </Button>
                     </CardFooter>
                 </Card>
