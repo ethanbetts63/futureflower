@@ -84,7 +84,7 @@ const CustomMessagePage: React.FC = () => {
                 <Seo title="Add Custom Messages | ForeverFlower" />
                 <Card className="bg-white text-black border-none shadow-md">
                     <CardHeader>
-                        <CardTitle className="text-3xl">Step 4: Add Custom Messages (Optional)</CardTitle>
+                        <CardTitle className="text-3xl">Add Custom Messages (Optional)</CardTitle>
                         <CardDescription className="text-black">
                             Add a personal touch to your deliveries. You can write one message for all, or customize each one.
                         </CardDescription>

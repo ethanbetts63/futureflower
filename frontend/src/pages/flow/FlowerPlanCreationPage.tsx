@@ -122,7 +122,7 @@ const FlowerPlanCreationPage: React.FC = () => {
                 <Seo title="Create Plan | ForeverFlower" />
                 <Card className="bg-white text-black border-none shadow-md">
                     <CardHeader>
-                        <CardTitle className="text-3xl">Step 2: Create Your Flower Plan</CardTitle>
+                        <CardTitle className="text-3xl">Create Your Flower Plan</CardTitle>
                         <CardDescription className="text-black">
                             Design your perfect long-term flower plan. Pay upfront and save!
                         </CardDescription>

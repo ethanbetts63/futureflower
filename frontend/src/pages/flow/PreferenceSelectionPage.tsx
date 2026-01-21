@@ -105,7 +105,7 @@ const PreferenceSelectionPage: React.FC = () => {
                 <Seo title="Select Preferences | ForeverFlower" />
                 <Card className="bg-white text-black border-none shadow-md">
                     <CardHeader>
-                        <CardTitle className="text-3xl">Step 3: Add Your Preferences (Optional)</CardTitle>
+                        <CardTitle className="text-3xl">Add Your Preferences (Optional)</CardTitle>
                         <CardDescription className="text-black">
                             Let us know what you love and what you don't. This helps our florists create bouquets you'll adore.
                         </CardDescription>

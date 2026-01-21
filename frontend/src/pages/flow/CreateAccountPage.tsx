@@ -44,7 +44,7 @@ const CreateAccountPage: React.FC = () => {
                     <CardHeader>
                         <CardTitle className="text-3xl">Step 1: Create Your Account</CardTitle>
                         <CardDescription className="text-black">
-                            Welcome! Let's get your account set up so you can create your first flower plan.
+                            Welcome! Let's get your account set up so you can create your first flower plan. 
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
