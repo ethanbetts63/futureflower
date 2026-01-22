@@ -30,7 +30,7 @@ class Payment(models.Model):
     amount = models.DecimalField(
         max_digits=10, 
         decimal_places=2,
-        help_text="The amount charged. Should match the linked price."
+        help_text="The amount charged. Should match the amount on the flower plan."
     )
     status = models.CharField(
         max_length=20, 
