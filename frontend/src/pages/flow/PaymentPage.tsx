@@ -98,9 +98,9 @@ export default function PaymentPage() {
     <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
       <div className="container mx-auto px-4">
         <Seo title="Secure Payment | ForeverFlower" />
-        <div className="text-center mb-8">
+        <div className="text-center mb-4 text-black ">
           <h1 className="text-3xl font-bold">Complete Your Payment</h1>
-          <p className="text-muted-foreground">Secure your ForeverFlower plan.</p>
+          <p>Secure your ForeverFlower plan.</p>
         </div>
 
         <div className="flex flex-col md:flex-row md:gap-12">

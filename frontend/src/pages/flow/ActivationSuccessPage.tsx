@@ -47,27 +47,29 @@ const ActivationSuccessPage: React.FC = () => {
     }
 
     return (
-        <div className="container mx-auto flex items-center justify-center min-h-[60vh]">
-            <Seo title="Plan Activated | ForeverFlower" />
-            <Card className="w-full max-w-lg text-center shadow-lg">
-                <CardHeader>
-                    <div className="flex justify-center">
-                        <CheckCircle2 className="h-16 w-16 text-green-500 mb-4" />
-                    </div>
-                    <CardTitle className="text-3xl">Activation Successful!</CardTitle>
-                    <CardDescription className="text-lg text-muted-foreground pt-2">
-                        Your Flower Plan is now active.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <p className="mb-6">
-                        We will begin preparing your flower deliveries. You can view and manage your plan from your dashboard.
-                    </p>
-                    <Button asChild size="lg">
-                        <Link to="/dashboard/plans">Go to My Plans</Link>
-                    </Button>
-                </CardContent>
-            </Card>
+        <div className="min-h-screen w-full flex items-center justify-center py-8" style={{ backgroundColor: 'var(--color4)' }}>
+            <div className="container mx-auto px-4 max-w-lg">
+                <Seo title="Plan Activated | ForeverFlower" />
+                <Card className="w-full text-center bg-white text-black border-none shadow-md">
+                    <CardHeader>
+                        <div className="flex justify-center">
+                            <CheckCircle2 className="h-16 w-16 text-green-500 mb-4" />
+                        </div>
+                        <CardTitle className="text-3xl">Activation Successful!</CardTitle>
+                        <CardDescription className="text-lg pt-2">
+                            Your Flower Plan is now active.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="mb-6">
+                            We will begin preparing your flower deliveries. You can view and manage your plan from your dashboard.
+                        </p>
+                        <Button asChild size="lg">
+                            <Link to="/dashboard/plans">Go to My Plans</Link>
+                        </Button>
+                    </CardContent>
+                </Card>
+            </div>
         </div>
     );
 };

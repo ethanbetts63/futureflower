@@ -75,31 +75,33 @@ const PaymentStatusPage: React.FC = () => {
   }, [stripe, navigate]);
 
   return (
-    <div className="container mx-auto max-w-2xl py-12">
-      <Seo title="Payment Status | ForeverFlower" />
-      <Card>
-        <CardHeader>
-          <CardTitle>Payment Status</CardTitle>
-          <CardDescription>The result of your transaction is shown below.</CardDescription>
-        </CardHeader>
-        <CardContent className="text-center">
-          {isProcessing ? (
-            <div className="flex flex-col items-center gap-4">
-              <Spinner className="h-10 w-10" />
-              <p>Verifying payment status...</p>
-            </div>
-          ) : (
-            <>
-              <p className="text-lg mb-6">{message}</p>
-              {!paymentSucceeded && (
-                <Button asChild>
-                  <Link to="/create-flow/payment">Try Payment Again</Link>
-                </Button>
-              )}
-            </>
-          )}
-        </CardContent>
-      </Card>
+    <div className="min-h-screen w-full flex items-center py-12" style={{ backgroundColor: 'var(--color4)' }}>
+        <div className="container mx-auto max-w-2xl">
+            <Seo title="Payment Status | ForeverFlower" />
+            <Card className="bg-white text-black border-none shadow-md">
+                <CardHeader>
+                <CardTitle>Payment Status</CardTitle>
+                <CardDescription>The result of your transaction is shown below.</CardDescription>
+                </CardHeader>
+                <CardContent className="text-center">
+                {isProcessing ? (
+                    <div className="flex flex-col items-center gap-4">
+                    <Spinner className="h-10 w-10" />
+                    <p>Verifying payment status...</p>
+                    </div>
+                ) : (
+                    <>
+                    <p className="text-lg mb-6">{message}</p>
+                    {!paymentSucceeded && (
+                        <Button asChild>
+                        <Link to="/create-flow/payment">Try Payment Again</Link>
+                        </Button>
+                    )}
+                    </>
+                )}
+                </CardContent>
+            </Card>
+        </div>
     </div>
   );
 };
