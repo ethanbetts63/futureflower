@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getFlowerPlan } from '@/api';
+import { getFlowerPlan, updateEvent } from '@/api';
 import type { FlowerPlan } from '@/api';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -22,6 +22,7 @@ const CustomMessagePage: React.FC = () => {
     // Core State
     const [flowerPlan, setFlowerPlan] = useState<FlowerPlan | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     // Message State
@@ -47,6 +48,24 @@ const CustomMessagePage: React.FC = () => {
             try {
                 const planData = await getFlowerPlan(planId);
                 setFlowerPlan(planData);
+                
+                // Pre-fill logic
+                if (planData.events && planData.events.length > 0) {
+                    const allMessages = planData.events.map(e => e.message || '');
+                    const uniqueMessages = new Set(allMessages.filter(m => m));
+
+                    if (uniqueMessages.size <= 1) {
+                        setMessageMode('single');
+                        setSingleMessage(uniqueMessages.values().next().value || '');
+                    } else {
+                        setMessageMode('multiple');
+                        const messagesMap = planData.events.reduce((acc, event) => {
+                            acc[event.id] = event.message || '';
+                            return acc;
+                        }, {} as Record<number, string>);
+                        setMultipleMessages(messagesMap);
+                    }
+                }
 
             } catch (err) {
                 setError("Failed to load your flower plan. Please try again later.");
@@ -66,9 +85,36 @@ const CustomMessagePage: React.FC = () => {
         }));
     };
 
-    const handleSave = () => {
-        // Saving logic will go here
-        navigate(`/book-flow/flower-plan/${planId}/confirmation`);
+    const handleSave = async () => {
+        if (!flowerPlan) return;
+
+        setIsSaving(true);
+        try {
+            const promises: Promise<any>[] = [];
+
+            if (messageMode === 'single') {
+                flowerPlan.events.forEach(event => {
+                    promises.push(updateEvent(event.id, { message: singleMessage }));
+                });
+            } else {
+                flowerPlan.events.forEach(event => {
+                    // Only update if the message has changed
+                    if (multipleMessages[event.id] !== (event.message || '')) {
+                         promises.push(updateEvent(event.id, { message: multipleMessages[event.id] || '' }));
+                    }
+                });
+            }
+            
+            await Promise.all(promises);
+
+            toast.success("Your messages have been saved!");
+            navigate(`/book-flow/flower-plan/${planId}/confirmation`);
+        } catch (err: any) {
+            toast.error("Failed to save messages.", { description: err.message });
+            console.error(err);
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleSkip = () => {
@@ -101,7 +147,7 @@ const CustomMessagePage: React.FC = () => {
                         <div>
                             <h3 className="text-xl font-semibold mb-4">Your Messages</h3>
                             
-                            <RadioGroup defaultValue="single" onValueChange={(value: MessageMode) => setMessageMode(value)} className="mb-6">
+                            <RadioGroup value={messageMode} onValueChange={(value: MessageMode) => setMessageMode(value)} className="mb-6">
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="single" id="r1" />
                                     <Label htmlFor="r1">Use one message for all deliveries</Label>
@@ -144,8 +190,9 @@ const CustomMessagePage: React.FC = () => {
                     </CardContent>
                     <CardFooter className="flex justify-between">
                         <BackButton />
-                        <Button size="lg" onClick={handleSave}>
-                            Save & Continue
+                        <Button size="lg" onClick={handleSave} disabled={isSaving}>
+                            {isSaving ? <Spinner className="mr-2 h-4 w-4 animate-spin" /> : null}
+                            {isSaving ? 'Saving...' : 'Save & Continue'}
                         </Button>
                     </CardFooter>
                 </Card>
