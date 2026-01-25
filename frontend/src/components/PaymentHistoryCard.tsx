@@ -28,7 +28,7 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
     }
   ];
 
-  const payments = plan.payments || mockPayments;
+  const payments = mockPayments;
 
   return (
     <Card className="w-full bg-white shadow-md border-none text-black">
@@ -47,7 +47,7 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
           </TableHeader>
           <TableBody>
             {payments.length > 0 ? (
-              payments.map((payment) => (
+              payments.map((payment: Payment) => (
                 <TableRow key={payment.id} className="border-none">
                   <TableCell className="font-medium">{new Date(payment.created_at).toLocaleDateString()}</TableCell>
                   <TableCell className="text-right">${parseFloat(payment.amount).toFixed(2)}</TableCell>

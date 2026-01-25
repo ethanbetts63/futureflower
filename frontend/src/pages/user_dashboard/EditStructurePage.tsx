@@ -9,7 +9,6 @@ import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getFlowerPlan, updateFlowerPlan, type PartialFlowerPlan } from '@/api';
 import { authedFetch } from '@/apiClient';
-import { authedFetch } from '@/apiClient';
 import PlanStructureForm, { type PlanStructureData } from '@/forms/PlanStructureForm';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
@@ -76,7 +75,15 @@ const EditStructurePage: React.FC = () => {
             method: 'POST',
             body: JSON.stringify({ budget, deliveries_per_year: deliveries, years }),
         })
-        .then(data => {
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    throw new Error(errorData.detail || "Server error");
+                });
+            }
+            return response.json();
+        })
+        .then((data: { amount_owing: number }) => {
             setAmountOwing(data.amount_owing);
         })
         .catch(err => {
@@ -142,7 +149,7 @@ const EditStructurePage: React.FC = () => {
                             ) : (
                                 amountOwing !== null && (
                                 <>
-                                    <div className="text-2xl font-bold">${parseFloat(amountOwing).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                                    <div className="text-2xl font-bold">${amountOwing.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                                     <p className="text-xs text-gray-600">Amount to pay for this change</p>
                                 </>
                                 )
