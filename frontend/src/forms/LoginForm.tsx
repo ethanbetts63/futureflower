@@ -27,7 +27,6 @@ export function LoginForm({
     setIsLoading(true); // Set loading to true
     try {
       await loginWithPassword(email, password);
-      toast.success("Login successful!");
       // On success, we navigate away, so no need to set isLoading to false
       navigate('/dashboard/events');
     } catch (error) {

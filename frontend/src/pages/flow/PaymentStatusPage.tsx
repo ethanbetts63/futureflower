@@ -45,9 +45,6 @@ const PaymentStatusPage: React.FC = () => {
       switch (paymentIntent?.status) {
         case 'succeeded':
           setPaymentSucceeded(true);
-          toast.success("Payment successful!", {
-            description: "Your event has been activated."
-          });
           
           const planId = new URLSearchParams(window.location.search).get('plan_id');
           if (planId) {

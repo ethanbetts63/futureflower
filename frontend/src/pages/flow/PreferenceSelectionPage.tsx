@@ -103,7 +103,6 @@ const PreferenceSelectionPage: React.FC = () => {
                 preferred_flower_types: preferredFlowerTypes.map(String),
                 rejected_flower_types: rejectedFlowerTypes.map(String),
             });
-            toast.success("Preferences saved!");
             navigate(redirectPath); 
         } catch (err) {
             toast.error("Failed to save preferences. Please try again.");

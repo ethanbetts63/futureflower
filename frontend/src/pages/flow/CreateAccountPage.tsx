@@ -20,7 +20,6 @@ const CreateAccountPage: React.FC = () => {
         try {
             const authResponse = await registerUser(data);
             handleLoginSuccess(authResponse);
-            toast.success("Account created successfully!");
             navigate('/book-flow/create-flower-plan'); // Navigate to the next step
         } catch (error: any) {
             const errorData = error.data || {};

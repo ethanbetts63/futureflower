@@ -29,8 +29,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ profile, onProfileUpda
         try {
             const updatedProfile = await updateUserProfile(values);
             onProfileUpdate(updatedProfile);
-            toast.success("Profile updated successfully.");
-            //setIsEditing(false); // This will be handled by parent
         } catch (error: any) {
             const errorData = error.data || {};
             let description = "An unknown error occurred.";

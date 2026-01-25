@@ -76,7 +76,6 @@ const EditRecipientPage: React.FC = () => {
         try {
             const payload: PartialFlowerPlan = { ...formData };
             await updateFlowerPlan(planId, payload);
-            toast.success("Recipient details updated successfully!");
             navigate(`/dashboard/plans/${planId}/overview`);
         } catch (err) {
             toast.error("Failed to update recipient details.");

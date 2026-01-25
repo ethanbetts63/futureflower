@@ -63,9 +63,6 @@ const ResetPasswordConfirmPage: React.FC = () => {
 
     try {
       const response = await confirmPasswordReset(data);
-      toast.success("Success!", {
-        description: response.detail,
-      });
       navigate('/login');
     } catch (err: any) {
       const errorMessage = err.message || "An error occurred. Please try again.";

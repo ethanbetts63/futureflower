@@ -153,7 +153,6 @@ const FlowerPlanCreationPage: React.FC = () => {
 
             const newPlan = await createFlowerPlan(payload);
 
-            toast.success(isUpdateMode ? "Plan updated successfully!" : "Flower plan created successfully!");
             navigate(`/book-flow/flower-plan/${newPlan.id}/preferences`);
         } catch (err: any) {
             setError(err.message);

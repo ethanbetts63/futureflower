@@ -115,7 +115,6 @@ const CustomMessagePage: React.FC = () => {
             
             await Promise.all(promises);
 
-            toast.success("Your messages have been saved!");
             navigate(redirectPath);
         } catch (err: any) {
             toast.error("Failed to save messages.", { description: err.message });

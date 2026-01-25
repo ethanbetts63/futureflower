@@ -116,7 +116,6 @@ const EditStructurePage: React.FC = () => {
         try {
             const payload: PartialFlowerPlan = { ...formData };
             await updateFlowerPlan(planId, payload);
-            toast.success("Plan structure updated successfully!");
             navigate(`/dashboard/plans/${planId}/overview`);
         } catch (err) {
             toast.error("Failed to update plan structure.");
