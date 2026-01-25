@@ -228,16 +228,9 @@ export async function createFlowerPlan(planData: CreateFlowerPlanPayload): Promi
 }
 
 // This payload uses number arrays for preferences, as we are sending IDs to the backend.
-export interface FlowerPlanUpdatePayload {
-    preferred_colors?: number[];
-    rejected_colors?: number[];
-    preferred_flower_types?: number[];
-    rejected_flower_types?: number[];
-    recipient_details?: any; // This should be updated or removed
-    notes?: string;
-}
+export type PartialFlowerPlan = Partial<FlowerPlan>;
 
-export async function updateFlowerPlan(planId: string, planData: FlowerPlanUpdatePayload): Promise<FlowerPlan> {
+export async function updateFlowerPlan(planId: string, planData: PartialFlowerPlan): Promise<FlowerPlan> {
     const response = await authedFetch(`/api/events/flower-plans/${planId}/`, {
         method: 'PATCH',
         body: JSON.stringify(planData),

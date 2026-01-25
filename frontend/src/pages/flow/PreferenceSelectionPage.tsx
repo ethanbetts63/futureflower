@@ -98,10 +98,10 @@ const PreferenceSelectionPage: React.FC = () => {
         setIsSaving(true);
         try {
             await updateFlowerPlan(planId, {
-                preferred_colors: preferredColors,
-                rejected_colors: rejectedColors,
-                preferred_flower_types: preferredFlowerTypes,
-                rejected_flower_types: rejectedFlowerTypes,
+                preferred_colors: preferredColors.map(String),
+                rejected_colors: rejectedColors.map(String),
+                preferred_flower_types: preferredFlowerTypes.map(String),
+                rejected_flower_types: rejectedFlowerTypes.map(String),
             });
             toast.success("Preferences saved!");
             navigate(redirectPath); 

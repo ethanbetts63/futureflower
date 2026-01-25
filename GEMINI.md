@@ -8,7 +8,7 @@ Sometimes a summary file must be created to document the work performed. This su
 -   **Naming Convention:** The file must be named `summary<N>.txt`, where `N` is the number of the previous summary file plus one (e.g., `summary_28.txt`).
 
 # User Preferences
-- never run runserver or npm run dev
+- never run runserver or npm run dev but feel free to run npm run build
 - do not ask to read files just read them. 
 - never run pytest on its own alway specify a dir or file. 
 - never use zod
