@@ -8,7 +8,7 @@ import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getFlowerPlan, updateFlowerPlan, type PartialFlowerPlan } from '@/api';
-import RecipientForm, { type RecipientData } from '@/components/RecipientForm';
+import RecipientForm, { type RecipientData } from '@/forms/RecipientForm';
 import BackButton from '@/components/BackButton';
 
 const EditRecipientPage: React.FC = () => {

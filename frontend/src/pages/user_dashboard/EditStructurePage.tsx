@@ -8,7 +8,7 @@ import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getFlowerPlan, updateFlowerPlan, type PartialFlowerPlan } from '@/api';
-import PlanStructureForm, { type PlanStructureData } from '@/components/PlanStructureForm';
+import PlanStructureForm, { type PlanStructureData } from '@/forms/PlanStructureForm';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
 

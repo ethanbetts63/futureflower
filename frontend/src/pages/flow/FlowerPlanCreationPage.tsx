@@ -9,8 +9,8 @@ import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { createFlowerPlan, getFlowerPlan, deleteFlowerPlan, type CreateFlowerPlanPayload } from '@/api';
 import { debounce } from '@/utils/debounce';
-import RecipientForm, { type RecipientData } from '@/components/RecipientForm';
-import PlanStructureForm, { type PlanStructureData } from '@/components/PlanStructureForm';
+import RecipientForm, { type RecipientData } from '@/forms/RecipientForm';
+import PlanStructureForm, { type PlanStructureData } from '@/forms/PlanStructureForm';
 
 type Breakdown = {
   fee_per_delivery: number;
