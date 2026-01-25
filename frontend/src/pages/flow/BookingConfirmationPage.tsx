@@ -195,7 +195,7 @@ const BookingConfirmationPage = () => {
                 <CardContent>
                     {plan.events && plan.events.some(e => e.message) ? (
                         <ul className="space-y-4">
-                            {plan.events.filter(e => e.message).map((event, index) => (
+                            {plan.events.filter(e => e.message).map((event) => (
                                 <li key={event.id} className="p-4 bg-gray-50 rounded-lg">
                                     <p className="font-semibold text-sm text-gray-800">
                                         Delivery on {new Date(event.delivery_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}

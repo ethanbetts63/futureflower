@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, Palette, Sprout, Ban, Tag, Milestone, Repeat, DollarSign, MessageSquareText, User, Home } from 'lucide-react';
+import { Loader2, Palette, Sprout, Ban, Milestone, Repeat, DollarSign, MessageSquareText, User, Home } from 'lucide-react';
 import { getFlowerPlan, getColors, getFlowerTypes } from '@/api';
 import type { FlowerPlan, Color, FlowerType } from '@/api';
 import Seo from '@/components/Seo';
@@ -206,7 +206,7 @@ const PlanOverviewPage = () => {
                 <CardContent>
                     {plan.events && plan.events.some(e => e.message) ? (
                         <ul className="space-y-4">
-                            {plan.events.filter(e => e.message).map((event, index) => (
+                            {plan.events.filter(e => e.message).map((event) => (
                                 <li key={event.id} className="p-4 bg-gray-50 rounded-lg">
                                     <p className="font-semibold text-sm text-gray-800">
                                         Delivery on {new Date(event.delivery_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
