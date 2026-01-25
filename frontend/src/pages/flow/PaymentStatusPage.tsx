@@ -6,7 +6,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { toast } from 'sonner';
 import Seo from '@/components/Seo';
 
 const PaymentStatusPage: React.FC = () => {

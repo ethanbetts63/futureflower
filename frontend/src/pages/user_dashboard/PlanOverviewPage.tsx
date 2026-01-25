@@ -93,6 +93,8 @@ const PlanOverviewPage = () => {
           </Card>
 
           <div className="space-y-6">
+            <PaymentHistoryCard plan={plan} />
+
             <RecipientCard
               plan={plan}
               editUrl={`/dashboard/plans/${planId}/edit-recipient?source=management`}
@@ -115,7 +117,6 @@ const PlanOverviewPage = () => {
               editUrl={`/book-flow/flower-plan/${planId}/add-message?source=management`}
             />
 
-            <PaymentHistoryCard plan={plan} />
             
             {/* Action Buttons */}
             <div className="flex justify-between items-center mt-8">
