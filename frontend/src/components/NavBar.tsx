@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import logo from '../assets/logo.webp';
@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext';
 
 const NavBar: React.FC = () => {
   const { isAuthenticated, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full border-[var(--color2)] bg-[var(--color3)]">
@@ -35,7 +36,14 @@ const NavBar: React.FC = () => {
         </div>
 
         {/* Right Section: Auth Buttons */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center md:hidden">
+            <Button onClick={() => setMenuOpen(!menuOpen)} className="bg-white text-black font-bold hover:bg-gray-100 p-2">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
+                </svg>
+            </Button>
+        </div>
+        <div className={`md:flex items-center gap-2 ${menuOpen ? 'flex flex-col absolute top-full left-0 w-full bg-[var(--color3)] p-4 shadow-lg' : 'hidden md:flex'}`}>
             {isAuthenticated ? (
                 <>
                     <Link to="/dashboard">
