@@ -24,7 +24,8 @@ const PreferenceSelectionPage: React.FC = () => {
     const redirectPath = isManagementFlow 
         ? `/dashboard/plans/${planId}/overview`
         : `/book-flow/flower-plan/${planId}/add-message`;
-    const saveButtonText = isManagementFlow ? 'Save' : 'Next';
+    const backPath = isManagementFlow ? `/dashboard/plans/${planId}/overview` : '/book-flow';
+    const saveButtonText = isManagementFlow ? 'Save' : 'Save & Continue';
 
     // Data fetching state
     const [colors, setColors] = useState<Color[]>([]);
@@ -115,11 +116,6 @@ const PreferenceSelectionPage: React.FC = () => {
         toast.info("You can add preferences later from your dashboard.");
         navigate(redirectPath);
     }
-
-    const handleBack = () => {
-        // Reroute to the gate to ensure the inactive plan is detected
-        navigate('/book-flow');
-    };
 
     if (!isAuthenticated) return null; // Redirecting
     if (isLoading) return <div className="flex justify-center items-center h-screen"><Spinner className="h-12 w-12" /></div>;
@@ -216,11 +212,9 @@ const PreferenceSelectionPage: React.FC = () => {
 
                     </CardContent>
                     <CardFooter className="flex justify-between">
-                        <Button variant="ghost" onClick={handleBack}>
-                            <ArrowLeft className="mr-2 h-4 w-4" /> Back
-                        </Button>
+                        <BackButton to={backPath} variant="ghost" />
                         <Button size="lg" onClick={handleSave} disabled={isSaving}>
-                            {isSaving ? <Spinner className="mr-2 h-4 w-4" /> : 'Save & Continue'}
+                            {isSaving ? <Spinner className="mr-2 h-4 w-4" /> : saveButtonText}
                         </Button>
                     </CardFooter>
                 </Card>
