@@ -208,7 +208,7 @@ const FlowerPlanCreationPage: React.FC = () => {
                             disabled={!upfrontPrice || isApiCalculating || isDebouncePending || isSubmitting}
                             onClick={handleSubmit}
                         >
-                            {isSubmitting ? <Spinner className="mr-2 h-4 w-4" /> : (isUpdateMode ? 'Save & Continue' : 'Next: Select Preferences')}
+                            {isSubmitting ? <Spinner className="mr-2 h-4 w-4" /> : (isUpdateMode ? 'Next' : 'Next: Select Preferences')}
                         </Button>
                     </CardFooter>
                 </Card>

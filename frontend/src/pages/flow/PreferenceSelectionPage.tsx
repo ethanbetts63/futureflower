@@ -181,7 +181,7 @@ const PreferenceSelectionPage: React.FC = () => {
                             <p className="text-sm text-gray-600 mb-4">Select their favorite flowers and flowers you know they don't like. We will order based off these so long as we can find a florist in your area, for your budget, that can accomodate your preferences.</p>
                             <div className="grid grid-cols-2 gap-x-8 gap-y-4">
                                 <div>
-                                    <h4 className="font-medium mb-3 text-center">My absolute favorites</h4>
+                                    <h4 className="font-medium mb-3 text-center">Flowers they love!</h4>
                                     <div className="flex flex-wrap gap-2 justify-center ">
                                         {flowerTypes.map(ft => (
                                             <SelectableTag
