@@ -57,12 +57,17 @@ export default function PaymentPage() {
       return;
     }
 
+    if (clientSecret) { // If clientSecret is already set, we don't need to re-fetch/re-create
+      setIsLoading(false);
+      return;
+    }
+
     setIsLoading(true);
 
     getFlowerPlan(planId)
       .then(planData => {
         setFlowerPlan(planData);
-        // Now that we have the plan, create the payment intent
+        // Only create payment intent if clientSecret is null/not yet set
         return createPaymentIntent(planData.id);
       })
       .then(intentData => {
@@ -78,7 +83,7 @@ export default function PaymentPage() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [planId]);
+  }, [planId, clientSecret]); // Added clientSecret to dependencies
 
   if (error) {
     // Navigate away if there's a critical error

@@ -3,8 +3,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from ..models import FlowerPlan, Event
 from ..serializers.flower_plan_serializer import FlowerPlanSerializer
-from ..utils.pricing_calculators import forever_flower_upfront_price
-from ..utils.modification_calculator import calculate_modification_details
+from ..utils.pricing_calculators import forever_flower_upfront_price, calculate_final_plan_cost
 from datetime import date, timedelta
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -40,7 +39,7 @@ def calculate_plan_modification(request, plan_id):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    result = calculate_modification_details(plan, new_structure)
+    result = calculate_final_plan_cost(plan, new_structure)
     return Response(result, status=status.HTTP_200_OK)
 
 

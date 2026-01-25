@@ -1,3 +1,7 @@
+from decimal import Decimal
+from django.db import models
+from payments.models import Payment # Import the Payment model
+
 def forever_flower_upfront_price(
     budget,        # B: $ per delivery
     deliveries_per_year,   # F
@@ -53,3 +57,37 @@ def forever_flower_upfront_price(
     }
 
     return round(upfront_price, 2), breakdown
+
+def calculate_final_plan_cost(flower_plan, new_structure: dict):
+    """
+    Calculates the final cost for a flower plan, considering new structure
+    and subtracting any already paid amounts if the plan is active.
+    
+    Args:
+        flower_plan: The FlowerPlan instance (or None for a new plan).
+        new_structure (dict): A dictionary containing 'budget', 'deliveries_per_year', 'years'.
+
+    Returns:
+        dict: A dictionary containing 'new_total_price', 'total_paid', and 'amount_owing'.
+    """
+    
+    total_paid = Decimal('0.00')
+    if flower_plan and flower_plan.is_active:
+        payments_aggregate = flower_plan.payments.filter(status='succeeded').aggregate(total=models.Sum('amount'))
+        total_paid = payments_aggregate['total'] or Decimal('0.00')
+
+    # Calculate the new total price based on the proposed structure
+    new_total_price, _ = forever_flower_upfront_price(
+        budget=new_structure['budget'],
+        deliveries_per_year=new_structure['deliveries_per_year'],
+        years=new_structure['years']
+    )
+    
+    amount_owing = Decimal(new_total_price) - total_paid
+    amount_owing = max(Decimal('0.00'), amount_owing) # Ensure amount owing is not negative
+
+    return {
+        "new_total_price": round(Decimal(new_total_price), 2),
+        "total_paid": round(total_paid, 2),
+        "amount_owing": round(amount_owing, 2),
+    }
