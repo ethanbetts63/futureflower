@@ -1,0 +1,30 @@
+Okay, I've investigated the `calculate_modification_details` logic in `modification_calculator.py` and its interaction with `EditStructurePage.tsx`.
+
+You've stated that "if they haven't changed any of the variables or they have decreased any, the amount owed should be 0. It should only be a number more than 0 if we are increasing things."
+
+Here's my analysis:
+
+**Current Logic in `modification_calculator.py`:**
+The existing `calculate_modification_details` function works as follows:
+1.  It calculates a `new_total_price` for the proposed plan structure using `forever_flower_upfront_price`.
+2.  It determines `total_paid` for the existing `flower_plan`.
+3.  It then calculates `amount_owing = new_total_price - total_paid`.
+4.  Crucially, it includes a check: `if amount_owing < 0: amount_owing = Decimal('0.00')`. This means if the `new_total_price` is less than what the user has *already paid*, the `amount_owing` is explicitly set to `0.00`. This part attempts to address the "decreased any" scenario financially.
+
+The use of `forever_flower_upfront_price` from `pricing_calculators.py` is correct here, as it's used to determine the *new total price* for the *modified* plan, not just for a brand new plan. The utility is correctly calculating the value of the new structure.
+
+**The Discrepancy with Your Requirement:**
+The current logic correctly sets `amount_owing` to zero if the *new calculated total price* is less than *what was already paid*. However, your requirement seems to be more specific: `amount_owing` should be greater than zero *only if* any of the plan parameters (`budget`, `deliveries_per_year`, or `years`) have *increased* compared to the *original values of the flower plan*. If the parameters remain unchanged or any parameter *decreases*, you want `amount_owing` to be `0.00`, regardless of the financial difference between the new total and the total paid.
+
+For example, if a user has paid $100 for a plan, and they decrease one parameter, causing the `new_total_price` to be $90, the current logic correctly sets `amount_owing` to `0.00`. However, if they keep all parameters the same, and their original `total_amount` was $120 but they've only `total_paid` $100, the current logic would calculate an `amount_owing` of $20. Your requirement suggests that in this "no change" scenario, the `amount_owing` should also be `0.00`.
+
+**My Plan for How to Adjust the Logic:**
+
+I will modify the `calculate_modification_details` function in `foreverflower/events/utils/modification_calculator.py`.
+
+The revised logic will first explicitly check whether any of the new structure's parameters (`budget`, `deliveries_per_year`, `years`) are *strictly greater* than the corresponding parameters of the `flower_plan` being modified.
+
+*   If **any** of these parameters have increased, then the function will proceed with the existing calculation: `amount_owing = new_total_price - total_paid`. The current `if amount_owing < 0: amount_owing = Decimal('0.00')` would still apply, ensuring that even with an increase, the user only pays for the actual positive difference.
+*   If **none** of the parameters have increased (meaning they have all stayed the same or decreased), then `amount_owing` will be set directly to `Decimal('0.00')`, fulfilling your specific requirement for these scenarios.
+
+This approach ensures that an `amount_owing` greater than zero is only returned when there's an explicit upgrade in the plan's underlying structure.

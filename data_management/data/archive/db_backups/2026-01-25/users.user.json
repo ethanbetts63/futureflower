@@ -206,5 +206,31 @@
     "groups": [],
     "user_permissions": []
   }
+},
+{
+  "model": "users.user",
+  "pk": 9,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$Ed6BbaVk0rwwGCFYOyQtxy$EncA/ZOvSYap2RSQPfHpornf8LfG6ouuUqr7HGXdUpU=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "nahte12321@gmail.com",
+    "first_name": "Ethan",
+    "last_name": "Betts-Ingram",
+    "email": "nahte12321@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-25T17:42:50.878Z",
+    "is_email_verified": false,
+    "verification_email_last_sent_at": null,
+    "password_reset_last_sent_at": null,
+    "agreed_to_terms": null,
+    "anonymized_at": null,
+    "hash_first_name": "",
+    "hash_last_name": "",
+    "hash_email": "",
+    "groups": [],
+    "user_permissions": []
+  }
 }
 ]
