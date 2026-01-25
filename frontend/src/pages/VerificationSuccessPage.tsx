@@ -21,7 +21,7 @@ const VerificationSuccessPage: React.FC = () => {
         </CardHeader>
         <CardContent className="text-center">
           <Button asChild>
-            <Link to="/dashboard/events">Go to My Events</Link>
+            <Link to="/dashboard">Go to My Events</Link>
           </Button>
         </CardContent>
       </Card>
