@@ -10,6 +10,7 @@ class UserFactory(DjangoModelFactory):
     class Meta:
         model = User
         django_get_or_create = ('username',)
+        skip_postgeneration_save = True
 
     first_name = factory.Faker('first_name')
     last_name = factory.Faker('last_name')

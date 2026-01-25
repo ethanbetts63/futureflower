@@ -1,3 +1,5 @@
+pytest_plugins = ("pytest_django", )
+
 # conftest.py
 import pytest
 from rest_framework.test import APIRequestFactory
