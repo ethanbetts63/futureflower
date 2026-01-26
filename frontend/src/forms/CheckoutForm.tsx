@@ -5,9 +5,10 @@ import { Spinner } from '@/components/ui/spinner';
 
 interface CheckoutFormProps {
   planId: string;
+  source?: string;
 }
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ planId }) => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({ planId, source }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -25,11 +26,16 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planId }) => {
       return;
     }
 
+    const returnUrl = new URL(`${window.location.origin}/payment-status`);
+    returnUrl.searchParams.append('plan_id', planId);
+    if (source) {
+      returnUrl.searchParams.append('source', source);
+    }
+
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/payment-status?plan_id=${planId}`,
+        return_url: returnUrl.toString(),
       },
     });
 

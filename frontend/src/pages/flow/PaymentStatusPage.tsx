@@ -15,7 +15,7 @@ const PaymentStatusPage: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState(true);
   const [paymentSucceeded, setPaymentSucceeded] = useState(false);
 
-    const [tryAgainPath, setTryAgainPath] = useState('/book-flow/create-flower-plan');
+  const [tryAgainPath, setTryAgainPath] = useState('/dashboard');
 
   useEffect(() => {
     if (!stripe) {
@@ -25,18 +25,10 @@ const PaymentStatusPage: React.FC = () => {
     const clientSecret = new URLSearchParams(window.location.search).get(
       'payment_intent_client_secret'
     );
-    
     const planId = new URLSearchParams(window.location.search).get('plan_id');
-    const source = new URLSearchParams(window.location.search).get('source');
 
     if (planId) {
-        const params = new URLSearchParams();
-        if (source) params.set('source', source);
-        // If we are coming from a modification, we need to pass the params back
-        // For simplicity, we just navigate to the plan overview for now on failure.
-        // A more robust solution would re-add all the modification params.
-        const path = `/dashboard/plans/${planId}/overview`;
-        setTryAgainPath(path);
+      setTryAgainPath(`/dashboard/plans/${planId}/overview`);
     }
 
     if (!clientSecret) {
@@ -59,7 +51,6 @@ const PaymentStatusPage: React.FC = () => {
       switch (paymentIntent?.status) {
         case 'succeeded':
           setPaymentSucceeded(true);
-          
           const planId = new URLSearchParams(window.location.search).get('plan_id');
           if (planId) {
             setMessage('Success! Your payment was received. Redirecting to your plan overview...');
@@ -79,21 +70,6 @@ const PaymentStatusPage: React.FC = () => {
         case 'requires_payment_method':
           setPaymentSucceeded(false);
           setMessage('Payment failed. Please try another payment method.');
-          const planId = new URLSearchParams(window.location.search).get('plan_id');
-          const source = new URLSearchParams(window.location.search).get('source');
-
-          const tryAgainPath = planId 
-            ? `/book-flow/flower-plan/${planId}/payment${source ? `?source=${source}` : ''}`
-            : '/book-flow/create-flower-plan';
-           
-           // Update the message to be more generic as the button will guide them
-           setMessage('Payment failed. Please try again or use a different payment method.');
-
-          // In the return, the button can be updated to be more dynamic
-          // For now, this logic update is key. We need to get the button to link to `tryAgainPath`.
-          // This will be handled in the JSX part of the component.
-          // Let's modify the JSX part as well.
-
           break;
         default:
           setPaymentSucceeded(false);

@@ -21,7 +21,7 @@ const EventGate = lazy(() => import('@/components/EventGate'));
 const FlowerPlanCreationPage = lazy(() => import('./pages/flow/FlowerPlanCreationPage'));
 const PreferenceSelectionPage = lazy(() => import('./pages/flow/PreferenceSelectionPage'));
 const BookingConfirmationPage = lazy(() => import('./pages/flow/BookingConfirmationPage'));
-const ActivationSuccessPage = lazy(() => import('./pages/flow/ActivationSuccessPage'));
+
 const PaymentPage = lazy(() => import('./pages/flow/PaymentPage'));
 const PaymentStatusPage = lazy(() => import('./pages/flow/PaymentStatusPage'));
 const VerificationSuccessPage = lazy(() => import('./pages/VerificationSuccessPage'));
@@ -91,7 +91,7 @@ function App() {
                 <Route path="/book-flow/flower-plan/:planId/add-message" element={<CustomMessagePage />} />
                 <Route path="/book-flow/flower-plan/:planId/confirmation" element={<BookingConfirmationPage />} />
                 <Route path="/book-flow/flower-plan/:planId/payment" element={<PaymentPage />} />
-                <Route path="/create-flow/success" element={<ActivationSuccessPage />} />
+
                 <Route path="/payment-status" element={<PaymentStatusPage />} />
 
                 {/* Admin Section */}

@@ -83,7 +83,7 @@ export default function PaymentPage() {
   
   // For management flow
   const isManagementFlow = searchParams.get('source') === 'management';
-  const [newPlanDetails, setNewPlanDetails] = useState<PartialFlowerPlan & { amount: number } | null>(null);
+  const [newPlanDetails, setNewPlanDetails] = useState<PartialFlowerPlan & { amount: number } | undefined>(undefined);
 
   useEffect(() => {
     if (!planId) {
@@ -120,9 +120,13 @@ export default function PaymentPage() {
             setNewPlanDetails(modificationDetails);
         }
         
-        // Assume createPaymentIntent is updated to accept modification details
-        // The backend would use these details to calculate the amount and create the intent
-        return createPaymentIntent(planData.id, modificationDetails);
+        // TODO: The backend `createPaymentIntent` endpoint currently does not support modifications.
+        // It will create a payment intent for the full amount of the plan.
+        // To properly support modifications, this endpoint needs to be updated to accept
+        // modification details (e.g., new budget, years, delivery frequency) or a specific amount,
+        // and then create a payment intent for the calculated difference.
+        // The current implementation will charge the user the full plan amount again.
+        return createPaymentIntent(planData.id);
       })
       .then(intentData => {
         setClientSecret(intentData.clientSecret);
@@ -216,7 +220,7 @@ export default function PaymentPage() {
             ) : (
               <PlanSummary 
                 originalPlan={flowerPlan}
-                newPlan={isManagementFlow ? newPlanDetails : undefined}
+                newPlan={isManagementFlow ? (newPlanDetails ?? undefined) : undefined}
               />
             )}
           </div>
