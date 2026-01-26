@@ -22,7 +22,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'id', 
             'is_staff', 
             'is_superuser', 
-            'is_email_verified'
         ]
 
     def validate_email(self, value):

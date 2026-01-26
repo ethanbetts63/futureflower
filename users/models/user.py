@@ -7,17 +7,6 @@ class User(AbstractUser):
     Custom user model that includes fields for various contact methods
     and fields to support data anonymization upon account deletion.
     """
-
-    # Account Status
-    is_email_verified = models.BooleanField(
-        default=False,
-        help_text="True if the user has verified their primary email address."
-    )
-    verification_email_last_sent_at = models.DateTimeField(
-        null=True,
-        blank=True,
-        help_text="Timestamp of when the last verification email was sent."
-    )
     password_reset_last_sent_at = models.DateTimeField(
         null=True,
         blank=True,
