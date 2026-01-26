@@ -37,7 +37,7 @@ class FlowerPlan(models.Model):
         help_text="The final total amount for the plan."
     )
     currency = models.CharField(
-        max_length=3, null=True, blank=True,
+        max_length=3, default='USD',
         help_text="The three-letter ISO currency code."
     )
 

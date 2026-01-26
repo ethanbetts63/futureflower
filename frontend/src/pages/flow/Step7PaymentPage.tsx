@@ -6,7 +6,7 @@ import type { StripeElementsOptions, Appearance } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { toast } from 'sonner';
 import { getFlowerPlan, createPaymentIntent } from '@/api';
-import type { FlowerPlan, PartialFlowerPlan } from '@/api';
+import type { FlowerPlan, PartialFlowerPlan, CreatePaymentIntentPayload } from '@/api';
 import { Spinner } from '@/components/ui/spinner';
 import BackButton from '@/components/BackButton';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -121,14 +121,9 @@ export default function PaymentPage() {
         }
         
         // Prepare the payload for creating the payment intent
-        const payload: {
-            flower_plan_id: string;
-            amount?: number;
-            budget?: number;
-            years?: number;
-            deliveries_per_year?: number;
-        } = {
+        const payload: CreatePaymentIntentPayload = {
             flower_plan_id: planData.id.toString(),
+            currency: planData.currency,
         };
 
         if (isManagementFlow && modificationDetails) {

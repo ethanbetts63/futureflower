@@ -274,6 +274,7 @@ export interface CreatePaymentIntentPayload {
   budget?: number;
   years?: number;
   deliveries_per_year?: number;
+  currency?: string;
 }
 
 export async function createPaymentIntent(payload: CreatePaymentIntentPayload): Promise<{ clientSecret: string }> {
