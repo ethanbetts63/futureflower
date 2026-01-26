@@ -65,7 +65,7 @@ const BookingConfirmationPage = () => {
 
   if (!plan) {
     return (
-      <div className="container mx-auto px-4 py-8 text-center">
+      <div className="container mx-auto px-4 py-8 text-center text-black">
         <h1 className="text-2xl font-bold mb-2">Could Not Load Plan</h1>
         <p>There was an error loading your plan details. Please try again from your dashboard.</p>
         <Button asChild className="mt-4">
