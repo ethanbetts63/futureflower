@@ -82,8 +82,8 @@ function App() {
                 {/* Event Creation Flow */}
                 <Route path="/event-gate" element={<EventGate />} />
                 <Route path="/book-flow/create-account" element={<CreateAccountPage />} />
-                <Route path="/book-flow/flower-plan/recipient" element={<RecipientPage />} />
-                <Route path="/book-flow/flower-plan/structure" element={<StructurePage />} />
+                <Route path="/book-flow/flower-plan/:planId/recipient" element={<RecipientPage />} />
+                <Route path="/book-flow/flower-plan/:planId/structure" element={<StructurePage />} />
                 <Route path="/book-flow/flower-plan/:planId/preferences" element={<PreferenceSelectionPage />} />
                 <Route path="/book-flow/flower-plan/:planId/add-message" element={<CustomMessagePage />} />
                 <Route path="/book-flow/flower-plan/:planId/confirmation" element={<BookingConfirmationPage />} />
