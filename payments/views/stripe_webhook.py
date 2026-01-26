@@ -44,38 +44,56 @@ class StripeWebhookView(APIView):
         # Handle the event
         if event['type'] == 'payment_intent.succeeded':
             payment_intent = event['data']['object']
-            print(f"Processing payment_intent.succeeded for ID: {payment_intent['id']}")
-            
-            # Find the corresponding Payment in our database
+            metadata = payment_intent.get('metadata', {})
+            flower_plan_id = metadata.get('flower_plan_id')
+
+            print(f"Processing payment_intent.succeeded for FlowerPlan ID: {flower_plan_id}")
+
+            if not flower_plan_id:
+                print(f"CRITICAL ERROR: 'flower_plan_id' not found in metadata for PaymentIntent ID: {payment_intent['id']}")
+                return HttpResponse(status=200) # Return 200 to prevent Stripe retries
+
             try:
+                # Find the corresponding Payment record
                 payment = Payment.objects.get(stripe_payment_intent_id=payment_intent['id'])
                 print(f"Found Payment record (PK: {payment.pk}) for Stripe PaymentIntent ID: {payment_intent['id']}")
                 payment.status = 'succeeded'
                 payment.save()
                 print(f"Payment record (PK: {payment.pk}) status updated to 'succeeded'.")
+
+                # Fetch the FlowerPlan to update it
+                flower_plan_to_update = FlowerPlan.objects.get(id=flower_plan_id)
                 
-                # Activate the associated FlowerPlan
-                if payment.flower_plan:
-                    try:
-                        flower_plan_to_activate = payment.flower_plan
-                        flower_plan_to_activate.is_active = True
-                        flower_plan_to_activate.save()
-                        print(f"FlowerPlan (PK: {flower_plan_to_activate.pk}) activated (is_active=True).")
+                # Get new structure from metadata, with fallbacks to the plan's current state
+                new_budget = metadata.get('budget', flower_plan_to_update.budget)
+                new_years = metadata.get('years', flower_plan_to_update.years)
+                new_deliveries_per_year = metadata.get('deliveries_per_year', flower_plan_to_update.deliveries_per_year)
 
-                        # Send a notification to the admin
-                        send_admin_payment_notification(payment_id=payment.stripe_payment_intent_id)
-                        print(f"Admin notification sent for payment: {payment.pk}.")
+                # Universal update logic
+                flower_plan_to_update.budget = float(new_budget)
+                flower_plan_to_update.years = int(new_years)
+                flower_plan_to_update.deliveries_per_year = int(new_deliveries_per_year)
+                flower_plan_to_update.is_active = True # Always ensure the plan is active after successful payment
 
-                    except FlowerPlan.DoesNotExist:
-                        # This case is unlikely if the payment has a valid foreign key
-                        print(f"CRITICAL ERROR: FlowerPlan (ID: {payment.flower_plan_id}) not found for payment (PK: {payment.pk}).")
-                else:
-                    print(f"CRITICAL ERROR: Payment (PK: {payment.pk}) succeeded but has no associated FlowerPlan (flower_plan_id is null).")
+                flower_plan_to_update.save()
+                print(f"FlowerPlan (PK: {flower_plan_to_update.pk}) updated and activated.")
+                print(f"  - Budget: {flower_plan_to_update.budget}")
+                print(f"  - Years: {flower_plan_to_update.years}")
+                print(f"  - Deliveries/Year: {flower_plan_to_update.deliveries_per_year}")
+                print(f"  - Is Active: {flower_plan_to_update.is_active}")
+
+
+                # Send a notification to the admin
+                send_admin_payment_notification(payment_id=payment.stripe_payment_intent_id)
+                print(f"Admin notification sent for payment: {payment.pk}.")
 
             except Payment.DoesNotExist:
                 print(f"ERROR: Received successful payment intent for non-existent local Payment record ID: {payment_intent['id']}")
+            except FlowerPlan.DoesNotExist:
+                print(f"CRITICAL ERROR: FlowerPlan (ID: {flower_plan_id}) not found for payment (PK: {payment.pk}).")
             except Exception as e:
-                print(f"UNEXPECTED ERROR during payment_intent.succeeded processing for ID {payment_intent['id']}: {e}")
+                print(f"UNEXPECTED ERROR during payment_intent.succeeded processing for FlowerPlan ID {flower_plan_id}: {e}")
+
 
         elif event['type'] == 'payment_intent.payment_failed':
             payment_intent = event['data']['object']

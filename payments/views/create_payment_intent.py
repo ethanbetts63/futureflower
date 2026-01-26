@@ -13,11 +13,18 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 class CreatePaymentIntentView(APIView):
     """
     Creates a Stripe PaymentIntent for a given FlowerPlan.
+    This view handles both new plan creations and plan modifications.
     """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         flower_plan_id = request.data.get('flower_plan_id')
+        
+        # Data for modification, will be null for new plans
+        amount_override = request.data.get('amount')
+        budget = request.data.get('budget')
+        years = request.data.get('years')
+        deliveries_per_year = request.data.get('deliveries_per_year')
 
         if not flower_plan_id:
             return Response(
@@ -33,42 +40,57 @@ class CreatePaymentIntentView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        # The total amount is now directly on the FlowerPlan model.
-        if not flower_plan.total_amount or flower_plan.total_amount <= 0:
+        # Determine the amount for the payment intent
+        if amount_override is not None:
+            # Use the amount from the request for modifications
+            final_amount = float(amount_override)
+        else:
+            # Fallback to the plan's total amount for new creations
+            final_amount = flower_plan.total_amount
+
+        if not final_amount or final_amount <= 0:
             return Response(
-                {"error": "Invalid total amount for the selected flower plan."},
+                {"error": "Invalid total amount for the payment intent."},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        amount_in_cents = int(flower_plan.total_amount * 100)
+        amount_in_cents = int(final_amount * 100)
 
         try:
-            # Check if a payment record already exists and is pending
-            existing_payment = Payment.objects.filter(flower_plan=flower_plan, status='pending').first()
-            
-            if existing_payment:
-                # If a PaymentIntent was already created, retrieve and return its client secret
-                payment_intent = stripe.PaymentIntent.retrieve(existing_payment.stripe_payment_intent_id)
-            else:
-                # Create a new PaymentIntent with Stripe
-                payment_intent = stripe.PaymentIntent.create(
-                    amount=amount_in_cents,
-                    currency=flower_plan.currency,
-                    automatic_payment_methods={'enabled': True},
-                    metadata={
-                        'flower_plan_id': flower_plan.id,
-                        'user_id': request.user.id,
-                    }
-                )
+            # For modifications, we always create a new payment intent.
+            # For new plans, we check for an existing pending payment to avoid duplicates.
+            if not flower_plan.is_active:
+                existing_payment = Payment.objects.filter(flower_plan=flower_plan, status='pending').first()
+                if existing_payment:
+                    payment_intent = stripe.PaymentIntent.retrieve(existing_payment.stripe_payment_intent_id)
+                    return Response({'clientSecret': payment_intent.client_secret})
 
-                # Create a corresponding Payment record in our database
-                Payment.objects.create(
-                    user=request.user,
-                    flower_plan=flower_plan,
-                    stripe_payment_intent_id=payment_intent.id,
-                    amount=flower_plan.total_amount,
-                    status='pending'
-                )
+            # Define metadata for the payment intent
+            metadata = {
+                'flower_plan_id': flower_plan.id,
+                'user_id': request.user.id,
+                # Always include structure data for the webhook
+                'budget': budget if budget is not None else flower_plan.budget,
+                'years': years if years is not None else flower_plan.years,
+                'deliveries_per_year': deliveries_per_year if deliveries_per_year is not None else flower_plan.deliveries_per_year
+            }
+
+            # Create a new PaymentIntent with Stripe
+            payment_intent = stripe.PaymentIntent.create(
+                amount=amount_in_cents,
+                currency=flower_plan.currency,
+                automatic_payment_methods={'enabled': True},
+                metadata=metadata
+            )
+
+            # Create a corresponding Payment record in our database
+            Payment.objects.create(
+                user=request.user,
+                flower_plan=flower_plan,
+                stripe_payment_intent_id=payment_intent.id,
+                amount=final_amount, # Store the actual amount being charged
+                status='pending'
+            )
 
             return Response({
                 'clientSecret': payment_intent.client_secret

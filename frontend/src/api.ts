@@ -268,11 +268,18 @@ export async function changePassword(passwordData: { old_password: string, new_p
 
 // --- Payment Endpoints ---
 
+export interface CreatePaymentIntentPayload {
+  flower_plan_id: string;
+  amount?: number;
+  budget?: number;
+  years?: number;
+  deliveries_per_year?: number;
+}
 
-export async function createPaymentIntent(flower_plan_id: number): Promise<{ clientSecret: string }> {
+export async function createPaymentIntent(payload: CreatePaymentIntentPayload): Promise<{ clientSecret: string }> {
   const response = await authedFetch('/api/payments/create-payment-intent/', {
     method: 'POST',
-    body: JSON.stringify({ flower_plan_id: flower_plan_id }),
+    body: JSON.stringify(payload),
   });
   return handleResponse(response);
 }

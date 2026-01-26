@@ -120,13 +120,25 @@ export default function PaymentPage() {
             setNewPlanDetails(modificationDetails);
         }
         
-        // TODO: The backend `createPaymentIntent` endpoint currently does not support modifications.
-        // It will create a payment intent for the full amount of the plan.
-        // To properly support modifications, this endpoint needs to be updated to accept
-        // modification details (e.g., new budget, years, delivery frequency) or a specific amount,
-        // and then create a payment intent for the calculated difference.
-        // The current implementation will charge the user the full plan amount again.
-        return createPaymentIntent(planData.id);
+        // Prepare the payload for creating the payment intent
+        const payload: {
+            flower_plan_id: string;
+            amount?: number;
+            budget?: number;
+            years?: number;
+            deliveries_per_year?: number;
+        } = {
+            flower_plan_id: planData.id.toString(),
+        };
+
+        if (isManagementFlow && modificationDetails) {
+            payload.amount = modificationDetails.amount;
+            payload.budget = modificationDetails.budget;
+            payload.years = modificationDetails.years;
+            payload.deliveries_per_year = modificationDetails.deliveries_per_year;
+        }
+
+        return createPaymentIntent(payload);
       })
       .then(intentData => {
         setClientSecret(intentData.clientSecret);
