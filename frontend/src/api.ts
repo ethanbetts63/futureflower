@@ -185,8 +185,8 @@ export async function getFlowerPlan(planId: string): Promise<FlowerPlan> {
     return handleResponse(response);
 }
 
-export async function getLatestInactiveFlowerPlan(): Promise<FlowerPlan | null> {
-    const response = await authedFetch('/api/events/flower-plans/get-latest-inactive/');
+export async function getOrCreateInactiveFlowerPlan(): Promise<FlowerPlan> {
+    const response = await authedFetch('/api/events/flower-plans/get-or-create-inactive/');
     return handleResponse(response);
 }
 

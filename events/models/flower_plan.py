@@ -19,25 +19,25 @@ class FlowerPlan(models.Model):
     
     # --- Plan Details ---
     budget = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0.00,
+        max_digits=10, decimal_places=2, null=True, blank=True,
         help_text="The budget per bouquet."
     )
     deliveries_per_year = models.PositiveIntegerField(
-        default=1,
+        null=True, blank=True,
         help_text="How many deliveries are scheduled per year."
     )
     years = models.PositiveIntegerField(
-        default=1,
+        null=True, blank=True,
         help_text="The total number of years for the plan."
     )
 
     # --- Pricing Details ---
     total_amount = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0.00,
+        max_digits=10, decimal_places=2, null=True, blank=True,
         help_text="The final total amount for the plan."
     )
     currency = models.CharField(
-        max_length=3, default='usd',
+        max_length=3, null=True, blank=True,
         help_text="The three-letter ISO currency code."
     )
 
