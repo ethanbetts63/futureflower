@@ -68,17 +68,17 @@ const NavBar: React.FC = () => {
                 {isAuthenticated ? (
                     <>
                         <Link to="/dashboard">
-                            <Button className="bg-white text-black font-bold hover:bg-gray-100">Account</Button>
+                            <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-32' : ''}`}>Account</Button>
                         </Link>
-                        <Button onClick={logout} className="bg-white text-black font-bold hover:bg-gray-100">Logout</Button>
+                        <Button onClick={logout} className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-32' : ''}`}>Logout</Button>
                     </>
                 ) : (
                     <Link to="/login">
-                        <Button className="bg-white text-black font-bold hover:bg-gray-100">Login</Button>
+                        <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-32' : ''}`}>Login</Button>
                     </Link>
                 )}
                 <Link to="/event-gate">
-                    <Button className="bg-white text-black font-bold hover:bg-gray-100">Order</Button>
+                    <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-32' : ''}`}>Order</Button>
                 </Link>
             </div>
         )}

@@ -1,12 +1,12 @@
 // src/pages/flow/PaymentPage.tsx
 import { useState, useEffect, useRef } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, useSearchParams } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import type { StripeElementsOptions, Appearance } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { toast } from 'sonner';
 import { getFlowerPlan, createPaymentIntent } from '@/api';
-import type { FlowerPlan } from '@/api';
+import type { FlowerPlan, PartialFlowerPlan } from '@/api';
 import { Spinner } from '@/components/ui/spinner';
 import BackButton from '@/components/BackButton';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -15,41 +15,75 @@ import CheckoutForm from '../../forms/CheckoutForm';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-const PlanSummary: React.FC<{ plan: FlowerPlan }> = ({ plan }) => (
-  <Card className="bg-white shadow-md border-none text-black">
-    <CardHeader>
-      <CardTitle>Your Flower Plan</CardTitle>
-      <CardDescription>Review your one-time payment details below.</CardDescription>
-    </CardHeader>
-    <CardContent className="space-y-4">
-      <div className="flex justify-between">
-        <span>Plan Duration</span>
-        <span>{plan.years} {plan.years > 1 ? 'Years' : 'Year'}</span>
-      </div>
-      <div className="flex justify-between">
-        <span>Deliveries per Year</span>
-        <span>{plan.deliveries_per_year}</span>
-      </div>
-      <div className="flex justify-between">
-        <span>Budget per Bouquet</span>
-        <span>${Number(plan.budget).toFixed(2)}</span>
-      </div>
-      <div className="border-t my-2"></div>
-      <div className="flex justify-between text-xl font-bold">
-        <span>Total Amount</span>
-        <span>${Number(plan.total_amount).toFixed(2)} {plan.currency.toUpperCase()}</span>
-      </div>
-    </CardContent>
-  </Card>
-);
+interface PlanSummaryProps {
+  originalPlan: FlowerPlan;
+  newPlan?: PartialFlowerPlan & { amount: number };
+}
+
+const PlanSummary: React.FC<PlanSummaryProps> = ({ originalPlan, newPlan }) => {
+    const displayPlan = {
+        years: newPlan?.years ?? originalPlan.years,
+        deliveries_per_year: newPlan?.deliveries_per_year ?? originalPlan.deliveries_per_year,
+        budget: newPlan?.budget ?? originalPlan.budget,
+    };
+    
+    const totalAmount = newPlan?.amount ?? originalPlan.total_amount;
+    const title = newPlan ? "Confirm Your Changes" : "Your Flower Plan";
+    const description = newPlan 
+        ? "Review the changes and your one-time payment." 
+        : "Review your one-time payment details below.";
+
+  return (
+    <Card className="bg-white shadow-md border-none text-black">
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex justify-between">
+          <span>Plan Duration</span>
+          <div className='flex items-center'>
+            {newPlan && <span className="text-gray-500 line-through mr-2">{originalPlan.years} {originalPlan.years > 1 ? 'Years' : 'Year'}</span>}
+            <span>{displayPlan.years} {displayPlan.years > 1 ? 'Years' : 'Year'}</span>
+          </div>
+        </div>
+        <div className="flex justify-between">
+          <span>Deliveries per Year</span>
+           <div className='flex items-center'>
+            {newPlan && <span className="text-gray-500 line-through mr-2">{originalPlan.deliveries_per_year}</span>}
+            <span>{displayPlan.deliveries_per_year}</span>
+          </div>
+        </div>
+        <div className="flex justify-between">
+          <span>Budget per Bouquet</span>
+           <div className='flex items-center'>
+            {newPlan && <span className="text-gray-500 line-through mr-2">${Number(originalPlan.budget).toFixed(2)}</span>}
+            <span>${Number(displayPlan.budget).toFixed(2)}</span>
+          </div>
+        </div>
+        <div className="border-t my-2"></div>
+        <div className="flex justify-between text-xl font-bold">
+          <span>{newPlan ? "Amount Due Today" : "Total Amount"}</span>
+          <span>${Number(totalAmount).toFixed(2)} {originalPlan.currency.toUpperCase()}</span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
 
 export default function PaymentPage() {
   const { planId } = useParams<{ planId: string }>();
+  const [searchParams] = useSearchParams();
+  
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [flowerPlan, setFlowerPlan] = useState<FlowerPlan | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const hasCreatedPaymentIntentRef = useRef(false); // Add this ref
+  const hasCreatedPaymentIntentRef = useRef(false);
+  
+  // For management flow
+  const isManagementFlow = searchParams.get('source') === 'management';
+  const [newPlanDetails, setNewPlanDetails] = useState<PartialFlowerPlan & { amount: number } | null>(null);
 
   useEffect(() => {
     if (!planId) {
@@ -58,22 +92,42 @@ export default function PaymentPage() {
       return;
     }
 
-    // Prevent re-running if clientSecret is already set OR if we've already tried to create the intent
-    if (clientSecret || hasCreatedPaymentIntentRef.current) { 
+    if (clientSecret || hasCreatedPaymentIntentRef.current) {
       setIsLoading(false);
       return;
     }
 
     setIsLoading(true);
-    hasCreatedPaymentIntentRef.current = true; // Mark that we are attempting to create the intent
+    hasCreatedPaymentIntentRef.current = true;
+
+    const budget = searchParams.get('budget');
+    const deliveries_per_year = searchParams.get('deliveries_per_year');
+    const years = searchParams.get('years');
+    const amount = searchParams.get('amount');
 
     getFlowerPlan(planId)
       .then(planData => {
         setFlowerPlan(planData);
-        return createPaymentIntent(planData.id);
+        
+        let modificationDetails;
+        if (isManagementFlow && budget && deliveries_per_year && years && amount) {
+            modificationDetails = {
+                budget: parseFloat(budget),
+                deliveries_per_year: parseInt(deliveries_per_year, 10),
+                years: parseInt(years, 10),
+                amount: parseFloat(amount)
+            };
+            setNewPlanDetails(modificationDetails);
+        }
+        
+        // Assume createPaymentIntent is updated to accept modification details
+        // The backend would use these details to calculate the amount and create the intent
+        return createPaymentIntent(planData.id, modificationDetails);
       })
       .then(intentData => {
         setClientSecret(intentData.clientSecret);
+        // If the backend sends back the calculated amount, we can use it.
+        // For now, we rely on the amount from the URL for the management flow.
       })
       .catch(err => {
         console.error(err);
@@ -81,15 +135,14 @@ export default function PaymentPage() {
         toast.error('An error occurred', {
           description: err.message || 'Please try refreshing the page.',
         });
-        hasCreatedPaymentIntentRef.current = false; // Reset if error, so a retry can happen
+        hasCreatedPaymentIntentRef.current = false;
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }, [planId, clientSecret]); // Added clientSecret to dependencies
+  }, [planId, clientSecret, searchParams, isManagementFlow]);
 
   if (error) {
-    // Navigate away if there's a critical error
     toast.error("Invalid payment state", { description: error });
     return <Navigate to="/dashboard" replace />;
   }
@@ -139,7 +192,10 @@ export default function PaymentPage() {
                       </CardHeader>
                       <CardContent>
                           <Elements options={options} stripe={stripePromise}>
-                              <CheckoutForm planId={flowerPlan.id.toString()} />
+                              <CheckoutForm 
+                                planId={flowerPlan.id.toString()}
+                                source={isManagementFlow ? 'management' : undefined}
+                              />
                           </Elements>
                       </CardContent>
                   </Card>
@@ -158,7 +214,10 @@ export default function PaymentPage() {
                   </CardContent>
               </Card>
             ) : (
-              <PlanSummary plan={flowerPlan} />
+              <PlanSummary 
+                originalPlan={flowerPlan}
+                newPlan={isManagementFlow ? newPlanDetails : undefined}
+              />
             )}
           </div>
         </div>

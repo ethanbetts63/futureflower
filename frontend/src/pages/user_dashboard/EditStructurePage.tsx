@@ -111,13 +111,29 @@ const EditStructurePage: React.FC = () => {
 
     const handleSave = async () => {
         if (!planId) return;
+
+        // If there's an amount to be paid, navigate to the payment page with modification details.
+        if (amountOwing && amountOwing > 0) {
+            const params = new URLSearchParams({
+                source: 'management',
+                budget: formData.budget.toString(),
+                deliveries_per_year: formData.deliveries_per_year.toString(),
+                years: formData.years.toString(),
+                amount: amountOwing.toString(),
+            });
+            navigate(`/book-flow/flower-plan/${planId}/payment?${params.toString()}`);
+            return;
+        }
+
+        // If no amount is owing (or it's a credit), just update the plan and redirect.
         setIsSaving(true);
         try {
             const payload: PartialFlowerPlan = { ...formData };
             await updateFlowerPlan(planId, payload);
+            toast.success("Plan updated successfully!");
             navigate(`/dashboard/plans/${planId}/overview`);
-        } catch (err) {
-            toast.error("Failed to update plan structure.");
+        } catch (err: any) {
+            toast.error("Failed to update plan structure.", { description: err.message });
         } finally {
             setIsSaving(false);
         }
@@ -160,7 +176,10 @@ const EditStructurePage: React.FC = () => {
                     <CardFooter className="flex justify-between">
                         <BackButton to={`/dashboard/plans/${planId}/overview`} />
                         <Button size="lg" onClick={handleSave} disabled={isSaving || isApiCalculating || isDebouncePending || amountOwing === null}>
-                            {isSaving ? <Spinner className="mr-2 h-4 w-4" /> : 'Review Changes'}
+                            {isSaving 
+                                ? <Spinner className="mr-2 h-4 w-4" /> 
+                                : (amountOwing && amountOwing > 0 ? 'Proceed to Payment' : 'Save Changes')
+                            }
                         </Button>
                     </CardFooter>
                 </Card>

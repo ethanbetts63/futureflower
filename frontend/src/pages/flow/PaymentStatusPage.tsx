@@ -15,6 +15,8 @@ const PaymentStatusPage: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState(true);
   const [paymentSucceeded, setPaymentSucceeded] = useState(false);
 
+    const [tryAgainPath, setTryAgainPath] = useState('/book-flow/create-flower-plan');
+
   useEffect(() => {
     if (!stripe) {
       return;
@@ -23,6 +25,19 @@ const PaymentStatusPage: React.FC = () => {
     const clientSecret = new URLSearchParams(window.location.search).get(
       'payment_intent_client_secret'
     );
+    
+    const planId = new URLSearchParams(window.location.search).get('plan_id');
+    const source = new URLSearchParams(window.location.search).get('source');
+
+    if (planId) {
+        const params = new URLSearchParams();
+        if (source) params.set('source', source);
+        // If we are coming from a modification, we need to pass the params back
+        // For simplicity, we just navigate to the plan overview for now on failure.
+        // A more robust solution would re-add all the modification params.
+        const path = `/dashboard/plans/${planId}/overview`;
+        setTryAgainPath(path);
+    }
 
     if (!clientSecret) {
       setIsProcessing(false);
@@ -47,12 +62,15 @@ const PaymentStatusPage: React.FC = () => {
           
           const planId = new URLSearchParams(window.location.search).get('plan_id');
           if (planId) {
-            setMessage('Success! Your payment was received. Redirecting...');
+            setMessage('Success! Your payment was received. Redirecting to your plan overview...');
             setTimeout(() => {
-              navigate(`/create-flow/success?plan_id=${planId}`);
+              navigate(`/dashboard/plans/${planId}/overview`);
             }, 2000);
           } else {
-            setMessage('Success! Your payment was received, but we could not find the plan details. Please check your dashboard.');
+            setMessage('Success! Your payment was received, but we could not find the plan details. Redirecting to dashboard.');
+            setTimeout(() => {
+              navigate('/dashboard');
+            }, 2000);
           }
           break;
         case 'processing':
@@ -61,6 +79,21 @@ const PaymentStatusPage: React.FC = () => {
         case 'requires_payment_method':
           setPaymentSucceeded(false);
           setMessage('Payment failed. Please try another payment method.');
+          const planId = new URLSearchParams(window.location.search).get('plan_id');
+          const source = new URLSearchParams(window.location.search).get('source');
+
+          const tryAgainPath = planId 
+            ? `/book-flow/flower-plan/${planId}/payment${source ? `?source=${source}` : ''}`
+            : '/book-flow/create-flower-plan';
+           
+           // Update the message to be more generic as the button will guide them
+           setMessage('Payment failed. Please try again or use a different payment method.');
+
+          // In the return, the button can be updated to be more dynamic
+          // For now, this logic update is key. We need to get the button to link to `tryAgainPath`.
+          // This will be handled in the JSX part of the component.
+          // Let's modify the JSX part as well.
+
           break;
         default:
           setPaymentSucceeded(false);
@@ -90,7 +123,7 @@ const PaymentStatusPage: React.FC = () => {
                     <p className="text-lg mb-6">{message}</p>
                     {!paymentSucceeded && (
                         <Button asChild>
-                        <Link to="/create-flow/payment">Try Payment Again</Link>
+                        <Link to={tryAgainPath}>Return to Plan</Link>
                         </Button>
                     )}
                     </>
