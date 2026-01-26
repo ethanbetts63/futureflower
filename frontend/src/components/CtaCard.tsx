@@ -43,7 +43,7 @@ export const CtaCard: React.FC = () => {
   // --- Navigation Handler ---
   const handleGetStarted = () => {
     if (isAuthenticated) {
-      navigate('/book-flow/create-flower-plan');
+      navigate('/book-flow/flower-plan');
     } else {
       navigate('/book-flow/create-account');
     }

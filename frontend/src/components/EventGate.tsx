@@ -1,9 +1,8 @@
-// frontend/src/pages/EventGate.tsx
+// frontend/src/components/EventGate.tsx
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import Seo from '../components/Seo';
-import { getLatestInactiveFlowerPlan } from '@/api';
 
 const EventGate: React.FC = () => {
     const { isAuthenticated, isLoading } = useAuth();
@@ -16,20 +15,8 @@ const EventGate: React.FC = () => {
         }
 
         if (isAuthenticated) {
-            const checkAndRedirect = async () => {
-                try {
-                    const inactivePlan = await getLatestInactiveFlowerPlan();
-                    if (inactivePlan) {
-                        navigate(`/book-flow/create-flower-plan?planId=${inactivePlan.id}`, { replace: true });
-                    } else {
-                        navigate('/book-flow/create-flower-plan', { replace: true });
-                    }
-                } catch (error: any) {
-                    console.error("Failed to check for inactive plan:", error);
-                    navigate('/book-flow/create-flower-plan', { replace: true });
-                }
-            };
-            checkAndRedirect();
+            // Authenticated users are sent to the first step of the plan creation flow
+            navigate('/book-flow/flower-plan/step-1', { replace: true });
         } else {
             // Anonymous users are sent to the account creation page
             navigate('/book-flow/create-account', { replace: true });

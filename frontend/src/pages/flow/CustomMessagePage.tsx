@@ -47,7 +47,7 @@ const CustomMessagePage: React.FC = () => {
         }
         if (!planId) {
             toast.error("No flower plan specified.");
-            navigate('/book-flow/create-flower-plan');
+            navigate('/book-flow/flower-plan');
             return;
         }
 

@@ -14,7 +14,7 @@ This session focused on implementing several key features and fixing bugs relate
     *   Added a `deleteFlowerPlan()` API function to support the "delete-then-create" update strategy.
     *   Defined `CreateFlowerPlanPayload` type for type safety.
 *   **Frontend Routing (`foreverflower/frontend/src/components/EventGate.tsx`):**
-    *   Modified `EventGate` to check for inactive plans upon user authentication. If found, it redirects to the plan creation page with the `planId` as a query parameter (`/book-flow/create-flower-plan?planId={id}`). Otherwise, it proceeds to create a new plan.
+    *   Modified `EventGate` to check for inactive plans upon user authentication. If found, it redirects to the plan creation page with the `planId` as a query parameter (`/book-flow/flower-plan?planId={id}`). Otherwise, it proceeds to create a new plan.
 *   **Frontend UI (`foreverflower/frontend/src/pages/flow/FlowerPlanCreationPage.tsx`):**
     *   Refactored to support both "create" and "update" modes based on the presence of `planId` in the URL.
     *   If in "update" mode, it fetches the existing plan's details and pre-populates the form fields.

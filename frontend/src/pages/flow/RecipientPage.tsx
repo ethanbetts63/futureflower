@@ -49,7 +49,7 @@ const CreatePlanStep1_RecipientPage: React.FC = () => {
         
         // Save to local storage and proceed to the next step
         localStorage.setItem('newPlanRecipientData', JSON.stringify(formData));
-        navigate('/book-flow/create-flower-plan/step-2');
+        navigate('/book-flow/flower-plan/step-2');
     };
     
     const handleCancel = () => {

@@ -97,7 +97,7 @@ const BookingConfirmationPage = () => {
             
             <PlanStructureCard 
               plan={plan}
-              editUrl={`/book-flow/create-flower-plan?planId=${planId}`}
+              editUrl={`/book-flow/flower-plan?planId=${planId}`}
             />
 
             <PreferencesCard 

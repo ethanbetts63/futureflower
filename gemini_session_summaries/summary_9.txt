@@ -10,8 +10,8 @@ This session focused on resolving a build error and implementing a new feature o
 *   **File Affected:** `foreverflower/frontend/src/pages/user_dashboard/FlowerPlanManagementPage.tsx`
 *   **Actions Taken:**
     *   Identified that the `EditButton` was intended to link to the plan editing page.
-    *   Based on the routing structure defined in `App.tsx` and the logic in `EventGate.tsx`, the correct path was determined to be `/book-flow/create-flower-plan`.
-    *   The `EditButton` was updated to include the `to` prop, dynamically creating the link with the plan's ID: `<EditButton to={'/book-flow/create-flower-plan?planId=${plan.id}'} />`. This resolved the build error.
+    *   Based on the routing structure defined in `App.tsx` and the logic in `EventGate.tsx`, the correct path was determined to be `/book-flow/flower-plan`.
+    *   The `EditButton` was updated to include the `to` prop, dynamically creating the link with the plan's ID: `<EditButton to={'/book-flow/flower-plan?planId=${plan.id}'} />`. This resolved the build error.
 
 ### 2. Custom Message Display on Confirmation Page
 

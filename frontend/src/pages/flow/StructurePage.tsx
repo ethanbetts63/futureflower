@@ -45,7 +45,7 @@ const CreatePlanStep2_StructurePage: React.FC = () => {
         const recipientData = localStorage.getItem('newPlanRecipientData');
         if (!recipientData) {
             toast.error("Please complete Step 1 first.");
-            navigate('/book-flow/create-flower-plan/step-1');
+            navigate('/book-flow/flower-plan/step-1');
         }
     }, [isAuthenticated, navigate]);
 
@@ -96,7 +96,7 @@ const CreatePlanStep2_StructurePage: React.FC = () => {
         const recipientDataString = localStorage.getItem('newPlanRecipientData');
         if (!recipientDataString) {
             toast.error("Recipient data is missing. Please return to Step 1.");
-            navigate('/book-flow/create-flower-plan/step-1');
+            navigate('/book-flow/flower-plan/step-1');
             return;
         }
 
@@ -151,7 +151,7 @@ const CreatePlanStep2_StructurePage: React.FC = () => {
                     isDebouncePending={isDebouncePending}
                     calculationError={error}
                     setIsDebouncePending={setIsDebouncePending}
-                    backButtonTo="/book-flow/create-flower-plan/step-1"
+                    backButtonTo="/book-flow/flower-plan/step-1"
                 />
             </div>
         </div>
