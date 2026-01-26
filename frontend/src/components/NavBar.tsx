@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import logo from '../assets/logo.webp';
 import logo128 from '../assets/logo-128w.webp';
@@ -11,6 +11,7 @@ const BREAKPOINT = 1048; // Custom breakpoint for hamburger menu
 
 const NavBar: React.FC = () => {
   const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -70,7 +71,7 @@ const NavBar: React.FC = () => {
                         <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
                             <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-32' : ''}`}>Account</Button>
                         </Link>
-                        <Button onClick={() => { logout(); setMenuOpen(false); }} className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-32' : ''}`}>Logout</Button>
+                        <Button onClick={() => { logout(() => navigate('/')); setMenuOpen(false); }} className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-32' : ''}`}>Logout</Button>
                     </>
                 ) : (
                     <Link to="/login" onClick={() => setMenuOpen(false)}>

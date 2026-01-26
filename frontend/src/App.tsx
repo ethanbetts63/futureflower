@@ -22,7 +22,6 @@ const RecipientPage = lazy(() => import('./pages/flow/RecipientPage'));
 const StructurePage = lazy(() => import('./pages/flow/StructurePage'));
 const PreferenceSelectionPage = lazy(() => import('./pages/flow/PreferenceSelectionPage'));
 const BookingConfirmationPage = lazy(() => import('./pages/flow/BookingConfirmationPage'));
-
 const PaymentPage = lazy(() => import('./pages/flow/PaymentPage'));
 const PaymentStatusPage = lazy(() => import('./pages/flow/PaymentStatusPage'));
 const BlocklistSuccessPage = lazy(() => import('./pages/BlocklistSuccessPage'));

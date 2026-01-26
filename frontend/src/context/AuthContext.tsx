@@ -9,7 +9,7 @@ interface AuthContextType {
   isLoading: boolean;
   loginWithPassword: (email: string, password: string) => Promise<void>;
   handleLoginSuccess: (authResponse: AuthResponse) => Promise<void>;
-  logout: () => void;
+  logout: (onLogoutSuccess?: () => void) => void;
 }
 
 // --- Context Creation ---
@@ -33,6 +33,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(fullProfile);
     } catch (error) {
       console.error("Failed to fetch user profile, logging out.", error);
+      // Pass a dummy function for onLogoutSuccess if AuthContext doesn't need to navigate
+      // The actual navigation will happen from the component calling logout
       logout(); // Clears tokens and user state
     } finally {
       setIsLoading(false);
@@ -90,10 +92,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   /**
    * Clears user state and removes tokens from localStorage.
    */
-  const logout = () => {
+  const logout = (onLogoutSuccess?: () => void) => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     setUser(null);
+    if (onLogoutSuccess) {
+        onLogoutSuccess();
+    }
   };
 
   const value = {
