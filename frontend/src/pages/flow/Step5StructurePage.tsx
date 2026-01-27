@@ -9,6 +9,12 @@ import StructureEditor from '@/components/plan/StructureEditor';
 import { debounce } from '@/utils/debounce';
 import { authedFetch } from '@/apiClient';
 
+const getMinDateString = () => {
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() + 7);
+  return minDate.toISOString().split('T')[0];
+};
+
 const StructurePage: React.FC = () => {
     const navigate = useNavigate();
     const { planId } = useParams<{ planId: string }>();
@@ -18,7 +24,7 @@ const StructurePage: React.FC = () => {
         budget: 75,
         deliveries_per_year: 1,
         years: 5,
-        start_date: new Date().toISOString().split('T')[0],
+        start_date: getMinDateString(),
     });
     
     const [isLoading, setIsLoading] = useState(true);
@@ -49,7 +55,7 @@ const StructurePage: React.FC = () => {
                     budget: plan.budget || 75,
                     deliveries_per_year: plan.deliveries_per_year || 1,
                     years: plan.years || 5,
-                    start_date: plan.start_date || new Date().toISOString().split('T')[0],
+                    start_date: plan.start_date || getMinDateString(),
                 });
             })
             .catch(error => {

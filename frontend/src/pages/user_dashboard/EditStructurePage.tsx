@@ -10,6 +10,12 @@ import type { PlanStructureData } from '@/forms/PlanStructureForm';
 import StructureEditor from '@/components/plan/StructureEditor';
 import { debounce } from '@/utils/debounce';
 
+const getMinDateString = () => {
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() + 7);
+  return minDate.toISOString().split('T')[0];
+};
+
 const EditStructurePage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();
     const navigate = useNavigate();
@@ -50,7 +56,7 @@ const EditStructurePage: React.FC = () => {
                     budget: plan.budget,
                     deliveries_per_year: plan.deliveries_per_year,
                     years: plan.years,
-                    start_date: plan.start_date || new Date().toISOString().split('T')[0],
+                    start_date: plan.start_date || getMinDateString(),
                 });
             } catch (err) {
                 toast.error("Failed to load plan data.");
