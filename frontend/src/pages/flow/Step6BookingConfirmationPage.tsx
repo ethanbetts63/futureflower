@@ -10,6 +10,7 @@ import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import BackButton from '@/components/BackButton';
 import PlanStructureCard from '@/components/PlanStructureCard';
+import DeliveryDatesCard from '@/components/DeliveryDatesCard';
 import PreferencesCard from '@/components/PreferencesCard';
 import MessagesCard from '@/components/MessagesCard';
 
@@ -98,6 +99,11 @@ const BookingConfirmationPage = () => {
             <PlanStructureCard 
               plan={plan}
               editUrl={`/book-flow/flower-plan?planId=${planId}`}
+            />
+
+            <DeliveryDatesCard
+              plan={plan}
+              editUrl={`/book-flow/flower-plan/${planId}/structure`}
             />
 
             <PreferencesCard 

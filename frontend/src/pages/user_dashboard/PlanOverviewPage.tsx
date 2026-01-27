@@ -10,6 +10,7 @@ import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import BackButton from '@/components/BackButton';
 import PlanStructureCard from '@/components/PlanStructureCard';
+import DeliveryDatesCard from '@/components/DeliveryDatesCard';
 import PreferencesCard from '@/components/PreferencesCard';
 import MessagesCard from '@/components/MessagesCard';
 import RecipientCard from '@/components/RecipientCard';
@@ -101,6 +102,11 @@ const PlanOverviewPage = () => {
             />
 
             <PlanStructureCard
+              plan={plan}
+              editUrl={`/dashboard/plans/${planId}/edit-structure?source=management`}
+            />
+
+            <DeliveryDatesCard
               plan={plan}
               editUrl={`/dashboard/plans/${planId}/edit-structure?source=management`}
             />
