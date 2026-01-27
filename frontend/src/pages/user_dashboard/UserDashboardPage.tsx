@@ -67,7 +67,7 @@ const UserDashboardPage: React.FC = () => {
       <h1 className="text-3xl font-bold mb-6">Welcome to Your Dashboard</h1>
       <p className="mb-8 text-lg">
         This is your central hub for managing everything related to your Forever Flower account. 
-        Here you can get a quick overview of your flower plans, upcoming deliveries, and recent account activity.
+        Here you can get a quick overview of your flower plans, upcoming deliveries, and account details.
       </p>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

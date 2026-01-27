@@ -30,7 +30,7 @@ const otherSitesData = [
 ];
 
 const ContactPage: React.FC = () => {
-    const description = "Have questions, suggestions, or feedback? Get in touch with us. I'd love to hear from you. This is a very new site and I know that there is room for improvement! ethanbetts63@gmail.com";
+    const description = "Have questions, suggestions, or feedback? Get in touch with us. I'd love to hear from you. I know that there is room for improvement! ethanbetts63@gmail.com";
     const email = "ethanbetts63@gmail.com";
 
     const contactPageSchema = {

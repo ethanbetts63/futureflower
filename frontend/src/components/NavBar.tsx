@@ -7,8 +7,8 @@ import logo192 from '../assets/logo-192w.webp';
 import logo256 from '../assets/logo-256w.webp';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigation } from '@/context/NavigationContext';
-import SettingsIcon from '../assets/settings.svg';
-import LogoutIcon from '../assets/logout.svg';
+import settingsPng from '../assets/settings.png';
+import logoutPng from '../assets/logout.png';
 
 const BREAKPOINT = 1048; // Custom breakpoint for hamburger menu
 
@@ -83,7 +83,7 @@ const NavBar: React.FC = () => {
                                 {dashboardNavItems.map(item => (
                                     <Link to={item.to} key={item.to} onClick={() => setMenuOpen(false)}>
                                         <Button className="bg-white text-black font-bold hover:bg-gray-100 w-1/2 flex items-center justify-center">
-                                            {item.to === '/dashboard' && <SettingsIcon className="mr-2 w-5 h-5" />}
+                                            {item.to === '/dashboard' && <img src={settingsPng} alt="Settings" className="mr-2 w-5 h-5" />}
                                             {item.label}
                                         </Button>
                                     </Link>
@@ -94,11 +94,11 @@ const NavBar: React.FC = () => {
                                 <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-1/2 flex items-center justify-center' : ''}`}>
                                     {screenWidth < BREAKPOINT ? (
                                         <>
-                                            <SettingsIcon className="mr-2 w-5 h-5" />
+                                            <img src={settingsPng} alt="Settings" className="mr-2 w-5 h-5" />
                                             Account
                                         </>
                                     ) : (
-                                        <SettingsIcon className="w-5 h-5" />
+                                        <img src={settingsPng} alt="Settings" className="w-5 h-5" />
                                     )}
                                 </Button>
                             </Link>
@@ -109,11 +109,11 @@ const NavBar: React.FC = () => {
                         >
                             {screenWidth < BREAKPOINT ? (
                                 <>
-                                    <LogoutIcon className="mr-2 w-5 h-5 text-red-500" />
+                                    <img src={logoutPng} alt="Logout" className="mr-2 w-5 h-5" />
                                     Logout
                                 </>
                             ) : (
-                                <LogoutIcon className="w-5 h-5 text-red-500" />
+                                <img src={logoutPng} alt="Logout" className="w-5 h-5" />
                             )}
                         </Button>
                     </>

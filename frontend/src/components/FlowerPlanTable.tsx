@@ -107,11 +107,9 @@ const FlowerPlanTable: React.FC<FlowerPlanTableProps> = ({ showTitle = true, ini
 
   return (
     <Card className="bg-white shadow-md border-none text-black">
-      {showTitle && (
-        <CardHeader>
-          <CardTitle className="text-3xl">Flower Plans</CardTitle>
-        </CardHeader>
-      )}
+      <CardHeader>
+        <CardTitle className="text-3xl">Flower Plans</CardTitle>
+      </CardHeader>
       <CardContent>
         {renderContent()}
       </CardContent>

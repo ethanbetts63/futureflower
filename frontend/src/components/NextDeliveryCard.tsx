@@ -59,7 +59,7 @@ const NextDeliveryCard: React.FC<NextDeliveryCardProps> = ({ deliveryInfo }) => 
                 </div>
                 <div className="flex items-start">
                     <Hash className="h-4 w-4 mr-3 mt-1 text-gray-500 flex-shrink-0" />
-                    <span>Plan #{plan.id} &mdash; Delivery {deliveryIndex} of {plan.events.length}</span>
+                    <span>Delivery {deliveryIndex} of {plan.events.length}</span>
                 </div>
                 <div className="flex items-start">
                     <User className="h-4 w-4 mr-3 mt-1 text-gray-500 flex-shrink-0" />
