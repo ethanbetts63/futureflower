@@ -31,6 +31,10 @@ const PlanStructureForm: React.FC<PlanStructureFormProps> = ({
     onFormChange(field, value[0]);
   };
 
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() + 7);
+  const minDateString = minDate.toISOString().split('T')[0];
+
   return (
     <div>
       <h3 className="text-xl font-semibold mb-4">{title}</h3>
@@ -76,6 +80,7 @@ const PlanStructureForm: React.FC<PlanStructureFormProps> = ({
             <Input
                 id="start-date-input"
                 type="date"
+                min={minDateString}
                 value={formData.start_date || ''}
                 onChange={(e) => onFormChange('start_date', e.target.value)}
                 className="w-full"

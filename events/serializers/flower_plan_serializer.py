@@ -1,4 +1,6 @@
 # foreverflower/events/serializers/flower_plan_serializer.py
+from datetime import date, timedelta
+from django.conf import settings
 from rest_framework import serializers
 from ..models import FlowerPlan, Color, FlowerType
 from .event_serializer import EventSerializer
@@ -33,6 +35,20 @@ class FlowerPlanSerializer(serializers.ModelSerializer):
     # Make total_amount and currency explicitly writable fields
     total_amount = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, allow_null=True)
     currency = serializers.CharField(max_length=3, required=False, allow_null=True)
+
+    def validate_start_date(self, value):
+        """
+        Check that the start date is not in the past and is at least
+        the minimum number of days away.
+        """
+        if value:
+            min_days = settings.MIN_DAYS_BEFORE_FIRST_DELIVERY
+            earliest_date = date.today() + timedelta(days=min_days)
+            if value < earliest_date:
+                raise serializers.ValidationError(
+                    f"The first delivery must be at least {min_days} days from now so our admin can confirm and organise your first delivery."
+                )
+        return value
 
     class Meta:
         model = FlowerPlan
