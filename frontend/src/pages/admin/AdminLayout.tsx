@@ -36,7 +36,7 @@ const AdminLayout: React.FC = () => {
             <Button asChild variant="ghost">
               <NavLink to="/admin-dashboard" end className={getNavLinkClass}>
                 <Home className="h-4 w-4" />
-                Dashboard
+                Admin Dashboard
               </NavLink>
             </Button>
             <h3 className="text-sm font-semibold tracking-tight mt-4 mb-2 px-2 text-muted-foreground">Analytics</h3>

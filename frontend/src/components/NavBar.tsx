@@ -72,8 +72,8 @@ const NavBar: React.FC = () => {
 
         {((screenWidth < BREAKPOINT && menuOpen) || screenWidth >= BREAKPOINT) && (
             <div className={`items-center gap-2 ${screenWidth < BREAKPOINT ? 'flex flex-col absolute top-full left-0 w-full bg-[var(--color3)] p-4 shadow-lg' : 'flex'}`}>
-                <Link to="/event-gate" onClick={() => setMenuOpen(false)}>
-                    <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-1/2' : ''}`}>Order</Button>
+                <Link to="/event-gate" onClick={() => setMenuOpen(false)} className={`${screenWidth < BREAKPOINT ? 'w-full flex justify-center' : ''}`}>
+                    <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-1/2 flex items-center justify-center' : ''}`}>Order</Button>
                 </Link>
 
                 {isAuthenticated ? (
@@ -81,7 +81,7 @@ const NavBar: React.FC = () => {
                         {isDashboardMobile ? (
                             <>
                                 {dashboardNavItems.map(item => (
-                                    <Link to={item.to} key={item.to} onClick={() => setMenuOpen(false)}>
+                                    <Link to={item.to} key={item.to} onClick={() => setMenuOpen(false)} className="w-full flex justify-center">
                                         <Button className="bg-white text-black font-bold hover:bg-gray-100 w-1/2 flex items-center justify-center">
                                             {item.to === '/dashboard' && <img src={settingsPng} alt="Settings" className="mr-2 w-5 h-5" />}
                                             {item.label}
@@ -90,12 +90,12 @@ const NavBar: React.FC = () => {
                                 ))}
                             </>
                         ) : (
-                            <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                            <Link to="/dashboard" onClick={() => setMenuOpen(false)} className={`${screenWidth < BREAKPOINT ? 'w-full flex justify-center' : ''}`}>
                                 <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-1/2 flex items-center justify-center' : ''}`}>
                                     {screenWidth < BREAKPOINT ? (
                                         <>
                                             <img src={settingsPng} alt="Settings" className="mr-2 w-5 h-5" />
-                                            Account
+                                            Dashboard
                                         </>
                                     ) : (
                                         <img src={settingsPng} alt="Settings" className="w-5 h-5" />
@@ -118,8 +118,8 @@ const NavBar: React.FC = () => {
                         </Button>
                     </>
                 ) : (
-                    <Link to="/login" onClick={() => setMenuOpen(false)}>
-                        <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-1/2' : ''}`}>Login</Button>
+                    <Link to="/login" onClick={() => setMenuOpen(false)} className={`${screenWidth < BREAKPOINT ? 'w-full flex justify-center' : ''}`}>
+                        <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-1/2 flex items-center justify-center' : ''}`}>Login</Button>
                     </Link>
                 )}
             </div>
