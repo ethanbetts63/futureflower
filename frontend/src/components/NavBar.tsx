@@ -6,14 +6,18 @@ import logo128 from '../assets/logo-128w.webp';
 import logo192 from '../assets/logo-192w.webp';
 import logo256 from '../assets/logo-256w.webp';
 import { useAuth } from '@/context/AuthContext';
+import { useNavigation } from '@/context/NavigationContext';
 
 const BREAKPOINT = 1048; // Custom breakpoint for hamburger menu
 
 const NavBar: React.FC = () => {
   const { isAuthenticated, logout } = useAuth();
+  const { dashboardNavItems } = useNavigation();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  const isDashboardMobile = dashboardNavItems.length > 0 && screenWidth < BREAKPOINT;
 
   useEffect(() => {
     const handleResize = () => {
@@ -68,10 +72,20 @@ const NavBar: React.FC = () => {
             <div className={`items-center gap-2 ${screenWidth < BREAKPOINT ? 'flex flex-col absolute top-full left-0 w-full bg-[var(--color3)] p-4 shadow-lg' : 'flex'}`}>
                 {isAuthenticated ? (
                     <>
-                        <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
-                            <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-32' : ''}`}>Account</Button>
-                        </Link>
-                        <Button onClick={() => { logout(() => navigate('/')); setMenuOpen(false); }} className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-32' : ''}`}>Logout</Button>
+                        {isDashboardMobile ? (
+                            <>
+                                {dashboardNavItems.map(item => (
+                                    <Link to={item.to} key={item.to} onClick={() => setMenuOpen(false)}>
+                                        <Button className="bg-white text-black font-bold hover:bg-gray-100 w-full text-left justify-start pl-4">{item.label}</Button>
+                                    </Link>
+                                ))}
+                            </>
+                        ) : (
+                            <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                                <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-32' : ''}`}>Account</Button>
+                            </Link>
+                        )}
+                        <Button onClick={() => { logout(() => navigate('/')); setMenuOpen(false); }} className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-full text-left justify-start pl-4' : 'w-32'}`}>Logout</Button>
                     </>
                 ) : (
                     <Link to="/login" onClick={() => setMenuOpen(false)}>
@@ -79,7 +93,7 @@ const NavBar: React.FC = () => {
                     </Link>
                 )}
                 <Link to="/event-gate" onClick={() => setMenuOpen(false)}>
-                    <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-32' : ''}`}>Order</Button>
+                    <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT && isAuthenticated ? 'w-full text-left justify-start pl-4' : (screenWidth < BREAKPOINT ? 'w-32' : '')}`}>Order</Button>
                 </Link>
             </div>
         )}
