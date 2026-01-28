@@ -6,8 +6,37 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
+import type { FieldErrors, Resolver } from 'react-hook-form';
+
 // Manually define the data type, removing the dependency on Zod
 import type { EventCreationData, EventCreationFormProps } from '../types/forms';
+
+// Custom resolver for EventCreationForm
+const eventFormResolver: Resolver<EventCreationData> = async (data) => {
+    const errors: FieldErrors<EventCreationData> = {};
+
+    // Name validation
+    if (!data.name) {
+        errors.name = { type: 'required', message: 'Event name is required.' };
+    }
+
+    // Event Date validation
+    if (!data.event_date) {
+        errors.event_date = { type: 'required', message: 'Event date is required.' };
+    }
+
+    // Weeks in Advance validation
+    if (data.weeks_in_advance === undefined || data.weeks_in_advance === null) {
+        errors.weeks_in_advance = { type: 'required', message: 'Weeks in advance is required.' };
+    } else if (data.weeks_in_advance < 0) {
+        errors.weeks_in_advance = { type: 'min', message: 'Weeks in advance cannot be negative.' };
+    }
+
+    return {
+        values: Object.keys(errors).length > 0 ? {} : data,
+        errors: errors,
+    };
+};
 
 export const EventCreationForm: React.FC<EventCreationFormProps> = ({ initialData, onSubmit }) => {
     const form = useForm<EventCreationData>({
@@ -15,6 +44,7 @@ export const EventCreationForm: React.FC<EventCreationFormProps> = ({ initialDat
             weeks_in_advance: 4,
             ...initialData,
         },
+        resolver: eventFormResolver,
     });
 
     return (
