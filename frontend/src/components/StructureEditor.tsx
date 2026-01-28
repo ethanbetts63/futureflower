@@ -1,107 +1,220 @@
-// foreverflower/frontend/src/components/plan/StructureEditor.tsx
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+// foreverflower/frontend/src/components/StructureEditor.tsx
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import Seo from '@/components/Seo';
+import { toast } from 'sonner';
+import { getFlowerPlan, updateFlowerPlan, type PartialFlowerPlan } from '@/api';
+import { authedFetch } from '@/apiClient';
 import PlanStructureForm, { type PlanStructureData } from '@/forms/PlanStructureForm';
 import BackButton from '@/components/BackButton';
+import { debounce } from '@/utils/debounce';
 
 interface StructureEditorProps {
-    formData: PlanStructureData;
-    onFormChange: (field: keyof PlanStructureData, value: number | string) => void;
-    onSave: () => void;
-    onCancel?: () => void;
-    isSaving: boolean;
-    isLoading: boolean;
+    mode: 'create' | 'edit';
     title: string;
-    saveButtonText?: string;
-    showCancelButton?: boolean;
-    backButtonTo?: string;
-
-    // Price calculation props
-    amountOwing: number | null;
-    isApiCalculating: boolean;
-    isDebouncePending: boolean;
-    calculationError: string | null;
-    setIsDebouncePending: (isPending: boolean) => void;
+    description: string;
+    saveButtonText: string;
+    onSaveNavigateTo: string;
+    backPath: string;
+    showSkipButton?: boolean; // Although not used in logic, kept for consistency
 }
 
+const getMinDateString = () => {
+    const minDate = new Date();
+    minDate.setDate(minDate.getDate() + 7);
+    return minDate.toISOString().split('T')[0];
+};
+
 const StructureEditor: React.FC<StructureEditorProps> = ({
-    formData,
-    onFormChange,
-    onSave,
-    onCancel,
-    isSaving,
-    isLoading,
+    mode,
     title,
-    saveButtonText = 'Save Changes',
-    showCancelButton = true,
-    backButtonTo,
-    amountOwing,
-    isApiCalculating,
-    isDebouncePending,
-    calculationError,
-    setIsDebouncePending
+    description,
+    saveButtonText,
+    onSaveNavigateTo,
+    backPath,
 }) => {
+    const { planId } = useParams<{ planId: string }>();
+    const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
+
+    // Core State
+    const [formData, setFormData] = useState<PlanStructureData>({
+        budget: 75,
+        deliveries_per_year: 1,
+        years: 5,
+        start_date: getMinDateString(),
+    });
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
+    
+    // Price calculation state
+    const [amountOwing, setAmountOwing] = useState<number | null>(null);
+    const [isApiCalculating, setIsApiCalculating] = useState(false);
+    const [isDebouncePending, setIsDebouncePending] = useState(true);
+    const [calculationError, setCalculationError] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            toast.error("You must be logged in to manage a flower plan.");
+            navigate('/login');
+            return;
+        }
+        if (!planId) {
+            toast.error("No flower plan specified.");
+            navigate('/dashboard');
+            return;
+        }
+
+        setIsLoading(true);
+        getFlowerPlan(planId)
+            .then(plan => {
+                setFormData({
+                    budget: Number(plan.budget) || 75,
+                    deliveries_per_year: plan.deliveries_per_year || 1,
+                    years: plan.years || 5,
+                    start_date: plan.start_date || getMinDateString(),
+                });
+            })
+            .catch(error => {
+                toast.error("Failed to load plan details", { description: error.message });
+                navigate(backPath);
+            })
+            .finally(() => setIsLoading(false));
+    }, [planId, isAuthenticated, navigate, backPath]);
+
+    const calculateAmountOwing = useCallback(async (budget: number, deliveries: number, years: number) => {
+        if (!planId) return;
+        setIsDebouncePending(false);
+        setIsApiCalculating(true);
+        setCalculationError(null);
+        setAmountOwing(null);
+
+        try {
+            const response = await authedFetch(`/api/events/flower-plans/${planId}/calculate-modification/`, {
+                method: 'POST',
+                body: JSON.stringify({ budget, deliveries_per_year: deliveries, years }),
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.detail || 'Something went wrong during price calculation.');
+            }
+            const data = await response.json();
+            setAmountOwing(data.amount_owing);
+        } catch (err: any) {
+            setCalculationError(err.message);
+            toast.error("Price Calculation Error", { description: err.message });
+        } finally {
+            setIsApiCalculating(false);
+        }
+    }, [planId]);
+
+    const debouncedCalculate = useMemo(() => debounce(calculateAmountOwing, 500), [calculateAmountOwing]);
+
+    useEffect(() => {
+        if (!isLoading) {
+            setIsDebouncePending(true);
+            debouncedCalculate(formData.budget, formData.deliveries_per_year, formData.years);
+        }
+        return () => debouncedCalculate.cancel?.();
+    }, [formData.budget, formData.deliveries_per_year, formData.years, isLoading, debouncedCalculate]);
+
+    const handleFormChange = (field: keyof PlanStructureData, value: number | string) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+    };
+
+    const handleSave = async () => {
+        if (!planId) return;
+
+        if (mode === 'edit' && amountOwing && amountOwing > 0) {
+            const params = new URLSearchParams({
+                source: 'management',
+                budget: formData.budget.toString(),
+                deliveries_per_year: formData.deliveries_per_year.toString(),
+                years: formData.years.toString(),
+                amount: amountOwing.toString(),
+            });
+            navigate(`/book-flow/flower-plan/${planId}/payment?${params.toString()}`);
+            return;
+        }
+        
+        if (amountOwing === null && mode === 'create') {
+            toast.error("Please wait for the price to be calculated.");
+            return;
+        }
+
+        setIsSaving(true);
+        try {
+            const payload: PartialFlowerPlan = { ...formData, budget: String(formData.budget) };
+            if (mode === 'create') {
+                payload.total_amount = amountOwing ?? undefined;
+            }
+            await updateFlowerPlan(planId, payload);
+            if (mode === 'edit') {
+                toast.success("Plan structure updated successfully!");
+            }
+            navigate(onSaveNavigateTo);
+        } catch (err: any) {
+            toast.error("Failed to save plan structure.", { description: err.message });
+        } finally {
+            setIsSaving(false);
+        }
+    };
+    
     if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <Spinner className="h-12 w-12" />
-            </div>
-        );
+        return <div className="flex justify-center items-center h-screen"><Spinner className="h-12 w-12" /></div>;
     }
 
     const getSaveButtonText = () => {
-        if (amountOwing !== null && amountOwing > 0) {
+        if (mode === 'edit' && amountOwing !== null && amountOwing > 0) {
             return 'Proceed to Payment';
         }
-        return saveButtonText;
-    }
+        return isSaving ? 'Saving...' : saveButtonText;
+    };
 
     return (
-        <Card className="bg-white text-black border-none shadow-md">
-            <CardHeader>
-                <CardTitle className="text-3xl">{title}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-8">
-                <PlanStructureForm
-                    formData={formData}
-                    onFormChange={onFormChange}
-                    setIsDebouncePending={setIsDebouncePending}
-                    title=""
-                />
-                {/* Calculation Result */}
-                <div className="mt-8 text-center h-12 flex flex-col items-center justify-center">
-                    {(isApiCalculating || isDebouncePending) ? (
-                        <Spinner className="h-8 w-8" />
-                    ) : (
-                        amountOwing !== null && (
-                        <>
-                            <div className="text-2xl font-bold">${amountOwing.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                            <p className="text-xs text-gray-600">Amount to pay (inc. service free, delivery & tax)</p>
-                        </>
-                        )
-                    )}
-                    {calculationError && <div className="text-red-500 text-sm">{calculationError}</div>}
-                </div>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-                {backButtonTo ? <BackButton to={backButtonTo} /> : <div />}
-                <div className="flex gap-4">
-                    {showCancelButton && onCancel && (
-                        <Button variant="outline" size="lg" onClick={onCancel} disabled={isSaving}>
-                            Cancel
+        <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
+            <div className="container mx-auto max-w-2xl py-12">
+                <Seo title={`${title} | ForeverFlower`} />
+                <Card className="bg-white text-black border-none shadow-md">
+                    <CardHeader>
+                        <CardTitle className="text-3xl">{title}</CardTitle>
+                        <CardDescription>{description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-8">
+                        <PlanStructureForm
+                            formData={formData}
+                            onFormChange={handleFormChange}
+                            setIsDebouncePending={setIsDebouncePending}
+                        />
+                        <div className="mt-8 text-center h-12 flex flex-col items-center justify-center">
+                            {(isApiCalculating || isDebouncePending) ? (
+                                <Spinner className="h-8 w-8" />
+                            ) : amountOwing !== null ? (
+                                <>
+                                    <div className="text-2xl font-bold">${amountOwing.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                                    <p className="text-xs text-gray-600">
+                                        {mode === 'edit' ? 'Amount to pay for this change' : 'Total amount for this plan'} (inc. fees)
+                                    </p>
+                                </>
+                            ) : calculationError ? (
+                                 <div className="text-red-500 text-sm">{calculationError}</div>
+                            ) : null}
+                        </div>
+                    </CardContent>
+                    <CardFooter className="flex justify-between">
+                        <BackButton to={backPath} />
+                        <Button size="lg" onClick={handleSave} disabled={isSaving || isApiCalculating || isDebouncePending || amountOwing === null}>
+                            {isSaving && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
+                            {getSaveButtonText()}
                         </Button>
-                    )}
-                    <Button size="lg" onClick={onSave} disabled={isSaving || isApiCalculating || isDebouncePending || amountOwing === null}>
-                        {isSaving 
-                            ? <Spinner className="mr-2 h-4 w-4" /> 
-                            : getSaveButtonText()
-                        }
-                    </Button>
-                </div>
-            </CardFooter>
-        </Card>
+                    </CardFooter>
+                </Card>
+            </div>
+        </div>
     );
 };
 
