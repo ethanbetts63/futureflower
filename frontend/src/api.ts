@@ -190,7 +190,7 @@ export async function getUpfrontPlans(): Promise<UpfrontPlan[]> {
 }
 
 export async function getOrCreatePendingUpfrontPlan(): Promise<UpfrontPlan> {
-    const response = await authedFetch('/api/events/upfront-plans/get-or-create-inactive/');
+    const response = await authedFetch('/api/events/upfront-plans/get-or-create-pending');
     return handleResponse(response);
 }
 
