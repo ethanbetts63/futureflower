@@ -1,7 +1,7 @@
 // src/components/PaymentHistoryCard.tsx
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import type { FlowerPlan } from '@/api'; // Assuming FlowerPlan now includes payments
+import type { UpfrontPlan } from '@/api'; // Assuming FlowerPlan now includes payments
 
 // Updated Payment interface to match PaymentSerializer
 interface Payment {
@@ -13,7 +13,7 @@ interface Payment {
 }
 
 interface PaymentHistoryCardProps {
-  plan: FlowerPlan & { payments?: Payment[] }; // FlowerPlan type extended to include optional payments
+  plan: UpfrontPlan & { payments?: Payment[] }; // FlowerPlan type extended to include optional payments
 }
 
 const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {

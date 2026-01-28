@@ -3,10 +3,10 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageSquareText, Repeat } from 'lucide-react';
 import EditButton from '@/components/EditButton';
-import type { FlowerPlan } from '@/api';
+import type { UpfrontPlan } from '@/api';
 
 interface MessagesCardProps {
-    plan: FlowerPlan;
+    plan: UpfrontPlan;
     editUrl: string;
 }
 

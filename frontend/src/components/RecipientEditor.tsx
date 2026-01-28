@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
-import { getFlowerPlan, updateFlowerPlan, type PartialFlowerPlan } from '@/api';
+import { getUpfrontPlan, updateUpfrontPlan, type PartialUpfrontPlan } from '@/api';
 import type { RecipientData } from '@/forms/RecipientForm';
 import RecipientForm from '@/forms/RecipientForm';
 import Seo from '@/components/Seo';
@@ -59,7 +59,7 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
         const fetchPlanData = async () => {
             setIsLoading(true);
             try {
-                const plan = await getFlowerPlan(planId);
+                const plan = await getUpfrontPlan(planId);
                 setFormData({
                     recipient_first_name: plan.recipient_first_name || '',
                     recipient_last_name: plan.recipient_last_name || '',
@@ -96,8 +96,8 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
         
         setIsSaving(true);
         try {
-            const payload: PartialFlowerPlan = { ...formData };
-            await updateFlowerPlan(planId, payload);
+            const payload: PartialUpfrontPlan = { ...formData };
+            await updateUpfrontPlan(planId, payload);
 
             if (mode === 'edit') {
                 toast.success("Recipient details updated successfully!");

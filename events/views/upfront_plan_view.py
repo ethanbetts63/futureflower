@@ -45,7 +45,7 @@ def calculate_plan_modification(request, plan_id):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_latest_inactive_flower_plan(request):
+def get_latest_pending_upfront_plan(request):
     """
     Retrieves the most recent upfront plan for the authenticated user
     that is pending payment.

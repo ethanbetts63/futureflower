@@ -7,7 +7,7 @@ import EditButton from '@/components/EditButton';
 import type { FlowerPlan, Color, FlowerType } from '@/api';
 
 interface PreferencesCardProps {
-    plan: FlowerPlan;
+    plan: UpfrontPlan;
     colorMap: Map<number, Color>;
     flowerTypeMap: Map<number, FlowerType>;
     editUrl: string;

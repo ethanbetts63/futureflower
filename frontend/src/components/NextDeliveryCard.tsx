@@ -2,11 +2,11 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Truck, Calendar, Hash, User, MapPin } from 'lucide-react';
-import type { FlowerPlan } from '@/api';
+import type { UpfrontPlan } from '@/api';
 import type { Event as PlanEvent } from '@/types';
 
 export interface NextDeliveryInfo {
-    plan: FlowerPlan;
+    plan: UpfrontPlan;
     event: PlanEvent;
     deliveryIndex: number;
 }

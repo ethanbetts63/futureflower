@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { getFlowerPlans, getUserProfile, type FlowerPlan } from '@/api';
+import { getUpfrontPlans, getUserProfile, type UpfrontPlan } from '@/api';
 import { type UserProfile } from '@/types';
 import { type Event as PlanEvent } from '@/types';
 import NextDeliveryCard, { type NextDeliveryInfo } from '@/components/NextDeliveryCard';
-import FlowerPlanTable from '@/components/FlowerPlanTable';
+import UpfrontPlanTable from '@/components/UpfrontPlanTable';
 import UserDetailsSummary from '@/components/UserDetailsSummary';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 
 const UserDashboardPage: React.FC = () => {
-  const [plans, setPlans] = useState<FlowerPlan[]>([]);
+  const [plans, setPlans] = useState<UpfrontPlan[]>([]);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -17,7 +17,7 @@ const UserDashboardPage: React.FC = () => {
     const fetchData = async () => {
       try {
         const [plansData, userData] = await Promise.all([
-          getFlowerPlans(),
+          getUpfrontPlans(),
           getUserProfile(),
         ]);
         setPlans(plansData);
@@ -81,7 +81,7 @@ const UserDashboardPage: React.FC = () => {
             <UserDetailsSummary user={user} />
             <NextDeliveryCard deliveryInfo={nextDelivery} />
             <div className="col-span-1 md:col-span-2">
-                <FlowerPlanTable initialPlans={plans} showTitle={false} />
+                <UpfrontPlanTable initialPlans={plans} showTitle={false} />
             </div>
           </>
         )}

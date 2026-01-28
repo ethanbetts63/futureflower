@@ -65,7 +65,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
         const fetchPlan = async () => {
             setIsLoading(true);
             try {
-                const planData = await getFlowerPlan(planId);
+                const planData = await getUpfrontPlan(planId);
                 setUpfrontPlan(planData);
                 
                 if (planData.events && planData.events.length > 0) {
@@ -111,11 +111,11 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
             const promises: Promise<any>[] = [];
 
             if (messageMode === 'single') {
-                flowerPlan.events.forEach(event => {
+                upfrontPlan.events.forEach(event => {
                     promises.push(updateEvent(event.id, { message: singleMessage }));
                 });
             } else {
-                flowerPlan.events.forEach(event => {
+                upfrontPlan.events.forEach(event => {
                     if (multipleMessages[event.id] !== (event.message || '')) {
                          promises.push(updateEvent(event.id, { message: multipleMessages[event.id] || '' }));
                     }
@@ -188,8 +188,8 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
 
                             {messageMode === 'multiple' && (
                                 <div className="space-y-6">
-                                    <p className="text-sm text-gray-600">You have {flowerPlan?.events.length || 0} deliveries scheduled.</p>
-                                    {flowerPlan?.events.map((event, index) => (
+                                    <p className="text-sm text-gray-600">You have {upfrontPlan?.events.length || 0} deliveries scheduled.</p>
+                                    {upfrontPlan?.events.map((event, index) => (
                                         <div key={event.id} className="space-y-2">
                                             <Label htmlFor={`message-${event.id}`}>
                                                 Delivery {index + 1} ({new Date(event.delivery_date).toLocaleDateString()})

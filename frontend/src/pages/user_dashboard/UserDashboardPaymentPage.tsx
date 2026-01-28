@@ -3,7 +3,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import BackButton from '@/components/BackButton';
 import Seo from '@/components/Seo';
-import FlowerPlanPaymentProcessor from '@/components/FlowerPlanPaymentProcessor';
+import UpfrontPlanPaymentProcessor from '@/components/UpfrontPlanPaymentProcessor';
 
 const UserDashboardPaymentPage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();
@@ -17,7 +17,7 @@ const UserDashboardPaymentPage: React.FC = () => {
                     <p>Finalize the changes to your ForeverFlower plan.</p>
                 </div>
 
-                <FlowerPlanPaymentProcessor mode="management" />
+                <UpfrontPlanPaymentProcessor mode="management" />
 
                 <div className="mt-8">
                     <BackButton to={`/dashboard/plans/${planId}/edit-structure`} />

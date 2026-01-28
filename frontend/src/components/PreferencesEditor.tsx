@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getColors, getFlowerTypes, getFlowerPlan, updateFlowerPlan } from '@/api';
+import { getColors, getFlowerTypes, getUpfrontPlan, updateUpfrontPlan } from '@/api';
 import type { Color, FlowerType } from '@/api';
 import { ColorSwatch, SelectableTag } from '@/components/preferences';
 import { Separator } from '@/components/ui/separator';
@@ -67,7 +67,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
                 const [colorsData, flowerTypesData, planData] = await Promise.all([
                     getColors(),
                     getFlowerTypes(),
-                    getFlowerPlan(planId), 
+                    getUpfrontPlan(planId), 
                 ]);
                 
                 setColors(colorsData);
@@ -102,7 +102,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         if (!planId) return;
         setIsSaving(true);
         try {
-            await updateFlowerPlan(planId, {
+            await updateUpfrontPlan(planId, {
                 preferred_colors: preferredColors.map(String),
                 rejected_colors: rejectedColors.map(String),
                 preferred_flower_types: preferredFlowerTypes.map(String),

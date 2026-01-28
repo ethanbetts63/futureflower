@@ -3,10 +3,10 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Milestone, Repeat, DollarSign } from 'lucide-react';
 import EditButton from '@/components/EditButton';
-import type { FlowerPlan } from '@/api';
+import type { UpfrontPlan } from '@/api';
 
 interface PlanStructureCardProps {
-    plan: FlowerPlan;
+    plan: UpfrontPlan;
     editUrl: string;
 }
 
