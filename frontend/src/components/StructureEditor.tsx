@@ -9,7 +9,8 @@ import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getUpfrontPlan, updateUpfrontPlan, calculateUpfrontPriceForPlan } from '@/api';
 import type { UpfrontPlan, PartialUpfrontPlan } from '@/types';
-import PlanStructureForm, { type PlanStructureData } from '@/forms/PlanStructureForm';
+import PlanStructureForm from '@/forms/PlanStructureForm';
+import type { PlanStructureData } from '../types/forms';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
 
@@ -115,7 +116,7 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
     }, [formData.budget, formData.deliveries_per_year, formData.years, isLoading, debouncedCalculate]);
 
     const handleFormChange = (field: keyof PlanStructureData, value: number | string) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+        setFormData((prev: PlanStructureData) => ({ ...prev, [field]: value }));
     };
 
     const handleSave = async () => {

@@ -1,5 +1,5 @@
 
-import { authedFetch } from '@/apiClient';
+import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
 import type { UpfrontPlan, CreateUpfrontPlanPayload, PartialUpfrontPlan } from "@/types";
 

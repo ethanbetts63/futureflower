@@ -7,7 +7,8 @@ import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { debounce } from '@/utils/debounce'; // Import debounce utility
-import { calculatePrice, PriceBreakdown } from '@/api';
+import { calculatePrice } from '@/api';
+import type { PriceBreakdown } from '../types/api';
 
 // Define a type for the breakdown for better type safety
 type Breakdown = PriceBreakdown;

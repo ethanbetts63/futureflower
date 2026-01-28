@@ -1,8 +1,8 @@
 
-import { authedFetch } from '@/apiClient';
+import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
 import type { AuthResponse } from "@/types";
-import type { ProfileCreationData } from "@/forms/ProfileCreationForm";
+import type { ProfileCreationData } from "../types/forms";
 
 type PasswordResetConfirmPayload = {
   password: string;

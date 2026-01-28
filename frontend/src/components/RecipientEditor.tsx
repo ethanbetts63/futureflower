@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 import { getUpfrontPlan, updateUpfrontPlan } from '@/api';
 import type { UpfrontPlan, PartialUpfrontPlan } from '@/types';
-import type { RecipientData } from '@/forms/RecipientForm';
+import type { RecipientData } from '../types/forms';
 import RecipientForm from '@/forms/RecipientForm';
 import Seo from '@/components/Seo';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -83,7 +83,7 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
     }, [planId, isAuthenticated, navigate]);
 
     const handleFormChange = (field: keyof RecipientData, value: string) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+        setFormData((prev: RecipientData) => ({ ...prev, [field]: value }));
     };
 
     const handleSave = async () => {

@@ -1,6 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
 
-import type { DecodedToken } from './types/api';
+import type { DecodedToken } from '../types/api';
 
 /**
  * A wrapper for the /api/token/refresh/ endpoint.
