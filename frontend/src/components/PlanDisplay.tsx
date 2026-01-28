@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getUpfrontPlan, getColors, getFlowerTypes } from '@/api';
-import type { UpfrontPlan, Color, FlowerType } from '@/api';
+import type { UpfrontPlan, Color, FlowerType } from '@/types';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';

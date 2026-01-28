@@ -13,7 +13,7 @@ export type { FaqItem, TermsAndConditions } from './data';
 export type { Event, EventCreationResponse } from './events'; 
 
 // Export types from payments.ts
-export type { CreatePaymentIntentPayload } from './payments';
+export type { CreatePaymentIntentPayload, Payment } from './payments';
 
 // Export types from plans.ts
 export type { Color, FlowerType, UpfrontPlan, CreateUpfrontPlanPayload, PartialUpfrontPlan } from './plans';

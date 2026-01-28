@@ -12,7 +12,7 @@ const PlanActivationBanner: React.FC<PlanActivationBannerProps> = ({ planId }) =
   const navigate = useNavigate();
 
   const handleActivate = () => {
-    navigate(`/dashboard/plans/${planId}/edit-structure?source=management`);
+    navigate(`/dashboard/plans/${planId}/edit-structure`);
   };
 
   return (

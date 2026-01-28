@@ -8,7 +8,7 @@ import { showErrorToast } from '@/utils/utils';
 import { Button } from '@/components/ui/button';
 import { Eye } from 'lucide-react';
 
-import { type UpfrontPlan } from '@/api';
+import { type UpfrontPlan } from '@/types';
 
 interface UpfrontPlanTableProps {
   showTitle?: boolean; // Optional prop to show/hide the title within the component

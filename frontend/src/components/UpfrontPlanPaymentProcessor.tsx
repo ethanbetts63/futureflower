@@ -6,7 +6,7 @@ import type { StripeElementsOptions, Appearance } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { toast } from 'sonner';
 import { getUpfrontPlan, createPaymentIntent } from '@/api';
-import type { UpfrontPlan, PartialUpfrontPlan, CreatePaymentIntentPayload } from '@/api';
+import type { UpfrontPlan, PartialUpfrontPlan, CreatePaymentIntentPayload } from '@/types';
 import { Spinner } from '@/components/ui/spinner';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import CheckoutForm from '../forms/CheckoutForm';

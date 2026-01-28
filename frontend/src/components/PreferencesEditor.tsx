@@ -8,7 +8,7 @@ import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getColors, getFlowerTypes, getUpfrontPlan, updateUpfrontPlan } from '@/api';
-import type { Color, FlowerType } from '@/api';
+import type { UpfrontPlan, Color, FlowerType } from '@/types';
 import { ColorSwatch, SelectableTag } from '@/components';
 import { Separator } from '@/components/ui/separator';
 import BackButton from '@/components/BackButton';

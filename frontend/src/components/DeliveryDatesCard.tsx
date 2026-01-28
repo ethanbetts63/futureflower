@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CalendarDays } from 'lucide-react';
 import EditButton from '@/components/EditButton';
-import type { UpfrontPlan, Event } from '@/types';
+import type { UpfrontPlan, Event as CustomEvent } from '@/types';
 
 interface DeliveryDatesCardProps {
     plan: UpfrontPlan;
@@ -11,7 +11,7 @@ interface DeliveryDatesCardProps {
 }
 
 const DeliveryDatesCard: React.FC<DeliveryDatesCardProps> = ({ plan, editUrl }) => {
-    const deliveryDates = plan.events?.map((e: Event) => e.delivery_date).sort((a: string, b: string) => new Date(a).getTime() - new Date(b).getTime()) || [];
+    const deliveryDates = plan.events?.map((e: CustomEvent) => e.delivery_date).sort((a: string, b: string) => new Date(a).getTime() - new Date(b).getTime()) || [];
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {

@@ -8,7 +8,7 @@ import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getUpfrontPlan, updateEvent } from '@/api';
-import type { UpfrontPlan, Event } from '@/types';
+import type { UpfrontPlan, Event as CustomEvent } from '@/types';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from '@/components/ui/label';

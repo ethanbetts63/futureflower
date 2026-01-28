@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Palette, Sprout, Ban } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import EditButton from '@/components/EditButton';
-import type { UpfrontPlan, Color, FlowerType } from '@/api';
+import type { UpfrontPlan, Color, FlowerType } from '@/types';
 
 interface PreferencesCardProps {
     plan: UpfrontPlan;

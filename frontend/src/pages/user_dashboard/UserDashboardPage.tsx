@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { getUpfrontPlans, getUserProfile, type UpfrontPlan } from '@/api';
-import { type UserProfile } from '@/types';
+import { getUpfrontPlans, getUserProfile } from '@/api';
+import { type UserProfile, type UpfrontPlan, type Event } from '@/types';
 import { type Event as PlanEvent } from '@/types';
 import NextDeliveryCard, { type NextDeliveryInfo } from '@/components/NextDeliveryCard';
 import UpfrontPlanTable from '@/components/UpfrontPlanTable';
@@ -36,13 +36,13 @@ const UserDashboardPage: React.FC = () => {
     const upcomingDeliveries: NextDeliveryInfo[] = [];
     const now = new Date();
 
-    plans.forEach(plan => {
+    plans.forEach((plan: UpfrontPlan) => {
       if (plan.events && plan.events.length > 0) {
         const sortedEvents = [...plan.events].sort((a, b) => new Date(a.delivery_date).getTime() - new Date(b.delivery_date).getTime());
         
         plan.events
-          .filter(event => new Date(event.delivery_date) >= now)
-          .forEach(event => {
+          .filter((event: Event) => new Date(event.delivery_date) >= now)
+          .forEach((event: Event) => {
             const deliveryIndex = sortedEvents.findIndex(e => e.id === event.id);
             upcomingDeliveries.push({
               plan,
@@ -57,7 +57,7 @@ const UserDashboardPage: React.FC = () => {
       return null;
     }
 
-    upcomingDeliveries.sort((a, b) => new Date(a.event.delivery_date).getTime() - new Date(b.event.delivery_date).getTime());
+    upcomingDeliveries.sort((a: NextDeliveryInfo, b: NextDeliveryInfo) => new Date(a.event.delivery_date).getTime() - new Date(b.event.delivery_date).getTime());
 
     return upcomingDeliveries[0];
   }, [plans]);

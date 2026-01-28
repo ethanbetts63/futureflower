@@ -1,16 +1,9 @@
 // src/components/PaymentHistoryCard.tsx
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import type { UpfrontPlan } from '@/api'; 
+import type { UpfrontPlan, Payment } from '@/types'; 
 
-// Updated Payment interface to match PaymentSerializer
-interface Payment {
-  id: number;
-  amount: string;
-  status: 'succeeded' | 'pending' | 'failed';
-  created_at: string;
-  stripe_payment_intent_id: string; // Add this field
-}
+
 
 interface PaymentHistoryCardProps {
   plan: UpfrontPlan & { payments?: Payment[] }; 
