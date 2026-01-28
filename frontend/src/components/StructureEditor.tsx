@@ -94,7 +94,7 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
         setAmountOwing(null);
 
         try {
-            const response = await authedFetch(`/api/events/upfront-plans/${planId}/calculate-modification/`, {
+            const response = await authedFetch(`/api/events/upfront-plans/${planId}/calc-upfront-price/`, {
                 method: 'POST',
                 body: JSON.stringify({ budget, deliveries_per_year: deliveries, years }),
             });

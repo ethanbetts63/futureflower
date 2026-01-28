@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from ..models import UpfrontPlan, Event
 from ..serializers.upfront_plan_serializer import UpfrontPlanSerializer
-from ..utils.pricing_calculators import forever_flower_upfront_price, calculate_final_plan_cost
+from ..utils.upfront_price_calc import forever_flower_upfront_price, calculate_final_plan_cost
 from datetime import date, timedelta
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -11,7 +11,7 @@ from rest_framework import status
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def calculate_plan_modification(request, plan_id):
+def calc_upfront_price_for_plan(request, plan_id):
     """
     Calculates the cost difference for modifying an existing upfront plan.
     """

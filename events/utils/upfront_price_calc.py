@@ -1,6 +1,5 @@
 from decimal import Decimal
 from django.db import models
-from payments.models import Payment # Import the Payment model
 
 def forever_flower_upfront_price(
     budget,        # B: $ per delivery
