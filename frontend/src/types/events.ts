@@ -1,9 +1,7 @@
-// foreverflower/frontend/src/types/events.ts
-
 /**
- * Defines the structure of an Event object.
+ * Defines the structure of a DeliveryEvent object within the application.
  */
-export interface Event {
+export interface DeliveryEvent {
     id: number;
     order: number;
     delivery_date: string;
@@ -15,9 +13,9 @@ export interface Event {
 }
 
 /**
- * Defines the response structure for event creation.
+ * Defines the response structure for a DeliveryEvent creation.
  */
-export interface EventCreationResponse {
+export interface DeliveryEventCreationResponse {
     event: {
         name: string;
         event_date: string;

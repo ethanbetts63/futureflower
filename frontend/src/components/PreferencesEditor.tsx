@@ -64,7 +64,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const [colorsData, flowerTypesData, planData] = await Promise.all([
+                const [colorsData, flowerTypesData, planData]: [Color[], FlowerType[], UpfrontPlan] = await Promise.all([
                     getColors(),
                     getFlowerTypes(),
                     getUpfrontPlan(planId), 

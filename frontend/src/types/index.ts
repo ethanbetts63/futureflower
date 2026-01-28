@@ -10,7 +10,7 @@ export type { AppConfig } from './config';
 export type { FaqItem, TermsAndConditions } from './data';
 
 // Export types from events.ts
-export type { Event, EventCreationResponse } from './events'; 
+export type { DeliveryEvent, DeliveryEventCreationResponse } from './events'; 
 
 // Export types from payments.ts
 export type { CreatePaymentIntentPayload, Payment } from './payments';

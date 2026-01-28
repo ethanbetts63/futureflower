@@ -8,7 +8,7 @@ import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getUpfrontPlan, updateEvent } from '@/api';
-import type { UpfrontPlan, Event as CustomEvent } from '@/types';
+import type { UpfrontPlan, DeliveryEvent } from '@/types';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from '@/components/ui/label';
@@ -69,7 +69,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
                 setUpfrontPlan(planData);
                 
                 if (planData.events && planData.events.length > 0) {
-                    const allMessages = planData.events.map((e: Event) => e.message || '');
+                    const allMessages = planData.events.map((e: DeliveryEvent) => e.message || '');
                     const uniqueMessages = new Set(allMessages.filter(m => m));
 
                     if (uniqueMessages.size <= 1) {
@@ -77,7 +77,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
                         setSingleMessage(uniqueMessages.values().next().value || '');
                     } else {
                         setMessageMode('multiple');
-                        const messagesMap = planData.events.reduce((acc: Record<number, string>, event: Event) => {
+                        const messagesMap = planData.events.reduce((acc: Record<number, string>, event: DeliveryEvent) => {
                             acc[event.id] = event.message || '';
                             return acc;
                         }, {} as Record<number, string>);
@@ -111,11 +111,11 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
             const promises: Promise<any>[] = [];
 
             if (messageMode === 'single') {
-                upfrontPlan.events.forEach((event: Event) => {
+                upfrontPlan.events.forEach((event: DeliveryEvent) => {
                     promises.push(updateEvent(event.id, { message: singleMessage }));
                 });
             } else {
-                upfrontPlan.events.forEach((event: Event) => {
+                upfrontPlan.events.forEach((event: DeliveryEvent) => {
                     if (multipleMessages[event.id] !== (event.message || '')) {
                          promises.push(updateEvent(event.id, { message: multipleMessages[event.id] || '' }));
                     }
@@ -189,7 +189,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
                             {messageMode === 'multiple' && (
                                 <div className="space-y-6">
                                     <p className="text-sm text-gray-600">You have {upfrontPlan?.events.length || 0} deliveries scheduled.</p>
-                                    {upfrontPlan?.events.map((event: Event, index: number) => (
+                                    {upfrontPlan?.events.map((event: DeliveryEvent, index: number) => (
                                         <div key={event.id} className="space-y-2">
                                             <Label htmlFor={`message-${event.id}`}>
                                                 Delivery {index + 1} ({new Date(event.delivery_date).toLocaleDateString()})

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { getUpfrontPlans, getUserProfile } from '@/api';
-import { type UserProfile, type UpfrontPlan, type Event } from '@/types';
-import { type Event as PlanEvent } from '@/types';
+import { type UserProfile, type UpfrontPlan, type DeliveryEvent } from '@/types';
+
 import NextDeliveryCard, { type NextDeliveryInfo } from '@/components/NextDeliveryCard';
 import UpfrontPlanTable from '@/components/UpfrontPlanTable';
 import UserDetailsSummary from '@/components/UserDetailsSummary';
@@ -38,15 +38,15 @@ const UserDashboardPage: React.FC = () => {
 
     plans.forEach((plan: UpfrontPlan) => {
       if (plan.events && plan.events.length > 0) {
-        const sortedEvents = [...plan.events].sort((a, b) => new Date(a.delivery_date).getTime() - new Date(b.delivery_date).getTime());
+        const sortedEvents = [...plan.events].sort((a: DeliveryEvent, b: DeliveryEvent) => new Date(a.delivery_date).getTime() - new Date(b.delivery_date).getTime());
         
         plan.events
-          .filter((event: Event) => new Date(event.delivery_date) >= now)
-          .forEach((event: Event) => {
+          .filter((event: DeliveryEvent) => new Date(event.delivery_date) >= now)
+          .forEach((event: DeliveryEvent) => {
             const deliveryIndex = sortedEvents.findIndex(e => e.id === event.id);
             upcomingDeliveries.push({
               plan,
-              event: event as PlanEvent,
+              event: event as DeliveryEvent,
               deliveryIndex: deliveryIndex + 1,
             });
           });

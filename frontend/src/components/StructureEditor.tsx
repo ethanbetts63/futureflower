@@ -72,7 +72,7 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
 
         setIsLoading(true);
         getUpfrontPlan(planId)
-            .then(plan => {
+            .then((plan: UpfrontPlan) => {
                 setFormData({
                     budget: Number(plan.budget) || 75,
                     deliveries_per_year: plan.deliveries_per_year || 1,

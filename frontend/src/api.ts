@@ -1,6 +1,6 @@
 // src/api.ts
 import { authedFetch } from '@/apiClient';
-import type { AppConfig, AuthResponse, Event, UserProfile, FaqItem, TermsAndConditions, Color, FlowerType, UpfrontPlan, CreateUpfrontPlanPayload, PartialUpfrontPlan, CreatePaymentIntentPayload } from "@/types";
+import type { AppConfig, AuthResponse, DeliveryEvent, UserProfile, FaqItem, TermsAndConditions, Color, FlowerType, UpfrontPlan, CreateUpfrontPlanPayload, PartialUpfrontPlan, CreatePaymentIntentPayload } from "@/types";
 import type { ProfileCreationData } from "@/forms/ProfileCreationForm";
 
 /**
@@ -84,21 +84,21 @@ export async function getFaqs(page: string): Promise<FaqItem[]> {
 
 // --- Event Endpoints ---
 
-export async function getEvents(): Promise<Event[]> {
+export async function getEvents(): Promise<DeliveryEvent[]> {
     const response = await authedFetch('/api/events/', {
         method: 'GET',
     });
     return handleResponse(response);
 }
 
-export async function getEvent(id: string): Promise<Event> {
+export async function getEvent(id: string): Promise<DeliveryEvent> {
     const response = await authedFetch(`/api/events/${id}/`, {
         method: 'GET',
     });
     return handleResponse(response);
 }
 
-export async function createAuthenticatedEvent(eventData: Partial<Event>): Promise<Event> {
+export async function createAuthenticatedEvent(eventData: Partial<DeliveryEvent>): Promise<DeliveryEvent> {
     const response = await authedFetch('/api/events/', {
         method: 'POST',
         body: JSON.stringify(eventData),
@@ -106,7 +106,7 @@ export async function createAuthenticatedEvent(eventData: Partial<Event>): Promi
     return handleResponse(response);
 }
 
-export async function updateEvent(id: number, eventData: Partial<Event>): Promise<Event> {
+export async function updateEvent(id: number, eventData: Partial<DeliveryEvent>): Promise<DeliveryEvent> {
     const response = await authedFetch(`/api/events/${id}/`, {
         method: 'PATCH', // PATCH is for partial updates
         body: JSON.stringify(eventData),
@@ -121,7 +121,7 @@ export async function deleteEvent(id: number): Promise<void> {
     await handleResponse(response);
 }
 
-export async function activateFreeEvent(eventId: number): Promise<Event> {
+export async function activateFreeEvent(eventId: number): Promise<DeliveryEvent> {
     const response = await authedFetch(`/api/events/${eventId}/activate/`, {
         method: 'POST',
     });

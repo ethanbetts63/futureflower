@@ -60,7 +60,7 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
         const fetchPlanData = async () => {
             setIsLoading(true);
             try {
-                const plan = await getUpfrontPlan(planId);
+                const plan: UpfrontPlan = await getUpfrontPlan(planId);
                 setFormData({
                     recipient_first_name: plan.recipient_first_name || '',
                     recipient_last_name: plan.recipient_last_name || '',

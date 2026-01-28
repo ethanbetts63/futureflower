@@ -1,5 +1,7 @@
 // foreverflower/frontend/src/types/plans.ts
 
+import type { DeliveryEvent } from './events';
+
 /**
  * Defines the structure for a Color object.
  */
@@ -46,7 +48,7 @@ export interface UpfrontPlan {
     rejected_colors: string[];
     rejected_flower_types: string[];
     // Assuming Event interface would be imported from events.ts
-    events: Event[]; 
+    events: DeliveryEvent[]; 
 }
 
 /**
