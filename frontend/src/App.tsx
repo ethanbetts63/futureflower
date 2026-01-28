@@ -13,7 +13,7 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const UserDashboardLayout = lazy(() => import('./pages/user_dashboard/UserDashboardLayout'));
 const UserDashboardPage = lazy(() => import('./pages/user_dashboard/UserDashboardPage'));
 const AccountManagementPage = lazy(() => import('./pages/user_dashboard/AccountManagementPage'));
-const FlowerPlanListPage = lazy(() => import('./pages/user_dashboard/FlowerPlanListPage'));
+const UpfrontPlanListPage = lazy(() => import('./pages/user_dashboard/UpfrontPlanListPage'));
 const PlanOverviewPage = lazy(() => import('./pages/user_dashboard/PlanOverviewPage'));
 const EditRecipientPage = lazy(() => import('./pages/user_dashboard/EditRecipientPage'));
 const EditStructurePage = lazy(() => import('./pages/user_dashboard/EditStructurePage'));
@@ -85,12 +85,12 @@ function App() {
                 {/* Event Creation Flow */}
                 <Route path="/event-gate" element={<EventGate />} />
                 <Route path="/book-flow/create-account" element={<Step1CreateAccountPage />} />
-                <Route path="/book-flow/flower-plan/:planId/recipient" element={<Step2RecipientPage />} />
-                <Route path="/book-flow/flower-plan/:planId/structure" element={<Step5StructurePage />} />
-                <Route path="/book-flow/flower-plan/:planId/preferences" element={<Step3PreferenceSelectionPage />} />
-                <Route path="/book-flow/flower-plan/:planId/add-message" element={<Step4CustomMessagePage />} />
-                <Route path="/book-flow/flower-plan/:planId/confirmation" element={<Step6BookingConfirmationPage />} />
-                <Route path="/book-flow/flower-plan/:planId/payment" element={<Step7PaymentPage />} />
+                <Route path="/book-flow/upfront-plan/:planId/recipient" element={<Step2RecipientPage />} />
+                <Route path="/book-flow/upfront-plan/:planId/structure" element={<Step5StructurePage />} />
+                <Route path="/book-flow/upfront-plan/:planId/preferences" element={<Step3PreferenceSelectionPage />} />
+                <Route path="/book-flow/upfront-plan/:planId/add-message" element={<Step4CustomMessagePage />} />
+                <Route path="/book-flow/upfront-plan/:planId/confirmation" element={<Step6BookingConfirmationPage />} />
+                <Route path="/book-flow/upfront-plan/:planId/payment" element={<Step7PaymentPage />} />
                 
                 <Route path="/payment-status" element={<PaymentStatusPage />} />
 
@@ -103,7 +103,7 @@ function App() {
                 <Route path="/dashboard" element={<UserDashboardLayout />}>
                   <Route index element={<UserDashboardPage />} />
                   <Route path="account" element={<AccountManagementPage />} />
-                  <Route path="plans" element={<FlowerPlanListPage />} />
+                  <Route path="plans" element={<UpfrontPlanListPage />} />
                   <Route path="plans/:planId/overview" element={<PlanOverviewPage />} />
                   <Route path="plans/:planId/edit-recipient" element={<EditRecipientPage />} />
                   <Route path="plans/:planId/edit-structure" element={<EditStructurePage />} />

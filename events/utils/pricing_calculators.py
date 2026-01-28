@@ -58,13 +58,13 @@ def forever_flower_upfront_price(
 
     return round(upfront_price, 2), breakdown
 
-def calculate_final_plan_cost(flower_plan, new_structure: dict):
+def calculate_final_plan_cost(upfront_plan, new_structure: dict):
     """
     Calculates the final cost for a flower plan, considering new structure
     and subtracting any already paid amounts if the plan is active.
     
     Args:
-        flower_plan: The FlowerPlan instance (or None for a new plan).
+        upfront_plan: The UpfrontPlan instance (or None for a new plan).
         new_structure (dict): A dictionary containing 'budget', 'deliveries_per_year', 'years'.
 
     Returns:
@@ -72,8 +72,8 @@ def calculate_final_plan_cost(flower_plan, new_structure: dict):
     """
     
     total_paid = Decimal('0.00')
-    if flower_plan and flower_plan.is_active:
-        payments_aggregate = flower_plan.payments.filter(status='succeeded').aggregate(total=models.Sum('amount'))
+    if upfront_plan and upfront_plan.status == 'active':
+        payments_aggregate = upfront_plan.payments.filter(status='succeeded').aggregate(total=models.Sum('amount'))
         total_paid = payments_aggregate['total'] or Decimal('0.00')
 
     # Calculate the new total price based on the proposed structure

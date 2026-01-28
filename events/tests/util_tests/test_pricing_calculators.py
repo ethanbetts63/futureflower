@@ -1,7 +1,7 @@
 import pytest
 from decimal import Decimal
 from events.utils.pricing_calculators import forever_flower_upfront_price, calculate_final_plan_cost
-from events.tests.factories.flower_plan_factory import FlowerPlanFactory
+from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
 from payments.tests.factories.payment_factory import PaymentFactory
 from users.tests.factories.user_factory import UserFactory
 
@@ -86,7 +86,7 @@ class TestCalculateFinalPlanCost:
         assert result['amount_owing'] == round(Decimal(expected_new_total_price), 2)
 
     def test_existing_inactive_plan_no_payments(self):
-        flower_plan = FlowerPlanFactory(is_active=False)
+        upfront_plan = UpfrontPlanFactory(status='pending_payment')
         new_structure = {'budget': 100, 'deliveries_per_year': 4, 'years': 5}
         result = calculate_final_plan_cost(flower_plan, new_structure)
 
@@ -98,13 +98,13 @@ class TestCalculateFinalPlanCost:
 
     def test_existing_active_plan_with_payments_less_than_new_total(self):
         user = UserFactory()
-        flower_plan = FlowerPlanFactory(user=user, is_active=True, budget=75, deliveries_per_year=2, years=3)
-        PaymentFactory(flower_plan=flower_plan, user=user, amount=Decimal('50.00'), status='succeeded')
-        PaymentFactory(flower_plan=flower_plan, user=user, amount=Decimal('25.00'), status='succeeded')
-        PaymentFactory(flower_plan=flower_plan, user=user, amount=Decimal('10.00'), status='failed') # Should not be counted
+        upfront_plan = UpfrontPlanFactory(user=user, status='active', budget=75, deliveries_per_year=2, years=3)
+        PaymentFactory(order=upfront_plan.orderbase_ptr, user=user, amount=Decimal('50.00'), status='succeeded')
+        PaymentFactory(order=upfront_plan.orderbase_ptr, user=user, amount=Decimal('25.00'), status='succeeded')
+        PaymentFactory(order=upfront_plan.orderbase_ptr, user=user, amount=Decimal('10.00'), status='failed') # Should not be counted
 
         new_structure = {'budget': 100, 'deliveries_per_year': 4, 'years': 5}
-        result = calculate_final_plan_cost(flower_plan, new_structure)
+        result = calculate_final_plan_cost(upfront_plan, new_structure)
 
         expected_new_total_price, _ = forever_flower_upfront_price(**new_structure)
         expected_total_paid = Decimal('75.00')
@@ -116,12 +116,12 @@ class TestCalculateFinalPlanCost:
 
     def test_existing_active_plan_with_payments_greater_than_or_equal_to_new_total(self):
         user = UserFactory()
-        flower_plan = FlowerPlanFactory(user=user, is_active=True, budget=75, deliveries_per_year=2, years=3)
-        PaymentFactory(flower_plan=flower_plan, user=user, amount=Decimal('500.00'), status='succeeded')
-        PaymentFactory(flower_plan=flower_plan, user=user, amount=Decimal('300.00'), status='succeeded')
+        upfront_plan = UpfrontPlanFactory(user=user, status='active', budget=75, deliveries_per_year=2, years=3)
+        PaymentFactory(order=upfront_plan.orderbase_ptr, user=user, amount=Decimal('500.00'), status='succeeded')
+        PaymentFactory(order=upfront_plan.orderbase_ptr, user=user, amount=Decimal('300.00'), status='succeeded')
 
         new_structure = {'budget': 10, 'deliveries_per_year': 1, 'years': 1} # Very low new total
-        result = calculate_final_plan_cost(flower_plan, new_structure)
+        result = calculate_final_plan_cost(upfront_plan, new_structure)
 
         expected_new_total_price, _ = forever_flower_upfront_price(**new_structure)
         expected_total_paid = Decimal('800.00')
@@ -134,12 +134,12 @@ class TestCalculateFinalPlanCost:
 
     def test_existing_active_plan_no_succeeded_payments(self):
         user = UserFactory()
-        flower_plan = FlowerPlanFactory(user=user, is_active=True, budget=75, deliveries_per_year=2, years=3)
-        PaymentFactory(flower_plan=flower_plan, user=user, amount=Decimal('50.00'), status='pending')
-        PaymentFactory(flower_plan=flower_plan, user=user, amount=Decimal('25.00'), status='failed')
+        upfront_plan = UpfrontPlanFactory(user=user, status='active', budget=75, deliveries_per_year=2, years=3)
+        PaymentFactory(order=upfront_plan.orderbase_ptr, user=user, amount=Decimal('50.00'), status='pending')
+        PaymentFactory(order=upfront_plan.orderbase_ptr, user=user, amount=Decimal('25.00'), status='failed')
 
         new_structure = {'budget': 100, 'deliveries_per_year': 4, 'years': 5}
-        result = calculate_final_plan_cost(flower_plan, new_structure)
+        result = calculate_final_plan_cost(upfront_plan, new_structure)
 
         expected_new_total_price, _ = forever_flower_upfront_price(**new_structure)
         expected_total_paid = Decimal('0.00') # Only succeeded payments count
@@ -150,11 +150,11 @@ class TestCalculateFinalPlanCost:
 
     def test_existing_active_plan_with_zero_new_total(self):
         user = UserFactory()
-        flower_plan = FlowerPlanFactory(user=user, is_active=True, budget=75, deliveries_per_year=2, years=3)
-        PaymentFactory(flower_plan=flower_plan, user=user, amount=Decimal('10.00'), status='succeeded')
+        upfront_plan = UpfrontPlanFactory(user=user, status='active', budget=75, deliveries_per_year=2, years=3)
+        PaymentFactory(order=upfront_plan.orderbase_ptr, user=user, amount=Decimal('10.00'), status='succeeded')
 
         new_structure = {'budget': 0, 'deliveries_per_year': 0, 'years': 0} # This will result in 0 new_total_price
-        result = calculate_final_plan_cost(flower_plan, new_structure)
+        result = calculate_final_plan_cost(upfront_plan, new_structure)
 
         expected_new_total_price, _ = forever_flower_upfront_price(**new_structure) # Should be 0
         expected_total_paid = Decimal('10.00')

@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getFlowerPlan, updateEvent } from '@/api';
-import type { FlowerPlan } from '@/api';
+import { getUpfrontPlan, updateEvent } from '@/api';
+import type { UpfrontPlan } from '@/api';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from '@/components/ui/label';
@@ -40,7 +40,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
     const { isAuthenticated } = useAuth();
     
     // Core State
-    const [flowerPlan, setFlowerPlan] = useState<FlowerPlan | null>(null);
+    const [upfrontPlan, setUpfrontPlan] = useState<UpfrontPlan | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -66,7 +66,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
             setIsLoading(true);
             try {
                 const planData = await getFlowerPlan(planId);
-                setFlowerPlan(planData);
+                setUpfrontPlan(planData);
                 
                 if (planData.events && planData.events.length > 0) {
                     const allMessages = planData.events.map(e => e.message || '');
@@ -104,7 +104,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
     };
 
     const handleSave = async () => {
-        if (!flowerPlan) return;
+        if (!upfrontPlan) return;
 
         setIsSaving(true);
         try {

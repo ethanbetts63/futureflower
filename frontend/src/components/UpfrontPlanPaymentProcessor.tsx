@@ -69,11 +69,11 @@ const PlanSummary: React.FC<PlanSummaryProps> = ({ originalPlan, newPlan }) => {
   );
 };
 
-interface FlowerPlanPaymentProcessorProps {
+interface UpfrontPlanPaymentProcessorProps {
     mode: 'booking' | 'management';
 }
 
-const FlowerPlanPaymentProcessor: React.FC<FlowerPlanPaymentProcessorProps> = ({ mode }) => {
+const UpfrontPlanPaymentProcessor: React.FC<UpfrontPlanPaymentProcessorProps> = ({ mode }) => {
     const { planId } = useParams<{ planId: string }>();
     const [searchParams] = useSearchParams();
     
@@ -221,4 +221,4 @@ const FlowerPlanPaymentProcessor: React.FC<FlowerPlanPaymentProcessorProps> = ({
     );
 };
 
-export default FlowerPlanPaymentProcessor;
+export default UpfrontPlanPaymentProcessor;

@@ -10,12 +10,12 @@ import { Eye } from 'lucide-react';
 
 import { type UpfrontPlan } from '@/api';
 
-interface FlowerPlanTableProps {
+interface UpfrontPlanTableProps {
   showTitle?: boolean; // Optional prop to show/hide the title within the component
   initialPlans?: UpfrontPlan[]; // Optional prop to provide initial plans, if not fetching internally
 }
 
-const FlowerPlanTable: React.FC<FlowerPlanTableProps> = ({ showTitle = true, initialPlans }) => {
+const UpfrontPlanTable: React.FC<UpfrontPlanTableProps> = ({ showTitle = true, initialPlans }) => {
   const [plans, setPlans] = useState<UpfrontPlan[]>(initialPlans || []);
   const [isLoading, setIsLoading] = useState<boolean>(!initialPlans); // If initialPlans are provided, no loading needed initially
   const [error, setError] = useState<string | null>(null);
@@ -119,4 +119,4 @@ const FlowerPlanTable: React.FC<FlowerPlanTableProps> = ({ showTitle = true, ini
   );
 };
 
-export default FlowerPlanTable;
+export default UpfrontPlanTable;

@@ -1,15 +1,15 @@
 import factory
 from factory.django import DjangoModelFactory
 from factory import Faker, SubFactory
-from events.models import FlowerPlan
+from events.models import UpfrontPlan
 from users.tests.factories.user_factory import UserFactory
 
-class FlowerPlanFactory(DjangoModelFactory):
+class UpfrontPlanFactory(DjangoModelFactory):
     class Meta:
-        model = FlowerPlan
+        model = UpfrontPlan
 
     user = SubFactory(UserFactory)
-    is_active = False
+    status = 'pending_payment'
     budget = Faker('pydecimal', left_digits=2, right_digits=2, positive=True, min_value=50, max_value=99)
     deliveries_per_year = Faker('random_int', min=1, max=12)
     years = Faker('random_int', min=1, max=10)
