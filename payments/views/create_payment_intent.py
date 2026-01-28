@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.conf import settings
-from events.models import FlowerPlan
+from events.models import UpfrontPlan
 from payments.models import Payment
 
 # Initialize the Stripe API key once
@@ -12,13 +12,13 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class CreatePaymentIntentView(APIView):
     """
-    Creates a Stripe PaymentIntent for a given FlowerPlan.
+    Creates a Stripe PaymentIntent for a given UpfrontPlan.
     This view handles both new plan creations and plan modifications.
     """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        flower_plan_id = request.data.get('flower_plan_id')
+        upfront_plan_id = request.data.get('upfront_plan_id')
         
         # Data for modification, will be null for new plans
         amount_override = request.data.get('amount')
@@ -26,17 +26,17 @@ class CreatePaymentIntentView(APIView):
         years = request.data.get('years')
         deliveries_per_year = request.data.get('deliveries_per_year')
 
-        if not flower_plan_id:
+        if not upfront_plan_id:
             return Response(
-                {"error": "flower_plan_id is required."},
+                {"error": "upfront_plan_id is required."},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         try:
-            flower_plan = FlowerPlan.objects.get(id=flower_plan_id, user=request.user)
-        except FlowerPlan.DoesNotExist:
+            upfront_plan = UpfrontPlan.objects.get(id=upfront_plan_id, user=request.user)
+        except UpfrontPlan.DoesNotExist:
             return Response(
-                {"error": "FlowerPlan not found or you don't have permission."},
+                {"error": "UpfrontPlan not found or you don't have permission."},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -46,7 +46,7 @@ class CreatePaymentIntentView(APIView):
             final_amount = float(amount_override)
         else:
             # Fallback to the plan's total amount for new creations
-            final_amount = flower_plan.total_amount
+            final_amount = upfront_plan.total_amount
 
         if not final_amount or final_amount <= 0:
             return Response(
@@ -59,26 +59,26 @@ class CreatePaymentIntentView(APIView):
         try:
             # For modifications, we always create a new payment intent.
             # For new plans, we check for an existing pending payment to avoid duplicates.
-            if not flower_plan.is_active:
-                existing_payment = Payment.objects.filter(flower_plan=flower_plan, status='pending').first()
+            if upfront_plan.status != 'active':
+                existing_payment = Payment.objects.filter(order=upfront_plan.orderbase_ptr, status='pending').first()
                 if existing_payment:
                     payment_intent = stripe.PaymentIntent.retrieve(existing_payment.stripe_payment_intent_id)
                     return Response({'clientSecret': payment_intent.client_secret})
 
             # Define metadata for the payment intent
             metadata = {
-                'flower_plan_id': flower_plan.id,
+                'upfront_plan_id': upfront_plan.id,
                 'user_id': request.user.id,
                 # Always include structure data for the webhook
-                'budget': budget if budget is not None else flower_plan.budget,
-                'years': years if years is not None else flower_plan.years,
-                'deliveries_per_year': deliveries_per_year if deliveries_per_year is not None else flower_plan.deliveries_per_year
+                'budget': budget if budget is not None else upfront_plan.budget,
+                'years': years if years is not None else upfront_plan.years,
+                'deliveries_per_year': deliveries_per_year if deliveries_per_year is not None else upfront_plan.deliveries_per_year
             }
 
             # Create a new PaymentIntent with Stripe
             payment_intent = stripe.PaymentIntent.create(
                 amount=amount_in_cents,
-                currency=flower_plan.currency,
+                currency=upfront_plan.currency,
                 automatic_payment_methods={'enabled': True},
                 metadata=metadata
             )
@@ -86,7 +86,7 @@ class CreatePaymentIntentView(APIView):
             # Create a corresponding Payment record in our database
             Payment.objects.create(
                 user=request.user,
-                flower_plan=flower_plan,
+                order=upfront_plan.orderbase_ptr, # Link to the base order
                 stripe_payment_intent_id=payment_intent.id,
                 amount=final_amount, # Store the actual amount being charged
                 status='pending'

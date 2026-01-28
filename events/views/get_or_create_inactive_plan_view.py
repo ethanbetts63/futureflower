@@ -2,26 +2,26 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from events.models import FlowerPlan
-from events.serializers.flower_plan_serializer import FlowerPlanSerializer
+from events.models import UpfrontPlan
+from events.serializers.upfront_plan_serializer import UpfrontPlanSerializer
 
 class GetOrCreateInactivePlanView(APIView):
     """
-    Retrieves the latest inactive flower plan for the authenticated user,
-    or creates a new one if no inactive plans exist.
+    Retrieves the latest plan pending payment for the authenticated user,
+    or creates a new one if none exist.
     """
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        # Look for the most recent inactive plan for the current user
-        inactive_plan = FlowerPlan.objects.filter(user=request.user, is_active=False).order_by('-created_at').first()
+        # Look for the most recent plan that is pending payment
+        pending_plan = UpfrontPlan.objects.filter(user=request.user, status='pending_payment').order_by('-created_at').first()
 
-        if inactive_plan:
-            # If an inactive plan is found, serialize and return it
-            serializer = FlowerPlanSerializer(inactive_plan)
+        if pending_plan:
+            # If a plan is found, serialize and return it
+            serializer = UpfrontPlanSerializer(pending_plan)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            # If no inactive plan is found, create a new one
-            new_plan = FlowerPlan.objects.create(user=request.user, is_active=False)
-            serializer = FlowerPlanSerializer(new_plan)
+            # If no plan is found, create a new one
+            new_plan = UpfrontPlan.objects.create(user=request.user) # Status defaults to 'pending_payment'
+            serializer = UpfrontPlanSerializer(new_plan)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

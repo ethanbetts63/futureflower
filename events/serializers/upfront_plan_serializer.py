@@ -1,14 +1,14 @@
-# foreverflower/events/serializers/flower_plan_serializer.py
+# foreverflower/events/serializers/upfront_plan_serializer.py
 from datetime import date, timedelta
 from django.conf import settings
 from rest_framework import serializers
-from ..models import FlowerPlan, Color, FlowerType
+from ..models import UpfrontPlan, Color, FlowerType
 from .event_serializer import EventSerializer
-from payments.serializers.payment_serializer import PaymentSerializer 
+from payments.serializers.payment_serializer import PaymentSerializer
 
-class FlowerPlanSerializer(serializers.ModelSerializer):
+class UpfrontPlanSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    
+
     events = EventSerializer(many=True, read_only=True)
     payments = PaymentSerializer(many=True, read_only=True)
 
@@ -51,9 +51,9 @@ class FlowerPlanSerializer(serializers.ModelSerializer):
         return value
 
     class Meta:
-        model = FlowerPlan
+        model = UpfrontPlan
         fields = [
-            'id', 'user', 'is_active', 'start_date', 'budget', 'deliveries_per_year',
+            'id', 'user', 'status', 'start_date', 'budget', 'deliveries_per_year',
             'years', 'notes', 'created_at', 'updated_at',
             'total_amount', 'currency',
             'recipient_first_name', 'recipient_last_name',
@@ -63,12 +63,12 @@ class FlowerPlanSerializer(serializers.ModelSerializer):
             'events', 'payments',
         ]
         read_only_fields = [
-            'id', 'is_active', 'created_at', 'updated_at'
+            'id', 'status', 'created_at', 'updated_at'
         ]
 
     def update(self, instance, validated_data):
         # Prevent direct updates to total_amount/currency if the plan is active
-        if instance.is_active:
+        if instance.status == 'active':
             if 'total_amount' in validated_data:
                 raise serializers.ValidationError(
                     "Cannot directly update 'total_amount' for an active plan. "

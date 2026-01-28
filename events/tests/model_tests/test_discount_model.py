@@ -30,7 +30,7 @@ def test_discount_active_default():
     """
     Test that 'active' field defaults to True.
     """
-    discount = DiscountFactory(active=None) # Explicitly not setting, expecting default
+    discount = DiscountFactory() # Not explicitly setting active
     assert discount.active is True
 
 @pytest.mark.django_db

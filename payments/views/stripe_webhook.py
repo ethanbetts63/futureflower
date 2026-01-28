@@ -7,14 +7,14 @@ from rest_framework import status
 
 from rest_framework.permissions import AllowAny
 from payments.models import Payment
-from events.models import FlowerPlan
+from events.models import UpfrontPlan
 from payments.utils.send_admin_payment_notification import send_admin_payment_notification
 
 class StripeWebhookView(APIView):
     """
     Listens for webhook events from Stripe.
     This view is responsible for handling payment confirmations and updating
-    the payment status and activating the associated FlowerPlan.
+    the payment status and activating the associated UpfrontPlan.
     """
     permission_classes = [AllowAny]
     
@@ -45,12 +45,12 @@ class StripeWebhookView(APIView):
         if event['type'] == 'payment_intent.succeeded':
             payment_intent = event['data']['object']
             metadata = payment_intent.get('metadata', {})
-            flower_plan_id = metadata.get('flower_plan_id')
+            upfront_plan_id = metadata.get('upfront_plan_id')
 
-            print(f"Processing payment_intent.succeeded for FlowerPlan ID: {flower_plan_id}")
+            print(f"Processing payment_intent.succeeded for UpfrontPlan ID: {upfront_plan_id}")
 
-            if not flower_plan_id:
-                print(f"CRITICAL ERROR: 'flower_plan_id' not found in metadata for PaymentIntent ID: {payment_intent['id']}")
+            if not upfront_plan_id:
+                print(f"CRITICAL ERROR: 'upfront_plan_id' not found in metadata for PaymentIntent ID: {payment_intent['id']}")
                 return HttpResponse(status=200) # Return 200 to prevent Stripe retries
 
             try:
@@ -61,26 +61,26 @@ class StripeWebhookView(APIView):
                 payment.save()
                 print(f"Payment record (PK: {payment.pk}) status updated to 'succeeded'.")
 
-                # Fetch the FlowerPlan to update it
-                flower_plan_to_update = FlowerPlan.objects.get(id=flower_plan_id)
+                # Fetch the UpfrontPlan to update it
+                plan_to_update = UpfrontPlan.objects.get(id=upfront_plan_id)
                 
                 # Get new structure from metadata, with fallbacks to the plan's current state
-                new_budget = metadata.get('budget', flower_plan_to_update.budget)
-                new_years = metadata.get('years', flower_plan_to_update.years)
-                new_deliveries_per_year = metadata.get('deliveries_per_year', flower_plan_to_update.deliveries_per_year)
+                new_budget = metadata.get('budget', plan_to_update.budget)
+                new_years = metadata.get('years', plan_to_update.years)
+                new_deliveries_per_year = metadata.get('deliveries_per_year', plan_to_update.deliveries_per_year)
 
                 # Universal update logic
-                flower_plan_to_update.budget = float(new_budget)
-                flower_plan_to_update.years = int(new_years)
-                flower_plan_to_update.deliveries_per_year = int(new_deliveries_per_year)
-                flower_plan_to_update.is_active = True # Always ensure the plan is active after successful payment
+                plan_to_update.budget = float(new_budget)
+                plan_to_update.years = int(new_years)
+                plan_to_update.deliveries_per_year = int(new_deliveries_per_year)
+                plan_to_update.status = 'active' # Activate the plan using the new status field
 
-                flower_plan_to_update.save()
-                print(f"FlowerPlan (PK: {flower_plan_to_update.pk}) updated and activated.")
-                print(f"  - Budget: {flower_plan_to_update.budget}")
-                print(f"  - Years: {flower_plan_to_update.years}")
-                print(f"  - Deliveries/Year: {flower_plan_to_update.deliveries_per_year}")
-                print(f"  - Is Active: {flower_plan_to_update.is_active}")
+                plan_to_update.save()
+                print(f"UpfrontPlan (PK: {plan_to_update.pk}) updated and activated.")
+                print(f"  - Budget: {plan_to_update.budget}")
+                print(f"  - Years: {plan_to_update.years}")
+                print(f"  - Deliveries/Year: {plan_to_update.deliveries_per_year}")
+                print(f"  - Status: {plan_to_update.status}")
 
 
                 # Send a notification to the admin
@@ -89,10 +89,10 @@ class StripeWebhookView(APIView):
 
             except Payment.DoesNotExist:
                 print(f"ERROR: Received successful payment intent for non-existent local Payment record ID: {payment_intent['id']}")
-            except FlowerPlan.DoesNotExist:
-                print(f"CRITICAL ERROR: FlowerPlan (ID: {flower_plan_id}) not found for payment (PK: {payment.pk}).")
+            except UpfrontPlan.DoesNotExist:
+                print(f"CRITICAL ERROR: UpfrontPlan (ID: {upfront_plan_id}) not found for payment (PK: {payment.pk}).")
             except Exception as e:
-                print(f"UNEXPECTED ERROR during payment_intent.succeeded processing for FlowerPlan ID {flower_plan_id}: {e}")
+                print(f"UNEXPECTED ERROR during payment_intent.succeeded processing for UpfrontPlan ID {upfront_plan_id}: {e}")
 
 
         elif event['type'] == 'payment_intent.payment_failed':

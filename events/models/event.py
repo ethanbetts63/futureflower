@@ -4,11 +4,11 @@ class Event(models.Model):
     """
     Represents a single flower delivery event within a FlowerPlan.
     """
-    flower_plan = models.ForeignKey(
-        'events.FlowerPlan',
+    order = models.ForeignKey(
+        'events.OrderBase',
         on_delete=models.CASCADE,
         related_name="events",
-        help_text="The flower plan this event belongs to."
+        help_text="The order this event belongs to."
     )
     delivery_date = models.DateField(
         help_text="The date the flower delivery will occur."
@@ -39,7 +39,7 @@ class Event(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Delivery on {self.delivery_date} for Plan {self.flower_plan.id}"
+        return f"Delivery on {self.delivery_date} for Order {self.order.id}"
 
     class Meta:
         ordering = ['delivery_date']

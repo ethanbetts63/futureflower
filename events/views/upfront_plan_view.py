@@ -1,8 +1,8 @@
-# foreverflower/events/views/flower_plan_view.py
+# foreverflower/events/views/upfront_plan_view.py
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from ..models import FlowerPlan, Event
-from ..serializers.flower_plan_serializer import FlowerPlanSerializer
+from ..models import UpfrontPlan, Event
+from ..serializers.upfront_plan_serializer import UpfrontPlanSerializer
 from ..utils.pricing_calculators import forever_flower_upfront_price, calculate_final_plan_cost
 from datetime import date, timedelta
 from rest_framework.decorators import api_view, permission_classes
@@ -13,11 +13,11 @@ from rest_framework import status
 @permission_classes([IsAuthenticated])
 def calculate_plan_modification(request, plan_id):
     """
-    Calculates the cost difference for modifying an existing flower plan.
+    Calculates the cost difference for modifying an existing upfront plan.
     """
     try:
-        plan = FlowerPlan.objects.get(pk=plan_id, user=request.user)
-    except FlowerPlan.DoesNotExist:
+        plan = UpfrontPlan.objects.get(pk=plan_id, user=request.user)
+    except UpfrontPlan.DoesNotExist:
         return Response({'error': 'Plan not found.'}, status=status.HTTP_404_NOT_FOUND)
 
     try:
@@ -47,66 +47,66 @@ def calculate_plan_modification(request, plan_id):
 @permission_classes([IsAuthenticated])
 def get_latest_inactive_flower_plan(request):
     """
-    Retrieves the most recent flower plan for the authenticated user
-    that is not yet active.
+    Retrieves the most recent upfront plan for the authenticated user
+    that is pending payment.
     """
     user = request.user
-    inactive_plan = FlowerPlan.objects.filter(user=user, is_active=False).order_by('-created_at').first()
+    pending_plan = UpfrontPlan.objects.filter(user=user, status='pending_payment').order_by('-created_at').first()
 
-    if inactive_plan:
-        serializer = FlowerPlanSerializer(inactive_plan)
+    if pending_plan:
+        serializer = UpfrontPlanSerializer(pending_plan)
         return Response(serializer.data)
     else:
         # Per user request, return null with a 200 OK status
         return Response(None)
 
 
-class FlowerPlanViewSet(viewsets.ModelViewSet):
+class UpfrontPlanViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows flower plans to be viewed or edited.
+    API endpoint that allows upfront plans to be viewed or edited.
     """
     permission_classes = [IsAuthenticated]
-    serializer_class = FlowerPlanSerializer
+    serializer_class = UpfrontPlanSerializer
 
     def get_queryset(self):
         """
-        This view should only return flower plans that belong to the
+        This view should only return upfront plans that belong to the
         currently authenticated user.
         """
-        return FlowerPlan.objects.filter(user=self.request.user)
+        return UpfrontPlan.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         """
         Overrides the default create behavior to also generate all associated
-        Event instances for the new FlowerPlan and calculate the total price.
+        Event instances for the new UpfrontPlan and calculate the total price.
         """
-        # First, save the FlowerPlan instance
-        flower_plan = serializer.save()
+        # First, save the UpfrontPlan instance
+        upfront_plan = serializer.save()
 
         # --- Calculate and save the total price ---
         upfront_price, _ = forever_flower_upfront_price(
-            budget=float(flower_plan.budget),
-            deliveries_per_year=flower_plan.deliveries_per_year,
-            years=flower_plan.years,
+            budget=float(upfront_plan.budget),
+            deliveries_per_year=upfront_plan.deliveries_per_year,
+            years=upfront_plan.years,
         )
-        flower_plan.total_amount = upfront_price
-        flower_plan.save()
+        upfront_plan.total_amount = upfront_price
+        upfront_plan.save()
 
         # --- Create the events based on the plan details ---
         events_to_create = []
-        start_date = flower_plan.start_date if flower_plan.start_date else date.today()
+        start_date = upfront_plan.start_date if upfront_plan.start_date else date.today()
         # Calculate the interval between deliveries
-        interval_days = 365 / flower_plan.deliveries_per_year
+        interval_days = 365 / upfront_plan.deliveries_per_year
 
-        for year in range(flower_plan.years):
-            for i in range(flower_plan.deliveries_per_year):
+        for year in range(upfront_plan.years):
+            for i in range(upfront_plan.deliveries_per_year):
                 # Calculate the delivery date for this event
                 days_offset = (year * 365) + (i * interval_days)
                 delivery_date = start_date + timedelta(days=days_offset)
                 
                 events_to_create.append(
                     Event(
-                        flower_plan=flower_plan,
+                        order=upfront_plan.orderbase_ptr, # Link event to the base order
                         delivery_date=delivery_date,
                     )
                 )

@@ -16,11 +16,11 @@ class Payment(models.Model):
         on_delete=models.CASCADE, 
         related_name='payments'
     )
-    flower_plan = models.ForeignKey(
-        'events.FlowerPlan',
+    order = models.ForeignKey(
+        'events.OrderBase',
         on_delete=models.CASCADE,
         related_name='payments',
-        help_text="The flower plan this payment is for."
+        help_text="The order this payment is for."
     )
     stripe_payment_intent_id = models.CharField(
         max_length=255, 
