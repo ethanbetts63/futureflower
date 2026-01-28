@@ -31,7 +31,7 @@ const StructurePage: React.FC = () => {
     const [isSaving, setIsSaving] = useState(false);
     
     // Price calculation state
-    const [upfrontPrice, setUpfrontPrice] = useState<number | null>(null);
+    const [amountOwing, setAmountOwing] = useState<number | null>(null);
     const [isApiCalculating, setIsApiCalculating] = useState(false);
     const [isDebouncePending, setIsDebouncePending] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -68,13 +68,14 @@ const StructurePage: React.FC = () => {
 
     // Price calculation logic
     const calculateUpfront = useCallback(async (budget: number, deliveries: number, years: number) => {
+        if (!planId) return;
         setIsDebouncePending(false);
         setIsApiCalculating(true);
         setError(null);
-        setUpfrontPrice(null);
+        setAmountOwing(null);
 
         try {
-            const response = await authedFetch('/api/events/calculate-price/', {
+            const response = await authedFetch(`/api/events/flower-plans/${planId}/calculate-modification/`, {
                 method: 'POST',
                 body: JSON.stringify({ budget, deliveries_per_year: deliveries, years }),
             });
@@ -83,14 +84,14 @@ const StructurePage: React.FC = () => {
                 throw new Error(errorData.detail || 'Something went wrong');
             }
             const data = await response.json();
-            setUpfrontPrice(data.upfront_price);
+            setAmountOwing(data.amount_owing);
         } catch (err: any) {
             setError(err.message || 'Price calculation failed.');
             toast.error("Calculation Error", { description: err.message });
         } finally {
             setIsApiCalculating(false);
         }
-    }, []);
+    }, [planId]);
 
     const debouncedCalculateUpfront = useMemo(() => debounce(calculateUpfront, 500), [calculateUpfront]);
 
@@ -107,14 +108,14 @@ const StructurePage: React.FC = () => {
 
     const handleNext = async () => {
         if (!planId) return;
-        if (upfrontPrice === null) {
+        if (amountOwing === null) {
             toast.error("Please wait for the price to be calculated.");
             return;
         }
 
         setIsSaving(true);
         try {
-            await updateFlowerPlan(planId, { ...formData, budget: String(formData.budget), total_amount: upfrontPrice });
+            await updateFlowerPlan(planId, { ...formData, budget: String(formData.budget), total_amount: amountOwing });
             navigate(`/book-flow/flower-plan/${planId}/confirmation`);
         } catch (err: any) {
             setError(err.message);
@@ -141,7 +142,7 @@ const StructurePage: React.FC = () => {
                     isLoading={isLoading}
                     title="Define the Plan's Structure"
                     saveButtonText="Next: Select Preferences"
-                    amountOwing={upfrontPrice}
+                    amountOwing={amountOwing}
                     isApiCalculating={isApiCalculating}
                     isDebouncePending={isDebouncePending}
                     calculationError={error}
