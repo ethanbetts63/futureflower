@@ -149,9 +149,12 @@ The project separates the user journey into two main directories: `flow` for the
 - **Plan Structure:**
     - **Creation:** `flow/Step5StructurePage.tsx`
     - **Editing:** `user_dashboard/EditStructurePage.tsx`
-- **Preferences & Messages:** The following pages are used for *both* creation and editing, differentiating their behavior based on the `source=management` URL query parameter.
-    - `flow/Step3PreferenceSelectionPage.tsx`
-    - `flow/Step4CustomMessagePage.tsx`
+- **Preferences:**
+    - **Creation:** `flow/Step3PreferenceSelectionPage.tsx`
+    - **Editing:** `user_dashboard/EditPreferencesPage.tsx`
+- **Messages:**
+    - **Creation:** `flow/Step4CustomMessagePage.tsx`
+    - **Editing:** `user_dashboard/EditMessagesPage.tsx`
 
 ### Shared Components
 The project makes good use of shared components to reduce code duplication between the creation and editing flows.
@@ -164,6 +167,6 @@ While some pages are already shared, there is an opportunity to further reduce d
 - **Recipient & Structure Pages:**
     - The page-level components for managing the recipient (`Step2RecipientPage.tsx` vs. `EditRecipientPage.tsx`) and the plan structure (`Step5StructurePage.tsx` vs. `EditStructurePage.tsx`) are currently separate files.
     - Their internal logic for fetching data, managing form state, and handling save/cancel actions is highly similar.
-    - **Recommendation:** These could be consolidated into single, more robust components. For example, a single `RecipientPage.tsx` could handle both creation and editing, using a URL parameter (like `?source=management`) to slightly alter its behavior (e.g., the redirect path on save, the title, or the save button text). This would follow the pattern already established by `PreferenceSelectionPage` and `CustomMessagePage`, leading to a more maintainable and DRY (Don't Repeat Yourself) codebase.
+    - **Recommendation:** These could be consolidated into single, more robust components. For example, a single `RecipientPage.tsx` could handle both creation and editing, using a URL parameter (like `?source=management`) to slightly alter its behavior (e.g., the redirect path on save, the title, or the save button text).
 
 
