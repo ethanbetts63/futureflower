@@ -20,7 +20,7 @@ const Step7PaymentPage: React.FC = () => {
                 <FlowerPlanPaymentProcessor mode="booking" />
 
                 <div className="mt-8">
-                    <BackButton to={`/book-flow/flower-plan/${planId}/confirmation`} />
+                    <BackButton to={`/book-flow/upfront-plan/${planId}/confirmation`} />
                 </div>
             </div>
         </div>

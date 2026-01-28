@@ -8,7 +8,7 @@ const Step2RecipientPage: React.FC = () => {
             mode="create"
             title="Who is receiving the flowers?"
             saveButtonText="Next: Plan Preferences"
-            onSaveNavigateTo="/book-flow/flower-plan/{planId}/preferences"
+            onSaveNavigateTo="/book-flow/upfront-plan/{planId}/preferences"
             onCancelNavigateTo="/dashboard"
         />
     );

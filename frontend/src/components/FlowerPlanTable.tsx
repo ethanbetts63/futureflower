@@ -8,15 +8,15 @@ import { showErrorToast } from '@/utils/utils';
 import { Button } from '@/components/ui/button';
 import { Eye } from 'lucide-react';
 
-import { type FlowerPlan } from '@/api';
+import { type UpfrontPlan } from '@/api';
 
 interface FlowerPlanTableProps {
   showTitle?: boolean; // Optional prop to show/hide the title within the component
-  initialPlans?: FlowerPlan[]; // Optional prop to provide initial plans, if not fetching internally
+  initialPlans?: UpfrontPlan[]; // Optional prop to provide initial plans, if not fetching internally
 }
 
 const FlowerPlanTable: React.FC<FlowerPlanTableProps> = ({ showTitle = true, initialPlans }) => {
-  const [plans, setPlans] = useState<FlowerPlan[]>(initialPlans || []);
+  const [plans, setPlans] = useState<UpfrontPlan[]>(initialPlans || []);
   const [isLoading, setIsLoading] = useState<boolean>(!initialPlans); // If initialPlans are provided, no loading needed initially
   const [error, setError] = useState<string | null>(null);
 
@@ -24,15 +24,15 @@ const FlowerPlanTable: React.FC<FlowerPlanTableProps> = ({ showTitle = true, ini
     if (!initialPlans) { // Only fetch if initialPlans are not provided
       const fetchPlans = async () => {
         try {
-          const response = await authedFetch('/api/events/flower-plans/');
+          const response = await authedFetch('/api/events/upfront-plans/');
           if (!response.ok) {
-            throw new Error('Failed to fetch flower plans.');
+            throw new Error('Failed to fetch upfront plans.');
           }
-          const data: FlowerPlan[] = await response.json();
+          const data: UpfrontPlan[] = await response.json();
           setPlans(data);
         } catch (err: any) {
           setError(err.message || 'An unexpected error occurred.');
-          showErrorToast(err.message || 'Could not load your flower plans.');
+          showErrorToast(err.message || 'Could not load your upfront plans.');
         } finally {
           setIsLoading(false);
         }
@@ -55,7 +55,7 @@ const FlowerPlanTable: React.FC<FlowerPlanTableProps> = ({ showTitle = true, ini
     }
 
     if (plans.length === 0) {
-      return <p className="text-center text-black">You have no flower plans yet.</p>;
+      return <p className="text-center text-black">You have no upfront plans yet.</p>;
     }
 
     return (
@@ -78,11 +78,11 @@ const FlowerPlanTable: React.FC<FlowerPlanTableProps> = ({ showTitle = true, ini
             >
               <TableCell className="rounded-l-lg text-base">
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                  plan.is_active
+                  plan.status === 'active'
                     ? 'bg-green-100 text-green-800'
                     : 'bg-[var(--destructive)] text-white'
                 }`}>
-                  {plan.is_active ? 'Active' : 'Inactive'}
+                  {plan.status === 'active' ? 'Active' : 'Pending Payment'}
                 </span>
               </TableCell>
               <TableCell className="text-black text-base">
@@ -109,7 +109,7 @@ const FlowerPlanTable: React.FC<FlowerPlanTableProps> = ({ showTitle = true, ini
     <Card className="bg-white shadow-md border-none text-black">
       {showTitle && (
         <CardHeader>
-          <CardTitle className="text-3xl">Flower Plans</CardTitle>
+          <CardTitle className="text-3xl">Upfront Plans</CardTitle>
         </CardHeader>
       )}
       <CardContent>

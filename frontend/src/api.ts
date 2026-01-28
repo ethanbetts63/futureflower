@@ -128,7 +128,7 @@ export async function activateFreeEvent(eventId: number): Promise<Event> {
     return handleResponse(response);
 }
 
-// --- FlowerPlan Endpoints ---
+// --- UpfrontPlan Endpoints ---
 
 export interface Color {
     id: number;
@@ -141,10 +141,10 @@ export interface FlowerType {
     name: string;
 }
 
-export interface FlowerPlan {
+export interface UpfrontPlan {
     id: number;
     user: number;
-    is_active: boolean;
+    status: string; // Changed from is_active: boolean;
     start_date?: string;
     notes: string | null;
     budget: string;
@@ -179,29 +179,29 @@ export async function getFlowerTypes(): Promise<FlowerType[]> {
     return handleResponse(response);
 }
 
-export async function getFlowerPlan(planId: string): Promise<FlowerPlan> {
-    const response = await authedFetch(`/api/events/flower-plans/${planId}/`);
+export async function getUpfrontPlan(planId: string): Promise<UpfrontPlan> {
+    const response = await authedFetch(`/api/events/upfront-plans/${planId}/`);
     return handleResponse(response);
 }
 
-export async function getFlowerPlans(): Promise<FlowerPlan[]> {
-    const response = await authedFetch('/api/events/flower-plans/');
+export async function getUpfrontPlans(): Promise<UpfrontPlan[]> {
+    const response = await authedFetch('/api/events/upfront-plans/');
     return handleResponse(response);
 }
 
-export async function getOrCreateInactiveFlowerPlan(): Promise<FlowerPlan> {
-    const response = await authedFetch('/api/events/flower-plans/get-or-create-inactive/');
+export async function getOrCreatePendingUpfrontPlan(): Promise<UpfrontPlan> {
+    const response = await authedFetch('/api/events/upfront-plans/get-or-create-inactive/');
     return handleResponse(response);
 }
 
-export async function deleteFlowerPlan(planId: string): Promise<void> {
-    const response = await authedFetch(`/api/events/flower-plans/${planId}/`, {
+export async function deleteUpfrontPlan(planId: string): Promise<void> {
+    const response = await authedFetch(`/api/events/upfront-plans/${planId}/`, {
         method: 'DELETE',
     });
     await handleResponse(response);
 }
 
-export interface CreateFlowerPlanPayload {
+export interface CreateUpfrontPlanPayload {
     budget: number;
     deliveries_per_year: number;
     years: number;
@@ -215,19 +215,18 @@ export interface CreateFlowerPlanPayload {
     recipient_country?: string;
 }
 
-export async function createFlowerPlan(planData: CreateFlowerPlanPayload): Promise<FlowerPlan> {
-    const response = await authedFetch('/api/events/flower-plans/', {
+export async function createUpfrontPlan(planData: CreateUpfrontPlanPayload): Promise<UpfrontPlan> {
+    const response = await authedFetch('/api/events/upfront-plans/', {
         method: 'POST',
         body: JSON.stringify(planData),
     });
     return handleResponse(response);
 }
 
-// This payload uses number arrays for preferences, as we are sending IDs to the backend.
-export type PartialFlowerPlan = Partial<FlowerPlan>;
+export type PartialUpfrontPlan = Partial<UpfrontPlan>;
 
-export async function updateFlowerPlan(planId: string, planData: PartialFlowerPlan): Promise<FlowerPlan> {
-    const response = await authedFetch(`/api/events/flower-plans/${planId}/`, {
+export async function updateUpfrontPlan(planId: string, planData: PartialUpfrontPlan): Promise<UpfrontPlan> {
+    const response = await authedFetch(`/api/events/upfront-plans/${planId}/`, {
         method: 'PATCH',
         body: JSON.stringify(planData),
     });
@@ -273,7 +272,7 @@ export async function changePassword(passwordData: { old_password: string, new_p
 // --- Payment Endpoints ---
 
 export interface CreatePaymentIntentPayload {
-  flower_plan_id: string;
+  upfront_plan_id: string; // Changed from flower_plan_id
   amount?: number;
   budget?: number;
   years?: number;

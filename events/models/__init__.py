@@ -8,7 +8,7 @@ __all__ = [
     'Event',
     'OrderBase',
     'UpfrontPlan',
-    'Color',
     'FlowerType',
+    'Color',
     'Discount',
 ]

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getFlowerPlan, updateFlowerPlan, type PartialFlowerPlan } from '@/api';
+import { getUpfrontPlan, updateUpfrontPlan, type PartialUpfrontPlan } from '@/api';
 import { authedFetch } from '@/apiClient';
 import PlanStructureForm, { type PlanStructureData } from '@/forms/PlanStructureForm';
 import BackButton from '@/components/BackButton';
@@ -59,18 +59,18 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
 
     useEffect(() => {
         if (!isAuthenticated) {
-            toast.error("You must be logged in to manage a flower plan.");
+            toast.error("You must be logged in to manage an upfront plan.");
             navigate('/login');
             return;
         }
         if (!planId) {
-            toast.error("No flower plan specified.");
+            toast.error("No upfront plan specified.");
             navigate('/dashboard');
             return;
         }
 
         setIsLoading(true);
-        getFlowerPlan(planId)
+        getUpfrontPlan(planId)
             .then(plan => {
                 setFormData({
                     budget: Number(plan.budget) || 75,
@@ -94,7 +94,7 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
         setAmountOwing(null);
 
         try {
-            const response = await authedFetch(`/api/events/flower-plans/${planId}/calculate-modification/`, {
+            const response = await authedFetch(`/api/events/upfront-plans/${planId}/calculate-modification/`, {
                 method: 'POST',
                 body: JSON.stringify({ budget, deliveries_per_year: deliveries, years }),
             });
@@ -137,7 +137,7 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
                 years: formData.years.toString(),
                 amount: amountOwing.toString(),
             });
-            navigate(`/book-flow/flower-plan/${planId}/payment?${params.toString()}`);
+            navigate(`/book-flow/upfront-plan/${planId}/payment?${params.toString()}`);
             return;
         }
         

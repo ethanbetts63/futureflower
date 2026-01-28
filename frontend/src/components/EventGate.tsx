@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import Seo from '../components/Seo';
-import { getOrCreateInactiveFlowerPlan } from '@/api';
+import { getOrCreatePendingUpfrontPlan } from '@/api';
 import { toast } from 'sonner';
 
 const EventGate: React.FC = () => {
@@ -20,8 +20,8 @@ const EventGate: React.FC = () => {
             hasInitiated.current = true;
             const findOrCreatePlan = async () => {
                 try {
-                    const plan = await getOrCreateInactiveFlowerPlan();
-                    navigate(`/book-flow/flower-plan/${plan.id}/recipient`, { replace: true });
+                    const plan = await getOrCreatePendingUpfrontPlan();
+                    navigate(`/book-flow/upfront-plan/${plan.id}/recipient`, { replace: true });
                 } catch (error: any) {
                     toast.error("Could not prepare your plan", {
                         description: error.message || "Please try again later.",
@@ -39,8 +39,8 @@ const EventGate: React.FC = () => {
     return (
         <div className="container mx-auto flex justify-center items-center h-screen">
             <Seo
-                title="Create a Long-Term Reminder Event | ForeverFlower"
-                description="Start here to create a new persistent, long-term reminder. We'll guide you through setting up your event and notification preferences."
+                title="Create a New Upfront Plan | ForeverFlower"
+                description="Start here to create a new upfront flower plan. We'll guide you through setting up your plan details and preferences."
                 canonicalPath="/event-gate"
                 noindex={true}
             />

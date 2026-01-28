@@ -37,24 +37,24 @@ const Step6BookingConfirmationPage = () => {
                 <div className="space-y-6">
                   <PlanStructureCard
                     plan={plan}
-                    editUrl={`/book-flow/flower-plan/${planId}/structure`}
+                    editUrl={`/book-flow/upfront-plan/${planId}/structure`}
                   />
 
                   <DeliveryDatesCard
                     plan={plan}
-                    editUrl={`/book-flow/flower-plan/${planId}/structure`}
+                    editUrl={`/book-flow/upfront-plan/${planId}/structure`}
                   />
 
                   <PreferencesCard
                     plan={plan}
                     colorMap={colorMap}
                     flowerTypeMap={flowerTypeMap}
-                    editUrl={`/book-flow/flower-plan/${planId}/preferences`}
+                    editUrl={`/book-flow/upfront-plan/${planId}/preferences`}
                   />
 
                   <MessagesCard
                     plan={plan}
-                    editUrl={`/book-flow/flower-plan/${planId}/add-message`}
+                    editUrl={`/book-flow/upfront-plan/${planId}/add-message`}
                   />
 
                   <Card className="bg-white shadow-md border-none text-black">
@@ -71,9 +71,9 @@ const Step6BookingConfirmationPage = () => {
                   </Card>
 
                   <div className="flex justify-between items-center mt-8">
-                    <BackButton to={`/book-flow/flower-plan/${planId}/add-message`} />
+                    <BackButton to={`/book-flow/upfront-plan/${planId}/add-message`} />
                     <Button asChild size="lg">
-                      <Link to={`/book-flow/flower-plan/${planId}/payment`}>
+                      <Link to={`/book-flow/upfront-plan/${planId}/payment`}>
                         Proceed to Payment <ArrowRight className="ml-2 h-5 w-5" />
                       </Link>
                     </Button>

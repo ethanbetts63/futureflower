@@ -12,8 +12,8 @@ const Step3PreferenceSelectionPage: React.FC = () => {
             title="Add Your Preferences (Optional)"
             description="Let us know what they love and what they don't. This helps our florists create bouquets they'll adore."
             saveButtonText="Save & Continue"
-            onSaveNavigateTo={`/book-flow/flower-plan/${planId}/add-message`}
-            backPath={`/book-flow/flower-plan/${planId}/structure`}
+            onSaveNavigateTo={`/book-flow/upfront-plan/${planId}/add-message`}
+            backPath={`/book-flow/upfront-plan/${planId}/structure`}
             showSkipButton={true}
         />
     );

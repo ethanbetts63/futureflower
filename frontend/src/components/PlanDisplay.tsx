@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 
 interface PlanDisplayProps {
     children: (data: {
-        plan: FlowerPlan;
+        plan: UpfrontPlan;
         colorMap: Map<number, Color>;
         flowerTypeMap: Map<number, FlowerType>;
     }) => React.ReactNode;
@@ -23,7 +23,7 @@ const PlanDisplay: React.FC<PlanDisplayProps> = ({
     const { planId } = useParams<{ planId: string }>();
     const navigate = useNavigate();
 
-    const [plan, setPlan] = useState<FlowerPlan | null>(null);
+    const [plan, setPlan] = useState<UpfrontPlan | null>(null);
     const [colors, setColors] = useState<Color[]>([]);
     const [flowerTypes, setFlowerTypes] = useState<FlowerType[]>([]);
     const [loading, setLoading] = useState(true);
@@ -34,7 +34,7 @@ const PlanDisplay: React.FC<PlanDisplayProps> = ({
 
     useEffect(() => {
         if (!planId) {
-            toast.error('No Plan ID found in URL.');
+            toast.error('No Upfront Plan ID found in URL.');
             navigate(fallbackNavigationPath);
             return;
         }
@@ -44,7 +44,7 @@ const PlanDisplay: React.FC<PlanDisplayProps> = ({
                 setLoading(true);
                 setError(null);
                 const [planData, colorsData, flowerTypesData] = await Promise.all([
-                    getFlowerPlan(planId),
+                    getUpfrontPlan(planId),
                     getColors(),
                     getFlowerTypes(),
                 ]);
@@ -52,7 +52,7 @@ const PlanDisplay: React.FC<PlanDisplayProps> = ({
                 setColors(colorsData);
                 setFlowerTypes(flowerTypesData);
             } catch (err: any) {
-                const errorMessage = 'Failed to load plan details.';
+                const errorMessage = 'Failed to load upfront plan details.';
                 setError(errorMessage);
                 toast.error(errorMessage, { description: err.message });
                 console.error(err);
@@ -68,7 +68,7 @@ const PlanDisplay: React.FC<PlanDisplayProps> = ({
         return (
             <div className="container mx-auto px-4 py-8 flex justify-center items-center h-screen">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="ml-4 text-muted-foreground">Loading your plan summary...</p>
+                <p className="ml-4 text-muted-foreground">Loading your upfront plan summary...</p>
             </div>
         );
     }
@@ -76,8 +76,8 @@ const PlanDisplay: React.FC<PlanDisplayProps> = ({
     if (error || !plan) {
         return (
             <div className="container mx-auto px-4 py-8 text-center text-black">
-                <h1 className="text-2xl font-bold mb-2">Could Not Load Plan</h1>
-                <p>There was an error loading your plan details. Please try again from your dashboard.</p>
+                <h1 className="text-2xl font-bold mb-2">Could Not Load Upfront Plan</h1>
+                <p>There was an error loading your upfront plan details. Please try again from your dashboard.</p>
                 <Button asChild className="mt-4">
                     <Link to={fallbackNavigationPath}>Go to Dashboard</Link>
                 </Button>

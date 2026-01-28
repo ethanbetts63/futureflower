@@ -5,8 +5,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import type { StripeElementsOptions, Appearance } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { toast } from 'sonner';
-import { getFlowerPlan, createPaymentIntent } from '@/api';
-import type { FlowerPlan, PartialFlowerPlan, CreatePaymentIntentPayload } from '@/api';
+import { getUpfrontPlan, createPaymentIntent } from '@/api';
+import type { UpfrontPlan, PartialUpfrontPlan, CreatePaymentIntentPayload } from '@/api';
 import { Spinner } from '@/components/ui/spinner';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import CheckoutForm from '../forms/CheckoutForm';
@@ -14,8 +14,8 @@ import CheckoutForm from '../forms/CheckoutForm';
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 interface PlanSummaryProps {
-  originalPlan: FlowerPlan;
-  newPlan?: PartialFlowerPlan & { amount: number };
+  originalPlan: UpfrontPlan;
+  newPlan?: PartialUpfrontPlan & { amount: number };
 }
 
 const PlanSummary: React.FC<PlanSummaryProps> = ({ originalPlan, newPlan }) => {
@@ -78,7 +78,7 @@ const FlowerPlanPaymentProcessor: React.FC<FlowerPlanPaymentProcessorProps> = ({
     const [searchParams] = useSearchParams();
     
     const [clientSecret, setClientSecret] = useState<string | null>(null);
-    const [flowerPlan, setFlowerPlan] = useState<FlowerPlan | null>(null);
+    const [upfrontPlan, setUpfrontPlan] = useState<UpfrontPlan | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const hasCreatedPaymentIntentRef = useRef(false);
@@ -105,9 +105,9 @@ const FlowerPlanPaymentProcessor: React.FC<FlowerPlanPaymentProcessorProps> = ({
         const years = searchParams.get('years');
         const amount = searchParams.get('amount');
 
-        getFlowerPlan(planId)
-        .then(planData => {
-            setFlowerPlan(planData);
+        getUpfrontPlan(planId)
+        .then(upfrontPlanData => {
+            setUpfrontPlan(upfrontPlanData);
             
             let modificationDetails;
             if (mode === 'management' && budget && deliveries_per_year && years && amount) {
@@ -121,8 +121,8 @@ const FlowerPlanPaymentProcessor: React.FC<FlowerPlanPaymentProcessorProps> = ({
             }
             
             const payload: CreatePaymentIntentPayload = {
-                flower_plan_id: planData.id.toString(),
-                currency: planData.currency,
+                upfront_plan_id: upfrontPlanData.id.toString(),
+                currency: upfrontPlanData.currency,
             };
 
             if (mode === 'management' && modificationDetails) {
@@ -134,12 +134,9 @@ const FlowerPlanPaymentProcessor: React.FC<FlowerPlanPaymentProcessorProps> = ({
 
             return createPaymentIntent(payload);
         })
-        .then(intentData => {
-            setClientSecret(intentData.clientSecret);
-        })
         .catch(err => {
             console.error(err);
-            setError(err.message || 'Failed to load plan details or initialize payment.');
+            setError(err.message || 'Failed to load upfront plan details or initialize payment.');
             toast.error('An error occurred', {
             description: err.message || 'Please try refreshing the page.',
             });
@@ -168,10 +165,10 @@ const FlowerPlanPaymentProcessor: React.FC<FlowerPlanPaymentProcessorProps> = ({
         <div className="flex flex-col md:flex-row md:gap-12">
             {/* Left Column (Payment Form) */}
             <div className="order-2 md:order-1 w-full">
-                {isLoading || !clientSecret || !flowerPlan ? (
+                {isLoading || !clientSecret || !upfrontPlan ? (
                     <Card className="bg-white text-black border-none shadow-md">
                         <CardHeader>
-                            <CardTitle className="text-3xl">Payment Details</CardTitle>
+                            <CardTitle className="3xl">Payment Details</CardTitle>
                             <CardDescription>Enter your card information below.</CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -187,13 +184,13 @@ const FlowerPlanPaymentProcessor: React.FC<FlowerPlanPaymentProcessorProps> = ({
                             <div className="text-center text-sm pb-2">
                                 <p>Powered by <span className="font-bold">Stripe</span></p>
                             </div>
-                            <CardTitle className="text-3xl">Payment Details</CardTitle>
+                            <CardTitle className="3xl">Payment Details</CardTitle>
                             <CardDescription>Enter your card information below.</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <Elements options={options} stripe={stripePromise}>
                                 <CheckoutForm 
-                                    planId={flowerPlan.id.toString()}
+                                    planId={upfrontPlan.id.toString()}
                                     source={mode === 'management' ? 'management' : undefined}
                                 />
                             </Elements>
@@ -204,7 +201,7 @@ const FlowerPlanPaymentProcessor: React.FC<FlowerPlanPaymentProcessorProps> = ({
 
             {/* Right Column (Summary) */}
             <div className="order-1 md:order-2 w-full mb-8 md:mb-0">
-                {isLoading || !flowerPlan ? (
+                {isLoading || !upfrontPlan ? (
                 <Card className="bg-white shadow-md border-none text-black">
                     <CardHeader>
                         <CardTitle>Loading Plan...</CardTitle>
@@ -215,7 +212,7 @@ const FlowerPlanPaymentProcessor: React.FC<FlowerPlanPaymentProcessorProps> = ({
                 </Card>
                 ) : (
                 <PlanSummary 
-                    originalPlan={flowerPlan}
+                    originalPlan={upfrontPlan}
                     newPlan={mode === 'management' ? (newPlanDetails ?? undefined) : undefined}
                 />
                 )}
