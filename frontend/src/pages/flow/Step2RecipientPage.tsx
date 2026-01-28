@@ -1,10 +1,10 @@
 // foreverflower/frontend/src/pages/flow/Step2RecipientPage.tsx
 import React from 'react';
-import RecipientEngine from '@/components/RecipientEngine';
+import RecipientEditor from '@/components/RecipientEditor';
 
 const Step2RecipientPage: React.FC = () => {
     return (
-        <RecipientEngine
+        <RecipientEditor
             mode="create"
             title="Who is receiving the flowers?"
             saveButtonText="Next: Plan Preferences"

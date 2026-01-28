@@ -1,10 +1,10 @@
 // foreverflower/frontend/src/pages/user_dashboard/EditRecipientPage.tsx
 import React from 'react';
-import RecipientEngine from '@/components/RecipientEngine';
+import RecipientEditor from '@/components/RecipientEditor';
 
 const EditRecipientPage: React.FC = () => {
     return (
-        <RecipientEngine
+        <RecipientEditor
             mode="edit"
             title="Edit Recipient Details"
             saveButtonText="Save Changes"
