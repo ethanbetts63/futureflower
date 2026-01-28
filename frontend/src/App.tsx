@@ -29,8 +29,8 @@ const Step4CustomMessagePage = lazy(() => import('./pages/flow/Step4CustomMessag
 const Step5StructurePage = lazy(() => import('./pages/flow/Step5StructurePage'));
 const Step6BookingConfirmationPage = lazy(() => import('./pages/flow/Step6BookingConfirmationPage'));
 const Step7PaymentPage = lazy(() => import('./pages/flow/Step7PaymentPage'));
-const Step8PaymentStatusPage = lazy(() => import('./pages/flow/Step8PaymentStatusPage'));
 
+const PaymentStatusPage = lazy(() => import('./pages/PaymentStatusPage'));
 const BlocklistSuccessPage = lazy(() => import('./pages/BlocklistSuccessPage'));
 const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
@@ -91,7 +91,8 @@ function App() {
                 <Route path="/book-flow/flower-plan/:planId/add-message" element={<Step4CustomMessagePage />} />
                 <Route path="/book-flow/flower-plan/:planId/confirmation" element={<Step6BookingConfirmationPage />} />
                 <Route path="/book-flow/flower-plan/:planId/payment" element={<Step7PaymentPage />} />
-                <Route path="/payment-status" element={<Step8PaymentStatusPage />} />
+                
+                <Route path="/payment-status" element={<PaymentStatusPage />} />
 
                 {/* Admin Section */}
                 <Route path="/admin-dashboard" element={<AdminLayout />}>
