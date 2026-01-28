@@ -7,9 +7,7 @@ import EditButton from '@/components/EditButton';
 
 
 
-interface UserDetailsSummaryProps {
-  user: UserProfile | null;
-}
+import type { UserDetailsSummaryProps } from '../types/components';
 
 const UserDetailsSummary: React.FC<UserDetailsSummaryProps> = ({ user }) => {
   if (!user) {

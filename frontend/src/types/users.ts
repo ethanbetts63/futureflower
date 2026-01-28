@@ -13,7 +13,4 @@ export interface UserProfile {
     is_superuser?: boolean;
 }
 
-// ProfileCreationData is an external type and its definition needs to be verified.
-// If it's eventually found in a separate file, it should be moved here.
-// For now, it's assumed to be imported from "@/forms/ProfileCreationForm".
-// export interface ProfileCreationData { ... }
+
