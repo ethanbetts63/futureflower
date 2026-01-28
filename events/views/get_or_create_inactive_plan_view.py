@@ -22,6 +22,6 @@ class GetOrCreateInactivePlanView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             # If no plan is found, create a new one
-            new_plan = UpfrontPlan.objects.create(user=request.user) # Status defaults to 'pending_payment'
+            new_plan = UpfrontPlan.objects.create(user=request.user) 
             serializer = UpfrontPlanSerializer(new_plan)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
