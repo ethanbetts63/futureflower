@@ -1,62 +1,27 @@
-// src/types/index.ts
+// foreverflower/frontend/src/types/index.ts
 
-export interface AuthResponse {
-    refresh: string;
-    access: string;
-    user: {
-        id: number;
-        email: string;
-        first_name: string;
-        last_name: string;
-    };
-}
+// Export types from auth.ts
+export type { AuthResponse } from './auth';
 
-export interface EventCreationResponse {
-    event: {
-        name: string;
-        event_date: string;
-        notes: string | null;
-    };
-    user: {
-        email: string;
-    };
-}
+// Export types from config.ts
+export type { AppConfig } from './config';
 
-export interface Event {
-    id: number;
-    order: number;
-    delivery_date: string;
-    message: string | null;
-    bouquet_preference: string | null;
-    status: string;
-    created_at: string;
-    updated_at: string;
-}
+// Export types from data.ts
+export type { FaqItem, TermsAndConditions } from './data';
 
-export interface UserProfile {
-    id: number;
-    username: string;
-    email: string;
-    first_name: string;
-    last_name: string;
-    is_staff?: boolean;
-    is_superuser?: boolean;
-}
+// Export types from events.ts
+export type { Event, EventCreationResponse } from './events'; 
 
-export interface FaqItem {
-  question: string;
-  answer: string;
-}
+// Export types from payments.ts
+export type { CreatePaymentIntentPayload } from './payments';
 
-export interface AppConfig {
-  priceId: number;
-  amount: number;
-  currency: string;
-}
+// Export types from plans.ts
+export type { Color, FlowerType, UpfrontPlan, CreateUpfrontPlanPayload, PartialUpfrontPlan } from './plans';
 
+// Export types from users.ts
+export type { UserProfile } from './users';
 
-export interface TermsAndConditions {
-    version: string;
-    content: string;
-    published_at: string;
-}
+// ProfileCreationData is assumed to be defined in forms/ProfileCreationForm.ts
+// and will be imported directly where needed, or its definition could be moved here
+// if that file is purely for type definitions and we decide to centralize it.
+// export type { ProfileCreationData } from './users'; // or from a dedicated forms.ts

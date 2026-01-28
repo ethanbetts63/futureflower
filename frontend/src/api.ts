@@ -1,7 +1,7 @@
 // src/api.ts
 import { authedFetch } from '@/apiClient';
+import type { AppConfig, AuthResponse, Event, UserProfile, FaqItem, TermsAndConditions, Color, FlowerType, UpfrontPlan, CreateUpfrontPlanPayload, PartialUpfrontPlan, CreatePaymentIntentPayload } from "@/types";
 import type { ProfileCreationData } from "@/forms/ProfileCreationForm";
-import type { AppConfig, AuthResponse, Event, UserProfile, FaqItem, TermsAndConditions } from "@/types";
 
 /**
  * A centralized module for all API interactions.
@@ -130,44 +130,11 @@ export async function activateFreeEvent(eventId: number): Promise<Event> {
 
 // --- UpfrontPlan Endpoints ---
 
-export interface Color {
-    id: number;
-    name: string;
-    hex_code: string;
-}
 
-export interface FlowerType {
-    id: number;
-    name: string;
-}
 
-export interface UpfrontPlan {
-    id: number;
-    user: number;
-    status: string; // Changed from is_active: boolean;
-    start_date?: string;
-    notes: string | null;
-    budget: string;
-    deliveries_per_year: number;
-    years: number;
-    total_amount: number;
-    currency: string;
-    
-    recipient_first_name: string | null;
-    recipient_last_name: string | null;
-    recipient_street_address: string | null;
-    recipient_suburb: string | null;
-    recipient_city: string | null;
-    recipient_state: string | null;
-    recipient_postcode: string | null;
-    recipient_country: string | null;
 
-    preferred_colors: string[];
-    preferred_flower_types: string[];
-    rejected_colors: string[];
-    rejected_flower_types: string[];
-    events: Event[];
-}
+
+
 
 export async function getColors(): Promise<Color[]> {
     const response = await authedFetch('/api/events/colors/');
@@ -201,19 +168,7 @@ export async function deleteUpfrontPlan(planId: string): Promise<void> {
     await handleResponse(response);
 }
 
-export interface CreateUpfrontPlanPayload {
-    budget: number;
-    deliveries_per_year: number;
-    years: number;
-    recipient_first_name?: string;
-    recipient_last_name?: string;
-    recipient_street_address?: string;
-    recipient_suburb?: string;
-    recipient_city?: string;
-    recipient_state?: string;
-    recipient_postcode?: string;
-    recipient_country?: string;
-}
+
 
 export async function createUpfrontPlan(planData: CreateUpfrontPlanPayload): Promise<UpfrontPlan> {
     const response = await authedFetch('/api/events/upfront-plans/', {
@@ -223,7 +178,7 @@ export async function createUpfrontPlan(planData: CreateUpfrontPlanPayload): Pro
     return handleResponse(response);
 }
 
-export type PartialUpfrontPlan = Partial<UpfrontPlan>;
+
 
 export async function updateUpfrontPlan(planId: string, planData: PartialUpfrontPlan): Promise<UpfrontPlan> {
     const response = await authedFetch(`/api/events/upfront-plans/${planId}/`, {
@@ -271,14 +226,7 @@ export async function changePassword(passwordData: { old_password: string, new_p
 
 // --- Payment Endpoints ---
 
-export interface CreatePaymentIntentPayload {
-  upfront_plan_id: string; // Changed from flower_plan_id
-  amount?: number;
-  budget?: number;
-  years?: number;
-  deliveries_per_year?: number;
-  currency?: string;
-}
+
 
 export async function createPaymentIntent(payload: CreatePaymentIntentPayload): Promise<{ clientSecret: string }> {
   const response = await authedFetch('/api/payments/create-payment-intent/', {
