@@ -1,23 +1,12 @@
 // foreverflower/frontend/src/pages/flow/Step7PaymentPage.tsx
 import React from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import BackButton from '@/components/BackButton';
 import Seo from '@/components/Seo';
 import FlowerPlanPaymentProcessor from '@/components/FlowerPlanPaymentProcessor';
 
 const Step7PaymentPage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();
-    const [searchParams] = useSearchParams();
-    const isManagementFlow = searchParams.get('source') === 'management';
-    
-    // Determine the correct back path based on the flow
-    const getBackPath = () => {
-        if (isManagementFlow) {
-            return `/dashboard/plans/${planId}/edit-structure`;
-        }
-        // In the booking flow, we came from the confirmation page
-        return `/book-flow/flower-plan/${planId}/confirmation`;
-    };
 
     return (
         <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
@@ -28,10 +17,10 @@ const Step7PaymentPage: React.FC = () => {
                     <p>Secure your ForeverFlower plan.</p>
                 </div>
 
-                <FlowerPlanPaymentProcessor />
+                <FlowerPlanPaymentProcessor mode="booking" />
 
                 <div className="mt-8">
-                    <BackButton to={getBackPath()} />
+                    <BackButton to={`/book-flow/flower-plan/${planId}/confirmation`} />
                 </div>
             </div>
         </div>

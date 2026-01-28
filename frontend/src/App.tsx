@@ -19,6 +19,7 @@ const EditRecipientPage = lazy(() => import('./pages/user_dashboard/EditRecipien
 const EditStructurePage = lazy(() => import('./pages/user_dashboard/EditStructurePage'));
 const EditPreferencesPage = lazy(() => import('./pages/user_dashboard/EditPreferencesPage'));
 const EditMessagesPage = lazy(() => import('./pages/user_dashboard/EditMessagesPage'));
+const UserDashboardPaymentPage = lazy(() => import('./pages/user_dashboard/UserDashboardPaymentPage'));
 
 const EventGate = lazy(() => import('@/components/EventGate'));
 const Step1CreateAccountPage = lazy(() => import('./pages/flow/Step1CreateAccountPage'));
@@ -107,6 +108,7 @@ function App() {
                   <Route path="plans/:planId/edit-structure" element={<EditStructurePage />} />
                   <Route path="plans/:planId/edit-preferences" element={<EditPreferencesPage />} />
                   <Route path="plans/:planId/edit-messages" element={<EditMessagesPage />} />
+                  <Route path="plans/:planId/payment" element={<UserDashboardPaymentPage />} />
                 </Route>
 
               </Routes>
