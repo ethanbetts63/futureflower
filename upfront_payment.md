@@ -38,7 +38,7 @@ The user journey begins with account creation and proceeds through a multi-step 
     - Budget per delivery
     - Number of deliveries per year
     - Total number of years
-- **API Call (Price Calculation):** As the user adjusts the structure, a debounced `POST` request is sent to `/api/events/calculate-price/`. This backend endpoint calculates the total upfront cost and returns it. Becuase the payment is upfront and the service is evenly spaced expenditures in the future, its an annuity and therefor we can provide a upfront discount to account for that. 
+- **API Call (Price Calculation):** As the user adjusts the structure, a debounced `POST` request is sent to `/api/events/calculate-price/`. This backend endpoint calculates the total upfront cost and returns it. Because the payment is upfront and the service is evenly spaced expenditures in the future, its an annuity and therefor we can provide a upfront discount to account for that. 
 - **API Call (Save Structure):** When the user proceeds, `updateFlowerPlan` is called to save the selected structure and the calculated `total_amount` to the `FlowerPlan`.
 
 ### Step 6: Confirmation
@@ -47,18 +47,36 @@ The user journey begins with account creation and proceeds through a multi-step 
 - **Navigation:** Upon confirmation, the user is taken to the payment page.
 
 ### Step 7: Payment
+This step now involves two distinct payment pages, each serving a specific user flow, but both leveraging a shared processing component for consistency and reusability.
+
+#### Booking Flow Payment
 - **File:** `frontend/src/pages/flow/Step7PaymentPage.tsx`
-- **Action:** The user is presented with a Stripe Elements payment form.
-- **API Call:**
+- **Action:** The user in the initial booking flow is presented with a Stripe Elements payment form.
+- **Shared Component:** This page uses the `FlowerPlanPaymentProcessor.tsx` component with `mode="booking"`.
+
+#### Dashboard Management Payment
+- **File:** `frontend/src/pages/user_dashboard/UserDashboardPaymentPage.tsx`
+- **Action:** Users modifying an existing plan (e.g., changing its structure) that results in an additional cost are directed here to make a payment.
+- **Shared Component:** This page also uses the `FlowerPlanPaymentProcessor.tsx` component, but with `mode="management"`.
+
+#### `FlowerPlanPaymentProcessor.tsx` (Shared Component)
+- **Location:** `frontend/src/components/FlowerPlanPaymentProcessor.tsx`
+- **Purpose:** Encapsulates the core logic for processing flower plan payments using Stripe.
+- **Logic:**
     1. The `createPaymentIntent` function is called, which sends a `POST` request to `/api/payments/create-payment-intent/`.
     2. The backend `CreatePaymentIntentView` creates a Stripe `PaymentIntent` and a corresponding `Payment` record in the local database with a `status` of `'pending'`.
     3. The `clientSecret` for the Stripe `PaymentIntent` is returned to the frontend.
-- **Stripe Integration:** The `clientSecret` is used to initialize the `CheckoutForm` component, which securely collects the user's card details.
+    4. The `clientSecret` is used to initialize the `CheckoutForm` component, which securely collects the user's card details.
+    5. It dynamically displays the plan summary, including any changes made during a management flow, based on the `mode` prop.
 
 ### Step 8: Payment Status
-- **File:** `frontend/src/pages/flow/Step8PaymentStatusPage.tsx`
-- **Action:** After submitting the payment form, the user is redirected to this page.
-- **Stripe Integration:** The page retrieves the payment status from Stripe using the `payment_intent_client_secret` from the URL parameters. It then displays a success or failure message to the user.
+This step uses a single, universal page to display the outcome of any payment transaction, whether from the booking flow or a dashboard modification.
+
+- **File:** `frontend/src/pages/PaymentStatusPage.tsx`
+- **Action:** After submitting the payment form, the user is redirected to this page. The redirect URL includes `payment_intent_client_secret`, `plan_id`, and `source` (e.g., `'management'`) as URL parameters.
+- **Stripe Integration & Logic:** The page retrieves the payment status from Stripe using the `payment_intent_client_secret` from the URL parameters. It then uses the `plan_id` and `source` parameters to dynamically:
+    - Determine the appropriate redirection path if the user needs to "Try Again".
+    - Display a success or failure message to the user, tailored to whether it was an initial plan payment or a modification.
 
 ## 2. Backend: API and Payment Processing
 
@@ -68,9 +86,9 @@ The Django backend handles the business logic, data persistence, and communicati
 - **View:** `CreatePaymentIntentView`
 - **Endpoint:** `/api/payments/create-payment-intent/`
 - **Logic:**
-    - Receives the `flower_plan_id` from the frontend.
+    - Receives the `flower_plan_id` and, potentially, updated plan details (budget, deliveries, years, amount) from the frontend.
     - Finds the corresponding `FlowerPlan`.
-    - Creates a Stripe `PaymentIntent` with the `total_amount` of the plan. Metadata, including `flower_plan_id`, `user_id`, and plan structure details, is attached to the intent.
+    - Creates a Stripe `PaymentIntent` with the `total_amount` (either the plan's original total or the new calculated amount for modifications). Metadata, including `flower_plan_id`, `user_id`, and plan structure details (especially for modifications), is attached to the intent.
     - Creates a `Payment` record in the database, linking it to the user and `FlowerPlan`, and setting its initial `status` to `'pending'`.
     - Returns the `clientSecret` of the `PaymentIntent` to the frontend.
 
@@ -138,35 +156,37 @@ After a successful payment, the user can manage their active plan through the da
     - Allows the user to edit various parts of the plan, which will trigger a similar, but modified, flow for handling payment for any plan upgrades.
     - If a plan has been created but not yet paid for (`is_active` is `False`), it displays a `PlanActivationBanner` prompting the user to complete payment.
 
-## 6. Flow vs. User Dashboard: Component Analysis
+## 6. Component Architecture & Reusability
 
-The project separates the user journey into two main directories: `flow` for the initial creation of a plan, and `user_dashboard` for viewing and editing existing plans. This analysis compares the two.
+The project separates the user journey into two main directories: `flow` for the initial creation of a plan, and `user_dashboard` for viewing and editing existing plans. This architecture prioritizes clear delineation of user journeys while maximizing code reusability through specialized, context-aware components.
 
 ### Equivalent Pages
 - **Recipient Details:**
     - **Creation:** `flow/Step2RecipientPage.tsx`
     - **Editing:** `user_dashboard/EditRecipientPage.tsx`
-- **Plan Structure:**
-    - **Creation:** `flow/Step5StructurePage.tsx`
-    - **Editing:** `user_dashboard/EditStructurePage.tsx`
 - **Preferences:**
     - **Creation:** `flow/Step3PreferenceSelectionPage.tsx`
     - **Editing:** `user_dashboard/EditPreferencesPage.tsx`
 - **Messages:**
     - **Creation:** `flow/Step4CustomMessagePage.tsx`
     - **Editing:** `user_dashboard/EditMessagesPage.tsx`
+- **Plan Structure:**
+    - **Creation:** `flow/Step5StructurePage.tsx`
+    - **Editing:** `user_dashboard/EditStructurePage.tsx`
+- **Payment:**
+    - **Creation:** `flow/Step7PaymentPage.tsx`
+    - **Editing:** `user_dashboard/UserDashboardPaymentPage.tsx`
+- **Payment Status:**
+    - **Universal:** `PaymentStatusPage.tsx` (handles status for both booking and management flows)
 
 ### Shared Components
-The project makes good use of shared components to reduce code duplication between the creation and editing flows.
+The project extensively uses shared components to abstract common logic and UI elements, making the codebase modular and maintainable.
 - **`RecipientEditor`**: Contains the form for recipient details and is used by both `Step2RecipientPage.tsx` and `EditRecipientPage.tsx`.
 - **`StructureEditor`**: Contains the form for the plan's structure (budget, years, etc.) and is used by both `Step5StructurePage.tsx` and `EditStructurePage.tsx`.
+- **`MessagesEditor`**: Manages message input for deliveries, used by both `Step4CustomMessagePage.tsx` and `EditMessagesPage.tsx`.
+- **`PlanDisplay`**: A smart component responsible for fetching and providing core flower plan data (`plan`, `colorMap`, `flowerTypeMap`) to its children, used by `Step6BookingConfirmationPage.tsx` and `PlanOverviewPage.tsx`.
+- **`FlowerPlanPaymentProcessor`**: Encapsulates the logic for initiating Stripe payment intents and rendering the `CheckoutForm`, used by `Step7PaymentPage.tsx` and `UserDashboardPaymentPage.tsx`.
 - **UI Components:** Standard UI elements from `shadcn/ui` (like `Card`, `Button`, `Spinner`) and custom components like `Seo` and `BackButton` are used consistently across both flows.
 
-### Opportunities for Consolidation
-While some pages are already shared, there is an opportunity to further reduce duplication.
-- **Recipient & Structure Pages:**
-    - The page-level components for managing the recipient (`Step2RecipientPage.tsx` vs. `EditRecipientPage.tsx`) and the plan structure (`Step5StructurePage.tsx` vs. `EditStructurePage.tsx`) are currently separate files.
-    - Their internal logic for fetching data, managing form state, and handling save/cancel actions is highly similar.
-    - **Recommendation:** These could be consolidated into single, more robust components. For example, a single `RecipientPage.tsx` could handle both creation and editing, using a URL parameter (like `?source=management`) to slightly alter its behavior (e.g., the redirect path on save, the title, or the save button text).
-
-
+### Component Architecture Philosophy
+Our architectural approach prioritizes maintaining dedicated page components for distinct user flows (e.g., initial booking flow vs. dashboard-based plan management). This explicit separation clearly delineates user journeys and contexts within the application. However, to prevent code duplication and promote maintainability, we consistently extract common logic, data fetching, and UI patterns into robust, context-aware "Editor" or "Processor" components (such as `StructureEditor`, `MessagesEditor`, and `FlowerPlanPaymentProcessor`). These reusable components are then utilized by the dedicated page components, ensuring high code reuse without compromising the clarity of each user flow. This strategy enhances modularity, simplifies testing, and makes the codebase more scalable and easier to understand for developers.
