@@ -1,10 +1,8 @@
 
 import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
-import type { DeliveryEvent, Color, FlowerType } from "@/types";
-
-// Define type for breakdown structure from API response
-import type { DeliveryEvent, Color, FlowerType, PriceBreakdown } from "@/types";
+import type { DeliveryEvent, Color, FlowerType } from '../types';
+import type { PriceBreakdown } from '../types/api';
 
 type CalculatePricePayload = {
   budget: number;

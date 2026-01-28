@@ -1,3 +1,7 @@
+import type { AppConfig } from './config';
+import type { UserProfile } from './users';
+import type { AuthResponse } from './auth';
+
 export interface NavItem {
     to: string;
     label: string;
