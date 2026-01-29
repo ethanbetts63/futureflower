@@ -25,13 +25,17 @@ const UniversalPaymentStatusPage: React.FC = () => {
 
         const clientSecret = searchParams.get('payment_intent_client_secret');
         const planId = searchParams.get('plan_id');
-        const source = searchParams.get('source');
-        const isManagementFlow = source === 'management';
+        const source = searchParams.get('source'); // E.g., 'upfront-booking', 'subscription-booking', 'upfront-management'
 
         if (planId) {
-            const path = isManagementFlow
-                ? `/dashboard/plans/${planId}/payment`
-                : `/book-flow/flower-plan/${planId}/payment`;
+            let path = '/dashboard'; // Default
+            if (source === 'upfront-booking') {
+                path = `/book-flow/upfront-plan/${planId}/payment`;
+            } else if (source === 'subscription-booking') {
+                path = `/subscribe-flow/subscription-plan/${planId}/payment`;
+            } else if (source === 'upfront-management') {
+                path = `/dashboard/plans/${planId}/payment`;
+            }
             setTryAgainPath(path);
         }
 
@@ -55,7 +59,7 @@ const UniversalPaymentStatusPage: React.FC = () => {
             switch (paymentIntent?.status) {
                 case 'succeeded':
                     setPaymentSucceeded(true);
-                    const successMessage = isManagementFlow
+                    const successMessage = source === 'upfront-management'
                         ? 'Success! Your plan has been updated.'
                         : 'Success! Your payment was received.';
                     

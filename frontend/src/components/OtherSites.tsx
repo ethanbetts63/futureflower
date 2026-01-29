@@ -14,7 +14,7 @@ const OtherSites: React.FC<OtherSitesProps> = ({ sites }) => {
             </h2>
             <div className="flex justify-center">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                    {sites.map((site, index) => (
+                    {sites.map((site: OtherSite, index: number) => (
                         <Card key={index} className="bg-white border-0 shadow-md">
                             <CardContent className="p-6 flex flex-col h-full">
                                 <div className="flex items-center mb-4">
