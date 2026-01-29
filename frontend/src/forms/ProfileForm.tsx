@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import type { UserProfile } from '@/types';
+import type { UserProfile } from '../types/UserProfile';
 import { updateUserProfile } from '@/api';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

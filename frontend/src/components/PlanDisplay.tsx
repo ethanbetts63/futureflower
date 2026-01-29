@@ -2,7 +2,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getColors, getFlowerTypes } from '@/api';
-import type { Color, FlowerType, UpfrontPlan, SubscriptionPlan } from '@/types';
+import type { Color } from '../types/Color';
+import type { FlowerType } from '../types/FlowerType';
+import type { UpfrontPlan } from '../types/UpfrontPlan';
+import type { SubscriptionPlan } from '../types/SubscriptionPlan';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';

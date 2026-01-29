@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageSquareText, Repeat } from 'lucide-react';
 import EditButton from '@/components/EditButton';
-import type { DeliveryEvent } from '@/types';
+import type { DeliveryEvent } from '../types/DeliveryEvent';
 import type { MessagesCardProps } from '@/types/components';
 
 

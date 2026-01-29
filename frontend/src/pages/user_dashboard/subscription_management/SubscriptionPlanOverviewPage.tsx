@@ -11,7 +11,7 @@ import PlanActivationBanner from '@/components/PlanActivationBanner';
 import PlanDisplay from '@/components/PlanDisplay';
 import SubscriptionStructureCard from '@/components/SubscriptionStructureCard';
 import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
-import type { SubscriptionPlan } from '@/types';
+import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
 
 const SubscriptionPlanOverviewPage: React.FC = () => {
   const { planId } = useParams<{ planId: string }>();

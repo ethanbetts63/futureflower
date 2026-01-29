@@ -4,9 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Palette, Sprout, Ban } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import EditButton from '@/components/EditButton';
-import type { Color, FlowerType } from '@/types';
+import type { Color } from '../types/Color';
+import type { FlowerType } from '../types/FlowerType';
 import type { PreferencesCardProps } from '@/types/component_props';
-import type { UpfrontPlan, SubscriptionPlan, PartialUpfrontPlan, PartialSubscriptionPlan } from '@/types';
+import type { UpfrontPlan } from '../types/UpfrontPlan';
+import type { SubscriptionPlan } from '../types/SubscriptionPlan';
+import type { PartialUpfrontPlan } from '../types/PartialUpfrontPlan';
+import type { PartialSubscriptionPlan } from '../types/PartialSubscriptionPlan';
 
 type Plan = UpfrontPlan | SubscriptionPlan;
 type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { getUpfrontPlans, getUserProfile } from '@/api';
-import { type UserProfile, type UpfrontPlan, type DeliveryEvent } from '@/types';
+import { type UserProfile } from '@/types/UserProfile';
+import { type UpfrontPlan } from '@/types/UpfrontPlan';
+import { type DeliveryEvent } from '@/types/DeliveryEvent';
 
 import NextDeliveryCard from '@/components/NextDeliveryCard';
 import type { NextDeliveryInfo } from '@/types/components';

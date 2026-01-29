@@ -11,17 +11,3 @@ export interface DeliveryEvent {
     created_at: string;
     updated_at: string;
 }
-
-/**
- * Defines the response structure for a DeliveryEvent creation.
- */
-export interface DeliveryEventCreationResponse {
-    event: {
-        name: string;
-        event_date: string;
-        notes: string | null;
-    };
-    user: {
-        email: string;
-    };
-}

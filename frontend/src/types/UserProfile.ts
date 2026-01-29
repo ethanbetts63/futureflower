@@ -12,5 +12,3 @@ export interface UserProfile {
     is_staff?: boolean;
     is_superuser?: boolean;
 }
-
-

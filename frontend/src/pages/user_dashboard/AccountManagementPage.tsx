@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { UserProfile } from '@/types';
+import type { UserProfile } from '@/types/UserProfile';
 import { getUserProfile } from '@/api';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";

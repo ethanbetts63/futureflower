@@ -10,7 +10,7 @@ import PreferencesCard from '@/components/PreferencesCard';
 import PlanDisplay from '@/components/PlanDisplay';
 import SubscriptionStructureCard from '@/components/SubscriptionStructureCard';
 import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
-import type { SubscriptionPlan } from '@/types';
+import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
 
 const Step5ConfirmationPage: React.FC = () => {
   const { planId } = useParams<{ planId: string }>();

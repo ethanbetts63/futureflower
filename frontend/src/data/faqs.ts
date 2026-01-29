@@ -1,4 +1,4 @@
-import type { FaqItem } from '@/types';
+import type { FaqItem } from '../types/FaqItem';
 
 export const faqs: { [key: string]: FaqItem[] } = {
   "best-flower-subscription-services-us": [

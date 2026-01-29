@@ -6,7 +6,8 @@ import Seo from '@/components/Seo';
 import PaymentProcessor from '@/components/PaymentProcessor';
 import { getSubscriptionPlan, createSubscription } from '@/api';
 import SubscriptionPlanSummary from '@/components/SubscriptionPlanSummary';
-import type { UpfrontPlan, SubscriptionPlan } from '@/types';
+import type { UpfrontPlan } from '@/types/UpfrontPlan';
+import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
 
 type Plan = UpfrontPlan | SubscriptionPlan;
 

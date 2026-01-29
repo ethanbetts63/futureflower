@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode, useCallback } from 'react';
 import * as api from '@/api';
-import type { AuthResponse, UserProfile } from '@/types';
+import type { AuthResponse } from '../types/AuthResponse';
+import type { UserProfile } from '../types/UserProfile';
 import type { AuthContextType } from '../types/context';
 
 // --- Context Creation ---

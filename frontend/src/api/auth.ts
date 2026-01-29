@@ -2,7 +2,7 @@
 import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
 import type { AuthResponse } from "@/types";
-import type { ProfileCreationData } from "../types/forms";
+import type { ProfileCreationData } from "../types/ProfileCreationData";
 
 type PasswordResetConfirmPayload = {
   password: string;

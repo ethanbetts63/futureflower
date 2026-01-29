@@ -2,8 +2,8 @@
 import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
 import type { DeliveryEvent, Color, FlowerType } from '../types';
-import type { PriceBreakdown } from '../types/api';
-import type { CalculatePlanPayload } from '../types/forms';
+import type { PriceBreakdown } from '../types/PriceBreakdown';
+import type { CalculatePlanPayload } from '../types/CalculatePlanPayload';
 
 export async function getEvents(): Promise<DeliveryEvent[]> {
     const response = await authedFetch('/api/events/', {

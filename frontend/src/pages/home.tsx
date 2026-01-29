@@ -7,7 +7,7 @@ import { HeroV2 } from '../components/HeroV2';
 import { DeliverySection } from '../components/DeliverySection';
 import { RomanceSection } from '../components/RomanceSection';
 import { OtherServices } from '../components/OtherServices';
-import type { FaqItem } from '@/types';
+import type { FaqItem } from '@/types/FaqItem';
 import { ArticleCarousel } from '../components/ArticleCarousel';
 
 

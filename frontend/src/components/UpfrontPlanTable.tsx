@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Eye } from 'lucide-react';
 import { getUpfrontPlans } from '@/api'; // Import getUpfrontPlans
 import type { UpfrontPlanTableProps } from '@/types/component_props';
-import { type UpfrontPlan } from '@/types';
+import { type UpfrontPlan } from '../types/UpfrontPlan';
 
 const UpfrontPlanTable: React.FC<UpfrontPlanTableProps> = ({ showTitle = true, initialPlans }) => {
   const [plans, setPlans] = useState<UpfrontPlan[]>(initialPlans || []);

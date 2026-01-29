@@ -1,7 +1,3 @@
-export interface DecodedToken {
-    exp: number;
-}
-
 export type PriceBreakdown = {
   fee_per_delivery: number;
   years: number;
