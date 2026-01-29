@@ -81,7 +81,7 @@ const Step6BookingConfirmationPage = () => {
                   </Card>
 
                   <div className="flex justify-between items-center mt-8">
-                    <BackButton to={`/book-flow/upfront-plan/${planId}/add-message`} />
+                    <BackButton to={`/book-flow/upfront-plan/${planId}/structure`} />
                     <PaymentInitiatorButton
                       itemType="UPFRONT_PLAN_NEW"
                       details={{ upfront_plan_id: planId }}

@@ -8,6 +8,7 @@ from datetime import date, timedelta
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from decimal import Decimal # Import Decimal
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -112,3 +113,43 @@ class UpfrontPlanViewSet(viewsets.ModelViewSet):
                 )
         
         Event.objects.bulk_create(events_to_create)
+    
+    def partial_update(self, request, *args, **kwargs):
+        """
+        Custom partial_update to include server-side validation for total_amount.
+        """
+        if 'total_amount' in request.data:
+            client_provided_total_amount = Decimal(str(request.data['total_amount']))
+
+            required_fields = ['budget', 'deliveries_per_year', 'years']
+            if not all(field in request.data for field in required_fields):
+                return Response(
+                    {"error": "Budget, deliveries_per_year, and years are required for total_amount validation."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            try:
+                # Use request data for recalculation, ensuring they are valid numbers
+                new_structure_budget = float(request.data['budget'])
+                new_structure_deliveries = int(request.data['deliveries_per_year'])
+                new_structure_years = int(request.data['years'])
+            except (ValueError, TypeError):
+                 return Response(
+                    {"error": "Invalid data types for budget, deliveries_per_year, or years."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            server_calculated_total_price, _ = forever_flower_upfront_price(
+                budget=new_structure_budget,
+                deliveries_per_year=new_structure_deliveries,
+                years=new_structure_years,
+            )
+            
+            # Compare with client-provided amount
+            if not abs(Decimal(str(server_calculated_total_price)) - client_provided_total_amount) < Decimal('0.02'):
+                return Response(
+                    {"error": f"Price mismatch. Server calculated: {server_calculated_total_price}, Client provided: {client_provided_total_amount}."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        
+        return super().partial_update(request, *args, **kwargs)

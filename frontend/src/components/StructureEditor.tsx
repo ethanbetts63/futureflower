@@ -79,11 +79,11 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
     }, [planId, isAuthenticated, navigate, backPath]);
 
     const calculateAmountOwing = useCallback(async (budget: number, deliveries: number, years: number) => {
-        if (!planId || mode === 'create') { // Don't calculate amount owing for new plans
-            setIsApiCalculating(false);
-            setIsDebouncePending(false);
-            return;
-        };
+        if (!planId) {
+             setIsApiCalculating(false);
+             setIsDebouncePending(false);
+             return;
+        }
 
         setIsDebouncePending(false);
         setIsApiCalculating(true);
@@ -99,7 +99,7 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
         } finally {
             setIsApiCalculating(false);
         }
-    }, [planId, mode]);
+    }, [planId]);
 
     const debouncedCalculate = useMemo(() => debounce(calculateAmountOwing, 500), [calculateAmountOwing]);
 
@@ -118,10 +118,14 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
     const handleSave = async () => {
         if (!planId) return;
 
-        // This function now only handles non-payment saves (creation or edits with no cost change)
+        // For 'create' mode, save details and navigate to confirmation.
+        // For 'edit' mode, this only handles saves that do not require payment (e.g., if amountOwing is 0).
         setIsSaving(true);
         try {
             const payload: PartialUpfrontPlan = { ...formData, budget: String(formData.budget) };
+            if (mode === 'create' && amountOwing !== null) {
+                payload.total_amount = amountOwing;
+            }
             await updateUpfrontPlan(planId, payload);
             if (mode === 'edit') {
                 toast.success("Plan structure updated successfully!");
@@ -139,7 +143,7 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
     }
     
     const showPaymentButton = mode === 'edit' && amountOwing !== null && amountOwing > 0;
-    const isActionDisabled = isSaving || isApiCalculating || isDebouncePending || (mode === 'edit' && amountOwing === null && !calculationError);
+    const isActionDisabled = Boolean(isSaving || isApiCalculating || isDebouncePending || amountOwing === null || calculationError);
 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
@@ -156,20 +160,20 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
                             onFormChange={handleFormChange}
                             setIsDebouncePending={setIsDebouncePending}
                         />
-                        {mode === 'edit' && (
-                            <div className="mt-8 text-center h-12 flex flex-col items-center justify-center">
-                                {(isApiCalculating || isDebouncePending) ? (
-                                    <Spinner className="h-8 w-8" />
-                                ) : amountOwing !== null ? (
-                                    <>
-                                        <div className="text-2xl font-bold">${amountOwing.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                                        <p className="text-xs text-gray-600">Amount to pay for this change (inc. fees)</p>
-                                    </>
-                                ) : calculationError ? (
-                                    <div className="text-red-500 text-sm">{calculationError}</div>
-                                ) : null}
-                            </div>
-                        )}
+                        <div className="mt-8 text-center h-12 flex flex-col items-center justify-center">
+                            {(isApiCalculating || isDebouncePending) ? (
+                                <Spinner className="h-8 w-8" />
+                            ) : amountOwing !== null ? (
+                                <>
+                                    <div className="text-2xl font-bold">${amountOwing.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                                    <p className="text-xs text-gray-600">
+                                        {mode === 'edit' ? 'Amount to pay for this change' : 'Total amount for this plan'} (inc. fees)
+                                    </p>
+                                </>
+                            ) : calculationError ? (
+                                 <div className="text-red-500 text-sm">{calculationError}</div>
+                            ) : null}
+                        </div>
                     </CardContent>
                     <CardFooter className="flex justify-between">
                         <BackButton to={backPath} />
