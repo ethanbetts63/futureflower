@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { createPaymentIntent } from '@/api/payments'; // Assuming this is the correct path
+import { createPaymentIntent } from '@/api/payments';
+import type { CreatePaymentIntentPayload } from '@/types'; // Import the type
 
 interface PaymentInitiatorButtonProps extends ButtonProps {
   itemType: 'UPFRONT_PLAN_MODIFY' | 'UPFRONT_PLAN_NEW' | 'SUBSCRIPTION_PLAN_NEW';
-  details: object;
+  details: CreatePaymentIntentPayload['details']; // Use the specific details type
   onPaymentInitiate?: () => void;
   onPaymentSuccess?: (clientSecret: string) => void;
   onPaymentError?: (error: any) => void;
@@ -50,8 +51,9 @@ const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
       if (onPaymentSuccess) {
         onPaymentSuccess(clientSecret);
       } else {
+        const idToPass = details.upfront_plan_id || details.subscription_plan_id;
         // Default navigation behavior
-        navigate('/checkout', { state: { clientSecret } });
+        navigate('/checkout', { state: { clientSecret, planId: idToPass } });
       }
 
     } catch (err: any) {

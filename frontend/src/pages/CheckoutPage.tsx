@@ -15,12 +15,15 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const CheckoutPage: React.FC = () => {
     const location = useLocation();
     const [clientSecret, setClientSecret] = useState<string | null>(null);
+    const [planId, setPlanId] = useState<string | null>(null); // State to store planId
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const secret = location.state?.clientSecret;
+        const id = location.state?.planId; // Extract planId from state
         if (secret) {
             setClientSecret(secret);
+            if (id) setPlanId(id); // Set planId if available
         } else {
             toast.error("Checkout session is invalid or has expired.", {
                 description: "Please try starting the process again.",
@@ -58,9 +61,7 @@ const CheckoutPage: React.FC = () => {
                     <CardContent>
                         <Elements options={options} stripe={stripePromise}>
                             <CheckoutForm 
-                                // The CheckoutForm can be simplified if it no longer needs to know about the plan
-                                // For now, we pass dummy/generic values if they are required.
-                                planId="N/A"
+                                planId={planId || "N/A"} // Pass actual planId or fallback
                                 source="checkout"
                             />
                         </Elements>

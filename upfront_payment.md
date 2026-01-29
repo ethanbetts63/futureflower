@@ -152,19 +152,19 @@ The project separates the user journey into two main directories: `flow` for the
 ### Equivalent Pages
 - **Recipient Details:**
     - **Creation:** `flow/Step2RecipientPage.tsx`
-    - **Editing:** `user_dashboard/EditRecipientPage.tsx`
+    - **Editing:** `frontend/src/pages/user_dashboard/upfront_management/EditRecipientPage.tsx`
 - **Preferences:**
     - **Creation:** `flow/Step3PreferenceSelectionPage.tsx`
-    - **Editing:** `user_dashboard/EditPreferencesPage.tsx`
+    - **Editing:** `frontend/src/pages/user_dashboard/upfront_management/EditPreferencesPage.tsx`
 - **Messages:**
     - **Creation:** `flow/Step4CustomMessagePage.tsx`
-    - **Editing:** `user_dashboard/EditMessagesPage.tsx`
+    - **Editing:** `frontend/src/pages/user_dashboard/upfront_management/EditMessagesPage.tsx`
 - **Plan Structure:**
     - **Creation:** `flow/Step5StructurePage.tsx`
-    - **Editing:** `user_dashboard/EditStructurePage.tsx`
+    - **Editing:** `frontend/src/pages/user_dashboard/upfront_management/EditStructurePage.tsx`
 - **Payment:**
     - **Creation:** `flow/Step7PaymentPage.tsx`
-    - **Editing:** `user_dashboard/UserDashboardPaymentPage.tsx`
+    - **Editing:** `frontend/src/pages/CheckoutPage.tsx` (Handles payment for modifications)
 - **Payment Status:**
     - **Universal:** `PaymentStatusPage.tsx` (handles status for both booking and management flows)
 
@@ -174,8 +174,9 @@ The project extensively uses shared components to abstract common logic and UI e
 - **`StructureEditor`**: Contains the form for the plan's structure (budget, years, etc.) and is used by both `Step5StructurePage.tsx` and `EditStructurePage.tsx`.
 - **`MessagesEditor`**: Manages message input for deliveries, used by both `Step4CustomMessagePage.tsx` and `EditMessagesPage.tsx`.
 - **`PlanDisplay`**: A smart component responsible for fetching and providing core flower plan data (`plan`, `colorMap`, `flowerTypeMap`) to its children, used by `Step6BookingConfirmationPage.tsx` and `PlanOverviewPage.tsx`.
-- **`UpfrontPlanPaymentProcessor`**: Encapsulates the logic for initiating Stripe payment intents and rendering the `CheckoutForm`, used by `Step7PaymentPage.tsx` and `UserDashboardPaymentPage.tsx`.
+
+- **`PaymentInitiatorButton`**: Initiates the payment process by calling the backend API to create a Stripe `PaymentIntent`.
 - **UI Components:** Standard UI elements from `shadcn/ui` (like `Card`, `Button`, `Spinner`) and custom components like `Seo` and `BackButton` are used consistently across both flows.
 
 ### Component Architecture Philosophy
-Our architectural approach prioritizes maintaining dedicated page components for distinct user flows (e.g., initial booking flow vs. dashboard-based plan management). This explicit separation clearly delineates user journeys and contexts within the application. However, to prevent code duplication and promote maintainability, we consistently extract common logic, data fetching, and UI patterns into robust, context-aware "Editor" or "Processor" components (such as `StructureEditor`, `MessagesEditor`, and `UpfrontPlanPaymentProcessor`). These reusable components are then utilized by the dedicated page components, ensuring high code reuse without compromising the clarity of each user flow. This strategy enhances modularity, simplifies testing, and makes the codebase more scalable and easier to understand for developers.
+Our architectural approach prioritizes maintaining dedicated page components for distinct user flows (e.g., initial booking flow vs. dashboard-based plan management). This explicit separation clearly delineates user journeys and contexts within the application. However, to prevent code duplication and promote maintainability, we consistently extract common logic, data fetching, and UI patterns into robust, context-aware "Editor" components (such as `StructureEditor` and `MessagesEditor`). These reusable components are then utilized by the dedicated page components, ensuring high code reuse without compromising the clarity of each user flow. This strategy enhances modularity, simplifies testing, and makes the codebase more scalable and easier to understand for developers.

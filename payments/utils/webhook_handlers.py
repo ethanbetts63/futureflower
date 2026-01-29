@@ -5,7 +5,6 @@ from django.conf import settings
 from payments.models import Payment
 from users.models import User
 from events.models import UpfrontPlan, SubscriptionPlan, Event
-from .send_admin_payment_notification import send_admin_payment_notification
 from dateutil.relativedelta import relativedelta
 
 def _get_or_create_stripe_customer(user: User, payment_method_id: str) -> str:
@@ -93,9 +92,6 @@ def handle_payment_intent_succeeded(payment_intent):
         else:
             print(f"Unhandled item_type '{item_type}' in payment_intent.succeeded webhook. No action taken.")
             return # Avoid sending a generic notification for unhandled types
-
-        send_admin_payment_notification(payment_id=payment.stripe_payment_intent_id)
-        print(f"Admin notification sent for payment: {payment.pk}.")
 
     except Payment.DoesNotExist:
         print(f"ERROR: Payment.DoesNotExist for Stripe PaymentIntent ID: {payment_intent_id}")

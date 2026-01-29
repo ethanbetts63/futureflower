@@ -66,7 +66,8 @@ const UniversalPaymentStatusPage: React.FC = () => {
                     setMessage(`${successMessage} Redirecting to your plan overview...`);
                     
                     setTimeout(() => {
-                        navigate(planId ? `/dashboard/plans/${planId}/overview` : '/dashboard');
+                        const targetPath = (planId && planId !== "N/A") ? `/dashboard/plans/${planId}/overview` : '/dashboard';
+                        navigate(targetPath);
                     }, 3000);
                     break;
                 case 'processing':

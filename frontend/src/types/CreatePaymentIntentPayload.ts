@@ -8,7 +8,7 @@ export interface CreatePaymentIntentPayload {
     // Depending on the item_type, different properties will be required.
     upfront_plan_id?: string;
     subscription_plan_id?: string;
-    stripe_price_id?: string;
+    stripe_price_id?: string | null;
     budget?: number;
     years?: number;
     deliveries_per_year?: number;
