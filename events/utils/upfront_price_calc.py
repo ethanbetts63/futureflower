@@ -2,16 +2,16 @@ from decimal import Decimal
 from django.db import models
 
 def forever_flower_upfront_price(
-    budget,        # B: $ per delivery
-    deliveries_per_year,   # F
-    years,                 # N
-    commission_pct=0.05,   # 5%
-    min_fee_per_delivery=15,
-    annual_real_return=0.04,  # r (conservative)
-):
+    budget: Decimal,
+    deliveries_per_year: int,
+    years: int,
+    commission_pct: Decimal = Decimal('0.05'),
+    min_fee_per_delivery: Decimal = Decimal('15'),
+    annual_real_return: Decimal = Decimal('0.04'),
+) -> (Decimal, dict):
     """
     Returns:
-        upfront_price (float)
+        upfront_price (Decimal)
         breakdown (dict)
     """
 
@@ -28,7 +28,8 @@ def forever_flower_upfront_price(
 
     r = annual_real_return
     N = years
-    annuity_factor = (1 - (1 + r) ** -N) / r
+    # Annuity factor calculation using Decimal
+    annuity_factor = (Decimal('1') - (Decimal('1') + r) ** -N) / r
 
     # Present value of annuity
     upfront_price = total_cost_year * annuity_factor
@@ -40,9 +41,9 @@ def forever_flower_upfront_price(
     
     # Calculate the savings percentage
     if total_subscription_cost > 0:
-        savings_percentage = (1 - (upfront_price / total_subscription_cost)) * 100
+        savings_percentage = (Decimal('1') - (upfront_price / total_subscription_cost)) * Decimal('100')
     else:
-        savings_percentage = 0
+        savings_percentage = Decimal('0')
 
     breakdown = {
         "flower_cost_year": flower_cost_year,
@@ -82,11 +83,11 @@ def calculate_final_plan_cost(upfront_plan, new_structure: dict):
         years=new_structure['years']
     )
     
-    amount_owing = Decimal(new_total_price) - total_paid
+    amount_owing = new_total_price - total_paid
     amount_owing = max(Decimal('0.00'), amount_owing) # Ensure amount owing is not negative
 
     return {
-        "new_total_price": round(Decimal(new_total_price), 2),
+        "new_total_price": round(new_total_price, 2),
         "total_paid": round(total_paid, 2),
         "amount_owing": round(amount_owing, 2),
     }
