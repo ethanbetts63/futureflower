@@ -6,6 +6,21 @@ import Seo from '@/components/Seo';
 import PaymentProcessor from '@/components/PaymentProcessor';
 import { getSubscriptionPlan, createSubscription } from '@/api';
 import SubscriptionPlanSummary from '@/components/SubscriptionPlanSummary';
+import type { UpfrontPlan, SubscriptionPlan } from '@/types';
+
+type Plan = UpfrontPlan | SubscriptionPlan;
+
+const SubscriptionPlanSummaryWrapper: React.FC<{ plan: Plan; newPlanDetails?: any }> = ({ plan, newPlanDetails }) => {
+    const isSubscriptionPlan = (p: Plan): p is SubscriptionPlan => {
+        return 'frequency' in p && 'price_per_delivery' in p;
+    };
+
+    if (!isSubscriptionPlan(plan)) {
+        return <p className="text-red-500">Error: Expected Subscription Plan</p>;
+    }
+
+    return <SubscriptionPlanSummary plan={plan} newPlanDetails={newPlanDetails} />;
+};
 
 const Step6PaymentPage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();
@@ -22,7 +37,7 @@ const Step6PaymentPage: React.FC = () => {
                 <PaymentProcessor 
                     getPlan={getSubscriptionPlan}
                     createPayment={createSubscription}
-                    SummaryComponent={SubscriptionPlanSummary}
+                    SummaryComponent={SubscriptionPlanSummaryWrapper}
                     planType="subscription"
                     mode="booking"
                 />
@@ -34,5 +49,6 @@ const Step6PaymentPage: React.FC = () => {
         </div>
     );
 };
+
 
 export default Step6PaymentPage;

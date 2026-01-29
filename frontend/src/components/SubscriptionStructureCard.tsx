@@ -35,7 +35,7 @@ const SubscriptionStructureCard: React.FC<SubscriptionStructureCardProps> = ({ p
             <CardContent className="space-y-4">
                 <div className="flex justify-between items-center">
                     <span className="font-medium flex items-center"><Calendar className="mr-2 h-4 w-4 text-gray-500" /> First Delivery</span>
-                    <span>{plan.start_date ? format(parseISO(plan.start_date), 'MMMM d, yyyy') : 'Not set'}</span>
+                    <span>{plan.start_date ? plan.start_date : 'Not set'}</span>
                 </div>
                 <div className="flex justify-between items-center">
                     <span className="font-medium flex items-center"><Repeat className="mr-2 h-4 w-4 text-gray-500" /> Frequency</span>

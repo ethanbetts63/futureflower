@@ -1,10 +1,10 @@
 // foreverflower/frontend/src/components/SubscriptionPlanSummary.tsx
 import React from 'react';
-import type { SubscriptionPlan } from '@/types';
+import type { SubscriptionPlan, UpfrontPlan } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
 interface SubscriptionPlanSummaryProps {
-  plan: SubscriptionPlan;
+  plan: UpfrontPlan | SubscriptionPlan;
   newPlanDetails?: any;
 }
 

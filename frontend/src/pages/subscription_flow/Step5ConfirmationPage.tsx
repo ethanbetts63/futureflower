@@ -9,7 +9,7 @@ import BackButton from '@/components/BackButton';
 import PreferencesCard from '@/components/PreferencesCard';
 import PlanDisplay from '@/components/PlanDisplay';
 import SubscriptionStructureCard from '@/components/SubscriptionStructureCard';
-import { getSubscriptionPlan } from '@/api';
+import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
 import type { SubscriptionPlan } from '@/types';
 
 const Step5ConfirmationPage: React.FC = () => {
@@ -51,6 +51,8 @@ const Step5ConfirmationPage: React.FC = () => {
                             colorMap={colorMap}
                             flowerTypeMap={flowerTypeMap}
                             editUrl={`/subscribe-flow/subscription-plan/${planId}/preferences`}
+                            getPlan={getSubscriptionPlan}
+                            updatePlan={updateSubscriptionPlan}
                         />
 
                         <Card className="bg-white shadow-md border-none text-black">

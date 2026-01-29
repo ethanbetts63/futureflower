@@ -11,7 +11,7 @@ import PreferencesCard from '@/components/PreferencesCard';
 import MessagesCard from '@/components/MessagesCard';
 import PlanDisplay from '@/components/PlanDisplay';
 
-import { getUpfrontPlan } from '@/api';
+import { getUpfrontPlan, updateUpfrontPlan } from '@/api';
 
 
 const Step6BookingConfirmationPage = () => {
@@ -53,6 +53,8 @@ const Step6BookingConfirmationPage = () => {
                     colorMap={colorMap}
                     flowerTypeMap={flowerTypeMap}
                     editUrl={`/book-flow/upfront-plan/${planId}/preferences`}
+                    getPlan={getUpfrontPlan}
+                    updatePlan={updateUpfrontPlan}
                   />
 
                   <MessagesCard

@@ -11,6 +11,7 @@ import RecipientCard from '@/components/RecipientCard';
 import PaymentHistoryCard from '@/components/PaymentHistoryCard';
 import PlanActivationBanner from '@/components/PlanActivationBanner';
 import PlanDisplay from '@/components/PlanDisplay';
+import { getUpfrontPlan, updateUpfrontPlan } from '@/api/upfrontPlans';
 
 const PlanOverviewPage = () => {
   const { planId } = useParams<{ planId: string }>();
@@ -20,7 +21,7 @@ const PlanOverviewPage = () => {
       <Seo title="Plan Overview | ForeverFlower" />
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto max-w-4xl">
-          <PlanDisplay fallbackNavigationPath="/dashboard/flower-plans">
+          <PlanDisplay getPlan={getUpfrontPlan} fallbackNavigationPath="/dashboard/flower-plans">
             {({ plan, colorMap, flowerTypeMap }) => (
               <>
                 {plan.status !== 'active' && planId && <PlanActivationBanner planId={planId} />}
@@ -57,6 +58,8 @@ const PlanOverviewPage = () => {
                       colorMap={colorMap}
                       flowerTypeMap={flowerTypeMap}
                       editUrl={`/dashboard/plans/${planId}/edit-preferences`}
+                      getPlan={getUpfrontPlan}
+                      updatePlan={updateUpfrontPlan}
                     />
 
                     <MessagesCard
