@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from "./ui/card";
 import type { FaqItem } from '@/types';
+import type { FaqV2Props } from '@/types/components';
 import { ChevronDown } from 'lucide-react';
 
-interface FaqV2Props {
-  title: string;
-  faqs: FaqItem[];
-}
+
 
 export const FaqV2: React.FC<FaqV2Props> = ({ title, faqs }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);

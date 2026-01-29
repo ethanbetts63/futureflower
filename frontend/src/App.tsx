@@ -33,6 +33,7 @@ const Step7PaymentPage = lazy(() => import('./pages/upfront_flow/Step7PaymentPag
 const SubscriptionStep2RecipientPage = lazy(() => import('./pages/subscription_flow/Step2RecipientPage'));
 const SubscriptionStep3PreferenceSelectionPage = lazy(() => import('./pages/subscription_flow/Step3PreferenceSelectionPage'));
 const SubscriptionStep4StructurePage = lazy(() => import('./pages/subscription_flow/Step4StructurePage'));
+const SubscriptionStep5ConfirmationPage = lazy(() => import('./pages/subscription_flow/Step5ConfirmationPage'));
 
 const PaymentStatusPage = lazy(() => import('./pages/PaymentStatusPage'));
 const BlocklistSuccessPage = lazy(() => import('./pages/BlocklistSuccessPage'));
@@ -101,6 +102,7 @@ function App() {
                 <Route path="/subscribe-flow/subscription-plan/:planId/recipient" element={<SubscriptionStep2RecipientPage />} />
                 <Route path="/subscribe-flow/subscription-plan/:planId/preferences" element={<SubscriptionStep3PreferenceSelectionPage />} />
                 <Route path="/subscribe-flow/subscription-plan/:planId/structure" element={<SubscriptionStep4StructurePage />} />
+                <Route path="/subscribe-flow/subscription-plan/:planId/confirmation" element={<SubscriptionStep5ConfirmationPage />} />
 
                 <Route path="/payment-status" element={<PaymentStatusPage />} />
 

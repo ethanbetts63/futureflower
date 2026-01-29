@@ -1,13 +1,7 @@
 import React from 'react';
+import type { HeroProps } from '@/types/components';
 
-interface HeroProps {
-  title: React.ReactNode;
-  subtitle: React.ReactNode;
-  imageSrc: string;
-  srcSet?: string;
-  imageAlt: string;
-  ctaElement?: React.ReactNode;
-}
+
 
 export const Hero: React.FC<HeroProps> = ({ title, subtitle, imageSrc, srcSet, imageAlt, ctaElement }) => {
   return (

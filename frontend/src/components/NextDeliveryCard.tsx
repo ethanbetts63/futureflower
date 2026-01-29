@@ -2,18 +2,10 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Truck, Calendar, Hash, User, MapPin } from 'lucide-react';
-import type { UpfrontPlan } from '@/types';
-import type { DeliveryEvent } from '@/types';
+import type { UpfrontPlan, DeliveryEvent, SubscriptionPlan } from '@/types';
+import type { NextDeliveryInfo, NextDeliveryCardProps } from '@/types/components';
 
-export interface NextDeliveryInfo {
-    plan: UpfrontPlan;
-    event: DeliveryEvent;
-    deliveryIndex: number;
-}
 
-interface NextDeliveryCardProps {
-    deliveryInfo: NextDeliveryInfo | null;
-}
 
 const NextDeliveryCard: React.FC<NextDeliveryCardProps> = ({ deliveryInfo }) => {
 

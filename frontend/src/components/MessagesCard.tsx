@@ -3,12 +3,10 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageSquareText, Repeat } from 'lucide-react';
 import EditButton from '@/components/EditButton';
-import type { UpfrontPlan, DeliveryEvent } from '@/types';
+import type { UpfrontPlan, DeliveryEvent, SubscriptionPlan } from '@/types';
+import type { MessagesCardProps } from '@/types/components';
 
-interface MessagesCardProps {
-    plan: UpfrontPlan;
-    editUrl: string;
-}
+
 
 const MessagesCard: React.FC<MessagesCardProps> = ({ plan, editUrl }) => {
     // Get a list of all non-empty messages

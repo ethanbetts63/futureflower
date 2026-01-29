@@ -1,4 +1,5 @@
 import React from 'react';
+import type { HeroV2Props } from '@/types/components';
 import heroImage320 from '../assets/hero1-320w.webp';
 import heroImage640 from '../assets/hero1-640w.webp';
 import heroImage768 from '../assets/hero1-768w.webp';
@@ -12,10 +13,7 @@ import heroMobileImage768 from '../assets/hero_mobile-768w.webp';
 import heroMobileImage1024 from '../assets/hero_mobile-1024w.webp';
 import heroMobileImage1280 from '../assets/hero_mobile-1280w.webp';
 
-interface HeroV2Props {
-  title: React.ReactNode;
-  subtitle: React.ReactNode;
-}
+
 
 export const HeroV2: React.FC<HeroV2Props> = ({ title, subtitle }) => {
   return (

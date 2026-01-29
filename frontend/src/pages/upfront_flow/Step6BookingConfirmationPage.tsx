@@ -11,6 +11,9 @@ import PreferencesCard from '@/components/PreferencesCard';
 import MessagesCard from '@/components/MessagesCard';
 import PlanDisplay from '@/components/PlanDisplay';
 
+import { getUpfrontPlan } from '@/api';
+
+
 const Step6BookingConfirmationPage = () => {
   const { planId } = useParams<{ planId: string }>();
 
@@ -19,7 +22,7 @@ const Step6BookingConfirmationPage = () => {
       <Seo title="Confirm Your Plan | ForeverFlower" />
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-4xl">
-          <PlanDisplay fallbackNavigationPath="/dashboard">
+          <PlanDisplay getPlan={getUpfrontPlan} fallbackNavigationPath="/dashboard">
             {({ plan, colorMap, flowerTypeMap }) => (
               <div className="space-y-8">
                 <Card className="text-center w-full bg-white shadow-md border-none text-black">

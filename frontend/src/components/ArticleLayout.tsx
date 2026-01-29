@@ -2,15 +2,9 @@ import React from 'react';
 import { Hero } from './Hero';
 import { FaqV2 } from './FaqV2';
 import { faqs } from '../data/faqs';
+import type { ArticleLayoutProps } from '@/types/components';
 
-interface ArticleLayoutProps {
-  title: React.ReactNode;
-  subtitle: React.ReactNode;
-  imageSrc: string;
-  imageAlt: string;
-  faqPage?: string;
-  children: React.ReactNode;
-}
+
 
 export const ArticleLayout: React.FC<ArticleLayoutProps> = ({ title, subtitle, imageSrc, imageAlt, children, faqPage }) => {
   const faqItems = faqPage ? faqs[faqPage] : undefined;

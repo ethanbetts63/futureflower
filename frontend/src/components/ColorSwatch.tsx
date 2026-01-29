@@ -2,12 +2,9 @@
 import React from 'react';
 import { cn } from "@/utils/utils";
 import { Check } from 'lucide-react';
+import type { ColorSwatchProps } from '@/types/components';
 
-interface ColorSwatchProps {
-  hex: string;
-  isSelected: boolean;
-  onClick: () => void;
-}
+
 
 export const ColorSwatch: React.FC<ColorSwatchProps> = ({ hex, isSelected, onClick }) => {
   return (

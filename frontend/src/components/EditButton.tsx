@@ -2,10 +2,9 @@ import { Link } from 'react-router-dom';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
 import { cn } from '@/utils/utils';
+import type { EditButtonProps } from '@/types/components';
 
-interface EditButtonProps extends Omit<ButtonProps, 'asChild' | 'children'> {
-  to: string;
-}
+
 
 const EditButton: React.FC<EditButtonProps> = ({ to, className, ...props }) => {
   const buttonClasses = cn("shadow-md", className);
