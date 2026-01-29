@@ -2,7 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { getUpfrontPlans, getUserProfile } from '@/api';
 import { type UserProfile, type UpfrontPlan, type DeliveryEvent } from '@/types';
 
-import NextDeliveryCard, { type NextDeliveryInfo } from '@/components/NextDeliveryCard';
+import NextDeliveryCard from '@/components/NextDeliveryCard';
+import type { NextDeliveryInfo } from '@/types/components';
 import UpfrontPlanTable from '@/components/UpfrontPlanTable';
 import UserDetailsSummary from '@/components/UserDetailsSummary';
 import { toast } from 'sonner';

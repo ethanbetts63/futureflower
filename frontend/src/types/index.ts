@@ -20,3 +20,6 @@ export type { Color, FlowerType, UpfrontPlan, CreateUpfrontPlanPayload, PartialU
 
 // Export types from users.ts
 export type { UserProfile } from './users';
+
+// Export types from components.ts
+export type { UserDetailsSummaryProps, ArticleCarouselProps, ArticleLayoutProps, ColorSwatchProps, DeliveryDatesCardProps, EditButtonProps, FaqV2Props, HeroProps, HeroV2Props, MessagesCardProps, NextDeliveryInfo, NextDeliveryCardProps, OtherSite, OtherSitesProps } from './components';

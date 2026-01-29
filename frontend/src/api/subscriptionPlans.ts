@@ -28,3 +28,11 @@ export async function calculateSubscriptionPrice(planId: string, budget: number)
   });
   return handleResponse(response);
 }
+
+export async function createSubscription(payload: { subscription_plan_id: string }): Promise<{ clientSecret: string }> {
+    const response = await authedFetch('/api/payments/create-subscription/', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+    });
+    return handleResponse(response);
+}

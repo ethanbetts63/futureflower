@@ -1,4 +1,8 @@
 import type { UserProfile } from './users';
+import type { UpfrontPlan, SubscriptionPlan } from './plans';
+import type { DeliveryEvent } from './events';
+import type { FaqItem } from './data';
+import type { ButtonProps } from '../components/ui/button';
 
 export interface UserDetailsSummaryProps {
   user: UserProfile | null;
@@ -65,4 +69,15 @@ export interface NextDeliveryInfo {
 
 export interface NextDeliveryCardProps {
     deliveryInfo: NextDeliveryInfo | null;
+}
+
+export interface OtherSite {
+    name: string;
+    logoSrc: string;
+    description: string;
+    url: string;
+}
+
+export interface OtherSitesProps {
+    sites: OtherSite[];
 }

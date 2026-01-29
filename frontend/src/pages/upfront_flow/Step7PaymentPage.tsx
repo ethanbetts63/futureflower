@@ -3,7 +3,9 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import BackButton from '@/components/BackButton';
 import Seo from '@/components/Seo';
-import UpfrontPlanPaymentProcessor from '@/components/UpfrontPlanPaymentProcessor';
+import PaymentProcessor from '@/components/PaymentProcessor';
+import { getUpfrontPlan, createPaymentIntent } from '@/api';
+import UpfrontPlanSummary from '@/components/UpfrontPlanSummary';
 
 const Step7PaymentPage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();
@@ -17,7 +19,13 @@ const Step7PaymentPage: React.FC = () => {
                     <p>Secure your ForeverFlower plan.</p>
                 </div>
 
-                <UpfrontPlanPaymentProcessor mode="booking" />
+                <PaymentProcessor 
+                    getPlan={getUpfrontPlan}
+                    createPayment={createPaymentIntent}
+                    SummaryComponent={UpfrontPlanSummary}
+                    planType="upfront"
+                    mode="booking"
+                />
 
                 <div className="mt-8">
                     <BackButton to={`/book-flow/upfront-plan/${planId}/confirmation`} />
