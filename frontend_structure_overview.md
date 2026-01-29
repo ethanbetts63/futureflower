@@ -7,7 +7,7 @@ The `foreverflower` frontend is a React application. The core of the application
     *   **`assets/fonts/`**:
         *   **`assets/fonts/Playfair_Display/`**:
             *   **`assets/fonts/Playfair_Display/static/`**:
-*   **`components/`**: all custom components. 
+*   **`components/`**: All custom components. 
     *   **`components/ui/`**: All shadcn components. 
 *   **`context/`**: This directory manages React Context API implementations for global state management. Contexts defined here provide a way to share data across the component tree without prop-drilling.
 *   **`data/`**: This directory holds mock data, constants, or any other static data that might be used by the application, often for development purposes or for configuration.
