@@ -1,6 +1,7 @@
 // foreverflower/frontend/src/pages/flow/Step2RecipientPage.tsx
 import React from 'react';
 import RecipientEditor from '@/components/RecipientEditor';
+import { getUpfrontPlan, updateUpfrontPlan } from '@/api';
 
 const Step2RecipientPage: React.FC = () => {
     return (
@@ -10,6 +11,8 @@ const Step2RecipientPage: React.FC = () => {
             saveButtonText="Next: Plan Preferences"
             onSaveNavigateTo="/book-flow/upfront-plan/{planId}/preferences"
             onCancelNavigateTo="/dashboard"
+            getPlan={getUpfrontPlan}
+            updatePlan={updateUpfrontPlan}
         />
     );
 };

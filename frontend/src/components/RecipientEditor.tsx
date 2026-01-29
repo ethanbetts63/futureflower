@@ -3,8 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
-import { getUpfrontPlan, updateUpfrontPlan } from '@/api';
-import type { UpfrontPlan, PartialUpfrontPlan } from '@/types';
+import type { UpfrontPlan, SubscriptionPlan, PartialUpfrontPlan, PartialSubscriptionPlan } from '@/types';
 import type { RecipientData } from '../types/forms';
 import RecipientForm from '@/forms/RecipientForm';
 import Seo from '@/components/Seo';
@@ -13,12 +12,17 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import BackButton from '@/components/BackButton';
 
+type Plan = UpfrontPlan | SubscriptionPlan;
+type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
+
 interface RecipientEditorProps {
     mode: 'create' | 'edit';
     title: string;
     saveButtonText: string;
     onSaveNavigateTo: string; // A string pattern like '/dashboard/plans/{planId}/overview'
     onCancelNavigateTo: string; // A string pattern like '/dashboard' or '/dashboard/plans/{planId}/overview'
+    getPlan: (planId: string) => Promise<Plan>;
+    updatePlan: (planId: string, data: PartialPlan) => Promise<Plan>;
 }
 
 const RecipientEditor: React.FC<RecipientEditorProps> = ({
@@ -27,6 +31,8 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
     saveButtonText,
     onSaveNavigateTo,
     onCancelNavigateTo,
+    getPlan,
+    updatePlan,
 }) => {
     const { planId } = useParams<{ planId: string }>();
     const navigate = useNavigate();
@@ -60,7 +66,7 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
         const fetchPlanData = async () => {
             setIsLoading(true);
             try {
-                const plan: UpfrontPlan = await getUpfrontPlan(planId);
+                const plan = await getPlan(planId);
                 setFormData({
                     recipient_first_name: plan.recipient_first_name || '',
                     recipient_last_name: plan.recipient_last_name || '',
@@ -80,7 +86,7 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
         };
 
         fetchPlanData();
-    }, [planId, isAuthenticated, navigate]);
+    }, [planId, isAuthenticated, navigate, getPlan]);
 
     const handleFormChange = (field: keyof RecipientData, value: string) => {
         setFormData((prev: RecipientData) => ({ ...prev, [field]: value }));
@@ -97,8 +103,8 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
         
         setIsSaving(true);
         try {
-            const payload: PartialUpfrontPlan = { ...formData };
-            await updateUpfrontPlan(planId, payload);
+            const payload: PartialPlan = { ...formData };
+            await updatePlan(planId, payload);
 
             if (mode === 'edit') {
                 toast.success("Recipient details updated successfully!");

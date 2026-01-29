@@ -5,13 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import type { SubscriptionStructureData } from '../types/forms';
+import type { SubscriptionStructureData, SubscriptionStructureFormProps } from '../types/forms';
 
-interface SubscriptionStructureFormProps {
-    formData: SubscriptionStructureData;
-    onFormChange: (field: keyof SubscriptionStructureData, value: string | number) => void;
-    setIsDebouncePending?: (isDebouncing: boolean) => void; // Optional for compatibility
-}
+
 
 const getMinDateString = () => {
     const minDate = new Date();

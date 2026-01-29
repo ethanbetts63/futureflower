@@ -72,3 +72,9 @@ export type CalculatePlanPayload = {
   deliveries_per_year: number;
   years: number;
 };
+
+export interface SubscriptionStructureFormProps {
+    formData: SubscriptionStructureData;
+    onFormChange: (field: keyof SubscriptionStructureData, value: string | number) => void;
+    setIsDebouncePending?: (isDebouncing: boolean) => void; // Optional for compatibility
+}
