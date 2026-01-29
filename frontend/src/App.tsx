@@ -19,7 +19,6 @@ const EditRecipientPage = lazy(() => import('./pages/user_dashboard/upfront_mana
 const EditStructurePage = lazy(() => import('./pages/user_dashboard/upfront_management/EditStructurePage'));
 const EditPreferencesPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditPreferencesPage'));
 const EditMessagesPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditMessagesPage'));
-const UserDashboardPaymentPage = lazy(() => import('./pages/user_dashboard/UserDashboardPaymentPage'));
 const SubscriptionPlanOverviewPage = lazy(() => import('./pages/user_dashboard/subscription_management/SubscriptionPlanOverviewPage'));
 const SubscriptionEditRecipientPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditRecipientPage'));
 const SubscriptionEditPreferencesPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditPreferencesPage'));
@@ -32,7 +31,6 @@ const Step3PreferenceSelectionPage = lazy(() => import('./pages/upfront_flow/Ste
 const Step4CustomMessagePage = lazy(() => import('./pages/upfront_flow/Step4CustomMessagePage'));
 const Step5StructurePage = lazy(() => import('./pages/upfront_flow/Step5StructurePage'));
 const Step6BookingConfirmationPage = lazy(() => import('./pages/upfront_flow/Step6BookingConfirmationPage'));
-const Step7PaymentPage = lazy(() => import('./pages/upfront_flow/Step7PaymentPage'));
 
 const SubscriptionStep2RecipientPage = lazy(() => import('./pages/subscription_flow/Step2RecipientPage'));
 const SubscriptionStep3PreferenceSelectionPage = lazy(() => import('./pages/subscription_flow/Step3PreferenceSelectionPage'));
@@ -40,6 +38,7 @@ const SubscriptionStep4StructurePage = lazy(() => import('./pages/subscription_f
 const SubscriptionStep5ConfirmationPage = lazy(() => import('./pages/subscription_flow/Step5ConfirmationPage'));
 const SubscriptionStep6PaymentPage = lazy(() => import('./pages/subscription_flow/Step6PaymentPage'));
 
+const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
 const PaymentStatusPage = lazy(() => import('./pages/PaymentStatusPage'));
 const BlocklistSuccessPage = lazy(() => import('./pages/BlocklistSuccessPage'));
 const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
@@ -101,7 +100,6 @@ function App() {
                 <Route path="/book-flow/upfront-plan/:planId/preferences" element={<Step3PreferenceSelectionPage />} />
                 <Route path="/book-flow/upfront-plan/:planId/add-message" element={<Step4CustomMessagePage />} />
                 <Route path="/book-flow/upfront-plan/:planId/confirmation" element={<Step6BookingConfirmationPage />} />
-                <Route path="/book-flow/upfront-plan/:planId/payment" element={<Step7PaymentPage />} />
                 
                 {/* Subscription Plan Flow */}
                 <Route path="/subscribe-flow/subscription-plan/:planId/recipient" element={<SubscriptionStep2RecipientPage />} />
@@ -110,6 +108,8 @@ function App() {
                 <Route path="/subscribe-flow/subscription-plan/:planId/confirmation" element={<SubscriptionStep5ConfirmationPage />} />
                 <Route path="/subscribe-flow/subscription-plan/:planId/payment" element={<SubscriptionStep6PaymentPage />} />
 
+                {/* Unified Checkout and Status Pages */}
+                <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/payment-status" element={<PaymentStatusPage />} />
 
                 {/* Admin Section */}
@@ -127,7 +127,6 @@ function App() {
                   <Route path="plans/:planId/edit-structure" element={<EditStructurePage />} />
                   <Route path="plans/:planId/edit-preferences" element={<EditPreferencesPage />} />
                   <Route path="plans/:planId/edit-messages" element={<EditMessagesPage />} />
-                  <Route path="plans/:planId/payment" element={<UserDashboardPaymentPage />} />
                   <Route path="subscription-plans/:planId/overview" element={<SubscriptionPlanOverviewPage />} />
                   <Route path="subscription-plans/:planId/edit-recipient" element={<SubscriptionEditRecipientPage />} />
                   <Route path="subscription-plans/:planId/edit-preferences" element={<SubscriptionEditPreferencesPage />} />

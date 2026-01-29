@@ -1,83 +1,115 @@
 import stripe
+from decimal import Decimal
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.conf import settings
-from events.models import UpfrontPlan
+from events.models import UpfrontPlan, SubscriptionPlan
 from payments.models import Payment
+from events.utils.upfront_price_calc import calculate_final_plan_cost
 
-# Initialize the Stripe API key once
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class CreatePaymentIntentView(APIView):
     """
-    Creates a Stripe PaymentIntent for a given UpfrontPlan.
-    This view handles both new plan creations and plan modifications.
+    Creates a Stripe PaymentIntent for various transaction types.
+    This view acts as a centralized checkout service.
     """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        upfront_plan_id = request.data.get('upfront_plan_id')
-        
-        # Data for modification, will be null for new plans
-        amount_override = request.data.get('amount')
-        budget = request.data.get('budget')
-        years = request.data.get('years')
-        deliveries_per_year = request.data.get('deliveries_per_year')
+        item_type = request.data.get('item_type')
+        details = request.data.get('details')
 
-        if not upfront_plan_id:
+        if not item_type or not details:
             return Response(
-                {"error": "upfront_plan_id is required."},
+                {"error": "item_type and details are required."},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         try:
-            upfront_plan = UpfrontPlan.objects.get(id=upfront_plan_id, user=request.user)
-        except UpfrontPlan.DoesNotExist:
-            return Response(
-                {"error": "UpfrontPlan not found or you don't have permission."},
-                status=status.HTTP_404_NOT_FOUND
-            )
+            amount_in_cents = 0
+            metadata = {'item_type': item_type}
+            order_object = None
 
-        # Determine the amount for the payment intent
-        if amount_override is not None:
-            # Use the amount from the request for modifications
-            final_amount = float(amount_override)
-        else:
-            # Fallback to the plan's total amount for new creations
-            final_amount = upfront_plan.total_amount
+            if item_type == 'UPFRONT_PLAN_MODIFY':
+                plan_id = details.get('upfront_plan_id')
+                upfront_plan = UpfrontPlan.objects.get(id=plan_id, user=request.user)
+                order_object = upfront_plan.orderbase_ptr
+                
+                new_structure = {
+                    'budget': Decimal(details['budget']),
+                    'deliveries_per_year': int(details['deliveries_per_year']),
+                    'years': int(details['years'])
+                }
+                
+                server_side_costs = calculate_final_plan_cost(upfront_plan, new_structure)
+                final_amount = server_side_costs['amount_owing']
+                
+                metadata.update({
+                    'plan_id': plan_id,
+                    'new_budget': str(new_structure['budget']),
+                    'new_years': new_structure['years'],
+                    'new_deliveries_per_year': new_structure['deliveries_per_year']
+                })
 
-        if not final_amount or final_amount <= 0:
-            return Response(
-                {"error": "Invalid total amount for the payment intent."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            elif item_type == 'UPFRONT_PLAN_NEW':
+                plan_id = details.get('upfront_plan_id')
+                upfront_plan = UpfrontPlan.objects.get(id=plan_id, user=request.user)
+                order_object = upfront_plan.orderbase_ptr
+                final_amount = upfront_plan.total_amount
+                metadata.update({'plan_id': plan_id})
 
-        amount_in_cents = int(final_amount * 100)
+            elif item_type == 'SUBSCRIPTION_PLAN_NEW':
+                plan_id = details.get('subscription_plan_id')
+                subscription_plan = SubscriptionPlan.objects.get(id=plan_id, user=request.user)
+                order_object = subscription_plan.orderbase_ptr
+                # For subscriptions, the initial payment could be a setup fee or first month.
+                # Assuming the plan's 'price' field stores this initial amount.
+                final_amount = subscription_plan.price
+                metadata.update({
+                    'plan_id': plan_id,
+                    'stripe_price_id': details.get('stripe_price_id') # Must be passed from frontend
+                })
 
-        try:
-            # For modifications, we always create a new payment intent.
-            # For new plans, we check for an existing pending payment to avoid duplicates.
-            if upfront_plan.status != 'active':
-                existing_payment = Payment.objects.filter(order=upfront_plan.orderbase_ptr, status='pending').first()
-                if existing_payment:
-                    payment_intent = stripe.PaymentIntent.retrieve(existing_payment.stripe_payment_intent_id)
-                    return Response({'clientSecret': payment_intent.client_secret})
+            else:
+                return Response(
+                    {"error": f"Invalid item_type: {item_type}"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            # Ensure final_amount is a float or Decimal for calculations
+            final_amount = Decimal(final_amount)
 
-            # Define metadata for the payment intent
-            metadata = {
-                'order_type': 'upfront',
-                'plan_id': upfront_plan.id,
-                'budget': budget if budget is not None else upfront_plan.budget,
-                'years': years if years is not None else upfront_plan.years,
-                'deliveries_per_year': deliveries_per_year if deliveries_per_year is not None else upfront_plan.deliveries_per_year
-            }
+            if final_amount < 0:
+                return Response(
+                    {"error": "Invalid total amount for the payment intent."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
+            amount_in_cents = int(final_amount * 100)
+
+            # For new plans, check for an existing pending payment to avoid duplicates
+            if 'NEW' in item_type:
+                 existing_payment = Payment.objects.filter(order=order_object, status='pending').first()
+                 if existing_payment and existing_payment.stripe_payment_intent_id:
+                    try:
+                        payment_intent = stripe.PaymentIntent.retrieve(existing_payment.stripe_payment_intent_id)
+                        # Only reuse if the amount is the same. If not, cancel old and create new.
+                        if payment_intent.amount == amount_in_cents:
+                            return Response({'clientSecret': payment_intent.client_secret})
+                        else:
+                            stripe.PaymentIntent.cancel(existing_payment.stripe_payment_intent_id)
+                            existing_payment.delete()
+                    except stripe.error.StripeError:
+                        # The old payment intent might be invalid, proceed to create a new one
+                        existing_payment.delete()
+            
             # Create a new PaymentIntent with Stripe
             payment_intent = stripe.PaymentIntent.create(
                 amount=amount_in_cents,
-                currency=upfront_plan.currency,
+                currency=order_object.currency, # Assumes currency is on the base order model
                 automatic_payment_methods={'enabled': True},
                 metadata=metadata
             )
@@ -85,18 +117,16 @@ class CreatePaymentIntentView(APIView):
             # Create a corresponding Payment record in our database
             Payment.objects.create(
                 user=request.user,
-                order=upfront_plan.orderbase_ptr, # Link to the base order
+                order=order_object,
                 stripe_payment_intent_id=payment_intent.id,
-                amount=final_amount, # Store the actual amount being charged
+                amount=final_amount,
                 status='pending'
             )
 
-            return Response({
-                'clientSecret': payment_intent.client_secret
-            })
+            return Response({'clientSecret': payment_intent.client_secret})
 
+        except (UpfrontPlan.DoesNotExist, SubscriptionPlan.DoesNotExist):
+             return Response({"error": "Plan not found or you don't have permission."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            return Response(
-                {"error": str(e)}, 
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+            # It's good practice to log the exception here
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
