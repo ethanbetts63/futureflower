@@ -6,20 +6,18 @@ This document outlines the complete, detailed flow for creating and managing flo
 
 ### Step 1: Account Creation & Plan Initialization
 - **Action:** The user's journey to create a subscription starts by navigating to `/event-gate` 
-- **`EventGate.tsx` (Potential Role):** While `EventGate.tsx` in the upfront flow explicitly calls `getOrCreatePendingUpfrontPlan`, the existence of `getOrCreatePendingSubscriptionPlan()` in `frontend/src/api/subscriptionPlans.ts` strongly implies a similar, potentially generic or parallel, initialization path for subscriptions through `EventGate.tsx` or a component like it. It acts as a gatekeeper, checking authentication and initializing a pending plan.
+- **`EventGate.tsx`:** This component acts as a universal gatekeeper for both upfront and subscription plan creation flows. It determines the flow type by checking if the current `location.pathname` includes 'subscription'. If it's a subscription flow, it calls `getOrCreatePendingSubscriptionPlan()` to initialize a pending subscription plan. Otherwise, it calls `getOrCreatePendingUpfrontPlan()` for an upfront plan. It also handles user authentication, redirecting to account creation if necessary, and then navigates the user to the next appropriate step based on the plan type.
 - **API Call:** It calls `getOrCreatePendingSubscriptionPlan()` (from `frontend/src/api/subscriptionPlans.ts`), which sends a `GET` request to the backend endpoint at `/api/events/subscription-plans/get-or-create-pending/`.
 - **Backend Logic (`events/views/subscription_plan_view.py`):** The `get_or_create_pending` action within `SubscriptionPlanViewSet` handles this request. It searches for an existing `SubscriptionPlan` for the authenticated user that has `status='pending_payment'`. If such a plan is found, its data is returned. If no pending plan exists, a new `SubscriptionPlan` instance is created, associated with the user, set with `status='pending_payment'`, and its data is returned.
 - **Navigation:** The frontend receives the plan data and navigates the user to the next step of the flow, likely a structure editing page for the newly created or retrieved pending subscription plan.
 
 ### Step 2: Recipient Details
-- **File:** `frontend/src/components/RecipientCard.tsx` (for display), `frontend/src/pages/user_dashboard/subscription_management/EditRecipientPage.tsx` (inferred editing page)
-- **Action:** The user enters recipient details for the subscription deliveries. These details are often collected as part of the initial plan setup or can be edited later via the dashboard.
-- **API Call:** `updateSubscriptionPlan()` (from `frontend/src/api/subscriptionPlans.ts`), using a `PATCH` request to `/api/events/subscription-plans/{planId}/`, is used to save or update recipient details.
+- **File:** `frontend/src/components/RecipientCard.tsx` (for display), `frontend/src/pages/user_dashboard/subscription_management/EditRecipientPage.tsx`
+- **Action:** The user provides recipient details for the subscription deliveries. These details are managed and edited via the dashboard after plan initialization.
 
 ### Step 3: Delivery Preferences
-- **File:** `frontend/src/components/PreferencesCard.tsx` (for display), `frontend/src/pages/user_dashboard/subscription_management/EditPreferencesPage.tsx` (inferred editing page)
-- **Action:** The user can select preferred and rejected colors and flower types for their subscription deliveries.
-- **API Call:** `updateSubscriptionPlan()` (from `frontend/src/api/subscriptionPlans.ts`) is used to save or update these preferences.
+- **File:** `frontend/src/components/PreferencesCard.tsx` (for display), `frontend/src/pages/user_dashboard/subscription_management/EditPreferencesPage.tsx`
+- **Action:** The user can select preferred and rejected colors and flower types for their subscription deliveries. These preferences can be set during initial plan creation or edited later via the dashboard.
 
 ### Step 4: Custom Messages
 - **File:** `frontend/src/forms/SubscriptionStructureForm.tsx` (contains `subscription_message` field), `frontend/src/components/SubscriptionStructureCard.tsx` (displays the message).
@@ -38,15 +36,14 @@ This document outlines the complete, detailed flow for creating and managing flo
 
 ### Step 6: Confirmation
 - **File:** `frontend/src/components/SubscriptionPlanSummary.tsx` (component for displaying a consolidated summary of the plan details).
-- **Action:** The user reviews a complete summary of their chosen subscription plan, including the structure, recipient information, preferences, and the recurring price per delivery. This component can be integrated into a dedicated confirmation page or directly onto the final checkout page.
-- **Navigation:** Upon confirming the details, the user is typically directed to the payment process to activate their subscription.
+- **Action:** The user reviews a complete summary of their chosen subscription plan, including the structure, recipient information, preferences, and the recurring price per delivery. This summary is typically presented on a dedicated confirmation page or integrated into the checkout experience before payment initiation.
 
 ### Step 7: Payment
 This step establishes the recurring payment mechanism for the subscription via Stripe. It uses the universal `CheckoutPage.tsx` and `CheckoutForm.tsx` for handling the initial payment.
 
 #### Payment Flow (Subscription Activation)
 - **File (Subscription Creation API):** `frontend/src/api/subscriptionPlans.ts` (specifically the `createSubscription` function).
-- **Action (Subscription Creation Request):** After confirming the subscription details (e.g., from a confirmation page or `SubscriptionPlanSummary`), the frontend initiates the subscription by calling the `createSubscription()` function. This sends a `POST` request to the backend endpoint `/api/payments/create-subscription/`.
+- **Action (Subscription Creation Request):** After confirming the subscription details (e.g., from a dedicated confirmation page), the frontend initiates the subscription by calling the `createSubscription()` function. This sends a `POST` request to the backend endpoint `/api/payments/create-subscription/`.
 - **Backend `CreateSubscriptionView` (`payments/views/create_subscription_view.py`):**
     - This view retrieves the `SubscriptionPlan` instance from the database using the provided `subscription_plan_id`.
     - It handles the Stripe Customer aspect: if the `request.user` already has a `stripe_customer_id`, it retrieves that customer; otherwise, a new Stripe Customer is created, and its ID is saved to the user's profile.
@@ -185,7 +182,6 @@ After a user successfully subscribes, they can manage their active subscriptions
 ### File: `frontend/src/pages/user_dashboard/subscription_management/SubscriptionPlanOverviewPage.tsx`
 - **Purpose:** Provides a comprehensive and detailed view of a single `SubscriptionPlan`. This is the primary page for managing an active subscription.
 - **Features:**
-    - Retrieves the specific `SubscriptionPlan` using `getSubscriptionPlan()` based on the `planId` from the URL parameters.
     - Displays various facets of the plan using dedicated card components: `SubscriptionStructureCard`, `RecipientCard`, `PreferencesCard`, and `PaymentHistoryCard`.
     - Includes a `PlanActivationBanner` if the plan's status is not 'active', prompting the user to complete payment if necessary.
     - Offers navigation links (`editUrl` props) to dedicated editing pages for recipient, structure, and preferences (e.g., `/dashboard/subscription-plans/{planId}/edit-recipient`), facilitating plan modifications.
