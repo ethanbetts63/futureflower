@@ -1,3 +1,4 @@
+from decimal import Decimal, InvalidOperation
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -51,12 +52,15 @@ class SubscriptionPlanViewSet(viewsets.ModelViewSet):
             return Response({'error': 'Budget is required.'}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            budget = float(budget)
-        except (ValueError, TypeError):
+            budget = Decimal(budget)
+        except (InvalidOperation, TypeError):
             return Response({'error': 'Invalid budget format.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Fee is 5% or $15 minimum
-        fee = max(budget * 0.05, 15.0)
+        commission_pct = Decimal('0.05')
+        min_fee = Decimal('15.0')
+        
+        fee = max(budget * commission_pct, min_fee)
         price_per_delivery = budget + fee
 
         return Response({'price_per_delivery': price_per_delivery}, status=status.HTTP_200_OK)
