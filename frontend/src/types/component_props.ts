@@ -3,6 +3,8 @@ import type { VariantProps } from 'class-variance-authority';
 import type { buttonVariants } from '@/components/ui/button';
 import type { UpfrontPlan, SubscriptionPlan, Payment, PartialUpfrontPlan, PartialSubscriptionPlan, Color, FlowerType } from '@/types';
 
+export type Plan = UpfrontPlan | SubscriptionPlan;
+export type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
 
 export interface BackButtonProps extends ButtonProps {
   to?: string;
@@ -14,7 +16,7 @@ export interface CreateEventLinkProps extends VariantProps<typeof buttonVariants
 }
 
 export interface PaymentHistoryCardProps {
-  plan: (UpfrontPlan | SubscriptionPlan) & { payments?: Payment[] }; 
+  plan: Plan & { payments?: Payment[] }; 
 }
 
 export interface SeoProps {
@@ -71,7 +73,7 @@ export interface SubscriptionStructureCardProps {
 }
 
 export interface SubscriptionPlanSummaryProps {
-  plan: UpfrontPlan | SubscriptionPlan;
+  plan: Plan;
   newPlanDetails?: any;
 }
 
@@ -87,12 +89,12 @@ export interface RecipientEditorProps {
     saveButtonText: string;
     onSaveNavigateTo: string; // A string pattern like '/dashboard/plans/{planId}/overview'
     onCancelNavigateTo: string; // A string pattern like '/dashboard' or '/dashboard/plans/{planId}/overview'
-    getPlan: (planId: string) => Promise<UpfrontPlan | SubscriptionPlan>;
-    updatePlan: (planId: string, data: PartialUpfrontPlan | PartialSubscriptionPlan) => Promise<UpfrontPlan | SubscriptionPlan>;
+    getPlan: (planId: string) => Promise<Plan>;
+    updatePlan: (planId: string, data: PartialPlan) => Promise<Plan>;
 }
 
 export interface RecipientCardProps {
-    plan: UpfrontPlan | SubscriptionPlan;
+    plan: Plan;
     editUrl: string;
 }
 
@@ -104,11 +106,9 @@ export interface PreferencesEditorProps {
     onSaveNavigateTo: string;
     backPath: string;
     showSkipButton: boolean;
-    getPlan: (planId: string) => Promise<UpfrontPlan | SubscriptionPlan>;
-    updatePlan: (planId: string, data: PartialUpfrontPlan | PartialSubscriptionPlan) => Promise<UpfrontPlan | SubscriptionPlan>;
+    getPlan: (planId: string) => Promise<Plan>;
+    updatePlan: (planId: string, data: PartialPlan) => Promise<Plan>;
 }
-
-type Plan = UpfrontPlan | SubscriptionPlan;
 
 export interface PlanDisplayProps {
     children: (data: {
@@ -135,4 +135,34 @@ export interface PaymentProcessorProps {
     SummaryComponent: React.FC<{ plan: Plan; newPlanDetails?: any }>;
     planType: 'upfront' | 'subscription';
     mode: 'booking' | 'management';
+}
+
+export interface MessagesEditorProps {
+    mode: 'create' | 'edit';
+    title: string;
+    description: string;
+    saveButtonText: string;
+    onSaveNavigateTo: string;
+    backPath: string;
+    showSkipButton: boolean;
+}
+
+export interface FaqProps {
+  title: string;
+  subtitle?: string;
+  page: string;
+  imageSrc: string;
+  imageAlt: string;
+  imageSrcLandscape?: string;
+  srcSet?: string;
+  srcSetLandscape?: string;
+}
+
+export interface PreferencesCardProps {
+    plan: Plan;
+    colorMap: Map<number, Color>;
+    flowerTypeMap: Map<number, FlowerType>;
+    editUrl: string;
+    getPlan: (planId: string) => Promise<Plan>;
+    updatePlan: (planId: string, data: PartialPlan) => Promise<Plan>;
 }

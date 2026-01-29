@@ -8,21 +8,12 @@ import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getUpfrontPlan, updateEvent } from '@/api';
-import type { UpfrontPlan, DeliveryEvent } from '@/types';
+import type { DeliveryEvent } from '@/types';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from '@/components/ui/label';
 import BackButton from '@/components/BackButton';
-
-interface MessagesEditorProps {
-    mode: 'create' | 'edit';
-    title: string;
-    description: string;
-    saveButtonText: string;
-    onSaveNavigateTo: string;
-    backPath: string;
-    showSkipButton: boolean;
-}
+import type { MessagesEditorProps } from '@/types/component_props';
 
 type MessageMode = 'single' | 'multiple';
 

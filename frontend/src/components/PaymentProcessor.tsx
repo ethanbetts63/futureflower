@@ -5,22 +5,12 @@ import { loadStripe } from '@stripe/stripe-js';
 import type { StripeElementsOptions, Appearance } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { toast } from 'sonner';
-import type { UpfrontPlan, SubscriptionPlan } from '@/types';
 import { Spinner } from '@/components/ui/spinner';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import CheckoutForm from '../forms/CheckoutForm';
+import type { PaymentProcessorProps, Plan } from '@/types/component_props';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-
-type Plan = UpfrontPlan | SubscriptionPlan;
-
-interface PaymentProcessorProps {
-    getPlan: (planId: string) => Promise<Plan>;
-    createPayment: (payload: any) => Promise<{ clientSecret: string }>;
-    SummaryComponent: React.FC<{ plan: Plan; newPlanDetails?: any }>;
-    planType: 'upfront' | 'subscription';
-    mode: 'booking' | 'management';
-}
 
 const PaymentProcessor: React.FC<PaymentProcessorProps> = ({
     getPlan,
