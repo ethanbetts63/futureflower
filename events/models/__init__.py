@@ -1,4 +1,5 @@
 from .upfront_plan import UpfrontPlan
+from .subscription_plan import SubscriptionPlan
 from .event import Event
 from .order_base import OrderBase
 from .color import Color
@@ -9,7 +10,7 @@ __all__ = [
     'Event',
     'OrderBase',
     'UpfrontPlan',
-    'UpfrontPlan',
+    'SubscriptionPlan',
     'FlowerType',
     'Color',
     'Discount',

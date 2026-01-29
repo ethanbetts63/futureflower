@@ -1,6 +1,6 @@
 // foreverflower/frontend/src/pages/flow/CreateAccountPage.tsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import Seo from '@/components/Seo';
 
 const CreateAccountPage: React.FC = () => {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const { handleLoginSuccess } = useAuth(); 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -21,7 +22,8 @@ const CreateAccountPage: React.FC = () => {
         try {
             const authResponse = await registerUser(data);
             handleLoginSuccess(authResponse);
-            navigate('/event-gate'); // Navigate to the event gate to start the plan creation flow
+            const nextUrl = searchParams.get('next') || '/event-gate';
+            navigate(nextUrl); // Navigate to the event gate to start the plan creation flow
         } catch (error: any) {
             const errorData = error.data || {};
             const description = Object.entries(errorData)

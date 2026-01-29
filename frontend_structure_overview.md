@@ -17,6 +17,6 @@ The `foreverflower` frontend is a React application. The core of the application
     *   **`pages/articles/`**
     *   **`pages/upfront_flow/`**
     *   **`pages/user_dashboard/`**: Pages related to the user's personal dashboard and account management.
-*   **`types/`**
+*   **`types/`**: All types are defined in this dir an imported where needed. 
 *   **`utils/`**
 Beyond these directories, `App.tsx` serves as the main application component, orchestrating the layout and routing, while `main.tsx` is the entry point of the React application, responsible for rendering the root component into the DOM.

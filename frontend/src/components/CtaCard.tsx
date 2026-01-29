@@ -146,14 +146,22 @@ export const CtaCard: React.FC = () => {
           <Slider id="deliveries-slider-sub" aria-label="Deliveries Per Year" min={1} max={12} step={1} value={[deliveriesPerYear]} onValueChange={(v) => setDeliveriesPerYear(v[0])} />
         </div>
       </div>
-       <div className="mt-6 pt-4 border-t border-gray-200 text-center">
+      <div className="mt-6 pt-4 border-t border-gray-200 text-center">
         <Label className="text-sm text-gray-600">Price Per Delivery</Label>
         <div className="text-2xl font-bold mt-1">${pricePerDelivery.toFixed(2)}</div>
         <p className="text-xs text-gray-600 mt-2">Planning for {years} years or more? Switch to 'Pay Upfront' to save on the total cost.</p>
-        <Button onClick={handleGetStarted} className="mt-4">Get Started</Button>
+        <Button onClick={handleSubscriptionStart} className="mt-4">Get Started</Button>
        </div>
     </>
   );
+
+  const handleSubscriptionStart = () => {
+    if (isAuthenticated) {
+      navigate('/event-gate/subscription');
+    } else {
+      navigate('/book-flow/create-account?next=/event-gate/subscription');
+    }
+  };
 
   return (
     <Card className="w-full bg-white shadow-md text-gray-900 rounded-none sm:rounded-xl border-0">

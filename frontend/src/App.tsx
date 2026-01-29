@@ -30,6 +30,10 @@ const Step5StructurePage = lazy(() => import('./pages/upfront_flow/Step5Structur
 const Step6BookingConfirmationPage = lazy(() => import('./pages/upfront_flow/Step6BookingConfirmationPage'));
 const Step7PaymentPage = lazy(() => import('./pages/upfront_flow/Step7PaymentPage'));
 
+const SubscriptionStep2RecipientPage = lazy(() => import('./pages/subscription_flow/Step2RecipientPage'));
+const SubscriptionStep3PreferenceSelectionPage = lazy(() => import('./pages/subscription_flow/Step3PreferenceSelectionPage'));
+const SubscriptionStep4StructurePage = lazy(() => import('./pages/subscription_flow/Step4StructurePage'));
+
 const PaymentStatusPage = lazy(() => import('./pages/PaymentStatusPage'));
 const BlocklistSuccessPage = lazy(() => import('./pages/BlocklistSuccessPage'));
 const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
@@ -84,6 +88,7 @@ function App() {
 
                 {/* Event Creation Flow */}
                 <Route path="/event-gate" element={<EventGate />} />
+                <Route path="/event-gate/subscription" element={<EventGate />} />
                 <Route path="/book-flow/create-account" element={<Step1CreateAccountPage />} />
                 <Route path="/book-flow/upfront-plan/:planId/recipient" element={<Step2RecipientPage />} />
                 <Route path="/book-flow/upfront-plan/:planId/structure" element={<Step5StructurePage />} />
@@ -92,6 +97,11 @@ function App() {
                 <Route path="/book-flow/upfront-plan/:planId/confirmation" element={<Step6BookingConfirmationPage />} />
                 <Route path="/book-flow/upfront-plan/:planId/payment" element={<Step7PaymentPage />} />
                 
+                {/* Subscription Plan Flow */}
+                <Route path="/subscribe-flow/subscription-plan/:planId/recipient" element={<SubscriptionStep2RecipientPage />} />
+                <Route path="/subscribe-flow/subscription-plan/:planId/preferences" element={<SubscriptionStep3PreferenceSelectionPage />} />
+                <Route path="/subscribe-flow/subscription-plan/:planId/structure" element={<SubscriptionStep4StructurePage />} />
+
                 <Route path="/payment-status" element={<PaymentStatusPage />} />
 
                 {/* Admin Section */}
