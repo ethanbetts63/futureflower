@@ -16,7 +16,7 @@ export type { DeliveryEvent, DeliveryEventCreationResponse } from './events';
 export type { CreatePaymentIntentPayload, Payment } from './payments';
 
 // Export types from plans.ts
-export type { Color, FlowerType, UpfrontPlan, CreateUpfrontPlanPayload, PartialUpfrontPlan } from './plans';
+export type { Color, FlowerType, UpfrontPlan, CreateUpfrontPlanPayload, PartialUpfrontPlan, SubscriptionPlan, PartialSubscriptionPlan } from './plans';
 
 // Export types from users.ts
 export type { UserProfile } from './users';

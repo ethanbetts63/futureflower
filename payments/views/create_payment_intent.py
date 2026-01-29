@@ -67,9 +67,8 @@ class CreatePaymentIntentView(APIView):
 
             # Define metadata for the payment intent
             metadata = {
-                'upfront_plan_id': upfront_plan.id,
-                'user_id': request.user.id,
-                # Always include structure data for the webhook
+                'order_type': 'upfront',
+                'plan_id': upfront_plan.id,
                 'budget': budget if budget is not None else upfront_plan.budget,
                 'years': years if years is not None else upfront_plan.years,
                 'deliveries_per_year': deliveries_per_year if deliveries_per_year is not None else upfront_plan.deliveries_per_year
