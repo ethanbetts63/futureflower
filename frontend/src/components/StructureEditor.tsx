@@ -13,16 +13,7 @@ import PlanStructureForm from '@/forms/PlanStructureForm';
 import type { PlanStructureData } from '../types/forms';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
-
-interface StructureEditorProps {
-    mode: 'create' | 'edit';
-    title: string;
-    description: string;
-    saveButtonText: string;
-    onSaveNavigateTo: string;
-    backPath: string;
-    showSkipButton?: boolean; 
-}
+import type { StructureEditorProps } from '@/types/component_props';
 
 const getMinDateString = () => {
     const minDate = new Date();

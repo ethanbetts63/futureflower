@@ -8,6 +8,10 @@ interface SubscriptionPlanSummaryProps {
   newPlanDetails?: any;
 }
 
+const isSubscriptionPlan = (p: UpfrontPlan | SubscriptionPlan): p is SubscriptionPlan => {
+    return 'frequency' in p && 'price_per_delivery' in p;
+};
+
 const SubscriptionPlanSummary: React.FC<SubscriptionPlanSummaryProps> = ({ plan }) => {
     const title = "Your Subscription";
     const description = "Review your recurring payment details below.";
@@ -18,6 +22,20 @@ const SubscriptionPlanSummary: React.FC<SubscriptionPlanSummaryProps> = ({ plan 
         'bi-annually': 'Per 6 Months',
         'annually': 'Per Year',
     };
+
+    if (!isSubscriptionPlan(plan)) {
+        return (
+            <Card className="bg-white shadow-md border-none text-black">
+                <CardHeader>
+                    <CardTitle>{title}</CardTitle>
+                    <CardDescription>{description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-red-500">Error: Expected Subscription Plan but received a different type.</p>
+                </CardContent>
+            </Card>
+        );
+    }
 
   return (
     <Card className="bg-white shadow-md border-none text-black">

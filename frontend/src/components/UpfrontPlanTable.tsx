@@ -7,13 +7,8 @@ import { showErrorToast } from '@/utils/utils';
 import { Button } from '@/components/ui/button';
 import { Eye } from 'lucide-react';
 import { getUpfrontPlans } from '@/api'; // Import getUpfrontPlans
-
+import type { UpfrontPlanTableProps } from '@/types/component_props';
 import { type UpfrontPlan } from '@/types';
-
-interface UpfrontPlanTableProps {
-  showTitle?: boolean; // Optional prop to show/hide the title within the component
-  initialPlans?: UpfrontPlan[]; // Optional prop to provide initial plans, if not fetching internally
-}
 
 const UpfrontPlanTable: React.FC<UpfrontPlanTableProps> = ({ showTitle = true, initialPlans }) => {
   const [plans, setPlans] = useState<UpfrontPlan[]>(initialPlans || []);

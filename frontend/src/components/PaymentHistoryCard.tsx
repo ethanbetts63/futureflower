@@ -1,11 +1,7 @@
 // src/components/PaymentHistoryCard.tsx
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import type { UpfrontPlan, SubscriptionPlan, Payment } from '@/types'; 
-
-interface PaymentHistoryCardProps {
-  plan: (UpfrontPlan | SubscriptionPlan) & { payments?: Payment[] }; 
-}
+import { PaymentHistoryCardProps } from '@/types/component_props';
 
 const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
   // Use actual payments from the plan if available, otherwise an empty array

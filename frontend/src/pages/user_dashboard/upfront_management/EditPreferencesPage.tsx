@@ -1,9 +1,8 @@
-// foreverflower/frontend/src/pages/user_dashboard/EditPreferencesPage.tsx
+// foreverflower/frontend/src/pages/user_dashboard/upfront_management/EditPreferencesPage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import PreferencesEditor from '@/components/PreferencesEditor';
-
-import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api/subscriptionPlans';
+import { getUpfrontPlan, updateUpfrontPlan } from '@/api';
 
 const EditPreferencesPage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();
@@ -17,8 +16,8 @@ const EditPreferencesPage: React.FC = () => {
             onSaveNavigateTo={`/dashboard/plans/${planId}/overview`}
             backPath={`/dashboard/plans/${planId}/overview`}
             showSkipButton={false}
-            getPlan={getSubscriptionPlan}
-            updatePlan={updateSubscriptionPlan}
+            getPlan={getUpfrontPlan}
+            updatePlan={updateUpfrontPlan}
         />
     );
 };

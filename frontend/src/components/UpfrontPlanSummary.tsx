@@ -1,12 +1,7 @@
 // foreverflower/frontend/src/components/UpfrontPlanSummary.tsx
 import React from 'react';
-import type { UpfrontPlan, PartialUpfrontPlan } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-
-interface UpfrontPlanSummaryProps {
-  plan: UpfrontPlan;
-  newPlanDetails?: PartialUpfrontPlan & { amount: number };
-}
+import type { UpfrontPlanSummaryProps } from '@/types/component_props';
 
 const UpfrontPlanSummary: React.FC<UpfrontPlanSummaryProps> = ({ plan, newPlanDetails }) => {
     const displayPlan = {

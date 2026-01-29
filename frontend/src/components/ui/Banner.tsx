@@ -1,10 +1,6 @@
 import React from 'react';
 import { TriangleAlertIcon } from 'lucide-react';
-
-interface BannerProps {
-  children: React.ReactNode;
-  variant?: 'warning' | 'info';
-}
+import type { BannerProps } from '@/types/component_props';
 
 export const Banner: React.FC<BannerProps> = ({ children, variant = 'warning' }) => {
   const baseClasses = 'w-full p-4 flex items-center justify-center text-sm';

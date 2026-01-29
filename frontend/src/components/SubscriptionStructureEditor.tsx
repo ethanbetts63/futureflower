@@ -13,15 +13,7 @@ import SubscriptionStructureForm from '@/forms/SubscriptionStructureForm';
 import type { SubscriptionStructureData } from '../types/forms';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
-
-interface SubscriptionStructureEditorProps {
-    mode: 'create' | 'edit';
-    title: string;
-    description: string;
-    saveButtonText: string;
-    onSaveNavigateTo: string;
-    backPath: string;
-}
+import type { SubscriptionStructureEditorProps } from '@/types/component_props';
 
 const getMinDateString = () => {
     const minDate = new Date();

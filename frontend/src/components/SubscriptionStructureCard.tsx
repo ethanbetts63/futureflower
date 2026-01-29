@@ -4,13 +4,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import { FileText, Calendar, Repeat, MessageSquare, Edit } from 'lucide-react';
-import type { SubscriptionPlan } from '@/types';
-
-
-interface SubscriptionStructureCardProps {
-    plan: SubscriptionPlan;
-    editUrl: string;
-}
+import type { SubscriptionStructureCardProps } from '@/types/component_props';
 
 const SubscriptionStructureCard: React.FC<SubscriptionStructureCardProps> = ({ plan, editUrl }) => {
     
