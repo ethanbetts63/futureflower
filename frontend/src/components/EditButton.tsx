@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Button, type ButtonProps } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
 import { cn } from '@/utils/utils';
 import type { EditButtonProps } from '@/types/components';

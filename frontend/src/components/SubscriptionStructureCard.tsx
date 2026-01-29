@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import { FileText, Calendar, Repeat, MessageSquare, Edit } from 'lucide-react';
 import type { SubscriptionPlan } from '@/types';
-import { format, parseISO } from 'date-fns';
+
 
 interface SubscriptionStructureCardProps {
     plan: SubscriptionPlan;

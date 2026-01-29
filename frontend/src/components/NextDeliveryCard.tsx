@@ -2,8 +2,8 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Truck, Calendar, Hash, User, MapPin } from 'lucide-react';
-import type { UpfrontPlan, DeliveryEvent, SubscriptionPlan } from '@/types';
-import type { NextDeliveryInfo, NextDeliveryCardProps } from '@/types/components';
+
+import type { NextDeliveryCardProps } from '@/types/components';
 
 
 

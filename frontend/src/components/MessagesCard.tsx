@@ -3,14 +3,14 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageSquareText, Repeat } from 'lucide-react';
 import EditButton from '@/components/EditButton';
-import type { UpfrontPlan, DeliveryEvent, SubscriptionPlan } from '@/types';
+import type { DeliveryEvent } from '@/types';
 import type { MessagesCardProps } from '@/types/components';
 
 
 
 const MessagesCard: React.FC<MessagesCardProps> = ({ plan, editUrl }) => {
     // Get a list of all non-empty messages
-    const allMessages = plan.events?.map((e: DeliveryEvent) => e.message).filter((m: string): m is string => !!m) || [];
+    const allMessages = plan.events?.map((e: DeliveryEvent) => e.message).filter(Boolean) || [];
     const uniqueMessages = new Set(allMessages);
 
     const hasMessages = allMessages.length > 0;

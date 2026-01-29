@@ -4,13 +4,18 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Palette, Sprout, Ban } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import EditButton from '@/components/EditButton';
-import type { UpfrontPlan, Color, FlowerType } from '@/types';
+import type { UpfrontPlan, SubscriptionPlan, Color, FlowerType, PartialUpfrontPlan, PartialSubscriptionPlan } from '@/types';
+
+type Plan = UpfrontPlan | SubscriptionPlan;
+type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
 
 interface PreferencesCardProps {
-    plan: UpfrontPlan;
+    plan: Plan;
     colorMap: Map<number, Color>;
     flowerTypeMap: Map<number, FlowerType>;
     editUrl: string;
+    getPlan: (planId: string) => Promise<Plan>;
+    updatePlan: (planId: string, data: PartialPlan) => Promise<Plan>;
 }
 
 // Helper component for displaying a single color swatch
@@ -22,7 +27,7 @@ const ColorSwatchDisplay: React.FC<{ hex: string; name: string }> = ({ hex, name
 );
 
 // Helper component for displaying a list of colors
-const ColorPreferenceList: React.FC<{ title: string; colorIds: string[]; colorMap: Map<number, Color>; icon: React.ElementType; }> = ({ title, colorIds, colorMap, icon: Icon }) => {
+const ColorPreferenceList: React.FC<{ title: string; colorIds: number[]; colorMap: Map<number, Color>; icon: React.ElementType; }> = ({ title, colorIds, colorMap, icon: Icon }) => {
     const colors = useMemo(() =>
         colorIds.map(id => colorMap.get(Number(id))).filter((c): c is Color => !!c),
         [colorIds, colorMap]);
@@ -42,7 +47,7 @@ const ColorPreferenceList: React.FC<{ title: string; colorIds: string[]; colorMa
 };
 
 // Helper component for displaying a list of flower types by name
-const FlowerTypePreferenceList: React.FC<{ title: string; typeIds: string[]; typeMap: Map<number, FlowerType>; icon: React.ElementType; variant: 'default' | 'destructive' }> = ({ title, typeIds, typeMap, icon: Icon, variant }) => {
+const FlowerTypePreferenceList: React.FC<{ title: string; typeIds: number[]; typeMap: Map<number, FlowerType>; icon: React.ElementType; variant: 'default' | 'destructive' }> = ({ title, typeIds, typeMap, icon: Icon, variant }) => {
     const types = useMemo(() =>
         typeIds.map(id => typeMap.get(Number(id))).filter((ft): ft is FlowerType => !!ft),
         [typeIds, typeMap]);

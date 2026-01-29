@@ -43,10 +43,10 @@ export interface UpfrontPlan {
     recipient_postcode: string | null;
     recipient_country: string | null;
 
-    preferred_colors: string[];
-    preferred_flower_types: string[];
-    rejected_colors: string[];
-    rejected_flower_types: string[];
+    preferred_colors: number[];
+    preferred_flower_types: number[];
+    rejected_colors: number[];
+    rejected_flower_types: number[];
     // Assuming Event interface would be imported from events.ts
     events: DeliveryEvent[]; 
 }
@@ -84,6 +84,9 @@ export interface SubscriptionPlan extends UpfrontPlan {
     recurring_price: number;
     stripe_customer_id: string | null;
     stripe_subscription_id: string | null;
+    frequency: string;
+    price_per_delivery: number;
+    subscription_message: string | null;
 }
 
 /**

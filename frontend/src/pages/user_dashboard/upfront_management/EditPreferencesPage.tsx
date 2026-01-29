@@ -3,6 +3,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import PreferencesEditor from '@/components/PreferencesEditor';
 
+import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api/subscriptionPlans';
+
 const EditPreferencesPage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();
 
@@ -15,6 +17,8 @@ const EditPreferencesPage: React.FC = () => {
             onSaveNavigateTo={`/dashboard/plans/${planId}/overview`}
             backPath={`/dashboard/plans/${planId}/overview`}
             showSkipButton={false}
+            getPlan={getSubscriptionPlan}
+            updatePlan={updateSubscriptionPlan}
         />
     );
 };

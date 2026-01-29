@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CalendarDays } from 'lucide-react';
 import EditButton from '@/components/EditButton';
-import type { UpfrontPlan, DeliveryEvent, SubscriptionPlan } from '@/types';
+import type { DeliveryEvent } from '@/types';
 import type { DeliveryDatesCardProps } from '@/types/components';
 
 

@@ -15,12 +15,15 @@ const UserDashboardPage = lazy(() => import('./pages/user_dashboard/UserDashboar
 const AccountManagementPage = lazy(() => import('./pages/user_dashboard/AccountManagementPage'));
 const UpfrontPlanListPage = lazy(() => import('./pages/user_dashboard/UpfrontPlanListPage'));
 const PlanOverviewPage = lazy(() => import('./pages/user_dashboard/upfront_management/PlanOverviewPage'));
-const EditRecipientPage = lazy(() => import('./pages/user_dashboard/EditRecipientPage'));
+const EditRecipientPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditRecipientPage'));
 const EditStructurePage = lazy(() => import('./pages/user_dashboard/upfront_management/EditStructurePage'));
-const EditPreferencesPage = lazy(() => import('./pages/user_dashboard/EditPreferencesPage'));
+const EditPreferencesPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditPreferencesPage'));
 const EditMessagesPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditMessagesPage'));
 const UserDashboardPaymentPage = lazy(() => import('./pages/user_dashboard/UserDashboardPaymentPage'));
 const SubscriptionPlanOverviewPage = lazy(() => import('./pages/user_dashboard/subscription_management/SubscriptionPlanOverviewPage'));
+const SubscriptionEditRecipientPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditRecipientPage'));
+const SubscriptionEditPreferencesPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditPreferencesPage'));
+const SubscriptionEditStructurePage = lazy(() => import('./pages/user_dashboard/subscription_management/EditStructurePage'));
 
 const EventGate = lazy(() => import('@/components/EventGate'));
 const Step1CreateAccountPage = lazy(() => import('./pages/upfront_flow/Step1CreateAccountPage'));
@@ -126,6 +129,9 @@ function App() {
                   <Route path="plans/:planId/edit-messages" element={<EditMessagesPage />} />
                   <Route path="plans/:planId/payment" element={<UserDashboardPaymentPage />} />
                   <Route path="subscription-plans/:planId/overview" element={<SubscriptionPlanOverviewPage />} />
+                  <Route path="subscription-plans/:planId/edit-recipient" element={<SubscriptionEditRecipientPage />} />
+                  <Route path="subscription-plans/:planId/edit-preferences" element={<SubscriptionEditPreferencesPage />} />
+                  <Route path="subscription-plans/:planId/edit-structure" element={<SubscriptionEditStructurePage />} />
                 </Route>
 
               </Routes>

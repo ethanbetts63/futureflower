@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 
 interface SubscriptionPlanSummaryProps {
   plan: SubscriptionPlan;
+  newPlanDetails?: any;
 }
 
 const SubscriptionPlanSummary: React.FC<SubscriptionPlanSummaryProps> = ({ plan }) => {
