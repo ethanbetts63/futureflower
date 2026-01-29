@@ -36,3 +36,8 @@ export async function createSubscription(payload: { subscription_plan_id: string
     });
     return handleResponse(response);
 }
+
+export async function getSubscriptionPlans(): Promise<SubscriptionPlan[]> {
+    const response = await authedFetch('/api/events/subscription-plans/');
+    return handleResponse(response);
+}

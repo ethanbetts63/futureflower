@@ -1,12 +1,10 @@
 // src/components/PaymentHistoryCard.tsx
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import type { UpfrontPlan, Payment } from '@/types'; 
-
-
+import type { UpfrontPlan, SubscriptionPlan, Payment } from '@/types'; 
 
 interface PaymentHistoryCardProps {
-  plan: UpfrontPlan & { payments?: Payment[] }; 
+  plan: (UpfrontPlan | SubscriptionPlan) & { payments?: Payment[] }; 
 }
 
 const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {

@@ -14,12 +14,13 @@ const UserDashboardLayout = lazy(() => import('./pages/user_dashboard/UserDashbo
 const UserDashboardPage = lazy(() => import('./pages/user_dashboard/UserDashboardPage'));
 const AccountManagementPage = lazy(() => import('./pages/user_dashboard/AccountManagementPage'));
 const UpfrontPlanListPage = lazy(() => import('./pages/user_dashboard/UpfrontPlanListPage'));
-const PlanOverviewPage = lazy(() => import('./pages/user_dashboard/PlanOverviewPage'));
+const PlanOverviewPage = lazy(() => import('./pages/user_dashboard/upfront_management/PlanOverviewPage'));
 const EditRecipientPage = lazy(() => import('./pages/user_dashboard/EditRecipientPage'));
-const EditStructurePage = lazy(() => import('./pages/user_dashboard/EditStructurePage'));
+const EditStructurePage = lazy(() => import('./pages/user_dashboard/upfront_management/EditStructurePage'));
 const EditPreferencesPage = lazy(() => import('./pages/user_dashboard/EditPreferencesPage'));
-const EditMessagesPage = lazy(() => import('./pages/user_dashboard/EditMessagesPage'));
+const EditMessagesPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditMessagesPage'));
 const UserDashboardPaymentPage = lazy(() => import('./pages/user_dashboard/UserDashboardPaymentPage'));
+const SubscriptionPlanOverviewPage = lazy(() => import('./pages/user_dashboard/subscription_management/SubscriptionPlanOverviewPage'));
 
 const EventGate = lazy(() => import('@/components/EventGate'));
 const Step1CreateAccountPage = lazy(() => import('./pages/upfront_flow/Step1CreateAccountPage'));
@@ -124,6 +125,7 @@ function App() {
                   <Route path="plans/:planId/edit-preferences" element={<EditPreferencesPage />} />
                   <Route path="plans/:planId/edit-messages" element={<EditMessagesPage />} />
                   <Route path="plans/:planId/payment" element={<UserDashboardPaymentPage />} />
+                  <Route path="subscription-plans/:planId/overview" element={<SubscriptionPlanOverviewPage />} />
                 </Route>
 
               </Routes>
