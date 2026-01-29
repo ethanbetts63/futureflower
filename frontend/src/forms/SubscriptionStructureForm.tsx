@@ -44,7 +44,7 @@ const SubscriptionStructureForm: React.FC<SubscriptionStructureFormProps> = ({
                 <Label htmlFor="frequency-select">Delivery Frequency</Label>
                 <Select
                     value={formData.frequency}
-                    onValueChange={(value) => onFormChange('frequency', value)}
+                    onValueChange={(value: string) => onFormChange('frequency', value)}
                 >
                     <SelectTrigger id="frequency-select">
                         <SelectValue placeholder="Select frequency" />

@@ -74,3 +74,20 @@ export interface CreateUpfrontPlanPayload {
  * Makes all properties of UpfrontPlan optional.
  */
 export type PartialUpfrontPlan = Partial<UpfrontPlan>;
+
+/**
+ * Defines the comprehensive structure for a SubscriptionPlan.
+ */
+export interface SubscriptionPlan extends UpfrontPlan {
+    delivery_frequency_unit: string;
+    delivery_frequency_value: number;
+    recurring_price: number;
+    stripe_customer_id: string | null;
+    stripe_subscription_id: string | null;
+}
+
+/**
+ * Type alias for partial updates to a SubscriptionPlan.
+ * Makes all properties of SubscriptionPlan optional.
+ */
+export type PartialSubscriptionPlan = Partial<SubscriptionPlan>;

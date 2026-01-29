@@ -2,6 +2,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import PreferencesEditor from '@/components/PreferencesEditor';
+import { getUpfrontPlan, updateUpfrontPlan } from '@/api';
 
 const Step3PreferenceSelectionPage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();
@@ -15,6 +16,8 @@ const Step3PreferenceSelectionPage: React.FC = () => {
             onSaveNavigateTo={`/book-flow/upfront-plan/${planId}/add-message`}
             backPath={`/book-flow/upfront-plan/${planId}/structure`}
             showSkipButton={true}
+            getPlan={getUpfrontPlan}
+            updatePlan={updateUpfrontPlan}
         />
     );
 };

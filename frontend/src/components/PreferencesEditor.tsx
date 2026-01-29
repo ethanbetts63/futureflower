@@ -7,11 +7,14 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getColors, getFlowerTypes, getUpfrontPlan, updateUpfrontPlan } from '@/api';
-import type { UpfrontPlan, Color, FlowerType } from '@/types';
+import { getColors, getFlowerTypes } from '@/api';
+import type { UpfrontPlan, SubscriptionPlan, Color, FlowerType, PartialUpfrontPlan, PartialSubscriptionPlan } from '@/types';
 import { ColorSwatch, SelectableTag } from '@/components';
 import { Separator } from '@/components/ui/separator';
 import BackButton from '@/components/BackButton';
+
+type Plan = UpfrontPlan | SubscriptionPlan;
+type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
 
 interface PreferencesEditorProps {
     mode: 'create' | 'edit';
@@ -21,6 +24,8 @@ interface PreferencesEditorProps {
     onSaveNavigateTo: string;
     backPath: string;
     showSkipButton: boolean;
+    getPlan: (planId: string) => Promise<Plan>;
+    updatePlan: (planId: string, data: PartialPlan) => Promise<Plan>;
 }
 
 const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
@@ -30,7 +35,9 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
     saveButtonText,
     onSaveNavigateTo,
     backPath,
-    showSkipButton
+    showSkipButton,
+    getPlan,
+    updatePlan,
 }) => {
     const { planId } = useParams<{ planId: string }>();
     const navigate = useNavigate();
@@ -64,10 +71,10 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const [colorsData, flowerTypesData, planData]: [Color[], FlowerType[], UpfrontPlan] = await Promise.all([
+                const [colorsData, flowerTypesData, planData] = await Promise.all([
                     getColors(),
                     getFlowerTypes(),
-                    getUpfrontPlan(planId), 
+                    getPlan(planId), 
                 ]);
                 
                 setColors(colorsData);
@@ -89,7 +96,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         };
 
         fetchData();
-    }, [isAuthenticated, navigate, planId]);
+    }, [isAuthenticated, navigate, planId, getPlan]);
     
     const handleToggle = (id: number, setList: React.Dispatch<React.SetStateAction<number[]>>, otherList: number[], setOtherList: React.Dispatch<React.SetStateAction<number[]>>) => {
         if (otherList.includes(id)) {
@@ -102,16 +109,16 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         if (!planId) return;
         setIsSaving(true);
         try {
-            await updateUpfrontPlan(planId, {
-                preferred_colors: preferredColors.map(String),
-                rejected_colors: rejectedColors.map(String),
-                preferred_flower_types: preferredFlowerTypes.map(String),
-                rejected_flower_types: rejectedFlowerTypes.map(String),
+            await updatePlan(planId, {
+                preferred_colors: preferredColors,
+                rejected_colors: rejectedColors,
+                preferred_flower_types: preferredFlowerTypes,
+                rejected_flower_types: rejectedFlowerTypes,
             });
             if (mode === 'edit') {
                 toast.success("Preferences saved successfully!");
             }
-            navigate(onSaveNavigateTo); 
+            navigate(onSaveNavigateTo.replace('{planId}', planId)); 
         } catch (err) {
             toast.error("Failed to save preferences. Please try again.");
         } finally {

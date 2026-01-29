@@ -73,6 +73,13 @@ export type CalculatePlanPayload = {
   years: number;
 };
 
+export interface SubscriptionStructureData {
+  budget: number;
+  frequency: string;
+  start_date: string;
+  subscription_message: string;
+}
+
 export interface SubscriptionStructureFormProps {
     formData: SubscriptionStructureData;
     onFormChange: (field: keyof SubscriptionStructureData, value: string | number) => void;
