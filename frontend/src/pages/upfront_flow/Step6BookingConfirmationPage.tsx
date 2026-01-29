@@ -1,7 +1,7 @@
 // foreverflower/frontend/src/pages/flow/Step6BookingConfirmationPage.tsx
-import { Link, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { CheckCircle, ArrowRight, Tag } from 'lucide-react';
 import Seo from '@/components/Seo';
 import BackButton from '@/components/BackButton';
@@ -10,6 +10,7 @@ import DeliveryDatesCard from '@/components/DeliveryDatesCard';
 import PreferencesCard from '@/components/PreferencesCard';
 import MessagesCard from '@/components/MessagesCard';
 import PlanDisplay from '@/components/PlanDisplay';
+import PaymentInitiatorButton from '@/components/PaymentInitiatorButton';
 
 import { getUpfrontPlan, updateUpfrontPlan } from '@/api';
 import type { Plan } from '../../types/Plan';
@@ -19,6 +20,7 @@ import type { FlowerType } from '../../types/FlowerType';
 
 const Step6BookingConfirmationPage = () => {
   const { planId } = useParams<{ planId: string }>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <>
@@ -80,11 +82,16 @@ const Step6BookingConfirmationPage = () => {
 
                   <div className="flex justify-between items-center mt-8">
                     <BackButton to={`/book-flow/upfront-plan/${planId}/add-message`} />
-                    <Button asChild size="lg">
-                      <Link to={`/book-flow/upfront-plan/${planId}/payment`}>
-                        Proceed to Payment <ArrowRight className="ml-2 h-5 w-5" />
-                      </Link>
-                    </Button>
+                    <PaymentInitiatorButton
+                      itemType="UPFRONT_PLAN_NEW"
+                      details={{ upfront_plan_id: planId }}
+                      disabled={isSubmitting || !planId}
+                      onPaymentInitiate={() => setIsSubmitting(true)}
+                      onPaymentError={() => setIsSubmitting(false)}
+                      size="lg"
+                    >
+                      Proceed to Payment <ArrowRight className="ml-2 h-5 w-5" />
+                    </PaymentInitiatorButton>
                   </div>
                 </div>
               </div>

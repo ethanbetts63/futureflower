@@ -9,6 +9,7 @@ export interface SubscriptionPlan extends UpfrontPlan {
     recurring_price: number;
     stripe_customer_id: string | null;
     stripe_subscription_id: string | null;
+    stripe_price_id: string | null; // Added stripe_price_id
     frequency: string;
     price_per_delivery: number;
     subscription_message: string | null;

@@ -1,14 +1,14 @@
 // foreverflower/frontend/src/pages/subscription_flow/Step5ConfirmationPage.tsx
-import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { CheckCircle, ArrowRight, Tag } from 'lucide-react';
 import Seo from '@/components/Seo';
 import BackButton from '@/components/BackButton';
 import PreferencesCard from '@/components/PreferencesCard';
 import PlanDisplay from '@/components/PlanDisplay';
 import SubscriptionStructureCard from '@/components/SubscriptionStructureCard';
+import PaymentInitiatorButton from '@/components/PaymentInitiatorButton'; // Import the new button
 import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
 import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
 import type { Plan } from '../../types/Plan';
@@ -17,6 +17,7 @@ import type { FlowerType } from '../../types/FlowerType';
 
 const Step5ConfirmationPage: React.FC = () => {
   const { planId } = useParams<{ planId: string }>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isSubscriptionPlan = (plan: any): plan is SubscriptionPlan => {
     return 'frequency' in plan && 'price_per_delivery' in plan;
@@ -73,11 +74,19 @@ const Step5ConfirmationPage: React.FC = () => {
 
                         <div className="flex justify-between items-center mt-8">
                             <BackButton to={`/subscribe-flow/subscription-plan/${planId}/structure`} />
-                            <Button asChild size="lg">
-                            <Link to={`/subscribe-flow/subscription-plan/${planId}/payment`}>
+                            <PaymentInitiatorButton
+                                itemType="SUBSCRIPTION_PLAN_NEW"
+                                details={{
+                                    subscription_plan_id: planId,
+                                    stripe_price_id: plan.stripe_price_id, // Assuming stripe_price_id is available on the plan object
+                                }}
+                                disabled={isSubmitting || !planId || !plan.stripe_price_id}
+                                onPaymentInitiate={() => setIsSubmitting(true)}
+                                onPaymentError={() => setIsSubmitting(false)}
+                                size="lg"
+                            >
                                 Proceed to Payment <ArrowRight className="ml-2 h-5 w-5" />
-                            </Link>
-                            </Button>
+                            </PaymentInitiatorButton>
                         </div>
                     </div>
                 )}
