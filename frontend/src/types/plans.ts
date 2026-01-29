@@ -43,10 +43,10 @@ export interface UpfrontPlan {
     recipient_postcode: string | null;
     recipient_country: string | null;
 
-    preferred_colors: number[];
-    preferred_flower_types: number[];
-    rejected_colors: number[];
-    rejected_flower_types: number[];
+    preferred_colors: string[];
+    preferred_flower_types: string[];
+    rejected_colors: string[];
+    rejected_flower_types: string[];
     // Assuming Event interface would be imported from events.ts
     events: DeliveryEvent[]; 
 }
@@ -79,9 +79,6 @@ export type PartialUpfrontPlan = Partial<UpfrontPlan>;
  * Defines the comprehensive structure for a SubscriptionPlan.
  */
 export interface SubscriptionPlan extends UpfrontPlan {
-    frequency: string;
-    subscription_message: string;
-    price_per_delivery: number;
     delivery_frequency_unit: string;
     delivery_frequency_value: number;
     recurring_price: number;

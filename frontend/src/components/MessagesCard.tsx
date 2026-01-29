@@ -10,7 +10,7 @@ import type { MessagesCardProps } from '@/types/components';
 
 const MessagesCard: React.FC<MessagesCardProps> = ({ plan, editUrl }) => {
     // Get a list of all non-empty messages
-    const allMessages = plan.events?.map((e: DeliveryEvent) => e.message).filter((m): m is string => !!m) || [];
+    const allMessages = plan.events?.map((e: DeliveryEvent) => e.message).filter((m: string): m is string => !!m) || [];
     const uniqueMessages = new Set(allMessages);
 
     const hasMessages = allMessages.length > 0;
@@ -22,7 +22,7 @@ const MessagesCard: React.FC<MessagesCardProps> = ({ plan, editUrl }) => {
         }
 
         if (isSingleMessageForAll) {
-            const singleMessage: string = uniqueMessages.values().next().value || '';
+            const singleMessage: string = Array.from(uniqueMessages)[0] || '';
             return (
                 <div className="p-4 bg-gray-50 rounded-lg">
                     <p className="font-semibold text-sm text-gray-800 flex items-center mb-2">

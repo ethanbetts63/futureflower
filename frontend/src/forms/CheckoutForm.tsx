@@ -15,34 +15,42 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planId, source }) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsProcessing(true);
+    setErrorMessage(null);
 
     if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
       setIsProcessing(false);
       return;
     }
 
-    const returnUrl = new URL(`${window.location.origin}/payment-status`);
-    returnUrl.searchParams.append('plan_id', planId);
-    if (source) {
-      returnUrl.searchParams.append('source', source);
-    }
-
-    const { error } = await stripe.confirmPayment({
+    const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: returnUrl.toString(),
+        return_url: `${window.location.origin}/payment-status`,
       },
+      redirect: "if_required",
     });
 
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setErrorMessage(error.message || 'An unexpected error occurred.');
-    } else {
-      setErrorMessage("An unexpected error occurred.");
+    if (error) {
+      if (error.type === "card_error" || error.type === "validation_error") {
+        setErrorMessage(error.message || 'An unexpected error occurred.');
+      } else {
+        setErrorMessage("An unexpected error occurred.");
+      }
+      setIsProcessing(false);
+      return;
     }
     
-    setIsProcessing(false);
+    if (paymentIntent && paymentIntent.status === 'succeeded') {
+        const redirectUrl = new URL(`${window.location.origin}/payment-status`);
+        redirectUrl.searchParams.set('payment_intent_client_secret', paymentIntent.client_secret as string);
+        redirectUrl.searchParams.set('plan_id', planId);
+        if (source) {
+            redirectUrl.searchParams.set('source', source);
+        }
+        window.location.href = redirectUrl.toString();
+    } else {
+        setIsProcessing(false);
+    }
   };
 
   return (
