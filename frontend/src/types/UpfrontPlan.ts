@@ -28,6 +28,5 @@ export interface UpfrontPlan {
     preferred_flower_types: number[];
     rejected_colors: number[];
     rejected_flower_types: number[];
-    // Assuming Event interface would be imported from events.ts
     events: DeliveryEvent[]; 
 }

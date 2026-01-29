@@ -11,6 +11,9 @@ import PlanDisplay from '@/components/PlanDisplay';
 import SubscriptionStructureCard from '@/components/SubscriptionStructureCard';
 import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
 import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
+import type { Plan } from '../../types/Plan';
+import type { Color } from '../../types/Color';
+import type { FlowerType } from '../../types/FlowerType';
 
 const Step5ConfirmationPage: React.FC = () => {
   const { planId } = useParams<{ planId: string }>();
@@ -25,7 +28,7 @@ const Step5ConfirmationPage: React.FC = () => {
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-4xl">
           <PlanDisplay getPlan={getSubscriptionPlan} fallbackNavigationPath="/dashboard">
-            {({ plan, colorMap, flowerTypeMap }) => (
+            {({ plan, colorMap, flowerTypeMap }: { plan: Plan; colorMap: Map<number, Color>; flowerTypeMap: Map<number, FlowerType> }) => (
               <div className="space-y-8">
                 <Card className="text-center w-full bg-white shadow-md border-none text-black">
                   <CardHeader>

@@ -11,10 +11,10 @@ import { getSubscriptionPlan, updateSubscriptionPlan, calculateSubscriptionPrice
 import type { SubscriptionPlan } from '../types/SubscriptionPlan';
 import type { PartialSubscriptionPlan } from '../types/PartialSubscriptionPlan';
 import SubscriptionStructureForm from '@/forms/SubscriptionStructureForm';
-import type { SubscriptionStructureData } from '../types/forms';
+import type { SubscriptionStructureData } from '../types/SubscriptionStructureData';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
-import type { SubscriptionStructureEditorProps } from '@/types/component_props';
+import type { SubscriptionStructureEditorProps } from '../types/SubscriptionStructureEditorProps';
 
 const getMinDateString = () => {
     const minDate = new Date();
@@ -101,7 +101,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
     }, [formData.budget, isLoading, debouncedCalculate]);
 
     const handleFormChange = (field: keyof SubscriptionStructureData, value: number | string) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+        setFormData((prev: SubscriptionStructureData) => ({ ...prev, [field]: value }));
     };
 
     const handleSave = async () => {

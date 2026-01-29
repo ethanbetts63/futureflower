@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, type ReactNode } from 'react';
 
-import type { NavItem, NavigationContextType } from '../types/context';
+import type { NavItem } from '../types/NavItem';
+import type { NavigationContextType } from '../types/NavigationContextType';
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 

@@ -13,7 +13,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from '@/components/ui/label';
 import BackButton from '@/components/BackButton';
-import type { MessagesEditorProps } from '@/types/component_props';
+import type { UpfrontPlan } from '../types/UpfrontPlan';
+import type { MessagesEditorProps } from '../types/MessagesEditorProps';
 
 type MessageMode = 'single' | 'multiple';
 

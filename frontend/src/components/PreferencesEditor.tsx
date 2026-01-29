@@ -10,17 +10,13 @@ import { toast } from 'sonner';
 import { getColors, getFlowerTypes } from '@/api';
 import type { Color } from '../types/Color';
 import type { FlowerType } from '../types/FlowerType';
-import type { UpfrontPlan } from '../types/UpfrontPlan';
-import type { SubscriptionPlan } from '../types/SubscriptionPlan';
-import type { PartialUpfrontPlan } from '../types/PartialUpfrontPlan';
-import type { PartialSubscriptionPlan } from '../types/PartialSubscriptionPlan';
+
 import { ColorSwatch, SelectableTag } from '@/components';
 import { Separator } from '@/components/ui/separator';
 import BackButton from '@/components/BackButton';
-import type { PreferencesEditorProps } from '@/types/component_props';
+import type { PreferencesEditorProps } from '../types/PreferencesEditorProps';
 
-type Plan = UpfrontPlan | SubscriptionPlan;
-type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
+
 
 const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
     mode,

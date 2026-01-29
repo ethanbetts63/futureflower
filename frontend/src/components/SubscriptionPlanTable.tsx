@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Eye } from 'lucide-react';
 import { getSubscriptionPlans } from '@/api'; // We will need to create this API function
 import { type SubscriptionPlan } from '../types/SubscriptionPlan';
-import type { SubscriptionPlanTableProps } from '@/types/component_props';
+import type { SubscriptionPlanTableProps } from '../types/SubscriptionPlanTableProps';
 
 const SubscriptionPlanTable: React.FC<SubscriptionPlanTableProps> = ({ showTitle = true }) => {
   const [plans, setPlans] = useState<SubscriptionPlan[]>([]);

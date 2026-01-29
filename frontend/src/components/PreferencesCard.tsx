@@ -6,14 +6,10 @@ import { Badge } from '@/components/ui/badge';
 import EditButton from '@/components/EditButton';
 import type { Color } from '../types/Color';
 import type { FlowerType } from '../types/FlowerType';
-import type { PreferencesCardProps } from '@/types/component_props';
-import type { UpfrontPlan } from '../types/UpfrontPlan';
-import type { SubscriptionPlan } from '../types/SubscriptionPlan';
-import type { PartialUpfrontPlan } from '../types/PartialUpfrontPlan';
-import type { PartialSubscriptionPlan } from '../types/PartialSubscriptionPlan';
+import type { PreferencesCardProps } from '../types/PreferencesCardProps';
 
-type Plan = UpfrontPlan | SubscriptionPlan;
-type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
+
+
 
 // Helper component for displaying a single color swatch
 const ColorSwatchDisplay: React.FC<{ hex: string; name: string }> = ({ hex, name }) => (

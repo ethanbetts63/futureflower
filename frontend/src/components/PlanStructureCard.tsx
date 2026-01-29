@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Milestone, Repeat, DollarSign } from 'lucide-react';
 import EditButton from '@/components/EditButton';
-import type { PlanStructureCardProps } from '@/types/component_props';
+import type { PlanStructureCardProps } from '../types/PlanStructureCardProps';
 
 const PlanStructureCard: React.FC<PlanStructureCardProps> = ({ plan, editUrl }) => {
     return (

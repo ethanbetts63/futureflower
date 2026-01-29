@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 import type { FieldErrors, Resolver } from 'react-hook-form';
-import type { ProfileCreationData, ProfileCreationFormProps } from '../types/forms';
+import type { ProfileCreationData } from '../types/ProfileCreationData';
+import type { ProfileCreationFormProps } from '../types/ProfileCreationFormProps';
 
 // Custom resolver to replace Zod
 const profileFormResolver: Resolver<ProfileCreationData> = async (data) => {

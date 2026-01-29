@@ -21,7 +21,7 @@ import kitchenImage1280 from '../assets/kitchen-1280w.webp';
 import delivery1Image from '../assets/delivery1.webp';
 import floristPackingImage from '../assets/florist_packing.webp';
 import floristPacking2Image from '../assets/florist_packing2.webp';
-import type { ArticleCarouselProps } from '@/types/components';
+import type { ArticleCarouselProps } from '../types/ArticleCarouselProps';
 
 const articles = [
   {

@@ -5,7 +5,7 @@ import { type UpfrontPlan } from '@/types/UpfrontPlan';
 import { type DeliveryEvent } from '@/types/DeliveryEvent';
 
 import NextDeliveryCard from '@/components/NextDeliveryCard';
-import type { NextDeliveryInfo } from '@/types/components';
+import type { NextDeliveryInfo } from '../../types/NextDeliveryInfo';
 import UpfrontPlanTable from '@/components/UpfrontPlanTable';
 import UserDetailsSummary from '@/components/UserDetailsSummary';
 import { toast } from 'sonner';

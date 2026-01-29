@@ -11,10 +11,10 @@ import { getUpfrontPlan, updateUpfrontPlan, calculateUpfrontPriceForPlan } from 
 import type { UpfrontPlan } from '../types/UpfrontPlan';
 import type { PartialUpfrontPlan } from '../types/PartialUpfrontPlan';
 import PlanStructureForm from '@/forms/PlanStructureForm';
-import type { PlanStructureData } from '../types/forms';
+import type { PlanStructureData } from '../types/PlanStructureData';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
-import type { StructureEditorProps } from '@/types/component_props';
+import type { StructureEditorProps } from '../types/StructureEditorProps';
 
 const getMinDateString = () => {
     const minDate = new Date();

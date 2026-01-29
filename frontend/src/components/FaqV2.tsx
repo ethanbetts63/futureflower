@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from "./ui/card";
 
-import type { FaqV2Props } from '@/types/components';
+import type { FaqV2Props } from '../types/FaqV2Props';
+import type { FaqItem } from '../types/FaqItem';
 import { ChevronDown } from 'lucide-react';
 
 
@@ -18,7 +19,7 @@ export const FaqV2: React.FC<FaqV2Props> = ({ title, faqs }) => {
       return null;
     }
 
-    const faqItems = faqs.map(faq => ({
+    const faqItems = faqs.map((faq: FaqItem) => ({
       "@type": "Question",
       "name": faq.question,
       "acceptedAnswer": {
@@ -48,7 +49,7 @@ export const FaqV2: React.FC<FaqV2Props> = ({ title, faqs }) => {
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center text-black mb-8">{title}</h2>
           <div className="flex flex-col items-center gap-4">
-            {faqs.map((faq, index) => (
+            {faqs.map((faq: FaqItem, index) => (
               <div key={index} className="w-full md:w-2/3 lg:w-2/3">
                 <Card className="bg-white text-gray-900 rounded-lg shadow-lg border-0">
                   <CardContent className="p-0">

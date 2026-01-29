@@ -12,6 +12,9 @@ import PlanDisplay from '@/components/PlanDisplay';
 import SubscriptionStructureCard from '@/components/SubscriptionStructureCard';
 import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
 import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
+import type { Plan } from '../../../types/Plan';
+import type { Color } from '../../../types/Color';
+import type { FlowerType } from '../../../types/FlowerType';
 
 const SubscriptionPlanOverviewPage: React.FC = () => {
   const { planId } = useParams<{ planId: string }>();
@@ -26,7 +29,7 @@ const SubscriptionPlanOverviewPage: React.FC = () => {
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto max-w-4xl">
           <PlanDisplay getPlan={getSubscriptionPlan} fallbackNavigationPath="/dashboard/plans">
-            {({ plan, colorMap, flowerTypeMap }) => (
+            {({ plan, colorMap, flowerTypeMap }: { plan: Plan; colorMap: Map<number, Color>; flowerTypeMap: Map<number, FlowerType> }) => (
                 isSubscriptionPlan(plan) && (
                     <>
                         {plan.status !== 'active' && planId && <PlanActivationBanner planId={planId} />}

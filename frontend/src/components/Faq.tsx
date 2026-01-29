@@ -8,7 +8,8 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { Card, CardContent } from "./ui/card";
 import { getFaqs } from '@/api';
-import type { FaqProps } from '@/types/component_props';
+import type { FaqItem } from '../types/FaqItem';
+import type { FaqProps } from '../types/FaqProps';
 
 const Spinner: React.FC = () => (
   <div className="flex justify-center items-center p-8">

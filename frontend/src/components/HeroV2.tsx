@@ -1,5 +1,5 @@
 import React from 'react';
-import type { HeroV2Props } from '@/types/components';
+import type { HeroV2Props } from '../types/HeroV2Props';
 import heroImage320 from '../assets/hero1-320w.webp';
 import heroImage640 from '../assets/hero1-640w.webp';
 import heroImage768 from '../assets/hero1-768w.webp';

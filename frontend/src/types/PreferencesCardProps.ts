@@ -1,6 +1,7 @@
 import type { Plan } from './Plan';
 import type { Color } from './Color';
 import type { FlowerType } from './FlowerType';
+import type { PartialPlan } from './PartialPlan';
 
 export interface PreferencesCardProps {
     plan: Plan;

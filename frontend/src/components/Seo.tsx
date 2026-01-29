@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import type { SeoProps } from '@/types/component_props';
+import type { SeoProps } from '../types/SeoProps';
 
 const Seo: React.FC<SeoProps> = ({ title, description, canonicalPath, ogType = 'website', ogImage, noindex, structuredData }) => {
   const siteUrl = 'https://www.foreverflower.app'; // This should ideally come from an environment variable

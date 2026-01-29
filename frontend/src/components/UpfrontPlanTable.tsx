@@ -7,7 +7,7 @@ import { showErrorToast } from '@/utils/utils';
 import { Button } from '@/components/ui/button';
 import { Eye } from 'lucide-react';
 import { getUpfrontPlans } from '@/api'; // Import getUpfrontPlans
-import type { UpfrontPlanTableProps } from '@/types/component_props';
+import type { UpfrontPlanTableProps } from '../types/UpfrontPlanTableProps';
 import { type UpfrontPlan } from '../types/UpfrontPlan';
 
 const UpfrontPlanTable: React.FC<UpfrontPlanTableProps> = ({ showTitle = true, initialPlans }) => {

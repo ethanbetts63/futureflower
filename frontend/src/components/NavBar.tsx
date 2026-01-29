@@ -7,6 +7,7 @@ import logo192 from '../assets/logo-192w.webp';
 import logo256 from '../assets/logo-256w.webp';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigation } from '@/context/NavigationContext';
+import type { NavItem } from '../types/NavItem';
 import settingsPng from '../assets/settings.png';
 import logoutPng from '../assets/logout.png';
 
@@ -80,7 +81,7 @@ const NavBar: React.FC = () => {
                     <>
                         {isDashboardMobile ? (
                             <>
-                                {dashboardNavItems.map(item => (
+                                {dashboardNavItems.map((item: NavItem) => (
                                     <Link to={item.to} key={item.to} onClick={() => setMenuOpen(false)} className="w-full flex justify-center">
                                         <Button className="bg-white text-black font-bold hover:bg-gray-100 w-1/2 flex items-center justify-center">
                                             {item.to === '/dashboard' && <img src={settingsPng} alt="Settings" className="mr-2 w-5 h-5" />}

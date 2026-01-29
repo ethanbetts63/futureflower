@@ -2,7 +2,7 @@
 import React from 'react';
 import { cn } from "@/utils/utils";
 import { Check } from 'lucide-react';
-import type { ColorSwatchProps } from '@/types/components';
+import type { ColorSwatchProps } from '../types/ColorSwatchProps';
 
 
 

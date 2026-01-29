@@ -9,7 +9,8 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import type { FieldErrors, Resolver } from 'react-hook-form';
 
 // Manually define the data type, removing the dependency on Zod
-import type { EventCreationData, EventCreationFormProps } from '../types/forms';
+import type { EventCreationData } from '../types/EventCreationData';
+import type { EventCreationFormProps } from '../types/EventCreationFormProps';
 
 // Custom resolver for EventCreationForm
 const eventFormResolver: Resolver<EventCreationData> = async (data) => {

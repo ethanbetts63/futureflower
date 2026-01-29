@@ -1,10 +1,10 @@
 import React from 'react';
 import { TriangleAlertIcon } from 'lucide-react';
-import type { BannerProps } from '@/types/component_props';
+import type { BannerProps } from '../../types/BannerProps';
 
 export const Banner: React.FC<BannerProps> = ({ children, variant = 'warning' }) => {
   const baseClasses = 'w-full p-4 flex items-center justify-center text-sm';
-  const variantClasses = {
+  const variantClasses: Record<Required<BannerProps>['variant'], string> = {
     warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
     info: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
   };

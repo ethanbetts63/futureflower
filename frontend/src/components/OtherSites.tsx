@@ -2,7 +2,8 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import type { OtherSite, OtherSitesProps } from '@/types/components';
+import type { OtherSite } from '../types/OtherSite';
+import type { OtherSitesProps } from '../types/OtherSitesProps';
 
 
 

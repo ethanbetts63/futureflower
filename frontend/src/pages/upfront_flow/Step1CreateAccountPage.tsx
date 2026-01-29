@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { ProfileCreationForm } from '@/forms/ProfileCreationForm';
-import type { ProfileCreationData } from '@/types/forms';
+import type { ProfileCreationData } from '../../types/ProfileCreationData';
 import { registerUser } from '@/api';
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
 import { cn } from '@/utils/utils';
-import type { EditButtonProps } from '@/types/components';
+import type { EditButtonProps } from '../types/EditButtonProps';
 
 
 

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageSquareText, Repeat } from 'lucide-react';
 import EditButton from '@/components/EditButton';
 import type { DeliveryEvent } from '../types/DeliveryEvent';
-import type { MessagesCardProps } from '@/types/components';
+import type { MessagesCardProps } from '../types/MessagesCardProps';
 
 
 
@@ -22,7 +22,7 @@ const MessagesCard: React.FC<MessagesCardProps> = ({ plan, editUrl }) => {
         }
 
         if (isSingleMessageForAll) {
-            const singleMessage: string = Array.from(uniqueMessages)[0] || '';
+            const singleMessage: string | null = Array.from(uniqueMessages)[0] || null;
             return (
                 <div className="p-4 bg-gray-50 rounded-lg">
                     <p className="font-semibold text-sm text-gray-800 flex items-center mb-2">

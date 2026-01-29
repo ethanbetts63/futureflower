@@ -2,7 +2,7 @@ import React from 'react';
 import { Hero } from './Hero';
 import { FaqV2 } from './FaqV2';
 import { faqs } from '../data/faqs';
-import type { ArticleLayoutProps } from '@/types/components';
+import type { ArticleLayoutProps } from '../types/ArticleLayoutProps';
 
 
 

@@ -9,7 +9,7 @@ import type { SubscriptionPlan } from '../types/SubscriptionPlan';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import type { PlanDisplayProps } from '@/types/component_props';
+import type { PlanDisplayProps } from '../types/PlanDisplayProps';
 
 type Plan = UpfrontPlan | SubscriptionPlan;
 

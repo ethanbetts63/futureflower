@@ -1,7 +1,8 @@
 // src/components/PaymentHistoryCard.tsx
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { PaymentHistoryCardProps } from '@/types/component_props';
+import type { PaymentHistoryCardProps } from '../types/PaymentHistoryCardProps';
+import type { Payment } from '../types/Payment';
 
 const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
   // Use actual payments from the plan if available, otherwise an empty array

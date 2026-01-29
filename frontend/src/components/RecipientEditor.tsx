@@ -3,20 +3,19 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
-import type { UpfrontPlan } from '../types/UpfrontPlan';
-import type { SubscriptionPlan } from '../types/SubscriptionPlan';
+
 import type { PartialUpfrontPlan } from '../types/PartialUpfrontPlan';
 import type { PartialSubscriptionPlan } from '../types/PartialSubscriptionPlan';
-import type { RecipientData } from '../types/forms';
+import type { RecipientData } from '../types/RecipientData';
 import RecipientForm from '@/forms/RecipientForm';
 import Seo from '@/components/Seo';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import BackButton from '@/components/BackButton';
-import type { RecipientEditorProps } from '@/types/component_props';
+import type { RecipientEditorProps } from '../types/RecipientEditorProps';
 
-type Plan = UpfrontPlan | SubscriptionPlan;
+
 type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
 
 const RecipientEditor: React.FC<RecipientEditorProps> = ({

@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { cn } from '@/utils/utils';
-import type { BackButtonProps } from '@/types/component_props';
+import type { BackButtonProps } from '../types/BackButtonProps';
 
 const BackButton: React.FC<BackButtonProps> = ({ to, className, ...props }) => {
   const navigate = useNavigate();

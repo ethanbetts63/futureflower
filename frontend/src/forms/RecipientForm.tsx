@@ -4,7 +4,8 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 
 // This could be defined in a shared types file later
-import type { RecipientData, RecipientFormProps } from '../types/forms';
+import type { RecipientData } from '../types/RecipientData';
+import type { RecipientFormProps } from '../types/RecipientFormProps';
 
 const RecipientForm: React.FC<RecipientFormProps> = ({
   formData,

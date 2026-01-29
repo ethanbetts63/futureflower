@@ -2,7 +2,7 @@
 import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
 import type { UpfrontPlan, CreateUpfrontPlanPayload, PartialUpfrontPlan } from "@/types";
-import type { CalculatePlanPayload } from '../types/forms';
+import type { CalculatePlanPayload } from '../types/CalculatePlanPayload';
 
 export async function getUpfrontPlan(planId: string): Promise<UpfrontPlan> {
     const response = await authedFetch(`/api/events/upfront-plans/${planId}/`);

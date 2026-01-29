@@ -1,5 +1,5 @@
 import React from 'react';
-import type { HeroProps } from '@/types/components';
+import type { HeroProps } from '../types/HeroProps';
 
 
 

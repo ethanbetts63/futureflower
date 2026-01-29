@@ -8,7 +8,8 @@ import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import CheckoutForm from '../forms/CheckoutForm';
-import type { PaymentProcessorProps, Plan } from '@/types/component_props';
+import type { PaymentProcessorProps } from '../types/PaymentProcessorProps';
+import type { Plan } from '../types/Plan';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -47,7 +48,7 @@ const PaymentProcessor: React.FC<PaymentProcessorProps> = ({
         hasInitiatedPaymentRef.current = true;
 
         getPlan(planId)
-        .then(planData => {
+        .then((planData: Plan) => {
             setPlan(planData);
             
             let modificationDetails;
@@ -82,10 +83,10 @@ const PaymentProcessor: React.FC<PaymentProcessorProps> = ({
 
             return createPayment(payload);
         })
-        .then(data => {
+        .then((data: { clientSecret: string }) => {
             setClientSecret(data.clientSecret);
         })
-        .catch(err => {
+        .catch((err: Error) => {
             console.error(err);
             setError(err.message || 'Failed to load plan details or initialize payment.');
             toast.error('An error occurred', {

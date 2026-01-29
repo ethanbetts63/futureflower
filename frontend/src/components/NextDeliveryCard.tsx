@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Truck, Calendar, Hash, User, MapPin } from 'lucide-react';
 
-import type { NextDeliveryCardProps } from '@/types/components';
+import type { NextDeliveryCardProps } from '../types/NextDeliveryCardProps';
 
 
 

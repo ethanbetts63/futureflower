@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField as ShadcnFormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "sonner";
 
-import type { ProfileFormProps } from '../types/forms';
+import type { ProfileFormProps } from '../types/ProfileFormProps';
 
 type ProfileFormData = Omit<UserProfile, 'id' | 'username'>;
 
