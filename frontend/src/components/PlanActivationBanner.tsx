@@ -3,10 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
-
-interface PlanActivationBannerProps {
-  planId: string;
-}
+import type { PlanActivationBannerProps } from '@/types/component_props';
 
 const PlanActivationBanner: React.FC<PlanActivationBannerProps> = ({ planId }) => {
   const navigate = useNavigate();

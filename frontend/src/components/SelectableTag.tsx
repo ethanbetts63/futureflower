@@ -1,12 +1,7 @@
 // foreverflower/frontend/src/components/preferences/SelectableTag.tsx
 import React from 'react';
 import { Badge } from "@/components/ui/badge";
-
-interface SelectableTagProps {
-  label: string;
-  isSelected: boolean;
-  onClick: () => void;
-}
+import type { SelectableTagProps } from '@/types/component_props';
 
 export const SelectableTag: React.FC<SelectableTagProps> = ({ label, isSelected, onClick }) => {
   return (

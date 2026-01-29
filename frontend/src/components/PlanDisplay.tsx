@@ -2,22 +2,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getColors, getFlowerTypes } from '@/api';
-import type { UpfrontPlan, SubscriptionPlan, Color, FlowerType } from '@/types';
+import type { Color, FlowerType, UpfrontPlan, SubscriptionPlan } from '@/types';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import type { PlanDisplayProps } from '@/types/component_props';
 
 type Plan = UpfrontPlan | SubscriptionPlan;
-
-interface PlanDisplayProps {
-    children: (data: {
-        plan: Plan;
-        colorMap: Map<number, Color>;
-        flowerTypeMap: Map<number, FlowerType>;
-    }) => React.ReactNode;
-    fallbackNavigationPath?: string;
-    getPlan: (planId: string) => Promise<Plan>;
-}
 
 const PlanDisplay: React.FC<PlanDisplayProps> = ({
     children,

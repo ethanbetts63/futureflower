@@ -4,19 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Palette, Sprout, Ban } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import EditButton from '@/components/EditButton';
-import type { UpfrontPlan, SubscriptionPlan, Color, FlowerType, PartialUpfrontPlan, PartialSubscriptionPlan } from '@/types';
+import type { Color, FlowerType } from '@/types';
+import type { PreferencesCardProps } from '@/types/component_props';
+import type { UpfrontPlan, SubscriptionPlan, PartialUpfrontPlan, PartialSubscriptionPlan } from '@/types';
 
 type Plan = UpfrontPlan | SubscriptionPlan;
 type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
-
-interface PreferencesCardProps {
-    plan: Plan;
-    colorMap: Map<number, Color>;
-    flowerTypeMap: Map<number, FlowerType>;
-    editUrl: string;
-    getPlan: (planId: string) => Promise<Plan>;
-    updatePlan: (planId: string, data: PartialPlan) => Promise<Plan>;
-}
 
 // Helper component for displaying a single color swatch
 const ColorSwatchDisplay: React.FC<{ hex: string; name: string }> = ({ hex, name }) => (

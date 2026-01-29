@@ -1,12 +1,7 @@
 // foreverflower/frontend/src/components/SubscriptionPlanSummary.tsx
 import React from 'react';
-import type { SubscriptionPlan, UpfrontPlan } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-
-interface SubscriptionPlanSummaryProps {
-  plan: UpfrontPlan | SubscriptionPlan;
-  newPlanDetails?: any;
-}
+import type { SubscriptionPlanSummaryProps } from '@/types/component_props';
 
 const isSubscriptionPlan = (p: UpfrontPlan | SubscriptionPlan): p is SubscriptionPlan => {
     return 'frequency' in p && 'price_per_delivery' in p;

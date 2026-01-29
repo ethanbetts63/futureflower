@@ -8,25 +8,14 @@ import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getColors, getFlowerTypes } from '@/api';
-import type { UpfrontPlan, SubscriptionPlan, Color, FlowerType, PartialUpfrontPlan, PartialSubscriptionPlan } from '@/types';
+import type { Color, FlowerType, UpfrontPlan, SubscriptionPlan, PartialUpfrontPlan, PartialSubscriptionPlan } from '@/types';
 import { ColorSwatch, SelectableTag } from '@/components';
 import { Separator } from '@/components/ui/separator';
 import BackButton from '@/components/BackButton';
+import type { PreferencesEditorProps } from '@/types/component_props';
 
 type Plan = UpfrontPlan | SubscriptionPlan;
 type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
-
-interface PreferencesEditorProps {
-    mode: 'create' | 'edit';
-    title: string;
-    description: string;
-    saveButtonText: string;
-    onSaveNavigateTo: string;
-    backPath: string;
-    showSkipButton: boolean;
-    getPlan: (planId: string) => Promise<Plan>;
-    updatePlan: (planId: string, data: PartialPlan) => Promise<Plan>;
-}
 
 const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
     mode,

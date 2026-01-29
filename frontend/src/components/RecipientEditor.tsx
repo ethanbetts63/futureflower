@@ -11,19 +11,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import BackButton from '@/components/BackButton';
+import type { RecipientEditorProps } from '@/types/component_props';
 
 type Plan = UpfrontPlan | SubscriptionPlan;
 type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
-
-interface RecipientEditorProps {
-    mode: 'create' | 'edit';
-    title: string;
-    saveButtonText: string;
-    onSaveNavigateTo: string; // A string pattern like '/dashboard/plans/{planId}/overview'
-    onCancelNavigateTo: string; // A string pattern like '/dashboard' or '/dashboard/plans/{planId}/overview'
-    getPlan: (planId: string) => Promise<Plan>;
-    updatePlan: (planId: string, data: PartialPlan) => Promise<Plan>;
-}
 
 const RecipientEditor: React.FC<RecipientEditorProps> = ({
     mode,
