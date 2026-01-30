@@ -78,9 +78,8 @@ const Step5ConfirmationPage: React.FC = () => {
                                 itemType="SUBSCRIPTION_PLAN_NEW"
                                 details={{
                                     subscription_plan_id: planId,
-                                    stripe_price_id: plan.stripe_price_id, // Assuming stripe_price_id is available on the plan object
                                 }}
-                                disabled={isSubmitting || !planId || !plan.stripe_price_id}
+                                disabled={isSubmitting || !planId}
                                 onPaymentInitiate={() => setIsSubmitting(true)}
                                 onPaymentError={() => setIsSubmitting(false)}
                                 size="lg"

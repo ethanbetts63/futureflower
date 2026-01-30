@@ -39,28 +39,27 @@ This document outlines the complete, detailed flow for creating and managing flo
 - **Action:** The user reviews a complete summary of their chosen subscription plan, including the structure, recipient information, preferences, and the recurring price per delivery. This summary is typically presented on a dedicated confirmation page or integrated into the checkout experience before payment initiation.
 
 ### Step 7: Payment
-This step establishes the recurring payment mechanism for the subscription via Stripe. It uses the universal `CheckoutPage.tsx` and `CheckoutForm.tsx` for handling the initial payment.
+This step establishes the recurring payment mechanism for the subscription via Stripe. It uses an integrated payment form on the confirmation page rather than a separate checkout page.
 
 #### Payment Flow (Subscription Activation)
-- **File (Subscription Creation API):** `frontend/src/api/subscriptionPlans.ts` (specifically the `createSubscription` function).
-- **Action (Subscription Creation Request):** After confirming the subscription details (e.g., from a dedicated confirmation page), the frontend initiates the subscription by calling the `createSubscription()` function. This sends a `POST` request to the backend endpoint `/api/payments/create-subscription/`.
+- **File (Confirmation Page):** `frontend/src/pages/subscription_flow/Step5ConfirmationPage.tsx`
+- **Action (Payment Initiation):** After reviewing the summary, the user clicks the `PaymentInitiatorButton`.
+- **API Call (`createSubscription`):** The button's logic calls a function like `createSubscription()` (from `frontend/src/api/subscriptionPlans.ts`). This sends a `POST` request to the backend endpoint `/api/payments/create-subscription/`, including the `subscription_plan_id`.
 - **Backend `CreateSubscriptionView` (`payments/views/create_subscription_view.py`):**
     - This view retrieves the `SubscriptionPlan` instance from the database using the provided `subscription_plan_id`.
     - It handles the Stripe Customer aspect: if the `request.user` already has a `stripe_customer_id`, it retrieves that customer; otherwise, a new Stripe Customer is created, and its ID is saved to the user's profile.
-    - A dynamic Stripe Product and a corresponding Stripe Price are created using the `SubscriptionPlan`'s `price_per_delivery` and `frequency`. This ensures that each plan's specific pricing is accurately represented in Stripe.
-    - The Stripe Subscription is then created, linking the customer to the dynamically created price. `payment_behavior='default_incomplete'` is set to manage payments that might require further authentication (e.g., 3D Secure). The `latest_invoice.payment_intent` is expanded to obtain details for the initial payment.
+    - Using the `price_data` parameter, a dynamic price is defined within the subscription creation call. This uses the `SubscriptionPlan`'s `price_per_delivery` and `frequency`, and crucially, links it to a **pre-existing, fixed Stripe Product ID** stored in `settings.STRIPE_SUBSCRIPTION_PRODUCT_ID`. This avoids creating a new Product for every subscription.
+    - The Stripe Subscription is then created, linking the customer to this dynamic price. `payment_behavior='default_incomplete'` is set to manage payments that might require further authentication (e.g., 3D Secure). The `latest_invoice.payment_intent` is expanded to obtain details for the initial payment.
     - The generated `stripe_subscription_id` is saved back to the local `SubscriptionPlan` model.
     - Finally, the `clientSecret` from the `latest_invoice.payment_intent` is returned to the frontend.
-- **File (Payment Page):** `frontend/src/pages/CheckoutPage.tsx`
-- **Action (Initial Payment Display):** The frontend (after successfully calling `createSubscription`) redirects the user to `CheckoutPage.tsx`, passing the received `clientSecret` in the navigation state. This page is responsible for presenting the initial payment form.
-- **File (Payment Form Component):** `frontend/src/forms/CheckoutForm.tsx`
-- **Action (Payment Form Submission):** Within `CheckoutPage.tsx`, the `CheckoutForm.tsx` component is rendered. It uses Stripe Elements (initialized with the `clientSecret`) to securely collect the user's payment method details for the *initial payment* of the subscription. Upon submission, it confirms the payment with Stripe.
+- **Action (Embedded Payment Form):** The frontend logic within `Step5ConfirmationPage.tsx` receives the `clientSecret`. It then uses this secret to initialize and display a Stripe Payment Element directly on the confirmation page. This allows the user to securely enter their payment details without leaving the page.
+- **Action (Payment Confirmation):** Upon submission, Stripe.js handles the confirmation of the initial payment using the `clientSecret`.
 
 ### Step 8: Payment Status / Subscription Activation
 - **File:** `frontend/src/pages/PaymentStatusPage.tsx`
-- **Action:** After the user submits the payment form on `CheckoutPage.tsx` and Stripe processes the initial payment, the user is redirected to this universal status page. The URL includes `payment_intent_client_secret`, `plan_id`, and `source` as query parameters.
+- **Action:** After the user submits the embedded payment form and Stripe processes the initial payment, the frontend logic redirects the user to this universal status page. The URL includes `payment_intent_client_secret`, `plan_id`, and `source` as query parameters.
 - **Stripe Integration & Logic:** The `PaymentStatusPage.tsx` uses the Stripe client-side library to retrieve the status of the initial `PaymentIntent` based on the `payment_intent_client_secret`.
-- **Backend Sync:** A successful `PaymentIntent` for a subscription will trigger a Stripe Webhook event (`payment_intent.succeeded`) that the backend (`payments/views/stripe_webhook.py`) will process. This webhook handler ensures that the local `SubscriptionPlan`'s status and related `Payment` records are accurately updated to reflect the successful activation of the subscription. The `PaymentStatusPage.tsx` will display a success message and then redirect the user to their `SubscriptionPlanOverviewPage.tsx`.
+- **Backend Sync:** A successful `PaymentIntent` for a subscription will trigger a Stripe Webhook event (`invoice.payment_succeeded`) that the backend (`payments/views/stripe_webhook.py`) will process. This webhook handler ensures that the local `SubscriptionPlan`'s status is accurately updated to reflect the successful activation of the subscription. The `PaymentStatusPage.tsx` will display a success message and then redirect the user to their `SubscriptionPlanOverviewPage.tsx`.
 
 ---
 
@@ -89,11 +88,10 @@ This step establishes the recurring payment mechanism for the subscription via S
     - **Stripe Customer Management:**
         - Checks `request.user.stripe_customer_id`. If it exists, retrieves the Stripe Customer.
         - If not, creates a new Stripe Customer using the user's email and name, then saves the new `stripe_customer_id` to the local `User` model.
-    - **Stripe Product and Price Creation:**
-        - Creates a new Stripe Product, typically named for the subscription type.
-        - Creates a new Stripe Price object, linking it to the product. The `unit_amount` is derived from `plan.price_per_delivery * 100` (for cents), `currency` from the plan, and `recurring` details from the plan's `frequency`.
-    - **Stripe Subscription Creation:**
-        - Creates the actual Stripe Subscription, linking the `customer.id` to the newly created `price.id`.
+    - **Stripe Price and Subscription Creation:**
+        - Creates the actual Stripe Subscription. The `items` array uses `price_data` to dynamically define the price for this specific subscription.
+        - `price_data` includes the `unit_amount` (from `plan.price_per_delivery * 100`), `currency`, and `recurring` details (from `plan.frequency`).
+        - Crucially, `price_data` also specifies the `product`, using a **fixed product ID** from `settings.STRIPE_SUBSCRIPTION_PRODUCT_ID`. This means a new Stripe Product is **not** created for each subscription.
         - Configures `payment_behavior='default_incomplete'` and `payment_settings={'save_default_payment_method': 'on_subscription'}`.
         - Expands `latest_invoice.payment_intent` to get details required for the initial payment.
     - **Local Database Update:** Saves the `stripe_subscription_id` received from Stripe back to the local `SubscriptionPlan` model.
