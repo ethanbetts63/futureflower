@@ -8,7 +8,7 @@ from datetime import date, timedelta
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
-from decimal import Decimal # Import Decimal
+from decimal import Decimal, InvalidOperation # Import InvalidOperation
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -23,11 +23,11 @@ def calc_upfront_price_for_plan(request, plan_id):
 
     try:
         new_structure = {
-            'budget': float(request.data.get('budget')),
+            'budget': Decimal(request.data.get('budget')),
             'deliveries_per_year': int(request.data.get('deliveries_per_year')),
             'years': int(request.data.get('years')),
         }
-    except (TypeError, ValueError, AttributeError):
+    except (InvalidOperation, TypeError, ValueError, AttributeError):
         return Response(
             {'error': 'Invalid input. Please provide valid numbers for all fields.'},
             status=status.HTTP_400_BAD_REQUEST
@@ -86,7 +86,7 @@ class UpfrontPlanViewSet(viewsets.ModelViewSet):
 
         # --- Calculate and save the total price ---
         upfront_price, _ = forever_flower_upfront_price(
-            budget=float(upfront_plan.budget),
+            budget=upfront_plan.budget,
             deliveries_per_year=upfront_plan.deliveries_per_year,
             years=upfront_plan.years,
         )
@@ -130,10 +130,10 @@ class UpfrontPlanViewSet(viewsets.ModelViewSet):
 
             try:
                 # Use request data for recalculation, ensuring they are valid numbers
-                new_structure_budget = float(request.data['budget'])
+                new_structure_budget = Decimal(request.data['budget'])
                 new_structure_deliveries = int(request.data['deliveries_per_year'])
                 new_structure_years = int(request.data['years'])
-            except (ValueError, TypeError):
+            except (InvalidOperation, ValueError, TypeError):
                  return Response(
                     {"error": "Invalid data types for budget, deliveries_per_year, or years."},
                     status=status.HTTP_400_BAD_REQUEST
@@ -146,7 +146,7 @@ class UpfrontPlanViewSet(viewsets.ModelViewSet):
             )
             
             # Compare with client-provided amount
-            if not abs(Decimal(str(server_calculated_total_price)) - client_provided_total_amount) < Decimal('0.02'):
+            if not abs(server_calculated_total_price - client_provided_total_amount) < Decimal('0.02'):
                 return Response(
                     {"error": f"Price mismatch. Server calculated: {server_calculated_total_price}, Client provided: {client_provided_total_amount}."},
                     status=status.HTTP_400_BAD_REQUEST
