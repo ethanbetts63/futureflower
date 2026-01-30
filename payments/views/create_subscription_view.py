@@ -93,7 +93,10 @@ class CreateSubscriptionView(APIView):
             
             client_secret = None
             if subscription.pending_setup_intent:
-                client_secret = subscription.pending_setup_intent.client_secret
+                # The pending_setup_intent is an ID string, so we need to retrieve the full object
+                setup_intent = stripe.SetupIntent.retrieve(subscription.pending_setup_intent)
+                client_secret = setup_intent.client_secret
+                print(setup_intent)
             
             if not client_secret:
                 raise Exception("Stripe did not return a client_secret for a pending SetupIntent.")
