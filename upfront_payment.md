@@ -52,19 +52,19 @@ This step leverages a universal payment page (`CheckoutPage.tsx`) which utilizes
 
 #### Payment Flow (Booking & Dashboard Management)
 - **File (Payment Initiation):** `frontend/src/components/PaymentInitiatorButton.tsx`
-- **Action (Payment Initiation):** When a user needs to make a payment (either for a new booking or a plan modification), the `PaymentInitiatorButton.tsx` component is used. It calls the `createPaymentIntent` function to send a `POST` request to the backend.
+- **Action (Payment Initiation):** When a user needs to make a payment (either for a new booking or a plan modification), the `PaymentInitiatorButton.tsx` component is used. It calls the `createPaymentIntent` function to send a `POST` request to the backend. It also passes `intentType='payment'` in the navigation state to the `CheckoutPage.tsx`.
 - **Backend `CreatePaymentIntentView`:** This view creates a Stripe `PaymentIntent` and a corresponding `Payment` record in the local database. It returns the `clientSecret` for the Stripe `PaymentIntent` to the frontend.
 - **File (Payment Page):** `frontend/src/pages/CheckoutPage.tsx`
-- **Action (Payment Page):** The user is then redirected to this universal `CheckoutPage.tsx` with the `clientSecret` passed in the navigation state.
+- **Action (Payment Page):** The user is then redirected to this unified `CheckoutPage.tsx` with the `clientSecret` and `intentType='payment'` passed in the navigation state.
 - **File (Payment Form Component):** `frontend/src/forms/CheckoutForm.tsx`
-- **Action (Payment Form):** Within `CheckoutPage.tsx`, the `CheckoutForm.tsx` component is initialized with the `clientSecret`. This component securely collects the user's card details using Stripe Elements.
+- **Action (Payment Form):** Within `CheckoutPage.tsx`, the `CheckoutForm.tsx` component is initialized with the `clientSecret` and the `intentType`. This `intent-aware` component securely collects the user's card details using Stripe Elements and calls `stripe.confirmPayment()`.
 
 ### Step 8: Payment Status
 This step uses a single, universal page to display the outcome of any payment transaction, whether from the booking flow or a dashboard modification.
 
 - **File:** `frontend/src/pages/PaymentStatusPage.tsx`
-- **Action:** After submitting the payment form, the user is redirected to this page. The redirect URL includes `payment_intent_client_secret`, `plan_id`, and `source` (e.g., `'management'`) as URL parameters.
-- **Stripe Integration & Logic:** The page retrieves the payment status from Stripe using the `payment_intent_client_secret` from the URL parameters. It then uses the `plan_id` and `source` parameters to dynamically:
+- **Action:** After submitting the payment form, the user is redirected to this page. The redirect URL includes `payment_intent_client_secret` (for upfront payments), `setup_intent_client_secret` (for subscriptions), `plan_id`, and `source` as URL parameters.
+- **Stripe Integration & Logic:** The `PaymentStatusPage.tsx` is now `intent-aware`. It inspects the client secret from the URL (checking for `pi_` or `seti_` prefix) and uses the appropriate Stripe client-side library (`stripe.retrievePaymentIntent()` or `stripe.retrieveSetupIntent()`) to retrieve the status. It then uses the `plan_id` and `source` parameters to dynamically:
     - Determine the appropriate redirection path if the user needs to "Try Again".
     - Display a success or failure message to the user, tailored to whether it was an initial plan payment or a modification.
 
@@ -89,8 +89,7 @@ The Django backend handles the business logic, data persistence, and communicati
     - Retrieves the `PaymentIntent` object from the event payload.
     - Finds the local `Payment` record using the `stripe_payment_intent_id`.
     - Updates the `Payment` record's `status` to `'succeeded'`.
-    - Retrieves the `UpfrontPlan` using the `upfront_plan_id` from the webhook metadata, and its `OrderBase` parent instance (`orderbase_ptr`).
-    - **Activates the plan** by setting `status` to `'active'`.
+    - Retrieves the `UpfrontPlan` using `payment.order.id` (which is the `UpfrontPlan` ID) and then **activates the plan** by setting its `status` to `'active'`.
     - If the payment was for a plan modification, it updates the `UpfrontPlan`'s relevant fields (e.g., budget, years, delivery frequency) based on the metadata passed in the `PaymentIntent`).
     - Sends a notification to the site admin about the successful payment.
 

@@ -39,7 +39,7 @@ This document outlines the complete, detailed flow for creating and managing flo
 - **Action:** The user reviews a complete summary of their chosen subscription plan, including the structure, recipient information, preferences, and the recurring price per delivery. This summary is typically presented on a dedicated confirmation page or integrated into the checkout experience before payment initiation.
 
 ### Step 7: Payment
-This step establishes the recurring payment mechanism for the subscription via Stripe. It uses an integrated payment form on the confirmation page rather than a separate checkout page.
+This step establishes the recurring payment mechanism for the subscription via Stripe. It uses a unified payment page (`CheckoutPage.tsx`) to securely collect payment method details.
 
 #### Payment Flow (Subscription Activation)
 - **File (Confirmation Page):** `frontend/src/pages/subscription_flow/Step5ConfirmationPage.tsx`
@@ -49,17 +49,18 @@ This step establishes the recurring payment mechanism for the subscription via S
     - This view retrieves the `SubscriptionPlan` instance from the database using the provided `subscription_plan_id`.
     - It handles the Stripe Customer aspect: if the `request.user` already has a `stripe_customer_id`, it retrieves that customer; otherwise, a new Stripe Customer is created, and its ID is saved to the user's profile.
     - Using the `price_data` parameter, a dynamic price is defined within the subscription creation call. This uses the `SubscriptionPlan`'s `price_per_delivery` and `frequency`, and crucially, links it to a **pre-existing, fixed Stripe Product ID** stored in `settings.STRIPE_SUBSCRIPTION_PRODUCT_ID`. This avoids creating a new Product for every subscription.
-    - The Stripe Subscription is then created, linking the customer to this dynamic price. `payment_behavior='default_incomplete'` is set to manage payments that might require further authentication (e.g., 3D Secure). The `latest_invoice.payment_intent` is expanded to obtain details for the initial payment.
+    - The Stripe Subscription is then created, linking the customer to this dynamic price. `payment_behavior='default_incomplete'` is set to manage payments that might require further authentication (e.g., 3D Secure).
+    - It retrieves the `clientSecret` from the `SetupIntent` that Stripe creates for trial subscriptions. It also updates this `SetupIntent` with metadata containing the local `subscription_plan_id`.
     - The generated `stripe_subscription_id` is saved back to the local `SubscriptionPlan` model.
-    - Finally, the `clientSecret` from the `latest_invoice.payment_intent` is returned to the frontend.
-- **Action (Embedded Payment Form):** The frontend logic within `Step5ConfirmationPage.tsx` receives the `clientSecret`. It then uses this secret to initialize and display a Stripe Payment Element directly on the confirmation page. This allows the user to securely enter their payment details without leaving the page.
-- **Action (Payment Confirmation):** Upon submission, Stripe.js handles the confirmation of the initial payment using the `clientSecret`.
+    - Finally, the `clientSecret` from the `SetupIntent` is returned to the frontend.
+- **Action (Unified Payment Form):** The frontend logic receives the `clientSecret` and `intentType='setup'`. It then redirects the user to the unified `CheckoutPage.tsx`. On this page, a Stripe Payment Element is initialized using the `SetupIntent`'s `clientSecret`, allowing the user to securely enter their payment details to save a payment method.
+- **Action (Payment Method Confirmation):** Upon submission, Stripe.js handles the confirmation of the `SetupIntent` using the `clientSecret`, saving the payment method to the customer.
 
 ### Step 8: Payment Status / Subscription Activation
 - **File:** `frontend/src/pages/PaymentStatusPage.tsx`
-- **Action:** After the user submits the embedded payment form and Stripe processes the initial payment, the frontend logic redirects the user to this universal status page. The URL includes `payment_intent_client_secret`, `plan_id`, and `source` as query parameters.
-- **Stripe Integration & Logic:** The `PaymentStatusPage.tsx` uses the Stripe client-side library to retrieve the status of the initial `PaymentIntent` based on the `payment_intent_client_secret`.
-- **Backend Sync:** A successful `PaymentIntent` for a subscription will trigger a Stripe Webhook event (`invoice.payment_succeeded`) that the backend (`payments/views/stripe_webhook.py`) will process. This webhook handler ensures that the local `SubscriptionPlan`'s status is accurately updated to reflect the successful activation of the subscription. The `PaymentStatusPage.tsx` will display a success message and then redirect the user to their `SubscriptionPlanOverviewPage.tsx`.
+- **Action:** After the user submits the payment form, Stripe redirects the user to this universal status page. The URL includes `setup_intent_client_secret` (for subscriptions), `payment_intent_client_secret` (for upfront payments), `plan_id`, and `source` as query parameters.
+- **Stripe Integration & Logic:** The `PaymentStatusPage.tsx` is now `intent-aware`. It inspects the client secret (either `setup_intent_client_secret` or `payment_intent_client_secret`) and uses the appropriate Stripe client-side library (`stripe.retrieveSetupIntent()` or `stripe.retrievePaymentIntent()`) to retrieve the status. For a successful `SetupIntent`, it displays a message indicating the payment method has been saved and the subscription is being activated.
+- **Backend Sync:** A successful `SetupIntent` for a subscription will trigger a Stripe Webhook event (`setup_intent.succeeded`) that the backend (`payments/views/stripe_webhook.py`) will process. This webhook handler ensures that the local `SubscriptionPlan`'s status is accurately updated from `pending_payment` to `active`. The `PaymentStatusPage.tsx` will display a success message and then redirect the user to their `SubscriptionPlanOverviewPage.tsx`. (Note: The frontend should ideally poll the backend for plan status after `setup_intent.succeeded` before redirecting for full robustness).
 
 ---
 
@@ -86,16 +87,15 @@ This step establishes the recurring payment mechanism for the subscription via S
     - Validates `subscription_plan_id` from the request.
     - Fetches the local `SubscriptionPlan` object, ensuring it belongs to the `request.user`.
     - **Stripe Customer Management:**
-        - Checks `request.user.stripe_customer_id`. If it exists, retrieves the Stripe Customer.
-        - If not, creates a new Stripe Customer using the user's email and name, then saves the new `stripe_customer_id` to the local `User` model.
+        - Checks `request.user.stripe_customer_id`. If it exists, retrieves that customer; otherwise, a new Stripe Customer is created, and its ID is saved to the user's profile.
     - **Stripe Price and Subscription Creation:**
         - Creates the actual Stripe Subscription. The `items` array uses `price_data` to dynamically define the price for this specific subscription.
         - `price_data` includes the `unit_amount` (from `plan.price_per_delivery * 100`), `currency`, and `recurring` details (from `plan.frequency`).
         - Crucially, `price_data` also specifies the `product`, using a **fixed product ID** from `settings.STRIPE_SUBSCRIPTION_PRODUCT_ID`. This means a new Stripe Product is **not** created for each subscription.
         - Configures `payment_behavior='default_incomplete'` and `payment_settings={'save_default_payment_method': 'on_subscription'}`.
-        - Expands `latest_invoice.payment_intent` to get details required for the initial payment.
+        - It retrieves the `clientSecret` from the `SetupIntent` that Stripe creates for trial subscriptions. It also updates this `SetupIntent` with metadata containing the local `subscription_plan_id`.
     - **Local Database Update:** Saves the `stripe_subscription_id` received from Stripe back to the local `SubscriptionPlan` model.
-    - **Response:** Returns the `clientSecret` from the `latest_invoice.payment_intent` to the frontend, enabling it to complete the initial payment.
+    - **Response:** Returns the `clientSecret` from the `SetupIntent` to the frontend.
 
 ### File: `payments/views/stripe_webhook.py`
 - **View:** `StripeWebhookView` (inherits from `APIView`)
@@ -107,6 +107,8 @@ This step establishes the recurring payment mechanism for the subscription via S
         - `payment_intent.succeeded`: Handled by `handle_payment_intent_succeeded`. This would update the local `Payment` record for the initial payment and potentially other `SubscriptionPlan` statuses.
         - `invoice.payment_succeeded`: Handled by `handle_invoice_payment_succeeded`. This is critical for recurring subscription payments. It records successful invoice payments as `Payment` objects in the local database and confirms the ongoing status of the subscription.
         - `payment_intent.payment_failed`: Handled by `handle_payment_intent_failed`. This would record failed initial payments and might trigger updates to the local `SubscriptionPlan` status or user notifications.
+        - `setup_intent.succeeded`: Handled by `handle_setup_intent_succeeded`. This activates the local `SubscriptionPlan` after a payment method has been successfully set up for a trial.
+        - `setup_intent.failed`: Handled by `handle_setup_intent_failed`. This logs failures in setting up a payment method for a trial.
         - **Inferred handlers for other subscription lifecycle events (not explicitly shown in file, but standard for robust Stripe integrations):**
             - `customer.subscription.created`: To confirm the subscription is active on the local model if creation was asynchronous.
             - `customer.subscription.updated`: To sync any changes to the subscription (e.g., plan changes, renewal dates) from Stripe to the local database.
@@ -120,7 +122,7 @@ This step establishes the recurring payment mechanism for the subscription via S
 - **Logic:**
     - The `calculate_price` action associated with `SubscriptionPlanViewSet` performs a straightforward calculation for `price_per_delivery`.
     - It takes a `budget` (expected to be a float or convertible to one).
-    - A service `fee` is determined: `max(budget * 0.05, 15.0)`. This means a 5% commission on the budget, with a minimum fee of $15.
+    - A service `fee` is determined: `max(budget * 0.05, 15.0)`. This means a 5% commission on the budget, with a minimum flat fee of $15.
     - The `price_per_delivery` is simply `budget + fee`.
     - This endpoint returns a dictionary containing `price_per_delivery`.
 
@@ -183,5 +185,3 @@ After a user successfully subscribes, they can manage their active subscriptions
     - Displays various facets of the plan using dedicated card components: `SubscriptionStructureCard`, `RecipientCard`, `PreferencesCard`, and `PaymentHistoryCard`.
     - Includes a `PlanActivationBanner` if the plan's status is not 'active', prompting the user to complete payment if necessary.
     - Offers navigation links (`editUrl` props) to dedicated editing pages for recipient, structure, and preferences (e.g., `/dashboard/subscription-plans/{planId}/edit-recipient`), facilitating plan modifications.
-
-

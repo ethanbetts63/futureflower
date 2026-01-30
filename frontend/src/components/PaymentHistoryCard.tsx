@@ -3,10 +3,41 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { PaymentHistoryCardProps } from '../types/PaymentHistoryCardProps';
 import type { Payment } from '../types/Payment';
+import type { SubscriptionPlan } from '../types/SubscriptionPlan';
 
 const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
-  // Use actual payments from the plan if available, otherwise an empty array
   const payments = plan.payments || [];
+
+  const isSubscriptionPlan = (p: any): p is SubscriptionPlan => {
+    return 'frequency' in p && 'price_per_delivery' in p;
+  };
+
+  let nextPaymentDateStr: string | null = null;
+
+  if (isSubscriptionPlan(plan) && plan.status === 'active') {
+    const lastPayment = payments
+      .filter(p => p.status === 'succeeded')
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0];
+
+    const baseDate = lastPayment ? new Date(lastPayment.created_at) : (plan.start_date ? new Date(plan.start_date) : null);
+
+    if (baseDate) {
+      const nextPaymentDate = new Date(baseDate);
+      const unit = plan.delivery_frequency_unit.toLowerCase();
+      const value = plan.delivery_frequency_value;
+
+      if (unit.includes('month')) {
+        nextPaymentDate.setMonth(nextPaymentDate.getMonth() + value);
+      } else if (unit.includes('week')) {
+        nextPaymentDate.setDate(nextPaymentDate.getDate() + value * 7);
+      } else if (unit.includes('day')) {
+        nextPaymentDate.setDate(nextPaymentDate.getDate() + value);
+      } else if (unit.includes('year')) {
+        nextPaymentDate.setFullYear(nextPaymentDate.getFullYear() + value);
+      }
+      nextPaymentDateStr = nextPaymentDate.toLocaleDateString();
+    }
+  }
 
   return (
     <Card className="w-full bg-white shadow-md border-none text-black">
@@ -15,6 +46,12 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
         <CardDescription>A record of all payments for this plan.</CardDescription>
       </CardHeader>
       <CardContent>
+        {nextPaymentDateStr && (
+          <div className="mb-6 border-b border-gray-200 pb-4">
+            <h3 className="text-lg font-semibold text-black">Next Payment Due</h3>
+            <p className="text-gray-600">{nextPaymentDateStr}</p>
+          </div>
+        )}
         <Table>
           <TableHeader>
             <TableRow className="border-b-gray-200">
@@ -24,7 +61,7 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {payments && payments.length > 0 ? ( // Check if payments exist and has length
+            {payments && payments.length > 0 ? (
               payments.map((payment: Payment) => (
                 <TableRow key={payment.id} className="border-none">
                   <TableCell className="font-medium">{new Date(payment.created_at).toLocaleDateString()}</TableCell>

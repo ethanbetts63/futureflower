@@ -1,0 +1,53 @@
+# Session Summary - summary_20.txt
+
+**Date:** January 30, 2026
+
+**Project:** ForeverFlower
+
+**Issue:** Debugging and refactoring Stripe payment integration for subscription and upfront payment flows. Initial issues included an empty product ID, Stripe API breaking changes related to PaymentIntent retrieval, and frontend "stuck on processing" due to SetupIntent handling.
+
+**Key Changes & Decisions:**
+
+1.  **Stripe Product ID Issue (Initial Diagnosis):**
+    *   **Problem:** User reported `Internal Server Error: 500` with "You passed an empty string for 'items[0][price_data][product]'".
+    *   **Diagnosis:** `settings.STRIPE_SUBSCRIPTION_PRODUCT_ID` was likely empty.
+    *   **Action:** Added a check in `payments/views/create_subscription_view.py` to return a clearer error if `STRIPE_SUBSCRIPTION_PRODUCT_ID` is not configured. (This helped confirm later issues but was not the root cause of subsequent problems.)
+
+2.  **Stripe API Breaking Change - PaymentIntent on Invoice:**
+    *   **Problem:** Stripe removed `payment_intent` attribute from `Invoice` objects, leading to errors when accessing `subscription.latest_invoice.payment_intent`.
+    *   **Initial Attempts:** Tried various `expand` parameters (`latest_invoice.payment_intent`, `latest_invoice.charges.data.payment_intent`, `latest_invoice.charge.payment_intent`), all of which failed due to either deprecation or incorrect expansion syntax.
+    *   **Decision:** Abandoned complex `expand` logic.
+    *   **Action:** Modified `payments/views/create_subscription_view.py` to remove the `expand` parameter and retrieve the `PaymentIntent` via a separate `stripe.PaymentIntent.retrieve()` call using the ID from `subscription.latest_invoice.charges.data[0].payment_intent`. (This was later superseded by the SetupIntent discovery for trial flows).
+
+3.  **Frontend "Stuck on Processing" & SetupIntent Discovery:**
+    *   **Problem:** After backend changes, frontend still "stuck on processing" for trial subscriptions. Backend logs showed `Unhandled event type setup_intent.created`.
+    *   **Diagnosis:** For trial subscriptions, Stripe creates a `SetupIntent` (to save payment method for future use), not an immediate `PaymentIntent`. The frontend was expecting a `PaymentIntent`, and the backend was looking for one incorrectly.
+    *   **Decision:** Shift focus from `PaymentIntent` to `SetupIntent` for trial subscriptions.
+    *   **Action (Backend - `create_subscription_view.py`):**
+        *   Changed logic to explicitly look for `subscription.pending_setup_intent`.
+        *   Corrected `AttributeError: 'str' object has no attribute 'client_secret'` by retrieving the full `SetupIntent` object using `stripe.SetupIntent.retrieve(subscription.pending_setup_intent_id)` before accessing `client_secret`.
+    *   **Action (Backend - Webhook Handlers):**
+        *   Added `handle_setup_intent_succeeded` and `handle_setup_intent_failed` functions to `payments/utils/webhook_handlers.py`.
+        *   Updated `payments/views/stripe_webhook.py` to dispatch `setup_intent.succeeded` and `setup_intent.failed` events to these new handlers.
+    *   **Enhancement for Robustness (Backend):** Modified `create_subscription_view.py` to add `subscription_plan_id` to the `SetupIntent`'s metadata via `stripe.SetupIntent.modify()`. This provides a direct link for the webhook handler.
+    *   **Enhancement for Robustness (Backend):** Updated `handle_setup_intent_succeeded` to use the `subscription_plan_id` from the `SetupIntent`'s metadata to find and activate the `SubscriptionPlan`.
+
+4.  **Frontend Unified Checkout & Upfront Payment Bug:**
+    *   **Problem (Frontend):** The `CheckoutPage.tsx` and `PaymentStatusPage.tsx` were designed primarily for `PaymentIntents`, causing confusion and issues when a `SetupIntent` client secret was passed.
+    *   **Problem (Backend - Upfront Payments):** Despite subscription flow working, upfront payments were stuck at "pending" status on the backend.
+    *   **Diagnosis (Frontend):** Frontend was not `intent-aware` enough; `CheckoutForm` called `confirmPayment` always, and `PaymentStatusPage` only retrieved `PaymentIntents`.
+    *   **Diagnosis (Backend - Upfront):** A subtle bug in `handle_payment_intent_succeeded` (`payments/utils/webhook_handlers.py`) was incorrectly using `get_or_create` with logic that failed for `UpfrontPlan`s, causing the activation to fail silently.
+    *   **Decision (Frontend):** Implement a unified, `intent-aware` checkout flow on the frontend.
+    *   **Decision (Backend - Upfront):** Fix the `handle_payment_intent_succeeded` function for upfront payments.
+    *   **Action (Frontend - `PaymentInitiatorButton.tsx`):** Added `intentType` (`'payment'` or `'setup'`) to the navigation state when redirecting to `/checkout`.
+    *   **Action (Frontend - `CheckoutPage.tsx`):** Modified to receive `intentType` and pass it as a prop to `CheckoutForm`.
+    *   **Action (Frontend - `CheckoutForm.tsx`):** Updated to use `intentType` to conditionally call `stripe.confirmPayment()` or `stripe.confirmSetup()`. Also updated button text dynamically.
+    *   **Action (Frontend - `frontend/src/types/CheckoutFormProps.ts`):** Updated the interface to include `intentType`.
+    *   **Action (Frontend - `PaymentStatusPage.tsx`):** Made `intent-aware` by checking `clientSecret` prefix (`pi_` vs `seti_`) to call `stripe.retrievePaymentIntent()` or `stripe.retrieveSetupIntent()` respectively, and display appropriate messages.
+    *   **Action (Backend - `handle_payment_intent_succeeded` in `webhook_handlers.py`):** Refactored to reliably `Payment.objects.get()` the existing Payment record and activate the associated `UpfrontPlan` using `payment.order`, resolving the pending status bug.
+
+**Resolution:**
+The system now correctly handles both Stripe subscription trial setups (using SetupIntents) and upfront one-time payments (using PaymentIntents) with a unified, intent-aware frontend checkout experience and robust backend webhook processing.
+
+**Future Discussion:**
+Discussion initiated regarding a more structured modularization of backend webhook handlers and API views for improved maintainability. This architectural discussion will be the focus of the next session.
