@@ -5,11 +5,12 @@ import { toast } from 'sonner';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { createPaymentIntent } from '@/api/payments';
-import type { CreatePaymentIntentPayload } from '@/types'; // Import the type
+import { createSubscription } from '@/api/subscriptionPlans'; // Import createSubscription
+import type { CreatePaymentIntentPayload } from '@/types';
 
 interface PaymentInitiatorButtonProps extends ButtonProps {
   itemType: 'UPFRONT_PLAN_MODIFY' | 'UPFRONT_PLAN_NEW' | 'SUBSCRIPTION_PLAN_NEW';
-  details: CreatePaymentIntentPayload['details']; // Use the specific details type
+  details: CreatePaymentIntentPayload['details'];
   onPaymentInitiate?: () => void;
   onPaymentSuccess?: (clientSecret: string) => void;
   onPaymentError?: (error: any) => void;
@@ -41,23 +42,31 @@ const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
     if (onPaymentInitiate) onPaymentInitiate();
 
     try {
-      const payload = {
-        item_type: itemType,
-        details: details,
-      };
-      
-      const { clientSecret } = await createPaymentIntent(payload);
+      let clientSecret: string;
+
+      if (itemType === 'SUBSCRIPTION_PLAN_NEW') {
+        const payload = { subscription_plan_id: details.subscription_plan_id as string };
+        const response = await createSubscription(payload);
+        clientSecret = response.clientSecret;
+      } else {
+        const payload = {
+          item_type: itemType,
+          details: details,
+        };
+        const response = await createPaymentIntent(payload);
+        clientSecret = response.clientSecret;
+      }
 
       if (onPaymentSuccess) {
         onPaymentSuccess(clientSecret);
       } else {
         const idToPass = details.upfront_plan_id || details.subscription_plan_id;
-        // Default navigation behavior
-        navigate('/checkout', { state: { clientSecret, planId: idToPass } });
+        // Default navigation behavior, now including itemType
+        navigate('/checkout', { state: { clientSecret, planId: idToPass, itemType: itemType } });
       }
 
     } catch (err: any) {
-      console.error("Failed to create payment intent:", err);
+      console.error("Failed to initiate payment:", err);
       toast.error("Checkout Error", {
         description: err.message || "Could not initiate the payment process. Please try again.",
       });
