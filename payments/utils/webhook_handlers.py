@@ -7,27 +7,6 @@ from users.models import User
 from events.models import UpfrontPlan, SubscriptionPlan, Event
 from dateutil.relativedelta import relativedelta
 
-def _get_or_create_stripe_customer(user: User, payment_method_id: str) -> str:
-    """Gets a Stripe Customer ID or creates one if it doesn't exist."""
-    if user.stripe_customer_id:
-        # User is already a customer, just attach the new payment method for future use.
-        stripe.PaymentMethod.attach(payment_method_id, customer=user.stripe_customer_id)
-        stripe.Customer.modify(user.stripe_customer_id, invoice_settings={'default_payment_method': payment_method_id})
-        print(f"Attached new payment method to existing Stripe Customer: {user.stripe_customer_id}")
-        return user.stripe_customer_id
-    
-    # Create a new Stripe Customer
-    customer = stripe.Customer.create(
-        email=user.email,
-        name=user.get_full_name(),
-        payment_method=payment_method_id,
-        invoice_settings={'default_payment_method': payment_method_id},
-    )
-    user.stripe_customer_id = customer.id
-    user.save()
-    print(f"Created new Stripe Customer: {customer.id}")
-    return customer.id
-
 def handle_payment_intent_succeeded(payment_intent):
     """
     Handles the payment_intent.succeeded event from Stripe for various one-time payments.
@@ -44,17 +23,25 @@ def handle_payment_intent_succeeded(payment_intent):
         return
 
     try:
-        payment = Payment.objects.get(stripe_payment_intent_id=payment_intent_id)
+        # The payment record might not exist yet if this is the first payment of a subscription
+        # created via CreateSubscriptionView. We use get_or_create.
+        payment, created = Payment.objects.get_or_create(
+            stripe_payment_intent_id=payment_intent_id,
+            defaults={
+                'user': User.objects.get(id=metadata['user_id']),
+                'order': SubscriptionPlan.objects.get(id=metadata['plan_id']).orderbase_ptr if 'plan_id' in metadata else None,
+                'amount': payment_intent['amount'] / 100.0,
+                'status': 'pending'
+            }
+        )
         payment.status = 'succeeded'
         payment.save()
         print(f"Payment record (PK: {payment.pk}) status updated to 'succeeded'.")
         
-        user = payment.user
-
         # --- Fulfillment Logic ---
         if item_type == 'UPFRONT_PLAN_MODIFY':
             plan_id = metadata['plan_id']
-            plan_to_update = UpfrontPlan.objects.get(id=plan_id, user=user)
+            plan_to_update = UpfrontPlan.objects.get(id=plan_id, user=payment.user)
             
             plan_to_update.budget = Decimal(metadata['new_budget'])
             plan_to_update.years = int(metadata['new_years'])
@@ -64,41 +51,44 @@ def handle_payment_intent_succeeded(payment_intent):
 
         elif item_type == 'UPFRONT_PLAN_NEW':
             plan_id = metadata['plan_id']
-            plan_to_activate = UpfrontPlan.objects.get(id=plan_id, user=user)
+            plan_to_activate = UpfrontPlan.objects.get(id=plan_id, user=payment.user)
             plan_to_activate.status = 'active'
             plan_to_activate.save()
             print(f"UpfrontPlan (PK: {plan_to_activate.pk}) successfully activated.")
 
         elif item_type == 'SUBSCRIPTION_PLAN_NEW':
+            # This is the first payment for a new subscription. The subscription was already created.
+            # We just need to activate the plan in our system.
             plan_id = metadata['plan_id']
-            stripe_price_id = metadata['stripe_price_id']
-            plan_to_activate = SubscriptionPlan.objects.get(id=plan_id, user=user)
-
-            # This payment was for the initial amount. Now, create the recurring subscription.
-            payment_method_id = payment_intent.get('payment_method')
-            customer_id = _get_or_create_stripe_customer(user, payment_method_id)
-
-            subscription = stripe.Subscription.create(
-                customer=customer_id,
-                items=[{'price': stripe_price_id}],
-                expand=['latest_invoice.payment_intent'],
-            )
-            
-            plan_to_activate.stripe_subscription_id = subscription.id
+            plan_to_activate = SubscriptionPlan.objects.get(id=plan_id, user=payment.user)
             plan_to_activate.status = 'active'
             plan_to_activate.save()
-            print(f"SubscriptionPlan (PK: {plan_to_activate.pk}) activated with Stripe Subscription ID: {subscription.id}")
+            print(f"SubscriptionPlan (PK: {plan_to_activate.pk}) successfully activated.")
 
         else:
             print(f"Unhandled item_type '{item_type}' in payment_intent.succeeded webhook. No action taken.")
-            return # Avoid sending a generic notification for unhandled types
 
-    except Payment.DoesNotExist:
-        print(f"ERROR: Payment.DoesNotExist for Stripe PaymentIntent ID: {payment_intent_id}")
-    except (UpfrontPlan.DoesNotExist, SubscriptionPlan.DoesNotExist):
-        print(f"CRITICAL ERROR: Plan not found for payment. Metadata: {metadata}")
+    except (Payment.DoesNotExist, UpfrontPlan.DoesNotExist, SubscriptionPlan.DoesNotExist, User.DoesNotExist) as e:
+        print(f"CRITICAL ERROR: Model not found during webhook processing. PI ID: {payment_intent_id}. Error: {e}")
     except Exception as e:
         print(f"UNEXPECTED ERROR during payment_intent.succeeded processing. PI ID: {payment_intent_id}, Error: {e}")
+
+
+def get_next_delivery_date(plan: SubscriptionPlan, last_event_date: datetime.date) -> datetime.date:
+    """Calculates the next delivery date based on frequency."""
+    frequency_map = {
+        'weekly': relativedelta(weeks=1),
+        'fortnightly': relativedelta(weeks=2),
+        'monthly': relativedelta(months=1),
+        'quarterly': relativedelta(months=3),
+        'bi-annually': relativedelta(months=6),
+        'annually': relativedelta(years=1),
+    }
+    delta = frequency_map.get(plan.frequency)
+    if delta:
+        return last_event_date + delta
+    raise ValueError(f"Unknown frequency: {plan.frequency}")
+
 
 def handle_invoice_payment_succeeded(invoice):
     """
@@ -117,7 +107,7 @@ def handle_invoice_payment_succeeded(invoice):
         payment = Payment.objects.create(
             user=subscription_plan.user,
             order=subscription_plan.orderbase_ptr,
-            stripe_payment_intent_id=invoice.get('payment_intent'), # Link to the PI of this invoice
+            stripe_payment_intent_id=invoice.get('payment_intent'),
             amount=invoice.get('amount_paid') / 100.0,
             status='succeeded'
         )
@@ -125,21 +115,13 @@ def handle_invoice_payment_succeeded(invoice):
 
         # Determine the next delivery date
         last_event = Event.objects.filter(order=subscription_plan.orderbase_ptr).order_by('-delivery_date').first()
+        
+        # The 'start_date' for the plan IS the first delivery date.
+        # If no events exist, the delivery date is the plan's start_date.
+        # If events exist, calculate the next one based on the last.
         if last_event:
-            # Calculate next date based on the last one
-            if subscription_plan.frequency == 'monthly':
-                next_delivery_date = last_event.delivery_date + relativedelta(months=1)
-            elif subscription_plan.frequency == 'quarterly':
-                next_delivery_date = last_event.delivery_date + relativedelta(months=3)
-            elif subscription_plan.frequency == 'bi-annually':
-                next_delivery_date = last_event.delivery_date + relativedelta(months=6)
-            elif subscription_plan.frequency == 'annually':
-                next_delivery_date = last_event.delivery_date + relativedelta(years=1)
-            else:
-                print(f"ERROR: Unknown frequency '{subscription_plan.frequency}'")
-                return 
+            next_delivery_date = get_next_delivery_date(subscription_plan, last_event.delivery_date)
         else:
-            # This is the first delivery
             next_delivery_date = subscription_plan.start_date
 
         # Create a new Event for the delivery that was just paid for
@@ -150,13 +132,10 @@ def handle_invoice_payment_succeeded(invoice):
         )
         print(f"Created new Event for delivery on {next_delivery_date}.")
 
-        # If this is the first payment since subscription creation, send admin notification.
-        # The 'subscription_create' reason is on the PaymentIntent, not subsequent invoices.
-        # We rely on the handle_payment_intent_succeeded to fire for the first payment.
-        # So we only need to handle recurring payment notifications here if desired.
-
     except SubscriptionPlan.DoesNotExist:
         print(f"CRITICAL ERROR: SubscriptionPlan not found for Stripe Subscription ID: {subscription_id}")
+    except ValueError as e:
+        print(f"ERROR: Could not determine next delivery date. Error: {e}")
     except Exception as e:
         print(f"UNEXPECTED ERROR during invoice.payment_succeeded processing for Subscription ID {subscription_id}: {e}")
 
