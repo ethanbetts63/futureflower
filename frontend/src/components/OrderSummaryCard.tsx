@@ -109,7 +109,7 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
                 {planIsSubscription && (
                     <>
                         <div className="flex items-center justify-between text-sm">
-                            <span className="text-muted-foreground">Fees</span>
+                            <span className="text-muted-foreground flex items-center"><DollarSign className="mr-2 h-4 w-4" />Handling</span>
                             <span>${(Number(plan.price_per_delivery) - Number(plan.budget)).toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between items-center text-lg font-semibold">
