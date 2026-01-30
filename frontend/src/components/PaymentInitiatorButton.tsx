@@ -61,8 +61,10 @@ const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
         onPaymentSuccess(clientSecret);
       } else {
         const idToPass = details.upfront_plan_id || details.subscription_plan_id;
-        // Default navigation behavior, now including itemType
-        navigate('/checkout', { state: { clientSecret, planId: idToPass, itemType: itemType } });
+        const intentType = itemType === 'SUBSCRIPTION_PLAN_NEW' ? 'setup' : 'payment';
+        
+        // Default navigation behavior, now including itemType and intentType
+        navigate('/checkout', { state: { clientSecret, planId: idToPass, itemType: itemType, intentType: intentType } });
       }
 
     } catch (err: any) {

@@ -13,37 +13,27 @@ def handle_payment_intent_succeeded(payment_intent):
     Handles the payment_intent.succeeded event from Stripe for various one-time payments.
     This is the fulfillment step of the checkout.
     """
+    payment_intent_id = payment_intent['id']
     metadata = payment_intent.get('metadata', {})
     item_type = metadata.get('item_type')
-    payment_intent_id = payment_intent['id']
 
     print(f"Processing payment_intent.succeeded for item_type: {item_type} (PI: {payment_intent_id})")
 
-    if not item_type:
-        print("Webhook received a payment_intent.succeeded event without an item_type. Skipping.")
-        return
-
     try:
-        # The payment record might not exist yet if this is the first payment of a subscription
-        # created via CreateSubscriptionView. We use get_or_create.
-        payment, created = Payment.objects.get_or_create(
-            stripe_payment_intent_id=payment_intent_id,
-            defaults={
-                'user': User.objects.get(id=metadata['user_id']),
-                'order': SubscriptionPlan.objects.get(id=metadata['plan_id']).orderbase_ptr if 'plan_id' in metadata else None,
-                'amount': payment_intent['amount'] / 100.0,
-                'status': 'pending'
-            }
-        )
+        # Retrieve the payment object that was created in the create_payment_intent view
+        payment = Payment.objects.get(stripe_payment_intent_id=payment_intent_id)
+        
+        # Update payment status
         payment.status = 'succeeded'
         payment.save()
         print(f"Payment record (PK: {payment.pk}) status updated to 'succeeded'.")
         
         # --- Fulfillment Logic ---
+        # Use the 'order' relation from the payment object to find the correct plan
+        order = payment.order
+
         if item_type == 'UPFRONT_PLAN_MODIFY':
-            plan_id = metadata['plan_id']
-            plan_to_update = UpfrontPlan.objects.get(id=plan_id, user=payment.user)
-            
+            plan_to_update = UpfrontPlan.objects.get(id=order.id)
             plan_to_update.budget = Decimal(metadata['new_budget'])
             plan_to_update.years = int(metadata['new_years'])
             plan_to_update.deliveries_per_year = int(metadata['new_deliveries_per_year'])
@@ -51,26 +41,20 @@ def handle_payment_intent_succeeded(payment_intent):
             print(f"UpfrontPlan (PK: {plan_to_update.pk}) successfully modified.")
 
         elif item_type == 'UPFRONT_PLAN_NEW':
-            plan_id = metadata['plan_id']
-            plan_to_activate = UpfrontPlan.objects.get(id=plan_id, user=payment.user)
+            plan_to_activate = UpfrontPlan.objects.get(id=order.id)
             plan_to_activate.status = 'active'
             plan_to_activate.save()
             print(f"UpfrontPlan (PK: {plan_to_activate.pk}) successfully activated.")
 
-        elif item_type == 'SUBSCRIPTION_PLAN_NEW':
-            # This is the first payment for a new subscription. The subscription was already created.
-            # We just need to activate the plan in our system.
-            plan_id = metadata['plan_id']
-            plan_to_activate = SubscriptionPlan.objects.get(id=plan_id, user=payment.user)
-            plan_to_activate.status = 'active'
-            plan_to_activate.save()
-            print(f"SubscriptionPlan (PK: {plan_to_activate.pk}) successfully activated.")
-
         else:
+            # Note: This handler is now only for upfront payments. 
+            # Subscription activation is handled by setup_intent.succeeded.
             print(f"Unhandled item_type '{item_type}' in payment_intent.succeeded webhook. No action taken.")
 
-    except (Payment.DoesNotExist, UpfrontPlan.DoesNotExist, SubscriptionPlan.DoesNotExist, User.DoesNotExist) as e:
-        print(f"CRITICAL ERROR: Model not found during webhook processing. PI ID: {payment_intent_id}. Error: {e}")
+    except Payment.DoesNotExist:
+        print(f"CRITICAL ERROR: Payment object not found for PI ID: {payment_intent_id}. The webhook may have arrived before the initial request completed.")
+    except UpfrontPlan.DoesNotExist:
+        print(f"CRITICAL ERROR: UpfrontPlan not found for Order ID: {payment.order.id} during webhook processing.")
     except Exception as e:
         print(f"UNEXPECTED ERROR during payment_intent.succeeded processing. PI ID: {payment_intent_id}, Error: {e}")
 
@@ -155,3 +139,47 @@ def handle_payment_intent_failed(payment_intent):
         print(f"ERROR: Received failed payment intent for non-existent local Payment record ID: {payment_intent['id']}")
     except Exception as e:
         print(f"UNEXPECTED ERROR during payment_intent.payment_failed processing for ID {payment_intent['id']}: {e}")
+
+
+def handle_setup_intent_succeeded(setup_intent):
+    """
+    Handles the setup_intent.succeeded event. This is key for activating subscriptions with trial periods.
+    """
+    metadata = setup_intent.get('metadata', {})
+    plan_id = metadata.get('subscription_plan_id')
+    
+    if not plan_id:
+        print("Webhook received a setup_intent.succeeded event without a subscription_plan_id in metadata. Skipping.")
+        return
+
+    print(f"Processing setup_intent.succeeded for SubscriptionPlan: {plan_id}")
+    
+    try:
+        plan_to_activate = SubscriptionPlan.objects.get(id=plan_id)
+        
+        # Ensure the plan is still in a pending state before activating
+        if plan_to_activate.status == 'pending_payment':
+            plan_to_activate.status = 'active'
+            plan_to_activate.save()
+            print(f"Successfully activated SubscriptionPlan (PK: {plan_to_activate.pk}) for user {plan_to_activate.user.email}")
+        else:
+            print(f"SubscriptionPlan (PK: {plan_to_activate.pk}) was already in status '{plan_to_activate.status}'. No action taken.")
+
+    except SubscriptionPlan.DoesNotExist:
+        print(f"CRITICAL ERROR: SubscriptionPlan not found for ID: {plan_id}")
+    except Exception as e:
+        print(f"UNEXPECTED ERROR during setup_intent.succeeded processing for plan {plan_id}: {e}")
+
+
+def handle_setup_intent_failed(setup_intent):
+    """
+    Handles the setup_intent.payment_failed event from Stripe.
+    """
+    # At this time, we will just log the failure.
+    # In a full implementation, you might want to email the user.
+    customer_id = setup_intent.get('customer')
+    print(f"Processing setup_intent.failed for customer: {customer_id}")
+    last_error = setup_intent.get('last_setup_error', {})
+    error_message = last_error.get('message', 'No error message provided.')
+    print(f"SetupIntent failed for customer {customer_id}. Reason: {error_message}")
+

@@ -8,7 +8,9 @@ from rest_framework.permissions import AllowAny
 from payments.utils.webhook_handlers import (
     handle_payment_intent_succeeded, 
     handle_invoice_payment_succeeded,
-    handle_payment_intent_failed
+    handle_payment_intent_failed,
+    handle_setup_intent_succeeded,
+    handle_setup_intent_failed
 )
 
 class StripeWebhookView(APIView):
@@ -42,6 +44,12 @@ class StripeWebhookView(APIView):
 
         elif event['type'] == 'payment_intent.payment_failed':
             handle_payment_intent_failed(event['data']['object'])
+
+        elif event['type'] == 'setup_intent.succeeded':
+            handle_setup_intent_succeeded(event['data']['object'])
+
+        elif event['type'] == 'setup_intent.failed':
+            handle_setup_intent_failed(event['data']['object'])
         
         else:
             print(f"Unhandled event type {event['type']}")

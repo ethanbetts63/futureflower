@@ -18,17 +18,20 @@ const CheckoutPage: React.FC = () => {
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const [planId, setPlanId] = useState<string | null>(null);
     const [itemType, setItemType] = useState<string | null>(null);
+    const [intentType, setIntentType] = useState<'payment' | 'setup' | null>(null); // Add intentType state
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const secret = location.state?.clientSecret;
         const id = location.state?.planId;
-        const type = location.state?.itemType; // Extract itemType from state
+        const type = location.state?.itemType;
+        const intent = location.state?.intentType as 'payment' | 'setup'; // Extract intentType
 
-        if (secret && id && type) {
+        if (secret && id && type && intent) {
             setClientSecret(secret);
             setPlanId(id);
             setItemType(type);
+            setIntentType(intent);
         } else {
             toast.error("Checkout session is invalid or has expired.", {
                 description: "Missing required information. Please try again.",
@@ -45,7 +48,7 @@ const CheckoutPage: React.FC = () => {
         );
     }
     
-    if (!clientSecret || !planId || !itemType) {
+    if (!clientSecret || !planId || !itemType || !intentType) {
         // Redirect if there's no client secret or other required info after checking.
         return <Navigate to="/" replace />;
     }
@@ -72,6 +75,7 @@ const CheckoutPage: React.FC = () => {
                                     <CheckoutForm 
                                         planId={planId}
                                         source="checkout"
+                                        intentType={intentType}
                                     />
                                 </Elements>
                             </CardContent>

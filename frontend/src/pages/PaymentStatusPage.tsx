@@ -23,18 +23,19 @@ const UniversalPaymentStatusPage: React.FC = () => {
             return;
         }
 
-        const clientSecret = searchParams.get('payment_intent_client_secret');
+        const piClientSecret = searchParams.get('payment_intent_client_secret');
+        const siClientSecret = searchParams.get('setup_intent_client_secret');
+        const clientSecret = piClientSecret || siClientSecret;
+
         const planId = searchParams.get('plan_id');
-        const source = searchParams.get('source'); // E.g., 'upfront-booking', 'subscription-booking', 'upfront-management'
+        const source = searchParams.get('source');
 
         if (planId) {
             let path = '/dashboard'; // Default
-            if (source === 'upfront-booking') {
-                path = `/book-flow/upfront-plan/${planId}/payment`;
-            } else if (source === 'subscription-booking') {
-                path = `/subscribe-flow/subscription-plan/${planId}/payment`;
-            } else if (source === 'upfront-management') {
-                path = `/dashboard/plans/${planId}/payment`;
+            if (source === 'checkout') { // Source is now just 'checkout'
+                // We could add more specific logic here if needed, but for now, back to the plan.
+                const planType = searchParams.get('itemType') === 'SUBSCRIPTION_PLAN_NEW' ? 'subscription-plan' : 'upfront-plan';
+                path = `/subscribe-flow/${planType}/${planId}/payment`; // A guess, might need refinement
             }
             setTryAgainPath(path);
         }
@@ -45,44 +46,79 @@ const UniversalPaymentStatusPage: React.FC = () => {
             return;
         }
 
-        stripe.retrievePaymentIntent(clientSecret).then((result: PaymentIntentResult) => {
-            if (result.error) {
+        // Handle SetupIntent
+        if (clientSecret.startsWith('seti_')) {
+            stripe.retrieveSetupIntent(clientSecret).then(({ setupIntent }) => {
                 setIsProcessing(false);
-                setMessage(result.error.message || 'An error occurred while retrieving payment status.');
-                setPaymentSucceeded(false);
-                return;
-            }
+                switch (setupIntent?.status) {
+                    case 'succeeded':
+                        setPaymentSucceeded(true);
+                        setMessage('Success! Your payment method has been saved. Your subscription is being activated.');
+                        // In a real app, you'd poll your backend here to confirm subscription is 'active'
+                        // before redirecting. For now, a simple redirect will do.
+                        setTimeout(() => {
+                            const targetPath = (planId && planId !== "N/A") ? `/dashboard/subscription-plans/${planId}/overview` : '/dashboard';
+                            navigate(targetPath);
+                        }, 3000);
+                        break;
+                    case 'processing':
+                        setMessage("Processing setup. We'll update you when your payment method is saved.");
+                        break;
+                    case 'requires_payment_method':
+                        setPaymentSucceeded(false);
+                        setMessage('Setup failed. Please try another payment method.');
+                        break;
+                    default:
+                        setPaymentSucceeded(false);
+                        setMessage('Something went wrong during setup.');
+                        break;
+                }
+            });
+        } 
+        // Handle PaymentIntent
+        else if (clientSecret.startsWith('pi_')) {
+            stripe.retrievePaymentIntent(clientSecret).then((result: PaymentIntentResult) => {
+                if (result.error) {
+                    setIsProcessing(false);
+                    setMessage(result.error.message || 'An error occurred while retrieving payment status.');
+                    setPaymentSucceeded(false);
+                    return;
+                }
 
+                setIsProcessing(false);
+                const paymentIntent = result.paymentIntent;
+
+                switch (paymentIntent?.status) {
+                    case 'succeeded':
+                        setPaymentSucceeded(true);
+                        const successMessage = source === 'upfront-management'
+                            ? 'Success! Your plan has been updated.'
+                            : 'Success! Your payment was received.';
+                        
+                        setMessage(`${successMessage} Redirecting to your plan overview...`);
+                        
+                        setTimeout(() => {
+                            const targetPath = (planId && planId !== "N/A") ? `/dashboard/plans/${planId}/overview` : '/dashboard';
+                            navigate(targetPath);
+                        }, 3000);
+                        break;
+                    case 'processing':
+                        setMessage("Payment processing. We'll update you when payment is received.");
+                        break;
+                    case 'requires_payment_method':
+                        setPaymentSucceeded(false);
+                        setMessage('Payment failed. Please try another payment method.');
+                        break;
+                    default:
+                        setPaymentSucceeded(false);
+                        setMessage('Something went wrong.');
+                        break;
+                }
+            });
+        } else {
             setIsProcessing(false);
-            const paymentIntent = result.paymentIntent;
-
-            switch (paymentIntent?.status) {
-                case 'succeeded':
-                    setPaymentSucceeded(true);
-                    const successMessage = source === 'upfront-management'
-                        ? 'Success! Your plan has been updated.'
-                        : 'Success! Your payment was received.';
-                    
-                    setMessage(`${successMessage} Redirecting to your plan overview...`);
-                    
-                    setTimeout(() => {
-                        const targetPath = (planId && planId !== "N/A") ? `/dashboard/plans/${planId}/overview` : '/dashboard';
-                        navigate(targetPath);
-                    }, 3000);
-                    break;
-                case 'processing':
-                    setMessage("Payment processing. We'll update you when payment is received.");
-                    break;
-                case 'requires_payment_method':
-                    setPaymentSucceeded(false);
-                    setMessage('Payment failed. Please try another payment method.');
-                    break;
-                default:
-                    setPaymentSucceeded(false);
-                    setMessage('Something went wrong.');
-                    break;
-            }
-        });
+            setMessage("Invalid payment secret provided.");
+        }
     }, [stripe, navigate, searchParams]);
 
     return (

@@ -95,8 +95,14 @@ class CreateSubscriptionView(APIView):
             if subscription.pending_setup_intent:
                 # The pending_setup_intent is an ID string, so we need to retrieve the full object
                 setup_intent = stripe.SetupIntent.retrieve(subscription.pending_setup_intent)
+                
+                # Add metadata to the SetupIntent to link it to our local plan
+                stripe.SetupIntent.modify(
+                    setup_intent.id,
+                    metadata={'subscription_plan_id': plan.id}
+                )
+                
                 client_secret = setup_intent.client_secret
-                print(setup_intent)
             
             if not client_secret:
                 raise Exception("Stripe did not return a client_secret for a pending SetupIntent.")
