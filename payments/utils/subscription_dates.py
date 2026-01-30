@@ -52,3 +52,16 @@ def get_next_payment_date(plan: 'SubscriptionPlan') -> date | None:
             return None
             
     return next_date
+
+
+def get_next_delivery_date(plan: 'SubscriptionPlan') -> date | None:
+    """
+    Calculates the next upcoming delivery date for a subscription plan.
+    """
+    next_payment = get_next_payment_date(plan)
+    if not next_payment:
+        return None
+
+    lead_days = settings.SUBSCRIPTION_CHARGE_LEAD_DAYS
+    return next_payment + timedelta(days=lead_days)
+

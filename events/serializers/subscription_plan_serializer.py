@@ -2,7 +2,7 @@ from decimal import Decimal
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from events.models import SubscriptionPlan
-from payments.utils.subscription_dates import get_next_payment_date
+from payments.utils.subscription_dates import get_next_payment_date, get_next_delivery_date
 
 class SubscriptionPlanSerializer(serializers.ModelSerializer):
     """
