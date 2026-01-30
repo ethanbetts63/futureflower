@@ -1,3 +1,4 @@
+from decimal import Decimal, InvalidOperation
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -20,10 +21,10 @@ class PublicPriceCalculatorView(APIView):
             )
         
         try:
-            budget = float(budget)
+            budget = Decimal(budget)
             deliveries_per_year = int(deliveries_per_year)
             years = int(years)
-        except (ValueError, TypeError):
+        except (InvalidOperation, TypeError):
             return Response(
                 {"error": "Invalid parameter types. Budget must be a number, others integers."},
                 status=status.HTTP_400_BAD_REQUEST

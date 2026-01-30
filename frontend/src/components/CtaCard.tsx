@@ -149,7 +149,7 @@ export const CtaCard: React.FC = () => {
       <div className="mt-6 pt-4 border-t border-gray-200 text-center">
         <Label className="text-sm text-gray-600">Price Per Delivery</Label>
         <div className="text-2xl font-bold mt-1">${pricePerDelivery.toFixed(2)}</div>
-        <p className="text-xs text-gray-600 mt-2">Planning for {years} years or more? Switch to 'Pay Upfront' to save on the total cost.</p>
+        <p className="text-xs text-gray-600 mt-2">Switch to 'Pay Upfront' to save on the total cost.</p>
         <Button onClick={handleSubscriptionStart} className="mt-4">Get Started</Button>
        </div>
     </>
