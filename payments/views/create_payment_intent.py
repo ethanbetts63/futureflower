@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.conf import settings
-from events.models import UpfrontPlan, SubscriptionPlan
+from events.models import UpfrontPlan
 from payments.models import Payment
 from events.utils.upfront_price_calc import calculate_final_plan_cost
 
@@ -14,7 +14,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 class CreatePaymentIntentView(APIView):
     """
     Creates a Stripe PaymentIntent for various transaction types.
-    This view acts as a centralized checkout service.
+    This view acts as a centralized checkout service for one-time payments.
     """
     permission_classes = [IsAuthenticated]
 
@@ -29,6 +29,17 @@ class CreatePaymentIntentView(APIView):
             )
 
         try:
+            user = request.user
+            # Ensure user has a Stripe Customer ID
+            if not user.stripe_customer_id:
+                customer = stripe.Customer.create(
+                    email=user.email,
+                    name=user.get_full_name(),
+                    metadata={'user_id': user.id}
+                )
+                user.stripe_customer_id = customer.id
+                user.save()
+
             amount_in_cents = 0
             metadata = {'item_type': item_type}
             order_object = None
@@ -61,21 +72,9 @@ class CreatePaymentIntentView(APIView):
                 final_amount = upfront_plan.total_amount
                 metadata.update({'plan_id': plan_id})
 
-            elif item_type == 'SUBSCRIPTION_PLAN_NEW':
-                plan_id = details.get('subscription_plan_id')
-                subscription_plan = SubscriptionPlan.objects.get(id=plan_id, user=request.user)
-                order_object = subscription_plan.orderbase_ptr
-                # For subscriptions, the initial payment could be a setup fee or first month.
-                # Assuming the plan's 'price' field stores this initial amount.
-                final_amount = subscription_plan.price
-                metadata.update({
-                    'plan_id': plan_id,
-                    'stripe_price_id': details.get('stripe_price_id') # Must be passed from frontend
-                })
-
             else:
                 return Response(
-                    {"error": f"Invalid item_type: {item_type}"},
+                    {"error": f"Invalid item_type for this endpoint: {item_type}"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             
@@ -110,6 +109,7 @@ class CreatePaymentIntentView(APIView):
             payment_intent = stripe.PaymentIntent.create(
                 amount=amount_in_cents,
                 currency=order_object.currency, # Assumes currency is on the base order model
+                customer=user.stripe_customer_id,
                 automatic_payment_methods={'enabled': True},
                 metadata=metadata
             )
@@ -125,7 +125,7 @@ class CreatePaymentIntentView(APIView):
 
             return Response({'clientSecret': payment_intent.client_secret})
 
-        except (UpfrontPlan.DoesNotExist, SubscriptionPlan.DoesNotExist):
+        except UpfrontPlan.DoesNotExist:
              return Response({"error": "Plan not found or you don't have permission."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             # It's good practice to log the exception here

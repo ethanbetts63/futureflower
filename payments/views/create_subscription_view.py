@@ -1,5 +1,5 @@
 import stripe
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -57,7 +57,8 @@ class CreateSubscriptionView(APIView):
 
             # Trial ends 7 days before the first delivery date
             trial_end_date = plan.start_date - timedelta(days=7)
-            trial_end_timestamp = int(trial_end_date.timestamp())
+            trial_end_datetime = datetime.combine(trial_end_date, time.min)
+            trial_end_timestamp = int(trial_end_datetime.timestamp())
 
             # Ensure trial end is in the future
             if trial_end_timestamp <= datetime.now().timestamp():

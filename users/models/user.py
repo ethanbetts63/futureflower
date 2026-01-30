@@ -22,6 +22,13 @@ class User(AbstractUser):
         related_name="users"
     )
 
+    stripe_customer_id = models.CharField(
+        max_length=255, 
+        blank=True, 
+        null=True, 
+        help_text="The user's Stripe Customer ID."
+    )
+
     # --------------------------------------------------------------------------
     # Anonymization Fields
     # These fields store the hashes of PII and are only populated upon account
