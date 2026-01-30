@@ -92,15 +92,11 @@ class CreateSubscriptionView(APIView):
             plan.save()
             
             client_secret = None
-            if subscription.latest_invoice and subscription.latest_invoice.charges and subscription.latest_invoice.charges.data:
-                first_charge = subscription.latest_invoice.charges.data[0]
-                if first_charge.payment_intent and isinstance(first_charge.payment_intent, stripe.PaymentIntent):
-                    client_secret = first_charge.payment_intent.client_secret
-
+            if subscription.pending_setup_intent:
+                client_secret = subscription.pending_setup_intent.client_secret
+            
             if not client_secret:
-                # This can happen if the trial is long and Stripe doesn't create a PI immediately
-                # However, with default_incomplete, it should. We raise an error if not.
-                raise Exception("Stripe did not return a PaymentIntent for the subscription's first invoice.")
+                raise Exception("Stripe did not return a client_secret for a pending SetupIntent.")
 
             return Response({'clientSecret': client_secret})
 
