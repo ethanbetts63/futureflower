@@ -4,7 +4,6 @@ from decimal import Decimal
 from datetime import datetime
 from django.conf import settings
 from payments.models import Payment
-from users.models import User
 from events.models import UpfrontPlan, SubscriptionPlan, Event
 from dateutil.relativedelta import relativedelta
 

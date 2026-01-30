@@ -11,7 +11,7 @@ import type { NavItem } from '../types/NavItem';
 import settingsPng from '../assets/settings.png';
 import logoutPng from '../assets/logout.png';
 
-const BREAKPOINT = 1048; // Custom breakpoint for hamburger menu
+const BREAKPOINT = 1048; 
 
 const NavBar: React.FC = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -26,7 +26,7 @@ const NavBar: React.FC = () => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
       if (window.innerWidth >= BREAKPOINT) {
-        setMenuOpen(false); // Close menu if resized to desktop
+        setMenuOpen(false); 
       }
     };
 
@@ -41,7 +41,7 @@ const NavBar: React.FC = () => {
       <div className="relative flex h-20 w-full items-center justify-between px-4">
         
         {/* Left Section: Logo */}
-        <Link to="/">
+        <Link to="/" onClick={() => setMenuOpen(false)}>
             <img 
               width="367"
               height="367"
