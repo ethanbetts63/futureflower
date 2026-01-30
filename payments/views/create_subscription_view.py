@@ -83,7 +83,7 @@ class CreateSubscriptionView(APIView):
                 payment_settings={'save_default_payment_method': 'on_subscription'},
                 metadata={
                     'plan_id': plan.id,
-                    'item_type': 'SUBSCRIPTION_PLAN_NEW' # Keep for webhook handler logic
+                    'item_type': 'SUBSCRIPTION_PLAN_NEW'
                 }
             )
 
