@@ -6,7 +6,6 @@ export interface DeliveryEvent {
     order: number;
     delivery_date: string;
     message: string | null;
-    bouquet_preference: string | null;
     status: string;
     created_at: string;
     updated_at: string;

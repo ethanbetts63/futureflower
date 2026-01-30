@@ -18,12 +18,6 @@ class Event(models.Model):
         null=True,
         help_text="Custom message for this specific delivery."
     )
-    bouquet_preference = models.CharField(
-        max_length=255,
-        blank=True,
-        null=True,
-        help_text="User's preference for the bouquet (e.g., 'Sunflowers')."
-    )
     status = models.CharField(
         max_length=20,
         choices=(

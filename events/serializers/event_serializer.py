@@ -13,7 +13,6 @@ class EventSerializer(serializers.ModelSerializer):
             'order',
             'delivery_date',
             'message',
-            'bouquet_preference',
             'status',
             'created_at',
             'updated_at',
