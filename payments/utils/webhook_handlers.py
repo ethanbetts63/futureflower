@@ -6,6 +6,7 @@ from django.conf import settings
 from payments.models import Payment
 from events.models import UpfrontPlan, SubscriptionPlan, Event
 from dateutil.relativedelta import relativedelta
+from payments.utils.subscription_dates import get_next_payment_date
 
 def handle_payment_intent_succeeded(payment_intent):
     """
@@ -58,20 +59,7 @@ def handle_payment_intent_succeeded(payment_intent):
         print(f"UNEXPECTED ERROR during payment_intent.succeeded processing. PI ID: {payment_intent_id}, Error: {e}")
 
 
-def get_next_delivery_date(plan: SubscriptionPlan, last_event_date: datetime.date) -> datetime.date:
-    """Calculates the next delivery date based on frequency."""
-    frequency_map = {
-        'weekly': relativedelta(weeks=1),
-        'fortnightly': relativedelta(weeks=2),
-        'monthly': relativedelta(months=1),
-        'quarterly': relativedelta(months=3),
-        'bi-annually': relativedelta(months=6),
-        'annually': relativedelta(years=1),
-    }
-    delta = frequency_map.get(plan.frequency)
-    if delta:
-        return last_event_date + delta
-    raise ValueError(f"Unknown frequency: {plan.frequency}")
+
 
 
 def handle_invoice_payment_succeeded(invoice):
@@ -97,16 +85,12 @@ def handle_invoice_payment_succeeded(invoice):
         )
         print(f"Created Payment record (PK: {payment.pk}) for invoice.")
 
-        # Determine the next delivery date
-        last_event = Event.objects.filter(order=subscription_plan.orderbase_ptr).order_by('-delivery_date').first()
+        # Determine the next delivery date using the drift-free calculation
+        next_delivery_date = get_next_payment_date(subscription_plan)
         
-        # The 'start_date' for the plan IS the first delivery date.
-        # If no events exist, the delivery date is the plan's start_date.
-        # If events exist, calculate the next one based on the last.
-        if last_event:
-            next_delivery_date = get_next_delivery_date(subscription_plan, last_event.delivery_date)
-        else:
-            next_delivery_date = subscription_plan.start_date
+        if next_delivery_date is None:
+            print(f"WARNING: Could not determine next delivery date for SubscriptionPlan (PK: {subscription_plan.pk}). Skipping Event creation.")
+            return # Exit function if date cannot be determined
 
         # Create a new Event for the delivery that was just paid for
         Event.objects.create(
