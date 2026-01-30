@@ -14,6 +14,19 @@ class SubscriptionPlanViewSet(viewsets.ModelViewSet):
     serializer_class = SubscriptionPlanSerializer
     permission_classes = [IsAuthenticated]
 
+    def _calculate_price_per_delivery(self, budget: Decimal) -> Decimal:
+        """
+        Calculates the price per delivery for a subscription plan based on a given budget.
+        """
+        # Fee is 5% or $15 minimum
+        commission_pct = Decimal('0.05')
+        min_fee = Decimal('15.00')
+        
+        fee = max(budget * commission_pct, min_fee)
+        price_per_delivery = budget + fee
+        
+        return price_per_delivery.quantize(Decimal('0.01'))
+
     def get_queryset(self):
         """
         Ensures that users can only see their own subscription plans.
@@ -24,7 +37,7 @@ class SubscriptionPlanViewSet(viewsets.ModelViewSet):
         """
         Pass request context to the serializer.
         """
-        return {'request': self.request}
+        return {'request': self.request, 'view': self}
 
     @action(detail=False, methods=['get'], url_path='get-or-create-pending')
     def get_or_create_pending(self, request):
@@ -45,22 +58,16 @@ class SubscriptionPlanViewSet(viewsets.ModelViewSet):
         """
         Calculates the price per delivery for a subscription plan based on a given budget.
         """
-        plan = self.get_object()
-        budget = request.data.get('budget')
+        budget_str = request.data.get('budget')
 
-        if budget is None:
+        if budget_str is None:
             return Response({'error': 'Budget is required.'}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            budget = Decimal(budget)
+            budget = Decimal(budget_str)
         except (InvalidOperation, TypeError):
             return Response({'error': 'Invalid budget format.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Fee is 5% or $15 minimum
-        commission_pct = Decimal('0.05')
-        min_fee = Decimal('15.0')
-        
-        fee = max(budget * commission_pct, min_fee)
-        price_per_delivery = budget + fee
+        price_per_delivery = self._calculate_price_per_delivery(budget)
 
         return Response({'price_per_delivery': price_per_delivery}, status=status.HTTP_200_OK)
