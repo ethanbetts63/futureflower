@@ -9,7 +9,9 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
   const payments = plan.payments || [];
 
   const isSubscriptionPlan = (p: any): p is SubscriptionPlan => {
-    return 'frequency' in p && 'price_per_delivery' in p;
+    return 'delivery_frequency_unit' in p && 
+           typeof p.delivery_frequency_unit === 'string' && 
+           'delivery_frequency_value' in p;
   };
 
   let nextPaymentDateStr: string | null = null;

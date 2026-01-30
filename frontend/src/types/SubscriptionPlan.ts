@@ -13,4 +13,5 @@ export interface SubscriptionPlan extends UpfrontPlan {
     frequency: string;
     price_per_delivery: number;
     subscription_message: string | null;
+    next_payment_date: string | null;
 }

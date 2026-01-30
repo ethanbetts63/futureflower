@@ -59,7 +59,7 @@ class CreateSubscriptionView(APIView):
                 return Response({"error": f"Invalid frequency: {plan.frequency}"}, status=status.HTTP_400_BAD_REQUEST)
 
             # Trial ends based on the setting days before the first delivery date
-            trial_end_date = plan.start_date - timedelta(days=settings.TRIAL_END_DAYS_BEFORE_DELIVERY)
+            trial_end_date = plan.start_date - timedelta(days=settings.SUBSCRIPTION_CHARGE_LEAD_DAYS)
             trial_end_datetime = datetime.combine(trial_end_date, time.min)
             trial_end_timestamp = int(trial_end_datetime.timestamp())
 
