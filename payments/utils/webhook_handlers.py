@@ -156,14 +156,9 @@ def handle_setup_intent_succeeded(setup_intent):
     
     try:
         plan_to_activate = SubscriptionPlan.objects.get(id=plan_id)
-        
-        # Ensure the plan is still in a pending state before activating
-        if plan_to_activate.status == 'pending_payment':
-            plan_to_activate.status = 'active'
-            plan_to_activate.save()
-            print(f"Successfully activated SubscriptionPlan (PK: {plan_to_activate.pk}) for user {plan_to_activate.user.email}")
-        else:
-            print(f"SubscriptionPlan (PK: {plan_to_activate.pk}) was already in status '{plan_to_activate.status}'. No action taken.")
+        plan_to_activate.status = 'active'
+        plan_to_activate.save()
+        print(f"Successfully activated SubscriptionPlan (PK: {plan_to_activate.pk})")
 
     except SubscriptionPlan.DoesNotExist:
         print(f"CRITICAL ERROR: SubscriptionPlan not found for ID: {plan_id}")
