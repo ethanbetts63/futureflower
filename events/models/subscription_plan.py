@@ -6,6 +6,8 @@ class SubscriptionPlan(OrderBase):
     An order where the user pays on a recurring basis.
     """
     FREQUENCY_CHOICES = (
+        ('weekly', 'Weekly'),
+        ('fortnightly', 'Fortnightly'),
         ('monthly', 'Monthly'),
         ('quarterly', 'Quarterly'),
         ('bi-annually', 'Bi-Annually'),

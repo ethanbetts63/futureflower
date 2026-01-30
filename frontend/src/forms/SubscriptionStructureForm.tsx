@@ -49,7 +49,9 @@ const SubscriptionStructureForm: React.FC<SubscriptionStructureFormProps> = ({
                     <SelectTrigger id="frequency-select">
                         <SelectValue placeholder="Select frequency" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white">
+                        <SelectItem value="weekly">Weekly</SelectItem>
+                        <SelectItem value="fortnightly">Fortnightly (every 2 weeks)</SelectItem>
                         <SelectItem value="monthly">Monthly</SelectItem>
                         <SelectItem value="quarterly">Quarterly (every 3 months)</SelectItem>
                         <SelectItem value="bi-annually">Bi-Annually (every 6 months)</SelectItem>
