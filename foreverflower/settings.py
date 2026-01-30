@@ -30,6 +30,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY", "")
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
+STRIPE_SUBSCRIPTION_PRODUCT_ID = os.environ.get("STRIPE_SUBSCRIPTION_PRODUCT_ID", "")
 
 # Custom Application Settings
 EVENT_PRICE = 10.00
@@ -38,6 +39,7 @@ HASHING_SALT = os.environ.get("HASHING_SALT")
 ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
 ADMIN_NUMBER = os.environ.get("ADMIN_NUMBER")
 MIN_DAYS_BEFORE_FIRST_DELIVERY = 7
+TRIAL_END_DAYS_BEFORE_DELIVERY = 6
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'

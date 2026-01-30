@@ -28,6 +28,9 @@ class CreateSubscriptionView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+        if not settings.STRIPE_SUBSCRIPTION_PRODUCT_ID:
+            return Response({"error": "STRIPE_SUBSCRIPTION_PRODUCT_ID is not configured in Django settings."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
         subscription_plan_id = request.data.get('subscription_plan_id')
         if not subscription_plan_id:
             return Response({"error": "subscription_plan_id is required."}, status=status.HTTP_400_BAD_REQUEST)
@@ -55,8 +58,8 @@ class CreateSubscriptionView(APIView):
             if not recurring_options:
                 return Response({"error": f"Invalid frequency: {plan.frequency}"}, status=status.HTTP_400_BAD_REQUEST)
 
-            # Trial ends 7 days before the first delivery date
-            trial_end_date = plan.start_date - timedelta(days=7)
+            # Trial ends based on the setting days before the first delivery date
+            trial_end_date = plan.start_date - timedelta(days=settings.TRIAL_END_DAYS_BEFORE_DELIVERY)
             trial_end_datetime = datetime.combine(trial_end_date, time.min)
             trial_end_timestamp = int(trial_end_datetime.timestamp())
 
@@ -78,7 +81,6 @@ class CreateSubscriptionView(APIView):
                 trial_end=trial_end_timestamp,
                 payment_behavior='default_incomplete',
                 payment_settings={'save_default_payment_method': 'on_subscription'},
-                expand=['latest_invoice.payment_intent'],
                 metadata={
                     'plan_id': plan.id,
                     'item_type': 'SUBSCRIPTION_PLAN_NEW' # Keep for webhook handler logic
@@ -90,9 +92,12 @@ class CreateSubscriptionView(APIView):
             plan.save()
             
             client_secret = None
-            if subscription.latest_invoice and subscription.latest_invoice.payment_intent:
-                client_secret = subscription.latest_invoice.payment_intent.client_secret
-            else:
+            if subscription.latest_invoice and subscription.latest_invoice.charges and subscription.latest_invoice.charges.data:
+                first_charge = subscription.latest_invoice.charges.data[0]
+                if first_charge.payment_intent and isinstance(first_charge.payment_intent, stripe.PaymentIntent):
+                    client_secret = first_charge.payment_intent.client_secret
+
+            if not client_secret:
                 # This can happen if the trial is long and Stripe doesn't create a PI immediately
                 # However, with default_incomplete, it should. We raise an error if not.
                 raise Exception("Stripe did not return a PaymentIntent for the subscription's first invoice.")
