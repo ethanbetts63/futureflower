@@ -82,23 +82,23 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
         <Card className="bg-white text-black border-none shadow-md w-full">
             <CardHeader>
                 <CardTitle className="flex justify-between items-center">
-                    <span>Order Summary</span>
+                    <span>{planIsSubscription ? 'Subscription Details' : 'Order Summary'}</span>
                     <Badge variant="secondary">{planType}</Badge>
                 </CardTitle>
                 <CardDescription>Review the details of your order before completing payment.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="space-y-2 text-sm">
+                    {planIsSubscription && (
+                    <div className="flex items-center justify-between">
+                        <span className="text-muted-foreground flex items-center"><Repeat className="mr-2 h-4 w-4" />Delivery Frequency</span>
+                        <span>{capitalizedFrequency}</span>
+                    </div>
+                    )}
                     <div className="flex items-center justify-between">
                         <span className="text-muted-foreground flex items-center"><Flower className="mr-2 h-4 w-4" />Flower Budget</span>
                         <span>${Number(plan.budget).toFixed(2)}</span>
                     </div>
-                    {planIsSubscription && (
-                        <div className="flex items-center justify-between">
-                            <span className="text-muted-foreground flex items-center"><Repeat className="mr-2 h-4 w-4" />Delivery Frequency</span>
-                            <span>{capitalizedFrequency}</span>
-                        </div>
-                    )}
                     {!planIsSubscription && 'years' in plan && (
                         <div className="flex items-center justify-between">
                             <span className="text-muted-foreground flex items-center"><Calendar className="mr-2 h-4 w-4" />Duration</span>
@@ -106,11 +106,28 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
                         </div>
                     )}
                 </div>
+                {planIsSubscription && (
+                    <>
+                        <div className="flex items-center justify-between text-sm">
+                            <span className="text-muted-foreground">Fees</span>
+                            <span>${(Number(plan.price_per_delivery) - Number(plan.budget)).toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-lg font-semibold">
+                            <span className="flex items-center"><DollarSign className="mr-2 h-5 w-5" />Total Per Delivery</span>
+                            <span>${Number(plan.price_per_delivery).toFixed(2)}</span>
+                        </div>
+                    </>
+                )}
                 <div className="border-t border-gray-200 my-4"></div>
                 <div className="flex justify-between items-center text-xl font-bold">
                     <span className="flex items-center"><DollarSign className="mr-2 h-5 w-5" />Amount Due Today</span>
-                    <span>${Number(totalPrice).toFixed(2)}</span>
+                    <span>{planIsSubscription ? '$0.00' : `$${Number(totalPrice).toFixed(2)}`}</span>
                 </div>
+                {planIsSubscription && plan.next_payment_date && (
+                    <div className="text-sm text-center text-muted-foreground mt-2">
+                        Your first payment of ${Number(plan.price_per_delivery).toFixed(2)} will be charged on {new Date(plan.next_payment_date).toLocaleDateString()}.
+                    </div>
+                )}
             </CardContent>
         </Card>
     );

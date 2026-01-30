@@ -9,36 +9,18 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
   const payments = plan.payments || [];
 
   const isSubscriptionPlan = (p: any): p is SubscriptionPlan => {
-    return 'delivery_frequency_unit' in p && 
-           typeof p.delivery_frequency_unit === 'string' && 
-           'delivery_frequency_value' in p;
+    return 'frequency' in p && p.frequency !== null;
   };
 
   let nextPaymentDateStr: string | null = null;
-
-  if (isSubscriptionPlan(plan) && plan.status === 'active') {
-    const lastPayment = payments
-      .filter(p => p.status === 'succeeded')
-      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0];
-
-    const baseDate = lastPayment ? new Date(lastPayment.created_at) : (plan.start_date ? new Date(plan.start_date) : null);
-
-    if (baseDate) {
-      const nextPaymentDate = new Date(baseDate);
-      const unit = plan.delivery_frequency_unit.toLowerCase();
-      const value = plan.delivery_frequency_value;
-
-      if (unit.includes('month')) {
-        nextPaymentDate.setMonth(nextPaymentDate.getMonth() + value);
-      } else if (unit.includes('week')) {
-        nextPaymentDate.setDate(nextPaymentDate.getDate() + value * 7);
-      } else if (unit.includes('day')) {
-        nextPaymentDate.setDate(nextPaymentDate.getDate() + value);
-      } else if (unit.includes('year')) {
-        nextPaymentDate.setFullYear(nextPaymentDate.getFullYear() + value);
-      }
-      nextPaymentDateStr = nextPaymentDate.toLocaleDateString();
-    }
+  if (isSubscriptionPlan(plan) && plan.next_payment_date) {
+    // Backend returns date as YYYY-MM-DD. Appending T00:00:00 ensures it's parsed as local time midnight
+    // and avoids timezone-related "off by one day" errors.
+    nextPaymentDateStr = new Date(`${plan.next_payment_date}T00:00:00`).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
   }
 
   return (
@@ -96,3 +78,4 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
 };
 
 export default PaymentHistoryCard;
+

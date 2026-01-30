@@ -9,7 +9,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import Seo from '@/components/Seo';
 import CheckoutForm from '@/forms/CheckoutForm';
-import OrderSummaryCard from '@/components/OrderSummaryCard'; // Import the new component
+import OrderSummaryCard from '@/components/OrderSummaryCard'; 
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -18,14 +18,14 @@ const CheckoutPage: React.FC = () => {
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const [planId, setPlanId] = useState<string | null>(null);
     const [itemType, setItemType] = useState<string | null>(null);
-    const [intentType, setIntentType] = useState<'payment' | 'setup' | null>(null); // Add intentType state
+    const [intentType, setIntentType] = useState<'payment' | 'setup' | null>(null); 
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const secret = location.state?.clientSecret;
         const id = location.state?.planId;
         const type = location.state?.itemType;
-        const intent = location.state?.intentType as 'payment' | 'setup'; // Extract intentType
+        const intent = location.state?.intentType as 'payment' | 'setup'; 
 
         if (secret && id && type && intent) {
             setClientSecret(secret);
