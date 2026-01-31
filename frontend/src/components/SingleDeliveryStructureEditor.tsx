@@ -9,71 +9,13 @@ import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 // Assuming these API calls will be created later
 // import { getSingleDeliveryOrder, updateSingleDeliveryOrder, calculateSingleDeliveryPrice } from '@/api';
-import type { SingleDeliveryStructureData, SingleDeliveryStructureEditorProps } from '@/types'; // Import from '@/types'
+import type { SingleDeliveryStructureData, SingleDeliveryStructureEditorProps, SingleDeliveryOrder, PartialSingleDeliveryOrder, CalculateSingleDeliveryPriceResponse } from '@/types'; // Import from '@/types'
 import SingleDeliveryStructureForm from '@/forms/SingleDeliveryStructureForm';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
 import PaymentInitiatorButton from './PaymentInitiatorButton';
 
-// Placeholder for SingleDeliveryOrder type, will eventually come from '@/types'
-// This should match the backend model fields after migration
-interface SingleDeliveryOrder {
-    id: string;
-    budget: number;
-    start_date: string;
-    preferred_delivery_time: string | null;
-    delivery_notes: string | null;
-    total_amount: number; // This will be the calculated price
-    // ... other fields from OrderBase
-}
-
-// Placeholder for PartialSingleDeliveryOrder type, will eventually come from '@/types'
-interface PartialSingleDeliveryOrder {
-    budget?: number;
-    start_date?: string;
-    preferred_delivery_time?: string | null;
-    delivery_notes?: string | null;
-    total_amount?: number;
-}
-
-
 // --- Placeholder API Functions (will be replaced by actual implementations) ---
-const getSingleDeliveryOrder = async (orderId: string): Promise<SingleDeliveryOrder> => {
-    // Simulate API call
-    return new Promise(resolve => setTimeout(() => resolve({
-        id: orderId,
-        budget: 75,
-        start_date: new Date().toISOString().split('T')[0],
-        preferred_delivery_time: null,
-        delivery_notes: null,
-        total_amount: 0,
-    }), 500));
-};
-
-const updateSingleDeliveryOrder = async (orderId: string, payload: PartialSingleDeliveryOrder): Promise<SingleDeliveryOrder> => {
-    // Simulate API call
-    console.log(`Updating SingleDeliveryOrder ${orderId} with:`, payload);
-    return new Promise(resolve => setTimeout(() => resolve({
-        id: orderId,
-        budget: payload.budget || 75,
-        start_date: payload.start_date || new Date().toISOString().split('T')[0],
-        preferred_delivery_time: payload.preferred_delivery_time || null,
-        delivery_notes: payload.delivery_notes || null,
-        total_amount: payload.total_amount || 0,
-    }), 500));
-};
-
-interface CalculateSingleDeliveryPriceResponse {
-    price_per_delivery: number;
-}
-
-const calculateSingleDeliveryPrice = async (_orderId: string, budget: number): Promise<CalculateSingleDeliveryPriceResponse> => {
-    // Simulate API call: simple budget + 15 (min fee) + 5%
-    const fee = Math.max(budget * 0.05, 15.0);
-    const price = budget + fee;
-    return new Promise(resolve => setTimeout(() => resolve({ price_per_delivery: price }), 300));
-};
-// --- End Placeholder API Functions ---
 
 
 const getMinDateString = () => {

@@ -7,12 +7,14 @@ from .views.upfront_plan_view import UpfrontPlanViewSet, get_latest_pending_upfr
 from .views.subscription_plan_view import SubscriptionPlanViewSet
 from .views.get_or_create_inactive_plan_view import GetOrCreateInactivePlanView
 from .views.public_upfront_price_view import PublicPriceCalculatorView
+from .views.single_delivery_plan_view import SingleDeliveryPlanViewSet
 
 router = DefaultRouter()
 router.register(r'colors', ColorViewSet, basename='color')
 router.register(r'flower-types', FlowerTypeViewSet, basename='flower-type')
 router.register(r'upfront-plans', UpfrontPlanViewSet, basename='upfront-plan')
 router.register(r'subscription-plans', SubscriptionPlanViewSet, basename='subscription-plan')
+router.register(r'single-delivery-plans', SingleDeliveryPlanViewSet, basename='single-delivery-plan')
 # This must be last, as its empty prefix will catch anything not matched above.
 router.register(r'', EventViewSet, basename='event')
 
