@@ -4,92 +4,102 @@ import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 
-// Define the possible views
 type View = 'prepaid' | 'subscription' | 'one-time';
 
-// A reusable component to display product information
-interface ProductInfoProps {
-  title: string;
-  tagline: string;
-  salesPoints: string[];
+// --- Data structure for feature points ---
+interface FeaturePoint {
+  heading: string;
+  subtext: string;
+}
+
+// --- Reusable component for the detailed product view ---
+interface DetailedProductInfoProps {
+  subtitle: string;
+  paragraph: string;
+  features: FeaturePoint[];
   onGetStarted: () => void;
   buttonText?: string;
 }
 
-const ProductInfo: React.FC<ProductInfoProps> = ({ title, tagline, salesPoints, onGetStarted, buttonText = "Get Started" }) => {
+const DetailedProductInfo: React.FC<DetailedProductInfoProps> = ({ subtitle, paragraph, features, onGetStarted, buttonText = "Get Started" }) => {
   return (
-    <div className="text-center flex flex-col h-full">
-      <div className="flex-grow">
-        <h3 className="text-xl font-bold font-['Playfair_Display',_serif]">{title}</h3>
-        <p className="text-md italic text-gray-700 my-3">“{tagline}”</p>
-        <ul className="text-left my-4 space-y-2 text-sm">
-          {salesPoints.map((point, index) => (
-            <li key={index} className="flex items-start">
-              <span className="text-primary mr-2">✔</span>
-              <span>{point}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div className="text-left">
+      <h3 className="text-xl font-bold font-['Playfair_Display',_serif] text-center mb-3">{subtitle}</h3>
+      <p className="text-center text-gray-700 my-3 text-sm">{paragraph}</p>
+      <ul className="my-4 space-y-4">
+        {features.map((feature, index) => (
+          <li key={index} className="flex items-start">
+            <span className="text-primary mr-3 mt-1 text-lg">✔</span>
+            <div>
+              <p className="font-bold text-md">{feature.heading}</p>
+              <p className="text-sm text-gray-600">{feature.subtext}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
       <Button onClick={onGetStarted} className="mt-4 w-full">{buttonText}</Button>
     </div>
   );
 };
 
+// --- Type definition for product data ---
+interface ProductData {
+    content: {
+        subtitle: string;
+        paragraph: string;
+        features: FeaturePoint[];
+    };
+    onGetStarted: () => void;
+}
+
 export const CtaCard: React.FC = () => {
-  const [view, setView] = useState<View>('prepaid');
+  const [view, setView] = useState<View>('subscription');
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // Unified navigation handler
   const handleNavigation = (path: string) => {
     if (isAuthenticated) {
       navigate(path);
     } else {
-      // Redirect to account creation with the intended destination
       navigate(`/book-flow/create-account?next=${path}`);
     }
   };
 
-  // Static data for each product offering
-  const productData = {
+  const productData: Record<View, ProductData> = {
     subscription: {
-      title: 'Subscription (Pay-as-you-go)',
-      tagline: 'You’re not just sending flowers — you’re showing up, again and again.',
-      salesPoints: [
-        'Weekly, Fortnightly, Monthly, Binannual or Yearly Delivery.',
-        'Fully customizable budget. ($75 to $500 per delivery)',
-        'Customizable Personal Messages',
-        'Perfect for birthdays, anniversaries, Mother’s Day, or “just because”',
-        'Update dates, addresses, Budgets or preferences anytime',
-        'Be the person who always remembers, with no effort after setup.',
-      ],
+      content: {
+        subtitle: 'Subscriptions',
+        paragraph: 'Set up flowers for the dates that matter most — from annual milestones like birthdays and anniversaries, to weekly or monthly deliveries if you want more.',
+        features: [
+          { heading: 'Dates, budget, done', subtext: 'Set it up once, we handle the rest.' },
+          { heading: 'Milestones first, flexibility second', subtext: 'Annual moments by default — weekly or monthly if you want more.' },
+          { heading: 'Thoughtful by design', subtext: 'Customize messages and bouquet preferences.' },
+        ],
+      },
       onGetStarted: () => handleNavigation('/event-gate/subscription'),
     },
     prepaid: {
-      title: 'Prepaid Plan',
-      tagline: 'Make a promise once. Keep it for years.',
-      salesPoints: [
-        'Weekly, Fortnightly, Monthly, Binannual or Yearly Delivery.',
-        'Save up to 32% when paying upfront.',
-        'Customizable Personal Messages',
-        'Customizable budget ($75 - $500 per bouquet)',
-        'Guaranteed flowers for future birthdays, anniversaries, or milestones',
-        'A huge romantic gesture',
-      ],
+      content: {
+        subtitle: 'Prepaid Flowers',
+        paragraph: 'From annual milestones to regular deliveries, flowers arrive exactly when you want.',
+        features: [
+          { heading: 'Built-in bulk savings', subtext: 'Multiple future deliveries, one order, up to 35% off.' },
+          { heading: 'Future-proofed', subtext: 'No renewals, no reminders, no risk of forgetting.' },
+          { heading: 'The kind of gift people remember', subtext: 'Shows thoughtfulness far beyond the day it’s given.' },
+        ],
+      },
       onGetStarted: () => handleNavigation('/book-flow/flower-plan'),
     },
     'one-time': {
-      title: 'One-Time Scheduled Delivery',
-      tagline: 'Send flowers exactly when they matter — even years from now.',
-      salesPoints: [
-        'Schedule a single delivery up to years in advance',
-        'Customizable budget and bouquet preferences',
-        'Write the message today — we deliver it at the right moment',
-        'No subscriptions, no ongoing commitment',
-        'Ideal for surprises, memorials, or future anniversaries',
-        'Peace of mind knowing it’s already handled',
-      ],
+      content: {
+        subtitle: 'One-time Bouquet Delivery',
+        paragraph: 'Flowers, scheduled today, delivered on a future date you choose. No matter how distant.',
+        features: [
+          { heading: 'Made for meaningful dates', subtext: 'Ideal for anniversaries, birthdays, Mother’s Day, and moments you don’t want to miss.' },
+          { heading: 'No subscription required', subtext: 'One bouquet, one date, nothing ongoing.' },
+          { heading: '100% refundable', subtext: 'Full refund available up to 7 days before delivery.' },
+        ],
+      },
       onGetStarted: () => handleNavigation('/event-gate/one-time'),
     },
   };
@@ -109,14 +119,12 @@ export const CtaCard: React.FC = () => {
         </div>
       </CardHeader>
       <CardContent className="p-6 pt-2 text-black">
-        {currentProduct && (
-          <ProductInfo
-            title={currentProduct.title}
-            tagline={currentProduct.tagline}
-            salesPoints={currentProduct.salesPoints}
-            onGetStarted={currentProduct.onGetStarted}
-          />
-        )}
+        <DetailedProductInfo
+          subtitle={currentProduct.content.subtitle}
+          paragraph={currentProduct.content.paragraph}
+          features={currentProduct.content.features}
+          onGetStarted={currentProduct.onGetStarted}
+        />
       </CardContent>
     </Card>
   );

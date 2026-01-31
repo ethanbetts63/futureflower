@@ -66,11 +66,6 @@ const HomePage = () => {
         <ProductCarousel />
       </section>
 
-      <RomanceSection />
-      <DeliverySection />
-
-
-
       {/* --- Main Content & Sticky Sidebar --- */}
       <div className="bg-[var(--color4)] py-8">
         <div className="container mx-auto px-0 sm:px-4 lg:grid lg:grid-cols-3 lg:gap-8">
@@ -93,7 +88,9 @@ const HomePage = () => {
         </div>
       </div>
 
-      <OtherServices />
+
+      <RomanceSection />
+      <DeliverySection />
       
       <div className="bg-[var(--color4)]">
         <section className="pb-8">
