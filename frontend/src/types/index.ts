@@ -75,3 +75,7 @@ export type { SubscriptionPlan } from './SubscriptionPlan';
 export type { PartialSubscriptionPlan } from './PartialSubscriptionPlan';
 export type { UserProfile } from './UserProfile';
 export type { DebouncedFunction } from './DebouncedFunction';
+export type { FeaturePoint } from './FeaturePoint';
+export type { DetailedProductInfoProps } from './DetailedProductInfoProps';
+export type { ProductData } from './ProductData';
+export type { View } from './View';

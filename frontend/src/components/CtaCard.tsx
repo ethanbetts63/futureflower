@@ -4,22 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 
-type View = 'prepaid' | 'subscription' | 'one-time';
-
-// --- Data structure for feature points ---
-interface FeaturePoint {
-  heading: string;
-  subtext: string;
-}
-
-// --- Reusable component for the detailed product view ---
-interface DetailedProductInfoProps {
-  subtitle: string;
-  paragraph: string;
-  features: FeaturePoint[];
-  onGetStarted: () => void;
-  buttonText?: string;
-}
+import type { View, DetailedProductInfoProps, ProductData } from '@/types';
 
 const DetailedProductInfo: React.FC<DetailedProductInfoProps> = ({ subtitle, paragraph, features, onGetStarted, buttonText = "Get Started" }) => {
   return (
@@ -29,7 +14,7 @@ const DetailedProductInfo: React.FC<DetailedProductInfoProps> = ({ subtitle, par
       <ul className="my-4 space-y-4">
         {features.map((feature, index) => (
           <li key={index} className="flex items-start">
-            <span className="text-[var(--color1)] mr-3 mt-1 text-lg">✔</span>
+            <span className="text-muted mr-3 mt-1 text-lg">✔</span>
             <div>
               <p className="font-bold text-md">{feature.heading}</p>
               <p className="text-sm text-gray-600">{feature.subtext}</p>
@@ -42,15 +27,7 @@ const DetailedProductInfo: React.FC<DetailedProductInfoProps> = ({ subtitle, par
   );
 };
 
-// --- Type definition for product data ---
-interface ProductData {
-    content: {
-        subtitle: string;
-        paragraph: string;
-        features: FeaturePoint[];
-    };
-    onGetStarted: () => void;
-}
+
 
 export const CtaCard: React.FC = () => {
   const [view, setView] = useState<View>('subscription');
@@ -108,11 +85,11 @@ export const CtaCard: React.FC = () => {
 
   return (
     <Card className="w-full bg-white shadow-md text-gray-900 rounded-none sm:rounded-xl border-0">
-      <CardHeader className="px-4 pt-0 pb-2 text-center">
+      <CardHeader className="px-4 pt-0 pb-0 text-center">
         <h2 className="font-bold text-4xl italic text-black font-['Playfair_Display',_serif] mb-2">
           FOREVERFLOWER
         </h2>
-        <div className="flex justify-center bg-muted p-1 rounded-md">
+        <div className="flex justify-center bg-white p-1 rounded-md">
           <button onClick={() => setView('prepaid')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded ${view === 'prepaid' ? 'bg-primary text-primary-foreground' : 'text-black'}`}>Prepaid</button>
           <button onClick={() => setView('subscription')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded ${view === 'subscription' ? 'bg-primary text-primary-foreground' : 'text-black'}`}>Subscription</button>
           <button onClick={() => setView('one-time')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded ${view === 'one-time' ? 'bg-primary text-primary-foreground' : 'text-black'}`}>One-Time</button>
