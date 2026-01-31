@@ -1,167 +1,100 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
-import { debounce } from '@/utils/debounce'; // Import debounce utility
-import { calculatePrice } from '@/api';
-import type { PriceBreakdown } from '../types/PriceBreakdown';
 
-// Define a type for the breakdown for better type safety
-type Breakdown = PriceBreakdown;
+// Define the possible views
+type View = 'prepaid' | 'subscription' | 'one-time';
+
+// A reusable component to display product information
+interface ProductInfoProps {
+  title: string;
+  tagline: string;
+  salesPoints: string[];
+  onGetStarted: () => void;
+  buttonText?: string;
+}
+
+const ProductInfo: React.FC<ProductInfoProps> = ({ title, tagline, salesPoints, onGetStarted, buttonText = "Get Started" }) => {
+  return (
+    <div className="text-center flex flex-col h-full">
+      <div className="flex-grow">
+        <h3 className="text-xl font-bold font-['Playfair_Display',_serif]">{title}</h3>
+        <p className="text-md italic text-gray-700 my-3">“{tagline}”</p>
+        <ul className="text-left my-4 space-y-2 text-sm">
+          {salesPoints.map((point, index) => (
+            <li key={index} className="flex items-start">
+              <span className="text-primary mr-2">✔</span>
+              <span>{point}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <Button onClick={onGetStarted} className="mt-4 w-full">{buttonText}</Button>
+    </div>
+  );
+};
 
 export const CtaCard: React.FC = () => {
-  const [view, setView] = useState<'upfront' | 'subscription'>('upfront');
+  const [view, setView] = useState<View>('prepaid');
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  
-  // Shared state
-  const [bouquetBudget, setBouquetBudget] = useState(75);
-  const [deliveriesPerYear, setDeliveriesPerYear] = useState(1);
-  
-  // Upfront-only state
-  const [years, setYears] = useState(5);
 
-  // API/Calculation result state
-  const [upfrontPrice, setUpfrontPrice] = useState<number | null>(null);
-  const [breakdown, setBreakdown] = useState<Breakdown | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isDebouncing, setIsDebouncing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  // --- Instant Calculations for Subscription view ---
-  const feePerDelivery = useMemo(() => Math.max(bouquetBudget * 0.05, 15), [bouquetBudget]);
-  const pricePerDelivery = useMemo(() => bouquetBudget + feePerDelivery, [bouquetBudget, feePerDelivery]);
-
-  // --- Navigation Handler ---
-  const handleGetStarted = () => {
+  // Unified navigation handler
+  const handleNavigation = (path: string) => {
     if (isAuthenticated) {
-      navigate('/book-flow/flower-plan');
+      navigate(path);
     } else {
-      navigate('/book-flow/create-account');
+      // Redirect to account creation with the intended destination
+      navigate(`/book-flow/create-account?next=${path}`);
     }
   };
 
-  // --- API Handler ---
-  // Memoize the core API call function to ensure debouncing works correctly
-  const calculateUpfront = useCallback(async (currentBudget: number, currentDeliveries: number, currentYears: number) => {
-    setIsDebouncing(false); // Debounce has finished, API call is about to start
-    setIsLoading(true);
-    setError(null);
-    setUpfrontPrice(null); // Clear previous results immediately
-    setBreakdown(null);
-
-    try {
-      const data = await calculatePrice({
-        budget: currentBudget,
-        deliveries_per_year: currentDeliveries,
-        years: currentYears,
-      });
-      setUpfrontPrice(data.upfront_price);
-      setBreakdown(data.breakdown);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []); // Dependencies are empty as it gets values from parameters
-
-  // Create a debounced version of the calculateUpfront function
-  const debouncedCalculateUpfront = useMemo(() => {
-    return debounce(calculateUpfront, 500); // 500ms debounce time
-  }, [calculateUpfront]);
-
-  // Effect to trigger initial calculation and re-calculate on slider changes
-  useEffect(() => {
-    if (view === 'upfront') {
-        debouncedCalculateUpfront(bouquetBudget, deliveriesPerYear, years);
-    }
-    // Cleanup function for debounce
-    return () => {
-        debouncedCalculateUpfront.cancel && debouncedCalculateUpfront.cancel();
-    };
-  }, [bouquetBudget, deliveriesPerYear, years, view, debouncedCalculateUpfront]);
-
-
-  const renderUpfrontCalculator = () => (
-    <>
-      <div className="space-y-6">
-        <div className="grid gap-2">
-          <Label htmlFor="budget-slider" className="text-sm">Bouquet Budget: ${bouquetBudget}</Label>
-          <Slider id="budget-slider" aria-label="Bouquet Budget" min={75} max={500} step={5} value={[bouquetBudget]} onValueChange={(v) => {
-            setIsDebouncing(true);
-            setBouquetBudget(v[0]);
-            debouncedCalculateUpfront(v[0], deliveriesPerYear, years);
-          }} />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="deliveries-slider" className="text-sm">Deliveries Per Year: {deliveriesPerYear}</Label>
-          <Slider id="deliveries-slider" aria-label="Deliveries Per Year" min={1} max={12} step={1} value={[deliveriesPerYear]} onValueChange={(v) => {
-            setIsDebouncing(true);
-            setDeliveriesPerYear(v[0]);
-            debouncedCalculateUpfront(bouquetBudget, v[0], years);
-          }} />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="years-slider" className="text-sm">Years: {years}</Label>
-          <Slider id="years-slider" aria-label="Years" min={1} max={25} step={1} value={[years]} onValueChange={(v) => {
-            setIsDebouncing(true);
-            setYears(v[0]);
-            debouncedCalculateUpfront(bouquetBudget, deliveriesPerYear, v[0]);
-          }} />
-        </div>
-      </div>
-      <div className="mt-6 text-center">
-        {/* The button is removed as calculation is now automatic via debouncing */}
-      </div>
-      <div className="mt-4 text-center h-20 flex flex-col items-center justify-center">
-        {error && <div className="text-red-500 text-sm">{error}</div>}
-        {(isLoading || isDebouncing) ? (
-            <Spinner className="h-8 w-8" />
-        ) : (
-            upfrontPrice !== null && (
-            <>
-                <div className="text-2xl font-bold">${upfrontPrice.toLocaleString()}</div>
-                {breakdown?.upfront_savings_percentage && <p className="text-xs text-gray-600 mb-2">That's a ~{breakdown.upfront_savings_percentage}% savings compared to paying per delivery!</p>}
-                <Button onClick={handleGetStarted} className="mt-2">Get Started</Button>
-            </>
-            )
-        )}
-      </div>
-    </>
-  );
-
-  const renderSubscriptionCalculator = () => (
-    <>
-      <div className="space-y-6">
-        <div className="grid gap-2">
-          <Label htmlFor="budget-slider-sub" className="text-sm">Bouquet Budget: ${bouquetBudget}</Label>
-          <Slider id="budget-slider-sub" aria-label="Bouquet Budget" min={75} max={500} step={5} value={[bouquetBudget]} onValueChange={(v) => setBouquetBudget(v[0])} />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="deliveries-slider-sub" className="text-sm">Deliveries Per Year: {deliveriesPerYear}</Label>
-          <Slider id="deliveries-slider-sub" aria-label="Deliveries Per Year" min={1} max={12} step={1} value={[deliveriesPerYear]} onValueChange={(v) => setDeliveriesPerYear(v[0])} />
-        </div>
-      </div>
-      <div className="mt-6 pt-4 border-t border-gray-200 text-center">
-        <Label className="text-sm text-gray-600">Price Per Delivery</Label>
-        <div className="text-2xl font-bold mt-1">${pricePerDelivery.toFixed(2)}</div>
-        <p className="text-xs text-gray-600 mt-2">Switch to 'Pay Upfront' to save on the total cost.</p>
-        <Button onClick={handleSubscriptionStart} className="mt-4">Get Started</Button>
-       </div>
-    </>
-  );
-
-  const handleSubscriptionStart = () => {
-    if (isAuthenticated) {
-      navigate('/event-gate/subscription');
-    } else {
-      navigate('/book-flow/create-account?next=/event-gate/subscription');
-    }
+  // Static data for each product offering
+  const productData = {
+    subscription: {
+      title: 'Subscription (Pay-as-you-go)',
+      tagline: 'You’re not just sending flowers — you’re showing up, again and again.',
+      salesPoints: [
+        'Weekly, Fortnightly, Monthly, Binannual or Yearly Delivery.',
+        'Fully customizable budget. ($75 to $500 per delivery)',
+        'Customizable Personal Messages',
+        'Perfect for birthdays, anniversaries, Mother’s Day, or “just because”',
+        'Update dates, addresses, Budgets or preferences anytime',
+        'Be the person who always remembers, with no effort after setup.',
+      ],
+      onGetStarted: () => handleNavigation('/event-gate/subscription'),
+    },
+    prepaid: {
+      title: 'Prepaid Plan',
+      tagline: 'Make a promise once. Keep it for years.',
+      salesPoints: [
+        'Weekly, Fortnightly, Monthly, Binannual or Yearly Delivery.',
+        'Save up to 32% when paying upfront.',
+        'Customizable Personal Messages',
+        'Customizable budget ($75 - $500 per bouquet)',
+        'Guaranteed flowers for future birthdays, anniversaries, or milestones',
+        'A huge romantic gesture',
+      ],
+      onGetStarted: () => handleNavigation('/book-flow/flower-plan'),
+    },
+    'one-time': {
+      title: 'One-Time Scheduled Delivery',
+      tagline: 'Send flowers exactly when they matter — even years from now.',
+      salesPoints: [
+        'Schedule a single delivery up to years in advance',
+        'Customizable budget and bouquet preferences',
+        'Write the message today — we deliver it at the right moment',
+        'No subscriptions, no ongoing commitment',
+        'Ideal for surprises, memorials, or future anniversaries',
+        'Peace of mind knowing it’s already handled',
+      ],
+      onGetStarted: () => handleNavigation('/event-gate/one-time'),
+    },
   };
+
+  const currentProduct = productData[view];
 
   return (
     <Card className="w-full bg-white shadow-md text-gray-900 rounded-none sm:rounded-xl border-0">
@@ -170,12 +103,20 @@ export const CtaCard: React.FC = () => {
           FOREVERFLOWER
         </h2>
         <div className="flex justify-center bg-muted p-1 rounded-md">
-          <button onClick={() => setView('upfront')} className={`w-1/2 px-4 py-2 text-sm font-bold rounded ${view === 'upfront' ? 'bg-primary text-primary-foreground' : 'text-black'}`}>Pay Upfront</button>
-          <button onClick={() => setView('subscription')} className={`w-1/2 px-4 py-2 text-sm font-bold rounded ${view === 'subscription' ? 'bg-primary text-primary-foreground' : 'text-black'}`}>Subscription</button>
+          <button onClick={() => setView('prepaid')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded ${view === 'prepaid' ? 'bg-primary text-primary-foreground' : 'text-black'}`}>Prepaid</button>
+          <button onClick={() => setView('subscription')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded ${view === 'subscription' ? 'bg-primary text-primary-foreground' : 'text-black'}`}>Subscription</button>
+          <button onClick={() => setView('one-time')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded ${view === 'one-time' ? 'bg-primary text-primary-foreground' : 'text-black'}`}>One-Time</button>
         </div>
       </CardHeader>
-      <CardContent className="p-4 pt-0 text-black">
-        {view === 'upfront' ? renderUpfrontCalculator() : renderSubscriptionCalculator()}
+      <CardContent className="p-6 pt-2 text-black">
+        {currentProduct && (
+          <ProductInfo
+            title={currentProduct.title}
+            tagline={currentProduct.tagline}
+            salesPoints={currentProduct.salesPoints}
+            onGetStarted={currentProduct.onGetStarted}
+          />
+        )}
       </CardContent>
     </Card>
   );
