@@ -86,7 +86,7 @@ def handle_invoice_payment_succeeded(invoice):
         print(f"Created Payment record (PK: {payment.pk}) for invoice.")
 
         # Determine the next delivery date using the drift-free calculation
-        next_delivery_date = get_next_payment_date(subscription_plan)
+        next_delivery_date = get_next_delivery_date(subscription_plan)
         
         if next_delivery_date is None:
             print(f"WARNING: Could not determine next delivery date for SubscriptionPlan (PK: {subscription_plan.pk}). Skipping Event creation.")

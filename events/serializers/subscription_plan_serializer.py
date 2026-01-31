@@ -9,6 +9,7 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
     Serializer for the SubscriptionPlan model.
     """
     next_payment_date = serializers.SerializerMethodField()
+    next_delivery_date = serializers.SerializerMethodField()
 
     class Meta:
         model = SubscriptionPlan
@@ -20,12 +21,16 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
             'created_at', 'updated_at', 'preferred_colors', 'preferred_flower_types',
             'rejected_colors', 'rejected_flower_types', 'start_date', 'budget',
             'frequency', 'price_per_delivery', 'stripe_subscription_id', 'subscription_message',
-            'next_payment_date'
+            'next_payment_date', 'next_delivery_date'
         ]
-        read_only_fields = ['user', 'status', 'stripe_subscription_id', 'created_at', 'updated_at', 'next_payment_date']
+        read_only_fields = ['user', 'status', 'stripe_subscription_id', 'created_at', 'updated_at', 'next_payment_date', 'next_delivery_date']
 
     def get_next_payment_date(self, obj: SubscriptionPlan):
         return get_next_payment_date(obj)
+    
+    def get_next_delivery_date(self, obj: SubscriptionPlan):
+        next_delivery = get_next_delivery_date(obj)
+        return next_delivery.isoformat() if next_delivery else None
 
     def create(self, validated_data):
         # Associate the plan with the current user

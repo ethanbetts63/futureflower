@@ -13,14 +13,24 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
   };
 
   let nextPaymentDateStr: string | null = null;
-  if (isSubscriptionPlan(plan) && plan.next_payment_date) {
-    // Backend returns date as YYYY-MM-DD. Appending T00:00:00 ensures it's parsed as local time midnight
-    // and avoids timezone-related "off by one day" errors.
-    nextPaymentDateStr = new Date(`${plan.next_payment_date}T00:00:00`).toLocaleDateString(undefined, {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
+  let nextDeliveryDateStr: string | null = null;
+  if (isSubscriptionPlan(plan)) {
+    if (plan.next_payment_date) {
+      // Backend returns date as YYYY-MM-DD. Appending T00:00:00 ensures it's parsed as local time midnight
+      // and avoids timezone-related "off by one day" errors.
+      nextPaymentDateStr = new Date(`${plan.next_payment_date}T00:00:00`).toLocaleDateString(undefined, {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+      });
+    }
+    if (plan.next_delivery_date) {
+        nextDeliveryDateStr = new Date(`${plan.next_delivery_date}T00:00:00`).toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    }
   }
 
   return (
@@ -34,6 +44,12 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
           <div className="mb-6 border-b border-gray-200 pb-4">
             <h3 className="text-lg font-semibold text-black">Next Payment Due</h3>
             <p className="text-gray-600">{nextPaymentDateStr}</p>
+          </div>
+        )}
+        {nextDeliveryDateStr && (
+          <div className="mb-6 border-b border-gray-200 pb-4">
+            <h3 className="text-lg font-semibold text-black">Next Delivery Date</h3>
+            <p className="text-gray-600">{nextDeliveryDateStr}</p>
           </div>
         )}
         <Table>
