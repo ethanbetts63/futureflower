@@ -1,12 +1,9 @@
 # payments/utils/webhook_handlers.py
-import stripe
 from decimal import Decimal
-from datetime import datetime
 from django.conf import settings
 from payments.models import Payment
 from events.models import UpfrontPlan, SubscriptionPlan, Event
-from dateutil.relativedelta import relativedelta
-from payments.utils.subscription_dates import get_next_payment_date
+from payments.utils.subscription_dates import get_next_delivery_date
 
 def handle_payment_intent_succeeded(payment_intent):
     """
