@@ -3,7 +3,6 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 import type { FieldErrors, Resolver } from 'react-hook-form';
@@ -64,14 +63,6 @@ export const EventCreationForm: React.FC<EventCreationFormProps> = ({ initialDat
                     <FormControl><Input type="date" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
-                )} />
-                <FormField control={form.control} name="notes" render={({ field }) => (
-                    <FormItem>
-                        <FormLabel className="text-black">Notes (Optional)</FormLabel>
-                        <FormControl><Textarea placeholder="Add any details to jog your memory, like a policy number or a link to the website..." {...field} /></FormControl>
-                        <FormDescription className="text-black">A paragraph or two to help you remember the specifics of this event.</FormDescription>
-                        <FormMessage />
-                    </FormItem>
                 )} />
                 <FormField control={form.control} name="weeks_in_advance" render={({ field }) => (
                     <FormItem>

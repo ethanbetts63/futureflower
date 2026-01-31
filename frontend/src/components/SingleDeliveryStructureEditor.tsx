@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/components/OneTimeStructureEditor.tsx
+// foreverflower/frontend/src/components/SingleDeliveryStructureEditor.tsx
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -8,16 +8,16 @@ import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 // Assuming these API calls will be created later
-// import { getOneTimeOrder, updateOneTimeOrder, calculateOneTimePrice } from '@/api';
-import type { OneTimeStructureData, OneTimeStructureEditorProps } from '@/types'; // Import from '@/types'
-import OneTimeStructureForm from '@/forms/OneTimeStructureForm';
+// import { getSingleDeliveryOrder, updateSingleDeliveryOrder, calculateSingleDeliveryPrice } from '@/api';
+import type { SingleDeliveryStructureData, SingleDeliveryStructureEditorProps } from '@/types'; // Import from '@/types'
+import SingleDeliveryStructureForm from '@/forms/SingleDeliveryStructureForm';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
 import PaymentInitiatorButton from './PaymentInitiatorButton';
 
-// Placeholder for OneTimeOrder type, will eventually come from '@/types'
+// Placeholder for SingleDeliveryOrder type, will eventually come from '@/types'
 // This should match the backend model fields after migration
-interface OneTimeOrder {
+interface SingleDeliveryOrder {
     id: string;
     budget: number;
     start_date: string;
@@ -27,8 +27,8 @@ interface OneTimeOrder {
     // ... other fields from OrderBase
 }
 
-// Placeholder for PartialOneTimeOrder type, will eventually come from '@/types'
-interface PartialOneTimeOrder {
+// Placeholder for PartialSingleDeliveryOrder type, will eventually come from '@/types'
+interface PartialSingleDeliveryOrder {
     budget?: number;
     start_date?: string;
     preferred_delivery_time?: string | null;
@@ -38,7 +38,7 @@ interface PartialOneTimeOrder {
 
 
 // --- Placeholder API Functions (will be replaced by actual implementations) ---
-const getOneTimeOrder = async (orderId: string): Promise<OneTimeOrder> => {
+const getSingleDeliveryOrder = async (orderId: string): Promise<SingleDeliveryOrder> => {
     // Simulate API call
     return new Promise(resolve => setTimeout(() => resolve({
         id: orderId,
@@ -50,9 +50,9 @@ const getOneTimeOrder = async (orderId: string): Promise<OneTimeOrder> => {
     }), 500));
 };
 
-const updateOneTimeOrder = async (orderId: string, payload: PartialOneTimeOrder): Promise<OneTimeOrder> => {
+const updateSingleDeliveryOrder = async (orderId: string, payload: PartialSingleDeliveryOrder): Promise<SingleDeliveryOrder> => {
     // Simulate API call
-    console.log(`Updating OneTimeOrder ${orderId} with:`, payload);
+    console.log(`Updating SingleDeliveryOrder ${orderId} with:`, payload);
     return new Promise(resolve => setTimeout(() => resolve({
         id: orderId,
         budget: payload.budget || 75,
@@ -63,11 +63,11 @@ const updateOneTimeOrder = async (orderId: string, payload: PartialOneTimeOrder)
     }), 500));
 };
 
-interface CalculateOneTimePriceResponse {
+interface CalculateSingleDeliveryPriceResponse {
     price_per_delivery: number;
 }
 
-const calculateOneTimePrice = async (_orderId: string, budget: number): Promise<CalculateOneTimePriceResponse> => {
+const calculateSingleDeliveryPrice = async (_orderId: string, budget: number): Promise<CalculateSingleDeliveryPriceResponse> => {
     // Simulate API call: simple budget + 15 (min fee) + 5%
     const fee = Math.max(budget * 0.05, 15.0);
     const price = budget + fee;
@@ -82,7 +82,7 @@ const getMinDateString = () => {
     return minDate.toISOString().split('T')[0];
 };
 
-const OneTimeStructureEditor: React.FC<OneTimeStructureEditorProps> = ({
+const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps> = ({
     mode,
     title,
     description,
@@ -95,7 +95,7 @@ const OneTimeStructureEditor: React.FC<OneTimeStructureEditorProps> = ({
     const { isAuthenticated } = useAuth();
 
     // Core State
-    const [formData, setFormData] = useState<OneTimeStructureData>({
+    const [formData, setFormData] = useState<SingleDeliveryStructureData>({
         budget: 75,
         start_date: getMinDateString(),
         preferred_delivery_time: null,
@@ -123,8 +123,8 @@ const OneTimeStructureEditor: React.FC<OneTimeStructureEditorProps> = ({
         }
 
         setIsLoading(true);
-        getOneTimeOrder(planId)
-            .then((order: OneTimeOrder) => {
+        getSingleDeliveryOrder(planId)
+            .then((order: SingleDeliveryOrder) => {
                 setFormData({
                     budget: Number(order.budget) || 75,
                     start_date: order.start_date || getMinDateString(),
@@ -153,7 +153,7 @@ const OneTimeStructureEditor: React.FC<OneTimeStructureEditorProps> = ({
         setTotalAmount(null);
 
         try {
-            const data = await calculateOneTimePrice(planId, budget);
+            const data = await calculateSingleDeliveryPrice(planId, budget);
             setTotalAmount(data.price_per_delivery);
         } catch (err: any) {
             setCalculationError(err.message);
@@ -173,8 +173,8 @@ const OneTimeStructureEditor: React.FC<OneTimeStructureEditorProps> = ({
         return () => debouncedCalculate.cancel?.();
     }, [formData.budget, isLoading, debouncedCalculate]);
 
-    const handleFormChange = (field: keyof OneTimeStructureData, value: number | string | null) => {
-        setFormData((prev: OneTimeStructureData) => ({ ...prev, [field]: value }));
+    const handleFormChange = (field: keyof SingleDeliveryStructureData, value: number | string | null) => {
+        setFormData((prev: SingleDeliveryStructureData) => ({ ...prev, [field]: value }));
     };
 
     const handleSave = async () => {
@@ -185,11 +185,11 @@ const OneTimeStructureEditor: React.FC<OneTimeStructureEditorProps> = ({
 
         setIsSaving(true);
         try {
-            const payload: PartialOneTimeOrder = {
+            const payload: PartialSingleDeliveryOrder = {
                 ...formData,
                 total_amount: totalAmount, // Save the calculated total amount
             };
-            await updateOneTimeOrder(planId, payload);
+            await updateSingleDeliveryOrder(planId, payload);
             
             if (mode === 'edit') {
                 toast.success("Order details updated successfully!");
@@ -219,7 +219,7 @@ const OneTimeStructureEditor: React.FC<OneTimeStructureEditorProps> = ({
                         <CardDescription>{description}</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-8">
-                        <OneTimeStructureForm
+                        <SingleDeliveryStructureForm
                             formData={formData}
                             onFormChange={handleFormChange}
                         />
@@ -241,7 +241,7 @@ const OneTimeStructureEditor: React.FC<OneTimeStructureEditorProps> = ({
                         {showPaymentButton ? (
                             <PaymentInitiatorButton
                                 size="lg"
-                                itemType="ONE_TIME_DELIVERY"
+                                itemType="ONE_TIME_DELIVERY_NEW"
                                 details={{
                                     one_time_order_id: planId, // Use planId as one_time_order_id
                                     budget: formData.budget,
@@ -267,4 +267,4 @@ const OneTimeStructureEditor: React.FC<OneTimeStructureEditorProps> = ({
     );
 };
 
-export default OneTimeStructureEditor;
+export default SingleDeliveryStructureEditor;

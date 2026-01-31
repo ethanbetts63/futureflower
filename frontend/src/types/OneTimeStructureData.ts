@@ -1,4 +1,4 @@
-export interface OneTimeStructureData {
+export interface SingleDeliveryStructureData {
   budget: number;
   start_date: string;
   preferred_delivery_time: string | null;

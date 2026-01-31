@@ -13,11 +13,6 @@ class SubscriptionPlan(OrderBase):
         ('bi-annually', 'Bi-Annually'),
         ('annually', 'Annually'),
     )
-
-    start_date = models.DateField(
-        null=True, blank=True,
-        help_text="The date of the first delivery."
-    )
     budget = models.DecimalField(
         max_digits=10, decimal_places=2, null=True, blank=True,
         help_text="The budget per bouquet for each delivery."

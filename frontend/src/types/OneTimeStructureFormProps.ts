@@ -1,7 +1,7 @@
-import type { OneTimeStructureData } from './OneTimeStructureData';
+import type { SingleDeliveryStructureData } from './SingleDeliveryStructureData';
 
-export interface OneTimeStructureFormProps {
-  formData: OneTimeStructureData;
-  onFormChange: (field: keyof OneTimeStructureData, value: number | string | null) => void;
+export interface SingleDeliveryStructureFormProps {
+  formData: SingleDeliveryStructureData;
+  onFormChange: (field: keyof SingleDeliveryStructureData, value: number | string | null) => void;
   title?: string;
 }

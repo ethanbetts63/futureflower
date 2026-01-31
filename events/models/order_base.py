@@ -47,6 +47,14 @@ class OrderBase(models.Model):
         null=True,
         help_text="Optional notes to provide more context about the order."
     )
+    start_date = models.DateField(
+        null=True, blank=True,
+        help_text="The date the plan's deliveries begin."
+    )
+    preferred_delivery_time = models.CharField(
+        max_length=50, blank=True, null=True,
+        help_text="Preferred time window for deliveries (e.g., 'morning', 'afternoon')."
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

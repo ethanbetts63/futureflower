@@ -8,7 +8,6 @@ export interface UpfrontPlan {
     user: number;
     status: string; // Changed from is_active: boolean;
     start_date?: string;
-    delivery_notes: string | null;
     budget: string;
     deliveries_per_year: number;
     years: number;

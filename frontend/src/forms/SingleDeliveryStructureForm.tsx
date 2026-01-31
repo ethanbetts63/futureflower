@@ -4,9 +4,9 @@ import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { Textarea } from '@/components/ui/textarea';
 
-import type { OneTimeStructureFormProps } from '../types/OneTimeStructureFormProps';
+import type { SingleDeliveryStructureFormProps } from '../types/SingleDeliveryStructureFormProps';
 
-const OneTimeStructureForm: React.FC<OneTimeStructureFormProps> = ({
+const SingleDeliveryStructureForm: React.FC<SingleDeliveryStructureFormProps> = ({
   formData,
   onFormChange,
   title = "One-Time Bouquet Details"
@@ -78,4 +78,4 @@ const OneTimeStructureForm: React.FC<OneTimeStructureFormProps> = ({
   );
 };
 
-export default OneTimeStructureForm;
+export default SingleDeliveryStructureForm;

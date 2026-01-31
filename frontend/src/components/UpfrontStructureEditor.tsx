@@ -39,8 +39,6 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
         deliveries_per_year: 1,
         years: 5,
         start_date: getMinDateString(),
-        preferred_delivery_time: null,
-        delivery_notes: null,
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -71,8 +69,6 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
                     deliveries_per_year: plan.deliveries_per_year || 1,
                     years: plan.years || 5,
                     start_date: plan.start_date || getMinDateString(),
-                    preferred_delivery_time: plan.preferred_delivery_time || '',
-                    delivery_notes: plan.delivery_notes || '',
                 });
             })
             .catch(error => {
@@ -129,8 +125,6 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
             const payload: PartialUpfrontPlan = {
                 ...formData,
                 budget: String(formData.budget),
-                preferred_delivery_time: formData.preferred_delivery_time,
-                delivery_notes: formData.delivery_notes,
             };
             if (mode === 'create' && amountOwing !== null) {
                 payload.total_amount = amountOwing;
