@@ -54,7 +54,7 @@ class UpfrontPlanSerializer(serializers.ModelSerializer):
         model = UpfrontPlan
         fields = [
             'id', 'user', 'status', 'start_date', 'budget', 'deliveries_per_year',
-            'years', 'notes', 'created_at', 'updated_at',
+            'years', 'delivery_notes', 'created_at', 'updated_at',
             'total_amount', 'currency',
             'recipient_first_name', 'recipient_last_name',
             'recipient_street_address', 'recipient_suburb', 'recipient_city',

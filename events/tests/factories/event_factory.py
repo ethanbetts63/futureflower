@@ -11,6 +11,6 @@ class EventFactory(DjangoModelFactory):
     name = Faker('sentence', nb_words=4)
     event_date = Faker('future_date')
     weeks_in_advance = Faker('random_int', min=1, max=12)
-    notes = Faker('paragraph')
+    delivery_notes = Faker('paragraph')
     user = SubFactory(UserFactory)
     is_active = Faker('boolean')

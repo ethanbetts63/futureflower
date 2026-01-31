@@ -5,7 +5,7 @@ export interface DeliveryEventCreationResponse {
     event: {
         name: string;
         event_date: string;
-        notes: string | null;
+        delinotes: string | null;
     };
     user: {
         email: string;

@@ -23,4 +23,4 @@ class UpfrontPlanFactory(DjangoModelFactory):
     recipient_state = Faker('state_abbr')
     recipient_postcode = Faker('postcode')
     recipient_country = Faker('country_code')
-    notes = Faker('paragraph')
+    delivery_notes = Faker('paragraph')

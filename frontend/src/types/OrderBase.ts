@@ -1,18 +1,10 @@
-import type { DeliveryEvent } from './DeliveryEvent';
+// frontend/src/types/OrderBase.ts
 
-/**
- * Defines the comprehensive structure for an UpfrontPlan.
- */
-export interface UpfrontPlan {
+export interface OrderBase {
     id: number;
     user: number;
-    status: string; // Changed from is_active: boolean;
+    status: string;
     start_date?: string;
-    delivery_notes: string | null;
-    budget: string;
-    deliveries_per_year: number;
-    years: number;
-    total_amount: number;
     currency: string;
     
     recipient_first_name: string | null;
@@ -24,9 +16,11 @@ export interface UpfrontPlan {
     recipient_postcode: string | null;
     recipient_country: string | null;
 
+    preferred_delivery_time: string | null;
+    delivery_notes: string | null;
+
     preferred_colors: number[];
     preferred_flower_types: number[];
     rejected_colors: number[];
     rejected_flower_types: number[];
-    events: DeliveryEvent[]; 
 }

@@ -42,7 +42,7 @@ class OrderBase(models.Model):
     recipient_postcode = models.CharField(max_length=20, blank=True, null=True, help_text="Recipient's postal code.")
     recipient_country = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's country.")
 
-    notes = models.TextField(
+    delivery_notes = models.TextField(
         blank=True,
         null=True,
         help_text="Optional notes to provide more context about the order."
