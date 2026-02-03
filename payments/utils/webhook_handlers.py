@@ -2,7 +2,7 @@
 from decimal import Decimal
 from django.conf import settings
 from payments.models import Payment
-from events.models import UpfrontPlan, SubscriptionPlan, Event
+from events.models import UpfrontPlan, SubscriptionPlan, Event, SingleDeliveryPlan
 from payments.utils.subscription_dates import get_next_delivery_date
 
 def handle_payment_intent_succeeded(payment_intent):
@@ -43,6 +43,18 @@ def handle_payment_intent_succeeded(payment_intent):
             plan_to_activate.save()
             print(f"UpfrontPlan (PK: {plan_to_activate.pk}) successfully activated.")
 
+        elif item_type == 'SINGLE_DELIVERY_PLAN_NEW':
+            plan_to_activate = SingleDeliveryPlan.objects.get(id=order.id)
+            plan_to_activate.status = 'active'
+            plan_to_activate.save()
+            # Create the single event for this delivery
+            Event.objects.create(
+                order=plan_to_activate.orderbase_ptr,
+                delivery_date=plan_to_activate.start_date, # using start_date as the delivery date
+                message=plan_to_activate.notes 
+            )
+            print(f"SingleDeliveryPlan (PK: {plan_to_activate.pk}) successfully activated and Event created.")
+
         else:
             # Note: This handler is now only for upfront payments. 
             # Subscription activation is handled by setup_intent.succeeded.
@@ -50,14 +62,10 @@ def handle_payment_intent_succeeded(payment_intent):
 
     except Payment.DoesNotExist:
         print(f"CRITICAL ERROR: Payment object not found for PI ID: {payment_intent_id}. The webhook may have arrived before the initial request completed.")
-    except UpfrontPlan.DoesNotExist:
-        print(f"CRITICAL ERROR: UpfrontPlan not found for Order ID: {payment.order.id} during webhook processing.")
+    except (UpfrontPlan.DoesNotExist, SingleDeliveryPlan.DoesNotExist):
+        print(f"CRITICAL ERROR: Plan not found for Order ID: {payment.order.id} during webhook processing.")
     except Exception as e:
         print(f"UNEXPECTED ERROR during payment_intent.succeeded processing. PI ID: {payment_intent_id}, Error: {e}")
-
-
-
-
 
 def handle_invoice_payment_succeeded(invoice):
     """
