@@ -83,6 +83,7 @@ export type { SingleDeliveryStructureData } from './SingleDeliveryStructureData'
 export type { SingleDeliveryStructureEditorProps } from './SingleDeliveryStructureEditorProps';
 export type { SingleDeliveryStructureFormProps } from './SingleDeliveryStructureFormProps';
 export type { SingleDeliveryPlan } from './SingleDeliveryPlan';
+export type { PartialSingleDeliveryPlan } from './PartialSingleDeliveryPlan';
 export type { SingleDeliveryOrder } from './SingleDeliveryOrder';
 export type { PartialSingleDeliveryOrder } from './PartialSingleDeliveryOrder';
 export type { CalculateSingleDeliveryPriceResponse } from './CalculateSingleDeliveryPriceResponse';

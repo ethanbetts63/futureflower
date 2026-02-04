@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/components/SingleDeliveryStructureEditor.tsx
+// frontend/src/components/SingleDeliveryStructureEditor.tsx
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -7,16 +7,14 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-// Assuming these API calls will be created later
-// import { getSingleDeliveryOrder, updateSingleDeliveryOrder, calculateSingleDeliveryPrice } from '@/api';
-import type { SingleDeliveryStructureData, SingleDeliveryStructureEditorProps, SingleDeliveryOrder, PartialSingleDeliveryOrder, CalculateSingleDeliveryPriceResponse } from '@/types'; // Import from '@/types'
+import { getSingleDeliveryPlan, updateSingleDeliveryPlan, calculateSingleDeliveryPrice } from '@/api';
+import type { SingleDeliveryPlan } from '../types/SingleDeliveryPlan';
+import type { PartialSingleDeliveryPlan } from '../types/PartialSingleDeliveryPlan';
 import SingleDeliveryStructureForm from '@/forms/SingleDeliveryStructureForm';
+import type { SingleDeliveryStructureData } from '../types/SingleDeliveryStructureData';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
-import PaymentInitiatorButton from './PaymentInitiatorButton';
-
-// --- Placeholder API Functions (will be replaced by actual implementations) ---
-
+import type { SingleDeliveryStructureEditorProps } from '../types/SingleDeliveryStructureEditorProps';
 
 const getMinDateString = () => {
     const minDate = new Date();
@@ -32,63 +30,48 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     onSaveNavigateTo,
     backPath,
 }) => {
-    const { planId } = useParams<{ planId: string }>(); // Using planId for consistency with other editors
+    const { planId } = useParams<{ planId: string }>();
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
 
-    // Core State
     const [formData, setFormData] = useState<SingleDeliveryStructureData>({
         budget: 75,
         start_date: getMinDateString(),
-        preferred_delivery_time: null,
-        delivery_notes: null,
+        notes: '',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     
-    // Price calculation state
     const [totalAmount, setTotalAmount] = useState<number | null>(null);
     const [isApiCalculating, setIsApiCalculating] = useState(false);
     const [isDebouncePending, setIsDebouncePending] = useState(true);
     const [calculationError, setCalculationError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            toast.error("You must be logged in to manage an order.");
+        if (!isAuthenticated || !planId) {
+            toast.error("Authentication or plan ID is missing.");
             navigate('/login');
-            return;
-        }
-        if (!planId) {
-            toast.error("No order specified.");
-            navigate('/dashboard'); // Or appropriate fallback
             return;
         }
 
         setIsLoading(true);
-        getSingleDeliveryOrder(planId)
-            .then((order: SingleDeliveryOrder) => {
+        getSingleDeliveryPlan(planId)
+            .then((plan: SingleDeliveryPlan) => {
                 setFormData({
-                    budget: Number(order.budget) || 75,
-                    start_date: order.start_date || getMinDateString(),
-                    preferred_delivery_time: order.preferred_delivery_time || null,
-                    delivery_notes: order.delivery_notes || null,
+                    budget: Number(plan.budget) || 75,
+                    start_date: plan.start_date || getMinDateString(),
+                    notes: plan.notes || '',
                 });
-                setTotalAmount(order.total_amount || null); // Load existing total amount
             })
             .catch(error => {
-                toast.error("Failed to load order details", { description: error.message });
+                toast.error("Failed to load plan details", { description: error.message });
                 navigate(backPath);
             })
             .finally(() => setIsLoading(false));
     }, [planId, isAuthenticated, navigate, backPath]);
 
-    const calculateAmount = useCallback(async (budget: number) => {
-        if (!planId) {
-             setIsApiCalculating(false);
-             setIsDebouncePending(false);
-             return;
-        }
-
+    const calculatePrice = useCallback(async (budget: number) => {
+        if (!planId) return;
         setIsDebouncePending(false);
         setIsApiCalculating(true);
         setCalculationError(null);
@@ -96,7 +79,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
 
         try {
             const data = await calculateSingleDeliveryPrice(planId, budget);
-            setTotalAmount(data.price_per_delivery);
+            setTotalAmount(data.total_amount);
         } catch (err: any) {
             setCalculationError(err.message);
             toast.error("Price Calculation Error", { description: err.message });
@@ -105,7 +88,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
         }
     }, [planId]);
 
-    const debouncedCalculate = useMemo(() => debounce(calculateAmount, 500), [calculateAmount]);
+    const debouncedCalculate = useMemo(() => debounce(calculatePrice, 500), [calculatePrice]);
 
     useEffect(() => {
         if (!isLoading) {
@@ -115,30 +98,31 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
         return () => debouncedCalculate.cancel?.();
     }, [formData.budget, isLoading, debouncedCalculate]);
 
-    const handleFormChange = (field: keyof SingleDeliveryStructureData, value: number | string | null) => {
+    const handleFormChange = (field: keyof SingleDeliveryStructureData, value: number | string) => {
         setFormData((prev: SingleDeliveryStructureData) => ({ ...prev, [field]: value }));
     };
 
     const handleSave = async () => {
         if (!planId || totalAmount === null) {
-            toast.error("Please wait for the total amount to be calculated.");
+            toast.error("Please wait for the price to be calculated.");
             return;
         }
 
         setIsSaving(true);
         try {
-            const payload: PartialSingleDeliveryOrder = {
+            const payload: PartialSingleDeliveryPlan = {
                 ...formData,
-                total_amount: totalAmount, // Save the calculated total amount
+                budget: String(formData.budget),
+                total_amount: totalAmount,
             };
-            await updateSingleDeliveryOrder(planId, payload);
+            await updateSingleDeliveryPlan(planId, payload);
             
             if (mode === 'edit') {
-                toast.success("Order details updated successfully!");
+                toast.success("Plan details updated successfully!");
             }
-            navigate(onSaveNavigateTo.replace('{planId}', planId)); // Replace {planId} with actual planId
+            navigate(onSaveNavigateTo.replace('{planId}', planId));
         } catch (err: any) {
-            toast.error("Failed to save order details.", { description: err.message });
+            toast.error("Failed to save plan details.", { description: err.message });
         } finally {
             setIsSaving(false);
         }
@@ -147,9 +131,6 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     if (isLoading) {
         return <div className="flex justify-center items-center h-screen"><Spinner className="h-12 w-12" /></div>;
     }
-    
-    const showPaymentButton = mode === 'create' || (mode === 'edit' && totalAmount !== null && totalAmount > 0);
-    const isActionDisabled = Boolean(isSaving || isApiCalculating || isDebouncePending || totalAmount === null || calculationError);
 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
@@ -164,6 +145,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                         <SingleDeliveryStructureForm
                             formData={formData}
                             onFormChange={handleFormChange}
+                            setIsDebouncePending={setIsDebouncePending}
                         />
                         <div className="mt-8 text-center h-12 flex flex-col items-center justify-center">
                             {(isApiCalculating || isDebouncePending) ? (
@@ -180,28 +162,10 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                     </CardContent>
                     <CardFooter className="flex justify-between">
                         <BackButton to={backPath.replace('{planId}', planId || '')} />
-                        {showPaymentButton ? (
-                            <PaymentInitiatorButton
-                                size="lg"
-                                itemType="ONE_TIME_DELIVERY_NEW"
-                                details={{
-                                    one_time_order_id: planId, // Use planId as one_time_order_id
-                                    budget: formData.budget,
-                                    start_date: formData.start_date,
-                                    preferred_delivery_time: formData.preferred_delivery_time,
-                                    delivery_notes: formData.delivery_notes,
-                                    total_amount: totalAmount,
-                                }}
-                                disabled={isActionDisabled}
-                            >
-                                {mode === 'create' ? 'Proceed to Payment' : 'Pay for Changes'}
-                            </PaymentInitiatorButton>
-                        ) : (
-                            <Button size="lg" onClick={handleSave} disabled={isActionDisabled}>
-                                {isSaving && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
-                                {isSaving ? 'Saving...' : saveButtonText}
-                            </Button>
-                        )}
+                        <Button size="lg" onClick={handleSave} disabled={isSaving || isApiCalculating || isDebouncePending || totalAmount === null}>
+                            {isSaving ? <Spinner className="mr-2 h-4 w-4 animate-spin" /> : null}
+                            {isSaving ? 'Saving...' : saveButtonText}
+                        </Button>
                     </CardFooter>
                 </Card>
             </div>

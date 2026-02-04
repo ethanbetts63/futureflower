@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import Seo from '../components/Seo';
-import { getOrCreatePendingUpfrontPlan, getOrCreatePendingSubscriptionPlan } from '@/api';
+import { getOrCreatePendingUpfrontPlan, getOrCreatePendingSubscriptionPlan, getOrCreatePendingSingleDeliveryPlan } from '@/api';
 import { toast } from 'sonner';
 
 const EventGate: React.FC = () => {
@@ -13,6 +13,7 @@ const EventGate: React.FC = () => {
     const hasInitiated = useRef(false);
 
     const isSubscriptionFlow = location.pathname.includes('subscription');
+    const isSingleDeliveryFlow = location.pathname.includes('single-delivery');
 
     useEffect(() => {
         if (isLoading || hasInitiated.current) {
@@ -26,6 +27,9 @@ const EventGate: React.FC = () => {
                     if (isSubscriptionFlow) {
                         const plan = await getOrCreatePendingSubscriptionPlan();
                         navigate(`/subscribe-flow/subscription-plan/${plan.id}/recipient`, { replace: true });
+                    } else if (isSingleDeliveryFlow) {
+                        const plan = await getOrCreatePendingSingleDeliveryPlan();
+                        navigate(`/single-delivery-flow/plan/${plan.id}/recipient`, { replace: true });
                     } else {
                         const plan = await getOrCreatePendingUpfrontPlan();
                         navigate(`/book-flow/upfront-plan/${plan.id}/recipient`, { replace: true });
@@ -39,10 +43,15 @@ const EventGate: React.FC = () => {
             };
             findOrCreatePlan();
         } else {
-            const nextUrl = isSubscriptionFlow ? '?next=/event-gate/subscription' : '';
+            let nextUrl = '';
+            if (isSubscriptionFlow) {
+                nextUrl = '?next=/event-gate/subscription';
+            } else if (isSingleDeliveryFlow) {
+                nextUrl = '?next=/event-gate/single-delivery';
+            }
             navigate(`/book-flow/create-account${nextUrl}`, { replace: true });
         }
-    }, [isAuthenticated, isLoading, navigate, isSubscriptionFlow]);
+    }, [isAuthenticated, isLoading, navigate, isSubscriptionFlow, isSingleDeliveryFlow]);
 
     // Render a loading indicator while we determine the auth state
     return (
