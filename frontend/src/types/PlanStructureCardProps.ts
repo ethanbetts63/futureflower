@@ -1,6 +1,6 @@
-import type { UpfrontPlan } from './UpfrontPlan';
+import type { Plan } from './Plan';
 
 export interface PlanStructureCardProps {
-    plan: UpfrontPlan;
+    plan: Plan;
     editUrl: string;
 }

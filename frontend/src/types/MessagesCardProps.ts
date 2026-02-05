@@ -1,7 +1,6 @@
-import type { UpfrontPlan } from './UpfrontPlan';
-import type { SubscriptionPlan } from './SubscriptionPlan';
+import type { Plan } from './Plan';
 
 export interface MessagesCardProps {
-    plan: UpfrontPlan | SubscriptionPlan;
+    plan: Plan;
     editUrl: string;
 }

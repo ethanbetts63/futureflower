@@ -6,6 +6,11 @@ import EditButton from '@/components/EditButton';
 import type { PlanStructureCardProps } from '../types/PlanStructureCardProps';
 
 const PlanStructureCard: React.FC<PlanStructureCardProps> = ({ plan, editUrl }) => {
+    // This component is only for Upfront and Subscription plans, which have this property.
+    if (!('deliveries_per_year' in plan)) {
+        return null;
+    }
+
     return (
         <Card className="bg-white shadow-md border-none text-black">
             <CardHeader className="flex flex-row justify-between items-center">
