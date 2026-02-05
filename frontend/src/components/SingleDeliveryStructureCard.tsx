@@ -30,12 +30,12 @@ const SingleDeliveryStructureCard: React.FC<SingleDeliveryStructureCardProps> = 
                         <p className="text-sm text-muted-foreground">Delivery Date</p>
                     </div>
                 </div>
-                {plan.notes && (
+                {plan.delivery_notes && (
                     <div className="flex items-start">
                         <MessageSquare className="h-6 w-6 mr-4 mt-1 text-green-500" />
                         <div>
                             <p className="font-bold text-lg">Message</p>
-                            <p className="text-sm text-muted-foreground italic">"{plan.notes}"</p>
+                            <p className="text-sm text-muted-foreground italic">"{plan.delivery_notes}"</p>
                         </div>
                     </div>
                 )}

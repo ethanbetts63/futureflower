@@ -55,8 +55,8 @@ const SingleDeliveryStructureForm: React.FC<SingleDeliveryStructureFormProps> = 
                 <Textarea
                     id="subscription-message"
                     placeholder="e.g., Happy Birthday! Hope you have a wonderful day."
-                    value={formData.notes}
-                    onChange={(e) => onFormChange('notes', e.target.value)}
+                    value={formData.delivery_notes}
+                    onChange={(e) => onFormChange('delivery_notes', e.target.value)}
                     rows={4}
                 />
                 <p className="text-sm text-muted-foreground">The message to be included with the delivery.</p>

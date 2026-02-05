@@ -37,7 +37,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     const [formData, setFormData] = useState<SingleDeliveryStructureData>({
         budget: 75,
         start_date: getMinDateString(),
-        notes: '',
+        delivery_notes: '',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -60,7 +60,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                 setFormData({
                     budget: Number(plan.budget) || 75,
                     start_date: plan.start_date || getMinDateString(),
-                    notes: plan.notes || '',
+                    delivery_notes: plan.delivery_notes || '',
                 });
             })
             .catch(error => {

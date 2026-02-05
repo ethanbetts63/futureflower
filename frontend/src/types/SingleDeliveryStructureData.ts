@@ -3,5 +3,5 @@
 export interface SingleDeliveryStructureData {
     budget: number;
     start_date: string;
-    notes: string;
+    delivery_notes: string;
 }
