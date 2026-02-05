@@ -4,14 +4,11 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getColors, getFlowerTypes } from '@/api';
 import type { Color } from '../types/Color';
 import type { FlowerType } from '../types/FlowerType';
-import type { UpfrontPlan } from '../types/UpfrontPlan';
-import type { SubscriptionPlan } from '../types/SubscriptionPlan';
+import type { Plan } from '../types/Plan'; // Import global Plan type
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { PlanDisplayProps } from '../types/PlanDisplayProps';
-
-type Plan = UpfrontPlan | SubscriptionPlan;
 
 const PlanDisplay: React.FC<PlanDisplayProps> = ({
     children,
