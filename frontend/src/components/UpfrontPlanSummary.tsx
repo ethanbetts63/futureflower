@@ -13,8 +13,8 @@ const UpfrontPlanSummary: React.FC<UpfrontPlanSummaryProps> = ({ plan, newPlanDe
     const totalAmount = newPlanDetails?.amount ?? plan.total_amount;
     const title = newPlanDetails ? "Confirm Your Changes" : "Your Flower Plan";
     const description = newPlanDetails 
-        ? "Review the changes and your one-time payment." 
-        : "Review your one-time payment details below.";
+        ? "Review the changes and your single-delivery payment." 
+        : "Review your single-delivery payment details below.";
 
   return (
     <Card className="bg-white shadow-md border-none text-black">

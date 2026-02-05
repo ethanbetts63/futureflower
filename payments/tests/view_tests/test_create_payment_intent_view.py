@@ -75,7 +75,7 @@ class TestCreatePaymentIntentView:
         }
         response = self.client.post('/api/payments/create-payment-intent/', data, format='json')
         assert response.status_code == 400
-        assert "No active, paid, one-time price could be found" in response.data['error']
+        assert "No active, paid, single-delivery price could be found" in response.data['error']
 
     def test_stripe_api_error(self, mocker):
         mocker.patch.object(stripe.PaymentIntent, 'create', side_effect=stripe.error.StripeError("Stripe Error"))

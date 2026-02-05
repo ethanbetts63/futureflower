@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                     "total_amount",
                     models.DecimalField(
                         decimal_places=2,
-                        help_text="The final total amount for this one-time delivery, including fees.",
+                        help_text="The final total amount for this single-delivery delivery, including fees.",
                         max_digits=10,
                     ),
                 ),

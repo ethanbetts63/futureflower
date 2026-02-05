@@ -47,7 +47,7 @@
     *   **Action (Backend - `handle_payment_intent_succeeded` in `webhook_handlers.py`):** Refactored to reliably `Payment.objects.get()` the existing Payment record and activate the associated `UpfrontPlan` using `payment.order`, resolving the pending status bug.
 
 **Resolution:**
-The system now correctly handles both Stripe subscription trial setups (using SetupIntents) and upfront one-time payments (using PaymentIntents) with a unified, intent-aware frontend checkout experience and robust backend webhook processing.
+The system now correctly handles both Stripe subscription trial setups (using SetupIntents) and upfront single-delivery payments (using PaymentIntents) with a unified, intent-aware frontend checkout experience and robust backend webhook processing.
 
 **Future Discussion:**
 Discussion initiated regarding a more structured modularization of backend webhook handlers and API views for improved maintainability. This architectural discussion will be the focus of the next session.

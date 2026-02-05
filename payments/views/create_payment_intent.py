@@ -14,7 +14,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 class CreatePaymentIntentView(APIView):
     """
     Creates a Stripe PaymentIntent for various transaction types.
-    This view acts as a centralized checkout service for one-time payments.
+    This view acts as a centralized checkout service for single-delivery payments.
     """
     permission_classes = [IsAuthenticated]
 

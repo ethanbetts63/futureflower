@@ -21,11 +21,11 @@ def test_price_creation():
 @pytest.mark.django_db
 def test_price_str_method_one_time():
     """
-    Tests the __str__ method of the Price model for a one-time price.
+    Tests the __str__ method of the Price model for a single-delivery price.
     """
     tier = TierFactory(name="Test Tier")
     price = PriceFactory(tier=tier, amount=decimal.Decimal('10.00'), type='one_time')
-    expected_str = f"Test Tier - ${price.amount} (One-Time)"
+    expected_str = f"Test Tier - ${price.amount} (Single-Delivery)"
     assert str(price) == expected_str
 
 @pytest.mark.django_db

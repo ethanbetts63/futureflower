@@ -1,6 +1,6 @@
 # Payments App
 
-The `payments` Django app handles all payment-related functionality for the ForeverFlower application, integrating with Stripe for secure one-time transactions to activate user events. This app is designed with a strong emphasis on decoupled state management and webhook-driven fulfillment to ensure reliability and security.
+The `payments` Django app handles all payment-related functionality for the ForeverFlower application, integrating with Stripe for secure single-delivery transactions to activate user events. This app is designed with a strong emphasis on decoupled state management and webhook-driven fulfillment to ensure reliability and security.
 
 ## Architecture and Core Concepts
 
@@ -12,7 +12,7 @@ Event activation is handled by a backend webhook, rather than directly by the us
 
 ## Key Features
 
-*   **Stripe Integration**: Seamlessly integrates with Stripe for processing one-time payments.
+*   **Stripe Integration**: Seamlessly integrates with Stripe for processing single-delivery payments.
 *   **Tier-Based Pricing**: Supports various pricing tiers, each linked to specific event functionalities and notification schedules.
 *   **Secure Payment Flow**: Utilizes Stripe PaymentIntents and webhooks for a secure and asynchronous payment processing flow.
 *   **Admin Notifications**: Sends automated email and SMS notifications to administrators upon successful payments.
@@ -21,7 +21,7 @@ Event activation is handled by a backend webhook, rather than directly by the us
 
 ### Models
 *   `payments/models/tier.py`: Defines the `Tier` model, representing different pricing levels (e.g., "Automated", "Full Escalation"). These tiers correspond to Stripe Product objects and include a `manifest` (JSONField) detailing notification channel schedules.
-*   `payments/models/price.py`: Defines the `Price` model, which specifies the cost for a `Tier`. It aligns with Stripe's Price object, supports one-time (and potentially recurring) payments, and stores Stripe Price IDs.
+*   `payments/models/price.py`: Defines the `Price` model, which specifies the cost for a `Tier`. It aligns with Stripe's Price object, supports single-delivery (and potentially recurring) payments, and stores Stripe Price IDs.
 *   `payments/models/payment.py`: Defines the `Payment` model, which records individual transactions. It tracks status (`pending`, `succeeded`, `failed`), amount, links to the `User` and `Event`, and stores the Stripe `PaymentIntent` ID.
 
 ### Views

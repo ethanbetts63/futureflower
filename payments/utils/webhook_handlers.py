@@ -7,7 +7,7 @@ from payments.utils.subscription_dates import get_next_delivery_date
 
 def handle_payment_intent_succeeded(payment_intent):
     """
-    Handles the payment_intent.succeeded event from Stripe for various one-time payments.
+    Handles the payment_intent.succeeded event from Stripe for various single-delivery payments.
     This is the fulfillment step of the checkout.
     """
     payment_intent_id = payment_intent['id']

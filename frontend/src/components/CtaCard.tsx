@@ -67,7 +67,7 @@ export const CtaCard: React.FC = () => {
       },
       onGetStarted: () => handleNavigation('/book-flow/flower-plan'),
     },
-    'one-time': {
+    'single-delivery': {
       content: {
         subtitle: 'One-time Bouquet Delivery',
         paragraph: 'Flowers, scheduled today, delivered on a future date you choose. No matter how distant.',
@@ -77,7 +77,7 @@ export const CtaCard: React.FC = () => {
           { heading: '100% refundable', subtext: 'Full refund available up to 7 days before delivery.' },
         ],
       },
-      onGetStarted: () => handleNavigation('/event-gate/one-time'),
+      onGetStarted: () => handleNavigation('/event-gate/single-delivery'),
     },
   };
 
@@ -92,7 +92,7 @@ export const CtaCard: React.FC = () => {
         <div className="flex justify-center bg-white p-1 rounded-md">
           <button onClick={() => setView('prepaid')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded ${view === 'prepaid' ? 'bg-primary text-primary-foreground' : 'text-black'}`}>Prepaid</button>
           <button onClick={() => setView('subscription')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded ${view === 'subscription' ? 'bg-primary text-primary-foreground' : 'text-black'}`}>Subscription</button>
-          <button onClick={() => setView('one-time')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded ${view === 'one-time' ? 'bg-primary text-primary-foreground' : 'text-black'}`}>One-Time</button>
+          <button onClick={() => setView('single-delivery')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded ${view === 'single-delivery' ? 'bg-primary text-primary-foreground' : 'text-black'}`}>Single-Delivery</button>
         </div>
       </CardHeader>
       <CardContent className="px-6 pb-2 text-black">

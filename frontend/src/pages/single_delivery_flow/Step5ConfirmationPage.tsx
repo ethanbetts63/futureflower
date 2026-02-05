@@ -77,7 +77,7 @@ const Step5ConfirmationPage = () => {
                       </CardHeader>
                       <CardContent>
                         <div className="flex justify-between items-center text-2xl font-bold">
-                          <span>One-Time Payment</span>
+                          <span>Single-Delivery Payment</span>
                           <span>${Number(plan.total_amount).toFixed(2)}</span>
                         </div>
                         <p className="text-sm text-muted-foreground mt-2">This is the total amount you will be charged to confirm your order.</p>

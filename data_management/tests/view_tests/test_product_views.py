@@ -10,12 +10,12 @@ from decimal import Decimal
 def test_single_event_price_success():
     """
     Tests that the view returns the correct price data when an active,
-    one-time price exists.
+    single-delivery price exists.
     """
     cache.clear()
     client = APIClient()
 
-    # Create the active one-time price
+    # Create the active single-delivery price
     active_price = PriceFactory(is_active=True, type='one_time')
     # Create other inactive or different type prices that should be ignored
     PriceFactory(is_active=False, type='one_time')
@@ -39,7 +39,7 @@ def test_single_event_price_success():
 def test_single_event_price_not_found():
     """
     Tests that the view returns a 500 Internal Server Error when no active,
-    one-time price is configured.
+    single-delivery price is configured.
     """
     cache.clear()
     client = APIClient()

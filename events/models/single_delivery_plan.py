@@ -4,7 +4,7 @@ from .order_base import OrderBase
 
 class SingleDeliveryPlan(OrderBase):
     """
-    An order for a single flower delivery with a one-time payment.
+    An order for a single flower delivery with a single-delivery payment.
     """
     budget = models.DecimalField(
         max_digits=10, decimal_places=2,
@@ -12,12 +12,12 @@ class SingleDeliveryPlan(OrderBase):
     )
     total_amount = models.DecimalField(
         max_digits=10, decimal_places=2,
-        help_text="The final total amount for this one-time delivery, including fees."
+        help_text="The final total amount for this single-delivery delivery, including fees."
     )
 
     def __str__(self):
-        return f"One-Time Plan {self.id} for {self.user.username}"
+        return f"Single-Delivery Plan {self.id} for {self.user.username}"
 
     class Meta:
-        verbose_name = "One-Time Plan"
-        verbose_name_plural = "One-Time Plans"
+        verbose_name = "Single-Delivery Plan"
+        verbose_name_plural = "Single-Delivery Plans"

@@ -14,7 +14,7 @@ The main accomplishments include:
 4.  **Simplified Messaging**: Based on user feedback, the plan was revised to remove the separate messaging step for subscriptions. Instead, a single message field was integrated directly into the new `SubscriptionStructureEditor` component.
 
 5.  **Stripe Subscription Integration**:
-    *   A new `CreateSubscriptionView` was created on the backend to handle the creation of Stripe Subscription objects, which differ from one-time PaymentIntents.
+    *   A new `CreateSubscriptionView` was created on the backend to handle the creation of Stripe Subscription objects, which differ from single-delivery PaymentIntents.
     *   The Stripe webhook (`StripeWebhookView`) was significantly refactored. It now delegates event handling to specific functions (`handle_payment_intent_succeeded`, `handle_invoice_payment_succeeded`), allowing it to process events for both upfront and recurring payments in a scalable way.
 
 6.  **Confirmation and Payment Pages**: A new confirmation page and a new payment page were created specifically for the subscription flow, utilizing the newly refactored generic components (`PlanDisplay`, `PaymentProcessor`).

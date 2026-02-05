@@ -73,7 +73,7 @@ const Step6BookingConfirmationPage = () => {
                     </CardHeader>
                     <CardContent>
                       <div className="flex justify-between items-center text-2xl font-bold">
-                        <span>One-Time Upfront Payment</span>
+                        <span>Single-Delivery Upfront Payment</span>
                         <span>${Number(plan.total_amount).toFixed(2)}</span>
                       </div>
                       <p className="text-sm text-muted-foreground mt-2">This is the total amount you will be charged today to activate your plan.</p>
