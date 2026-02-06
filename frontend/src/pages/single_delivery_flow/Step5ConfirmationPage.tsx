@@ -1,5 +1,6 @@
 // frontend/src/pages/single_delivery_flow/Step5ConfirmationPage.tsx
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { CheckCircle, ArrowRight, Tag } from 'lucide-react';
 import Seo from '@/components/Seo';
@@ -8,7 +9,6 @@ import PreferencesCard from '@/components/PreferencesCard';
 import RecipientCard from '@/components/RecipientCard';
 import PlanDisplay from '@/components/PlanDisplay';
 import SingleDeliveryStructureCard from '@/components/SingleDeliveryStructureCard';
-import { Button } from '@/components/ui/button';
 
 import { getSingleDeliveryPlan, updateSingleDeliveryPlan } from '@/api';
 import type { Plan, Color, FlowerType } from '@/types';
@@ -21,13 +21,6 @@ import PaymentInitiatorButton from '@/components/PaymentInitiatorButton';
 const Step5ConfirmationPage = () => {
   const { planId } = useParams<{ planId: string }>();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Placeholder for payment button action
-  const handleProceed = () => {
-    // In a real scenario, this would navigate to the payment page.
-    // For now, it can navigate to the dashboard or a placeholder page.
-    navigate('/dashboard'); 
-  };
 
   return (
     <>

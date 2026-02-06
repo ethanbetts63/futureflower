@@ -9,7 +9,7 @@ import { createSubscription } from '@/api/subscriptionPlans'; // Import createSu
 import type { CreatePaymentIntentPayload } from '@/types';
 
 interface PaymentInitiatorButtonProps extends ButtonProps {
-  itemType: 'UPFRONT_PLAN_MODIFY' | 'UPFRONT_PLAN_NEW' | 'SUBSCRIPTION_PLAN_NEW' | 'ONE_TIME_DELIVERY_NEW' | 'SINGLE_DELIVERY_PLAN_NEW';
+  itemType: 'UPFRONT_PLAN_MODIFY' | 'UPFRONT_PLAN_NEW' | 'SUBSCRIPTION_PLAN_NEW' | 'SINGLE_DELIVERY_PLAN_NEW';
   details: CreatePaymentIntentPayload['details'];
   onPaymentInitiate?: () => void;
   onPaymentSuccess?: (clientSecret: string) => void;
