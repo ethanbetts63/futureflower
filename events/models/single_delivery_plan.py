@@ -7,11 +7,11 @@ class SingleDeliveryPlan(OrderBase):
     An order for a single flower delivery with a single-delivery payment.
     """
     budget = models.DecimalField(
-        max_digits=10, decimal_places=2,
+        max_digits=10, decimal_places=2, null=True, blank=True,
         help_text="The budget for the single bouquet."
     )
     total_amount = models.DecimalField(
-        max_digits=10, decimal_places=2,
+        max_digits=10, decimal_places=2, null=True, blank=True,
         help_text="The final total amount for this single-delivery delivery, including fees."
     )
 

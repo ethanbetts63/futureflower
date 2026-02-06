@@ -25,7 +25,7 @@ const SubscriptionEditPreferencesPage = lazy(() => import('./pages/user_dashboar
 const SubscriptionEditStructurePage = lazy(() => import('./pages/user_dashboard/subscription_management/EditStructurePage'));
 
 const EventGate = lazy(() => import('@/components/EventGate'));
-const Step1CreateAccountPage = lazy(() => import('./pages/upfront_flow/Step1CreateAccountPage'));
+const Step1CreateAccountPage = lazy(() => import('./pages/Step1CreateAccountPage'));
 const Step2RecipientPage = lazy(() => import('./pages/upfront_flow/Step2RecipientPage'));
 const Step3PreferenceSelectionPage = lazy(() => import('./pages/upfront_flow/Step3PreferenceSelectionPage'));
 const Step4CustomMessagePage = lazy(() => import('./pages/upfront_flow/Step4CustomMessagePage'));
@@ -94,6 +94,7 @@ function App() {
                 {/* Event Creation Flow */}
                 <Route path="/event-gate" element={<EventGate />} />
                 <Route path="/event-gate/subscription" element={<EventGate />} />
+                <Route path="/event-gate/single-delivery" element={<EventGate />} />
                 <Route path="/book-flow/create-account" element={<Step1CreateAccountPage />} />
                 <Route path="/book-flow/upfront-plan/:planId/recipient" element={<Step2RecipientPage />} />
                 <Route path="/book-flow/upfront-plan/:planId/structure" element={<Step5StructurePage />} />

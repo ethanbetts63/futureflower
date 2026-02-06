@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { ProfileCreationForm } from '@/forms/ProfileCreationForm';
-import type { ProfileCreationData } from '../../types/ProfileCreationData';
+import type { ProfileCreationData } from '../types/ProfileCreationData';
 import { registerUser } from '@/api';
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
@@ -21,7 +21,7 @@ const CreateAccountPage: React.FC = () => {
         setIsSubmitting(true);
         try {
             const authResponse = await registerUser(data);
-            handleLoginSuccess(authResponse);
+            await handleLoginSuccess(authResponse);
             const nextUrl = searchParams.get('next') || '/event-gate';
             navigate(nextUrl); // Navigate to the event gate to start the plan creation flow
         } catch (error: any) {
