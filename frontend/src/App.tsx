@@ -37,6 +37,9 @@ const SubscriptionStep3PreferenceSelectionPage = lazy(() => import('./pages/subs
 const SubscriptionStep4StructurePage = lazy(() => import('./pages/subscription_flow/Step4StructurePage'));
 const SubscriptionStep5ConfirmationPage = lazy(() => import('./pages/subscription_flow/Step5ConfirmationPage'));
 
+const SingleDeliveryStep2RecipientPage = lazy(() => import('./pages/single_delivery_flow/Step2RecipientPage'));
+
+
 
 const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
 const PaymentStatusPage = lazy(() => import('./pages/PaymentStatusPage'));
@@ -107,6 +110,10 @@ function App() {
                 <Route path="/subscribe-flow/subscription-plan/:planId/preferences" element={<SubscriptionStep3PreferenceSelectionPage />} />
                 <Route path="/subscribe-flow/subscription-plan/:planId/structure" element={<SubscriptionStep4StructurePage />} />
                 <Route path="/subscribe-flow/subscription-plan/:planId/confirmation" element={<SubscriptionStep5ConfirmationPage />} />
+
+                {/* Single Delivery Plan Flow */}
+                <Route path="/single-delivery-flow/plan/:planId/recipient" element={<SingleDeliveryStep2RecipientPage />} />
+
 
 
                 {/* Unified Checkout and Status Pages */}
