@@ -15,9 +15,12 @@ import type { Plan, Color, FlowerType } from '@/types';
 import { isSingleDeliveryPlan } from '@/types/typeGuards';
 
 
+import PaymentInitiatorButton from '@/components/PaymentInitiatorButton';
+
+
 const Step5ConfirmationPage = () => {
   const { planId } = useParams<{ planId: string }>();
-  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Placeholder for payment button action
   const handleProceed = () => {
@@ -86,10 +89,16 @@ const Step5ConfirmationPage = () => {
 
                     <div className="flex justify-between items-center mt-8">
                       <BackButton to={`/single-delivery-flow/plan/${planId}/structure`} />
-                      {/* PaymentInitiatorButton is omitted as per instruction */}
-                      <Button onClick={handleProceed} size="lg">
-                          Confirm Order <ArrowRight className="ml-2 h-5 w-5" />
-                      </Button>
+                      <PaymentInitiatorButton
+                        itemType="SINGLE_DELIVERY_PLAN_NEW"
+                        details={{ single_delivery_plan_id: planId }}
+                        disabled={isSubmitting || !planId}
+                        onPaymentInitiate={() => setIsSubmitting(true)}
+                        onPaymentError={() => setIsSubmitting(false)}
+                        size="lg"
+                      >
+                        Proceed to Payment <ArrowRight className="ml-2 h-5 w-5" />
+                      </PaymentInitiatorButton>
                     </div>
                   </div>
                 </div>

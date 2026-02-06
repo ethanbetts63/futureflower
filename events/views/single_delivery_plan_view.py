@@ -45,7 +45,7 @@ class SingleDeliveryPlanViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(pending_plan)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post'], url_path='calculate-price')
     def calculate_price(self, request, pk=None):
         """
         Calculates the total price for a single delivery plan based on a budget.

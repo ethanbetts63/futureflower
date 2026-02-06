@@ -73,7 +73,7 @@ class CreatePaymentIntentView(APIView):
                 metadata.update({'plan_id': plan_id})
 
             elif item_type == 'SINGLE_DELIVERY_PLAN_NEW':
-                plan_id = details.get('plan_id')
+                plan_id = details.get('single_delivery_plan_id')
                 single_delivery_plan = SingleDeliveryPlan.objects.get(id=plan_id, user=request.user)
                 order_object = single_delivery_plan.orderbase_ptr
                 final_amount = single_delivery_plan.total_amount
