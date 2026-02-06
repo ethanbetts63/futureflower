@@ -21,7 +21,6 @@ class DeleteUserView(APIView):
             anonymize_user(user)
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
-            # Optionally, you could print the error for debugging purposes
             print(f"Error during account anonymization: {str(e)}")
             return Response(
                 {"detail": "An unexpected error occurred while deleting your account. Please contact support."},
