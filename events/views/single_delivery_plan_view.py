@@ -31,32 +31,19 @@ class SingleDeliveryPlanViewSet(viewsets.ModelViewSet):
     def get_or_create_pending(self, request):
         """
         Retrieves an existing pending_payment plan or creates a new one for the user.
+        This is designed to be robust against multiple pending plans existing for a user.
         """
-        print(f"--- [DEBUG] Hit get_or_create_pending for user: {request.user.email} ---")
-        try:
-            pending_plan, created = SingleDeliveryPlan.objects.get_or_create(
-                user=request.user, 
-                status='pending_payment',
-                defaults={}
-            )
-            print(f"--- [DEBUG] Successfully found or created plan. Created: {created} ---")
-            serializer = self.get_serializer(pending_plan)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except SingleDeliveryPlan.MultipleObjectsReturned:
-            print("--- [ERROR] CRITICAL: Multiple 'pending_payment' plans found for this user! ---")
-            print("--- [ERROR] This is causing the 500 Internal Server Error. ---")
-            # Optionally, you could add logic here to handle this case, 
-            # but for debugging, we just show the error.
-            return Response(
-                {"error": "Server configuration issue: Multiple pending plans exist."}, 
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
-        except Exception as e:
-            print(f"--- [ERROR] An unexpected error occurred: {str(e)} ---")
-            return Response(
-                {"error": "An unexpected server error occurred."}, 
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        # Fetch all pending plans for the user, most recent first.
+        pending_plans = SingleDeliveryPlan.objects.filter(user=request.user, status='pending_payment').order_by('-created_at')
+
+        if pending_plans.exists():
+            pending_plan = pending_plans.first()
+        else:
+            # Or create a new one if none exist.
+            pending_plan = SingleDeliveryPlan.objects.create(user=request.user, status='pending_payment')
+
+        serializer = self.get_serializer(pending_plan)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['post'])
     def calculate_price(self, request, pk=None):

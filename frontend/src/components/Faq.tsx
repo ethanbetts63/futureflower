@@ -91,7 +91,6 @@ export const Faq: React.FC<FaqProps> = ({ title, subtitle, page, imageSrc, image
   }
 
   if (error) {
-    // Optionally render an error state, or just return null to hide it
     return null; 
   }
 
