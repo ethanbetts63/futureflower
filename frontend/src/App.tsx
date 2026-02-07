@@ -13,7 +13,7 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const UserDashboardLayout = lazy(() => import('./pages/user_dashboard/UserDashboardLayout'));
 const UserDashboardPage = lazy(() => import('./pages/user_dashboard/UserDashboardPage'));
 const AccountManagementPage = lazy(() => import('./pages/user_dashboard/AccountManagementPage'));
-const UpfrontPlanListPage = lazy(() => import('./pages/user_dashboard/UpfrontPlanListPage'));
+const UpfrontPlanListPage = lazy(() => import('./pages/user_dashboard/PlanListPage'));
 const PlanOverviewPage = lazy(() => import('./pages/user_dashboard/upfront_management/PlanOverviewPage'));
 const EditRecipientPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditRecipientPage'));
 const EditStructurePage = lazy(() => import('./pages/user_dashboard/upfront_management/EditStructurePage'));
@@ -23,6 +23,7 @@ const SubscriptionPlanOverviewPage = lazy(() => import('./pages/user_dashboard/s
 const SubscriptionEditRecipientPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditRecipientPage'));
 const SubscriptionEditPreferencesPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditPreferencesPage'));
 const SubscriptionEditStructurePage = lazy(() => import('./pages/user_dashboard/subscription_management/EditStructurePage'));
+const SingleDeliveryPlanOverviewPage = lazy(() => import('./pages/user_dashboard/single_delivery_management/SingleDeliveryPlanOverviewPage'));
 
 const EventGate = lazy(() => import('@/components/EventGate'));
 const Step1CreateAccountPage = lazy(() => import('./pages/Step1CreateAccountPage'));
@@ -145,6 +146,7 @@ function App() {
                   <Route path="subscription-plans/:planId/edit-recipient" element={<SubscriptionEditRecipientPage />} />
                   <Route path="subscription-plans/:planId/edit-preferences" element={<SubscriptionEditPreferencesPage />} />
                   <Route path="subscription-plans/:planId/edit-structure" element={<SubscriptionEditStructurePage />} />
+                  <Route path="single-delivery-plans/:planId/overview" element={<SingleDeliveryPlanOverviewPage />} />
                 </Route>
 
               </Routes>

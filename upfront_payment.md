@@ -19,22 +19,22 @@ The user journey begins with account creation and proceeds through a multi-step 
 - **Navigation:** The `EventGate` receives the plan data from the backend and then navigates the user to the next step of the flow at `/book-flow/upfront-plan/${plan.id}/recipient`, ready for them to start filling out the details.
 
 ### Step 2: Recipient Details
-- **File:** `frontend/src/pages/flow/Step2RecipientPage.tsx`
+- **File:** `frontend/src/pages/upfront_flow/Step2RecipientPage.tsx`
 - **Action:** The user enters the recipient's name and address.
 - **API Call:** The `updateUpfrontPlan` function is called, sending a `PATCH` request to the backend to update the `UpfrontPlan` with the recipient's information.
 
 ### Step 3: Delivery Preferences
-- **File:** `frontend/src/pages/flow/Step3PreferenceSelectionPage.tsx`
+- **File:** `frontend/src/pages/upfront_flow/Step3PreferenceSelectionPage.tsx`
 - **Action:** The user can optionally select preferred and rejected colors and flower types.
 - **API Call:** `updateUpfrontPlan` is called to save these preferences to the `UpfrontPlan`.
 
 ### Step 4: Custom Messages
-- **File:** `frontend/src/pages/flow/Step4CustomMessagePage.tsx`
+- **File:** `frontend/src/pages/upfront_flow/Step4CustomMessagePage.tsx`
 - **Action:** The user can write a single message for all deliveries or a custom message for each one.
 - **API Call:** The `updateEvent` function is called for each delivery `Event` associated with the plan to save the messages. This implies the backend has already generated the individual `Event` instances based on a default or previously set plan structure.
 
 ### Step 5: Plan Structure
-- **File:** `frontend/src/pages/flow/Step5StructurePage.tsx`
+- **File:** `frontend/src/pages/upfront_flow/Step5StructurePage.tsx`
 - **Action:** The user defines the core structure of the plan:
     - Budget per delivery
     - Number of deliveries per year
@@ -43,7 +43,7 @@ The user journey begins with account creation and proceeds through a multi-step 
 - **API Call (Save Structure):** When the user proceeds, `updateUpfrontPlan` is called to save the selected structure and the calculated `total_amount` to the `UpfrontPlan`.
 
 ### Step 6: Confirmation
-- **File:** `frontend/src/pages/flow/Step6BookingConfirmationPage.tsx`
+- **File:** `frontend/src/pages/upfront_flow/Step6BookingConfirmationPage.tsx`
 - **Action:** The user reviews a complete summary of their plan, including structure, recipient, preferences, messages, and the final price.
 - **Navigation:** Upon confirmation, the user is taken to the payment page.
 
@@ -157,12 +157,12 @@ The project separates the user journey into two main directories: `flow` for the
     - **Editing:** `frontend/src/pages/user_dashboard/upfront_management/EditPreferencesPage.tsx`
 - **Messages:**
     - **Creation:** `flow/Step4CustomMessagePage.tsx`
-    - **Editing:** `frontend/src/pages/user_dashboard/upfront_management/EditMessagesPage.tsx`
+    - **Editing:** `frontend/src/pages/user_dashboard/EditMessagesPage.tsx`
 - **Plan Structure:**
     - **Creation:** `flow/Step5StructurePage.tsx`
-    - **Editing:** `frontend/src/pages/user_dashboard/upfront_management/EditStructurePage.tsx`
+    - **Editing:** `frontend/src/pages/user_dashboard/EditStructurePage.tsx`
 - **Payment:**
-    - **Creation:** `flow/Step7PaymentPage.tsx`
+    - **Creation:** `upfront_flow/Step7PaymentPage.tsx`
     - **Editing:** `frontend/src/pages/CheckoutPage.tsx` (Handles payment for modifications)
 - **Payment Status:**
     - **Universal:** `PaymentStatusPage.tsx` (handles status for both booking and management flows)

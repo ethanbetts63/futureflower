@@ -1,44 +1,38 @@
-// frontend/src/components/SingleDeliveryStructureCard.tsx
+// foreverflower/frontend/src/components/SingleDeliveryStructureCard.tsx
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, MessageSquare, DollarSign } from 'lucide-react';
-import EditButton from '@/components/EditButton';
+import { Link } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from '@/components/ui/button';
+import { FileText, Calendar, Edit, MessageSquare } from 'lucide-react';
 import type { SingleDeliveryStructureCardProps } from '../types/SingleDeliveryStructureCardProps';
-import { format, parseISO } from 'date-fns';
 
 const SingleDeliveryStructureCard: React.FC<SingleDeliveryStructureCardProps> = ({ plan, editUrl }) => {
-    const deliveryDate = plan.start_date ? format(parseISO(plan.start_date), 'do MMMM yyyy') : 'Not set';
-
     return (
         <Card className="bg-white shadow-md border-none text-black">
-            <CardHeader className="flex flex-row justify-between items-center">
-                <CardTitle>Delivery Details</CardTitle>
-                <EditButton to={editUrl} />
+            <CardHeader className="flex flex-row items-center justify-between">
+                <div className="flex items-center">
+                    <FileText className="mr-2 h-5 w-5" />
+                    <CardTitle>Delivery Details</CardTitle>
+                </div>
+                <Button asChild variant="outline" size="sm">
+                    <Link to={editUrl}><Edit className="mr-2 h-4 w-4" /> Edit</Link>
+                </Button>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="flex items-center">
-                    <DollarSign className="h-6 w-6 mr-4 text-green-500" />
-                    <div>
-                        <p className="font-bold text-lg">${Number(plan.budget).toFixed(2)}</p>
-                        <p className="text-sm text-muted-foreground">Bouquet Budget</p>
-                    </div>
-                </div>
-                <div className="flex items-center">
-                    <Calendar className="h-6 w-6 mr-4 text-green-500" />
-                    <div>
-                        <p className="font-bold text-lg">{deliveryDate}</p>
-                        <p className="text-sm text-muted-foreground">Delivery Date</p>
-                    </div>
-                </div>
-                {plan.delivery_notes && (
-                    <div className="flex items-start">
-                        <MessageSquare className="h-6 w-6 mr-4 mt-1 text-green-500" />
-                        <div>
-                            <p className="font-bold text-lg">Message</p>
-                            <p className="text-sm text-muted-foreground italic">"{plan.delivery_notes}"</p>
+                {plan.events.map(event => (
+                    <div key={event.id}>
+                        <div className="flex justify-between items-center">
+                            <span className="font-medium flex items-center"><Calendar className="mr-2 h-4 w-4 text-gray-500" /> Delivery Date</span>
+                            <span>{event.delivery_date}</span>
                         </div>
+                        {event.message && (
+                            <div className="mt-2">
+                                <span className="font-medium flex items-center"><MessageSquare className="mr-2 h-4 w-4 text-gray-500" /> Message</span>
+                                <p className="text-sm text-gray-700 p-3 bg-gray-50 rounded-md border">{event.message}</p>
+                            </div>
+                        )}
                     </div>
-                )}
+                ))}
             </CardContent>
         </Card>
     );

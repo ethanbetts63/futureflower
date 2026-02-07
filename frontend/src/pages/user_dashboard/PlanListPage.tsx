@@ -1,6 +1,7 @@
 import React from 'react';
 import UpfrontPlanTable from '@/components/UpfrontPlanTable';
 import SubscriptionPlanTable from '@/components/SubscriptionPlanTable';
+import SingleDeliveryPlanTable from '@/components/SingleDeliveryPlanTable';
 
 const UpfrontPlanListPage: React.FC = () => {
   return (
@@ -8,6 +9,7 @@ const UpfrontPlanListPage: React.FC = () => {
       <div className="container mx-auto px-4 max-w-4xl">
         <UpfrontPlanTable showTitle={true} />
         <SubscriptionPlanTable showTitle={true} />
+        <SingleDeliveryPlanTable showTitle={true} />
       </div>
     </div>
   );
