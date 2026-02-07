@@ -76,6 +76,7 @@ const CheckoutPage: React.FC = () => {
                                         planId={planId}
                                         source="checkout"
                                         intentType={intentType}
+                                        itemType={itemType}
                                     />
                                 </Elements>
                             </CardContent>

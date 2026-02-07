@@ -4,20 +4,25 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Spinner } from '@/components/ui/spinner';
 import { getSubscriptionPlan } from '@/api/subscriptionPlans';
 import { getUpfrontPlan } from '@/api/upfrontPlans';
-import type { SubscriptionPlan, UpfrontPlan } from '@/types';
+import { getSingleDeliveryPlan } from '@/api/singleDeliveryPlans';
+import type { SubscriptionPlan, UpfrontPlan, SingleDeliveryPlan } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import { Flower, Calendar, Repeat, DollarSign } from 'lucide-react';
 
 interface OrderSummaryCardProps {
     planId: string;
-    itemType: 'SUBSCRIPTION_PLAN_NEW' | 'UPFRONT_PLAN_NEW' | string;
+    itemType: 'SUBSCRIPTION_PLAN_NEW' | 'UPFRONT_PLAN_NEW' | 'SINGLE_DELIVERY_PLAN_NEW' | string;
 }
 
-type Plan = SubscriptionPlan | UpfrontPlan;
+type Plan = SubscriptionPlan | UpfrontPlan | SingleDeliveryPlan;
 
 const isSubscriptionPlan = (plan: Plan): plan is SubscriptionPlan => {
     return 'frequency' in plan;
 };
+
+const isSingleDeliveryPlan = (plan: Plan): plan is SingleDeliveryPlan => {
+    return 'total_amount' in plan && !('frequency' in plan || 'years' in plan);
+}
 
 const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType }) => {
     const [plan, setPlan] = useState<Plan | null>(null);
@@ -33,6 +38,8 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
                     fetchedPlan = await getSubscriptionPlan(planId);
                 } else if (itemType === 'UPFRONT_PLAN_NEW') {
                     fetchedPlan = await getUpfrontPlan(planId);
+                } else if (itemType === 'SINGLE_DELIVERY_PLAN_NEW') { // ADDED Logic for single delivery plan
+                    fetchedPlan = await getSingleDeliveryPlan(planId);
                 } else {
                     throw new Error(`Invalid itemType: ${itemType}`);
                 }
@@ -74,15 +81,16 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
     }
 
     const planIsSubscription = isSubscriptionPlan(plan);
+    const planIsSingleDelivery = isSingleDeliveryPlan(plan); // ADDED New check
     const totalPrice = planIsSubscription ? plan.price_per_delivery : plan.total_amount;
-    const planType = planIsSubscription ? 'Subscription' : 'Upfront Plan';
+    const planType = planIsSubscription ? 'Subscription' : (planIsSingleDelivery ? 'Single Delivery' : 'Upfront Plan');
     const capitalizedFrequency = planIsSubscription ? plan.frequency.charAt(0).toUpperCase() + plan.frequency.slice(1) : null;
 
     return (
         <Card className="bg-white text-black border-none shadow-md w-full">
             <CardHeader>
                 <CardTitle className="flex justify-between items-center">
-                    <span>{planIsSubscription ? 'Subscription Details' : 'Order Summary'}</span>
+                    <span>{planIsSubscription ? 'Subscription Details' : (planIsSingleDelivery ? 'Single Delivery Details' : 'Order Summary')}</span>
                     <Badge variant="secondary">{planType}</Badge>
                 </CardTitle>
                 <CardDescription>Review the details of your order before completing payment.</CardDescription>
@@ -99,7 +107,7 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
                         <span className="text-muted-foreground flex items-center"><Flower className="mr-2 h-4 w-4" />Flower Budget</span>
                         <span>${Number(plan.budget).toFixed(2)}</span>
                     </div>
-                    {!planIsSubscription && 'years' in plan && (
+                    {!planIsSingleDelivery && !planIsSubscription && 'years' in plan && (
                         <div className="flex items-center justify-between">
                             <span className="text-muted-foreground flex items-center"><Calendar className="mr-2 h-4 w-4" />Duration</span>
                             <span>{plan.years} {plan.years > 1 ? 'Years' : 'Year'}</span>

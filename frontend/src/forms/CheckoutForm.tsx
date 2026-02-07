@@ -5,7 +5,7 @@ import { Spinner } from '@/components/ui/spinner';
 
 import type { CheckoutFormProps } from '../types/CheckoutFormProps';
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ planId, source, intentType }) => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({ planId, source, intentType, itemType }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -42,6 +42,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planId, source, intentType 
             redirectUrl.searchParams.set('setup_intent_client_secret', setupIntent.client_secret as string);
             redirectUrl.searchParams.set('plan_id', planId);
             if (source) redirectUrl.searchParams.set('source', source);
+            redirectUrl.searchParams.set('itemType', itemType); // ADDED
             window.location.href = redirectUrl.toString();
         } else {
             setIsProcessing(false);
@@ -69,6 +70,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planId, source, intentType 
             redirectUrl.searchParams.set('payment_intent_client_secret', paymentIntent.client_secret as string);
             redirectUrl.searchParams.set('plan_id', planId);
             if (source) redirectUrl.searchParams.set('source', source);
+            redirectUrl.searchParams.set('itemType', itemType); // ADDED
             window.location.href = redirectUrl.toString();
         } else {
             setIsProcessing(false);

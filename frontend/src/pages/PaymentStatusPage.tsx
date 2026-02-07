@@ -29,12 +29,13 @@ const UniversalPaymentStatusPage: React.FC = () => {
 
         const planId = searchParams.get('plan_id');
         const source = searchParams.get('source');
+        const itemType = searchParams.get('itemType'); // ADDED
 
         if (planId) {
             let path = '/dashboard'; // Default
             if (source === 'checkout') { // Source is now just 'checkout'
                 // We could add more specific logic here if needed, but for now, back to the plan.
-                const planType = searchParams.get('itemType') === 'SUBSCRIPTION_PLAN_NEW' ? 'subscription-plan' : 'upfront-plan';
+                const planType = itemType === 'SUBSCRIPTION_PLAN_NEW' ? 'subscription-plan' : 'upfront-plan'; // Using itemType
                 path = `/subscribe-flow/${planType}/${planId}/payment`; // A guess, might need refinement
             }
             setTryAgainPath(path);
@@ -98,7 +99,17 @@ const UniversalPaymentStatusPage: React.FC = () => {
                         setMessage(`${successMessage} Redirecting to your plan overview...`);
                         
                         setTimeout(() => {
-                            const targetPath = (planId && planId !== "N/A") ? `/dashboard/plans/${planId}/overview` : '/dashboard';
+                            let targetPath = '/dashboard';
+                            if (planId && planId !== "N/A") {
+                                if (itemType === 'SINGLE_DELIVERY_PLAN_NEW') {
+                                    targetPath = `/dashboard/single-delivery-plans/${planId}/overview`;
+                                } else if (itemType === 'UPFRONT_PLAN_NEW' || itemType === 'UPFRONT_PLAN_MODIFY') {
+                                    targetPath = `/dashboard/plans/${planId}/overview`;
+                                } else {
+                                    // Default or fallback if itemType is not recognized, default to upfront overview
+                                    targetPath = `/dashboard/plans/${planId}/overview`;
+                                }
+                            }
                             navigate(targetPath);
                         }, 3000);
                         break;
