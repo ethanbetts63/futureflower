@@ -12,8 +12,8 @@ const Step5StructurePage: React.FC = () => {
             title="Define the Plan's Structure"
             description="Set the budget, frequency, and duration of your flower plan. The total cost will be calculated for you."
             saveButtonText="Next: Confirmation"
-            onSaveNavigateTo={`/book-flow/upfront-plan/${planId}/confirmation`}
-            backPath={`/book-flow/upfront-plan/${planId}/add-message`}
+            onSaveNavigateTo={`/upfront-flow/upfront-plan/${planId}/confirmation`}
+            backPath={`/upfront-flow/upfront-plan/${planId}/add-message`}
         />
     );
 };

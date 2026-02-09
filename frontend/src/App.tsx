@@ -102,12 +102,12 @@ function App() {
                 <Route path="/event-gate" element={<EventGate />} />
                 <Route path="/event-gate/subscription" element={<EventGate />} />
                 <Route path="/event-gate/single-delivery" element={<EventGate />} />
-                <Route path="/book-flow/create-account" element={<Step1CreateAccountPage />} />
-                <Route path="/book-flow/upfront-plan/:planId/recipient" element={<Step2RecipientPage />} />
-                <Route path="/book-flow/upfront-plan/:planId/structure" element={<Step5StructurePage />} />
-                <Route path="/book-flow/upfront-plan/:planId/preferences" element={<Step3PreferenceSelectionPage />} />
-                <Route path="/book-flow/upfront-plan/:planId/add-message" element={<Step4CustomMessagePage />} />
-                <Route path="/book-flow/upfront-plan/:planId/confirmation" element={<Step6BookingConfirmationPage />} />
+                <Route path="/upfront-flow/create-account" element={<Step1CreateAccountPage />} />
+                <Route path="/upfront-flow/upfront-plan/:planId/recipient" element={<Step2RecipientPage />} />
+                <Route path="/upfront-flow/upfront-plan/:planId/structure" element={<Step5StructurePage />} />
+                <Route path="/upfront-flow/upfront-plan/:planId/preferences" element={<Step3PreferenceSelectionPage />} />
+                <Route path="/upfront-flow/upfront-plan/:planId/add-message" element={<Step4CustomMessagePage />} />
+                <Route path="/upfront-flow/upfront-plan/:planId/confirmation" element={<Step6BookingConfirmationPage />} />
                 
                 {/* Subscription Plan Flow */}
                 <Route path="/subscribe-flow/subscription-plan/:planId/recipient" element={<SubscriptionStep2RecipientPage />} />

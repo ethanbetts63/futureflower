@@ -45,26 +45,26 @@ const Step6BookingConfirmationPage = () => {
                 <div className="space-y-6">
                   <PlanStructureCard
                     plan={plan}
-                    editUrl={`/book-flow/upfront-plan/${planId}/structure`}
+                    editUrl={`/upfront-flow/upfront-plan/${planId}/structure`}
                   />
 
                   <DeliveryDatesCard
                     plan={plan}
-                    editUrl={`/book-flow/upfront-plan/${planId}/structure`}
+                    editUrl={`/upfront-flow/upfront-plan/${planId}/structure`}
                   />
 
                   <PreferencesCard
                     plan={plan}
                     colorMap={colorMap}
                     flowerTypeMap={flowerTypeMap}
-                    editUrl={`/book-flow/upfront-plan/${planId}/preferences`}
+                    editUrl={`/upfront-flow/upfront-plan/${planId}/preferences`}
                     getPlan={getUpfrontPlan}
                     updatePlan={updateUpfrontPlan}
                   />
 
                   <MessagesCard
                     plan={plan}
-                    editUrl={`/book-flow/upfront-plan/${planId}/add-message`}
+                    editUrl={`/upfront-flow/upfront-plan/${planId}/add-message`}
                   />
 
                   <Card className="bg-white shadow-md border-none text-black">
@@ -81,7 +81,7 @@ const Step6BookingConfirmationPage = () => {
                   </Card>
 
                   <div className="flex justify-between items-center mt-8">
-                    <BackButton to={`/book-flow/upfront-plan/${planId}/structure`} />
+                    <BackButton to={`/upfront-flow/upfront-plan/${planId}/structure`} />
                     <PaymentInitiatorButton
                       itemType="UPFRONT_PLAN_NEW"
                       details={{ upfront_plan_id: planId }}

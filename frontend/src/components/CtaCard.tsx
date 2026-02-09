@@ -38,7 +38,7 @@ export const CtaCard: React.FC = () => {
     if (isAuthenticated) {
       navigate(path);
     } else {
-      navigate(`/book-flow/create-account?next=${path}`);
+      navigate(`/upfront-flow/create-account?next=${path}`);
     }
   };
 
@@ -65,7 +65,7 @@ export const CtaCard: React.FC = () => {
           { heading: 'The kind of gift people remember', subtext: 'Shows thoughtfulness far beyond the day it’s given.' },
         ],
       },
-      onGetStarted: () => handleNavigation('/book-flow/flower-plan'),
+      onGetStarted: () => handleNavigation('/event-gate'),
     },
     'single-delivery': {
       content: {

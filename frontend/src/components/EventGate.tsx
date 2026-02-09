@@ -32,7 +32,7 @@ const EventGate: React.FC = () => {
                         navigate(`/single-delivery-flow/plan/${plan.id}/recipient`, { replace: true });
                     } else {
                         const plan = await getOrCreatePendingUpfrontPlan();
-                        navigate(`/book-flow/upfront-plan/${plan.id}/recipient`, { replace: true });
+                        navigate(`/upfront-flow/upfront-plan/${plan.id}/recipient`, { replace: true });
                     }
                 } catch (error: any) {
                     toast.error("Could not prepare your plan", {
@@ -49,7 +49,7 @@ const EventGate: React.FC = () => {
             } else if (isSingleDeliveryFlow) {
                 nextUrl = '?next=/event-gate/single-delivery';
             }
-            navigate(`/book-flow/create-account${nextUrl}`, { replace: true });
+            navigate(`/upfront-flow/create-account${nextUrl}`, { replace: true });
         }
     }, [isAuthenticated, isLoading, navigate, isSubscriptionFlow, isSingleDeliveryFlow]);
 

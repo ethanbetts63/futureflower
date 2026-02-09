@@ -19,10 +19,10 @@ This session focused on a comprehensive refactoring of the flower plan creation 
         *   Created `events/views/get_or_create_inactive_plan_view.py` containing `GetOrCreateInactivePlanView`. This view finds the most recent inactive `FlowerPlan` for a user or creates a new one if none exists.
         *   Added a corresponding URL path `/api/events/flower-plans/get-or-create-pending/` in `events/urls.py`.
     *   **Frontend API Integration (`api.ts`)**: Added a new function `getOrCreateInactiveFlowerPlan` to call this new backend endpoint. The old `getLatestInactiveFlowerPlan` was removed.
-    *   **`EventGate.tsx` Refactor**: This component was refactored to be the primary entry point for plan creation. For authenticated users, it now calls `getOrCreateInactiveFlowerPlan` to obtain a `planId` and then navigates to the first step of the flow (`/book-flow/flower-plan/${plan.id}/recipient`).
+    *   **`EventGate.tsx` Refactor**: This component was refactored to be the primary entry point for plan creation. For authenticated users, it now calls `getOrCreateInactiveFlowerPlan` to obtain a `planId` and then navigates to the first step of the flow (`/upfront-flow/flower-plan/${plan.id}/recipient`).
     *   **`RecipientPage.tsx` Refactor**: This page was refactored to be entirely `planId`-driven. It now fetches existing plan data using `planId` (from `useParams`), populates its form, and uses `updateFlowerPlan` to save changes before navigating to the next step. All `localStorage` related logic was removed.
     *   **`StructurePage.tsx` Refactor**: Similar to `RecipientPage.tsx`, this component was also refactored to be `planId`-driven, fetching and saving data using the API, and removing `localStorage` dependencies.
-    *   **Route Updates in `App.tsx`**: Updated the routes for `/book-flow/flower-plan/recipient` and `/book-flow/flower-plan/structure` to include `:planId` parameters, correcting a typo in the 'structure' path from 'stucture' to 'structure'.
+    *   **Route Updates in `App.tsx`**: Updated the routes for `/upfront-flow/flower-plan/recipient` and `/upfront-flow/flower-plan/structure` to include `:planId` parameters, correcting a typo in the 'structure' path from 'stucture' to 'structure'.
 
 4.  **Navigation Alignment:**
     *   **`CreateAccountPage.tsx`**: The navigation after successful account creation was corrected to redirect to `/event-gate`, ensuring the user correctly enters the new plan creation flow.
