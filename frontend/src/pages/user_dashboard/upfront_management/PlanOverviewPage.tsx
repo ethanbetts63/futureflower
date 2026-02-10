@@ -12,7 +12,7 @@ import PaymentHistoryCard from '@/components/PaymentHistoryCard';
 import PlanActivationBanner from '@/components/PlanActivationBanner';
 import PlanDisplay from '@/components/PlanDisplay';
 import { getUpfrontPlan, updateUpfrontPlan } from '@/api/upfrontPlans';
-import type { Plan } from '../../../types/Plan';
+import type { UpfrontPlan } from '../../../types/UpfrontPlan';
 import type { Color } from '../../../types/Color';
 import type { FlowerType } from '../../../types/FlowerType';
 
@@ -25,7 +25,7 @@ const PlanOverviewPage = () => {
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto max-w-4xl">
           <PlanDisplay getPlan={getUpfrontPlan} fallbackNavigationPath="/dashboard/flower-plans">
-            {({ plan, colorMap, flowerTypeMap }: { plan: Plan; colorMap: Map<number, Color>; flowerTypeMap: Map<number, FlowerType> }) => (
+            {({ plan, colorMap, flowerTypeMap }: { plan: UpfrontPlan; colorMap: Map<number, Color>; flowerTypeMap: Map<number, FlowerType> }) => (
               <>
                 {plan.status !== 'active' && planId && <PlanActivationBanner planId={planId} />}
                 <div className="space-y-8 mt-4">

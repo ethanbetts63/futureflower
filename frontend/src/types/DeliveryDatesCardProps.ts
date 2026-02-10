@@ -1,6 +1,7 @@
-import type { Plan } from './Plan';
+import type { UpfrontPlan } from './UpfrontPlan';
+import type { SingleDeliveryPlan } from './SingleDeliveryPlan';
 
 export interface DeliveryDatesCardProps {
-    plan: Plan;
+    plan: UpfrontPlan | SingleDeliveryPlan;
     editUrl: string;
 }

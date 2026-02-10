@@ -81,8 +81,8 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
     }
 
     const planIsSubscription = isSubscriptionPlan(plan);
-    const planIsSingleDelivery = isSingleDeliveryPlan(plan); // ADDED New check
-    const totalPrice = planIsSubscription ? plan.price_per_delivery : plan.total_amount;
+    const planIsSingleDelivery = isSingleDeliveryPlan(plan);
+    const totalPrice = planIsSubscription ? plan.price_per_delivery : (plan as UpfrontPlan | SingleDeliveryPlan).total_amount;
     const planType = planIsSubscription ? 'Subscription' : (planIsSingleDelivery ? 'Single Delivery' : 'Upfront Plan');
     const capitalizedFrequency = planIsSubscription ? plan.frequency.charAt(0).toUpperCase() + plan.frequency.slice(1) : null;
 
@@ -107,10 +107,10 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
                         <span className="text-muted-foreground flex items-center"><Flower className="mr-2 h-4 w-4" />Flower Budget</span>
                         <span>${Number(plan.budget).toFixed(2)}</span>
                     </div>
-                    {!planIsSingleDelivery && !planIsSubscription && 'years' in plan && (
+                    {!planIsSingleDelivery && !planIsSubscription && (
                         <div className="flex items-center justify-between">
                             <span className="text-muted-foreground flex items-center"><Calendar className="mr-2 h-4 w-4" />Duration</span>
-                            <span>{plan.years} {plan.years > 1 ? 'Years' : 'Year'}</span>
+                            <span>{(plan as UpfrontPlan).years} {(plan as UpfrontPlan).years > 1 ? 'Years' : 'Year'}</span>
                         </div>
                     )}
                 </div>

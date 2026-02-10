@@ -1,24 +1,24 @@
 // foreverflower/frontend/src/components/PlanDisplay.tsx
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getColors, getFlowerTypes } from '@/api';
 import type { Color } from '../types/Color';
 import type { FlowerType } from '../types/FlowerType';
-import type { Plan } from '../types/Plan'; // Import global Plan type
+import type { Plan } from '../types/Plan';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { PlanDisplayProps } from '../types/PlanDisplayProps';
 
-const PlanDisplay: React.FC<PlanDisplayProps> = ({
+function PlanDisplay<T extends Plan = Plan>({
     children,
     fallbackNavigationPath = '/dashboard',
     getPlan,
-}) => {
+}: PlanDisplayProps<T>) {
     const { planId } = useParams<{ planId: string }>();
     const navigate = useNavigate();
 
-    const [plan, setPlan] = useState<Plan | null>(null);
+    const [plan, setPlan] = useState<T | null>(null);
     const [colors, setColors] = useState<Color[]>([]);
     const [flowerTypes, setFlowerTypes] = useState<FlowerType[]>([]);
     const [loading, setLoading] = useState(true);
