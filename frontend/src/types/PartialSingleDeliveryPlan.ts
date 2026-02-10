@@ -1,7 +1,7 @@
-import type { SingleDeliveryPlan } from './SingleDeliveryPlan';
+import type { PartialUpfrontPlan } from './UpfrontPlan';
 
 /**
  * Type alias for partial updates to a SingleDeliveryPlan.
  * Makes all properties of SingleDeliveryPlan optional.
  */
-export type PartialSingleDeliveryPlan = Partial<SingleDeliveryPlan>;
+export type PartialSingleDeliveryPlan = PartialUpfrontPlan;

@@ -1,7 +1,7 @@
 // frontend/src/pages/single_delivery_flow/Step2RecipientPage.tsx
 import React from 'react';
 import RecipientEditor from '@/components/RecipientEditor';
-import { getSingleDeliveryPlan, updateSingleDeliveryPlan } from '@/api';
+import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
 
 const Step2RecipientPage: React.FC = () => {
     return (
@@ -11,8 +11,8 @@ const Step2RecipientPage: React.FC = () => {
             saveButtonText="Next: Plan Preferences"
             onSaveNavigateTo="/single-delivery-flow/plan/{planId}/preferences"
             onCancelNavigateTo="/dashboard"
-            getPlan={getSingleDeliveryPlan}
-            updatePlan={updateSingleDeliveryPlan}
+            getPlan={getUpfrontPlanAsSingleDelivery}
+            updatePlan={updateUpfrontPlanAsSingleDelivery}
         />
     );
 };

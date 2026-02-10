@@ -7,19 +7,19 @@ import { Spinner } from '@/components/ui/spinner';
 import { showErrorToast } from '@/utils/utils';
 import { Button } from '@/components/ui/button';
 import { Eye } from 'lucide-react';
-import { getSingleDeliveryPlans } from '@/api';
-import { type SingleDeliveryPlan } from '../types/SingleDeliveryPlan';
+import { getSingleDeliveryTypeUpfrontPlans } from '@/api/singleDeliveryPlans';
+import { type UpfrontPlan } from '../types/UpfrontPlan';
 import type { UpfrontPlanTableProps } from '../types/UpfrontPlanTableProps';
 
 const SingleDeliveryPlanTable: React.FC<UpfrontPlanTableProps> = ({ showTitle = true }) => {
-  const [plans, setPlans] = useState<SingleDeliveryPlan[]>([]);
+  const [plans, setPlans] = useState<UpfrontPlan[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const data: SingleDeliveryPlan[] = await getSingleDeliveryPlans(); 
+        const data: UpfrontPlan[] = await getSingleDeliveryTypeUpfrontPlans(); 
         setPlans(data);
       } catch (err: any) {
         setError(err.message || 'An unexpected error occurred.');
@@ -81,7 +81,7 @@ const SingleDeliveryPlanTable: React.FC<UpfrontPlanTableProps> = ({ showTitle = 
               <TableCell className="text-right text-black text-base">{plan.events.length}</TableCell>
               <TableCell className="rounded-r-lg text-right text-base">
                 <Button asChild variant="default" size="sm">
-                  <Link to={`/dashboard/single-delivery-plans/${plan.id}/overview`}>
+                  <Link to={`/dashboard/upfront-plans/${plan.id}/overview`}>
                     <Eye className="mr-2 h-4 w-4" /> View
                   </Link>
                 </Button>

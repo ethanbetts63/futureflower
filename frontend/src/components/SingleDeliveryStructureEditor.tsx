@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getSingleDeliveryPlan, updateSingleDeliveryPlan, calculateSingleDeliveryPrice } from '@/api';
-import type { SingleDeliveryPlan } from '../types/SingleDeliveryPlan';
-import type { PartialSingleDeliveryPlan } from '../types/PartialSingleDeliveryPlan';
+import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery, calculateUpfrontPlanSingleDeliveryPrice } from '@/api/singleDeliveryPlans';
+import type { UpfrontPlan } from '../types/UpfrontPlan';
+import type { PartialUpfrontPlan } from '../types/PartialUpfrontPlan';
 import SingleDeliveryStructureForm from '@/forms/SingleDeliveryStructureForm';
 import type { SingleDeliveryStructureData } from '../types/SingleDeliveryStructureData';
 import BackButton from '@/components/BackButton';
@@ -55,8 +55,8 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
         }
 
         setIsLoading(true);
-        getSingleDeliveryPlan(planId)
-            .then((plan: SingleDeliveryPlan) => {
+        getUpfrontPlanAsSingleDelivery(planId)
+            .then((plan: UpfrontPlan) => {
                 setFormData({
                     budget: Number(plan.budget) || 75,
                     start_date: plan.start_date || getMinDateString(),
@@ -78,7 +78,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
         setTotalAmount(null);
 
         try {
-            const data = await calculateSingleDeliveryPrice(planId, budget);
+            const data = await calculateUpfrontPlanSingleDeliveryPrice(planId, budget);
             setTotalAmount(data.total_amount);
         } catch (err: any) {
             setCalculationError(err.message);
@@ -110,12 +110,12 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
 
         setIsSaving(true);
         try {
-            const payload: PartialSingleDeliveryPlan = {
+            const payload: PartialUpfrontPlan = {
                 ...formData,
                 budget: String(formData.budget),
                 total_amount: totalAmount,
             };
-            await updateSingleDeliveryPlan(planId, payload);
+            await updateUpfrontPlanAsSingleDelivery(planId, payload);
             
             if (mode === 'edit') {
                 toast.success("Plan details updated successfully!");

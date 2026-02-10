@@ -23,7 +23,6 @@ const SubscriptionPlanOverviewPage = lazy(() => import('./pages/user_dashboard/s
 const SubscriptionEditRecipientPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditRecipientPage'));
 const SubscriptionEditPreferencesPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditPreferencesPage'));
 const SubscriptionEditStructurePage = lazy(() => import('./pages/user_dashboard/subscription_management/EditStructurePage'));
-const SingleDeliveryPlanOverviewPage = lazy(() => import('./pages/user_dashboard/single_delivery_management/SingleDeliveryPlanOverviewPage'));
 
 const EventGate = lazy(() => import('@/components/EventGate'));
 const Step1CreateAccountPage = lazy(() => import('./pages/Step1CreateAccountPage'));
@@ -144,7 +143,6 @@ function App() {
                   <Route path="subscription-plans/:planId/edit-recipient" element={<SubscriptionEditRecipientPage />} />
                   <Route path="subscription-plans/:planId/edit-preferences" element={<SubscriptionEditPreferencesPage />} />
                   <Route path="subscription-plans/:planId/edit-structure" element={<SubscriptionEditStructurePage />} />
-                  <Route path="single-delivery-plans/:planId/overview" element={<SingleDeliveryPlanOverviewPage />} />
                 </Route>
 
               </Routes>

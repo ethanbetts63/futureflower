@@ -1,12 +1,4 @@
 // frontend/src/types/SingleDeliveryPlan.ts
-import type { OrderBase } from './OrderBase';
-import type { DeliveryEvent } from './DeliveryEvent';
+import type { UpfrontPlan } from './UpfrontPlan';
 
-/**
- * Defines the comprehensive structure for a SingleDeliveryPlan.
- */
-export interface SingleDeliveryPlan extends OrderBase {
-    budget: string; // Stored as DecimalField in Django, often handled as string in frontend
-    total_amount: number;
-    events: DeliveryEvent[]; 
-}
+export type SingleDeliveryPlan = UpfrontPlan;

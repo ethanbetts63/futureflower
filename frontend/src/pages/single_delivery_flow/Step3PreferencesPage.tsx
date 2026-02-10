@@ -2,7 +2,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import PreferencesEditor from '@/components/PreferencesEditor';
-import { getSingleDeliveryPlan, updateSingleDeliveryPlan } from '@/api';
+import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
 
 const Step3PreferencesPage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();
@@ -16,8 +16,8 @@ const Step3PreferencesPage: React.FC = () => {
             onSaveNavigateTo={`/single-delivery-flow/plan/${planId}/structure`}
             backPath={`/single-delivery-flow/plan/${planId}/recipient`}
             showSkipButton={true}
-            getPlan={getSingleDeliveryPlan}
-            updatePlan={updateSingleDeliveryPlan}
+            getPlan={getUpfrontPlanAsSingleDelivery}
+            updatePlan={updateUpfrontPlanAsSingleDelivery}
         />
     );
 };

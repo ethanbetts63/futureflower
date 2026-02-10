@@ -1,5 +1,5 @@
 // frontend/src/types/typeGuards.ts
-import type { Plan, UpfrontPlan, SubscriptionPlan, SingleDeliveryPlan } from './';
+import type { Plan, UpfrontPlan, SubscriptionPlan } from './';
 
 /**
  * Checks if the given plan is a SubscriptionPlan.
@@ -19,14 +19,4 @@ export const isSubscriptionPlan = (plan: Plan): plan is SubscriptionPlan => {
  */
 export const isUpfrontPlan = (plan: Plan): plan is UpfrontPlan => {
     return 'deliveries_per_year' in plan && !isSubscriptionPlan(plan);
-};
-
-/**
- * Checks if the given plan is a SingleDeliveryPlan.
- * This is determined by the absence of a multi-delivery structure (like deliveries_per_year).
- * @param plan The plan to check.
- * @returns True if the plan is a SingleDeliveryPlan.
- */
-export const isSingleDeliveryPlan = (plan: Plan): plan is SingleDeliveryPlan => {
-    return !('deliveries_per_year' in plan);
 };

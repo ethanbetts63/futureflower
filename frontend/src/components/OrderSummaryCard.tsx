@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Spinner } from '@/components/ui/spinner';
 import { getSubscriptionPlan } from '@/api/subscriptionPlans';
 import { getUpfrontPlan } from '@/api/upfrontPlans';
-import { getSingleDeliveryPlan } from '@/api/singleDeliveryPlans';
-import type { SubscriptionPlan, UpfrontPlan, SingleDeliveryPlan } from '@/types';
+import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans'; // Updated import
+import type { SubscriptionPlan, UpfrontPlan } from '@/types'; // Removed SingleDeliveryPlan
 import { Badge } from '@/components/ui/badge';
 import { Flower, Calendar, Repeat, DollarSign } from 'lucide-react';
 
@@ -14,15 +14,7 @@ interface OrderSummaryCardProps {
     itemType: 'SUBSCRIPTION_PLAN_NEW' | 'UPFRONT_PLAN_NEW' | 'SINGLE_DELIVERY_PLAN_NEW' | string;
 }
 
-type Plan = SubscriptionPlan | UpfrontPlan | SingleDeliveryPlan;
-
-const isSubscriptionPlan = (plan: Plan): plan is SubscriptionPlan => {
-    return 'frequency' in plan;
-};
-
-const isSingleDeliveryPlan = (plan: Plan): plan is SingleDeliveryPlan => {
-    return 'total_amount' in plan && !('frequency' in plan || 'years' in plan);
-}
+type Plan = SubscriptionPlan | UpfrontPlan; // Removed SingleDeliveryPlan from union
 
 const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType }) => {
     const [plan, setPlan] = useState<Plan | null>(null);
@@ -38,8 +30,8 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
                     fetchedPlan = await getSubscriptionPlan(planId);
                 } else if (itemType === 'UPFRONT_PLAN_NEW') {
                     fetchedPlan = await getUpfrontPlan(planId);
-                } else if (itemType === 'SINGLE_DELIVERY_PLAN_NEW') { // ADDED Logic for single delivery plan
-                    fetchedPlan = await getSingleDeliveryPlan(planId);
+                } else if (itemType === 'SINGLE_DELIVERY_PLAN_NEW') {
+                    fetchedPlan = await getUpfrontPlanAsSingleDelivery(planId); 
                 } else {
                     throw new Error(`Invalid itemType: ${itemType}`);
                 }
@@ -80,11 +72,15 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
         );
     }
 
-    const planIsSubscription = isSubscriptionPlan(plan);
-    const planIsSingleDelivery = isSingleDeliveryPlan(plan);
-    const totalPrice = planIsSubscription ? plan.price_per_delivery : (plan as UpfrontPlan | SingleDeliveryPlan).total_amount;
+    const planIsSubscription = (plan as UpfrontPlan | SubscriptionPlan).hasOwnProperty('frequency');
+    const planIsUpfront = (plan as UpfrontPlan | SubscriptionPlan).hasOwnProperty('years');
+    
+    // A single delivery plan is an upfront plan with 1 year and 1 delivery per year
+    const planIsSingleDelivery = planIsUpfront && (plan as UpfrontPlan).years === 1 && (plan as UpfrontPlan).deliveries_per_year === 1;
+
+    const totalPrice = planIsSubscription ? (plan as SubscriptionPlan).price_per_delivery : (plan as UpfrontPlan).total_amount;
     const planType = planIsSubscription ? 'Subscription' : (planIsSingleDelivery ? 'Single Delivery' : 'Upfront Plan');
-    const capitalizedFrequency = planIsSubscription ? plan.frequency.charAt(0).toUpperCase() + plan.frequency.slice(1) : null;
+    const capitalizedFrequency = planIsSubscription ? (plan as SubscriptionPlan).frequency.charAt(0).toUpperCase() + (plan as SubscriptionPlan).frequency.slice(1) : null;
 
     return (
         <Card className="bg-white text-black border-none shadow-md w-full">
