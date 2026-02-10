@@ -1,19 +1,21 @@
 // frontend/src/components/EventGate.tsx
 import React, { useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import Seo from '../components/Seo';
 import { getOrCreatePendingUpfrontPlan, getOrCreatePendingSubscriptionPlan, getOrCreatePendingSingleDeliveryPlan } from '@/api';
 import { toast } from 'sonner';
 
+type FlowType = 'subscription' | 'single-delivery' | undefined;
+
 const EventGate: React.FC = () => {
     const { isAuthenticated, isLoading } = useAuth();
     const navigate = useNavigate();
-    const location = useLocation();
+    const { flowType } = useParams<{ flowType?: string }>();
     const hasInitiated = useRef(false);
 
-    const isSubscriptionFlow = location.pathname.includes('subscription');
-    const isSingleDeliveryFlow = location.pathname.includes('single-delivery');
+    const isSubscriptionFlow = flowType === 'subscription';
+    const isSingleDeliveryFlow = flowType === 'single-delivery';
 
     useEffect(() => {
         if (isLoading || hasInitiated.current) {
@@ -43,15 +45,10 @@ const EventGate: React.FC = () => {
             };
             findOrCreatePlan();
         } else {
-            let nextUrl = '';
-            if (isSubscriptionFlow) {
-                nextUrl = '?next=/event-gate/subscription';
-            } else if (isSingleDeliveryFlow) {
-                nextUrl = '?next=/event-gate/single-delivery';
-            }
+            const nextUrl = flowType ? `?next=/event-gate/${flowType}` : '';
             navigate(`/upfront-flow/create-account${nextUrl}`, { replace: true });
         }
-    }, [isAuthenticated, isLoading, navigate, isSubscriptionFlow, isSingleDeliveryFlow]);
+    }, [isAuthenticated, isLoading, navigate, isSubscriptionFlow, isSingleDeliveryFlow, flowType]);
 
     // Render a loading indicator while we determine the auth state
     return (
@@ -59,7 +56,7 @@ const EventGate: React.FC = () => {
             <Seo
                 title="Create a New Plan | ForeverFlower"
                 description="Start here to create a new flower plan. We'll guide you through setting up your plan details and preferences."
-                canonicalPath={isSubscriptionFlow ? "/event-gate/subscription" : "/event-gate"}
+                canonicalPath={flowType ? `/event-gate/${flowType}` : "/event-gate"}
                 noindex={true}
             />
             <div className="text-center">

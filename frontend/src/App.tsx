@@ -99,9 +99,7 @@ function App() {
                 <Route path="/articles/best-flower-delivery-sydney" element={<BestFlowerDeliverySydney />} />
 
                 {/* Event Creation Flow */}
-                <Route path="/event-gate" element={<EventGate />} />
-                <Route path="/event-gate/subscription" element={<EventGate />} />
-                <Route path="/event-gate/single-delivery" element={<EventGate />} />
+                <Route path="/event-gate/:flowType?" element={<EventGate />} />
                 <Route path="/upfront-flow/create-account" element={<Step1CreateAccountPage />} />
                 <Route path="/upfront-flow/upfront-plan/:planId/recipient" element={<Step2RecipientPage />} />
                 <Route path="/upfront-flow/upfront-plan/:planId/structure" element={<Step5StructurePage />} />

@@ -17,6 +17,21 @@ def forever_flower_upfront_price(
     # Fee per delivery
     fee_per_delivery = calculate_service_fee(budget)
 
+    # Single delivery bypass: no annuity discount when years=1 and deliveries_per_year=1
+    if years == 1 and deliveries_per_year == 1:
+        upfront_price = budget + fee_per_delivery
+        breakdown = {
+            "flower_cost_year": budget,
+            "fee_year": fee_per_delivery,
+            "total_cost_year": upfront_price,
+            "fee_per_delivery": fee_per_delivery,
+            "total_service_fee": round(fee_per_delivery, 2),
+            "assumed_return": Decimal('0'),
+            "years": 1,
+            "upfront_savings_percentage": Decimal('0'),
+        }
+        return round(upfront_price, 2), breakdown
+
     # Annual costs
     flower_cost_year = budget * deliveries_per_year
     fee_year = fee_per_delivery * deliveries_per_year
@@ -34,7 +49,7 @@ def forever_flower_upfront_price(
     # For comparison, calculate the total nominal cost if paid via subscription
     price_per_delivery = budget + fee_per_delivery
     total_subscription_cost = price_per_delivery * deliveries_per_year * N
-    
+
     # Calculate the savings percentage
     if total_subscription_cost > 0:
         savings_percentage = (Decimal('1') - (upfront_price / total_subscription_cost)) * Decimal('100')
