@@ -285,7 +285,7 @@ const FloristsPage = () => {
                   <ul className="flex flex-col gap-2 text-gray-700">
                     <li className="flex items-start gap-2">
                       <span className="text-[var(--color2)] mt-1">&#10003;</span>
-                      A 15% referral commission on all purchases for the lifetime of the customer
+                      A 7.5% referral commission on all purchases
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-[var(--color2)] mt-1">&#10003;</span>
