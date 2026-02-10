@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import Seo from '../components/Seo';
 import { FaqV2 } from '../components/FaqV2';
 import { Timeline } from '../components/Timeline';
+import { SendBusinessYourWay } from '../components/SendBusinessYourWay';
 import type { FaqItem } from '@/types/FaqItem';
 import { Calendar, RefreshCw, CreditCard, Gift, Store, Link2, ChevronRight, ArrowDown } from 'lucide-react';
 
@@ -211,6 +212,7 @@ const FloristsPage = () => {
         </div>
       </section>
       <Timeline />
+      <SendBusinessYourWay />
 
       {/* So What's the Catch? */}
       <section className="bg-[var(--color4)] py-10 md:py-14">
@@ -220,7 +222,7 @@ const FloristsPage = () => {
               So what's the catch?
             </h2>
             <p className="text-lg text-gray-700 leading-relaxed mb-6">
-              The most honest answer is that <strong>we own the customer relationship</strong>. The customers learn to use our service, pay with our system, and give us their details.
+              The most honest answer is that <strong>we handle the customer</strong>. The customers learn to use our service, pay with our system, and give us their details.
             </p>
             <p className="text-lg text-gray-700 leading-relaxed mb-4">
               Here's our counter:
