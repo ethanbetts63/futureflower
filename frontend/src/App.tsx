@@ -133,12 +133,12 @@ function App() {
                 <Route path="/dashboard" element={<UserDashboardLayout />}>
                   <Route index element={<UserDashboardPage />} />
                   <Route path="account" element={<AccountManagementPage />} />
-                  <Route path="plans" element={<UpfrontPlanListPage />} />
-                  <Route path="plans/:planId/overview" element={<PlanOverviewPage />} />
-                  <Route path="plans/:planId/edit-recipient" element={<EditRecipientPage />} />
-                  <Route path="plans/:planId/edit-structure" element={<EditStructurePage />} />
-                  <Route path="plans/:planId/edit-preferences" element={<EditPreferencesPage />} />
-                  <Route path="plans/:planId/edit-messages" element={<EditMessagesPage />} />
+                  <Route path="upfront-plans" element={<UpfrontPlanListPage />} />
+                  <Route path="upfront-plans/:planId/overview" element={<PlanOverviewPage />} />
+                  <Route path="upfront-plans/:planId/edit-recipient" element={<EditRecipientPage />} />
+                  <Route path="upfront-plans/:planId/edit-structure" element={<EditStructurePage />} />
+                  <Route path="upfront-plans/:planId/edit-preferences" element={<EditPreferencesPage />} />
+                  <Route path="upfront-plans/:planId/edit-messages" element={<EditMessagesPage />} />
                   <Route path="subscription-plans/:planId/overview" element={<SubscriptionPlanOverviewPage />} />
                   <Route path="subscription-plans/:planId/edit-recipient" element={<SubscriptionEditRecipientPage />} />
                   <Route path="subscription-plans/:planId/edit-preferences" element={<SubscriptionEditPreferencesPage />} />
