@@ -1,17 +1,13 @@
-import type { UpfrontPlan } from './UpfrontPlan';
+import type { OrderBase } from './OrderBase';
 
 /**
  * Defines the comprehensive structure for a SubscriptionPlan.
  */
-export interface SubscriptionPlan extends UpfrontPlan {
-    delivery_frequency_unit: string;
-    delivery_frequency_value: number;
-    recurring_price: number;
-    stripe_customer_id: string | null;
-    stripe_subscription_id: string | null;
-    stripe_price_id: string | null; // Added stripe_price_id
+export interface SubscriptionPlan extends OrderBase {
+    budget: string;
     frequency: string;
     price_per_delivery: number;
+    stripe_subscription_id: string | null;
     subscription_message: string | null;
     next_payment_date: string | null;
     next_delivery_date: string | null;

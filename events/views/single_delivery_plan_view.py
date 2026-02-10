@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from decimal import Decimal, InvalidOperation
 from ..models import SingleDeliveryPlan
 from ..serializers.single_delivery_plan_serializer import SingleDeliveryPlanSerializer
+from events.utils.fee_calc import calculate_service_fee
 
 class SingleDeliveryPlanViewSet(viewsets.ModelViewSet):
     """
@@ -65,8 +66,7 @@ class SingleDeliveryPlanViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Fee is 5% of the budget, with a minimum of $15.
-        fee = max(budget * Decimal('0.05'), Decimal('15.00'))
+        fee = calculate_service_fee(budget)
         total_amount = budget + fee
 
         return Response({'total_amount': total_amount}, status=status.HTTP_200_OK)
@@ -86,7 +86,7 @@ class SingleDeliveryPlanViewSet(viewsets.ModelViewSet):
                 )
 
             # Recalculate on the server
-            fee = max(budget * Decimal('0.05'), Decimal('15.00'))
+            fee = calculate_service_fee(budget)
             server_calculated_total = budget + fee
 
             # Compare with a small tolerance

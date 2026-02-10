@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python manage.py makemigrations:*)",
+      "Bash(python:*)",
+      "Bash(npm run build:*)"
+    ]
+  }
+}

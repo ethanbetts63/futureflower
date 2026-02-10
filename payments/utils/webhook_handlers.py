@@ -20,11 +20,16 @@ def handle_payment_intent_succeeded(payment_intent):
         # Retrieve the payment object that was created in the create_payment_intent view
         payment = Payment.objects.get(stripe_payment_intent_id=payment_intent_id)
         
+        # Idempotency: if already processed, skip
+        if payment.status == 'succeeded':
+            print(f"Payment record (PK: {payment.pk}) already succeeded. Skipping duplicate webhook.")
+            return
+
         # Update payment status
         payment.status = 'succeeded'
         payment.save()
         print(f"Payment record (PK: {payment.pk}) status updated to 'succeeded'.")
-        
+
         # --- Fulfillment Logic ---
         # Use the 'order' relation from the payment object to find the correct plan
         order = payment.order
@@ -47,13 +52,16 @@ def handle_payment_intent_succeeded(payment_intent):
             plan_to_activate = SingleDeliveryPlan.objects.get(id=order.id)
             plan_to_activate.status = 'active'
             plan_to_activate.save()
-            # Create the single event for this delivery
-            Event.objects.create(
-                order=plan_to_activate.orderbase_ptr,
-                delivery_date=plan_to_activate.start_date, # using start_date as the delivery date
-                message=plan_to_activate.notes 
-            )
-            print(f"SingleDeliveryPlan (PK: {plan_to_activate.pk}) successfully activated and Event created.")
+            # Create the single event for this delivery (idempotent)
+            if not Event.objects.filter(order=plan_to_activate.orderbase_ptr, delivery_date=plan_to_activate.start_date).exists():
+                Event.objects.create(
+                    order=plan_to_activate.orderbase_ptr,
+                    delivery_date=plan_to_activate.start_date,
+                    message=plan_to_activate.notes
+                )
+                print(f"SingleDeliveryPlan (PK: {plan_to_activate.pk}) successfully activated and Event created.")
+            else:
+                print(f"SingleDeliveryPlan (PK: {plan_to_activate.pk}) Event already exists. Skipping duplicate.")
 
         else:
             # Note: This handler is now only for upfront payments. 
@@ -80,30 +88,42 @@ def handle_invoice_payment_succeeded(invoice):
         subscription_plan = SubscriptionPlan.objects.get(stripe_subscription_id=subscription_id)
         print(f"Found SubscriptionPlan (PK: {subscription_plan.pk}) for Stripe Subscription ID: {subscription_id}")
         
-        # Create a Payment record for this transaction
-        payment = Payment.objects.create(
-            user=subscription_plan.user,
-            order=subscription_plan.orderbase_ptr,
+        # Create a Payment record for this transaction (idempotent via unique stripe_payment_intent_id)
+        payment, created = Payment.objects.get_or_create(
             stripe_payment_intent_id=invoice.get('payment_intent'),
-            amount=invoice.get('amount_paid') / 100.0,
-            status='succeeded'
+            defaults={
+                'user': subscription_plan.user,
+                'order': subscription_plan.orderbase_ptr,
+                'amount': invoice.get('amount_paid') / 100.0,
+                'status': 'succeeded',
+            }
         )
-        print(f"Created Payment record (PK: {payment.pk}) for invoice.")
+        if created:
+            print(f"Created Payment record (PK: {payment.pk}) for invoice.")
+        else:
+            print(f"Payment record (PK: {payment.pk}) already exists for this invoice. Skipping duplicate.")
+
+        # Only create the Event if the Payment was newly created (idempotency)
+        if not created:
+            return
 
         # Determine the next delivery date using the drift-free calculation
         next_delivery_date = get_next_delivery_date(subscription_plan)
-        
+
         if next_delivery_date is None:
             print(f"WARNING: Could not determine next delivery date for SubscriptionPlan (PK: {subscription_plan.pk}). Skipping Event creation.")
-            return # Exit function if date cannot be determined
+            return
 
         # Create a new Event for the delivery that was just paid for
-        Event.objects.create(
-            order=subscription_plan.orderbase_ptr,
-            delivery_date=next_delivery_date,
-            message=subscription_plan.subscription_message
-        )
-        print(f"Created new Event for delivery on {next_delivery_date}.")
+        if not Event.objects.filter(order=subscription_plan.orderbase_ptr, delivery_date=next_delivery_date).exists():
+            Event.objects.create(
+                order=subscription_plan.orderbase_ptr,
+                delivery_date=next_delivery_date,
+                message=subscription_plan.subscription_message
+            )
+            print(f"Created new Event for delivery on {next_delivery_date}.")
+        else:
+            print(f"Event for delivery on {next_delivery_date} already exists. Skipping duplicate.")
 
     except SubscriptionPlan.DoesNotExist:
         print(f"CRITICAL ERROR: SubscriptionPlan not found for Stripe Subscription ID: {subscription_id}")
@@ -144,6 +164,9 @@ def handle_setup_intent_succeeded(setup_intent):
     
     try:
         plan_to_activate = SubscriptionPlan.objects.get(id=plan_id)
+        if plan_to_activate.status == 'active':
+            print(f"SubscriptionPlan (PK: {plan_to_activate.pk}) already active. Skipping duplicate webhook.")
+            return
         plan_to_activate.status = 'active'
         plan_to_activate.save()
         print(f"Successfully activated SubscriptionPlan (PK: {plan_to_activate.pk})")

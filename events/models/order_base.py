@@ -10,6 +10,8 @@ class OrderBase(models.Model):
         ('pending_payment', 'Pending Payment'),
         ('active', 'Active'),
         ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+        ('refunded', 'Refunded'),
     )
 
     user = models.ForeignKey(

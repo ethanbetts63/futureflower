@@ -8,7 +8,7 @@ import type { Plan, UpfrontPlan, SubscriptionPlan, SingleDeliveryPlan } from './
  * @returns True if the plan is a SubscriptionPlan.
  */
 export const isSubscriptionPlan = (plan: Plan): plan is SubscriptionPlan => {
-    return 'delivery_frequency_unit' in plan;
+    return 'frequency' in plan && 'price_per_delivery' in plan;
 };
 
 /**

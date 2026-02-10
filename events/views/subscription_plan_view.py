@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from events.models import SubscriptionPlan
 from events.serializers import SubscriptionPlanSerializer
+from events.utils.fee_calc import calculate_service_fee
 
 class SubscriptionPlanViewSet(viewsets.ModelViewSet):
     """
@@ -18,13 +19,9 @@ class SubscriptionPlanViewSet(viewsets.ModelViewSet):
         """
         Calculates the price per delivery for a subscription plan based on a given budget.
         """
-        # Fee is 5% or $15 minimum
-        commission_pct = Decimal('0.05')
-        min_fee = Decimal('15.00')
-        
-        fee = max(budget * commission_pct, min_fee)
+        fee = calculate_service_fee(budget)
         price_per_delivery = budget + fee
-        
+
         return price_per_delivery.quantize(Decimal('0.01'))
 
     def get_queryset(self):

@@ -1,12 +1,11 @@
 from decimal import Decimal
 from django.db import models
+from events.utils.fee_calc import calculate_service_fee
 
 def forever_flower_upfront_price(
     budget: Decimal,
     deliveries_per_year: int,
     years: int,
-    commission_pct: Decimal = Decimal('0.05'),
-    min_fee_per_delivery: Decimal = Decimal('15'),
     annual_real_return: Decimal = Decimal('0.04'),
 ) -> (Decimal, dict):
     """
@@ -16,10 +15,7 @@ def forever_flower_upfront_price(
     """
 
     # Fee per delivery
-    fee_per_delivery = max(
-        budget * commission_pct,
-        min_fee_per_delivery
-    )
+    fee_per_delivery = calculate_service_fee(budget)
 
     # Annual costs
     flower_cost_year = budget * deliveries_per_year
