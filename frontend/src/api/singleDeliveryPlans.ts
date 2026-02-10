@@ -37,7 +37,13 @@ export async function updateUpfrontPlanAsSingleDelivery(planId: string, planData
     return parseUpfrontPlan(data);
 }
 
-export async function calculateUpfrontPlanSingleDeliveryPrice(planId: string, budget: number): Promise<{ total_amount: number }> {
+interface CalculatedPriceResponse {
+  new_total_price: number;
+  total_paid: number;
+  amount_owing: number;
+}
+
+export async function calculateUpfrontPlanSingleDeliveryPrice(planId: string, budget: number): Promise<CalculatedPriceResponse> {
   const response = await authedFetch(`/api/events/upfront-plans/${planId}/calc-upfront-price/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

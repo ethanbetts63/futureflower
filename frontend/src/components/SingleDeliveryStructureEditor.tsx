@@ -71,20 +71,28 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     }, [planId, isAuthenticated, navigate, backPath]);
 
     const calculatePrice = useCallback(async (budget: number) => {
-        if (!planId) return;
+        if (!planId) {
+            console.log("calculatePrice: planId is missing.");
+            return;
+        }
         setIsDebouncePending(false);
         setIsApiCalculating(true);
         setCalculationError(null);
         setTotalAmount(null);
+        console.log(`calculatePrice: Starting calculation for budget: ${budget}`);
 
         try {
             const data = await calculateUpfrontPlanSingleDeliveryPrice(planId, budget);
-            setTotalAmount(data.total_amount);
+            console.log("calculatePrice: API returned data:", data);
+            setTotalAmount(data.new_total_price);
+            console.log("calculatePrice: totalAmount set to:", data.new_total_price);
         } catch (err: any) {
+            console.error("calculatePrice: API error:", err);
             setCalculationError(err.message);
             toast.error("Price Calculation Error", { description: err.message });
         } finally {
             setIsApiCalculating(false);
+            console.log("calculatePrice: Calculation finished.");
         }
     }, [planId]);
 
@@ -92,6 +100,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
 
     useEffect(() => {
         if (!isLoading) {
+            console.log(`useEffect: formData.budget changed to ${formData.budget}, debouncing calculation.`);
             setIsDebouncePending(true);
             debouncedCalculate(formData.budget);
         }
@@ -100,10 +109,13 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
 
     const handleFormChange = (field: keyof SingleDeliveryStructureData, value: number | string) => {
         setFormData((prev: SingleDeliveryStructureData) => ({ ...prev, [field]: value }));
+        console.log(`handleFormChange: field ${field} updated to ${value}`);
     };
 
     const handleSave = async () => {
-        if (!planId || totalAmount === null) {
+        console.log(`handleSave: called. planId: ${planId}, totalAmount: ${totalAmount}`);
+        if (!planId || typeof totalAmount !== 'number') {
+            console.warn("handleSave: Exiting early because planId is missing or totalAmount is not a number.");
             toast.error("Please wait for the price to be calculated.");
             return;
         }
@@ -113,6 +125,8 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
             const payload: PartialUpfrontPlan = {
                 ...formData,
                 budget: String(formData.budget),
+                deliveries_per_year: 1, // Explicitly set for single delivery plans
+                years: 1, // Explicitly set for single delivery plans
                 total_amount: totalAmount,
             };
             await updateUpfrontPlanAsSingleDelivery(planId, payload);
@@ -132,6 +146,8 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
         return <div className="flex justify-center items-center h-screen"><Spinner className="h-12 w-12" /></div>;
     }
 
+    console.log(`SingleDeliveryStructureEditor: Render. isSaving: ${isSaving}, isApiCalculating: ${isApiCalculating}, isDebouncePending: ${isDebouncePending}, totalAmount: ${totalAmount}, typeof totalAmount: ${typeof totalAmount}`);
+
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-2xl py-12">
@@ -150,7 +166,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                         <div className="mt-8 text-center h-12 flex flex-col items-center justify-center">
                             {(isApiCalculating || isDebouncePending) ? (
                                 <Spinner className="h-8 w-8" />
-                            ) : totalAmount !== null ? (
+                            ) : typeof totalAmount === 'number' ? (
                                 <>
                                     <div className="text-2xl font-bold">${totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                                     <p className="text-xs text-gray-600">Total Price (inc. fees)</p>
@@ -162,7 +178,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                     </CardContent>
                     <CardFooter className="flex justify-between">
                         <BackButton to={backPath.replace('{planId}', planId || '')} />
-                        <Button size="lg" onClick={handleSave} disabled={isSaving || isApiCalculating || isDebouncePending || totalAmount === null}>
+                        <Button size="lg" onClick={handleSave} disabled={isSaving || isApiCalculating || isDebouncePending || typeof totalAmount !== 'number'}>
                             {isSaving ? <Spinner className="mr-2 h-4 w-4 animate-spin" /> : null}
                             {isSaving ? 'Saving...' : saveButtonText}
                         </Button>
