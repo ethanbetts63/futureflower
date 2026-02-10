@@ -133,7 +133,7 @@ function App() {
                 <Route path="/dashboard" element={<UserDashboardLayout />}>
                   <Route index element={<UserDashboardPage />} />
                   <Route path="account" element={<AccountManagementPage />} />
-                  <Route path="upfront-plans" element={<UpfrontPlanListPage />} />
+                  <Route path="plans" element={<UpfrontPlanListPage />} />
                   <Route path="upfront-plans/:planId/overview" element={<PlanOverviewPage />} />
                   <Route path="upfront-plans/:planId/edit-recipient" element={<EditRecipientPage />} />
                   <Route path="upfront-plans/:planId/edit-structure" element={<EditStructurePage />} />
