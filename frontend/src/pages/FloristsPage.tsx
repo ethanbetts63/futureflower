@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import Seo from '../components/Seo';
 import { FaqV2 } from '../components/FaqV2';
+import { Timeline } from '../components/Timeline';
 import type { FaqItem } from '@/types/FaqItem';
 import { Calendar, RefreshCw, CreditCard, Gift, Store, Link2, ChevronRight, ArrowDown } from 'lucide-react';
 
@@ -209,7 +210,7 @@ const FloristsPage = () => {
           </div>
         </div>
       </section>
-      
+      <Timeline />
 
       {/* So What's the Catch? */}
       <section className="bg-[var(--color4)] py-10 md:py-14">
