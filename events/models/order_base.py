@@ -31,6 +31,27 @@ class OrderBase(models.Model):
         help_text="The three-letter ISO currency code."
     )
 
+    # --- Plan Details ---
+    FREQUENCY_CHOICES = (
+        ('weekly', 'Weekly'),
+        ('fortnightly', 'Fortnightly'),
+        ('monthly', 'Monthly'),
+        ('quarterly', 'Quarterly'),
+        ('bi-annually', 'Bi-Annually'),
+        ('annually', 'Annually'),
+    )
+
+    budget = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True,
+        help_text="The budget per bouquet."
+    )
+    frequency = models.CharField(
+        max_length=20,
+        choices=FREQUENCY_CHOICES,
+        null=True, blank=True,
+        help_text="How often deliveries are made."
+    )
+
     # --- Recipient Details ---
     recipient_first_name = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's first name.")
     hash_recipient_first_name = models.CharField(max_length=64, blank=True, null=True, editable=False)

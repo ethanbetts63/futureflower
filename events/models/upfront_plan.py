@@ -6,14 +6,6 @@ class UpfrontPlan(OrderBase):
     An order where the user pays for a multi-year plan upfront.
     """
     # --- Plan Details ---
-    budget = models.DecimalField(
-        max_digits=10, decimal_places=2, null=True, blank=True,
-        help_text="The budget per bouquet."
-    )
-    deliveries_per_year = models.PositiveIntegerField(
-        null=True, blank=True,
-        help_text="How many deliveries are scheduled per year."
-    )
     years = models.PositiveIntegerField(
         null=True, blank=True,
         help_text="The total number of years for the plan."
