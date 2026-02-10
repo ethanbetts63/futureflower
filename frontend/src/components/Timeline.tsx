@@ -1,7 +1,18 @@
 import React from 'react';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
-import { Check } from 'lucide-react'; 
+import { Check } from 'lucide-react';
+
+const compressedTimelineStyles = `
+@media only screen and (min-width: 1170px) {
+  .vertical-timeline--two-columns .vertical-timeline-element {
+    margin: -4em 0 !important;
+  }
+  .vertical-timeline--two-columns .vertical-timeline-element:first-child {
+    margin-top: 0 !important;
+  }
+}
+`;
 
 export const Timeline: React.FC = () => {
       const timelineData = [
@@ -14,7 +25,7 @@ export const Timeline: React.FC = () => {
         ],
       },
       {
-        title: "You're Notified (2 Weeks Before)",
+        title: "You're Notified (2 Weeks Before Delivery)",
         description: [
           'Full order details sent via text & email: budget, address, preferences',
           "Click acceptance link to confirm or deny the order (no penalty for denying)",
@@ -23,7 +34,7 @@ export const Timeline: React.FC = () => {
         ],
       },
       {
-        title: 'Last Chance to Accept',
+        title: '2nd Notice (1 Week Before Delivery)',
         description: [
           "Additional requests sent to ensure receipt of the acceptance link",
           'You have 48 hours to accept or decline',
@@ -43,6 +54,7 @@ export const Timeline: React.FC = () => {
   
     return (
       <section className="py-10 md:py-14 bg-[var(--color4)]">
+        <style>{compressedTimelineStyles}</style>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-black mb-6 text-center">
             How we work togethor: A Simple 4-Step Process
@@ -69,10 +81,6 @@ export const Timeline: React.FC = () => {
                 )}
               </VerticalTimelineElement>
             ))}
-            <VerticalTimelineElement
-              iconStyle={{ background: 'var(--color2)', color: '#fff' }}
-              icon={<Check />}
-            />
           </VerticalTimeline>
         </div>
       </section>  );
