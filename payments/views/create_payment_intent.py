@@ -51,18 +51,18 @@ class CreatePaymentIntentView(APIView):
                 
                 new_structure = {
                     'budget': Decimal(details['budget']),
-                    'deliveries_per_year': int(details['deliveries_per_year']),
+                    'frequency': details['frequency'],
                     'years': int(details['years'])
                 }
-                
+
                 server_side_costs = calculate_final_plan_cost(upfront_plan, new_structure)
                 final_amount = server_side_costs['amount_owing']
-                
+
                 metadata.update({
                     'plan_id': plan_id,
                     'new_budget': str(new_structure['budget']),
                     'new_years': new_structure['years'],
-                    'new_deliveries_per_year': new_structure['deliveries_per_year']
+                    'new_frequency': new_structure['frequency']
                 })
 
             elif item_type == 'UPFRONT_PLAN_NEW':

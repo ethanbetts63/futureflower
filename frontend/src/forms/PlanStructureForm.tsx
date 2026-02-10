@@ -2,6 +2,7 @@ import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 import type { PlanStructureFormProps } from '../types/PlanStructureFormProps';
 
@@ -12,7 +13,7 @@ const PlanStructureForm: React.FC<PlanStructureFormProps> = ({
   title = "Plan Structure"
 }) => {
 
-  const handleSliderChange = (field: 'budget' | 'deliveries_per_year' | 'years') => (value: number[]) => {
+  const handleSliderChange = (field: 'budget' | 'years') => (value: number[]) => {
     if (setIsDebouncePending) {
       setIsDebouncePending(true);
     }
@@ -41,17 +42,29 @@ const PlanStructureForm: React.FC<PlanStructureFormProps> = ({
           <p className="text-sm text-gray-500 mt-1">Adjust the budget for each individual bouquet (inc. delivery & tax).</p>
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="deliveries-slider" className="text-sm">Deliveries Per Year: {formData.deliveries_per_year}</Label>
-          <Slider
-            id="deliveries-slider"
-            aria-label="Deliveries Per Year"
-            min={1}
-            max={12}
-            step={1}
-            value={[formData.deliveries_per_year]}
-            onValueChange={handleSliderChange('deliveries_per_year')}
-          />
-          <p className="text-sm text-gray-500 mt-1">Adjust how many bouquets are delivered per year. Delivery dates will be evenly spaced from your first delivery date.</p>
+          <Label htmlFor="frequency-select" className="text-sm">Delivery Frequency</Label>
+          <Select
+            value={formData.frequency}
+            onValueChange={(value: string) => {
+              if (setIsDebouncePending) {
+                setIsDebouncePending(true);
+              }
+              onFormChange('frequency', value);
+            }}
+          >
+            <SelectTrigger id="frequency-select">
+              <SelectValue placeholder="Select frequency" />
+            </SelectTrigger>
+            <SelectContent className="bg-white">
+              <SelectItem value="weekly">Weekly</SelectItem>
+              <SelectItem value="fortnightly">Fortnightly (every 2 weeks)</SelectItem>
+              <SelectItem value="monthly">Monthly</SelectItem>
+              <SelectItem value="quarterly">Quarterly (every 3 months)</SelectItem>
+              <SelectItem value="bi-annually">Bi-Annually (every 6 months)</SelectItem>
+              <SelectItem value="annually">Annually</SelectItem>
+            </SelectContent>
+          </Select>
+          <p className="text-sm text-gray-500 mt-1">Choose how often bouquets are delivered.</p>
         </div>
         <div className="grid gap-2">
           <Label htmlFor="years-slider" className="text-sm">Years: {formData.years}</Label>

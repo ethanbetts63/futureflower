@@ -112,7 +112,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
             const payload: PartialUpfrontPlan = {
                 ...formData,
                 budget: String(formData.budget),
-                deliveries_per_year: 1, // Explicitly set for single delivery plans
+                frequency: 'annually', // Explicitly set for single delivery plans
                 years: 1, // Explicitly set for single delivery plans
                 total_amount: totalAmount,
             };

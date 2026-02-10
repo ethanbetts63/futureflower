@@ -3,17 +3,26 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import type { UpfrontPlanSummaryProps } from '../types/UpfrontPlanSummaryProps';
 
+const frequencyMap: { [key: string]: string } = {
+    'weekly': 'Weekly',
+    'fortnightly': 'Fortnightly',
+    'monthly': 'Monthly',
+    'quarterly': 'Quarterly',
+    'bi-annually': 'Bi-Annually',
+    'annually': 'Annually',
+};
+
 const UpfrontPlanSummary: React.FC<UpfrontPlanSummaryProps> = ({ plan, newPlanDetails }) => {
     const displayPlan = {
         years: newPlanDetails?.years ?? plan.years,
-        deliveries_per_year: newPlanDetails?.deliveries_per_year ?? plan.deliveries_per_year,
+        frequency: newPlanDetails?.frequency ?? plan.frequency,
         budget: newPlanDetails?.budget ?? plan.budget,
     };
-    
+
     const totalAmount = newPlanDetails?.amount ?? plan.total_amount;
     const title = newPlanDetails ? "Confirm Your Changes" : "Your Flower Plan";
-    const description = newPlanDetails 
-        ? "Review the changes and your single-delivery payment." 
+    const description = newPlanDetails
+        ? "Review the changes and your single-delivery payment."
         : "Review your single-delivery payment details below.";
 
   return (
@@ -31,10 +40,10 @@ const UpfrontPlanSummary: React.FC<UpfrontPlanSummaryProps> = ({ plan, newPlanDe
           </div>
         </div>
         <div className="flex justify-between">
-          <span>Deliveries per Year</span>
+          <span>Delivery Frequency</span>
            <div className='flex items-center'>
-            {newPlanDetails && newPlanDetails.deliveries_per_year !== plan.deliveries_per_year && <span className="text-gray-500 line-through mr-2">{plan.deliveries_per_year}</span>}
-            <span>{displayPlan.deliveries_per_year}</span>
+            {newPlanDetails && newPlanDetails.frequency !== plan.frequency && <span className="text-gray-500 line-through mr-2">{frequencyMap[plan.frequency] || plan.frequency}</span>}
+            <span>{frequencyMap[displayPlan.frequency] || displayPlan.frequency}</span>
           </div>
         </div>
         <div className="flex justify-between">

@@ -5,12 +5,16 @@ import { Milestone, Repeat, DollarSign } from 'lucide-react';
 import EditButton from '@/components/EditButton';
 import type { PlanStructureCardProps } from '../types/PlanStructureCardProps';
 
-const PlanStructureCard: React.FC<PlanStructureCardProps> = ({ plan, editUrl }) => {
-    // This component is only for Upfront and Subscription plans, which have this property.
-    if (!('deliveries_per_year' in plan)) {
-        return null;
-    }
+const frequencyMap: { [key: string]: string } = {
+    'weekly': 'Weekly',
+    'fortnightly': 'Fortnightly',
+    'monthly': 'Monthly',
+    'quarterly': 'Quarterly',
+    'bi-annually': 'Bi-Annually',
+    'annually': 'Annually',
+};
 
+const PlanStructureCard: React.FC<PlanStructureCardProps> = ({ plan, editUrl }) => {
     return (
         <Card className="bg-white shadow-md border-none text-black">
             <CardHeader className="flex flex-row justify-between items-center">
@@ -25,8 +29,8 @@ const PlanStructureCard: React.FC<PlanStructureCardProps> = ({ plan, editUrl }) 
                 </div>
                 <div className="flex flex-col items-center">
                     <Repeat className="h-8 w-8 mb-2 text-green-500" />
-                    <p className="font-bold text-2xl">{plan.deliveries_per_year}</p>
-                    <p className="text-black">Deliveries per Year</p>
+                    <p className="font-bold text-2xl">{frequencyMap[plan.frequency] || plan.frequency}</p>
+                    <p className="text-black">Delivery Frequency</p>
                 </div>
                 <div className="flex flex-col items-center">
                     <DollarSign className="h-8 w-8 mb-2 text-green-500" />

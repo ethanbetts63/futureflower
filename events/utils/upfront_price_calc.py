@@ -1,10 +1,10 @@
 from decimal import Decimal
 from django.db import models
-from events.utils.fee_calc import calculate_service_fee
+from events.utils.fee_calc import calculate_service_fee, frequency_to_deliveries_per_year
 
 def forever_flower_upfront_price(
     budget: Decimal,
-    deliveries_per_year: int,
+    frequency: str,
     years: int,
     annual_real_return: Decimal = Decimal('0.04'),
 ) -> (Decimal, dict):
@@ -14,10 +14,12 @@ def forever_flower_upfront_price(
         breakdown (dict)
     """
 
+    deliveries_per_year = frequency_to_deliveries_per_year(frequency)
+
     # Fee per delivery
     fee_per_delivery = calculate_service_fee(budget)
 
-    # Single delivery bypass: no annuity discount when years=1 and deliveries_per_year=1
+    # Single delivery bypass: no annuity discount when years=1 and frequency=annually
     if years == 1 and deliveries_per_year == 1:
         upfront_price = budget + fee_per_delivery
         breakdown = {
@@ -76,7 +78,7 @@ def calculate_final_plan_cost(upfront_plan, new_structure: dict):
     
     Args:
         upfront_plan: The UpfrontPlan instance (or None for a new plan).
-        new_structure (dict): A dictionary containing 'budget', 'deliveries_per_year', 'years'.
+        new_structure (dict): A dictionary containing 'budget', 'frequency', 'years'.
 
     Returns:
         dict: A dictionary containing 'new_total_price', 'total_paid', and 'amount_owing'.
@@ -90,7 +92,7 @@ def calculate_final_plan_cost(upfront_plan, new_structure: dict):
     # Calculate the new total price based on the proposed structure
     new_total_price, _ = forever_flower_upfront_price(
         budget=new_structure['budget'],
-        deliveries_per_year=new_structure['deliveries_per_year'],
+        frequency=new_structure['frequency'],
         years=new_structure['years']
     )
     

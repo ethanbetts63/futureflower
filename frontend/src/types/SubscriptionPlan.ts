@@ -4,8 +4,6 @@ import type { OrderBase } from './OrderBase';
  * Defines the comprehensive structure for a SubscriptionPlan.
  */
 export interface SubscriptionPlan extends OrderBase {
-    budget: string;
-    frequency: string;
     price_per_delivery: number;
     stripe_subscription_id: string | null;
     subscription_message: string | null;

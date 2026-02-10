@@ -1,5 +1,5 @@
 export type CalculatePlanPayload = {
   budget: number;
-  deliveries_per_year: number;
+  frequency: string;
   years: number;
 };

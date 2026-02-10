@@ -17,7 +17,7 @@ class UpfrontPlanSerializer(serializers.ModelSerializer):
         max_digits=10, decimal_places=2
     )
     years = serializers.IntegerField()
-    deliveries_per_year = serializers.IntegerField()
+    frequency = serializers.CharField(required=False)
 
     preferred_colors = serializers.PrimaryKeyRelatedField(
         queryset=Color.objects.all(), many=True, required=False
@@ -53,7 +53,7 @@ class UpfrontPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = UpfrontPlan
         fields = [
-            'id', 'user', 'status', 'start_date', 'budget', 'deliveries_per_year',
+            'id', 'user', 'status', 'start_date', 'budget', 'frequency',
             'years', 'delivery_notes', 'created_at', 'updated_at',
             'total_amount', 'currency',
             'recipient_first_name', 'recipient_last_name',

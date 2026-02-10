@@ -56,7 +56,7 @@ const UpfrontPlanTable: React.FC<UpfrontPlanTableProps> = ({ showTitle = true, i
             <TableHead className="text-black text-base">Status</TableHead>
             <TableHead className="text-black text-base">Recipient</TableHead>
             <TableHead className="text-right text-black text-base">Budget</TableHead>
-            <TableHead className="text-right text-black text-base">Deliveries/Year</TableHead>
+            <TableHead className="text-right text-black text-base">Frequency</TableHead>
             <TableHead className="text-right text-black text-base">Years</TableHead>
             <TableHead></TableHead>
           </TableRow>
@@ -80,7 +80,7 @@ const UpfrontPlanTable: React.FC<UpfrontPlanTableProps> = ({ showTitle = true, i
                 {`${plan.recipient_first_name || ''} ${plan.recipient_last_name || ''}`.trim() || 'N/A'}
               </TableCell>
               <TableCell className="text-right text-black text-base">${parseFloat(plan.budget).toFixed(2)}</TableCell>
-              <TableCell className="text-right text-black text-base">{plan.deliveries_per_year}</TableCell>
+              <TableCell className="text-right text-black text-base capitalize">{plan.frequency}</TableCell>
               <TableCell className="text-right text-black text-base">{plan.years}</TableCell>
               <TableCell className="rounded-r-lg text-right text-base">
                 <Button asChild variant="default" size="sm">

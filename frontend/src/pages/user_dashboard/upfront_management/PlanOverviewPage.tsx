@@ -46,7 +46,7 @@ const PlanOverviewPage = () => {
                       editUrl={`/dashboard/plans/${planId}/edit-recipient`}
                     />
 
-                    {(plan.deliveries_per_year !== 1 || plan.years !== 1) && (
+                    {!(plan.frequency === 'annually' && plan.years === 1) && (
                       <PlanStructureCard
                         plan={plan}
                         editUrl={`/dashboard/plans/${planId}/edit-structure`}

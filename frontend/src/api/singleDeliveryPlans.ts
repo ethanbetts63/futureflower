@@ -17,7 +17,7 @@ export async function getUpfrontPlanAsSingleDelivery(planId: string): Promise<Up
 }
 
 export async function getSingleDeliveryTypeUpfrontPlans(): Promise<UpfrontPlan[]> {
-    const response = await authedFetch('/api/events/upfront-plans/?years=1&deliveries_per_year=1');
+    const response = await authedFetch('/api/events/upfront-plans/?years=1&frequency=annually');
     const data = await handleResponse<any[]>(response);
     return data.map(parseUpfrontPlan);
 }
@@ -47,7 +47,7 @@ export async function calculateUpfrontPlanSingleDeliveryPrice(planId: string, bu
   const response = await authedFetch(`/api/events/upfront-plans/${planId}/calc-upfront-price/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ budget, deliveries_per_year: 1, years: 1 }),
+    body: JSON.stringify({ budget, frequency: 'annually', years: 1 }),
   });
   return handleResponse(response);
 }

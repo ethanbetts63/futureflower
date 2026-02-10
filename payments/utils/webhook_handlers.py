@@ -40,7 +40,7 @@ def handle_payment_intent_succeeded(payment_intent):
                 plan_to_update = UpfrontPlan.objects.get(id=order.id)
                 plan_to_update.budget = Decimal(metadata['new_budget'])
                 plan_to_update.years = int(metadata['new_years'])
-                plan_to_update.deliveries_per_year = int(metadata['new_deliveries_per_year'])
+                plan_to_update.frequency = metadata['new_frequency']
                 plan_to_update.save()
                 print(f"UpfrontPlan (PK: {plan_to_update.pk}) successfully modified.")
 
@@ -51,7 +51,7 @@ def handle_payment_intent_succeeded(payment_intent):
                 print(f"UpfrontPlan (PK: {plan_to_activate.pk}) successfully activated.")
                 
                 # If it's a single delivery plan, create the corresponding Event
-                if plan_to_activate.years == 1 and plan_to_activate.deliveries_per_year == 1:
+                if plan_to_activate.years == 1 and plan_to_activate.frequency == 'annually':
                     if not Event.objects.filter(order=plan_to_activate.orderbase_ptr, delivery_date=plan_to_activate.start_date).exists():
                         Event.objects.create(
                             order=plan_to_activate.orderbase_ptr,

@@ -36,7 +36,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
     // Core State
     const [formData, setFormData] = useState<PlanStructureData>({
         budget: 75,
-        deliveries_per_year: 1,
+        frequency: 'monthly',
         years: 5,
         start_date: getMinDateString(),
     });
@@ -66,7 +66,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
             .then((plan: UpfrontPlan) => {
                 setFormData({
                     budget: Number(plan.budget) || 75,
-                    deliveries_per_year: plan.deliveries_per_year || 1,
+                    frequency: plan.frequency || 'monthly',
                     years: plan.years || 5,
                     start_date: plan.start_date || getMinDateString(),
                 });
@@ -78,7 +78,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
             .finally(() => setIsLoading(false));
     }, [planId, isAuthenticated, navigate, backPath]);
 
-    const calculateAmountOwing = useCallback(async (budget: number, deliveries: number, years: number) => {
+    const calculateAmountOwing = useCallback(async (budget: number, frequency: string, years: number) => {
         if (!planId) {
              setIsApiCalculating(false);
              setIsDebouncePending(false);
@@ -91,7 +91,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
         setAmountOwing(null);
 
         try {
-            const data = await calculateUpfrontPriceForPlan(planId, { budget, deliveries_per_year: deliveries, years });
+            const data = await calculateUpfrontPriceForPlan(planId, { budget, frequency, years });
             setAmountOwing(data.amount_owing);
         } catch (err: any) {
             setCalculationError(err.message);
@@ -106,10 +106,10 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
     useEffect(() => {
         if (!isLoading) {
             setIsDebouncePending(true);
-            debouncedCalculate(formData.budget, formData.deliveries_per_year, formData.years);
+            debouncedCalculate(formData.budget, formData.frequency, formData.years);
         }
         return () => debouncedCalculate.cancel?.();
-    }, [formData.budget, formData.deliveries_per_year, formData.years, isLoading, debouncedCalculate]);
+    }, [formData.budget, formData.frequency, formData.years, isLoading, debouncedCalculate]);
 
     const handleFormChange = (field: keyof PlanStructureData, value: number | string) => {
         setFormData((prev: PlanStructureData) => ({ ...prev, [field]: value }));
@@ -188,7 +188,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
                                     upfront_plan_id: planId,
                                     budget: formData.budget,
                                     years: formData.years,
-                                    deliveries_per_year: formData.deliveries_per_year,
+                                    frequency: formData.frequency,
                                 }}
                                 disabled={isActionDisabled}
                             >

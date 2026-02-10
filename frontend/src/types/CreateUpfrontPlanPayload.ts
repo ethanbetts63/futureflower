@@ -4,7 +4,7 @@
  */
 export interface CreateUpfrontPlanPayload {
     budget: number;
-    deliveries_per_year: number;
+    frequency: string;
     years: number;
     recipient_first_name?: string;
     recipient_last_name?: string;

@@ -21,12 +21,12 @@ class GetOrCreateInactivePlanView(APIView):
         # Adjust query and creation parameters based on the mode
         if is_single_delivery_mode:
             # Look for a pending plan that is specifically for a single delivery
-            pending_plan = base_query.filter(years=1, deliveries_per_year=1).order_by('-created_at').first()
-            create_kwargs = {'user': request.user, 'years': 1, 'deliveries_per_year': 1}
+            pending_plan = base_query.filter(years=1, frequency='annually').order_by('-created_at').first()
+            create_kwargs = {'user': request.user, 'years': 1, 'frequency': 'annually'}
         else:
             # Look for a pending plan that is NOT for a single delivery
             # This prevents picking up a single-delivery plan when starting the multi-year flow
-            pending_plan = base_query.exclude(years=1, deliveries_per_year=1).order_by('-created_at').first()
+            pending_plan = base_query.exclude(years=1, frequency='annually').order_by('-created_at').first()
             create_kwargs = {'user': request.user}
 
         if pending_plan:

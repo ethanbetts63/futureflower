@@ -72,15 +72,15 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
         );
     }
 
-    const planIsSubscription = (plan as UpfrontPlan | SubscriptionPlan).hasOwnProperty('frequency');
-    const planIsUpfront = (plan as UpfrontPlan | SubscriptionPlan).hasOwnProperty('years');
-    
-    // A single delivery plan is an upfront plan with 1 year and 1 delivery per year
-    const planIsSingleDelivery = planIsUpfront && (plan as UpfrontPlan).years === 1 && (plan as UpfrontPlan).deliveries_per_year === 1;
+    const planIsSubscription = 'price_per_delivery' in plan;
+    const planIsUpfront = 'total_amount' in plan && !planIsSubscription;
+
+    // A single delivery plan is an upfront plan with 1 year and annually frequency
+    const planIsSingleDelivery = planIsUpfront && (plan as UpfrontPlan).years === 1 && plan.frequency === 'annually';
 
     const totalPrice = planIsSubscription ? (plan as SubscriptionPlan).price_per_delivery : (plan as UpfrontPlan).total_amount;
     const planType = planIsSubscription ? 'Subscription' : (planIsSingleDelivery ? 'Single Delivery' : 'Upfront Plan');
-    const capitalizedFrequency = planIsSubscription ? (plan as SubscriptionPlan).frequency.charAt(0).toUpperCase() + (plan as SubscriptionPlan).frequency.slice(1) : null;
+    const capitalizedFrequency = plan.frequency ? plan.frequency.charAt(0).toUpperCase() + plan.frequency.slice(1) : null;
 
     return (
         <Card className="bg-white text-black border-none shadow-md w-full">

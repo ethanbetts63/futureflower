@@ -12,7 +12,7 @@ export interface CreatePaymentIntentPayload {
     stripe_price_id?: string | null;
     budget?: number;
     years?: number;
-    deliveries_per_year?: number;
+    frequency?: string;
     [key: string]: any; // Allows for other properties
   };
 }
