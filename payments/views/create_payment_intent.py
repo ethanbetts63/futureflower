@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.conf import settings
-from events.models import UpfrontPlan, SingleDeliveryPlan
+from events.models import UpfrontPlan
 from payments.models import Payment
 from events.utils.upfront_price_calc import calculate_final_plan_cost
 
@@ -74,9 +74,9 @@ class CreatePaymentIntentView(APIView):
 
             elif item_type == 'SINGLE_DELIVERY_PLAN_NEW':
                 plan_id = details.get('single_delivery_plan_id')
-                single_delivery_plan = SingleDeliveryPlan.objects.get(id=plan_id, user=request.user)
-                order_object = single_delivery_plan.orderbase_ptr
-                final_amount = single_delivery_plan.total_amount
+                upfront_plan = UpfrontPlan.objects.get(id=plan_id, user=request.user, years=1, deliveries_per_year=1)
+                order_object = upfront_plan.orderbase_ptr
+                final_amount = upfront_plan.total_amount
                 metadata.update({'plan_id': plan_id})
 
             else:
@@ -132,7 +132,7 @@ class CreatePaymentIntentView(APIView):
 
             return Response({'clientSecret': payment_intent.client_secret})
 
-        except (UpfrontPlan.DoesNotExist, SingleDeliveryPlan.DoesNotExist):
+        except UpfrontPlan.DoesNotExist:
              return Response({"error": "Plan not found or you don't have permission."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             # It's good practice to log the exception here

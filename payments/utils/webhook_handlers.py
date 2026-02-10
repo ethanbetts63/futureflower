@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.conf import settings
 from django.db import transaction
 from payments.models import Payment
-from events.models import UpfrontPlan, SubscriptionPlan, Event, SingleDeliveryPlan
+from events.models import UpfrontPlan, SubscriptionPlan, Event
 from payments.utils.subscription_dates import get_next_delivery_date
 
 def handle_payment_intent_succeeded(payment_intent):
@@ -49,21 +49,18 @@ def handle_payment_intent_succeeded(payment_intent):
                 plan_to_activate.status = 'active'
                 plan_to_activate.save()
                 print(f"UpfrontPlan (PK: {plan_to_activate.pk}) successfully activated.")
-
-            elif item_type == 'SINGLE_DELIVERY_PLAN_NEW':
-                plan_to_activate = SingleDeliveryPlan.objects.get(id=order.id)
-                plan_to_activate.status = 'active'
-                plan_to_activate.save()
-                # Create the single event for this delivery (idempotent)
-                if not Event.objects.filter(order=plan_to_activate.orderbase_ptr, delivery_date=plan_to_activate.start_date).exists():
-                    Event.objects.create(
-                        order=plan_to_activate.orderbase_ptr,
-                        delivery_date=plan_to_activate.start_date,
-                        message=''
-                    )
-                    print(f"SingleDeliveryPlan (PK: {plan_to_activate.pk}) successfully activated and Event created.")
-                else:
-                    print(f"SingleDeliveryPlan (PK: {plan_to_activate.pk}) Event already exists. Skipping duplicate.")
+                
+                # If it's a single delivery plan, create the corresponding Event
+                if plan_to_activate.years == 1 and plan_to_activate.deliveries_per_year == 1:
+                    if not Event.objects.filter(order=plan_to_activate.orderbase_ptr, delivery_date=plan_to_activate.start_date).exists():
+                        Event.objects.create(
+                            order=plan_to_activate.orderbase_ptr,
+                            delivery_date=plan_to_activate.start_date,
+                            message='' # Message is set during the flow, so initially empty
+                        )
+                        print(f"Single delivery Event for UpfrontPlan (PK: {plan_to_activate.pk}) created.")
+                    else:
+                        print(f"Single delivery Event for UpfrontPlan (PK: {plan_to_activate.pk}) already exists. Skipping duplicate.")
 
             else:
                 # Note: This handler is now only for upfront payments.
@@ -72,7 +69,7 @@ def handle_payment_intent_succeeded(payment_intent):
 
     except Payment.DoesNotExist:
         print(f"CRITICAL ERROR: Payment object not found for PI ID: {payment_intent_id}. The webhook may have arrived before the initial request completed.")
-    except (UpfrontPlan.DoesNotExist, SingleDeliveryPlan.DoesNotExist):
+    except UpfrontPlan.DoesNotExist:
         print(f"CRITICAL ERROR: Plan not found for Order ID: {payment.order.id} during webhook processing.")
     except Exception as e:
         print(f"UNEXPECTED ERROR during payment_intent.succeeded processing. PI ID: {payment_intent_id}, Error: {e}")

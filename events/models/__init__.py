@@ -5,7 +5,6 @@ from .order_base import OrderBase
 from .color import Color
 from .flower_type import FlowerType
 from .discount import Discount
-from .single_delivery_plan import SingleDeliveryPlan
 
 __all__ = [
     'Event',
@@ -15,5 +14,4 @@ __all__ = [
     'FlowerType',
     'Color',
     'Discount',
-    'SingleDeliveryPlan',
 ]
