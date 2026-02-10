@@ -72,13 +72,6 @@ class CreatePaymentIntentView(APIView):
                 final_amount = upfront_plan.total_amount
                 metadata.update({'plan_id': plan_id})
 
-            elif item_type == 'SINGLE_DELIVERY_PLAN_NEW':
-                plan_id = details.get('single_delivery_plan_id')
-                upfront_plan = UpfrontPlan.objects.get(id=plan_id, user=request.user, years=1, deliveries_per_year=1)
-                order_object = upfront_plan.orderbase_ptr
-                final_amount = upfront_plan.total_amount
-                metadata.update({'plan_id': plan_id})
-
             else:
                 return Response(
                     {"error": f"Invalid item_type for this endpoint: {item_type}"},

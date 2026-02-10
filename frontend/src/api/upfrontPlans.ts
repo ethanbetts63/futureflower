@@ -9,8 +9,9 @@ export async function getUpfrontPlan(planId: string): Promise<UpfrontPlan> {
     return handleResponse(response);
 }
 
-export async function getUpfrontPlans(): Promise<UpfrontPlan[]> {
-    const response = await authedFetch('/api/events/upfront-plans/');
+export async function getUpfrontPlans(excludeSingleDelivery = false): Promise<UpfrontPlan[]> {
+    const query = excludeSingleDelivery ? '?exclude_single_delivery=true' : '';
+    const response = await authedFetch(`/api/events/upfront-plans/${query}`);
     return handleResponse(response);
 }
 

@@ -19,7 +19,7 @@ const UpfrontPlanTable: React.FC<UpfrontPlanTableProps> = ({ showTitle = true, i
     if (!initialPlans) { // Only fetch if initialPlans are not provided
       const fetchPlans = async () => {
         try {
-          const data: UpfrontPlan[] = await getUpfrontPlans(); // Use the imported function
+          const data: UpfrontPlan[] = await getUpfrontPlans(true);
           setPlans(data);
         } catch (err: any) {
           setError(err.message || 'An unexpected error occurred.');
@@ -84,7 +84,7 @@ const UpfrontPlanTable: React.FC<UpfrontPlanTableProps> = ({ showTitle = true, i
               <TableCell className="text-right text-black text-base">{plan.years}</TableCell>
               <TableCell className="rounded-r-lg text-right text-base">
                 <Button asChild variant="default" size="sm">
-                  <Link to={`/dashboard/plans/${plan.id}/overview`}>
+                  <Link to={`/dashboard/upfront-plans/${plan.id}/overview`}>
                     <Eye className="mr-2 h-4 w-4" /> View
                   </Link>
                 </Button>

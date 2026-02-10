@@ -71,10 +71,25 @@ class UpfrontPlanViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """
-        This view should only return upfront plans that belong to the
-        currently authenticated user.
+        Returns upfront plans for the authenticated user.
+        Supports query param filtering:
+        - ?years=1&deliveries_per_year=1  → only single delivery plans
+        - ?exclude_single_delivery=true   → exclude single delivery plans
         """
-        return UpfrontPlan.objects.filter(user=self.request.user)
+        qs = UpfrontPlan.objects.filter(user=self.request.user)
+
+        exclude_single = self.request.query_params.get('exclude_single_delivery')
+        if exclude_single == 'true':
+            qs = qs.exclude(years=1, deliveries_per_year=1)
+        else:
+            years = self.request.query_params.get('years')
+            deliveries = self.request.query_params.get('deliveries_per_year')
+            if years is not None:
+                qs = qs.filter(years=int(years))
+            if deliveries is not None:
+                qs = qs.filter(deliveries_per_year=int(deliveries))
+
+        return qs
 
     def perform_create(self, serializer):
         """

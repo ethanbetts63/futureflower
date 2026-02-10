@@ -49,7 +49,6 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
 
     useEffect(() => {
         if (!isAuthenticated || !planId) {
-            toast.error("Authentication or plan ID is missing.");
             navigate('/login');
             return;
         }
@@ -71,28 +70,20 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     }, [planId, isAuthenticated, navigate, backPath]);
 
     const calculatePrice = useCallback(async (budget: number) => {
-        if (!planId) {
-            console.log("calculatePrice: planId is missing.");
-            return;
-        }
+        if (!planId) return;
         setIsDebouncePending(false);
         setIsApiCalculating(true);
         setCalculationError(null);
         setTotalAmount(null);
-        console.log(`calculatePrice: Starting calculation for budget: ${budget}`);
 
         try {
             const data = await calculateUpfrontPlanSingleDeliveryPrice(planId, budget);
-            console.log("calculatePrice: API returned data:", data);
             setTotalAmount(data.new_total_price);
-            console.log("calculatePrice: totalAmount set to:", data.new_total_price);
         } catch (err: any) {
-            console.error("calculatePrice: API error:", err);
             setCalculationError(err.message);
             toast.error("Price Calculation Error", { description: err.message });
         } finally {
             setIsApiCalculating(false);
-            console.log("calculatePrice: Calculation finished.");
         }
     }, [planId]);
 
@@ -100,7 +91,6 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
 
     useEffect(() => {
         if (!isLoading) {
-            console.log(`useEffect: formData.budget changed to ${formData.budget}, debouncing calculation.`);
             setIsDebouncePending(true);
             debouncedCalculate(formData.budget);
         }
@@ -109,13 +99,10 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
 
     const handleFormChange = (field: keyof SingleDeliveryStructureData, value: number | string) => {
         setFormData((prev: SingleDeliveryStructureData) => ({ ...prev, [field]: value }));
-        console.log(`handleFormChange: field ${field} updated to ${value}`);
     };
 
     const handleSave = async () => {
-        console.log(`handleSave: called. planId: ${planId}, totalAmount: ${totalAmount}`);
         if (!planId || typeof totalAmount !== 'number') {
-            console.warn("handleSave: Exiting early because planId is missing or totalAmount is not a number.");
             toast.error("Please wait for the price to be calculated.");
             return;
         }
@@ -145,8 +132,6 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     if (isLoading) {
         return <div className="flex justify-center items-center h-screen"><Spinner className="h-12 w-12" /></div>;
     }
-
-    console.log(`SingleDeliveryStructureEditor: Render. isSaving: ${isSaving}, isApiCalculating: ${isApiCalculating}, isDebouncePending: ${isDebouncePending}, totalAmount: ${totalAmount}, typeof totalAmount: ${typeof totalAmount}`);
 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
