@@ -3,10 +3,10 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import Seo from '../components/Seo';
-import { getOrCreatePendingUpfrontPlan, getOrCreatePendingSubscriptionPlan, getOrCreatePendingSingleDeliveryPlan } from '@/api';
+import { getOrCreatePendingUpfrontPlan } from '@/api/upfrontPlans';
+import { getOrCreatePendingSubscriptionPlan } from '@/api/subscriptionPlans';
+import { getOrCreatePendingSingleDeliveryTypeUpfrontPlan } from '@/api/singleDeliveryPlans';
 import { toast } from 'sonner';
-
-type FlowType = 'subscription' | 'single-delivery' | undefined;
 
 const EventGate: React.FC = () => {
     const { isAuthenticated, isLoading } = useAuth();
@@ -30,7 +30,7 @@ const EventGate: React.FC = () => {
                         const plan = await getOrCreatePendingSubscriptionPlan();
                         navigate(`/subscribe-flow/subscription-plan/${plan.id}/recipient`, { replace: true });
                     } else if (isSingleDeliveryFlow) {
-                        const plan = await getOrCreatePendingSingleDeliveryPlan();
+                        const plan = await getOrCreatePendingSingleDeliveryTypeUpfrontPlan();
                         navigate(`/single-delivery-flow/plan/${plan.id}/recipient`, { replace: true });
                     } else {
                         const plan = await getOrCreatePendingUpfrontPlan();

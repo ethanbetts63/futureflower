@@ -114,11 +114,11 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
                     <>
                         <div className="flex items-center justify-between text-sm">
                             <span className="text-muted-foreground flex items-center"><DollarSign className="mr-2 h-4 w-4" />Handling</span>
-                            <span>${(Number(plan.price_per_delivery) - Number(plan.budget)).toFixed(2)}</span>
+                            <span>${(Number((plan as SubscriptionPlan).price_per_delivery) - Number((plan as SubscriptionPlan).budget)).toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between items-center text-lg font-semibold">
                             <span className="flex items-center"><DollarSign className="mr-2 h-5 w-5" />Total Per Delivery</span>
-                            <span>${Number(plan.price_per_delivery).toFixed(2)}</span>
+                            <span>${Number((plan as SubscriptionPlan).price_per_delivery).toFixed(2)}</span>
                         </div>
                     </>
                 )}
@@ -127,9 +127,9 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
                     <span className="flex items-center"><DollarSign className="mr-2 h-5 w-5" />Amount Due Today</span>
                     <span>{planIsSubscription ? '$0.00' : `$${Number(totalPrice).toFixed(2)}`}</span>
                 </div>
-                {planIsSubscription && plan.next_payment_date && (
+                {planIsSubscription && (plan as SubscriptionPlan).next_payment_date && (
                     <div className="text-sm text-center text-muted-foreground mt-2">
-                        Your first payment of ${Number(plan.price_per_delivery).toFixed(2)} will be charged on {new Date(plan.next_payment_date).toLocaleDateString()}.
+                        Your first payment of ${Number((plan as SubscriptionPlan).price_per_delivery).toFixed(2)} will be charged on {new Date((plan as SubscriptionPlan).next_payment_date!).toLocaleDateString()}.
                     </div>
                 )}
             </CardContent>

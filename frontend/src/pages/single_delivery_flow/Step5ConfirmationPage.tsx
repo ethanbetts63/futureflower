@@ -11,7 +11,7 @@ import PlanDisplay from '@/components/PlanDisplay';
 import SingleDeliveryStructureCard from '@/components/SingleDeliveryStructureCard';
 
 import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
-import type { Plan, Color, FlowerType } from '@/types';
+import type { Plan, Color, FlowerType, UpfrontPlan } from '@/types';
 
 import PaymentInitiatorButton from '@/components/PaymentInitiatorButton';
 
@@ -51,7 +51,7 @@ const Step5ConfirmationPage = () => {
                     />
 
                     <SingleDeliveryStructureCard
-                      plan={plan}
+                      plan={plan as UpfrontPlan}
                       editUrl={`/single-delivery-flow/plan/${planId}/structure`}
                     />
 
@@ -71,7 +71,7 @@ const Step5ConfirmationPage = () => {
                       <CardContent>
                         <div className="flex justify-between items-center text-2xl font-bold">
                           <span>Single-Delivery Payment</span>
-                          <span>${Number(plan.total_amount).toFixed(2)}</span>
+                          <span>${Number((plan as UpfrontPlan).total_amount).toFixed(2)}</span>
                         </div>
                         <p className="text-sm text-muted-foreground mt-2">This is the total amount you will be charged to confirm your order.</p>
                       </CardContent>
