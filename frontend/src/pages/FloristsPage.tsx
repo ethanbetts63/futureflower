@@ -3,6 +3,7 @@ import Seo from '../components/Seo';
 import { FaqV2 } from '../components/FaqV2';
 import { Timeline } from '../components/Timeline';
 import { SendBusinessYourWay } from '../components/SendBusinessYourWay';
+import { ValuePropsA } from '../components/ValuePropsA';
 import type { FaqItem } from '@/types/FaqItem';
 import { Calendar, RefreshCw, CreditCard, Gift, Store, Link2, ChevronRight, ArrowDown } from 'lucide-react';
 
@@ -135,13 +136,12 @@ const FloristsPage = () => {
         </div>
       </section>
 
+      <ValuePropsA />
+
       {/* Why ForeverFlower */}
       <section ref={contentRef} className="bg-[var(--color4)] py-10 md:py-14">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-black mb-6 text-center">
-              Why ForeverFlower?
-            </h2>
             <p className="text-lg text-gray-700 leading-relaxed mb-4">
               Right now, when a customer walks into your shop, there's only so much you can upsell: a bigger bouquet, nicer wrapping, maybe an extra gift. And then it's over.
             </p>
@@ -168,9 +168,6 @@ const FloristsPage = () => {
                   </div>
                 ))}
               </div>
-              <p className="text-gray-600 mt-6 text-sm">
-                These aren't upsells your customers have ever heard before.
-              </p>
             </div>
           </div>
         </div>
