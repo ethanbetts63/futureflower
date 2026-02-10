@@ -30,12 +30,6 @@ class SubscriptionPlanViewSet(viewsets.ModelViewSet):
         """
         return self.queryset.filter(user=self.request.user)
 
-    def get_serializer_context(self):
-        """
-        Pass request context to the serializer.
-        """
-        return {'request': self.request, 'view': self}
-
     @action(detail=False, methods=['get'], url_path='get-or-create-pending')
     def get_or_create_pending(self, request):
         """
