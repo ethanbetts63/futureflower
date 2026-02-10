@@ -31,6 +31,7 @@ const Footer: React.FC = () => {
 
           {/* Right Side: Navigation Links */}
           <nav className="flex gap-6">
+            <Link to="/florists" className="text-sm hover:underline">Florists</Link>
             <Link to="/contact" className="text-sm hover:underline">Contact Us</Link>
             <Link to="/terms-and-conditions" className="text-sm hover:underline">Terms & Conditions</Link>
             {(user?.is_staff || user?.is_superuser) && (

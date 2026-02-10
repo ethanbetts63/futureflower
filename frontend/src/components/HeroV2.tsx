@@ -1,4 +1,5 @@
 import React from 'react';
+import { ArrowDown } from 'lucide-react';
 import type { HeroV2Props } from '../types/HeroV2Props';
 import heroImage320 from '../assets/hero1-320w.webp';
 import heroImage640 from '../assets/hero1-640w.webp';
@@ -15,7 +16,7 @@ import heroMobileImage1280 from '../assets/hero_mobile-1280w.webp';
 
 
 
-export const HeroV2: React.FC<HeroV2Props> = ({ title, subtitle }) => {
+export const HeroV2: React.FC<HeroV2Props> = ({ title, subtitle, onLearnMore }) => {
   return (
     <section className="relative h-screen w-full flex items-end md:items-center">
       <picture className="absolute inset-0 w-full h-full">
@@ -42,6 +43,15 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title, subtitle }) => {
         <p className="mt-6 text-lg sm:text-xl leading-8">
           {subtitle}
         </p>
+        {onLearnMore && (
+          <button
+            onClick={onLearnMore}
+            className="mt-8 flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer"
+          >
+            <span className="text-sm font-medium">Learn more</span>
+            <ArrowDown className="h-4 w-4 animate-bounce" />
+          </button>
+        )}
       </div>
     </section>
   );

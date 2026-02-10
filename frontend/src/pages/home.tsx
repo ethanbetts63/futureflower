@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import Seo from '../components/Seo';
 import { ProductCarousel } from '../components/ProductCarousel';
 import { FaqV2 } from '../components/FaqV2';
@@ -11,6 +12,7 @@ import { ArticleCarousel } from '../components/ArticleCarousel';
 
 
 const HomePage = () => {
+  const contentRef = useRef<HTMLDivElement>(null);
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -58,10 +60,11 @@ const HomePage = () => {
       <HeroV2
         title={<>The gift that <span className='italic'>keeps</span> on giving.</>}
         subtitle={<>The most romantic gestures are those that plan for a future together. Choose the date, set the budget, and we organize flower deliveries year after year - turning one decision into a lifetime of meaningful moments.</>}
+        onLearnMore={() => contentRef.current?.scrollIntoView({ behavior: 'smooth' })}
       />
-      
+
       {/* --- Hierarchy Section --- */}
-      <section className="bg-primary">
+      <section ref={contentRef} className="bg-primary">
         <ProductCarousel />
       </section>
 
