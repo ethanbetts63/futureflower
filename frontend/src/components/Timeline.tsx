@@ -30,7 +30,6 @@ export const Timeline: React.FC = () => {
           'Full order details sent via text & email: budget, address, preferences',
           "Click acceptance link to confirm or deny the order (no penalty for denying)",
           'This early notice helps you plan inventory and schedule',
-          'Still plenty of time - no rush to decide',
         ],
       },
       {
@@ -38,7 +37,7 @@ export const Timeline: React.FC = () => {
         description: [
           "Additional requests sent to ensure receipt of the acceptance link",
           'You have 48 hours to accept or decline',
-          "No penalty for declining - we'll find another florist",
+          "No penalty for declining or not responding",
           "No response = we assume you can't fulfill and choose another florist",
         ],
       },
@@ -47,7 +46,7 @@ export const Timeline: React.FC = () => {
         description: [
           'Create a bouquet that matches the budget and preferences (as closely as possible)',
           'Deliver using your normal process',
-          'Full budget amount paid to you on the next Friday payment run',
+          'Full budget amount paid weekly for all accepted orders.',
         ],
       },
     ];
