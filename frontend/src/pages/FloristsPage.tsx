@@ -4,17 +4,12 @@ import { FaqV2 } from '../components/FaqV2';
 import type { FaqItem } from '@/types/FaqItem';
 import { Calendar, RefreshCw, CreditCard, Gift, Store, Link2, ChevronRight, ArrowDown } from 'lucide-react';
 
-import heroImage320 from '../assets/hero1-320w.webp';
-import heroImage640 from '../assets/hero1-640w.webp';
-import heroImage768 from '../assets/hero1-768w.webp';
-import heroImage1024 from '../assets/hero1-1024w.webp';
-import heroImage1280 from '../assets/hero1-1280w.webp';
-import heroMobileImage from '../assets/hero_mobile.webp';
-import heroMobileImage320 from '../assets/hero_mobile-320w.webp';
-import heroMobileImage640 from '../assets/hero_mobile-640w.webp';
-import heroMobileImage768 from '../assets/hero_mobile-768w.webp';
-import heroMobileImage1024 from '../assets/hero_mobile-1024w.webp';
-import heroMobileImage1280 from '../assets/hero_mobile-1280w.webp';
+import deliveryImage from '../assets/delivery.webp';
+import deliveryImage320 from '../assets/delivery-320w.webp';
+import deliveryImage640 from '../assets/delivery-640w.webp';
+import deliveryImage768 from '../assets/delivery-768w.webp';
+import deliveryImage1024 from '../assets/delivery-1024w.webp';
+import deliveryImage1280 from '../assets/delivery-1280w.webp';
 
 const services = [
   {
@@ -109,14 +104,14 @@ const FloristsPage = () => {
         <picture className="absolute inset-0 w-full h-full">
           <source
             media="(min-width: 768px)"
-            srcSet={`${heroImage320} 320w, ${heroImage640} 640w, ${heroImage768} 768w, ${heroImage1024} 1024w, ${heroImage1280} 1280w`}
+            srcSet={`${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`}
             sizes="100vw"
           />
           <img
-            src={heroMobileImage}
-            srcSet={`${heroMobileImage320} 320w, ${heroMobileImage640} 640w, ${heroMobileImage768} 768w, ${heroMobileImage1024} 1024w, ${heroMobileImage1280} 1280w`}
+            src={deliveryImage}
+            srcSet={`${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`}
             sizes="100vw"
-            alt="A florist arranging a beautiful bouquet of flowers."
+            alt="Florist delivering a bouquet of flowers"
             fetchPriority="high"
             className="w-full h-full object-cover"
           />

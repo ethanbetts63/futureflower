@@ -1,18 +1,17 @@
 import React from 'react';
 import { ArrowDown } from 'lucide-react';
 import type { HeroV2Props } from '../types/HeroV2Props';
-import heroImage320 from '../assets/hero1-320w.webp';
-import heroImage640 from '../assets/hero1-640w.webp';
-import heroImage768 from '../assets/hero1-768w.webp';
-import heroImage1024 from '../assets/hero1-1024w.webp';
-import heroImage1280 from '../assets/hero1-1280w.webp';
-
-import heroMobileImage from '../assets/hero_mobile.webp';
-import heroMobileImage320 from '../assets/hero_mobile-320w.webp';
-import heroMobileImage640 from '../assets/hero_mobile-640w.webp';
-import heroMobileImage768 from '../assets/hero_mobile-768w.webp';
-import heroMobileImage1024 from '../assets/hero_mobile-1024w.webp';
-import heroMobileImage1280 from '../assets/hero_mobile-1280w.webp';
+import heroImage320 from '../assets/hero2-320w.webp';
+import heroImage640 from '../assets/hero2-640w.webp';
+import heroImage768 from '../assets/hero2-768w.webp';
+import heroImage1024 from '../assets/hero2.png';
+import heroImage1280 from '../assets/hero2.png';
+import heroMobileImage from '../assets/hero2_mobile.webp';
+import heroMobileImage320 from '../assets/hero2_mobile-320w.webp';
+import heroMobileImage640 from '../assets/hero2_mobile-640w.webp';
+import heroMobileImage768 from '../assets/hero2_mobile-768w.webp';
+import heroMobileImage1024 from '../assets/hero2_mobile-1024w.webp';
+import heroMobileImage1280 from '../assets/hero2_mobile-1280w.webp';
 
 
 
