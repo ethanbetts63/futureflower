@@ -19,9 +19,9 @@ export const Timeline: React.FC = () => {
       {
         title: 'Customer Books Delivery',
         description: [
-          'Customer sets budget, dates, and flower preferences',
-          'Customer pays for each bouquets budget (eg. $100) and a 5% customer protection fee',
-          "We record the source of the custemers order (e.g. Westminister Florists, website, etc.)",
+          'Sets budget, dates, and flower preferences',
+          'Pays for each bouquets budget (eg. $100) and customer protection fee',
+          'Our fee is in addition to the budget. Florists are always paid the full budget amount for accepted orders.',
         ],
       },
       {
@@ -29,7 +29,7 @@ export const Timeline: React.FC = () => {
         description: [
           'Full order details sent via text & email: budget, address, preferences',
           "Click acceptance link to confirm or deny the order (no penalty for denying)",
-          'This early notice helps you plan inventory and schedule',
+          'No admin, dashboards or sites to manage - one link handled from email or text',
         ],
       },
       {
@@ -37,8 +37,8 @@ export const Timeline: React.FC = () => {
         description: [
           "Additional requests sent to ensure receipt of the acceptance link",
           'You have 48 hours to accept or decline',
-          "No penalty for declining or not responding",
-          "No response = we assume you can't fulfill and choose another florist",
+          "If you decline, you instead receive a 7.5% commission",
+          "No response = decline",
         ],
       },
       {
@@ -52,7 +52,7 @@ export const Timeline: React.FC = () => {
     ];
   
     return (
-      <section className="py-10 md:py-14 bg-[var(--color4)]">
+      <section className="py-14 md:py-14 bg-[var(--color4)]">
         <style>{compressedTimelineStyles}</style>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-black mb-6 text-center">
