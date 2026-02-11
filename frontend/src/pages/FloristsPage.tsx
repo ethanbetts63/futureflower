@@ -6,63 +6,10 @@ import { SendBusinessYourWay } from '../components/SendBusinessYourWay';
 import { ValuePropsA } from '../components/ValuePropsA';
 import type { FaqItem } from '@/types/FaqItem';
 import { NonDeliveryPartnersSection } from '../components/NonDeliveryPartnersSection';
-import { Calendar, RefreshCw, CreditCard, Gift, ChevronRight, ArrowDown } from 'lucide-react';
-
-import deliveryImage from '../assets/delivery.webp';
-import deliveryImage320 from '../assets/delivery-320w.webp';
-import deliveryImage640 from '../assets/delivery-640w.webp';
-import deliveryImage768 from '../assets/delivery-768w.webp';
-import deliveryImage1024 from '../assets/delivery.png';
-import deliveryImage1280 from '../assets/delivery.png';
-
-const services = [
-  {
-    icon: Calendar,
-    title: 'One-Off Scheduled Deliveries',
-    tagline: 'Sell flowers for moments that haven\'t happened yet.',
-    points: [
-      'Scheduled deliveries from one week to five years out.',
-      'We hold the customer commitment, manage changes, and absorb the risk.',
-      'To you, it\'s just a normal delivery — fully paid, clearly scheduled.',
-    ],
-  },
-  {
-    icon: RefreshCw,
-    title: 'Subscriptions',
-    tagline: 'Flowers that show up on time — every time — without anyone having to remember.',
-    points: [
-      'We specialise in emotionally significant dates: Mother\'s Day, anniversaries, birthdays.',
-      'We manage reminders, payments, scheduling, and changes.',
-      'Customers love "this is handled forever" — you benefit from predictable, repeat revenue.',
-    ],
-  },
-  {
-    icon: CreditCard,
-    title: 'Prepaid Plans',
-    tagline: 'Upfront commitment for customers. Guaranteed future revenue for florists.',
-    points: [
-      'Customers prepay for multiple deliveries.',
-      'No missed payments, cancellations, or admin overhead for you.',
-      'We manage the capital risk, schedule, and customer communication.',
-    ],
-  },
-  {
-    icon: Gift,
-    title: 'Transferable Subscriptions & Plans',
-    tagline: 'The gift that keeps giving — even when the giver steps back.',
-    points: [
-      'Customers can transfer control to the recipient after purchase.',
-      'Recipients manage preferences, delivery dates, pauses, or address changes.',
-      'Removes friction, reduces support, and keeps subscriptions active longer.',
-    ],
-  },
-];
-
-const conversationStarters = [
-  '"Would you like us to arrange something similar delivered for Mother\'s Day?"',
-  '"Would you like us to arrange something similar delivered this time next year?"',
-  '"Would you like us to set up a delivery subscription? We can have something like this delivered once a month."',
-];
+import { HeroFloristPage } from '../components/HeroFloristPage';
+import { WhyForeverFlowerSection } from '../components/WhyForeverFlowerSection';
+import { ServicesCarouselSection } from '../components/ServicesCarouselSection';
+import { SoWhatsTheCatchSection } from '../components/SoWhatsTheCatchSection';
 
 const FloristsPage = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -103,145 +50,17 @@ const FloristsPage = () => {
         ogImage="/og-images/og-homepage.webp"
       />
 
-      {/* Hero */}
-      <section className="relative h-screen w-full flex items-end md:items-center">
-        <picture className="absolute inset-0 w-full h-full">
-          <source
-            media="(min-width: 768px)"
-            srcSet={`${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`}
-            sizes="100vw"
-          />
-          <img
-            src={deliveryImage}
-            srcSet={`${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`}
-            sizes="100vw"
-            alt="Florist delivering a bouquet of flowers"
-            fetchPriority="high"
-            className="w-full h-full object-cover"
-          />
-        </picture>
-        <div className="relative ml-0 sm:ml-12 md:ml-24 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-black/70 p-8 sm:p-12 rounded-none sm:rounded-lg text-white">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-            Turn one sale into <span className="italic">many</span>.
-          </h1>
-          <p className="mt-6 text-lg sm:text-xl leading-8">
-            Extend your service beyond today's purchase. Offer scheduled deliveries, subscriptions, and prepaid plans — completely free, with zero admin.
-          </p>
-          <button
-            onClick={scrollToContent}
-            className="mt-8 flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer"
-          >
-            <span className="text-sm font-medium">Learn more</span>
-            <ArrowDown className="h-4 w-4 animate-bounce" />
-          </button>
-        </div>
-      </section>
+      <HeroFloristPage scrollToContent={scrollToContent} />
 
       <ValuePropsA />
 
-      {/* Why ForeverFlower */}
-      <section ref={contentRef} className="bg-[var(--color4)] py-10 md:py-14">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <p className="text-lg text-gray-700 leading-relaxed mb-4">
-              Right now, when a customer walks into your shop, there's only so much you can upsell: a bigger bouquet, nicer wrapping, maybe an extra gift. And then it's over.
-            </p>
-            <p className="text-lg text-gray-700 leading-relaxed mb-4">
-              ForeverFlower lets you extend your service beyond today's purchase. We give you the infrastructure to offer <strong>scheduled future deliveries</strong>, <strong>ongoing flower subscriptions</strong>, and <strong>multi-year prepaid flower plans</strong> — all without adding admin, complexity, or operational burden.
-            </p>
-            <p className="text-lg text-gray-700 leading-relaxed mb-6">
-              And we are <strong>completely free to use</strong>. Just set up a QR code in-store and/or a link on your website.
-            </p>
+      <WhyForeverFlowerSection contentRef={contentRef} />
 
-            {/* Conversation Starters */}
-            <div className="bg-white rounded-xl shadow-md p-8">
-              <p className="text-gray-800 font-semibold mb-2 text-lg">
-                This changes the conversation in your store.
-              </p>
-              <p className="text-gray-600 mb-6">
-                Instead of wrapping it up and saying goodbye — you can say:
-              </p>
-              <div className="flex flex-col gap-3">
-                {conversationStarters.map((line, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <ChevronRight className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <p className="text-gray-700 italic">{line}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Carousel */}
-      <section className="bg-primary py-6">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-black">
-            Our Services
-          </h2>
-          <p className="text-center text-gray-600 mb-6 max-w-2xl mx-auto">
-            Everything you need to offer long-term flower commitments — without the long-term headache.
-          </p>
-          <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
-            {services.map((service) => (
-              <div
-                key={service.title}
-                className="flex-shrink-0 w-80 bg-white rounded-xl shadow-md p-6 snap-start transform transition-transform hover:-translate-y-1"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[var(--color2)] rounded-full">
-                    <service.icon className="h-5 w-5 text-black" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900">{service.title}</h3>
-                </div>
-                <p className="text-gray-600 font-medium mb-4 text-sm">{service.tagline}</p>
-                <ul className="flex flex-col gap-2">
-                  {service.points.map((point, j) => (
-                    <li key={j} className="flex items-start gap-2 text-gray-700 text-sm">
-                      <span className="text-green-500 mt-1">&#10003;</span>
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ServicesCarouselSection />
       <Timeline />
       <SendBusinessYourWay />
 
-      {/* So What's the Catch? */}
-      <section className="bg-[var(--color4)] py-10 md:py-14">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-black mb-6 text-center">
-              So what's the catch?
-            </h2>
-            <p className="text-lg text-gray-700 leading-relaxed mb-6">
-              The most honest answer is that <strong>we handle the customer</strong>. The customers learn to use our service, pay with our system, and give us their details.
-            </p>
-            <p className="text-lg text-gray-700 leading-relaxed mb-4">
-              These are our counter arguments:
-            </p>
-            <div className="flex flex-col gap-3">
-              {[
-                'This is mostly or entirely business you wouldn\'t have grabbed or been able to serve without us. You\'re not losing customers — you\'re gaining new business.',
-                'We encourage you to use your logos on the bouquet. We differentiate ourselves by standing by local florists. If the flowers are so good the customer wants to skip the middle man and go in-store next time? So be it.',
-                'In addition to carrying the complexity, headache, and capital risk of delivery commitments — we also carry the risk of bad reviews.',
-                'If you decide to stop using our service, you can. We\'ll help you transition customers back in-house by providing you with the details of all customers you signed up. Perfect for a bulk email.',
-                'Your not indebted to the customer and theres no risk of forgetting the order. The reason most florists don\'t offer scheduled deliveries is because of the risk and admin. We take care of all of that, so you can just focus on what you do best: making beautiful bouquets.',
-              ].map((point, i) => (
-                <div key={i} className="flex items-start gap-3 bg-white rounded-lg p-4 shadow-sm">
-                  <ChevronRight className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-gray-700">{point}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <SoWhatsTheCatchSection />
 
       <NonDeliveryPartnersSection />
 
