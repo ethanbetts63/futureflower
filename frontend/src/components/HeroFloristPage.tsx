@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { ArrowDown } from 'lucide-react';
 
 import deliveryImage from '../assets/delivery.webp';

@@ -1,8 +1,8 @@
-import React, { RefObject } from 'react';
+import React, { type RefObject } from 'react';
 import { ChevronRight } from 'lucide-react';
 
 interface WhyForeverFlowerSectionProps {
-  contentRef: RefObject<HTMLDivElement>;
+  contentRef: RefObject<HTMLDivElement | null>;
 }
 
 const conversationStarters = [

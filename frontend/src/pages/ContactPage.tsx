@@ -1,5 +1,5 @@
 import React from 'react';
-import heroImage from '../assets/hero1.webp';
+import heroImage from '../assets/hero2.png';
 import { Hero } from '../components/Hero';
 import ContactDetails from '../components/ContactDetails';
 import OtherSites from '../components/OtherSites';
