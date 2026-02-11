@@ -1,6 +1,4 @@
-# TODO: Remember to run `python manage.py makemigrations` and `python manage.py migrate` 
-# to apply the new `password_reset_last_sent_at` field to the database.
-
+import logging
 from django.utils import timezone
 from datetime import timedelta
 from rest_framework.views import APIView
@@ -10,6 +8,8 @@ from rest_framework.permissions import AllowAny
 from users.models import User
 from users.utils.send_password_reset_email import send_password_reset_email
 from users.serializers.password_reset_request_serializer import EmailSerializer
+
+logger = logging.getLogger(__name__)
 
 class PasswordResetRequestView(APIView):
     """
@@ -63,8 +63,7 @@ class PasswordResetRequestView(APIView):
             pass
         except Exception as e:
             # Log the exception but do not expose it to the client
-            print(f"An unexpected error occurred during password reset request: {e}")
-            # Potentially use a more robust logging mechanism here
+            logger.error("Unexpected error during password reset request: %s", e)
             pass
 
         return Response(

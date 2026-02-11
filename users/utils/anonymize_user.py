@@ -1,9 +1,12 @@
+import logging
 from django.conf import settings
 from django.utils import timezone
 from users.models import User
 from users.utils.hash_value import hash_value
 from events.models import UpfrontPlan
 from events.models.event import Event
+
+logger = logging.getLogger(__name__)
 
 
 def anonymize_user(user: User):
@@ -20,10 +23,7 @@ def anonymize_user(user: User):
     # --- Retrieve Hashing Salt ---
     salt = getattr(settings, 'HASHING_SALT', None)
     if not salt:
-        # In a real scenario, you might raise an exception or handle this more gracefully.
-        # For now, we abort silently if the salt is not configured.
-        print("Warning: HASHING_SALT not configured in settings. Skipping anonymization.")
-        return
+        raise RuntimeError("HASHING_SALT not configured in settings. Cannot anonymize user.")
 
     # --- Step 1: Handle UpfrontPlans and Events ---
     # Delete all non-active flower plans

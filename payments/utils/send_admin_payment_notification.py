@@ -1,6 +1,9 @@
+import logging
 import requests
 from django.conf import settings
 from twilio.rest import Client
+
+logger = logging.getLogger(__name__)
 
 def send_admin_payment_notification(payment_id: str):
     """
@@ -16,9 +19,9 @@ def send_admin_payment_notification(payment_id: str):
     admin_number = settings.ADMIN_NUMBER
 
     if not all([admin_email, admin_number]):
-        print(
-            f"Admin contact details (ADMIN_EMAIL, ADMIN_NUMBER) are not fully configured. "
-            f"Cannot send payment notification for payment_id: {payment_id}."
+        logger.warning(
+            "Admin contact details (ADMIN_EMAIL, ADMIN_NUMBER) are not fully configured. "
+            "Cannot send payment notification for payment_id: %s.", payment_id
         )
         return
 
@@ -42,6 +45,7 @@ def send_admin_payment_notification(payment_id: str):
         )
 
     except Exception as e:
-        print(
-            f"An error occurred while sending admin payment notification for payment_id: {payment_id}. Error: {e}"
+        logger.error(
+            "An error occurred while sending admin payment notification for payment_id: %s. Error: %s",
+            payment_id, e
         )

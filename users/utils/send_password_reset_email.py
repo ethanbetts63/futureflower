@@ -1,3 +1,4 @@
+import logging
 import requests
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -8,6 +9,8 @@ from users.models import User
 from data_management.models import BlockedEmail
 from data_management.views.add_to_blocklist_view import signer
 
+logger = logging.getLogger(__name__)
+
 
 def send_password_reset_email(user: User):
     """
@@ -16,7 +19,7 @@ def send_password_reset_email(user: User):
     try:
         # --- Blocklist Check ---
         if BlockedEmail.objects.filter(email=user.email).exists():
-            print(f"Password reset email to {user.email} suppressed because it is on the blocklist.")
+            logger.info("Password reset email to %s suppressed because it is on the blocklist.", user.email)
             return False
 
         # Generate a token and user ID for the password reset URL
@@ -54,9 +57,9 @@ def send_password_reset_email(user: User):
         if response.status_code == 200:
             return True
         else:
-            print(f"Failed to send password reset email to {user.email}. Mailgun responded with {response.status_code}: {response.text}")
+            logger.error("Failed to send password reset email to %s. Mailgun responded with %s: %s", user.email, response.status_code, response.text)
             return False
 
     except Exception as e:
-        print(f"Failed to send password reset email to {user.email}. Error: {e}")
+        logger.error("Failed to send password reset email to %s. Error: %s", user.email, e)
         return False

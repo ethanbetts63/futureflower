@@ -1,6 +1,7 @@
 # foreverflower/events/views/upfront_plan_view.py
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from django.db import transaction
 from ..models import UpfrontPlan, Event
 from ..serializers.upfront_plan_serializer import UpfrontPlanSerializer
 from ..utils.upfront_price_calc import forever_flower_upfront_price, calculate_final_plan_cost
@@ -9,7 +10,7 @@ from datetime import date, timedelta
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
-from decimal import Decimal, InvalidOperation # Import InvalidOperation
+from decimal import Decimal, InvalidOperation
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -92,6 +93,7 @@ class UpfrontPlanViewSet(viewsets.ModelViewSet):
 
         return qs
 
+    @transaction.atomic
     def perform_create(self, serializer):
         """
         Overrides the default create behavior to also generate all associated
@@ -163,7 +165,7 @@ class UpfrontPlanViewSet(viewsets.ModelViewSet):
             )
             
             # Compare with client-provided amount
-            if not abs(server_calculated_total_price - client_provided_total_amount) < Decimal('0.02'):
+            if abs(server_calculated_total_price - client_provided_total_amount) > Decimal('0.01'):
                 return Response(
                     {"error": f"Price mismatch. Server calculated: {server_calculated_total_price}, Client provided: {client_provided_total_amount}."},
                     status=status.HTTP_400_BAD_REQUEST

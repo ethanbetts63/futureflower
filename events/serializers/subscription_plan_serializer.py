@@ -3,12 +3,14 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from events.models import SubscriptionPlan
 from events.utils.fee_calc import calculate_service_fee
+from payments.serializers.payment_serializer import PaymentSerializer
 from payments.utils.subscription_dates import get_next_payment_date, get_next_delivery_date
 
 class SubscriptionPlanSerializer(serializers.ModelSerializer):
     """
     Serializer for the SubscriptionPlan model.
     """
+    payments = PaymentSerializer(many=True, read_only=True)
     next_payment_date = serializers.SerializerMethodField()
     next_delivery_date = serializers.SerializerMethodField()
 
@@ -22,7 +24,7 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
             'created_at', 'updated_at', 'preferred_colors', 'preferred_flower_types',
             'rejected_colors', 'rejected_flower_types', 'start_date', 'budget',
             'frequency', 'price_per_delivery', 'stripe_subscription_id', 'subscription_message',
-            'next_payment_date', 'next_delivery_date'
+            'payments', 'next_payment_date', 'next_delivery_date'
         ]
         read_only_fields = ['user', 'status', 'stripe_subscription_id', 'created_at', 'updated_at', 'next_payment_date', 'next_delivery_date']
 

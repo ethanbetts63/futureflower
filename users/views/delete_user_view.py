@@ -1,8 +1,11 @@
+import logging
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from users.utils.anonymize_user import anonymize_user
+
+logger = logging.getLogger(__name__)
 
 class DeleteUserView(APIView):
     """
@@ -21,7 +24,7 @@ class DeleteUserView(APIView):
             anonymize_user(user)
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
-            print(f"Error during account anonymization: {str(e)}")
+            logger.error("Error during account anonymization: %s", e)
             return Response(
                 {"detail": "An unexpected error occurred while deleting your account. Please contact support."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR

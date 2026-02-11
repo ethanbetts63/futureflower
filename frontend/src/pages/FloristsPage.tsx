@@ -73,7 +73,7 @@ const FloristsPage = () => {
   const floristFaqs: FaqItem[] = [
     {
       question: 'What if I can\'t or don\'t want to fulfill a delivery?',
-      answer: 'No problem at all. If you can\'t fulfill a delivery request from a customer you referred to us, we\'ll pass the business on to another florist and cut you a 15% referral bonus. You can always say no to a delivery request without penalty.',
+      answer: 'No problem at all. If you can\'t fulfill a delivery request from a customer you referred to us, we\'ll pass the business on to another florist and cut you a 7.5% referral bonus. You can always say no to a delivery request without penalty.',
     },
     {
       question: 'How do refunds work?',
@@ -81,7 +81,7 @@ const FloristsPage = () => {
     },
     {
       question: 'Is there a service debt or lock-in?',
-      answer: 'No service debts. You\'ll receive a request for all orders from customers you sign up, but if you can\'t or don\'t want to fulfil a request, we\'ll pass it to another florist and give you a 15% commission instead. Conversely, requests that other florists can\'t fill can come straight to you.',
+      answer: 'No service debts. You\'ll receive a request for all orders from customers you sign up, but if you can\'t or don\'t want to fulfil a request, we\'ll pass it to another florist and give you a 7.5% commission instead. Conversely, requests that other florists can\'t fill can come straight to you.',
     },
     {
       question: 'What does it cost?',
@@ -158,7 +158,7 @@ const FloristsPage = () => {
                 This changes the conversation in your store.
               </p>
               <p className="text-gray-600 mb-6">
-                Instead of just saying "That's a lovely bouquet," and goodbye — you can say:
+                Instead of wrapping it up and saying goodbye — you can say:
               </p>
               <div className="flex flex-col gap-3">
                 {conversationStarters.map((line, i) => (

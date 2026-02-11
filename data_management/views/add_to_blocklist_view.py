@@ -1,3 +1,4 @@
+import logging
 from rest_framework.permissions import AllowAny
 from django.core.signing import Signer, BadSignature
 from django.shortcuts import redirect
@@ -7,9 +8,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from ..models import BlockedEmail
 
-signer = Signer()
+logger = logging.getLogger(__name__)
 
-from rest_framework.permissions import AllowAny
+signer = Signer()
 
 class AddToBlocklistView(APIView):
     """
@@ -35,7 +36,7 @@ class AddToBlocklistView(APIView):
 
         if created:
             # Log that a new email was blocked
-            print(f"Email '{email}' has been added to the blocklist.")
+            logger.info("Email '%s' has been added to the blocklist.", email)
         
         # In the future, this could be a dedicated frontend page.
         # For now, a simple message is sufficient.
