@@ -44,7 +44,7 @@ Flowers that show up on time — every time — without anyone having to remembe
 
 ### Prepaid Plans
 Upfront commitment for customers. Guaranteed future revenue for florists.
-*   Customers prepay for multiple deliveries and receive a bulk discount.
+*   Customers prepay for multiple deliveries.
 *   No missed payments, cancellations, or admin overhead for you.
 *   We manage the capital risk, schedule, and customer communication.
 

@@ -41,7 +41,7 @@ const services = [
     title: 'Prepaid Plans',
     tagline: 'Upfront commitment for customers. Guaranteed future revenue for florists.',
     points: [
-      'Customers prepay for multiple deliveries and receive a bulk discount.',
+      'Customers prepay for multiple deliveries.',
       'No missed payments, cancellations, or admin overhead for you.',
       'We manage the capital risk, schedule, and customer communication.',
     ],
