@@ -73,7 +73,7 @@ const FloristsPage = () => {
   const floristFaqs: FaqItem[] = [
     {
       question: 'What if I can\'t or don\'t want to fulfill a delivery?',
-      answer: 'No problem at all. If you can\'t fulfill a delivery request from a customer you referred to us, we\'ll pass the business on to another florist and cut you a 7.5% referral bonus. You can always say no to a delivery request without penalty.',
+      answer: 'No problem at all. If you can\'t fulfill a delivery request from a customer you referred to us, we\'ll pass the business on to another florist and cut you a 5% referral bonus. You can always say no to a delivery request without penalty.',
     },
     {
       question: 'How do refunds work?',
@@ -81,7 +81,7 @@ const FloristsPage = () => {
     },
     {
       question: 'Is there a service debt or lock-in?',
-      answer: 'No service debts. You\'ll receive a request for all orders from customers you sign up, but if you can\'t or don\'t want to fulfil a request, we\'ll pass it to another florist and give you a 7.5% commission instead. Conversely, requests that other florists can\'t fill can come straight to you.',
+      answer: 'No service debts. You\'ll receive a request for all orders from customers you sign up, but if you can\'t or don\'t want to fulfil a request, we\'ll pass it to another florist and give you a 5% commission instead. Conversely, requests that other florists can\'t fill can come straight to you.',
     },
     {
       question: 'What does it cost?',
@@ -228,9 +228,9 @@ const FloristsPage = () => {
               {[
                 'This is mostly or entirely business you wouldn\'t have grabbed or been able to serve without us. You\'re not losing customers — you\'re gaining new business.',
                 'We encourage you to use your logos on the bouquet. We differentiate ourselves by standing by local florists. If the flowers are so good the customer wants to skip the middle man and go in-store next time? So be it.',
-                'In addition to carrying the complexity, headache, and capital risk of delivery commitments — we also carry all the bad reviews.',
+                'In addition to carrying the complexity, headache, and capital risk of delivery commitments — we also carry the risk of bad reviews.',
                 'If you decide to stop using our service, you can. We\'ll help you transition customers back in-house by providing you with the details of all customers you signed up. Perfect for a bulk email.',
-                'You give up ownership of some customers you wouldn\'t realistically retain anyway, in exchange for risk-free, future-locked revenue and less admin. That\'s not giving up ownership. That\'s outsourcing your problems.',
+                'Your not indebted to the customer and theres no risk of forgetting the order. The reason most florists don\'t offer scheduled deliveries is because of the risk and admin. We take care of all of that, so you can just focus on what you do best: making beautiful bouquets.',
               ].map((point, i) => (
                 <div key={i} className="flex items-start gap-3 bg-white rounded-lg p-4 shadow-sm">
                   <ChevronRight className="h-5 w-5 text-[var(--color2)] flex-shrink-0 mt-0.5" />
@@ -284,7 +284,7 @@ const FloristsPage = () => {
                   <ul className="flex flex-col gap-2 text-gray-700">
                     <li className="flex items-start gap-2">
                       <span className="text-[var(--color2)] mt-1">&#10003;</span>
-                      A 7.5% referral commission on all purchases
+                      A 5% referral commission on all purchases
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-[var(--color2)] mt-1">&#10003;</span>

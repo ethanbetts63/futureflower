@@ -30,7 +30,7 @@ export const Timeline: React.FC = () => {
           'Full order details sent via text & email: budget, address, preferences',
           "Click acceptance link to confirm or deny the order (no penalty for denying)",
           'No admin, dashboards or sites to manage - one link handled from email or text',
-          "If you decline, you instead receive a 5% commission when the order is passed on",
+          "If you decline a customer you signed up, receive a 5% commission instead",
         ],
       },
       {

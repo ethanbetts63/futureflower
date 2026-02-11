@@ -3,9 +3,9 @@ import { Check } from 'lucide-react';
 
 const points = [
   'Only sales you\'re leaving behind.',
-  'Decline orders, still get paid 7.5%.',
+  'Decline your customers, still get paid 5%.',
   'Easy upsell. Locked revenue.',
-  'We absorb bad reviews.',
+  'We absorb bad review risk.',
 ];
 
 export const ValuePropsA: React.FC = () => {
