@@ -21,7 +21,7 @@ DEFAULT_BUDGET = 100
 HOLD_TIMES_MONTHS = [0.5, 1, 2, 3, 6, 9, 12, 18, 24, 36]
 
 # Upfront payment discount percentages to analyze
-UPFRONT_DISCOUNTS = [0.05, 0.10, 0.15, 0.20, 0.25, 0.30]
+UPFRONT_DISCOUNTS = [0, 0.05, 0.10]
 
 # Upfront prepaid: 1 delivery per year, multi-year plans
 UPFRONT_YEARS_OPTIONS = [2, 3, 5]
@@ -128,7 +128,8 @@ def calc_upfront(budget, source, years, deliveries_per_year, upfront_discount, h
 
     commission = 0
     if source == "non_delivery_partner":
-        commission = budget * COMMISSION_RATE * total_deliveries
+        # Commission only on first 3 orders
+        commission = budget * COMMISSION_RATE * min(total_deliveries, 3)
     elif source == "delivery_partner_decline":
         commission = budget * COMMISSION_RATE * total_deliveries
 
@@ -183,6 +184,8 @@ class Command(BaseCommand):
         self._print_hold_time_sensitivity(console, budget)
         console.print()
         self._print_budget_sensitivity(console)
+        console.print()
+        self._print_upfront_analysis(console, budget)
 
     def _print_assumptions(self, console):
         table = Table(title="Assumptions", box=box.ROUNDED, title_style="bold cyan", header_style="bold")
@@ -287,4 +290,35 @@ class Command(BaseCommand):
             table.add_row(f"${budget}", *cells)
 
         console.print(table)
+
+    def _print_upfront_analysis(self, console, budget):
+        """Upfront multi-year plans: 1 delivery/year, various discounts."""
+        for years in UPFRONT_YEARS_OPTIONS:
+            # Average hold time: we collect everything upfront and pay florists
+            # at month 0, 12, 24, etc. Avg hold ≈ (years-1)/2 * 12 months.
+            avg_hold = (years - 1) * 6
+
+            table = Table(
+                title=f"Upfront {years}-Year Plan — ${budget} Budget, 1 Delivery/Year (Avg Hold: {avg_hold}mo)",
+                box=box.ROUNDED, title_style="bold cyan", header_style="bold",
+            )
+            table.add_column("Discount", style="white", min_width=10)
+            for label, _, _, _ in SCENARIO_COLS:
+                table.add_column(label, justify="right", min_width=14)
+
+            for disc in UPFRONT_DISCOUNTS:
+                cells = []
+                for _, source, is_first, comm in SCENARIO_COLS:
+                    r = calc_upfront(budget, source, years, 1, disc, hold_months_avg=avg_hold)
+                    profit = r["total_profit"]
+                    ppd = r["profit_per_delivery"]
+                    margin = r["margin"]
+                    cells.append(Text(
+                        f"{_c(profit)} ({_c(ppd)}/del, {_pct(margin)})",
+                        style=_style(profit),
+                    ))
+                table.add_row(_pct(disc), *cells)
+
+            console.print(table)
+            console.print()
 
