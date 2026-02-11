@@ -5,7 +5,8 @@ import { Timeline } from '../components/Timeline';
 import { SendBusinessYourWay } from '../components/SendBusinessYourWay';
 import { ValuePropsA } from '../components/ValuePropsA';
 import type { FaqItem } from '@/types/FaqItem';
-import { Calendar, RefreshCw, CreditCard, Gift, Store, Link2, ChevronRight, ArrowDown } from 'lucide-react';
+import { NonDeliveryPartnersSection } from '../components/NonDeliveryPartnersSection';
+import { Calendar, RefreshCw, CreditCard, Gift, ChevronRight, ArrowDown } from 'lucide-react';
 
 import deliveryImage from '../assets/delivery.webp';
 import deliveryImage320 from '../assets/delivery-320w.webp';
@@ -163,7 +164,7 @@ const FloristsPage = () => {
               <div className="flex flex-col gap-3">
                 {conversationStarters.map((line, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <ChevronRight className="h-5 w-5 text-[var(--color2)] flex-shrink-0 mt-0.5" />
+                    <ChevronRight className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
                     <p className="text-gray-700 italic">{line}</p>
                   </div>
                 ))}
@@ -174,7 +175,7 @@ const FloristsPage = () => {
       </section>
 
       {/* Services Carousel */}
-      <section className="bg-primary py-10 md:py-14">
+      <section className="bg-primary py-6">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-black">
             Our Services
@@ -198,7 +199,7 @@ const FloristsPage = () => {
                 <ul className="flex flex-col gap-2">
                   {service.points.map((point, j) => (
                     <li key={j} className="flex items-start gap-2 text-gray-700 text-sm">
-                      <span className="text-[var(--color2)] mt-1">&#10003;</span>
+                      <span className="text-green-500 mt-1">&#10003;</span>
                       <span>{point}</span>
                     </li>
                   ))}
@@ -222,7 +223,7 @@ const FloristsPage = () => {
               The most honest answer is that <strong>we handle the customer</strong>. The customers learn to use our service, pay with our system, and give us their details.
             </p>
             <p className="text-lg text-gray-700 leading-relaxed mb-4">
-              Here's our counter:
+              These are our counter arguments:
             </p>
             <div className="flex flex-col gap-3">
               {[
@@ -233,7 +234,7 @@ const FloristsPage = () => {
                 'Your not indebted to the customer and theres no risk of forgetting the order. The reason most florists don\'t offer scheduled deliveries is because of the risk and admin. We take care of all of that, so you can just focus on what you do best: making beautiful bouquets.',
               ].map((point, i) => (
                 <div key={i} className="flex items-start gap-3 bg-white rounded-lg p-4 shadow-sm">
-                  <ChevronRight className="h-5 w-5 text-[var(--color2)] flex-shrink-0 mt-0.5" />
+                  <ChevronRight className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
                   <p className="text-gray-700">{point}</p>
                 </div>
               ))}
@@ -242,61 +243,7 @@ const FloristsPage = () => {
         </div>
       </section>
 
-      {/* For Non-Delivery Partners */}
-      <section className="bg-primary py-10 md:py-14">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <div className="bg-white rounded-xl shadow-md p-8 md:p-10">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 bg-[var(--color2)] rounded-full">
-                  <Store className="h-6 w-6 text-black" />
-                </div>
-                <h2 className="text-2xl md:text-3xl font-bold text-black">
-                  For non-delivery partners
-                </h2>
-              </div>
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Not every florist wants to deliver — it's expensive, complicated, and time consuming. But that doesn't mean it hurts any less when you have to say no to a customer. ForeverFlower gives you the ability to say: <strong>"No, but…"</strong>. A small difference that goes a long way. Every sale counts.
-              </p>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-[var(--color4)] rounded-lg p-6">
-                  <h3 className="font-semibold text-black mb-4 flex items-center gap-2">
-                    <Link2 className="h-5 w-5" />
-                    You Just Need
-                  </h3>
-                  <ul className="flex flex-col gap-2 text-gray-700">
-                    <li className="flex items-start gap-2">
-                      <span className="text-[var(--color2)] mt-1">&#10003;</span>
-                      A small poster in-store
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-[var(--color2)] mt-1">&#10003;</span>
-                      A link on your website or Instagram bio
-                    </li>
-                  </ul>
-                </div>
-                <div className="bg-[var(--color4)] rounded-lg p-6">
-                  <h3 className="font-semibold text-black mb-4 flex items-center gap-2">
-                    <Gift className="h-5 w-5" />
-                    What You Get
-                  </h3>
-                  <ul className="flex flex-col gap-2 text-gray-700">
-                    <li className="flex items-start gap-2">
-                      <span className="text-[var(--color2)] mt-1">&#10003;</span>
-                      A 5% referral commission on all purchases
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-[var(--color2)] mt-1">&#10003;</span>
-                      We handle everything else
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <NonDeliveryPartnersSection />
 
       {/* FAQ */}
       <div className="bg-[var(--color4)]">
