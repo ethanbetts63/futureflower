@@ -9,7 +9,7 @@ from rich import box
 # ──────────────────────────────────────────────────────────
 
 STRIPE_WISE_COMBINE_RATE = 0.035          # 3.5%
-SERVICE_FEE_RATE = 0.10         # 10% added on top of bouquet budget
+SERVICE_FEE_RATE = 0.1         # 10% added on top of bouquet budget
 COMMISSION_RATE = 0.05          # 5% of bouquet budget
 DISCOUNT_AMOUNT = 5.00          # $5 off first bouquet (non-delivery partners)
 INTEREST_RATE = 0.045           # 4.5% annual on float
