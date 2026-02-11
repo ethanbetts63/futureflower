@@ -60,7 +60,6 @@ export const CtaCard: React.FC = () => {
         subtitle: 'Prepaid Flowers',
         paragraph: 'From annual milestones to regular deliveries, flowers arrive exactly when you want.',
         features: [
-          { heading: 'Built-in bulk savings', subtext: 'Multiple future deliveries, one order, up to 35% off.' },
           { heading: 'Future-proofed', subtext: 'No renewals, no reminders, no risk of forgetting.' },
           { heading: 'The kind of gift people remember', subtext: 'Shows thoughtfulness far beyond the day it’s given.' },
         ],

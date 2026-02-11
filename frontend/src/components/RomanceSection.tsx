@@ -9,7 +9,6 @@ import { Check } from 'lucide-react';
 
 const features = [
   "Our service is discreet. You won't find our branding on the bouquets, preserving the personal touch of your gesture.",
-  "Pay upfront and save — Organizing years worth of flowers at once means a discount, just like any bulk purchase.",
   "Planning ahead is an act of care, not a substitute for romance. A completely unique, and bespoke gift is gift that stands out."
 ];
 

@@ -6,7 +6,6 @@ def forever_flower_upfront_price(
     budget: Decimal,
     frequency: str,
     years: int,
-    annual_real_return: Decimal = Decimal('0.04'),
 ) -> (Decimal, dict):
     """
     Returns:
@@ -34,39 +33,21 @@ def forever_flower_upfront_price(
         }
         return round(upfront_price, 2), breakdown
 
-    # Annual costs
-    flower_cost_year = budget * deliveries_per_year
-    fee_year = fee_per_delivery * deliveries_per_year
-    total_cost_year = flower_cost_year + fee_year
-
-    r = annual_real_return
-    N = years
-    # Annuity factor calculation using Decimal
-    annuity_factor = (Decimal('1') - (Decimal('1') + r) ** -N) / r
-
-    # Present value of annuity
-    upfront_price = total_cost_year * annuity_factor
-    total_service_fee = fee_year * annuity_factor
-
-    # For comparison, calculate the total nominal cost if paid via subscription
-    price_per_delivery = budget + fee_per_delivery
-    total_subscription_cost = price_per_delivery * deliveries_per_year * N
-
-    # Calculate the savings percentage
-    if total_subscription_cost > 0:
-        savings_percentage = (Decimal('1') - (upfront_price / total_subscription_cost)) * Decimal('100')
-    else:
-        savings_percentage = Decimal('0')
+    # Total costs
+    total_deliveries = deliveries_per_year * years
+    total_flower_cost = budget * total_deliveries
+    total_service_fee = fee_per_delivery * total_deliveries
+    upfront_price = total_flower_cost + total_service_fee
 
     breakdown = {
-        "flower_cost_year": flower_cost_year,
-        "fee_year": fee_year,
-        "total_cost_year": total_cost_year,
+        "flower_cost_year": budget * deliveries_per_year,
+        "fee_year": fee_per_delivery * deliveries_per_year,
+        "total_cost_year": (budget + fee_per_delivery) * deliveries_per_year,
         "fee_per_delivery": fee_per_delivery,
         "total_service_fee": round(total_service_fee, 2),
-        "assumed_return": r,
-        "years": N,
-        "upfront_savings_percentage": round(savings_percentage),
+        "assumed_return": Decimal('0'),
+        "years": years,
+        "upfront_savings_percentage": Decimal('0'),
     }
 
     return round(upfront_price, 2), breakdown
