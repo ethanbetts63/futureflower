@@ -2,44 +2,57 @@
 
 ## Purpose
 
-The `users` app is the cornerstone of user management within the ForeverFlower application. It is responsible for handling everything related to user identity, authentication, profile data, and the processes of account creation and deletion.
+The `users` app handles user identity, authentication, profile management, and GDPR-compliant account deletion (anonymization).
 
-## Core Models
+## Model
 
-### `User`
-This is the custom user model for the project (`AbstractUser`), extended to include a rich set of fields for robust communication and data privacy.
+### User (extends AbstractUser)
+Custom user model with additional fields for:
+- **Password reset throttling:** `password_reset_last_sent_at`
+- **Legal compliance:** `agreed_to_terms` (FK to TermsAndConditions)
+- **Stripe integration:** `stripe_customer_id`
+- **Anonymization:** `anonymized_at`, `hash_first_name`, `hash_last_name`, `hash_email` (indexed)
 
-**Key Fields:**
-*   **Primary Contact:** Inherits `email`, `first_name`, `last_name` from Django's auth system.
+## Key Flows
 
-## Key Flows & Business Logic
+### Registration
+1. User submits email, password, first_name, last_name to `POST /api/users/register/`
+2. Account created with email as username
+3. JWT tokens (access + refresh) returned immediately
+4. No email verification currently required
 
-### User Registration Flow ("Upfront Account Creation")
-The application uses a unified "upfront" registration strategy. There is no separate sign-up page or anonymous flow.
+### Password Reset
+1. `POST /api/users/password-reset/request/` - Sends reset email via Mailgun (rate limited to 1 per 60 seconds per user)
+2. Always returns 200 regardless of whether email exists (prevents user enumeration)
+3. Checks BlockedEmail list before sending
+4. `POST /api/users/password-reset/confirm/<uidb64>/<token>/` - Sets new password (token valid for 1 hour)
 
-1.  **Initiation:** A user begins the process by clicking "Create an Event" from the homepage.
-2.  **Account Creation:** The user is directed to the `ProfileCreationPage` (`/create-flow/profile`), where they provide their profile information and a password.
-3.  **Backend Process:** The data is submitted to the `/api/users/register/` endpoint, which uses `RegisterSerializer` to create a new `User` instance.
-4.  **Authentication:** Upon successful creation, the `RegisterView` immediately generates and returns JWT (Access and Refresh) tokens.
-5.  **Session Start:** The frontend receives the tokens, logs the user in, and navigates them to the next step in the event creation flow (`/create-flow/contacts`).
-
-### User Deletion (Anonymization) Flow
-To comply with data privacy principles, user deletion is not a simple database record removal. Instead, it is an anonymization process triggered from the "Delete Account" section of the user's account page.
-
-The logic is orchestrated by the `anonymize_user` utility function:
-1.  **Cancel Pending Notifications:** All `Notification` objects linked to the user with a `pending` status are immediately and permanently deleted.
-2.  **Hash PII:** The value of every PII field (e.g., `first_name`, `phone`) is securely hashed using a system salt. The resulting hash is stored in the corresponding `hash_*` field (e.g., `hash_first_name`).
-3.  **Wipe PII:** The original PII fields are overwritten with empty strings. The `email` field, which has a `UNIQUE` constraint, is set to a placeholder value (`deleted_{user.pk}@deleted.com`).
-4.  **Deactivate Account:** The user's `is_active` flag is set to `False` to prevent any future logins.
-5.  **Timestamp:** An `anonymized_at` timestamp is recorded on the user model.
+### Account Deletion (Anonymization)
+Orchestrated by `utils/anonymize_user.py`:
+1. Deletes pending UpfrontPlans; anonymizes active plans (hashes recipient PII, deletes undelivered events)
+2. Hashes user PII (first_name, last_name, email) using HMAC-SHA256 with system salt
+3. Wipes original PII fields
+4. Replaces email/username with `deleted_{pk}@deleted.com` / `deleted_user_{pk}`
+5. Sets `is_active = False`, records `anonymized_at` timestamp
 
 ## API Endpoints
 
-The following are the primary endpoints provided by this app, under the `/api/users/` prefix:
+All under `/api/users/`:
 
-*   `register/`: `POST` - Creates a new user account. (Public)
-*   `me/`: `GET`, `PATCH` - View or update the profile of the currently authenticated user.
-*   `delete/`: `DELETE` - Initiates the account anonymization process for the authenticated user.
-*   `change-password/`: `PUT` - Allows an authenticated user to change their password.
-*   `password-reset/request/`: `POST` - Allows a user to request a password reset link. (Public)
-*   `password-reset/confirm/<uidb64>/<token>/`: `POST` - Allows a user to set a new password using a reset token. (Public)
+- `POST /register/` - Create account (public)
+- `GET/PATCH /me/` - View/update profile (authenticated)
+- `DELETE /delete/` - Anonymize and deactivate account (authenticated)
+- `PUT /change-password/` - Change password (authenticated)
+- `POST /password-reset/request/` - Request reset email (public)
+- `POST /password-reset/confirm/<uidb64>/<token>/` - Confirm reset (public)
+
+## Utilities
+
+- `hash_value(value, salt)` - HMAC-SHA256 hashing for PII anonymization
+- `anonymize_user(user)` - Full 5-step anonymization workflow
+- `send_password_reset_email(user)` - Mailgun API email with signed unsubscribe link
+
+## Templates
+
+- `users/emails/password_reset_email.html` - HTML password reset email
+- `users/emails/password_reset_email.txt` - Plain text fallback

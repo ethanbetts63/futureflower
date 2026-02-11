@@ -8,7 +8,6 @@ def load_db_from_latest_archive(command):
         'data_management.termsandconditions.json',
         'users.user.json',
         'events.event.json',
-        'notifications.notification.json',
         'payments.payment.json',
     ]
 

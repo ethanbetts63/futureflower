@@ -2,15 +2,13 @@ import factory
 from factory.django import DjangoModelFactory
 from factory import Faker, SubFactory
 from events.models import Event
-from users.tests.factories.user_factory import UserFactory
+from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
 
 class EventFactory(DjangoModelFactory):
     class Meta:
         model = Event
 
-    name = Faker('sentence', nb_words=4)
-    event_date = Faker('future_date')
-    weeks_in_advance = Faker('random_int', min=1, max=12)
-    delivery_notes = Faker('paragraph')
-    user = SubFactory(UserFactory)
-    is_active = Faker('boolean')
+    order = SubFactory(UpfrontPlanFactory)
+    delivery_date = Faker('future_date')
+    message = Faker('paragraph')
+    status = 'scheduled'

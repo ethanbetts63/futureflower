@@ -1,5 +1,4 @@
 export * from './auth';
-export * from './config';
 export * from './legal';
 export * from './faq';
 export * from './events';

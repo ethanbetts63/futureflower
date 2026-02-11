@@ -5,7 +5,6 @@ import HomePage from './pages/home';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import { Toaster } from "@/components/ui/sonner"
-import { ConfigProvider } from './context/ConfigContext';
 import { Spinner } from './components/ui/spinner';
 
 // --- Lazy-loaded Pages ---
@@ -78,8 +77,7 @@ function App() {
         <NavBar />
         <Toaster position="top-center" />
         <div className="flex-grow">
-          <ConfigProvider>
-            <Suspense fallback={<LoadingFallback />}>
+          <Suspense fallback={<LoadingFallback />}>
               <Routes>
                 {/* Public routes */}
                 <Route path="/" element={<HomePage />} />
@@ -149,7 +147,6 @@ function App() {
 
               </Routes>
             </Suspense>
-          </ConfigProvider>
         </div>
         <Footer />
       </div>
