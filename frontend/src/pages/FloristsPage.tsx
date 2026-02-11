@@ -42,7 +42,7 @@ const services = [
     points: [
       'Customers prepay for multiple deliveries and receive a bulk discount.',
       'No missed payments, cancellations, or admin overhead for you.',
-      'We manage the capital, schedule, and customer communication.',
+      'We manage the capital risk, schedule, and customer communication.',
     ],
   },
   {

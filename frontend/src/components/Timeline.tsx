@@ -30,6 +30,7 @@ export const Timeline: React.FC = () => {
           'Full order details sent via text & email: budget, address, preferences',
           "Click acceptance link to confirm or deny the order (no penalty for denying)",
           'No admin, dashboards or sites to manage - one link handled from email or text',
+          "If you decline, you instead receive a 5% commission when the order is passed on",
         ],
       },
       {
@@ -37,7 +38,7 @@ export const Timeline: React.FC = () => {
         description: [
           "Additional requests sent to ensure receipt of the acceptance link",
           'You have 48 hours to accept or decline',
-          "If you decline, you instead receive a 7.5% commission",
+          "Same 5% commision for declining.",
           "No response = decline",
         ],
       },
@@ -56,7 +57,7 @@ export const Timeline: React.FC = () => {
         <style>{compressedTimelineStyles}</style>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-black mb-6 text-center">
-            How we work togethor: A Simple 4-Step Process
+            How we work together: A Simple 4-Step Process
           </h2>
           <VerticalTimeline lineColor={'#e5e7eb'}>
             {timelineData.map((item, index) => (
