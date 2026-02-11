@@ -8,7 +8,7 @@ from rich import box
 # ASSUMPTIONS — change these values to tweak the model
 # ──────────────────────────────────────────────────────────
 
-STRIPE_FEE_RATE = 0.03          # 3%
+STRIPE_WISE_COMBINE_RATE = 0.035          # 3.5%
 SERVICE_FEE_RATE = 0.10         # 10% added on top of bouquet budget
 COMMISSION_RATE = 0.05          # 5% of bouquet budget
 DISCOUNT_AMOUNT = 5.00          # $5 off first bouquet (non-delivery partners)
@@ -26,8 +26,8 @@ UPFRONT_DISCOUNTS = [0.05, 0.10, 0.15, 0.20, 0.25, 0.30]
 # Upfront prepaid: 1 delivery per year, multi-year plans
 UPFRONT_YEARS_OPTIONS = [2, 3, 5]
 
-# Subscription hold time (1-2 weeks, use 0.5 months ≈ 2 weeks)
-SUBSCRIPTION_HOLD_MONTHS = 0.5
+# Subscription hold time (1-2 weeks, use 0.25 months ≈ 1 week)
+SUBSCRIPTION_HOLD_MONTHS = 0.25  # ~1 week
 
 
 def _c(val):
@@ -65,7 +65,7 @@ def _cost(val):
 
 def calc_float_income(total_payment, hold_months):
     """Calculate after-tax float income."""
-    return total_payment * INTEREST_RATE * (hold_months / 12) * (1 - TAX_RATE)
+    return total_payment * INTEREST_RATE * (hold_months / 12)
 
 
 def calc_single_delivery(budget, source, is_first=True, has_commission=True, hold_months=12):
@@ -82,7 +82,7 @@ def calc_single_delivery(budget, source, is_first=True, has_commission=True, hol
     if source == "non_delivery_partner" and is_first:
         customer_pays -= DISCOUNT_AMOUNT
 
-    stripe_fee = customer_pays * STRIPE_FEE_RATE
+    stripe_wise_fee = customer_pays * STRIPE_WISE_COMBINE_RATE
     florist_cost = budget
 
     # Commissions
@@ -94,14 +94,14 @@ def calc_single_delivery(budget, source, is_first=True, has_commission=True, hol
     elif source == "delivery_partner_decline":
         commission = budget * COMMISSION_RATE
 
-    base_profit = customer_pays - stripe_fee - florist_cost - commission
+    base_profit = customer_pays - stripe_wise_fee - florist_cost - commission
     float_income = calc_float_income(customer_pays, hold_months)
     total_profit = base_profit + float_income
     margin = total_profit / customer_pays if customer_pays else 0
 
     return {
         "customer_pays": customer_pays,
-        "stripe_fee": stripe_fee,
+        "stripe_wise_fee": stripe_wise_fee,
         "florist_cost": florist_cost,
         "commission": commission,
         "discount": DISCOUNT_AMOUNT if (source == "non_delivery_partner" and is_first) else 0,
@@ -123,7 +123,7 @@ def calc_upfront(budget, source, years, deliveries_per_year, upfront_discount, h
     total_customer_pays = total_full_price * (1 - upfront_discount)
     upfront_discount_amount = total_full_price - total_customer_pays
 
-    stripe_fee = total_customer_pays * STRIPE_FEE_RATE
+    stripe_wise_fee = total_customer_pays * STRIPE_WISE_COMBINE_RATE
     florist_cost = budget * total_deliveries
 
     commission = 0
@@ -132,7 +132,7 @@ def calc_upfront(budget, source, years, deliveries_per_year, upfront_discount, h
     elif source == "delivery_partner_decline":
         commission = budget * COMMISSION_RATE * total_deliveries
 
-    base_profit = total_customer_pays - stripe_fee - florist_cost - commission
+    base_profit = total_customer_pays - stripe_wise_fee - florist_cost - commission
     float_income = calc_float_income(total_customer_pays, hold_months_avg)
     total_profit = base_profit + float_income
     margin = total_profit / total_customer_pays if total_customer_pays else 0
@@ -142,7 +142,7 @@ def calc_upfront(budget, source, years, deliveries_per_year, upfront_discount, h
         "total_deliveries": total_deliveries,
         "customer_pays": total_customer_pays,
         "upfront_discount_amount": upfront_discount_amount,
-        "stripe_fee": stripe_fee,
+        "stripe_wise_fee": stripe_wise_fee,
         "florist_cost": florist_cost,
         "commission": commission,
         "base_profit": base_profit,
@@ -155,9 +155,8 @@ def calc_upfront(budget, source, years, deliveries_per_year, upfront_discount, h
 
 SCENARIO_COLS = [
     ("Direct / Del Accept / Non-Del (4th+)", "direct", True, False),
-    ("Non-Del (1st)", "non_delivery_partner", True, True),     # discount + commission
-    ("Non-Del (2nd-3rd)", "non_delivery_partner", False, True), # commission only
-    ("Del (Decline)", "delivery_partner_decline", True, True),
+    ("Non-Del (1st)", "non_delivery_partner", True, True),
+    ("Non-Del (2nd-3rd) / Del (Decline)", "non_delivery_partner", False, True),
 ]
 
 
@@ -184,20 +183,17 @@ class Command(BaseCommand):
         self._print_hold_time_sensitivity(console, budget)
         console.print()
         self._print_budget_sensitivity(console)
-        console.print()
-        self._print_upfront_discount_analysis(console, budget)
 
     def _print_assumptions(self, console):
         table = Table(title="Assumptions", box=box.ROUNDED, title_style="bold cyan", header_style="bold")
         table.add_column("Parameter", style="white")
         table.add_column("Value", style="yellow", justify="right")
 
-        table.add_row("Stripe Fee Rate", _pct(STRIPE_FEE_RATE))
+        table.add_row("Stripe + Wise Fee Rate", _pct(STRIPE_WISE_COMBINE_RATE))
         table.add_row("Service Fee Rate", _pct(SERVICE_FEE_RATE))
         table.add_row("Commission Rate", _pct(COMMISSION_RATE))
         table.add_row("Discount (Non-Del Partner, 1st order)", _c(DISCOUNT_AMOUNT))
         table.add_row("Interest Rate on Float", _pct(INTEREST_RATE))
-        table.add_row("Tax Rate on Float Income", _pct(TAX_RATE))
         table.add_row("Bouquet Budgets", ", ".join(f"${b}" for b in BOUQUET_BUDGETS))
 
         console.print(table)
@@ -215,7 +211,7 @@ class Command(BaseCommand):
 
         rows = [
             ("Customer Pays", "customer_pays", "plain"),
-            ("Stripe Fee", "stripe_fee", "cost"),
+            ("Stripe + Wise Fee", "stripe_wise_fee", "cost"),
             ("Florist Cost", "florist_cost", "cost"),
             ("Commission", "commission", "cost"),
             ("Discount", "discount", "cost"),
@@ -292,66 +288,3 @@ class Command(BaseCommand):
 
         console.print(table)
 
-    def _print_upfront_discount_analysis(self, console, budget):
-        """Show upfront prepaid profitability (1 delivery/year) at different discount levels."""
-
-        # One table per year option — direct customers
-        for years in UPFRONT_YEARS_OPTIONS:
-            total = years  # 1 delivery per year
-            avg_hold = (years * 12) / 2
-
-            table = Table(
-                title=f"Upfront (Direct) — ${budget}, {years}yr ({total} del, {avg_hold:.0f}mo avg hold)",
-                box=box.ROUNDED, title_style="bold cyan", header_style="bold",
-            )
-            table.add_column("Disc%", style="white", min_width=6)
-            table.add_column("Cust Pays", justify="right")
-            table.add_column("Cust Saves", justify="right")
-            table.add_column("Base Profit", justify="right")
-            table.add_column("Float", justify="right")
-            table.add_column("Total Profit", justify="right")
-            table.add_column("Per Delivery", justify="right")
-            table.add_column("Margin", justify="right")
-
-            for disc in UPFRONT_DISCOUNTS:
-                r = calc_upfront(budget, "direct", years, 1, disc, hold_months_avg=avg_hold)
-                table.add_row(
-                    _pct(disc),
-                    Text(_c(r["customer_pays"])),
-                    Text(_c(r["upfront_discount_amount"]), style="yellow"),
-                    _sc(r["base_profit"]),
-                    _sc(r["float_income"]),
-                    _sc(r["total_profit"]),
-                    _sc(r["profit_per_delivery"]),
-                    Text(_pct(r["margin"]), style=_style(r["margin"])),
-                )
-
-            console.print(table)
-            console.print()
-
-        # Summary: upfront across all customer sources at key discount levels
-        console.print()
-        sources = ["direct", "non_delivery_partner", "delivery_partner_decline"]
-        source_labels = ["Direct /\nDel Accept", "Non-Del\nPartner", "Del\nDecline"]
-
-        for disc in UPFRONT_DISCOUNTS:
-            table = Table(
-                title=f"Upfront @ {_pct(disc)} Discount — ${budget} Budget, All Sources (1 del/yr)",
-                box=box.ROUNDED, title_style="bold cyan", header_style="bold",
-            )
-            table.add_column("Plan", style="white", min_width=10)
-            for lbl in source_labels:
-                table.add_column(f"{lbl}\nProfit/Del", justify="right")
-
-            for years in UPFRONT_YEARS_OPTIONS:
-                avg_hold = (years * 12) / 2
-                label = f"{years}yr ({years} del)"
-
-                cells = []
-                for src in sources:
-                    r = calc_upfront(budget, src, years, 1, disc, hold_months_avg=avg_hold)
-                    cells.append(_sc(r["profit_per_delivery"]))
-                table.add_row(label, *cells)
-
-            console.print(table)
-            console.print()
