@@ -41,14 +41,6 @@ const SingleDeliveryStep3PreferencesPage = lazy(() => import('./pages/single_del
 const SingleDeliveryStep4StructurePage = lazy(() => import('./pages/single_delivery_flow/Step4StructurePage'));
 const SingleDeliveryStep5ConfirmationPage = lazy(() => import('./pages/single_delivery_flow/Step5ConfirmationPage'));
 
-// --- Partner Pages ---
-const PartnerRegistrationPage = lazy(() => import('./pages/partner/PartnerRegistrationPage'));
-const PartnerDashboardPage = lazy(() => import('./pages/partner/PartnerDashboardPage'));
-const DeliveryRequestPage = lazy(() => import('./pages/partner/DeliveryRequestPage'));
-const StripeConnectReturnPage = lazy(() => import('./pages/partner/StripeConnectReturnPage'));
-const PayoutsPage = lazy(() => import('./pages/partner/PayoutsPage'));
-const PayoutDetailPage = lazy(() => import('./pages/partner/PayoutDetailPage'));
-
 const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
 const PaymentStatusPage = lazy(() => import('./pages/PaymentStatusPage'));
 const BlocklistSuccessPage = lazy(() => import('./pages/BlocklistSuccessPage'));
@@ -65,14 +57,6 @@ const BestFlowerSubscriptionServicesEU = lazy(() => import('./pages/articles/Bes
 const BestFlowerSubscriptionServicesNZ = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesNZ'));
 const BestFlowerDeliveryPerth = lazy(() => import('./pages/articles/BestFlowerDeliveryPerth'));
 const BestFlowerDeliverySydney = lazy(() => import('./pages/articles/BestFlowerDeliverySydney'));
-
-// --- Lazy-loaded Partner Pages ---
-const PartnerRegistrationPage = lazy(() => import('./pages/partner/PartnerRegistrationPage'));
-const PartnerDashboardPage = lazy(() => import('./pages/partner/PartnerDashboardPage'));
-const DeliveryRequestPage = lazy(() => import('./pages/partner/DeliveryRequestPage'));
-const StripeConnectReturnPage = lazy(() => import('./pages/partner/StripeConnectReturnPage'));
-const PayoutsPage = lazy(() => import('./pages/partner/PayoutsPage'));
-const PayoutDetailPage = lazy(() => import('./pages/partner/PayoutDetailPage'));
 
 // --- Lazy-loaded Admin Pages ---
 const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
@@ -133,14 +117,6 @@ function App() {
                 <Route path="/single-delivery-flow/plan/:planId/confirmation" element={<SingleDeliveryStep5ConfirmationPage />} />
 
 
-
-                {/* Partner Routes */}
-                <Route path="/partner/register" element={<PartnerRegistrationPage />} />
-                <Route path="/partner/dashboard" element={<PartnerDashboardPage />} />
-                <Route path="/partner/delivery-request/:token" element={<DeliveryRequestPage />} />
-                <Route path="/partner/stripe-connect/return" element={<StripeConnectReturnPage />} />
-                <Route path="/partner/payouts" element={<PayoutsPage />} />
-                <Route path="/partner/payouts/:payoutId" element={<PayoutDetailPage />} />
 
                 {/* Partner Routes */}
                 <Route path="/partner/register" element={<PartnerRegistrationPage />} />

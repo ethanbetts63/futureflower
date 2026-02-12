@@ -33,6 +33,7 @@ class DeliveryRequestDetailView(APIView):
             'delivery_notes': getattr(order, 'delivery_notes', ''),
             'budget': str(getattr(order, 'budget', 0)),
             'partner_name': dr.partner.business_name,
+            'event_status': dr.event.status,
             'expires_at': dr.expires_at,
         })
 

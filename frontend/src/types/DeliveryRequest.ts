@@ -12,6 +12,7 @@ export interface DeliveryRequestDetail {
   delivery_notes: string;
   budget: string;
   partner_name: string;
+  event_status: string;
   expires_at: string;
 }
 

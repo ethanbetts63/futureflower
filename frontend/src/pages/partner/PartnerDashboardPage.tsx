@@ -100,7 +100,7 @@ const PartnerDashboardPage: React.FC = () => {
                     <div className="grid grid-cols-3 gap-4 text-sm">
                       <div>
                         <p className="text-muted-foreground">Discount</p>
-                        <p className="font-semibold">${partner.discount_code.discount_amount.toFixed(2)}</p>
+                        <p className="font-semibold">${Number(partner.discount_code.discount_amount).toFixed(2)}</p>
                       </div>
                       <div>
                         <p className="text-muted-foreground">Times Used</p>
@@ -108,7 +108,7 @@ const PartnerDashboardPage: React.FC = () => {
                       </div>
                       <div>
                         <p className="text-muted-foreground">Total Discounted</p>
-                        <p className="font-semibold">${partner.discount_code.total_discount_given.toFixed(2)}</p>
+                        <p className="font-semibold">${(partner.discount_code.total_uses * Number(partner.discount_code.discount_amount)).toFixed(2)}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -124,19 +124,19 @@ const PartnerDashboardPage: React.FC = () => {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
                       <p className="text-sm text-muted-foreground">Total Earned</p>
-                      <p className="text-2xl font-bold">${partner.commission_summary.total_earned.toFixed(2)}</p>
+                      <p className="text-2xl font-bold">${Number(partner.commission_summary.total_earned).toFixed(2)}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Pending</p>
-                      <p className="text-2xl font-bold text-yellow-600">${partner.commission_summary.total_pending.toFixed(2)}</p>
+                      <p className="text-2xl font-bold text-yellow-600">${Number(partner.commission_summary.total_pending).toFixed(2)}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Approved</p>
-                      <p className="text-2xl font-bold text-blue-600">${partner.commission_summary.total_approved.toFixed(2)}</p>
+                      <p className="text-2xl font-bold text-blue-600">${Number(partner.commission_summary.total_approved).toFixed(2)}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Paid</p>
-                      <p className="text-2xl font-bold text-green-600">${partner.commission_summary.total_paid.toFixed(2)}</p>
+                      <p className="text-2xl font-bold text-green-600">${Number(partner.commission_summary.total_paid).toFixed(2)}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -151,11 +151,11 @@ const PartnerDashboardPage: React.FC = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm text-muted-foreground">Total Paid Out</p>
-                      <p className="text-2xl font-bold">${partner.payout_summary.total_paid_out.toFixed(2)}</p>
+                      <p className="text-2xl font-bold">${Number(partner.payout_summary.total_paid).toFixed(2)}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Total Payouts</p>
-                      <p className="text-2xl font-bold">{partner.payout_summary.total_payouts}</p>
+                      <p className="text-sm text-muted-foreground">Pending</p>
+                      <p className="text-2xl font-bold">${Number(partner.payout_summary.total_pending).toFixed(2)}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -212,7 +212,7 @@ const PartnerDashboardPage: React.FC = () => {
                             onClick={() => navigate(`/partner/delivery-request/${dr.token}`)}
                           >
                             <div>
-                              <p className="font-medium">Delivery on {dr.event_delivery_date}</p>
+                              <p className="font-medium">Delivery on {dr.delivery_date}</p>
                               <p className="text-sm text-muted-foreground">
                                 Expires: {new Date(dr.expires_at).toLocaleDateString()}
                               </p>

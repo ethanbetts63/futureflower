@@ -107,7 +107,7 @@ const DeliveryRequestPage: React.FC = () => {
                 <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <div>
                   <p className="text-sm text-muted-foreground">Delivery Location</p>
-                  <p className="font-semibold">{request.recipient_first_name}</p>
+                  <p className="font-semibold">{request.recipient_name}</p>
                   <p className="text-sm">
                     {[request.recipient_suburb, request.recipient_city, request.recipient_state, request.recipient_postcode]
                       .filter(Boolean).join(', ')}
@@ -122,7 +122,7 @@ const DeliveryRequestPage: React.FC = () => {
                   <DollarSign className="h-5 w-5 text-muted-foreground" />
                   <div>
                     <p className="text-sm text-muted-foreground">Budget</p>
-                    <p className="font-semibold">${request.budget.toFixed(2)}</p>
+                    <p className="font-semibold">${Number(request.budget).toFixed(2)}</p>
                   </div>
                 </div>
               )}
@@ -166,7 +166,7 @@ const DeliveryRequestPage: React.FC = () => {
                 </div>
               )}
 
-              {request.status === 'accepted' && request.event_status !== 'delivered' && (
+              {request.status === 'accepted' && request.event_status !== 'delivered' && request.event_status !== 'completed' && (
                 <div className="pt-4 border-t">
                   <Button
                     className="w-full"
