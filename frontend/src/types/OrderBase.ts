@@ -22,8 +22,6 @@ export interface OrderBase {
     preferred_delivery_time: string | null;
     delivery_notes: string | null;
 
-    preferred_colors: number[];
     preferred_flower_types: number[];
-    rejected_colors: number[];
-    rejected_flower_types: number[];
+    flower_notes?: string | null;
 }

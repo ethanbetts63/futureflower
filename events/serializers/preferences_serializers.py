@@ -1,11 +1,6 @@
 # futureflower/events/serializers/preferences_serializers.py
 from rest_framework import serializers
-from ..models import Color, FlowerType
-
-class ColorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Color
-        fields = ['id', 'name', 'hex_code']
+from ..models import FlowerType
 
 class FlowerTypeSerializer(serializers.ModelSerializer):
     class Meta:

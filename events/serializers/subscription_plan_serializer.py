@@ -21,8 +21,8 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
             'recipient_first_name', 'recipient_last_name', 'recipient_street_address',
             'recipient_suburb', 'recipient_city', 'recipient_state',
             'recipient_postcode', 'recipient_country', 'delivery_notes',
-            'created_at', 'updated_at', 'preferred_colors', 'preferred_flower_types',
-            'rejected_colors', 'rejected_flower_types', 'start_date', 'budget',
+            'created_at', 'updated_at', 'preferred_flower_types', 'flower_notes',
+            'start_date', 'budget',
             'frequency', 'price_per_delivery', 'stripe_subscription_id', 'subscription_message',
             'payments', 'next_payment_date', 'next_delivery_date'
         ]

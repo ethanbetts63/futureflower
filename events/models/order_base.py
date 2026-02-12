@@ -82,25 +82,15 @@ class OrderBase(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     # --- Preferences ---
-    preferred_colors = models.ManyToManyField(
-        'events.Color',
-        related_name='preferred_orders',
-        blank=True
-    )
     preferred_flower_types = models.ManyToManyField(
         'events.FlowerType',
         related_name='preferred_orders',
         blank=True
     )
-    rejected_colors = models.ManyToManyField(
-        'events.Color',
-        related_name='rejected_orders',
-        blank=True
-    )
-    rejected_flower_types = models.ManyToManyField(
-        'events.FlowerType',
-        related_name='rejected_orders',
-        blank=True
+    flower_notes = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Optional notes about flower preferences."
     )
 
     def __str__(self):
@@ -117,9 +107,8 @@ class OrderBase(models.Model):
         """
         if hasattr(self, 'upfrontplan'):
             return self.upfrontplan
-        # In the future, add checks for other order types here
-        # if hasattr(self, 'subscriptionplan'):
-        #     return self.subscriptionplan
+        if hasattr(self, 'subscriptionplan'):
+            return self.subscriptionplan
         return None # Fallback to None if no child is found
 
     class Meta:

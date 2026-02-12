@@ -64,7 +64,8 @@ const CreateAccountPage: React.FC = () => {
                     </CardFooter>
                 </Card>
             </div>
-        </div>    );
+        </div>    
+    );
 };
 
 export default CreateAccountPage;

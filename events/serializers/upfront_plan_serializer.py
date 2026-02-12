@@ -2,7 +2,7 @@
 from datetime import date, timedelta
 from django.conf import settings
 from rest_framework import serializers
-from ..models import UpfrontPlan, Color, FlowerType
+from ..models import UpfrontPlan, FlowerType
 from .event_serializer import EventSerializer
 from payments.serializers.payment_serializer import PaymentSerializer
 
@@ -19,18 +19,10 @@ class UpfrontPlanSerializer(serializers.ModelSerializer):
     years = serializers.IntegerField()
     frequency = serializers.CharField(required=False)
 
-    preferred_colors = serializers.PrimaryKeyRelatedField(
-        queryset=Color.objects.all(), many=True, required=False
-    )
     preferred_flower_types = serializers.PrimaryKeyRelatedField(
         queryset=FlowerType.objects.all(), many=True, required=False
     )
-    rejected_colors = serializers.PrimaryKeyRelatedField(
-        queryset=Color.objects.all(), many=True, required=False
-    )
-    rejected_flower_types = serializers.PrimaryKeyRelatedField(
-        queryset=FlowerType.objects.all(), many=True, required=False
-    )
+    flower_notes = serializers.CharField(required=False, allow_blank=True, allow_null=True)
 
     # Make total_amount and currency explicitly writable fields
     total_amount = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, allow_null=True)
@@ -59,7 +51,7 @@ class UpfrontPlanSerializer(serializers.ModelSerializer):
             'recipient_first_name', 'recipient_last_name',
             'recipient_street_address', 'recipient_suburb', 'recipient_city',
             'recipient_state', 'recipient_postcode', 'recipient_country',
-            'preferred_colors', 'preferred_flower_types', 'rejected_colors', 'rejected_flower_types',
+            'preferred_flower_types', 'flower_notes',
             'events', 'payments',
         ]
         read_only_fields = [

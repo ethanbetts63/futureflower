@@ -7,16 +7,14 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getColors, getFlowerTypes } from '@/api';
-import type { Color } from '../types/Color';
+import { getFlowerTypes } from '@/api';
 import type { FlowerType } from '../types/FlowerType';
 
-import { ColorSwatch, SelectableTag } from '@/components';
+import { SelectableTag } from '@/components';
 import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
 import BackButton from '@/components/BackButton';
 import type { PreferencesEditorProps } from '../types/PreferencesEditorProps';
-
-
 
 const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
     mode,
@@ -34,17 +32,14 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
     const { isAuthenticated } = useAuth();
 
     // Data fetching state
-    const [colors, setColors] = useState<Color[]>([]);
     const [flowerTypes, setFlowerTypes] = useState<FlowerType[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     // Selection state
-    const [preferredColors, setPreferredColors] = useState<number[]>([]);
-    const [rejectedColors, setRejectedColors] = useState<number[]>([]);
     const [preferredFlowerTypes, setPreferredFlowerTypes] = useState<number[]>([]);
-    const [rejectedFlowerTypes, setRejectedFlowerTypes] = useState<number[]>([]);
+    const [flowerNotes, setFlowerNotes] = useState<string>('');
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -61,20 +56,16 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const [colorsData, flowerTypesData, planData] = await Promise.all([
-                    getColors(),
+                const [flowerTypesData, planData] = await Promise.all([
                     getFlowerTypes(),
                     getPlan(planId), 
                 ]);
                 
-                setColors(colorsData);
                 setFlowerTypes(flowerTypesData);
 
                 if (planData) {
-                    setPreferredColors(planData.preferred_colors.map(Number));
-                    setRejectedColors(planData.rejected_colors.map(Number));
                     setPreferredFlowerTypes(planData.preferred_flower_types.map(Number));
-                    setRejectedFlowerTypes(planData.rejected_flower_types.map(Number));
+                    setFlowerNotes(planData.flower_notes || '');
                 }
 
             } catch (err) {
@@ -88,11 +79,8 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         fetchData();
     }, [isAuthenticated, navigate, planId, getPlan]);
     
-    const handleToggle = (id: number, setList: React.Dispatch<React.SetStateAction<number[]>>, otherList: number[], setOtherList: React.Dispatch<React.SetStateAction<number[]>>) => {
-        if (otherList.includes(id)) {
-            setOtherList(prev => prev.filter(itemId => itemId !== id));
-        }
-        setList(prev => prev.includes(id) ? prev.filter(itemId => itemId !== id) : [...prev, id]);
+    const handleToggle = (id: number) => {
+        setPreferredFlowerTypes(prev => prev.includes(id) ? prev.filter(itemId => itemId !== id) : [...prev, id]);
     };
 
     const handleSave = async () => {
@@ -100,10 +88,8 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         setIsSaving(true);
         try {
             await updatePlan(planId, {
-                preferred_colors: preferredColors,
-                rejected_colors: rejectedColors,
                 preferred_flower_types: preferredFlowerTypes,
-                rejected_flower_types: rejectedFlowerTypes,
+                flower_notes: flowerNotes,
             });
             if (mode === 'edit') {
                 toast.success("Preferences saved successfully!");
@@ -146,74 +132,34 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
                         </div>
                     </CardHeader>
                     <CardContent className="space-y-8">
-                        {/* Colors Section */}
+                        {/* Flower Types Section */}
                         <div>
-                            <h3 className="text-xl font-semibold mb-2">Colors</h3>
-                            <p className="text-sm text-gray-600 mb-4">Optionally, choose colors you'd like to see more of in the bouquet, and any you'd like to avoid.</p>
-                            <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-                                <div>
-                                    <h4 className="font-medium mb-3 text-center">I'd love these colors</h4>
-                                    <div className="flex flex-wrap gap-3 justify-center">
-                                        {colors.map(color => (
-                                            <ColorSwatch 
-                                                key={color.id} 
-                                                hex={color.hex_code}
-                                                isSelected={preferredColors.includes(color.id)}
-                                                onClick={() => handleToggle(color.id, setPreferredColors, rejectedColors, setRejectedColors)}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 className="font-medium mb-3 text-center">Please, no thanks!</h4>
-                                     <div className="flex flex-wrap gap-3 justify-center">
-                                        {colors.map(color => (
-                                            <ColorSwatch 
-                                                key={color.id} 
-                                                hex={color.hex_code}
-                                                isSelected={rejectedColors.includes(color.id)}
-                                                onClick={() => handleToggle(color.id, setRejectedColors, preferredColors, setPreferredColors)}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
+                            <h3 className="text-xl font-semibold mb-2">Flower Preferences</h3>
+                            <p className="text-sm text-gray-600 mb-4">Select the styles they love!</p>
+                            <div className="flex flex-wrap gap-2 justify-center ">
+                                {flowerTypes.map(ft => (
+                                    <SelectableTag
+                                        key={ft.id}
+                                        label={ft.name}
+                                        isSelected={preferredFlowerTypes.includes(ft.id)}
+                                        onClick={() => handleToggle(ft.id)}
+                                    />
+                                ))}
                             </div>
                         </div>
 
                         <Separator />
-                        
-                        {/* Flower Types Section */}
+
+                        {/* Flower Notes Section */}
                         <div>
-                            <h3 className="text-xl font-semibold mb-2">Flower Types</h3>
-                            <p className="text-sm text-gray-600 mb-4">Select their favorite flowers and flowers you know they don't like. We will order based off these so long as we can find a florist in your area, for your budget, that can accomodate your preferences.</p>
-                            <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-                                <div>
-                                    <h4 className="font-medium mb-3 text-center">Flowers they love!</h4>
-                                    <div className="flex flex-wrap gap-2 justify-center ">
-                                        {flowerTypes.map(ft => (
-                                            <SelectableTag
-                                                key={ft.id}
-                                                label={ft.name}
-                                                isSelected={preferredFlowerTypes.includes(ft.id)}
-                                                onClick={() => handleToggle(ft.id, setPreferredFlowerTypes, rejectedFlowerTypes, setRejectedFlowerTypes)}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 className="font-medium mb-3 text-center">Not these please!</h4>
-                                    <div className="flex flex-wrap gap-2 justify-center">
-                                        {flowerTypes.map(ft => (
-                                            <SelectableTag
-                                                key={ft.id}
-                                                label={ft.name}
-                                                isSelected={rejectedFlowerTypes.includes(ft.id)}
-                                                onClick={() => handleToggle(ft.id, setRejectedFlowerTypes, preferredFlowerTypes, setPreferredFlowerTypes)}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
+                            <h3 className="text-xl font-semibold mb-2">Flower Notes</h3>
+                            <p className="text-sm text-gray-600 mb-4">Any specific dislikes or special requests?</p>
+                            <Textarea
+                                placeholder="They love roses but they hate lilies..."
+                                value={flowerNotes}
+                                onChange={(e) => setFlowerNotes(e.target.value)}
+                                className="min-h-[100px]"
+                            />
                         </div>
 
                     </CardContent>

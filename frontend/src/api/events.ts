@@ -1,7 +1,7 @@
 
 import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
-import type { DeliveryEvent, Color, FlowerType } from '../types';
+import type { DeliveryEvent, FlowerType } from '../types';
 import type { PriceBreakdown } from '../types/PriceBreakdown';
 import type { CalculatePlanPayload } from '../types/CalculatePlanPayload';
 
@@ -56,11 +56,6 @@ export async function calculatePrice(payload: CalculatePlanPayload): Promise<{ u
     body: JSON.stringify(payload),
   });
   return handleResponse(response);
-}
-
-export async function getColors(): Promise<Color[]> {
-    const response = await authedFetch('/api/events/colors/');
-    return handleResponse(response);
 }
 
 export async function getFlowerTypes(): Promise<FlowerType[]> {
