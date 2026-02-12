@@ -11,6 +11,7 @@ import type { CreatePaymentIntentPayload } from '@/types';
 interface PaymentInitiatorButtonProps extends ButtonProps {
   itemType: 'UPFRONT_PLAN_MODIFY' | 'UPFRONT_PLAN_NEW' | 'SUBSCRIPTION_PLAN_NEW' | 'SINGLE_DELIVERY_PLAN_NEW';
   details: CreatePaymentIntentPayload['details'];
+  discountCode?: string | null;
   onPaymentInitiate?: () => void;
   onPaymentSuccess?: (clientSecret: string) => void;
   onPaymentError?: (error: any) => void;
@@ -19,6 +20,7 @@ interface PaymentInitiatorButtonProps extends ButtonProps {
 const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
   itemType,
   details,
+  discountCode,
   onClick,
   onPaymentInitiate,
   onPaymentSuccess,
@@ -49,9 +51,12 @@ const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
         const response = await createSubscription(payload);
         clientSecret = response.clientSecret;
       } else {
+        const detailsWithDiscount = discountCode
+          ? { ...details, discount_code: discountCode }
+          : details;
         const payload = {
           item_type: itemType,
-          details: details,
+          details: detailsWithDiscount,
         };
         const response = await createPaymentIntent(payload);
         clientSecret = response.clientSecret;

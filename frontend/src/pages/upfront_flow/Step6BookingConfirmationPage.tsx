@@ -11,6 +11,7 @@ import PreferencesCard from '@/components/PreferencesCard';
 import MessagesCard from '@/components/MessagesCard';
 import PlanDisplay from '@/components/PlanDisplay';
 import PaymentInitiatorButton from '@/components/PaymentInitiatorButton';
+import DiscountCodeInput from '@/components/DiscountCodeInput';
 
 import { getUpfrontPlan, updateUpfrontPlan } from '@/api';
 import type { UpfrontPlan } from '../../types/UpfrontPlan';
@@ -21,6 +22,7 @@ import type { FlowerType } from '../../types/FlowerType';
 const Step6BookingConfirmationPage = () => {
   const { planId } = useParams<{ planId: string }>();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [discountCode, setDiscountCode] = useState<string | null>(null);
 
   return (
     <>
@@ -80,11 +82,21 @@ const Step6BookingConfirmationPage = () => {
                     </CardContent>
                   </Card>
 
+                  <Card className="bg-white shadow-md border-none text-black">
+                    <CardHeader>
+                      <CardTitle className="flex items-center"><Tag className="mr-2 h-5 w-5" />Discount Code</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <DiscountCodeInput onCodeValidated={(code) => setDiscountCode(code)} />
+                    </CardContent>
+                  </Card>
+
                   <div className="flex justify-between items-center mt-8">
                     <BackButton to={`/upfront-flow/upfront-plan/${planId}/structure`} />
                     <PaymentInitiatorButton
                       itemType="UPFRONT_PLAN_NEW"
                       details={{ upfront_plan_id: planId }}
+                      discountCode={discountCode}
                       disabled={isSubmitting || !planId}
                       onPaymentInitiate={() => setIsSubmitting(true)}
                       onPaymentError={() => setIsSubmitting(false)}

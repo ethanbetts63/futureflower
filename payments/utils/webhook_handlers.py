@@ -32,6 +32,29 @@ def handle_payment_intent_succeeded(payment_intent):
             payment.save()
             print(f"Payment record (PK: {payment.pk}) status updated to 'succeeded'.")
 
+            # --- Discount & Commission Processing ---
+            discount_code_str = metadata.get('discount_code')
+            if discount_code_str:
+                try:
+                    from partners.models import DiscountCode, DiscountUsage
+                    dc = DiscountCode.objects.get(code__iexact=discount_code_str)
+                    if not DiscountUsage.objects.filter(payment=payment).exists():
+                        DiscountUsage.objects.create(
+                            discount_code=dc,
+                            user=payment.user,
+                            payment=payment,
+                            discount_applied=dc.discount_amount,
+                        )
+                        print(f"DiscountUsage created for Payment {payment.pk}")
+                except Exception as e:
+                    print(f"Error creating DiscountUsage: {e}")
+
+            try:
+                from partners.utils.commission_utils import process_referral_commission
+                process_referral_commission(payment)
+            except Exception as e:
+                print(f"Error processing referral commission: {e}")
+
             # --- Fulfillment Logic ---
             # Use the 'order' relation from the payment object to find the correct plan
             order = payment.order
@@ -102,6 +125,14 @@ def handle_invoice_payment_succeeded(invoice):
                 print(f"Created Payment record (PK: {payment.pk}) for invoice.")
             else:
                 print(f"Payment record (PK: {payment.pk}) already exists for this invoice. Skipping duplicate.")
+
+            # Process referral commission for subscription payments
+            if created:
+                try:
+                    from partners.utils.commission_utils import process_referral_commission
+                    process_referral_commission(payment)
+                except Exception as e:
+                    print(f"Error processing referral commission for subscription: {e}")
 
             # Only create the Event if the Payment was newly created (idempotency)
             if not created:

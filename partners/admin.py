@@ -1,0 +1,68 @@
+from django.contrib import admin
+from partners.models import (
+    Partner, DiscountCode, DiscountUsage, Commission,
+    ServiceArea, DeliveryRequest, Payout, PayoutLineItem,
+)
+
+
+class DiscountCodeInline(admin.StackedInline):
+    model = DiscountCode
+    extra = 0
+
+
+class ServiceAreaInline(admin.TabularInline):
+    model = ServiceArea
+    extra = 0
+
+
+@admin.register(Partner)
+class PartnerAdmin(admin.ModelAdmin):
+    list_display = ['user', 'partner_type', 'status', 'business_name', 'created_at']
+    list_filter = ['partner_type', 'status']
+    search_fields = ['user__email', 'business_name']
+    inlines = [DiscountCodeInline, ServiceAreaInline]
+
+
+@admin.register(DiscountCode)
+class DiscountCodeAdmin(admin.ModelAdmin):
+    list_display = ['code', 'partner', 'discount_amount', 'is_active', 'created_at']
+    list_filter = ['is_active']
+    search_fields = ['code', 'partner__business_name']
+
+
+@admin.register(DiscountUsage)
+class DiscountUsageAdmin(admin.ModelAdmin):
+    list_display = ['discount_code', 'user', 'discount_applied', 'created_at']
+    search_fields = ['discount_code__code', 'user__email']
+
+
+@admin.register(Commission)
+class CommissionAdmin(admin.ModelAdmin):
+    list_display = ['partner', 'commission_type', 'amount', 'status', 'created_at']
+    list_filter = ['commission_type', 'status']
+    search_fields = ['partner__business_name']
+    actions = ['approve_commissions']
+
+    def approve_commissions(self, request, queryset):
+        updated = queryset.filter(status='pending').update(status='approved')
+        self.message_user(request, f"{updated} commission(s) approved.")
+    approve_commissions.short_description = "Approve selected commissions"
+
+
+@admin.register(DeliveryRequest)
+class DeliveryRequestAdmin(admin.ModelAdmin):
+    list_display = ['id', 'event', 'partner', 'status', 'expires_at', 'created_at']
+    list_filter = ['status']
+    search_fields = ['partner__business_name', 'token']
+
+
+@admin.register(Payout)
+class PayoutAdmin(admin.ModelAdmin):
+    list_display = ['id', 'partner', 'payout_type', 'amount', 'status', 'created_at']
+    list_filter = ['payout_type', 'status']
+    search_fields = ['partner__business_name']
+
+
+@admin.register(PayoutLineItem)
+class PayoutLineItemAdmin(admin.ModelAdmin):
+    list_display = ['id', 'payout', 'amount', 'description', 'created_at']

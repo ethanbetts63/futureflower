@@ -8,7 +8,8 @@ import BackButton from '@/components/BackButton';
 import PreferencesCard from '@/components/PreferencesCard';
 import PlanDisplay from '@/components/PlanDisplay';
 import SubscriptionStructureCard from '@/components/SubscriptionStructureCard';
-import PaymentInitiatorButton from '@/components/PaymentInitiatorButton'; // Import the new button
+import PaymentInitiatorButton from '@/components/PaymentInitiatorButton';
+import DiscountCodeInput from '@/components/DiscountCodeInput';
 import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
 import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
 import type { Plan } from '../../types/Plan';
@@ -18,6 +19,7 @@ import type { FlowerType } from '../../types/FlowerType';
 const Step5ConfirmationPage: React.FC = () => {
   const { planId } = useParams<{ planId: string }>();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [discountCode, setDiscountCode] = useState<string | null>(null);
 
   const isSubscriptionPlan = (plan: any): plan is SubscriptionPlan => {
     return 'frequency' in plan && 'price_per_delivery' in plan;
@@ -72,6 +74,15 @@ const Step5ConfirmationPage: React.FC = () => {
                             </CardContent>
                         </Card>
 
+                        <Card className="bg-white shadow-md border-none text-black">
+                            <CardHeader>
+                            <CardTitle className="flex items-center"><Tag className="mr-2 h-5 w-5" />Discount Code</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                            <DiscountCodeInput onCodeValidated={(code) => setDiscountCode(code)} />
+                            </CardContent>
+                        </Card>
+
                         <div className="flex justify-between items-center mt-8">
                             <BackButton to={`/subscribe-flow/subscription-plan/${planId}/structure`} />
                             <PaymentInitiatorButton
@@ -79,6 +90,7 @@ const Step5ConfirmationPage: React.FC = () => {
                                 details={{
                                     subscription_plan_id: planId,
                                 }}
+                                discountCode={discountCode}
                                 disabled={isSubmitting || !planId}
                                 onPaymentInitiate={() => setIsSubmitting(true)}
                                 onPaymentError={() => setIsSubmitting(false)}

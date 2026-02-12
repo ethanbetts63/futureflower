@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "events",
     "payments",
     "data_management",
+    "partners",
 ]
 
 SITE_ID = 1

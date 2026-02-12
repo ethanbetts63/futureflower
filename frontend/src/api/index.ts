@@ -7,3 +7,4 @@ export * from './subscriptionPlans';
 export * from './singleDeliveryPlans';
 export * from './users';
 export * from './payments';
+export * from './partners';

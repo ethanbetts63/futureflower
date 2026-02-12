@@ -85,4 +85,18 @@ export type { PartialSingleDeliveryPlan } from './PartialSingleDeliveryPlan';
 export type { SingleDeliveryOrder } from './SingleDeliveryOrder';
 export type { PartialSingleDeliveryOrder } from './PartialSingleDeliveryOrder';
 export type { CalculateSingleDeliveryPriceResponse } from './CalculateSingleDeliveryPriceResponse';
+export type {
+  Partner,
+  DiscountCodeInfo,
+  CommissionSummary,
+  Commission,
+  ServiceArea,
+  DeliveryRequestSummary,
+  PayoutSummary,
+  DiscountValidationResult,
+  PartnerRegistrationData,
+  ServiceAreaInput,
+} from './Partner';
+export type { DeliveryRequestDetail } from './DeliveryRequest';
+export type { Payout, PayoutDetail, PayoutLineItem } from './Payout';
 

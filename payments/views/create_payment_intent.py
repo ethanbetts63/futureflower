@@ -11,6 +11,29 @@ from events.utils.upfront_price_calc import calculate_final_plan_cost
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+
+def validate_discount_code_for_payment(user, code_str):
+    """Validate a discount code and return (discount_code_obj, error_message)."""
+    from partners.models import DiscountCode
+    try:
+        discount_code = DiscountCode.objects.select_related('partner', 'partner__user').get(
+            code__iexact=code_str
+        )
+    except DiscountCode.DoesNotExist:
+        return None, "Invalid discount code."
+
+    if not discount_code.is_active:
+        return None, "This discount code is no longer active."
+    if discount_code.partner.status != 'active':
+        return None, "This discount code is not currently valid."
+    if user == discount_code.partner.user:
+        return None, "You cannot use your own discount code."
+    if Payment.objects.filter(user=user, status='succeeded').exists():
+        return None, "Discount codes are only available for first-time customers."
+
+    return discount_code, None
+
+
 class CreatePaymentIntentView(APIView):
     """
     Creates a Stripe PaymentIntent for various transaction types.
@@ -48,7 +71,7 @@ class CreatePaymentIntentView(APIView):
                 plan_id = details.get('upfront_plan_id')
                 upfront_plan = UpfrontPlan.objects.get(id=plan_id, user=request.user)
                 order_object = upfront_plan.orderbase_ptr
-                
+
                 new_structure = {
                     'budget': Decimal(details['budget']),
                     'frequency': details['frequency'],
@@ -77,9 +100,29 @@ class CreatePaymentIntentView(APIView):
                     {"error": f"Invalid item_type for this endpoint: {item_type}"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-            
+
             # Ensure final_amount is a float or Decimal for calculations
             final_amount = Decimal(final_amount)
+
+            # Handle discount code
+            discount_code_str = details.get('discount_code')
+            discount_code_obj = None
+            if discount_code_str:
+                discount_code_obj, error = validate_discount_code_for_payment(user, discount_code_str)
+                if error:
+                    return Response({"error": error}, status=status.HTTP_400_BAD_REQUEST)
+
+                final_amount -= discount_code_obj.discount_amount
+                # Floor at $0.50 for Stripe minimum
+                if final_amount < Decimal('0.50'):
+                    final_amount = Decimal('0.50')
+
+                metadata['discount_code'] = discount_code_obj.code
+
+                # Set referred_by_partner if not already set
+                if not user.referred_by_partner:
+                    user.referred_by_partner = discount_code_obj.partner
+                    user.save(update_fields=['referred_by_partner'])
 
             if final_amount < 0:
                 return Response(
@@ -104,7 +147,7 @@ class CreatePaymentIntentView(APIView):
                     except stripe.error.StripeError:
                         # The old payment intent might be invalid, proceed to create a new one
                         existing_payment.delete()
-            
+
             # Create a new PaymentIntent with Stripe
             payment_intent = stripe.PaymentIntent.create(
                 amount=amount_in_cents,

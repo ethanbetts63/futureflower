@@ -23,10 +23,28 @@ class User(AbstractUser):
     )
 
     stripe_customer_id = models.CharField(
-        max_length=255, 
-        blank=True, 
-        null=True, 
+        max_length=255,
+        blank=True,
+        null=True,
         help_text="The user's Stripe Customer ID."
+    )
+
+    referred_by_partner = models.ForeignKey(
+        'partners.Partner',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='referred_users',
+        help_text="The partner who referred this user via discount code."
+    )
+
+    source_partner = models.ForeignKey(
+        'partners.Partner',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='sourced_users',
+        help_text="The delivery partner through whose link this user registered."
     )
 
     # --------------------------------------------------------------------------

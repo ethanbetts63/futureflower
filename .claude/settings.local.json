@@ -6,7 +6,9 @@
       "Bash(npm run build:*)",
       "Bash(find:*)",
       "Bash(pip install:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(xargs:*)",
+      "Bash(dir:*)"
     ]
   }
 }
