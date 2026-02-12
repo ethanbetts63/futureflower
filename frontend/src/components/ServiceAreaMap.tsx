@@ -1,11 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Circle, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Slider } from '@/components/ui/slider';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
 
 // Fix default marker icon issue with bundlers
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -58,11 +55,13 @@ const MapClickHandler: React.FC<{
   return null;
 };
 
-const RecenterMap: React.FC<{ center: [number, number] }> = ({ center }) => {
+const FitToRadius: React.FC<{ center: [number, number]; radiusKm: number }> = ({ center, radiusKm }) => {
   const map = useMap();
   useEffect(() => {
-    map.setView(center, map.getZoom());
-  }, [center, map]);
+    const radiusMeters = radiusKm * 1000;
+    const circle = L.circle(center, { radius: radiusMeters });
+    map.fitBounds(circle.getBounds(), { padding: [30, 30] });
+  }, [center, radiusKm, map]);
   return null;
 };
 
@@ -73,53 +72,13 @@ const ServiceAreaMap: React.FC<ServiceAreaMapProps> = ({
   onLocationChange,
   onRadiusChange,
 }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
-
   const hasPin = latitude !== null && longitude !== null;
-  const center: [number, number] = hasPin ? [latitude!, longitude!] : [-25.274398, 133.775136];
-  const zoom = hasPin ? 12 : 4;
-
-  const handleSearch = async () => {
-    if (!searchQuery.trim()) return;
-    setIsSearching(true);
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery.trim())}&limit=1`,
-        { headers: { 'User-Agent': 'ForeverFlower/1.0' } }
-      );
-      const results = await response.json();
-      if (results.length > 0) {
-        const { lat, lon } = results[0];
-        onLocationChange(parseFloat(lat), parseFloat(lon));
-      }
-    } catch {
-      // silently fail
-    } finally {
-      setIsSearching(false);
-    }
-  };
 
   return (
     <div className="space-y-4">
       <label className="text-sm font-medium">Service Area</label>
-
-      {/* Address search */}
-      <div className="flex gap-2">
-        <Input
-          placeholder="Search for an address or suburb..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-        />
-        <Button type="button" variant="outline" onClick={handleSearch} disabled={isSearching}>
-          <Search className="h-4 w-4" />
-        </Button>
-      </div>
-
-      {/* Map */}
       <div className="h-[300px] rounded-lg overflow-hidden border">
-        <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
+        <MapContainer center={[20, 0]} zoom={2} style={{ height: '100%', width: '100%' }}>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -127,7 +86,7 @@ const ServiceAreaMap: React.FC<ServiceAreaMapProps> = ({
           <MapClickHandler onClick={onLocationChange} />
           {hasPin && (
             <>
-              <RecenterMap center={[latitude!, longitude!]} />
+              <FitToRadius center={[latitude!, longitude!]} radiusKm={radiusKm} />
               <DraggableMarker
                 position={[latitude!, longitude!]}
                 onDragEnd={onLocationChange}
@@ -143,7 +102,7 @@ const ServiceAreaMap: React.FC<ServiceAreaMapProps> = ({
       </div>
 
       {!hasPin && (
-        <p className="text-sm text-muted-foreground">Click on the map or search for an address to set your location.</p>
+        <p className="text-sm text-muted-foreground">Click on the map to set your location, then drag to adjust.</p>
       )}
 
       {/* Radius slider */}
