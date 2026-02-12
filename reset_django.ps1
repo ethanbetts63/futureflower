@@ -7,7 +7,8 @@ $apps = @(
     "data_management",
     "users", 
     "payments",
-    "events"
+    "events", 
+    "partners"
 )
 
 # --- EXECUTION ---
