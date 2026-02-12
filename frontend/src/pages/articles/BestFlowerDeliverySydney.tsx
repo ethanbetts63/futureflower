@@ -5,13 +5,13 @@ import Seo from '../../components/Seo';
 
 const BestFlowerDeliverySydney = () => {
   const articleDetails = {
-    title: "The Best Flower Delivery Services in Sydney (2026 Guide) | ForeverFlower",
+    title: "The Best Flower Delivery Services in Sydney (2026 Guide) | FutureFlower",
     description: "An in-depth guide to the best flower delivery services in Sydney, broken down by best overall, fastest, and most affordable options.",
-    url: "https://www.foreverflower.app/articles/best-flower-delivery-sydney",
+    url: "https://www.futureflower.app/articles/best-flower-delivery-sydney",
     ogImage: "/static/og-images/og-flower-delivery-sydney.webp",
-    authorName: "The ForeverFlower Team",
-    publisherName: "ForeverFlower",
-    publisherLogoUrl: "https://www.foreverflower.app/static/logo_128_black.png",
+    authorName: "The FutureFlower Team",
+    publisherName: "FutureFlower",
+    publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
     dateModified: "2026-01-19T00:00:00Z",
   };
@@ -25,7 +25,7 @@ const BestFlowerDeliverySydney = () => {
     },
     headline: articleDetails.title,
     description: articleDetails.description,
-    image: `https://www.foreverflower.app${articleDetails.ogImage}`,
+    image: `https://www.futureflower.app${articleDetails.ogImage}`,
     author: {
       '@type': 'Person',
       name: articleDetails.authorName,
@@ -108,7 +108,7 @@ const BestFlowerDeliverySydney = () => {
           <h2 className="text-3xl font-bold tracking-tight">A Different Way to Think About Gifting Flowers</h2>
           <p>Most people use flower delivery for one-off moments — birthdays, anniversaries, Mother’s Day, apologies, celebrations. That’s usually where the story ends.</p>
           <p>But some people want flowers to mean more than just a single delivery.</p>
-          <p>ForeverFlower exists for people who like the idea of deciding once and never forgetting again. Instead of ordering flowers every year, you choose the dates upfront (birthdays, anniversaries, Mother’s Day), set your budget, and everything runs automatically in the background.</p>
+          <p>FutureFlower exists for people who like the idea of deciding once and never forgetting again. Instead of ordering flowers every year, you choose the dates upfront (birthdays, anniversaries, Mother’s Day), set your budget, and everything runs automatically in the background.</p>
           <p>It’s designed for:</p>
           <ul className="list-disc list-inside space-y-2">
             <li>People who want to be the one who always remembers</li>
@@ -117,8 +117,8 @@ const BestFlowerDeliverySydney = () => {
             <li>Partners who like the idea of locking in thoughtfulness once, instead of relying on reminders</li>
             <li>Anyone who prefers planning ahead rather than scrambling for same-day delivery</li>
           </ul>
-          <p>It’s not a replacement for local florists or services like Daily Blooms or Floraly. Those companies are great at delivering flowers today. ForeverFlower is for people who are thinking in years rather than days.</p>
-          <p>If that sounds like you, you might find ForeverFlower worth exploring — even if it’s just something you set up for the future.</p>
+          <p>It’s not a replacement for local florists or services like Daily Blooms or Floraly. Those companies are great at delivering flowers today. FutureFlower is for people who are thinking in years rather than days.</p>
+          <p>If that sounds like you, you might find FutureFlower worth exploring — even if it’s just something you set up for the future.</p>
         </div>
       </ArticleLayout>
       <section>

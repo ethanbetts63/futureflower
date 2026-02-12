@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/flow/CreateAccountPage.tsx
+// futureflower/frontend/src/pages/flow/CreateAccountPage.tsx
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -41,7 +41,7 @@ const CreateAccountPage: React.FC = () => {
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-2xl py-12">
-                <Seo title="Create Account | ForeverFlower" />
+                <Seo title="Create Account | FutureFlower" />
                 <Card className="bg-white text-black border-none shadow-md">
                     <CardHeader>
                         <CardTitle className="text-3xl">Create Your Account</CardTitle>

@@ -80,7 +80,7 @@ const DeliveryRequestPage: React.FC = () => {
 
   return (
     <>
-      <Seo title="Delivery Request | ForeverFlower" />
+      <Seo title="Delivery Request | FutureFlower" />
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-2xl space-y-6">
           <Card className="bg-white shadow-md border-none text-black">

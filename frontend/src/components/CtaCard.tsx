@@ -86,7 +86,7 @@ export const CtaCard: React.FC = () => {
     <Card className="w-full bg-white shadow-md text-gray-900 rounded-none sm:rounded-xl border-0">
       <CardHeader className="px-4 pt-0 pb-0 text-center">
         <h2 className="font-bold text-4xl italic text-black font-['Playfair_Display',_serif] mb-2">
-          FOREVERFLOWER
+          FUTUREFLOWER
         </h2>
         <div className="flex justify-center bg-white p-1 rounded-md">
           <button onClick={() => setView('prepaid')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded ${view === 'prepaid' ? 'bg-primary text-primary-foreground' : 'text-black'}`}>Prepaid</button>

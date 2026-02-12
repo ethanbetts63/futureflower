@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/components/MessagesEditor.tsx
+// futureflower/frontend/src/components/MessagesEditor.tsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -137,7 +137,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-4xl py-12">
-                <Seo title={`${title} | ForeverFlower`} />
+                <Seo title={`${title} | FutureFlower`} />
                 <Card className="bg-white text-black border-none shadow-md">
                     <CardHeader>
                         <div className="flex justify-between items-start">

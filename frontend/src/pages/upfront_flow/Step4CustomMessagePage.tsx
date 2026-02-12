@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/flow/Step4CustomMessagePage.tsx
+// futureflower/frontend/src/pages/flow/Step4CustomMessagePage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import MessagesEditor from '@/components/MessagesEditor';

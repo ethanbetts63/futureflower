@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/components/SubscriptionStructureEditor.tsx
+// futureflower/frontend/src/components/SubscriptionStructureEditor.tsx
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -137,7 +137,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-2xl py-12">
-                <Seo title={`${title} | ForeverFlower`} />
+                <Seo title={`${title} | FutureFlower`} />
                 <Card className="bg-white text-black border-none shadow-md">
                     <CardHeader>
                         <CardTitle className="text-3xl">{title}</CardTitle>

@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/subscription_flow/Step5ConfirmationPage.tsx
+// futureflower/frontend/src/pages/subscription_flow/Step5ConfirmationPage.tsx
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -27,7 +27,7 @@ const Step5ConfirmationPage: React.FC = () => {
 
   return (
     <>
-      <Seo title="Confirm Your Subscription | ForeverFlower" />
+      <Seo title="Confirm Your Subscription | FutureFlower" />
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-4xl">
           <PlanDisplay getPlan={getSubscriptionPlan} fallbackNavigationPath="/dashboard">

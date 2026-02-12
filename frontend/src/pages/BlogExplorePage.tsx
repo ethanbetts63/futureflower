@@ -15,7 +15,7 @@ const BlogExplorePage = () => {
   return (
     <>
       <Seo
-        title="ForeverFlower Blog"
+        title="FutureFlower Blog"
         description="Explore articles, insights, and guides on long-term floral planning, personal growth, and making sure you never forget the important stuff."
         canonicalPath="/articles"
         ogType="website"
@@ -23,7 +23,7 @@ const BlogExplorePage = () => {
       <div className="bg-primary text-primary-foreground">
         {/* Hero Section */}
         <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">ForeverFlower Blog</h1>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">FutureFlower Blog</h1>
           <p className="text-lg md:text-xl max-w-3xl mx-auto">
             Insights, guides, and inspiration for long-term floral planning. We explore ideas to help you connect with your future self and remember what matters most.
           </p>

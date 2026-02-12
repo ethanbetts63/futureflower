@@ -5,13 +5,13 @@ import Seo from '../../components/Seo';
 
 const BestFlowerSubscriptionServicesAU = () => {
   const articleDetails = {
-    title: "The Best Flower Subscription Services in Australia (2026 Guide) | ForeverFlower",
+    title: "The Best Flower Subscription Services in Australia (2026 Guide) | FutureFlower",
     description: "An in-depth guide to the best flower subscription services in Australia, broken down by best overall, cheapest, and highest quality.",
-    url: "https://www.foreverflower.app/articles/best-flower-subscription-services-au",
+    url: "https://www.futureflower.app/articles/best-flower-subscription-services-au",
     ogImage: "/static/og-images/og-flower-subscription-au.webp",
-    authorName: "The ForeverFlower Team",
-    publisherName: "ForeverFlower",
-    publisherLogoUrl: "https://www.foreverflower.app/static/logo_128_black.png",
+    authorName: "The FutureFlower Team",
+    publisherName: "FutureFlower",
+    publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
     dateModified: "2026-01-19T00:00:00Z",
   };
@@ -25,7 +25,7 @@ const BestFlowerSubscriptionServicesAU = () => {
     },
     headline: articleDetails.title,
     description: articleDetails.description,
-    image: `https://www.foreverflower.app${articleDetails.ogImage}`,
+    image: `https://www.futureflower.app${articleDetails.ogImage}`,
     author: {
       '@type': 'Person',
       name: articleDetails.authorName,

@@ -1,6 +1,6 @@
-# ForeverFlower Testing Strategy
+# FutureFlower Testing Strategy
 
-This document outlines the testing strategy for the ForeverFlower project.
+This document outlines the testing strategy for the FutureFlower project.
 
 ## 1. Core Technology Stack
 

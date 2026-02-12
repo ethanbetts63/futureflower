@@ -16,9 +16,9 @@ const HomePage = () => {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "ForeverFlower",
-    "url": "https://www.foreverflower.app",
-    "logo": "https://www.foreverflower.app/favicon.ico",
+    "name": "FutureFlower",
+    "url": "https://www.futureflower.app",
+    "logo": "https://www.futureflower.app/favicon.ico",
     "founder": {
       "@type": "Person",
       "name": "Ethan Betts"
@@ -51,7 +51,7 @@ const HomePage = () => {
   return (
     <main>
       <Seo
-        title="ForeverFlower | Flower Subscription Service"
+        title="FutureFlower | Flower Subscription Service"
         description="The most romantic gestures are those that plan for a future together. Choose the dates, set the budget, and we organize flower deliveries year after year - turning one decision into a lifetime of meaningful moments."
         canonicalPath="/"
         ogImage="/og-images/og-homepage.webp"

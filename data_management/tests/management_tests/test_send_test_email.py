@@ -18,7 +18,7 @@ class TestSendTestEmailCommand:
         
         mock_send_mail.assert_called_once_with(
             subject='Simple Test',
-            message="This is a test email from the ForeverFlower application.",
+            message="This is a test email from the FutureFlower application.",
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=['test@example.com'],
             fail_silently=False

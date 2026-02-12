@@ -1,5 +1,5 @@
 """
-URL configuration for foreverflower project.
+URL configuration for futureflower project.
 """
 from django.contrib import admin
 from django.urls import path, include, re_path

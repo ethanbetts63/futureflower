@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/user_dashboard/subscription_management/EditStructurePage.tsx
+// futureflower/frontend/src/pages/user_dashboard/subscription_management/EditStructurePage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import SubscriptionStructureEditor from '@/components/SubscriptionStructureEditor';

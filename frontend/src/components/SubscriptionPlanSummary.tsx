@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/components/SubscriptionPlanSummary.tsx
+// futureflower/frontend/src/components/SubscriptionPlanSummary.tsx
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import type { SubscriptionPlanSummaryProps } from '../types/SubscriptionPlanSummaryProps';

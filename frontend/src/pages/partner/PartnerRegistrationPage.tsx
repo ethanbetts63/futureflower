@@ -96,7 +96,7 @@ const PartnerRegistrationPage: React.FC = () => {
 
   return (
     <>
-      <Seo title={`${isDelivery ? 'Delivery' : 'Referral'} Partner Registration | ForeverFlower`} />
+      <Seo title={`${isDelivery ? 'Delivery' : 'Referral'} Partner Registration | FutureFlower`} />
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-2xl">
           <div className="mb-4">

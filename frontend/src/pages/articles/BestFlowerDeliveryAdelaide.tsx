@@ -5,13 +5,13 @@ import Seo from '../../components/Seo';
 
 const BestFlowerDeliveryAdelaide = () => {
   const articleDetails = {
-    title: "The Best Flower Delivery Services in Adelaide (2026 Guide) | ForeverFlower",
+    title: "The Best Flower Delivery Services in Adelaide (2026 Guide) | FutureFlower",
     description: "A complete look at the top flower delivery services in Adelaide, tailored for quality, speed, and price.",
-    url: "https://www.foreverflower.app/articles/best-flower-delivery-adelaide",
+    url: "https://www.futureflower.app/articles/best-flower-delivery-adelaide",
     ogImage: "/static/og-images/og-flower-delivery-adelaide.webp", // Assuming this will be created later
-    authorName: "The ForeverFlower Team",
-    publisherName: "ForeverFlower",
-    publisherLogoUrl: "https://www.foreverflower.app/static/logo_128_black.png",
+    authorName: "The FutureFlower Team",
+    publisherName: "FutureFlower",
+    publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-21T00:00:00Z", // Today's date
     dateModified: "2026-01-21T00:00:00Z", // Today's date
   };
@@ -25,7 +25,7 @@ const BestFlowerDeliveryAdelaide = () => {
     },
     headline: articleDetails.title,
     description: articleDetails.description,
-    image: `https://www.foreverflower.app${articleDetails.ogImage}`,
+    image: `https://www.futureflower.app${articleDetails.ogImage}`,
     author: {
       '@type': 'Person',
       name: articleDetails.authorName,

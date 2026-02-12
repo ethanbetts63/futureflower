@@ -12,7 +12,7 @@ def send_admin_payment_notification(payment_id: str):
     Args:
         payment_id: The ID of the successful payment, for logging purposes.
     """
-    message = "YOU'RE RICH! ForeverFlower just made money! LETS GOOOOOOO!"
+    message = "YOU'RE RICH! FutureFlower just made money! LETS GOOOOOOO!"
     subject = "🎉 You Got Paid! 🎉"
     
     admin_email = settings.ADMIN_EMAIL

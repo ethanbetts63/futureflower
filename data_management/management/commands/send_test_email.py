@@ -114,7 +114,7 @@ class Command(BaseCommand):
 
             else:
                 self.stdout.write("No template specified. Sending a simple text email.")
-                message = "This is a test email from the ForeverFlower application."
+                message = "This is a test email from the FutureFlower application."
                 send_mail(
                     subject=subject, message=message, from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[recipient], fail_silently=False,

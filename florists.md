@@ -1,7 +1,7 @@
 # Florists Page - Textual Representation
 
 ## SEO Information
-*   **Title:** ForeverFlower for Florists | Grow Your Revenue
+*   **Title:** FutureFlower for Florists | Grow Your Revenue
 *   **Description:** Extend your service beyond today's purchase. Offer scheduled deliveries, subscriptions, and prepaid plans — all without adding admin, complexity, or cost.
 *   **Image Alt Text:** Florist delivering a bouquet of flowers
 
@@ -16,9 +16,9 @@ Learn more
 *   Easy upsell. Locked revenue.
 *   We absorb bad review risk.
 
-## Why ForeverFlower
+## Why FutureFlower
 Right now, when a customer walks into your shop, there's only so much you can upsell: a bigger bouquet, nicer wrapping, maybe an extra gift. And then it's over.
-ForeverFlower lets you extend your service beyond today's purchase. We give you the infrastructure to offer scheduled future deliveries, ongoing flower subscriptions, and multi-year prepaid flower plans — all without adding admin, complexity, or operational burden.
+FutureFlower lets you extend your service beyond today's purchase. We give you the infrastructure to offer scheduled future deliveries, ongoing flower subscriptions, and multi-year prepaid flower plans — all without adding admin, complexity, or operational burden.
 And we are completely free to use. Just set up a QR code in-store and/or a link on your website.
 
 ### This changes the conversation in your store.
@@ -87,7 +87,7 @@ We're not just helping you capture in-store opportunities — we're actively mar
 *   **Image Alt Text:** A florist preparing a bouquet in their shop.
 
 ## For non-delivery partners.
-Not every florist wants to deliver — it's expensive, complicated, and time consuming. But that doesn't mean it hurts any less when you have to say no to a customer. ForeverFlower gives you the ability to say: "No, but…". A small difference that goes a long way.
+Not every florist wants to deliver — it's expensive, complicated, and time consuming. But that doesn't mean it hurts any less when you have to say no to a customer. FutureFlower gives you the ability to say: "No, but…". A small difference that goes a long way.
 *   All you need is a small poster in-store or a link on your website.
 *   You get a 5% referral commission on all purchases.
 *   We handle all the logistics, customer service, and delivery.
@@ -105,7 +105,7 @@ If a customer has a legitimate refund request and we are at fault, we pay back t
 No service debts. You'll receive a request for all orders from customers you sign up, but if you can't or don't want to fulfil a request, we'll pass it to another florist and give you a 5% commission instead. Conversely, requests that other florists can't fill can come straight to you.
 
 ### What does it cost?
-ForeverFlower is completely free to use. There are no setup fees, monthly charges, or hidden costs. Just set up a QR code in-store and/or a link on your website and you're ready to go.
+FutureFlower is completely free to use. There are no setup fees, monthly charges, or hidden costs. Just set up a QR code in-store and/or a link on your website and you're ready to go.
 
 ### What countries do you operate in?
 Currently we operate in the EU (Europe), United Kingdom, North America (USA & Canada), Australia and New Zealand.

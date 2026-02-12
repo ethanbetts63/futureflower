@@ -24,9 +24,9 @@ const Footer: React.FC = () => {
                                 src={logo}
                                 srcSet={`${logo128} 128w, ${logo192} 192w, ${logo256} 256w`}
                                 sizes="80px"
-                                alt="ForeverFlower Logo"
+                                alt="FutureFlower Logo"
                             />
-            <p className="text-sm">&copy; {currentYear} ForeverFlower. All rights reserved.</p>
+            <p className="text-sm">&copy; {currentYear} FutureFlower. All rights reserved.</p>
           </div>
 
           {/* Right Side: Navigation Links */}

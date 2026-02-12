@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/components/preferences/ColorSwatch.tsx
+// futureflower/frontend/src/components/preferences/ColorSwatch.tsx
 import React from 'react';
 import { cn } from "@/utils/utils";
 import { Check } from 'lucide-react';

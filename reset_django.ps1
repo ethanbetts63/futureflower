@@ -1,6 +1,6 @@
 # A PowerShell script to completely reset a Django project's database and migrations.
 
-cd .\coding\foreverflower\
+cd .\coding\futureflower\
 .\venv\Scripts\Activate.ps1
 
 $apps = @(

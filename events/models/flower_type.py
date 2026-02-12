@@ -1,4 +1,4 @@
-# foreverflower/events/models/flower_type.py
+# futureflower/events/models/flower_type.py
 from django.db import models
 
 class FlowerType(models.Model):

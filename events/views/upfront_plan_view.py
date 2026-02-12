@@ -1,4 +1,4 @@
-# foreverflower/events/views/upfront_plan_view.py
+# futureflower/events/views/upfront_plan_view.py
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django.db import transaction

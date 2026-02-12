@@ -9,7 +9,7 @@ class Command(BaseCommand):
         try:
             # The default site created by Django usually has pk=1, but getting by domain is safer.
             site_to_update = Site.objects.get(domain='example.com')
-            new_domain = 'www.foreverflower.app'
+            new_domain = 'www.futureflower.app'
             
             self.stdout.write(f"Found site: {site_to_update.name} with domain {site_to_update.domain}")
             

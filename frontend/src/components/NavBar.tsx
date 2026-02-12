@@ -48,7 +48,7 @@ const NavBar: React.FC = () => {
               src={logo} 
               srcSet={`${logo128} 128w, ${logo192} 192w, ${logo256} 256w`}
               sizes="64px"
-              alt="ForeverFlower Logo" 
+              alt="FutureFlower Logo" 
               className="h-16 w-auto" 
             />
         </Link>
@@ -56,7 +56,7 @@ const NavBar: React.FC = () => {
         {/* Center Title */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block">
             <Link to="/" className="font-bold md:text-4xl lg:text-6xl italic text-white font-['Playfair_Display',_serif]">
-                FOREVERFLOWER
+                FUTUREFLOWER
             </Link>
         </div>
 

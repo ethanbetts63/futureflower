@@ -12,7 +12,7 @@
 │                                                                                                                                                  │
 │ Context                                                                                                                                          │
 │                                                                                                                                                  │
-│ ForeverFlower needs partner infrastructure to support two partner types: non-delivery partners (influencers/florists who refer customers via     │
+│ FutureFlower needs partner infrastructure to support two partner types: non-delivery partners (influencers/florists who refer customers via     │
 │ discount codes) and delivery partners (florists who fulfill orders). This is broken into 3 phases: (1) discount codes + non-delivery partners,   │
 │ (2) delivery partners, (3) automated payouts via Stripe Connect.                                                                                 │
 │                                                                                                                                                  │
@@ -178,7 +178,7 @@
 │ Settings                                                                                                                                         │
 │                                                                                                                                                  │
 │ - Add "partners" to INSTALLED_APPS                                                                                                               │
-│ - Add path("api/partners/", include("partners.urls")) to foreverflower/urls.py                                                                   │
+│ - Add path("api/partners/", include("partners.urls")) to futureflower/urls.py                                                                   │
 │                                                                                                                                                  │
 │ Verification                                                                                                                                     │
 │                                                                                                                                                  │
@@ -450,7 +450,7 @@
 │ ├────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────┤                                 │
 │ │ frontend/src/components/PaymentInitiatorButton.tsx │ Phase 1: accept discountCode prop                       │                                 │
 │ ├────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────┤                                 │
-│ │ foreverflower/settings.py                          │ Phase 1: add partners to INSTALLED_APPS                 │                                 │
+│ │ futureflower/settings.py                          │ Phase 1: add partners to INSTALLED_APPS                 │                                 │
 │ ├────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────┤                                 │
-│ │ foreverflower/urls.py                              │ Phase 1: add partners URL include                       │                                 │
+│ │ futureflower/urls.py                              │ Phase 1: add partners URL include                       │                                 │
 │ └────────────────────────────────────────────────────┴─────────────────────────────────────────────────────────┘      

@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/user_dashboard/subscription_management/EditRecipientPage.tsx
+// futureflower/frontend/src/pages/user_dashboard/subscription_management/EditRecipientPage.tsx
 import React from 'react';
 import RecipientEditor from '@/components/RecipientEditor';
 import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';

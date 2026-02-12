@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/forms/SubscriptionStructureForm.tsx
+// futureflower/frontend/src/forms/SubscriptionStructureForm.tsx
 import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';

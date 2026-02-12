@@ -11,7 +11,7 @@ class Command(BaseCommand):
         # It's generally better to store sensitive keys in environment variables
         # but for this test, we are using the one provided.
         api_key = os.getenv('MAILGUN_API_KEY')
-        domain = 'mail.foreverflower.app'
+        domain = 'mail.futureflower.app'
         
         response = requests.post(
             f"https://api.mailgun.net/v3/{domain}/messages",

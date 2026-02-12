@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/flow/Step3PreferenceSelectionPage.tsx
+// futureflower/frontend/src/pages/flow/Step3PreferenceSelectionPage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import PreferencesEditor from '@/components/PreferencesEditor';

@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/PaymentStatusPage.tsx
+// futureflower/frontend/src/pages/PaymentStatusPage.tsx
 import React, { useState, useEffect } from 'react';
 import { useStripe } from '@stripe/react-stripe-js';
 import type { PaymentIntentResult } from '@stripe/stripe-js';
@@ -133,7 +133,7 @@ const UniversalPaymentStatusPage: React.FC = () => {
     return (
         <div className="min-h-screen w-full flex items-center py-12" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-2xl">
-                <Seo title="Payment Status | ForeverFlower" />
+                <Seo title="Payment Status | FutureFlower" />
                 <Card className="bg-white text-black border-none shadow-md">
                     <CardHeader>
                         <CardTitle>Payment Status</CardTitle>

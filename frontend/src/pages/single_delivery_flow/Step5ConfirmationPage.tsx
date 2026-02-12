@@ -22,7 +22,7 @@ const Step5ConfirmationPage = () => {
 
   return (
     <>
-      <Seo title="Confirm Your Order | ForeverFlower" />
+      <Seo title="Confirm Your Order | FutureFlower" />
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-4xl">
           <PlanDisplay getPlan={getUpfrontPlanAsSingleDelivery} fallbackNavigationPath="/dashboard">

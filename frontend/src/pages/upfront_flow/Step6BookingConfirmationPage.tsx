@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/flow/Step6BookingConfirmationPage.tsx
+// futureflower/frontend/src/pages/flow/Step6BookingConfirmationPage.tsx
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -26,7 +26,7 @@ const Step6BookingConfirmationPage = () => {
 
   return (
     <>
-      <Seo title="Confirm Your Plan | ForeverFlower" />
+      <Seo title="Confirm Your Plan | FutureFlower" />
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-4xl">
           <PlanDisplay getPlan={getUpfrontPlan} fallbackNavigationPath="/dashboard">

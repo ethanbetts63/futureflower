@@ -16,12 +16,12 @@ export const Letter: React.FC = () => {
               It felt radical, perhaps even impossible. But it was too beautiful to ignore. 
             </p>
             <p>
-              So we built ForeverFlower, to turn a temporary bloom into a permanent bridge—allowing love to <span className="font-bold">defy the calendar</span> and keep a promise that even time cannot break.
+              So we built FutureFlower, to turn a temporary bloom into a permanent bridge—allowing love to <span className="font-bold">defy the calendar</span> and keep a promise that even time cannot break.
             </p>
           </div>
           <div className="flex flex-col gap-4">
             <p>
-              We soon realized that you don't have to be dying for it to be a great gift. ForeverFlower is just as much for the son who wants to ensure his mother feels <span className="font-bold">cherished every May</span>, or the partner who wants to guarantee a decade of birthdays are celebrated with style.
+              We soon realized that you don't have to be dying for it to be a great gift. FutureFlower is just as much for the son who wants to ensure his mother feels <span className="font-bold">cherished every May</span>, or the partner who wants to guarantee a decade of birthdays are celebrated with style.
             </p>
             <p>
               It's for the person who wants to be known as <span className="font-bold">the one who always remembers</span>—the one whose love isn't just felt today, but is promised for every year to come.

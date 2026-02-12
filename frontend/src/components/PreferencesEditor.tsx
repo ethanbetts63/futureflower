@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/components/PreferencesEditor.tsx
+// futureflower/frontend/src/components/PreferencesEditor.tsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -128,7 +128,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-4xl py-12">
-                <Seo title={`${title} | ForeverFlower`} />
+                <Seo title={`${title} | FutureFlower`} />
                 <Card className="bg-white text-black border-none shadow-md">
                     <CardHeader>
                          <div className="flex justify-between items-start">

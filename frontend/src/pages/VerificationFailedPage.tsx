@@ -9,7 +9,7 @@ import Seo from '@/components/Seo';
 const VerificationFailedPage: React.FC = () => {
   return (
     <div className="container mx-auto max-w-2xl py-12">
-      <Seo title="Verification Failed | ForeverFlower" />
+      <Seo title="Verification Failed | FutureFlower" />
       <Card>
         <CardHeader className="flex flex-col items-center text-center">
           <XCircleIcon className="h-16 w-16 text-red-500 mb-4" /> {/* Red icon for failure */}

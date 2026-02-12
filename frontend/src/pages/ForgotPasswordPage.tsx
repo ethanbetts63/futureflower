@@ -35,8 +35,8 @@ const ForgotPasswordPage: React.FC = () => {
   return (
     <div className="container mx-auto max-w-md py-12">
       <Seo
-        title="Forgot Password | ForeverFlower"
-        description="Reset your password for your ForeverFlower account. Enter your email to receive a password reset link."
+        title="Forgot Password | FutureFlower"
+        description="Reset your password for your FutureFlower account. Enter your email to receive a password reset link."
         canonicalPath="/forgot-password"
       />
       <h1 className="text-2xl font-bold mb-6">Forgot Your Password?</h1>

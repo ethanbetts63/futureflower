@@ -4,7 +4,7 @@
 FSL-1.1-MIT
 
 ## Notice
-Copyright 2026 ForeverFlower
+Copyright 2026 FutureFlower
 
 ## Terms and Conditions
 

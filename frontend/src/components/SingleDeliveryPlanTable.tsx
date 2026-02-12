@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/components/SingleDeliveryPlanTable.tsx
+// futureflower/frontend/src/components/SingleDeliveryPlanTable.tsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';

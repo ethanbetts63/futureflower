@@ -1,4 +1,4 @@
-# ForeverFlower - Django Project Configuration
+# FutureFlower - Django Project Configuration
 
 ## Purpose
 

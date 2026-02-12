@@ -58,7 +58,7 @@ const TermsAndConditionsPage: React.FC = () => {
 
     return (
         <>
-            <Seo title="Terms & Conditions | ForeverFlower" />
+            <Seo title="Terms & Conditions | FutureFlower" />
             <div className="container mx-auto px-4 py-8 max-w-4xl prose dark:prose-invert">
                 {renderContent()}
             </div>

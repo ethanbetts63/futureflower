@@ -10,7 +10,7 @@ const PartnerTypeSelectionPage: React.FC = () => {
 
   return (
     <>
-      <Seo title="Become a Partner | ForeverFlower" />
+      <Seo title="Become a Partner | FutureFlower" />
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="text-center mb-8">

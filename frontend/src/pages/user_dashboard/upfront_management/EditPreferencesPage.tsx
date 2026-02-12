@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/user_dashboard/upfront_management/EditPreferencesPage.tsx
+// futureflower/frontend/src/pages/user_dashboard/upfront_management/EditPreferencesPage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import PreferencesEditor from '@/components/PreferencesEditor';

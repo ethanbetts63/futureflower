@@ -36,7 +36,7 @@ const StripeConnectReturnPage: React.FC = () => {
 
   return (
     <>
-      <Seo title="Stripe Connect | ForeverFlower" />
+      <Seo title="Stripe Connect | FutureFlower" />
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-lg">
           <Card className="bg-white shadow-md border-none text-black text-center">

@@ -37,7 +37,7 @@ const PayoutsPage: React.FC = () => {
 
   return (
     <>
-      <Seo title="Payouts | ForeverFlower" />
+      <Seo title="Payouts | FutureFlower" />
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-4xl space-y-6">
           <BackButton to="/partner/dashboard" />

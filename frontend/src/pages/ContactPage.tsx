@@ -38,10 +38,10 @@ const ContactPage: React.FC = () => {
         "@type": "ContactPage",
         "name": "Contact Us",
         "description": description,
-        "url": "https://www.foreverflower.app/contact",
+        "url": "https://www.futureflower.app/contact",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https://www.foreverflower.app/contact"
+            "@id": "https://www.futureflower.app/contact"
         },
         "contactPoint": {
             "@type": "ContactPoint",
@@ -54,7 +54,7 @@ const ContactPage: React.FC = () => {
     return (
         <div>
             <Seo
-                title="Contact Us | ForeverFlower"
+                title="Contact Us | FutureFlower"
                 description={description}
                 canonicalPath="/contact"
                 structuredData={contactPageSchema}

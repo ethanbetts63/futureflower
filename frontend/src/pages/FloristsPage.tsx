@@ -7,7 +7,7 @@ import { ValuePropsA } from '../components/ValuePropsA';
 import type { FaqItem } from '@/types/FaqItem';
 import { NonDeliveryPartnersSection } from '../components/NonDeliveryPartnersSection';
 import { HeroFloristPage } from '../components/HeroFloristPage';
-import { WhyForeverFlowerSection } from '../components/WhyForeverFlowerSection';
+import { WhyFutureFlowerSection } from '../components/WhyFutureFlowerSection';
 import { ServicesCarouselSection } from '../components/ServicesCarouselSection';
 import { SoWhatsTheCatchSection } from '../components/SoWhatsTheCatchSection';
 
@@ -33,7 +33,7 @@ const FloristsPage = () => {
     },
     {
       question: 'What does it cost?',
-      answer: 'ForeverFlower is completely free to use. There are no setup fees, monthly charges, or hidden costs. Just set up a QR code in-store and/or a link on your website and you\'re ready to go.',
+      answer: 'FutureFlower is completely free to use. There are no setup fees, monthly charges, or hidden costs. Just set up a QR code in-store and/or a link on your website and you\'re ready to go.',
     },
     {
       question: 'What countries do you operate in?',
@@ -44,7 +44,7 @@ const FloristsPage = () => {
   return (
     <main>
       <Seo
-        title="ForeverFlower for Florists | Grow Your Revenue"
+        title="FutureFlower for Florists | Grow Your Revenue"
         description="Extend your service beyond today's purchase. Offer scheduled deliveries, subscriptions, and prepaid plans — all without adding admin, complexity, or cost."
         canonicalPath="/florists"
         ogImage="/og-images/og-homepage.webp"
@@ -54,7 +54,7 @@ const FloristsPage = () => {
 
       <ValuePropsA />
 
-      <WhyForeverFlowerSection contentRef={contentRef} />
+      <WhyFutureFlowerSection contentRef={contentRef} />
 
       <ServicesCarouselSection />
       <Timeline />

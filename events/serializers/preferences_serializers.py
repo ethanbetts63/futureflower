@@ -1,4 +1,4 @@
-# foreverflower/events/serializers/preferences_serializers.py
+# futureflower/events/serializers/preferences_serializers.py
 from rest_framework import serializers
 from ..models import Color, FlowerType
 

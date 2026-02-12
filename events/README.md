@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The `events` app is the core domain of ForeverFlower. It manages orders (plans), individual deliveries (events), and the reference data for customer preferences (colors and flower types). It also contains the pricing engine for upfront multi-year plans.
+The `events` app is the core domain of FutureFlower. It manages orders (plans), individual deliveries (events), and the reference data for customer preferences (colors and flower types). It also contains the pricing engine for upfront multi-year plans.
 
 ## Models
 

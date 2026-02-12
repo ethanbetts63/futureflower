@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/flow/Step2RecipientPage.tsx
+// futureflower/frontend/src/pages/flow/Step2RecipientPage.tsx
 import React from 'react';
 import RecipientEditor from '@/components/RecipientEditor';
 import { getUpfrontPlan, updateUpfrontPlan } from '@/api';

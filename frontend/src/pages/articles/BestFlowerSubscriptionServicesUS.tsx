@@ -5,13 +5,13 @@ import Seo from '../../components/Seo';
 
 const BestFlowerSubscriptionServicesUS = () => {
   const articleDetails = {
-    title: "The Best Flower Subscription Services in the United States (2026 Guide) | ForeverFlower",
+    title: "The Best Flower Subscription Services in the United States (2026 Guide) | FutureFlower",
     description: "An in-depth guide to the best flower subscription services in the US, broken down by best overall, cheapest, and highest quality.",
-    url: "https://www.foreverflower.app/articles/best-flower-subscription-services-us",
+    url: "https://www.futureflower.app/articles/best-flower-subscription-services-us",
     ogImage: "/static/og-images/og-flower-subscription-us.webp",
-    authorName: "The ForeverFlower Team",
-    publisherName: "ForeverFlower",
-    publisherLogoUrl: "https://www.foreverflower.app/static/logo_128_black.png",
+    authorName: "The FutureFlower Team",
+    publisherName: "FutureFlower",
+    publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
     dateModified: "2026-01-19T00:00:00Z",
   };
@@ -25,7 +25,7 @@ const BestFlowerSubscriptionServicesUS = () => {
     },
     headline: articleDetails.title,
     description: articleDetails.description,
-    image: `https://www.foreverflower.app${articleDetails.ogImage}`,
+    image: `https://www.futureflower.app${articleDetails.ogImage}`,
     author: {
       '@type': 'Person',
       name: articleDetails.authorName,
@@ -100,7 +100,7 @@ const BestFlowerSubscriptionServicesUS = () => {
 
           <h2 className="text-3xl font-bold tracking-tight">For People Who Prefer to Set Things Up Once</h2>
           <p>Buying flowers is usually a repeat task. You remember the date, place the order, choose a bouquet, and do it all again next year.</p>
-          <p>ForeverFlower is designed to remove that repetition. You select the important dates, choose a budget, and optionally add personal messages. Everything is then scheduled in advance.</p>
+          <p>FutureFlower is designed to remove that repetition. You select the important dates, choose a budget, and optionally add personal messages. Everything is then scheduled in advance.</p>
           <p>It’s especially useful for recurring occasions like birthdays, anniversaries, and Mother’s Day — situations where the thought matters every year, not just once.</p>
           <p>If that approach suits how you like to give gifts, it’s something you may find useful now or in the future.</p>
         </div>

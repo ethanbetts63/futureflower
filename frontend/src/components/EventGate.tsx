@@ -54,7 +54,7 @@ const EventGate: React.FC = () => {
     return (
         <div className="container mx-auto flex justify-center items-center h-screen">
             <Seo
-                title="Create a New Plan | ForeverFlower"
+                title="Create a New Plan | FutureFlower"
                 description="Start here to create a new flower plan. We'll guide you through setting up your plan details and preferences."
                 canonicalPath={flowType ? `/event-gate/${flowType}` : "/event-gate"}
                 noindex={true}

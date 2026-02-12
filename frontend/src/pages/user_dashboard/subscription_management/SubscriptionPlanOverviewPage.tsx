@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/user_dashboard/subscription_management/SubscriptionPlanOverviewPage.tsx
+// futureflower/frontend/src/pages/user_dashboard/subscription_management/SubscriptionPlanOverviewPage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -25,7 +25,7 @@ const SubscriptionPlanOverviewPage: React.FC = () => {
 
   return (
     <>
-      <Seo title="Subscription Overview | ForeverFlower" />
+      <Seo title="Subscription Overview | FutureFlower" />
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto max-w-4xl">
           <PlanDisplay getPlan={getSubscriptionPlan} fallbackNavigationPath="/dashboard/plans">

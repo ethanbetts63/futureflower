@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/components/preferences/SelectableTag.tsx
+// futureflower/frontend/src/components/preferences/SelectableTag.tsx
 import React from 'react';
 import { Badge } from "@/components/ui/badge";
 import type { SelectableTagProps } from '../types/SelectableTagProps';

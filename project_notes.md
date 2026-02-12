@@ -1,11 +1,11 @@
 
 Elevator pitch: 
-ForeverFlower fills a few niche gaps in the flower market. There are no annual flower subscriptions, there are no options for upfront payment for subscriptions, there are no options for sending flowers far into the future, there are no flower subscriptions built so that you can pass custody over to the person receiving the gift and all flower subscriptions are regionally based. ForeverFlower can operate in any region where flowers can be delivered. It’s essentially a bouquet organizing middle man, which means super low running costs, a high degree of automation and a larger target audience.
+FutureFlower fills a few niche gaps in the flower market. There are no annual flower subscriptions, there are no options for upfront payment for subscriptions, there are no options for sending flowers far into the future, there are no flower subscriptions built so that you can pass custody over to the person receiving the gift and all flower subscriptions are regionally based. FutureFlower can operate in any region where flowers can be delivered. It’s essentially a bouquet organizing middle man, which means super low running costs, a high degree of automation and a larger target audience.
 
 Founder Letter: 
 How do I say 'I love you' when I’m no longer there to say it? I imagined a man in his sunset years, looking at the woman who walked beside him for decades. He wanted to ensure that on every anniversary after he was gone, she would still hear his voice through the language of flowers. It felt radical, perhaps even impossible. But it was too beautiful to ignore. We built this to turn a temporary bloom into a permanent bridge—allowing love to defy the calendar and keep a promise that even time cannot break. 
 
-We soon realized that you don't have to be dying for it to be a great gift. ForeverFlower is just as much for the son who wants to ensure his mother feels cherished every May, or the partner who wants to guarantee a decade of birthdays are celebrated with style. It's for the person who wants to be known as the one who always remembers—the one whose love isn't just felt today, but is promised for every year to come.
+We soon realized that you don't have to be dying for it to be a great gift. FutureFlower is just as much for the son who wants to ensure his mother feels cherished every May, or the partner who wants to guarantee a decade of birthdays are celebrated with style. It's for the person who wants to be known as the one who always remembers—the one whose love isn't just felt today, but is promised for every year to come.
 
 User Flow: 
 1. You decide once. - Choose the dates, budget, and how long you want this to last. Then optionally attach meaningful messages to be sent with each delivery. 
@@ -52,7 +52,7 @@ Peace of mind knowing it’s already handled
 
 
 ## SEO Information
-*   **Title:** ForeverFlower for Florists | Grow Your Revenue
+*   **Title:** FutureFlower for Florists | Grow Your Revenue
 *   **Description:** Extend your service beyond today's purchase. Offer scheduled deliveries, subscriptions, and prepaid plans — all without adding admin, complexity, or cost.
 *   **Image Alt Text:** Florist delivering a bouquet of flowers
 
@@ -70,9 +70,9 @@ Learn more
 *   We absorb bad review risk.
 
 
-## Why ForeverFlower
+## Why FutureFlower
 Right now, when a customer walks into your shop, there's only so much you can upsell: a bigger bouquet, nicer wrapping, maybe an extra gift. And then it's over.
-ForeverFlower lets you extend your service beyond today's purchase. We give you the infrastructure to offer scheduled future deliveries, ongoing flower subscriptions, and multi-year prepaid flower plans — all without adding admin, complexity, or operational burden.
+FutureFlower lets you extend your service beyond today's purchase. We give you the infrastructure to offer scheduled future deliveries, ongoing flower subscriptions, and multi-year prepaid flower plans — all without adding admin, complexity, or operational burden.
 And we are completely free to use. Just set up a QR code in-store and/or a link on your website.
 
 
@@ -154,7 +154,7 @@ We're not just helping you capture in-store opportunities — we're actively mar
 
 
 ## For non-delivery partners.
-Not every florist wants to deliver — it's expensive, complicated, and time consuming. But that doesn't mean it hurts any less when you have to say no to a customer. ForeverFlower gives you the ability to say: "No, but…". A small difference that goes a long way.
+Not every florist wants to deliver — it's expensive, complicated, and time consuming. But that doesn't mean it hurts any less when you have to say no to a customer. FutureFlower gives you the ability to say: "No, but…". A small difference that goes a long way.
 *   All you need is a small poster in-store or a link on your website.
 *   You get a 5% referral commission on all purchases.
 *   We handle all the logistics, customer service, and delivery.
@@ -176,7 +176,7 @@ No service debts. You'll receive a request for all orders from customers you sig
 
 
 ### What does it cost?
-ForeverFlower is completely free to use. There are no setup fees, monthly charges, or hidden costs. Just set up a QR code in-store and/or a link on your website and you're ready to go.
+FutureFlower is completely free to use. There are no setup fees, monthly charges, or hidden costs. Just set up a QR code in-store and/or a link on your website and you're ready to go.
 
 
 ### What countries do you operate in?
@@ -219,10 +219,10 @@ DiscountCode:
 DiscountUsage: - id - discount_code_id - user pk -  applied_at - payment pk
 
 Link example:
-foreverflower.app?delivery_partner=rosesandthorns
+futureflower.app?delivery_partner=rosesandthorns
 
 Non_delivery_partners: 
-Foreverflower.app plus their customers will have a discount code. 
+Futureflower.app plus their customers will have a discount code. 
 
 Infrastructure needed for discount codes: 
 Discount code model

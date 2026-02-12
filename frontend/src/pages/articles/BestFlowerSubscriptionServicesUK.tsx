@@ -5,13 +5,13 @@ import Seo from '../../components/Seo';
 
 const BestFlowerSubscriptionServicesUK = () => {
   const articleDetails = {
-    title: "The Best Flower Subscription Services in the United Kingdom (2026 Guide) | ForeverFlower",
+    title: "The Best Flower Subscription Services in the United Kingdom (2026 Guide) | FutureFlower",
     description: "An in-depth guide to the best flower subscription services in the UK, broken down by best overall, cheapest, and highest quality.",
-    url: "https://www.foreverflower.app/articles/best-flower-subscription-services-uk",
+    url: "https://www.futureflower.app/articles/best-flower-subscription-services-uk",
     ogImage: "/static/og-images/og-flower-subscription-uk.webp",
-    authorName: "The ForeverFlower Team",
-    publisherName: "ForeverFlower",
-    publisherLogoUrl: "https://www.foreverflower.app/static/logo_128_black.png",
+    authorName: "The FutureFlower Team",
+    publisherName: "FutureFlower",
+    publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
     dateModified: "2026-01-19T00:00:00Z",
   };
@@ -25,7 +25,7 @@ const BestFlowerSubscriptionServicesUK = () => {
     },
     headline: articleDetails.title,
     description: articleDetails.description,
-    image: `https://www.foreverflower.app${articleDetails.ogImage}`,
+    image: `https://www.futureflower.app${articleDetails.ogImage}`,
     author: {
       '@type': 'Person',
       name: articleDetails.authorName,
@@ -109,7 +109,7 @@ const BestFlowerSubscriptionServicesUK = () => {
           <h2 className="text-3xl font-bold tracking-tight">A Different Way to Think About Flower Gifts</h2>
           <p>Most people buy flowers in response to a moment — a birthday coming up, an anniversary approaching, Mother’s Day around the corner.</p>
           <p>But some people prefer to think further ahead.</p>
-          <p>ForeverFlower is designed for those who like the idea of deciding once and knowing it’s handled. You choose the important dates, set a budget, and everything happens automatically in the background, year after year.</p>
+          <p>FutureFlower is designed for those who like the idea of deciding once and knowing it’s handled. You choose the important dates, set a budget, and everything happens automatically in the background, year after year.</p>
           <p>It’s suited to people who want to be the one who never forgets, who values consistency over reminders, and who sees flowers not just as a gift, but as a quiet tradition.</p>
           <p>Even if it’s not something you’d use today, it can be the kind of thing you set up once and appreciate for years.</p>
         </div>

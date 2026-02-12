@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/components/PaymentInitiatorButton.tsx
+// futureflower/frontend/src/components/PaymentInitiatorButton.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';

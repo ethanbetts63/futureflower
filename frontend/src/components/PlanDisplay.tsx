@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/components/PlanDisplay.tsx
+// futureflower/frontend/src/components/PlanDisplay.tsx
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getColors, getFlowerTypes } from '@/api';

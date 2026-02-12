@@ -110,7 +110,7 @@ export const ArticleCarousel: React.FC<ArticleCarouselProps> = ({ exclude, showA
   return (
     <div className="w-full py-12 bg-primary">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold tracking-tight text-center text-primary-foreground mb-2">From the ForeverFlower Blog</h2>
+        <h2 className="text-3xl font-bold tracking-tight text-center text-primary-foreground mb-2">From the FutureFlower Blog</h2>
         <p className="text-lg text-primary-foreground text-center mb-8">
           Insights and guides for long-term floral planning.
         </p>

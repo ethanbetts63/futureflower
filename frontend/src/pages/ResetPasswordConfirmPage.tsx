@@ -60,7 +60,7 @@ const ResetPasswordConfirmPage: React.FC = () => {
   return (
     <div className="container mx-auto max-w-md py-12">
       <Seo
-        title="Reset Your Password | ForeverFlower"
+        title="Reset Your Password | FutureFlower"
         description="Enter your new password to complete the password reset process."
       />
       <h1 className="text-2xl font-bold mb-6">Set Your New Password</h1>

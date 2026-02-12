@@ -5,13 +5,13 @@ import Seo from '../../components/Seo';
 
 const BestFlowerDeliveryDarwin = () => {
   const articleDetails = {
-    title: "The Best Flower Delivery Services in Darwin (2026 Guide) | ForeverFlower",
+    title: "The Best Flower Delivery Services in Darwin (2026 Guide) | FutureFlower",
     description: "A complete guide to the top flower delivery services serving Darwin — broken down by best overall, fastest delivery, and most affordable options.",
-    url: "https://www.foreverflower.app/articles/best-flower-delivery-darwin",
+    url: "https://www.futureflower.app/articles/best-flower-delivery-darwin",
     ogImage: "/static/og-images/og-flower-delivery-darwin.webp", // Assuming this will be created later
-    authorName: "The ForeverFlower Team",
-    publisherName: "ForeverFlower",
-    publisherLogoUrl: "https://www.foreverflower.app/static/logo_128_black.png",
+    authorName: "The FutureFlower Team",
+    publisherName: "FutureFlower",
+    publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-21T00:00:00Z", // Today's date
     dateModified: "2026-01-21T00:00:00Z", // Today's date
   };
@@ -25,7 +25,7 @@ const BestFlowerDeliveryDarwin = () => {
     },
     headline: articleDetails.title,
     description: articleDetails.description,
-    image: `https://www.foreverflower.app${articleDetails.ogImage}`,
+    image: `https://www.futureflower.app${articleDetails.ogImage}`,
     author: {
       '@type': 'Person',
       name: articleDetails.authorName,

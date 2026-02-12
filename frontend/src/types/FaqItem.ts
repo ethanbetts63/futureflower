@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/types/data.ts
+// futureflower/frontend/src/types/data.ts
 
 /**
  * Defines the structure for a single FAQ item.

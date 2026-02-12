@@ -3,4 +3,4 @@ Allow: /
 Allow: /static/
 Disallow: /terms-and-conditions/
 
-Sitemap: https://www.foreverflower.app/sitemap.xml
+Sitemap: https://www.futureflower.app/sitemap.xml

@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/components/OrderSummaryCard.tsx
+// futureflower/frontend/src/components/OrderSummaryCard.tsx
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';

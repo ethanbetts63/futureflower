@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/types/users.ts
+// futureflower/frontend/src/types/users.ts
 
 /**
  * Defines the structure for a user's profile.

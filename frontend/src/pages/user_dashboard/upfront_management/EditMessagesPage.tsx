@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/user_dashboard/EditMessagesPage.tsx
+// futureflower/frontend/src/pages/user_dashboard/EditMessagesPage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import MessagesEditor from '@/components/MessagesEditor';

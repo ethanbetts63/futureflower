@@ -1,4 +1,4 @@
-# foreverflower/events/serializers/upfront_plan_serializer.py
+# futureflower/events/serializers/upfront_plan_serializer.py
 from datetime import date, timedelta
 from django.conf import settings
 from rest_framework import serializers

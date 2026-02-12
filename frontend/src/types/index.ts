@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/types/index.ts
+// futureflower/frontend/src/types/index.ts
 
 export type { DecodedToken } from './DecodedToken';
 export type { PriceBreakdown } from './PriceBreakdown';

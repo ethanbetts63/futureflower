@@ -39,7 +39,7 @@ export const NonDeliveryPartnersSection: React.FC = () => {
             </h2>
             
             <p className="text-lg mb-6">
-              Not every florist wants to deliver — it's expensive, complicated, and time consuming. But that doesn't mean it hurts any less when you have to say no to a customer. ForeverFlower gives you the ability to say: <strong>"No, but…"</strong>. A small difference that goes a long way.
+              Not every florist wants to deliver — it's expensive, complicated, and time consuming. But that doesn't mean it hurts any less when you have to say no to a customer. FutureFlower gives you the ability to say: <strong>"No, but…"</strong>. A small difference that goes a long way.
             </p>
 
             <ul className="space-y-4 mb-6">

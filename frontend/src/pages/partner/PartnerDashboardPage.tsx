@@ -53,7 +53,7 @@ const PartnerDashboardPage: React.FC = () => {
 
   return (
     <>
-      <Seo title="Partner Dashboard | ForeverFlower" />
+      <Seo title="Partner Dashboard | FutureFlower" />
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-4xl space-y-6">
           {/* Header */}

@@ -1,4 +1,4 @@
-# foreverflower/events/models/color.py
+# futureflower/events/models/color.py
 from django.db import models
 
 class Color(models.Model):

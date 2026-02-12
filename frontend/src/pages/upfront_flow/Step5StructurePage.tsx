@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/flow/Step5StructurePage.tsx
+// futureflower/frontend/src/pages/flow/Step5StructurePage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import StructureEditor from '@/components/StructureEditor';

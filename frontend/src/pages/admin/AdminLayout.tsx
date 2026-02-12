@@ -27,7 +27,7 @@ const AdminLayout: React.FC = () => {
 
   return (
     <>
-      <Seo title="Admin | ForeverFlower" />
+      <Seo title="Admin | FutureFlower" />
       <div className="flex h-screen">
         {/* Vertical Nav */}
         <aside className="w-64 flex-shrink-0 border-r p-4 bg-background">

@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/pages/CheckoutPage.tsx
+// futureflower/frontend/src/pages/CheckoutPage.tsx
 import React, { useState, useEffect } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
@@ -58,7 +58,7 @@ const CheckoutPage: React.FC = () => {
 
     return (
         <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
-            <Seo title="Complete Payment | ForeverFlower" />
+            <Seo title="Complete Payment | FutureFlower" />
             <div className="container mx-auto max-w-5xl px-4">
                 <div className="flex flex-col md:flex-row gap-8 items-start">
                     

@@ -1,4 +1,4 @@
-// foreverflower/frontend/src/utils/debounce.ts
+// futureflower/frontend/src/utils/debounce.ts
 
 /**
  * Creates a debounced function that delays invoking `func` until after `wait` milliseconds

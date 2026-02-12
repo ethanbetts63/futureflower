@@ -5,13 +5,13 @@ import Seo from '../../components/Seo';
 
 const BestFlowerSubscriptionServicesEU = () => {
   const articleDetails = {
-    title: "The Best Flower Subscription Services in Europe (2026 Guide) | ForeverFlower",
+    title: "The Best Flower Subscription Services in Europe (2026 Guide) | FutureFlower",
     description: "A guide to the best flower subscription services in Europe, covering overall experience, budget options, and high-quality bouquets.",
-    url: "https://www.foreverflower.app/articles/best-flower-subscription-services-eu",
+    url: "https://www.futureflower.app/articles/best-flower-subscription-services-eu",
     ogImage: "/static/og-images/og-flower-subscription-eu.webp", // Assuming this path
-    authorName: "The ForeverFlower Team",
-    publisherName: "ForeverFlower",
-    publisherLogoUrl: "https://www.foreverflower.app/static/logo_128_black.png",
+    authorName: "The FutureFlower Team",
+    publisherName: "FutureFlower",
+    publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
     dateModified: "2026-01-19T00:00:00Z",
   };
@@ -25,7 +25,7 @@ const BestFlowerSubscriptionServicesEU = () => {
     },
     headline: articleDetails.title,
     description: articleDetails.description,
-    image: `https://www.foreverflower.app${articleDetails.ogImage}`,
+    image: `https://www.futureflower.app${articleDetails.ogImage}`,
     author: {
       '@type': 'Person',
       name: articleDetails.authorName,
@@ -108,7 +108,7 @@ const BestFlowerSubscriptionServicesEU = () => {
           <h2 className="text-3xl font-bold tracking-tight">When Flowers Aren’t Just a Last-Minute Gift</h2>
           <p>Flowers are often bought reactively — a quick order before a date, a reminder notification, a rush before delivery cut-off.</p>
           <p>There’s another way to approach it.</p>
-          <p>ForeverFlower is built around long-term planning. Instead of reordering each year, you set the dates, preferences, and budget upfront, and future deliveries are scheduled in advance.</p>
+          <p>FutureFlower is built around long-term planning. Instead of reordering each year, you set the dates, preferences, and budget upfront, and future deliveries are scheduled in advance.</p>
           <p>It’s particularly useful for people who buy flowers for the same occasions every year — birthdays, anniversaries, Mother’s Day — and would rather solve the system once than rely on remembering each time.</p>
           <p>Not everyone needs this. But for the right person, it turns flowers from a recurring task into something quietly handled in the background.</p>
         </div>

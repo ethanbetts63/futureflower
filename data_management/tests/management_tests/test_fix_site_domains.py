@@ -21,8 +21,8 @@ class TestFixSiteDomainsCommand:
         
         site.refresh_from_db()
         
-        assert site.domain == 'www.foreverflower.app'
-        assert site.name == 'www.foreverflower.app'
+        assert site.domain == 'www.futureflower.app'
+        assert site.name == 'www.futureflower.app'
         assert "Successfully updated site domain" in out.getvalue()
 
     def test_site_already_updated(self):
@@ -32,8 +32,8 @@ class TestFixSiteDomainsCommand:
         """
         # Ensure the site does not have the 'example.com' domain
         site = Site.objects.get(pk=1)
-        site.domain = 'www.foreverflower.app'
-        site.name = 'www.foreverflower.app'
+        site.domain = 'www.futureflower.app'
+        site.name = 'www.futureflower.app'
         site.save()
         
         err = StringIO()

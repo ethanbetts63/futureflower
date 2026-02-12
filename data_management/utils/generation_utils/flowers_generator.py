@@ -1,4 +1,4 @@
-# foreverflower/data_management/utils/generation_utils/flowers_generator.py
+# futureflower/data_management/utils/generation_utils/flowers_generator.py
 import json
 import os
 from events.models import FlowerType

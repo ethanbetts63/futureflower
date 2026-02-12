@@ -8,7 +8,7 @@ from users.tests.factories.user_factory import UserFactory
 # Mark all tests in this file as requiring database access
 pytestmark = pytest.mark.django_db
 
-class TestForeverFlowerUpfrontPrice:
+class TestFutureFlowerUpfrontPrice:
     """Tests for the forever_flower_upfront_price function."""
 
     def test_basic_calculation(self):
