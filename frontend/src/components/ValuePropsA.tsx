@@ -1,6 +1,5 @@
 import React from 'react';
 import { Check } from 'lucide-react';
-import { BecomePartnerButton } from './BecomePartnerButton';
 
 const points = [
   'Only sales you\'re leaving behind.',
@@ -15,7 +14,7 @@ interface ValuePropsAProps {
 
 export const ValuePropsA: React.FC<ValuePropsAProps> = ({ contentRef }) => {
   return (
-    <section ref={contentRef} className="bg-[var(--color4)] pt-10 scroll-mt-8">
+    <section ref={contentRef} className="bg-[var(--color4)] pt-10 scroll-mt-10">
       <div className="container mx-auto px-4 max-w-4xl">
         <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-center text-black mb-6">
           No Cost, No Admin, No Risk.
