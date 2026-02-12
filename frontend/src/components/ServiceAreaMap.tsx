@@ -55,18 +55,11 @@ const MapClickHandler: React.FC<{
   return null;
 };
 
-const FitToRadius: React.FC<{ center: [number, number]; radiusKm: number }> = ({ center, radiusKm }) => {
+const PanToCenter: React.FC<{ center: [number, number] }> = ({ center }) => {
   const map = useMap();
   useEffect(() => {
-    // ~0.009 degrees latitude per km; longitude adjusted by cos(lat)
-    const latOffset = (radiusKm / 111) * 2;
-    const lngOffset = (radiusKm / (111 * Math.cos((center[0] * Math.PI) / 180))) * 2;
-    const bounds: L.LatLngBoundsExpression = [
-      [center[0] - latOffset, center[1] - lngOffset],
-      [center[0] + latOffset, center[1] + lngOffset],
-    ];
-    map.flyToBounds(bounds, { duration: 1.5 });
-  }, [center, radiusKm, map]);
+    map.panTo(center);
+  }, [center, map]);
   return null;
 };
 
@@ -91,7 +84,7 @@ const ServiceAreaMap: React.FC<ServiceAreaMapProps> = ({
           <MapClickHandler onClick={onLocationChange} />
           {hasPin && (
             <>
-              <FitToRadius center={[latitude!, longitude!]} radiusKm={radiusKm} />
+              <PanToCenter center={[latitude!, longitude!]} />
               <DraggableMarker
                 position={[latitude!, longitude!]}
                 onDragEnd={onLocationChange}
