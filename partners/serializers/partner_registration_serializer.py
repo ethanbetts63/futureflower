@@ -32,7 +32,7 @@ class PartnerRegistrationSerializer(serializers.Serializer):
     # Service area (pin + radius)
     latitude = serializers.FloatField(required=False, allow_null=True, default=None)
     longitude = serializers.FloatField(required=False, allow_null=True, default=None)
-    service_radius_km = serializers.IntegerField(required=False, default=10, min_value=1, max_value=250)
+    service_radius_km = serializers.IntegerField(required=False, default=10, min_value=1, max_value=500)
 
     def validate_email(self, value):
         lower_email = value.lower()

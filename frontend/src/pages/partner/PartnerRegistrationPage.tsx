@@ -158,7 +158,7 @@ const PartnerRegistrationPage: React.FC = () => {
                 {/* Delivery Partner Fields */}
                 {isDelivery && (
                   <div className="border-t pt-6 space-y-4">
-                    <h3 className="font-semibold text-lg">Delivery Details</h3>
+                    <h3 className="font-semibold text-lg">Store Location</h3>
 
                     <div className="space-y-2">
                       <Label htmlFor="street_address">Street Address</Label>

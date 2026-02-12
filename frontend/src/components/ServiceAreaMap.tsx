@@ -73,8 +73,9 @@ const ServiceAreaMap: React.FC<ServiceAreaMapProps> = ({
   const hasPin = latitude !== null && longitude !== null;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-4">
       <label className="text-sm font-medium">Service Area</label>
+      <p className="text-sm text-muted-foreground">Drop a pin on your store location and set the radius you're willing to deliver within. You'll only receive delivery requests for orders within this area.</p>
       <div className="h-[300px] rounded-lg overflow-hidden border">
         <MapContainer center={[20, 0]} zoom={1} style={{ height: '100%', width: '100%' }}>
           <TileLayer
@@ -112,7 +113,7 @@ const ServiceAreaMap: React.FC<ServiceAreaMapProps> = ({
         <Slider
           value={[radiusKm]}
           min={1}
-          max={250}
+          max={500}
           step={1}
           onValueChange={(value) => onRadiusChange(value[0])}
         />
