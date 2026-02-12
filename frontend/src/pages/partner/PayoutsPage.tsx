@@ -63,7 +63,7 @@ const PayoutsPage: React.FC = () => {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold">${p.amount.toFixed(2)} {p.currency}</p>
+                        <p className="font-bold">${Number(p.amount).toFixed(2)} {p.currency}</p>
                         <Badge variant="outline">{p.status}</Badge>
                       </div>
                     </div>

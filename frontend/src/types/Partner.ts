@@ -71,6 +71,16 @@ export interface DiscountCodeValidation {
   partner_name: string;
 }
 
+export type DiscountValidationResult = DiscountCodeValidation;
+
+export type ServiceAreaInput = {
+  suburb: string;
+  city: string;
+  state?: string;
+  postcode?: string;
+  country: string;
+};
+
 export interface PartnerRegistrationData {
   email: string;
   password: string;

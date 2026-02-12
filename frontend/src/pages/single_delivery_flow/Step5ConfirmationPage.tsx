@@ -14,7 +14,6 @@ import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery } fro
 import type { Plan, Color, FlowerType, UpfrontPlan } from '@/types';
 
 import PaymentInitiatorButton from '@/components/PaymentInitiatorButton';
-import DiscountCodeInput from '@/components/DiscountCodeInput';
 
 
 const Step5ConfirmationPage = () => {

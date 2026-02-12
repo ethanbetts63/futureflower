@@ -41,6 +41,14 @@ const SingleDeliveryStep3PreferencesPage = lazy(() => import('./pages/single_del
 const SingleDeliveryStep4StructurePage = lazy(() => import('./pages/single_delivery_flow/Step4StructurePage'));
 const SingleDeliveryStep5ConfirmationPage = lazy(() => import('./pages/single_delivery_flow/Step5ConfirmationPage'));
 
+// --- Partner Pages ---
+const PartnerRegistrationPage = lazy(() => import('./pages/partner/PartnerRegistrationPage'));
+const PartnerDashboardPage = lazy(() => import('./pages/partner/PartnerDashboardPage'));
+const DeliveryRequestPage = lazy(() => import('./pages/partner/DeliveryRequestPage'));
+const StripeConnectReturnPage = lazy(() => import('./pages/partner/StripeConnectReturnPage'));
+const PayoutsPage = lazy(() => import('./pages/partner/PayoutsPage'));
+const PayoutDetailPage = lazy(() => import('./pages/partner/PayoutDetailPage'));
+
 const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
 const PaymentStatusPage = lazy(() => import('./pages/PaymentStatusPage'));
 const BlocklistSuccessPage = lazy(() => import('./pages/BlocklistSuccessPage'));

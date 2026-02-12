@@ -62,7 +62,7 @@ const PayoutDetailPage: React.FC = () => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Amount</p>
-                  <p className="text-xl font-bold">${payout.amount.toFixed(2)} {payout.currency}</p>
+                  <p className="text-xl font-bold">${Number(payout.amount).toFixed(2)} {payout.currency}</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Period</p>
@@ -91,7 +91,7 @@ const PayoutDetailPage: React.FC = () => {
                   {payout.line_items.map((li) => (
                     <div key={li.id} className="flex items-center justify-between border-b pb-2">
                       <p className="text-sm">{li.description}</p>
-                      <p className="font-medium">${li.amount.toFixed(2)}</p>
+                      <p className="font-medium">${Number(li.amount).toFixed(2)}</p>
                     </div>
                   ))}
                 </div>

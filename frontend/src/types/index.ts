@@ -87,15 +87,16 @@ export type { PartialSingleDeliveryOrder } from './PartialSingleDeliveryOrder';
 export type { CalculateSingleDeliveryPriceResponse } from './CalculateSingleDeliveryPriceResponse';
 export type {
   Partner,
-  DiscountCodeInfo,
+  DiscountCode,
   CommissionSummary,
   Commission,
   ServiceArea,
   DeliveryRequestSummary,
   PayoutSummary,
+  DiscountCodeValidation,
   DiscountValidationResult,
-  PartnerRegistrationData,
   ServiceAreaInput,
+  PartnerRegistrationData,
 } from './Partner';
 export type { DeliveryRequestDetail } from './DeliveryRequest';
 export type { Payout, PayoutDetail, PayoutLineItem } from './Payout';
