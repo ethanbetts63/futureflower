@@ -1,9 +1,5 @@
-import React, { type RefObject } from 'react';
+import React from 'react';
 import { ChevronRight } from 'lucide-react';
-
-interface WhyFutureFlowerSectionProps {
-  contentRef: RefObject<HTMLDivElement | null>;
-}
 
 const conversationStarters = [
   '"Would you like us to arrange something similar delivered for Mother\'s Day?"',
@@ -11,9 +7,9 @@ const conversationStarters = [
   '"Would you like us to set up a delivery subscription? We can have something like this delivered once a month."',
 ];
 
-export const WhyFutureFlowerSection: React.FC<WhyFutureFlowerSectionProps> = ({ contentRef }) => {
+export const WhyFutureFlowerSection: React.FC = () => {
   return (
-    <section ref={contentRef} className="bg-[var(--color4)] py-10 md:py-14">
+    <section className="bg-[var(--color4)] py-10 md:py-14">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           <p className="text-lg text-gray-700 leading-relaxed mb-4">

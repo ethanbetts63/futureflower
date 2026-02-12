@@ -6,6 +6,7 @@ import floristImage768 from '../assets/florist-768w.webp';
 import floristImage1024 from '../assets/florist-1024w.webp';
 import floristImage1280 from '../assets/florist-1280w.webp';
 import { Check } from 'lucide-react';
+import { BecomePartnerButton } from './BecomePartnerButton';
 
 const benefits = [
   'Orders from customers who found us, not you',
@@ -49,6 +50,9 @@ export const SendBusinessYourWay: React.FC = () => {
                 </li>
               ))}
             </ul>
+            <div className="text-center">
+              <BecomePartnerButton />
+            </div>
           </div>
         </div>
 

@@ -52,9 +52,9 @@ const FloristsPage = () => {
 
       <HeroFloristPage scrollToContent={scrollToContent} />
 
-      <ValuePropsA />
+      <ValuePropsA contentRef={contentRef} />
 
-      <WhyFutureFlowerSection contentRef={contentRef} />
+      <WhyFutureFlowerSection />
 
       <ServicesCarouselSection />
       <Timeline />

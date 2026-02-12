@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowDown } from 'lucide-react';
+import { BecomePartnerButton } from './BecomePartnerButton';
 
 import deliveryImage from '../assets/delivery.webp';
 import deliveryImage320 from '../assets/delivery-320w.webp';
@@ -37,13 +38,16 @@ export const HeroFloristPage: React.FC<HeroFloristPageProps> = ({ scrollToConten
         <p className="mt-6 text-lg sm:text-xl leading-8">
           Extend your service beyond today's purchase. Offer scheduled deliveries, subscriptions, and prepaid plans — completely free, with zero admin.
         </p>
-        <button
-          onClick={scrollToContent}
-          className="mt-8 flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer"
-        >
-          <span className="text-sm font-medium">Learn more</span>
-          <ArrowDown className="h-4 w-4 animate-bounce" />
-        </button>
+        <div className="mt-8 flex items-center gap-8">
+          <button
+            onClick={scrollToContent}
+            className="flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer"
+          >
+            <span className="text-sm font-medium">Learn more</span>
+            <ArrowDown className="h-4 w-4 animate-bounce" />
+          </button>
+          <BecomePartnerButton />
+        </div>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check } from 'lucide-react';
+import { BecomePartnerButton } from './BecomePartnerButton';
 
 import kitchenImage from '../assets/kitchen.webp';
 import kitchenImage320 from '../assets/kitchen-320w.webp';
@@ -50,7 +51,9 @@ export const NonDeliveryPartnersSection: React.FC = () => {
                 </li>
               ))}
             </ul>
-
+            <div className="text-center">
+              <BecomePartnerButton />
+            </div>
           </div>
         </div>
 
