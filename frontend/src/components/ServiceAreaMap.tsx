@@ -58,9 +58,14 @@ const MapClickHandler: React.FC<{
 const FitToRadius: React.FC<{ center: [number, number]; radiusKm: number }> = ({ center, radiusKm }) => {
   const map = useMap();
   useEffect(() => {
-    const radiusMeters = radiusKm * 1000;
-    const circle = L.circle(center, { radius: radiusMeters });
-    map.fitBounds(circle.getBounds(), { padding: [30, 30] });
+    // ~0.009 degrees latitude per km; longitude adjusted by cos(lat)
+    const latOffset = (radiusKm / 111) * 2;
+    const lngOffset = (radiusKm / (111 * Math.cos((center[0] * Math.PI) / 180))) * 2;
+    const bounds: L.LatLngBoundsExpression = [
+      [center[0] - latOffset, center[1] - lngOffset],
+      [center[0] + latOffset, center[1] + lngOffset],
+    ];
+    map.flyToBounds(bounds, { duration: 1.5 });
   }, [center, radiusKm, map]);
   return null;
 };
@@ -78,7 +83,7 @@ const ServiceAreaMap: React.FC<ServiceAreaMapProps> = ({
     <div className="space-y-4">
       <label className="text-sm font-medium">Service Area</label>
       <div className="h-[300px] rounded-lg overflow-hidden border">
-        <MapContainer center={[20, 0]} zoom={2} style={{ height: '100%', width: '100%' }}>
+        <MapContainer center={[20, 0]} zoom={1} style={{ height: '100%', width: '100%' }}>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -114,7 +119,7 @@ const ServiceAreaMap: React.FC<ServiceAreaMapProps> = ({
         <Slider
           value={[radiusKm]}
           min={1}
-          max={50}
+          max={250}
           step={1}
           onValueChange={(value) => onRadiusChange(value[0])}
         />
