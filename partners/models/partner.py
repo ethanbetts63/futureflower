@@ -40,6 +40,11 @@ class Partner(models.Model):
     postcode = models.CharField(max_length=20, blank=True)
     country = models.CharField(max_length=100, blank=True)
 
+    # Service area (pin + radius)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    service_radius_km = models.PositiveIntegerField(default=10)
+
     # Phase 3: Stripe Connect
     stripe_connect_account_id = models.CharField(max_length=255, null=True, blank=True)
     stripe_connect_onboarding_complete = models.BooleanField(default=False)

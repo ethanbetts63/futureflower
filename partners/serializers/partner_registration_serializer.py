@@ -22,20 +22,20 @@ class PartnerRegistrationSerializer(serializers.Serializer):
     last_name = serializers.CharField(max_length=150)
 
     # Partner fields
-    business_name = serializers.CharField(max_length=255, required=False, default='')
-    phone = serializers.CharField(max_length=30, required=False, default='')
+    business_name = serializers.CharField(max_length=255, required=False, default='', allow_blank=True)
+    phone = serializers.CharField(max_length=30, required=False, default='', allow_blank=True)
     partner_type = serializers.ChoiceField(
         choices=['non_delivery', 'delivery'],
         default='non_delivery'
     )
 
     # Delivery partner fields (Phase 2)
-    street_address = serializers.CharField(max_length=255, required=False, default='')
-    suburb = serializers.CharField(max_length=100, required=False, default='')
-    city = serializers.CharField(max_length=100, required=False, default='')
-    state = serializers.CharField(max_length=100, required=False, default='')
-    postcode = serializers.CharField(max_length=20, required=False, default='')
-    country = serializers.CharField(max_length=100, required=False, default='')
+    street_address = serializers.CharField(max_length=255, required=False, default='', allow_blank=True)
+    suburb = serializers.CharField(max_length=100, required=False, default='', allow_blank=True)
+    city = serializers.CharField(max_length=100, required=False, default='', allow_blank=True)
+    state = serializers.CharField(max_length=100, required=False, default='', allow_blank=True)
+    postcode = serializers.CharField(max_length=20, required=False, default='', allow_blank=True)
+    country = serializers.CharField(max_length=100, required=False, default='', allow_blank=True)
     service_areas = ServiceAreaSerializer(many=True, required=False, default=[])
 
     def validate_email(self, value):

@@ -30,6 +30,7 @@ const PartnerRegistrationPage: React.FC = () => {
   const [form, setForm] = useState({
     email: '',
     password: '',
+    confirm_password: '',
     first_name: '',
     last_name: '',
     business_name: '',
@@ -48,11 +49,18 @@ const PartnerRegistrationPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (form.password !== form.confirm_password) {
+      toast.error('Passwords do not match.');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
+      const { confirm_password, ...formData } = form;
       const data: PartnerRegistrationData = {
-        ...form,
+        ...formData,
         partner_type: isDelivery ? 'delivery' : 'non_delivery',
         service_areas: isDelivery ? serviceAreas : [],
       };
@@ -112,9 +120,15 @@ const PartnerRegistrationPage: React.FC = () => {
                   <Input id="email" name="email" type="email" value={form.email} onChange={handleChange} required />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password *</Label>
-                  <Input id="password" name="password" type="password" value={form.password} onChange={handleChange} required />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="password">Password *</Label>
+                    <Input id="password" name="password" type="password" value={form.password} onChange={handleChange} required />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="confirm_password">Confirm Password *</Label>
+                    <Input id="confirm_password" name="confirm_password" type="password" value={form.confirm_password} onChange={handleChange} required />
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
