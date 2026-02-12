@@ -52,14 +52,14 @@ const HomePage = () => {
     <main>
       <Seo
         title="ForeverFlower | Flower Subscription Service"
-        description="The most romantic gestures are those that plan for a future together. Choose the date, set the budget, and we organize flower deliveries year after year - turning one decision into a lifetime of meaningful moments."
+        description="The most romantic gestures are those that plan for a future together. Choose the dates, set the budget, and we organize flower deliveries year after year - turning one decision into a lifetime of meaningful moments."
         canonicalPath="/"
         ogImage="/og-images/og-homepage.webp"
         structuredData={organizationSchema}
       />
       <HeroV2
         title={<>The gift that <span className='italic'>keeps</span> on giving.</>}
-        subtitle={<>The most romantic gestures are those that plan for a future together. Choose the date, set the budget, and we organize flower deliveries year after year - turning one decision into a lifetime of meaningful moments.</>}
+        subtitle={<>The most romantic gestures are those that plan for a future together. Choose the dates, set the budget, and we organize flower deliveries year after year - turning one decision into a lifetime of meaningful moments.</>}
         onLearnMore={() => contentRef.current?.scrollIntoView({ behavior: 'smooth' })}
       />
 

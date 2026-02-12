@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from django.utils.text import slugify
 from partners.models import Partner, DiscountCode, ServiceArea
 
 User = get_user_model()
@@ -29,7 +30,6 @@ class PartnerRegistrationSerializer(serializers.Serializer):
     )
 
     # Delivery partner fields (Phase 2)
-    booking_slug = serializers.SlugField(max_length=100, required=False)
     street_address = serializers.CharField(max_length=255, required=False, default='')
     suburb = serializers.CharField(max_length=100, required=False, default='')
     city = serializers.CharField(max_length=100, required=False, default='')
@@ -44,18 +44,17 @@ class PartnerRegistrationSerializer(serializers.Serializer):
             raise serializers.ValidationError("An account with this email address already exists.")
         return lower_email
 
-    def validate_booking_slug(self, value):
-        if value and Partner.objects.filter(booking_slug=value).exists():
-            raise serializers.ValidationError("This booking slug is already taken.")
-        return value
-
-    def validate(self, data):
-        if data.get('partner_type') == 'delivery':
-            if not data.get('booking_slug'):
-                raise serializers.ValidationError({
-                    'booking_slug': 'Booking slug is required for delivery partners.'
-                })
-        return data
+    def _generate_booking_slug(self, business_name, first_name, last_name):
+        """Generate a unique booking slug from business name, falling back to user name."""
+        base = business_name.strip() if business_name else f"{first_name} {last_name}"
+        slug = slugify(base)[:80] or 'partner'
+        # Ensure uniqueness
+        candidate = slug
+        counter = 1
+        while Partner.objects.filter(booking_slug=candidate).exists():
+            candidate = f"{slug}-{counter}"
+            counter += 1
+        return candidate
 
     def create(self, validated_data):
         service_areas_data = validated_data.pop('service_areas', [])
@@ -78,7 +77,11 @@ class PartnerRegistrationSerializer(serializers.Serializer):
 
         if validated_data.get('partner_type') == 'delivery':
             partner_fields.update({
-                'booking_slug': validated_data.get('booking_slug'),
+                'booking_slug': self._generate_booking_slug(
+                    validated_data.get('business_name', ''),
+                    validated_data['first_name'],
+                    validated_data['last_name'],
+                ),
                 'street_address': validated_data.get('street_address', ''),
                 'suburb': validated_data.get('suburb', ''),
                 'city': validated_data.get('city', ''),

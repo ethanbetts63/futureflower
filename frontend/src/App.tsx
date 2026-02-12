@@ -46,6 +46,7 @@ const SingleDeliveryStep4StructurePage = lazy(() => import('./pages/single_deliv
 const SingleDeliveryStep5ConfirmationPage = lazy(() => import('./pages/single_delivery_flow/Step5ConfirmationPage'));
 
 // --- Partner Pages ---
+const PartnerTypeSelectionPage = lazy(() => import('./pages/partner/PartnerTypeSelectionPage'));
 const PartnerRegistrationPage = lazy(() => import('./pages/partner/PartnerRegistrationPage'));
 const PartnerDashboardPage = lazy(() => import('./pages/partner/PartnerDashboardPage'));
 const DeliveryRequestPage = lazy(() => import('./pages/partner/DeliveryRequestPage'));
@@ -135,7 +136,8 @@ function App() {
 
 
                 {/* Partner Routes */}
-                <Route path="/partner/register" element={<PartnerRegistrationPage />} />
+                <Route path="/partner/register" element={<PartnerTypeSelectionPage />} />
+                <Route path="/partner/register/:partnerType" element={<PartnerRegistrationPage />} />
                 <Route path="/partner/dashboard" element={<PartnerDashboardPage />} />
                 <Route path="/partner/delivery-request/:token" element={<DeliveryRequestPage />} />
                 <Route path="/partner/stripe-connect/return" element={<StripeConnectReturnPage />} />

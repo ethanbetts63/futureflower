@@ -89,7 +89,6 @@ export interface PartnerRegistrationData {
   business_name?: string;
   phone?: string;
   partner_type: 'non_delivery' | 'delivery';
-  booking_slug?: string;
   street_address?: string;
   suburb?: string;
   city?: string;
