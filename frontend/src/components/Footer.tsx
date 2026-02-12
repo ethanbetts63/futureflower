@@ -34,7 +34,6 @@ const Footer: React.FC = () => {
             <Link to="/florists" className="text-sm hover:underline">Florists</Link>
             <Link to="/contact" className="text-sm hover:underline">Contact Us</Link>
             <Link to="/terms-and-conditions" className="text-sm hover:underline">Terms & Conditions</Link>
-            <Link to="/partner/register" className="text-sm hover:underline">Become a Partner</Link>
             {(user?.is_staff || user?.is_superuser) && (
               <Link to="/admin-dashboard" className="text-sm hover:underline">Admin Dashboard</Link>
             )}
