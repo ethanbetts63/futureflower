@@ -25,17 +25,21 @@ const SubscriptionEditStructurePage = lazy(() => import('./pages/user_dashboard/
 
 const EventGate = lazy(() => import('@/components/EventGate'));
 const Step1CreateAccountPage = lazy(() => import('./pages/Step1CreateAccountPage'));
+
+// Upfront Flow Pages
 const Step2RecipientPage = lazy(() => import('./pages/upfront_flow/Step2RecipientPage'));
 const Step3PreferenceSelectionPage = lazy(() => import('./pages/upfront_flow/Step3PreferenceSelectionPage'));
 const Step4CustomMessagePage = lazy(() => import('./pages/upfront_flow/Step4CustomMessagePage'));
 const Step5StructurePage = lazy(() => import('./pages/upfront_flow/Step5StructurePage'));
 const Step6BookingConfirmationPage = lazy(() => import('./pages/upfront_flow/Step6BookingConfirmationPage'));
 
+// Subscription Flow Pages
 const SubscriptionStep2RecipientPage = lazy(() => import('./pages/subscription_flow/Step2RecipientPage'));
 const SubscriptionStep3PreferenceSelectionPage = lazy(() => import('./pages/subscription_flow/Step3PreferenceSelectionPage'));
 const SubscriptionStep4StructurePage = lazy(() => import('./pages/subscription_flow/Step4StructurePage'));
 const SubscriptionStep5ConfirmationPage = lazy(() => import('./pages/subscription_flow/Step5ConfirmationPage'));
 
+// Single Delivery Flow Pages
 const SingleDeliveryStep2RecipientPage = lazy(() => import('./pages/single_delivery_flow/Step2RecipientPage'));
 const SingleDeliveryStep3PreferencesPage = lazy(() => import('./pages/single_delivery_flow/Step3PreferencesPage'));
 const SingleDeliveryStep4StructurePage = lazy(() => import('./pages/single_delivery_flow/Step4StructurePage'));
@@ -51,12 +55,16 @@ const PayoutDetailPage = lazy(() => import('./pages/partner/PayoutDetailPage'));
 
 const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
 const PaymentStatusPage = lazy(() => import('./pages/PaymentStatusPage'));
+
+// --- Misc Pages ---
 const BlocklistSuccessPage = lazy(() => import('./pages/BlocklistSuccessPage'));
 const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
 const ResetPasswordConfirmPage = lazy(() => import('./pages/ResetPasswordConfirmPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const FloristsPage = lazy(() => import('./pages/FloristsPage'));
+
+// --- Blog Pages ---
 const BlogExplorePage = lazy(() => import('./pages/BlogExplorePage'));
 const BestFlowerSubscriptionServicesUS = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesUS'));
 const BestFlowerSubscriptionServicesAU = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesAU'));
@@ -66,7 +74,7 @@ const BestFlowerSubscriptionServicesNZ = lazy(() => import('./pages/articles/Bes
 const BestFlowerDeliveryPerth = lazy(() => import('./pages/articles/BestFlowerDeliveryPerth'));
 const BestFlowerDeliverySydney = lazy(() => import('./pages/articles/BestFlowerDeliverySydney'));
 
-// --- Lazy-loaded Admin Pages ---
+// --- Admin Pages ---
 const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
 const AdminHomePage = lazy(() => import('./pages/admin/AdminHomePage'));
 
