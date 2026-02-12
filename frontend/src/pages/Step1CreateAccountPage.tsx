@@ -46,7 +46,7 @@ const CreateAccountPage: React.FC = () => {
                     <CardHeader>
                         <CardTitle className="text-3xl">Create Your Account</CardTitle>
                         <CardDescription className="text-black">
-                            Welcome! Let's get your account set up so you can create your first upfront plan. 
+                            Welcome! Let's get your account set up so you can create your first order. 
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
