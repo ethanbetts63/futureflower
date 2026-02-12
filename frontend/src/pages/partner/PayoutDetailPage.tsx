@@ -47,9 +47,8 @@ const PayoutDetailPage: React.FC = () => {
   return (
     <>
       <Seo title={`Payout #${payout.id} | FutureFlower`} />
-      <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
-        <div className="container mx-auto px-4 max-w-4xl space-y-6">
-          <BackButton to="/partner/payouts" />
+      <div className="w-full space-y-6">
+          <BackButton to="/dashboard/partner/payouts" />
 
           <Card className="bg-white shadow-md border-none text-black">
             <CardHeader>
@@ -98,7 +97,6 @@ const PayoutDetailPage: React.FC = () => {
               )}
             </CardContent>
           </Card>
-        </div>
       </div>
     </>
   );

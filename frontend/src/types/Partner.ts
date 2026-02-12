@@ -5,6 +5,12 @@ export interface Partner {
   business_name: string;
   phone: string;
   booking_slug: string | null;
+  street_address: string;
+  suburb: string;
+  city: string;
+  state: string;
+  postcode: string;
+  country: string;
   discount_code: DiscountCode | null;
   commission_summary: CommissionSummary;
   recent_commissions: Commission[];
@@ -64,6 +70,20 @@ export interface DiscountCodeValidation {
 }
 
 export type DiscountValidationResult = DiscountCodeValidation;
+
+export interface PartnerUpdateData {
+  business_name?: string;
+  phone?: string;
+  street_address?: string;
+  suburb?: string;
+  city?: string;
+  state?: string;
+  postcode?: string;
+  country?: string;
+  latitude?: number | null;
+  longitude?: number | null;
+  service_radius_km?: number;
+}
 
 export interface PartnerRegistrationData {
   email: string;

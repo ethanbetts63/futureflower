@@ -80,7 +80,7 @@ const PartnerRegistrationPage: React.FC = () => {
 
       const authResponse = await registerPartner(data);
       await handleLoginSuccess(authResponse);
-      navigate('/partner/dashboard');
+      navigate('/dashboard/partner');
     } catch (error: any) {
       const errorData = error.data || {};
       const description = Object.entries(errorData)

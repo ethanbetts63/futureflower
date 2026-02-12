@@ -11,4 +11,5 @@ export interface UserProfile {
     last_name: string;
     is_staff?: boolean;
     is_superuser?: boolean;
+    is_partner?: boolean;
 }

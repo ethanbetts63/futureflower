@@ -38,9 +38,8 @@ const PayoutsPage: React.FC = () => {
   return (
     <>
       <Seo title="Payouts | FutureFlower" />
-      <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
-        <div className="container mx-auto px-4 max-w-4xl space-y-6">
-          <BackButton to="/partner/dashboard" />
+      <div className="w-full space-y-6">
+          <BackButton to="/dashboard/partner" />
           <Card className="bg-white shadow-md border-none text-black">
             <CardHeader>
               <CardTitle className="text-2xl">Payout History</CardTitle>
@@ -54,7 +53,7 @@ const PayoutsPage: React.FC = () => {
                     <div
                       key={p.id}
                       className="flex items-center justify-between border-b pb-3 cursor-pointer hover:bg-gray-50 p-2 rounded"
-                      onClick={() => navigate(`/partner/payouts/${p.id}`)}
+                      onClick={() => navigate(`/dashboard/partner/payouts/${p.id}`)}
                     >
                       <div>
                         <p className="font-medium capitalize">{p.payout_type} Payout</p>
@@ -72,7 +71,6 @@ const PayoutsPage: React.FC = () => {
               )}
             </CardContent>
           </Card>
-        </div>
       </div>
     </>
   );

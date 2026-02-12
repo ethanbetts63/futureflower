@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import HomePage from './pages/home';
 import NavBar from './components/NavBar';
@@ -53,6 +53,7 @@ const DeliveryRequestPage = lazy(() => import('./pages/partner/DeliveryRequestPa
 const StripeConnectReturnPage = lazy(() => import('./pages/partner/StripeConnectReturnPage'));
 const PayoutsPage = lazy(() => import('./pages/partner/PayoutsPage'));
 const PayoutDetailPage = lazy(() => import('./pages/partner/PayoutDetailPage'));
+const BusinessDetailsPage = lazy(() => import('./pages/partner/BusinessDetailsPage'));
 
 const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
 const PaymentStatusPage = lazy(() => import('./pages/PaymentStatusPage'));
@@ -138,11 +139,11 @@ function App() {
                 {/* Partner Routes */}
                 <Route path="/partner/register" element={<PartnerTypeSelectionPage />} />
                 <Route path="/partner/register/:partnerType" element={<PartnerRegistrationPage />} />
-                <Route path="/partner/dashboard" element={<PartnerDashboardPage />} />
+                <Route path="/partner/dashboard" element={<Navigate to="/dashboard/partner" replace />} />
                 <Route path="/partner/delivery-request/:token" element={<DeliveryRequestPage />} />
                 <Route path="/partner/stripe-connect/return" element={<StripeConnectReturnPage />} />
-                <Route path="/partner/payouts" element={<PayoutsPage />} />
-                <Route path="/partner/payouts/:payoutId" element={<PayoutDetailPage />} />
+                <Route path="/partner/payouts" element={<Navigate to="/dashboard/partner/payouts" replace />} />
+                <Route path="/partner/payouts/:payoutId" element={<Navigate to="/dashboard/partner/payouts" replace />} />
 
                 {/* Unified Checkout and Status Pages */}
                 <Route path="/checkout" element={<CheckoutPage />} />
@@ -167,6 +168,11 @@ function App() {
                   <Route path="subscription-plans/:planId/edit-recipient" element={<SubscriptionEditRecipientPage />} />
                   <Route path="subscription-plans/:planId/edit-preferences" element={<SubscriptionEditPreferencesPage />} />
                   <Route path="subscription-plans/:planId/edit-structure" element={<SubscriptionEditStructurePage />} />
+                  {/* Partner routes (inside dashboard layout) */}
+                  <Route path="partner" element={<PartnerDashboardPage />} />
+                  <Route path="partner/details" element={<BusinessDetailsPage />} />
+                  <Route path="partner/payouts" element={<PayoutsPage />} />
+                  <Route path="partner/payouts/:payoutId" element={<PayoutDetailPage />} />
                 </Route>
 
               </Routes>

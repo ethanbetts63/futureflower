@@ -2,6 +2,7 @@ from django.urls import path
 from partners.views import (
     PartnerRegistrationView,
     PartnerDashboardView,
+    PartnerUpdateView,
     ValidateDiscountCodeView,
     ResolveSlugView,
     DeliveryRequestDetailView,
@@ -18,6 +19,7 @@ urlpatterns = [
     # Phase 1
     path('register/', PartnerRegistrationView.as_view(), name='partner-register'),
     path('dashboard/', PartnerDashboardView.as_view(), name='partner-dashboard'),
+    path('update/', PartnerUpdateView.as_view(), name='partner-update'),
     path('validate-discount-code/', ValidateDiscountCodeView.as_view(), name='validate-discount-code'),
 
     # Phase 2

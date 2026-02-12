@@ -8,6 +8,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
     Serializer for the User model, focused on profile data that a
     user is allowed to view and edit.
     """
+    is_partner = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = [
@@ -16,13 +18,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'email',
             'first_name',
             'last_name',
+            'is_partner',
         ]
         read_only_fields = [
-            'username', 
-            'id', 
-            'is_staff', 
-            'is_superuser', 
+            'username',
+            'id',
+            'is_staff',
+            'is_superuser',
+            'is_partner',
         ]
+
+    def get_is_partner(self, obj):
+        return hasattr(obj, 'partner_profile')
 
     def validate_email(self, value):
         """

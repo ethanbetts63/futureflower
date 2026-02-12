@@ -5,6 +5,7 @@ import type {
   Partner,
   DiscountValidationResult,
   PartnerRegistrationData,
+  PartnerUpdateData,
   DeliveryRequestDetail,
   Payout,
   PayoutDetail,
@@ -21,6 +22,14 @@ export async function registerPartner(data: PartnerRegistrationData): Promise<Au
 
 export async function getPartnerDashboard(): Promise<Partner> {
   const response = await authedFetch('/api/partners/dashboard/');
+  return handleResponse(response);
+}
+
+export async function updatePartnerDetails(data: PartnerUpdateData): Promise<PartnerUpdateData> {
+  const response = await authedFetch('/api/partners/update/', {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
   return handleResponse(response);
 }
 

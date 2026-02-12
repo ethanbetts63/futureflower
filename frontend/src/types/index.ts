@@ -95,6 +95,7 @@ export type {
   DiscountCodeValidation,
   DiscountValidationResult,
   PartnerRegistrationData,
+  PartnerUpdateData,
 } from './Partner';
 export type { DeliveryRequestDetail } from './DeliveryRequest';
 export type { Payout, PayoutDetail, PayoutLineItem } from './Payout';

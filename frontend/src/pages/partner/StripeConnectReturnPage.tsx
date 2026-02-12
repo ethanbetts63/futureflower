@@ -58,7 +58,7 @@ const StripeConnectReturnPage: React.FC = () => {
                   ? 'Your Stripe account is set up. You can now receive payouts.'
                   : 'Your Stripe onboarding is not yet complete. Please try again from your dashboard.'}
               </p>
-              <Button onClick={() => navigate('/partner/dashboard')}>
+              <Button onClick={() => navigate('/dashboard/partner')}>
                 Go to Dashboard
               </Button>
             </CardContent>
