@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
-import BackButton from '@/components/BackButton';
 import { getPayouts } from '@/api/partners';
 import type { Payout } from '@/types';
 
@@ -39,7 +38,6 @@ const PayoutsPage: React.FC = () => {
     <>
       <Seo title="Payouts | FutureFlower" />
       <div className="w-full space-y-6">
-          <BackButton to="/dashboard/partner" />
           <Card className="bg-white shadow-md border-none text-black">
             <CardHeader>
               <CardTitle className="text-2xl">Payout History</CardTitle>

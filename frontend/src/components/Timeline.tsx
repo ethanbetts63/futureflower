@@ -17,6 +17,14 @@ const compressedTimelineStyles = `
 export const Timeline: React.FC = () => {
       const timelineData = [
       {
+        title: 'Quick Set Up',
+        description: [
+          'Create your account and download you custom instore poster',
+          'Optionally copy your Partner Link and it to your website',
+          'Upsell a customer or let the poster/link do the talking'
+        ]
+      },
+      {
         title: 'Customer Books Delivery',
         description: [
           'Sets budget, dates, and flower preferences',
@@ -53,11 +61,11 @@ export const Timeline: React.FC = () => {
     ];
   
     return (
-      <section className="py-10 bg-[var(--color4)]">
+      <section className="pt-10 pb-20 bg-[var(--color4)]">
         <style>{compressedTimelineStyles}</style>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-black mb-6 text-center">
-            How we work together: A Simple 4-Step Process
+            A Simple 5-Step Process
           </h2>
           <VerticalTimeline lineColor={'#e5e7eb'}>
             {timelineData.map((item, index) => (
