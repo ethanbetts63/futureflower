@@ -9,16 +9,20 @@ import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
 import BackButton from '@/components/BackButton';
-import ServiceAreaInput from '@/components/ServiceAreaInput';
+import ServiceAreaMap from '@/components/ServiceAreaMap';
 import { registerPartner } from '@/api/partners';
-import type { PartnerRegistrationData, ServiceAreaInput as ServiceAreaInputType } from '@/types';
+import type { PartnerRegistrationData } from '@/types';
 
 const PartnerRegistrationPage: React.FC = () => {
   const { partnerType } = useParams<{ partnerType: string }>();
   const navigate = useNavigate();
   const { handleLoginSuccess } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [serviceAreas, setServiceAreas] = useState<ServiceAreaInputType[]>([]);
+
+  // Service area map state
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
+  const [radiusKm, setRadiusKm] = useState(10);
 
   const isDelivery = partnerType === 'delivery';
 
@@ -55,6 +59,11 @@ const PartnerRegistrationPage: React.FC = () => {
       return;
     }
 
+    if (isDelivery && (latitude === null || longitude === null)) {
+      toast.error('Please set your delivery location on the map.');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -62,7 +71,11 @@ const PartnerRegistrationPage: React.FC = () => {
       const data: PartnerRegistrationData = {
         ...formData,
         partner_type: isDelivery ? 'delivery' : 'non_delivery',
-        service_areas: isDelivery ? serviceAreas : [],
+        ...(isDelivery && {
+          latitude: latitude!,
+          longitude: longitude!,
+          service_radius_km: radiusKm,
+        }),
       };
 
       const authResponse = await registerPartner(data);
@@ -178,7 +191,13 @@ const PartnerRegistrationPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <ServiceAreaInput areas={serviceAreas} onChange={setServiceAreas} />
+                    <ServiceAreaMap
+                      latitude={latitude}
+                      longitude={longitude}
+                      radiusKm={radiusKm}
+                      onLocationChange={(lat, lng) => { setLatitude(lat); setLongitude(lng); }}
+                      onRadiusChange={setRadiusKm}
+                    />
                   </div>
                 )}
               </CardContent>

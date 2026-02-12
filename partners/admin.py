@@ -1,7 +1,7 @@
 from django.contrib import admin
 from partners.models import (
     Partner, DiscountCode, DiscountUsage, Commission,
-    ServiceArea, DeliveryRequest, Payout, PayoutLineItem,
+    DeliveryRequest, Payout, PayoutLineItem,
 )
 
 
@@ -10,17 +10,12 @@ class DiscountCodeInline(admin.StackedInline):
     extra = 0
 
 
-class ServiceAreaInline(admin.TabularInline):
-    model = ServiceArea
-    extra = 0
-
-
 @admin.register(Partner)
 class PartnerAdmin(admin.ModelAdmin):
     list_display = ['user', 'partner_type', 'status', 'business_name', 'created_at']
     list_filter = ['partner_type', 'status']
     search_fields = ['user__email', 'business_name']
-    inlines = [DiscountCodeInline, ServiceAreaInline]
+    inlines = [DiscountCodeInline]
 
 
 @admin.register(DiscountCode)

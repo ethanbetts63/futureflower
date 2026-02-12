@@ -1,9 +1,10 @@
+import math
 from datetime import timedelta
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from events.models import Event
-from partners.models import Partner, DeliveryRequest, ServiceArea
-from partners.utils.reassignment import reassign_delivery_request
+from partners.models import Partner, DeliveryRequest
+from partners.utils.reassignment import reassign_delivery_request, haversine_km
 
 
 class Command(BaseCommand):
@@ -26,31 +27,47 @@ class Command(BaseCommand):
             order = event.order
             user = order.user
 
-            # Determine partner: user's source_partner if covers area, else geographic match
+            delivery_lat = getattr(order, 'latitude', None)
+            delivery_lng = getattr(order, 'longitude', None)
+
+            if delivery_lat is None or delivery_lng is None:
+                self.stdout.write(self.style.WARNING(
+                    f"Event {event.id} order has no coordinates. Skipping."
+                ))
+                continue
+
+            # Determine partner: user's source_partner if within radius, else closest match
             chosen_partner = None
 
             source_partner = getattr(user, 'source_partner', None)
-            if source_partner and source_partner.partner_type == 'delivery' and source_partner.status == 'active':
-                covers_area = ServiceArea.objects.filter(
-                    partner=source_partner,
-                    suburb__iexact=getattr(order, 'suburb', ''),
-                    city__iexact=getattr(order, 'city', ''),
-                    country__iexact=getattr(order, 'country', ''),
-                    is_active=True,
-                ).exists()
-                if covers_area:
+            if (source_partner and source_partner.partner_type == 'delivery'
+                    and source_partner.status == 'active'
+                    and source_partner.latitude is not None
+                    and source_partner.longitude is not None):
+                distance = haversine_km(
+                    delivery_lat, delivery_lng,
+                    source_partner.latitude, source_partner.longitude
+                )
+                if distance <= source_partner.service_radius_km:
                     chosen_partner = source_partner
 
             if not chosen_partner:
-                # Geographic match
-                chosen_partner = Partner.objects.filter(
+                # Geographic match: find closest partner within their radius
+                candidates = Partner.objects.filter(
                     partner_type='delivery',
                     status='active',
-                    service_areas__suburb__iexact=getattr(order, 'suburb', ''),
-                    service_areas__city__iexact=getattr(order, 'city', ''),
-                    service_areas__country__iexact=getattr(order, 'country', ''),
-                    service_areas__is_active=True,
-                ).distinct().first()
+                    latitude__isnull=False,
+                    longitude__isnull=False,
+                )
+                best_distance = float('inf')
+                for partner in candidates:
+                    distance = haversine_km(
+                        delivery_lat, delivery_lng,
+                        partner.latitude, partner.longitude
+                    )
+                    if distance <= partner.service_radius_km and distance < best_distance:
+                        chosen_partner = partner
+                        best_distance = distance
 
             if not chosen_partner:
                 self.stdout.write(self.style.WARNING(

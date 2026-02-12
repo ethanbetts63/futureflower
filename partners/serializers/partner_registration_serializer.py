@@ -1,17 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
-from partners.models import Partner, DiscountCode, ServiceArea
+from partners.models import Partner, DiscountCode
 
 User = get_user_model()
-
-
-class ServiceAreaSerializer(serializers.Serializer):
-    suburb = serializers.CharField(max_length=100)
-    city = serializers.CharField(max_length=100)
-    state = serializers.CharField(max_length=100, required=False, default='')
-    postcode = serializers.CharField(max_length=20, required=False, default='')
-    country = serializers.CharField(max_length=100)
 
 
 class PartnerRegistrationSerializer(serializers.Serializer):
@@ -29,20 +21,32 @@ class PartnerRegistrationSerializer(serializers.Serializer):
         default='non_delivery'
     )
 
-    # Delivery partner fields (Phase 2)
+    # Delivery partner fields
     street_address = serializers.CharField(max_length=255, required=False, default='', allow_blank=True)
     suburb = serializers.CharField(max_length=100, required=False, default='', allow_blank=True)
     city = serializers.CharField(max_length=100, required=False, default='', allow_blank=True)
     state = serializers.CharField(max_length=100, required=False, default='', allow_blank=True)
     postcode = serializers.CharField(max_length=20, required=False, default='', allow_blank=True)
     country = serializers.CharField(max_length=100, required=False, default='', allow_blank=True)
-    service_areas = ServiceAreaSerializer(many=True, required=False, default=[])
+
+    # Service area (pin + radius)
+    latitude = serializers.FloatField(required=False, allow_null=True, default=None)
+    longitude = serializers.FloatField(required=False, allow_null=True, default=None)
+    service_radius_km = serializers.IntegerField(required=False, default=10, min_value=1, max_value=100)
 
     def validate_email(self, value):
         lower_email = value.lower()
         if User.objects.filter(email__iexact=lower_email).exists():
             raise serializers.ValidationError("An account with this email address already exists.")
         return lower_email
+
+    def validate(self, data):
+        if data.get('partner_type') == 'delivery':
+            if data.get('latitude') is None or data.get('longitude') is None:
+                raise serializers.ValidationError({
+                    'latitude': 'Please set your delivery location on the map.'
+                })
+        return data
 
     def _generate_booking_slug(self, business_name, first_name, last_name):
         """Generate a unique booking slug from business name, falling back to user name."""
@@ -57,7 +61,6 @@ class PartnerRegistrationSerializer(serializers.Serializer):
         return candidate
 
     def create(self, validated_data):
-        service_areas_data = validated_data.pop('service_areas', [])
         email = validated_data['email'].lower()
 
         user = User.objects.create_user(
@@ -88,6 +91,9 @@ class PartnerRegistrationSerializer(serializers.Serializer):
                 'state': validated_data.get('state', ''),
                 'postcode': validated_data.get('postcode', ''),
                 'country': validated_data.get('country', ''),
+                'latitude': validated_data.get('latitude'),
+                'longitude': validated_data.get('longitude'),
+                'service_radius_km': validated_data.get('service_radius_km', 10),
             })
 
         partner = Partner.objects.create(**partner_fields)
@@ -96,9 +102,5 @@ class PartnerRegistrationSerializer(serializers.Serializer):
         if validated_data.get('partner_type', 'non_delivery') == 'non_delivery':
             code = DiscountCode.generate_code(validated_data.get('business_name', ''))
             DiscountCode.objects.create(partner=partner, code=code)
-
-        # Create service areas for delivery partners
-        for area_data in service_areas_data:
-            ServiceArea.objects.create(partner=partner, **area_data)
 
         return user

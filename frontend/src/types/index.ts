@@ -90,12 +90,10 @@ export type {
   DiscountCode,
   CommissionSummary,
   Commission,
-  ServiceArea,
   DeliveryRequestSummary,
   PayoutSummary,
   DiscountCodeValidation,
   DiscountValidationResult,
-  ServiceAreaInput,
   PartnerRegistrationData,
 } from './Partner';
 export type { DeliveryRequestDetail } from './DeliveryRequest';

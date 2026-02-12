@@ -8,8 +8,10 @@ export interface Partner {
   discount_code: DiscountCode | null;
   commission_summary: CommissionSummary;
   recent_commissions: Commission[];
-  service_areas: ServiceArea[];
   delivery_requests: DeliveryRequestSummary[];
+  latitude: number | null;
+  longitude: number | null;
+  service_radius_km: number;
   stripe_connect_onboarding_complete: boolean;
   payout_summary: PayoutSummary;
   created_at: string;
@@ -39,16 +41,6 @@ export interface Commission {
   created_at: string;
 }
 
-export interface ServiceArea {
-  id: number;
-  suburb: string;
-  city: string;
-  state: string;
-  postcode: string;
-  country: string;
-  is_active: boolean;
-}
-
 export interface DeliveryRequestSummary {
   id: number;
   event_id: number;
@@ -73,14 +65,6 @@ export interface DiscountCodeValidation {
 
 export type DiscountValidationResult = DiscountCodeValidation;
 
-export type ServiceAreaInput = {
-  suburb: string;
-  city: string;
-  state?: string;
-  postcode?: string;
-  country: string;
-};
-
 export interface PartnerRegistrationData {
   email: string;
   password: string;
@@ -95,11 +79,7 @@ export interface PartnerRegistrationData {
   state?: string;
   postcode?: string;
   country?: string;
-  service_areas?: {
-    suburb: string;
-    city: string;
-    state?: string;
-    postcode?: string;
-    country: string;
-  }[];
+  latitude?: number;
+  longitude?: number;
+  service_radius_km?: number;
 }

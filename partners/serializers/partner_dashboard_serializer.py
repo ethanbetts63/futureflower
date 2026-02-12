@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from partners.models import Partner, DiscountCode, Commission, ServiceArea, DeliveryRequest
+from partners.models import Partner, DiscountCode, Commission, DeliveryRequest
 from django.db.models import Sum, Count
 
 
@@ -27,12 +27,6 @@ class CommissionSerializer(serializers.ModelSerializer):
         fields = ['id', 'commission_type', 'amount', 'status', 'note', 'created_at']
 
 
-class ServiceAreaDashboardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ServiceArea
-        fields = ['id', 'suburb', 'city', 'state', 'postcode', 'country', 'is_active']
-
-
 class DeliveryRequestDashboardSerializer(serializers.ModelSerializer):
     event_id = serializers.IntegerField(source='event.id')
     delivery_date = serializers.DateField(source='event.delivery_date')
@@ -51,7 +45,6 @@ class PartnerDashboardSerializer(serializers.ModelSerializer):
     discount_code = DiscountCodeSerializer(read_only=True)
     commission_summary = serializers.SerializerMethodField()
     recent_commissions = serializers.SerializerMethodField()
-    service_areas = ServiceAreaDashboardSerializer(many=True, read_only=True)
     delivery_requests = serializers.SerializerMethodField()
     stripe_connect_onboarding_complete = serializers.BooleanField(read_only=True)
     payout_summary = serializers.SerializerMethodField()
@@ -61,7 +54,8 @@ class PartnerDashboardSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'partner_type', 'status', 'business_name', 'phone',
             'booking_slug', 'discount_code', 'commission_summary',
-            'recent_commissions', 'service_areas', 'delivery_requests',
+            'recent_commissions', 'delivery_requests',
+            'latitude', 'longitude', 'service_radius_km',
             'stripe_connect_onboarding_complete', 'payout_summary',
             'created_at',
         ]
