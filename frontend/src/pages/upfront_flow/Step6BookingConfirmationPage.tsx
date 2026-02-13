@@ -71,7 +71,7 @@ const Step6BookingConfirmationPage = () => {
                     </CardHeader>
                     <CardContent>
                       <div className="flex justify-between items-center text-2xl font-bold">
-                        <span>Single-Delivery Upfront Payment</span>
+                        <span>Upfront Payment</span>
                         <span>${Number(plan.total_amount).toFixed(2)}</span>
                       </div>
                       <p className="text-sm text-muted-foreground mt-2">This is the total amount you will be charged today to activate your plan.</p>
@@ -93,6 +93,7 @@ const Step6BookingConfirmationPage = () => {
                       itemType="UPFRONT_PLAN_NEW"
                       details={{ upfront_plan_id: planId }}
                       discountCode={discountCode}
+                      backPath={`/upfront-flow/upfront-plan/${planId}/confirmation`}
                       disabled={isSubmitting || !planId}
                       onPaymentInitiate={() => setIsSubmitting(true)}
                       onPaymentError={() => setIsSubmitting(false)}

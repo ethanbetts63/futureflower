@@ -87,6 +87,7 @@ const Step5ConfirmationPage: React.FC = () => {
                                     subscription_plan_id: planId,
                                 }}
                                 discountCode={discountCode}
+                                backPath={`/subscribe-flow/subscription-plan/${planId}/confirmation`}
                                 disabled={isSubmitting || !planId}
                                 onPaymentInitiate={() => setIsSubmitting(true)}
                                 onPaymentError={() => setIsSubmitting(false)}

@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import Seo from '@/components/Seo';
 import CheckoutForm from '@/forms/CheckoutForm';
 import OrderSummaryCard from '@/components/OrderSummaryCard'; 
+import BackButton from '@/components/BackButton';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -19,6 +20,7 @@ const CheckoutPage: React.FC = () => {
     const [planId, setPlanId] = useState<string | null>(null);
     const [itemType, setItemType] = useState<string | null>(null);
     const [intentType, setIntentType] = useState<'payment' | 'setup' | null>(null); 
+    const [backPath, setBackPath] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -26,12 +28,14 @@ const CheckoutPage: React.FC = () => {
         const id = location.state?.planId;
         const type = location.state?.itemType;
         const intent = location.state?.intentType as 'payment' | 'setup'; 
+        const back = location.state?.backPath;
 
         if (secret && id && type && intent) {
             setClientSecret(secret);
             setPlanId(id);
             setItemType(type);
             setIntentType(intent);
+            setBackPath(back);
         } else {
             toast.error("Checkout session is invalid or has expired.", {
                 description: "Missing required information. Please try again.",
@@ -60,6 +64,11 @@ const CheckoutPage: React.FC = () => {
         <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
             <Seo title="Complete Payment | FutureFlower" />
             <div className="container mx-auto max-w-5xl px-4">
+                {backPath && (
+                    <div className="mb-6">
+                        <BackButton to={backPath} />
+                    </div>
+                )}
                 <div className="flex flex-col md:flex-row gap-8 items-start">
                     
                     {/* Left Column: Payment Form */}

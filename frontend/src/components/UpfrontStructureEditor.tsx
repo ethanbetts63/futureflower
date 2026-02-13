@@ -190,6 +190,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
                                     years: formData.years,
                                     frequency: formData.frequency,
                                 }}
+                                backPath={`/dashboard/upfront-plans/${planId}/edit-structure`}
                                 disabled={isActionDisabled}
                             >
                                 Proceed to Payment

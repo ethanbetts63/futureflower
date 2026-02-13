@@ -12,6 +12,7 @@ interface PaymentInitiatorButtonProps extends ButtonProps {
   itemType: 'UPFRONT_PLAN_MODIFY' | 'UPFRONT_PLAN_NEW' | 'SUBSCRIPTION_PLAN_NEW' | 'SINGLE_DELIVERY_PLAN_NEW';
   details: CreatePaymentIntentPayload['details'];
   discountCode?: string | null;
+  backPath?: string;
   onPaymentInitiate?: () => void;
   onPaymentSuccess?: (clientSecret: string) => void;
   onPaymentError?: (error: any) => void;
@@ -21,6 +22,7 @@ const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
   itemType,
   details,
   discountCode,
+  backPath,
   onClick,
   onPaymentInitiate,
   onPaymentSuccess,
@@ -68,8 +70,8 @@ const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
         const idToPass = details.upfront_plan_id || details.subscription_plan_id || details.one_time_order_id || details.single_delivery_plan_id;
         const intentType = itemType === 'SUBSCRIPTION_PLAN_NEW' ? 'setup' : 'payment';
         
-        // Default navigation behavior, now including itemType and intentType
-        navigate('/checkout', { state: { clientSecret, planId: idToPass, itemType: itemType, intentType: intentType } });
+        // Default navigation behavior, now including itemType, intentType, and backPath
+        navigate('/checkout', { state: { clientSecret, planId: idToPass, itemType: itemType, intentType: intentType, backPath: backPath } });
       }
 
     } catch (err: any) {

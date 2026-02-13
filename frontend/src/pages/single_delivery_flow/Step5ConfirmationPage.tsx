@@ -79,6 +79,7 @@ const Step5ConfirmationPage = () => {
                       <PaymentInitiatorButton
                         itemType="UPFRONT_PLAN_NEW"
                         details={{ upfront_plan_id: planId }}
+                        backPath={`/single-delivery-flow/plan/${planId}/confirmation`}
                         disabled={isSubmitting || !planId}
                         onPaymentInitiate={() => setIsSubmitting(true)}
                         onPaymentError={() => setIsSubmitting(false)}
