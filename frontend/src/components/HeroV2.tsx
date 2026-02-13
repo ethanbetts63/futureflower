@@ -1,5 +1,4 @@
 import React from 'react';
-import { ArrowDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import type { HeroV2Props } from '../types/HeroV2Props';
@@ -15,7 +14,7 @@ import heroMobileImage768 from '../assets/hero2_mobile-768w.webp';
 import heroMobileImage1024 from '../assets/hero2_mobile-1024w.webp';
 import heroMobileImage1280 from '../assets/hero2_mobile-1280w.webp';
 
-export const HeroV2: React.FC<HeroV2Props> = ({ title, onLearnMore }) => {
+export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
@@ -58,37 +57,26 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title, onLearnMore }) => {
         <div className="mt-8 flex flex-col gap-3">
           <button
             onClick={() => handleNav('/event-gate/single-delivery')}
-            className="w-full flex items-center justify-between bg-white text-black font-semibold px-6 py-4 rounded-lg hover:bg-white/90 transition-colors cursor-pointer group"
+            className="w-full flex items-center justify-between bg-[var(--colorgreen)] text-black font-semibold px-6 py-4 rounded-lg hover:brightness-110 transition-all cursor-pointer group shadow-lg"
           >
             <div className="text-left">
               <span className="block text-base">Send Flowers</span>
-              <span className="block text-xs font-normal text-gray-500">One-time delivery for a specific date</span>
+              <span className="block text-xs font-normal text-black/60">One-time delivery for a specific date</span>
             </div>
-            <svg className="h-5 w-5 text-gray-400 group-hover:text-black transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+            <svg className="h-5 w-5 text-black/40 group-hover:text-black transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
           </button>
 
           <button
             onClick={() => handleNav('/event-gate/subscription')}
-            className="w-full flex items-center justify-between bg-white/10 text-white font-semibold px-6 py-4 rounded-lg border border-white/20 hover:bg-white/20 transition-colors cursor-pointer group"
+            className="w-full flex items-center justify-between bg-white text-black font-semibold px-6 py-4 rounded-lg hover:bg-gray-100 transition-all cursor-pointer group shadow-lg"
           >
             <div className="text-left">
-              <span className="block text-base">Never Forget Again</span>
-              <span className="block text-xs font-normal text-white/60">Recurring flowers for every date that matters</span>
+              <span className="block text-base">Flower Subscriptions</span>
+              <span className="block text-xs font-normal text-gray-500">Recurring flowers for every date that matters</span>
             </div>
-            <svg className="h-5 w-5 text-white/40 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+            <svg className="h-5 w-5 text-gray-400 group-hover:text-black transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
           </button>
         </div>
-
-        {/* Learn more */}
-        {onLearnMore && (
-          <button
-            onClick={onLearnMore}
-            className="mt-6 flex items-center gap-2 text-white/50 hover:text-white/80 transition-colors cursor-pointer mx-auto"
-          >
-            <span className="text-xs font-medium">Learn more</span>
-            <ArrowDown className="h-3 w-3 animate-bounce" />
-          </button>
-        )}
       </div>
     </section>
   );

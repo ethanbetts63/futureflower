@@ -1,4 +1,4 @@
-// futureflower/frontend/src/components/UpfrontStructureEditor.tsx
+// futureflower/frontend/src/components/StructureEditor.tsx
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -12,7 +12,7 @@ import type { UpfrontPlan, PartialUpfrontPlan, PlanStructureData } from '@/types
 import PlanStructureForm from '@/forms/PlanStructureForm';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
-import type { UpfrontStructureEditorProps } from '../types/UpfrontStructureEditorProps';
+import type { StructureEditorProps } from '../types/StructureEditorProps';
 import PaymentInitiatorButton from './PaymentInitiatorButton';
 
 const getMinDateString = () => {
@@ -21,7 +21,7 @@ const getMinDateString = () => {
     return minDate.toISOString().split('T')[0];
 };
 
-const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
+const StructureEditor: React.FC<StructureEditorProps> = ({
     mode,
     title,
     description,
@@ -36,7 +36,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
     // Core State
     const [formData, setFormData] = useState<PlanStructureData>({
         budget: 75,
-        frequency: 'annually',
+        frequency: 'monthly',
         years: 5,
         start_date: getMinDateString(),
     });
@@ -66,7 +66,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
             .then((plan: UpfrontPlan) => {
                 setFormData({
                     budget: Number(plan.budget) || 75,
-                    frequency: plan.frequency || 'annually',
+                    frequency: plan.frequency || 'monthly',
                     years: plan.years || 5,
                     start_date: plan.start_date || getMinDateString(),
                 });
@@ -122,10 +122,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
         // For 'edit' mode, this only handles saves that do not require payment (e.g., if amountOwing is 0).
         setIsSaving(true);
         try {
-            const payload: PartialUpfrontPlan = {
-                ...formData,
-                budget: String(formData.budget),
-            };
+            const payload: PartialUpfrontPlan = { ...formData, budget: String(formData.budget) };
             if (mode === 'create' && amountOwing !== null) {
                 payload.total_amount = amountOwing;
             }
@@ -190,7 +187,6 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
                                     years: formData.years,
                                     frequency: formData.frequency,
                                 }}
-                                backPath={`/dashboard/upfront-plans/${planId}/edit-structure`}
                                 disabled={isActionDisabled}
                             >
                                 Proceed to Payment
@@ -208,4 +204,4 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
     );
 };
 
-export default UpfrontStructureEditor;
+export default StructureEditor;

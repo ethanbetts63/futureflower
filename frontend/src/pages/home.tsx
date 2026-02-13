@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import React from 'react';
 import Seo from '../components/Seo';
 import { ProductCarousel } from '../components/ProductCarousel';
 import { FaqV2 } from '../components/FaqV2';
@@ -12,7 +12,6 @@ import { ArticleCarousel } from '../components/ArticleCarousel';
 
 
 const HomePage = () => {
-  const contentRef = useRef<HTMLDivElement>(null);
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -55,11 +54,10 @@ const HomePage = () => {
       />
       <HeroV2
         title={<>The gift that <span className='italic'>keeps</span> on giving.</>}
-        onLearnMore={() => contentRef.current?.scrollIntoView({ behavior: 'smooth' })}
       />
 
       {/* --- Hierarchy Section --- */}
-      <section ref={contentRef} className="bg-primary">
+      <section className="bg-primary">
         <ProductCarousel />
       </section>
 
