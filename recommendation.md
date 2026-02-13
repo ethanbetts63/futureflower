@@ -57,3 +57,18 @@ No React Error Boundary components. A crash in any component takes down the enti
 
 ### 12. Move to HttpOnly Cookies for Authentication
 The current JWT implementation stores tokens in `localStorage`, which is vulnerable to XSS. Moving to `HttpOnly` cookies would improve security by making tokens inaccessible to JavaScript. This requires updating the Django backend to set cookies and the frontend to include credentials in requests, as well as handling CSRF protection more explicitly.
+
+### 13. Summary Table for Checkout
+The `OrderSummaryCard` on the checkout page currently calculates "Handling" fees and totals using frontend-only logic. This creates a risk of discrepancies between what the user sees and what they are actually charged. Fee calculations should be centralized or retrieved from the API.
+
+### 14. Empty States and "What's Next?"
+The dashboard currently lacks helpful empty states. Instead of just stating "You have no plans," it should provide a clear call-to-action (CTA) to start the creation flow, guiding new users toward their first purchase.
+
+### 15. Post-Purchase Editing Friction
+The entire post-purchase management system needs a rethink. Currently, making small changes (like updating delivery notes or flower preferences) requires navigating to separate edit pages. Implementing in-place editing or modal-based updates would significantly improve the user experience.
+
+### 16. The "Active vs. Inactive" State Confusion
+Users with unpaid plans are often forced back through the configuration flow to find a payment button. The dashboard and plan overview pages should provide a direct "Complete Payment" or "Activate" button to streamline the path to revenue for existing pending plans.
+
+### 17. The "Inconsistent Routing" Issue
+There is a mismatch between defined routes in `App.tsx` and internal navigation (e.g., `/dashboard/upfront-plans/` vs `/dashboard/plans/`). This needs to be audited and unified to prevent 404s and broken links during plan management.

@@ -43,6 +43,16 @@ export async function updateUpfrontPlan(planId: string, planData: PartialUpfront
     return handleResponse(response);
 }
 
+export interface ProjectedDelivery {
+    index: number;
+    date: string;
+}
+
+export async function getProjectedDeliveries(planId: string): Promise<ProjectedDelivery[]> {
+    const response = await authedFetch(`/api/events/upfront-plans/${planId}/projected-deliveries/`);
+    return handleResponse(response);
+}
+
 export async function calculateUpfrontPriceForPlan(planId: string, payload: CalculatePlanPayload): Promise<{ amount_owing: number }> {
   const response = await authedFetch(`/api/events/upfront-plans/${planId}/calc-upfront-price/`, {
     method: 'POST',

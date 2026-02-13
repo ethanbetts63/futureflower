@@ -1,18 +1,36 @@
 // src/components/DeliveryDatesCard.tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CalendarDays } from 'lucide-react';
+import { Spinner } from '@/components/ui/spinner';
 import EditButton from '@/components/EditButton';
+import { getProjectedDeliveries } from '@/api';
+import type { ProjectedDelivery } from '@/api/upfrontPlans';
 import type { DeliveryEvent } from '../types/DeliveryEvent';
 import type { DeliveryDatesCardProps } from '../types/DeliveryDatesCardProps';
 
-
-
 const DeliveryDatesCard: React.FC<DeliveryDatesCardProps> = ({ plan, editUrl }) => {
-    const deliveryDates = plan.events?.map((e: DeliveryEvent) => e.delivery_date).sort((a: string, b: string) => new Date(a).getTime() - new Date(b).getTime()) || [];
+    const hasEvents = (plan.events?.length ?? 0) > 0;
+    const [projectedDates, setProjectedDates] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (hasEvents) return;
+        setIsLoading(true);
+        getProjectedDeliveries(String(plan.id))
+            .then((data: ProjectedDelivery[]) => {
+                setProjectedDates(data.map(d => d.date));
+            })
+            .catch(() => setProjectedDates([]))
+            .finally(() => setIsLoading(false));
+    }, [plan.id, hasEvents]);
+
+    const deliveryDates = hasEvents
+        ? plan.events.map((e: DeliveryEvent) => e.delivery_date).sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
+        : projectedDates;
 
     const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
+        return new Date(dateString + 'T00:00:00').toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
@@ -29,7 +47,9 @@ const DeliveryDatesCard: React.FC<DeliveryDatesCardProps> = ({ plan, editUrl }) 
                 <EditButton to={editUrl} />
             </CardHeader>
             <CardContent>
-                {deliveryDates.length > 0 ? (
+                {isLoading ? (
+                    <div className="flex justify-center py-4"><Spinner className="h-6 w-6" /></div>
+                ) : deliveryDates.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm">
                         {deliveryDates.map((date: string, index: number) => (
                             <div key={index} className="flex justify-between items-center py-1 border-b border-gray-100">

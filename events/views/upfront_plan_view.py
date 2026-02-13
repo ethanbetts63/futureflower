@@ -5,6 +5,7 @@ from django.db import transaction
 from ..models import UpfrontPlan
 from ..serializers.upfront_plan_serializer import UpfrontPlanSerializer
 from ..utils.upfront_price_calc import forever_flower_upfront_price, calculate_final_plan_cost
+from ..utils.delivery_dates import calculate_projected_delivery_dates
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
@@ -60,6 +61,27 @@ def get_latest_pending_upfront_plan(request):
     else:
         # Per user request, return null with a 200 OK status
         return Response(None)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_projected_deliveries(request, plan_id):
+    """
+    Returns the projected delivery dates for an upfront plan,
+    calculated from its start_date, frequency, and years.
+    """
+    try:
+        plan = UpfrontPlan.objects.get(pk=plan_id, user=request.user)
+    except UpfrontPlan.DoesNotExist:
+        return Response({'error': 'Plan not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    projected = calculate_projected_delivery_dates(
+        plan.start_date, plan.frequency, plan.years
+    )
+    return Response([
+        {"index": d["index"], "date": d["date"].isoformat()}
+        for d in projected
+    ])
 
 
 class UpfrontPlanViewSet(viewsets.ModelViewSet):

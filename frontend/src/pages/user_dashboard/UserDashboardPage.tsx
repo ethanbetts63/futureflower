@@ -6,7 +6,7 @@ import { type DeliveryEvent } from '@/types/DeliveryEvent';
 
 import NextDeliveryCard from '@/components/NextDeliveryCard';
 import type { NextDeliveryInfo } from '../../types/NextDeliveryInfo';
-import UpfrontPlanTable from '@/components/UpfrontPlanTable';
+import UnifiedPlanTable from '@/components/UnifiedPlanTable';
 import UserDetailsSummary from '@/components/UserDetailsSummary';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
@@ -84,7 +84,7 @@ const UserDashboardPage: React.FC = () => {
             <UserDetailsSummary user={user} />
             <NextDeliveryCard deliveryInfo={nextDelivery} />
             <div className="col-span-1 md:col-span-2">
-                <UpfrontPlanTable initialPlans={plans} showTitle={false} />
+                <UnifiedPlanTable showTitle={false} />
             </div>
           </>
         )}
