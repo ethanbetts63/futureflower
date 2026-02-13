@@ -55,7 +55,6 @@ const HomePage = () => {
       />
       <HeroV2
         title={<>The gift that <span className='italic'>keeps</span> on giving.</>}
-        subtitle={<>The most meaningful gestures are the ones you plan ahead. One thoughtful decision, infinite effortless giving.</>}
         onLearnMore={() => contentRef.current?.scrollIntoView({ behavior: 'smooth' })}
       />
 
