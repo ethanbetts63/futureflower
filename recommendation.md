@@ -72,3 +72,6 @@ Users with unpaid plans are often forced back through the configuration flow to 
 
 ### 17. The "Inconsistent Routing" Issue
 There is a mismatch between defined routes in `App.tsx` and internal navigation (e.g., `/dashboard/upfront-plans/` vs `/dashboard/plans/`). This needs to be audited and unified to prevent 404s and broken links during plan management.
+
+### 18. unused file? 
+C:\Users\ethan\coding\futureflower\events\views\public_upfront_price_view.py im fairly sure that this is not being used. C:\Users\ethan\coding\futureflower\events\urls.py but maybe im wrong. check me. 

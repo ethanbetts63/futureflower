@@ -1,5 +1,5 @@
 // futureflower/frontend/src/components/MessagesEditor.tsx
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getUpfrontPlan, updateUpfrontPlan, updateEvent } from '@/api';
+import { getUpfrontPlan, updateUpfrontPlan, updateEvent, getProjectedDeliveries } from '@/api';
+import type { ProjectedDelivery } from '@/api/upfrontPlans';
 import type { DeliveryEvent } from '../types/DeliveryEvent';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -17,35 +18,6 @@ import type { UpfrontPlan } from '../types/UpfrontPlan';
 import type { MessagesEditorProps } from '../types/MessagesEditorProps';
 
 type MessageMode = 'single' | 'multiple';
-
-const FREQUENCY_TO_DELIVERIES: Record<string, number> = {
-    weekly: 52,
-    fortnightly: 26,
-    monthly: 12,
-    quarterly: 4,
-    'bi-annually': 2,
-    annually: 1,
-};
-
-/** Calculate projected delivery dates from plan fields (used pre-payment when no events exist). */
-function calculateDeliveryDates(plan: UpfrontPlan): { index: number; date: Date }[] {
-    const deliveriesPerYear = FREQUENCY_TO_DELIVERIES[plan.frequency] || 1;
-    const start = plan.start_date ? new Date(plan.start_date + 'T00:00:00') : new Date();
-    const intervalDays = 365 / deliveriesPerYear;
-    const results: { index: number; date: Date }[] = [];
-
-    for (let year = 0; year < plan.years; year++) {
-        for (let i = 0; i < deliveriesPerYear; i++) {
-            const index = year * deliveriesPerYear + i;
-            const daysOffset = (year * 365) + (i * intervalDays);
-            const d = new Date(start);
-            d.setDate(d.getDate() + Math.round(daysOffset));
-            results.push({ index, date: d });
-        }
-    }
-
-    return results;
-}
 
 const MessagesEditor: React.FC<MessagesEditorProps> = ({
     mode,
@@ -66,20 +38,15 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    // Projected deliveries from API (pre-payment)
+    const [projectedDeliveries, setProjectedDeliveries] = useState<ProjectedDelivery[]>([]);
+
     // Message State
     const [messageMode, setMessageMode] = useState<MessageMode>('single');
     const [singleMessage, setSingleMessage] = useState('');
-    // Keyed by string index for draft mode, or event id for post-payment mode
     const [multipleMessages, setMultipleMessages] = useState<Record<string, string>>({});
 
-    // Whether events exist (post-payment) or not (pre-payment draft mode)
     const hasEvents = (upfrontPlan?.events?.length ?? 0) > 0;
-
-    // Projected delivery slots for pre-payment mode
-    const projectedDeliveries = useMemo(() => {
-        if (!upfrontPlan || hasEvents) return [];
-        return calculateDeliveryDates(upfrontPlan);
-    }, [upfrontPlan, hasEvents]);
 
     const totalDeliveries = hasEvents
         ? upfrontPlan!.events.length
@@ -97,11 +64,16 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
             return;
         }
 
-        const fetchPlan = async () => {
+        const fetchData = async () => {
             setIsLoading(true);
             try {
-                const planData = await getUpfrontPlan(planId);
+                const [planData, projected] = await Promise.all([
+                    getUpfrontPlan(planId),
+                    getProjectedDeliveries(planId),
+                ]);
+
                 setUpfrontPlan(planData);
+                setProjectedDeliveries(projected);
 
                 if (planData.events && planData.events.length > 0) {
                     // Post-payment: load from event messages
@@ -142,7 +114,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
             }
         };
 
-        fetchPlan();
+        fetchData();
     }, [isAuthenticated, navigate, planId]);
 
     const handleMultipleMessageChange = (key: string, value: string) => {
@@ -281,7 +253,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
                                     {projectedDeliveries.map((delivery) => (
                                         <div key={delivery.index} className="space-y-2">
                                             <Label htmlFor={`message-${delivery.index}`}>
-                                                Delivery {delivery.index + 1} ({delivery.date.toLocaleDateString()})
+                                                Delivery {delivery.index + 1} ({new Date(delivery.date + 'T00:00:00').toLocaleDateString()})
                                             </Label>
                                             <Textarea
                                                 id={`message-${delivery.index}`}
