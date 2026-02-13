@@ -36,7 +36,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
     // Core State
     const [formData, setFormData] = useState<PlanStructureData>({
         budget: 75,
-        frequency: 'monthly',
+        frequency: 'annually',
         years: 5,
         start_date: getMinDateString(),
     });
@@ -66,7 +66,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
             .then((plan: UpfrontPlan) => {
                 setFormData({
                     budget: Number(plan.budget) || 75,
-                    frequency: plan.frequency || 'monthly',
+                    frequency: plan.frequency || 'annually',
                     years: plan.years || 5,
                     start_date: plan.start_date || getMinDateString(),
                 });
