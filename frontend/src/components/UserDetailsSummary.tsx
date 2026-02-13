@@ -2,6 +2,7 @@ import React from 'react';
 
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Spinner } from '@/components/ui/spinner';
 import EditButton from '@/components/EditButton';
 
 
@@ -12,12 +13,12 @@ import type { UserDetailsSummaryProps } from '../types/UserDetailsSummaryProps';
 const UserDetailsSummary: React.FC<UserDetailsSummaryProps> = ({ user }) => {
   if (!user) {
     return (
-      <Card>
+      <Card className="bg-white text-black border-none shadow-md">
         <CardHeader>
           <CardTitle>Account Details</CardTitle>
         </CardHeader>
-        <CardContent>
-          <p>Loading user information...</p>
+        <CardContent className="flex items-center justify-center p-6">
+          <Spinner className="h-6 w-6" />
         </CardContent>
       </Card>
     );
