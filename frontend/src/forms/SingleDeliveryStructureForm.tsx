@@ -51,12 +51,12 @@ const SingleDeliveryStructureForm: React.FC<SingleDeliveryStructureFormProps> = 
             </div>
             
             <div className="grid gap-2">
-                <Label htmlFor="subscription-message">Message</Label>
+                <Label htmlFor="card-message">Card Message</Label>
                 <Textarea
-                    id="subscription-message"
+                    id="card-message"
                     placeholder="e.g., Happy Birthday! Hope you have a wonderful day."
-                    value={formData.delivery_notes}
-                    onChange={(e) => onFormChange('delivery_notes', e.target.value)}
+                    value={formData.card_message}
+                    onChange={(e) => onFormChange('card_message', e.target.value)}
                     rows={4}
                 />
                 <p className="text-sm text-muted-foreground">The message to be included with the delivery.</p>

@@ -13,6 +13,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import BackButton from '@/components/BackButton';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 import type { RecipientEditorProps } from '../types/RecipientEditorProps';
 
 
@@ -39,7 +41,8 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
         recipient_city: '',
         recipient_state: '',
         recipient_postcode: '',
-        recipient_country: '', // Default for new plans
+        recipient_country: '',
+        delivery_notes: '',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -69,6 +72,7 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
                     recipient_state: plan.recipient_state || '',
                     recipient_postcode: plan.recipient_postcode || '',
                     recipient_country: plan.recipient_country || '',
+                    delivery_notes: plan.delivery_notes || '',
                 });
             } catch (err) {
                 toast.error("Failed to load plan data.");
@@ -142,6 +146,18 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
                             onFormChange={handleFormChange}
                             title="" // Title is handled by the CardHeader
                         />
+
+                        <div className="grid gap-2 mt-6">
+                            <Label htmlFor="delivery-notes">Delivery Notes (Optional)</Label>
+                            <Textarea
+                                id="delivery-notes"
+                                placeholder="e.g., Leave at the front door, ring the bell twice, etc."
+                                value={formData.delivery_notes}
+                                onChange={(e) => handleFormChange('delivery_notes', e.target.value)}
+                                rows={3}
+                            />
+                            <p className="text-sm text-muted-foreground">Any special instructions for the delivery driver.</p>
+                        </div>
                     </CardContent>
                     <CardFooter className="flex justify-between">
                         {backButtonTo ? <BackButton to={backButtonTo} /> : <div />}

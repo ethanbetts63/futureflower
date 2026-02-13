@@ -37,7 +37,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     const [formData, setFormData] = useState<SingleDeliveryStructureData>({
         budget: 75,
         start_date: getMinDateString(),
-        delivery_notes: '',
+        card_message: '',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -59,7 +59,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                 setFormData({
                     budget: Number(plan.budget) || 75,
                     start_date: plan.start_date || getMinDateString(),
-                    delivery_notes: plan.delivery_notes || '',
+                    card_message: plan.draft_card_messages?.['0'] || '',
                 });
             })
             .catch(error => {
@@ -110,11 +110,12 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
         setIsSaving(true);
         try {
             const payload: PartialUpfrontPlan = {
-                ...formData,
                 budget: String(formData.budget),
-                frequency: 'annually', // Explicitly set for single delivery plans
-                years: 1, // Explicitly set for single delivery plans
+                start_date: formData.start_date,
+                frequency: 'annually',
+                years: 1,
                 total_amount: totalAmount,
+                draft_card_messages: { '0': formData.card_message },
             };
             await updateUpfrontPlanAsSingleDelivery(planId, payload);
             

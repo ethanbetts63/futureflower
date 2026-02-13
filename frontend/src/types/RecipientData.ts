@@ -7,4 +7,5 @@ export interface RecipientData {
   recipient_state: string;
   recipient_postcode: string;
   recipient_country: string;
+  delivery_notes: string;
 }
