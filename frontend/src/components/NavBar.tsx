@@ -74,7 +74,10 @@ const NavBar: React.FC = () => {
         {((screenWidth < BREAKPOINT && menuOpen) || screenWidth >= BREAKPOINT) && (
             <div className={`items-center gap-2 ${screenWidth < BREAKPOINT ? 'flex flex-col absolute top-full left-0 w-full bg-[var(--color3)] p-4 shadow-lg' : 'flex'}`}>
                 <Link to="/order" onClick={() => setMenuOpen(false)} className={`${screenWidth < BREAKPOINT ? 'w-full flex justify-center' : ''}`}>
-                    <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-1/2 flex items-center justify-center' : ''}`}>Order</Button>
+                    <div className={`inline-flex items-center justify-center gap-2 bg-green-600 text-white font-medium px-4 py-2 rounded-md hover:bg-green-700 transition-colors text-center shadow-sm cursor-pointer ${screenWidth < BREAKPOINT ? 'w-1/2' : ''}`}>
+                        Order
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                    </div>
                 </Link>
 
                 {isAuthenticated ? (
