@@ -12,16 +12,18 @@ class TestPasswordResetConfirmView:
     def setup_method(self):
         self.client = APIClient()
         self.user = UserFactory()
-        self.uidb64 = urlsafe_base64_encode(force_bytes(self.user.pk))
-        self.token = default_token_generator.make_token(self.user)
-        self.url = f'/api/users/password-reset/confirm/{self.uidb64}/{self.token}/'
 
     def test_password_reset_success(self):
+        self.user.refresh_from_db()
+        uidb64 = urlsafe_base64_encode(force_bytes(self.user.pk))
+        token = default_token_generator.make_token(self.user)
+        url = f'/api/users/password-reset/confirm/{uidb64}/{token}/'
+
         data = {
             'password': 'new_strong_password123',
             'password_confirm': 'new_strong_password123'
         }
-        response = self.client.post(self.url, data, format='json')
+        response = self.client.post(url, data, format='json')
 
         assert response.status_code == 200
         assert "reset successfully" in response.data['detail']
@@ -30,7 +32,9 @@ class TestPasswordResetConfirmView:
         assert self.user.check_password('new_strong_password123')
 
     def test_password_reset_invalid_token(self):
-        invalid_url = f'/api/users/password-reset/confirm/{self.uidb64}/invalid-token/'
+        self.user.refresh_from_db()
+        uidb64 = urlsafe_base64_encode(force_bytes(self.user.pk))
+        invalid_url = f'/api/users/password-reset/confirm/{uidb64}/invalid-token/'
         data = {
             'password': 'new_strong_password123',
             'password_confirm': 'new_strong_password123'
@@ -41,7 +45,9 @@ class TestPasswordResetConfirmView:
         assert "invalid or has expired" in response.data['detail']
 
     def test_password_reset_invalid_uid(self):
-        invalid_url = f'/api/users/password-reset/confirm/invalid-uid/{self.token}/'
+        self.user.refresh_from_db()
+        token = default_token_generator.make_token(self.user)
+        invalid_url = f'/api/users/password-reset/confirm/invalid-uid/{token}/'
         data = {
             'password': 'new_strong_password123',
             'password_confirm': 'new_strong_password123'
@@ -52,21 +58,31 @@ class TestPasswordResetConfirmView:
         assert "invalid or has expired" in response.data['detail']
 
     def test_password_reset_mismatched_passwords(self):
+        self.user.refresh_from_db()
+        uidb64 = urlsafe_base64_encode(force_bytes(self.user.pk))
+        token = default_token_generator.make_token(self.user)
+        url = f'/api/users/password-reset/confirm/{uidb64}/{token}/'
+
         data = {
             'password': 'new_strong_password123',
             'password_confirm': 'mismatched_password'
         }
-        response = self.client.post(self.url, data, format='json')
+        response = self.client.post(url, data, format='json')
 
         assert response.status_code == 400
         assert 'password_confirm' in response.data
 
     def test_password_reset_password_too_short(self):
+        self.user.refresh_from_db()
+        uidb64 = urlsafe_base64_encode(force_bytes(self.user.pk))
+        token = default_token_generator.make_token(self.user)
+        url = f'/api/users/password-reset/confirm/{uidb64}/{token}/'
+
         data = {
             'password': 'short',
             'password_confirm': 'short'
         }
-        response = self.client.post(self.url, data, format='json')
+        response = self.client.post(url, data, format='json')
 
         assert response.status_code == 400
         assert 'password' in response.data
