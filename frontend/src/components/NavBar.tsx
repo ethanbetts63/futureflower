@@ -73,7 +73,7 @@ const NavBar: React.FC = () => {
 
         {((screenWidth < BREAKPOINT && menuOpen) || screenWidth >= BREAKPOINT) && (
             <div className={`items-center gap-2 ${screenWidth < BREAKPOINT ? 'flex flex-col absolute top-full left-0 w-full bg-[var(--color3)] p-4 shadow-lg' : 'flex'}`}>
-                <Link to="/event-gate" onClick={() => setMenuOpen(false)} className={`${screenWidth < BREAKPOINT ? 'w-full flex justify-center' : ''}`}>
+                <Link to="/order" onClick={() => setMenuOpen(false)} className={`${screenWidth < BREAKPOINT ? 'w-full flex justify-center' : ''}`}>
                     <Button className={`bg-white text-black font-bold hover:bg-gray-100 ${screenWidth < BREAKPOINT ? 'w-1/2 flex items-center justify-center' : ''}`}>Order</Button>
                 </Link>
 

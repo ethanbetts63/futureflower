@@ -48,6 +48,7 @@ const SingleDeliveryStep5ConfirmationPage = lazy(() => import('./pages/single_de
 
 // --- Partner Pages ---
 const PartnerTypeSelectionPage = lazy(() => import('./pages/partner/PartnerTypeSelectionPage'));
+const ProductSelectionPage = lazy(() => import('./pages/ProductSelectionPage'));
 const PartnerRegistrationPage = lazy(() => import('./pages/partner/PartnerRegistrationPage'));
 const PartnerDashboardPage = lazy(() => import('./pages/partner/PartnerDashboardPage'));
 const DeliveryRequestPage = lazy(() => import('./pages/partner/DeliveryRequestPage'));
@@ -116,6 +117,7 @@ function App() {
                 <Route path="/articles/best-flower-delivery-sydney" element={<BestFlowerDeliverySydney />} />
 
                 {/* Event Creation Flow */}
+                <Route path="/order" element={<ProductSelectionPage />} />
                 <Route path="/event-gate/:flowType?" element={<EventGate />} />
                 <Route path="/upfront-flow/create-account" element={<Step1CreateAccountPage />} />
                 <Route path="/upfront-flow/upfront-plan/:planId/recipient" element={<Step2RecipientPage />} />
