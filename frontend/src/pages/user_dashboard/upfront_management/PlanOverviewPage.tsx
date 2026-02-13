@@ -11,9 +11,8 @@ import RecipientCard from '@/components/RecipientCard';
 import PaymentHistoryCard from '@/components/PaymentHistoryCard';
 import PlanActivationBanner from '@/components/PlanActivationBanner';
 import PlanDisplay from '@/components/PlanDisplay';
-import { getUpfrontPlan, updateUpfrontPlan } from '@/api/upfrontPlans';
+import { getUpfrontPlan } from '@/api/upfrontPlans';
 import type { UpfrontPlan } from '../../../types/UpfrontPlan';
-import type { Color } from '../../../types/Color';
 import type { FlowerType } from '../../../types/FlowerType';
 
 const PlanOverviewPage = () => {
@@ -25,7 +24,7 @@ const PlanOverviewPage = () => {
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto max-w-4xl">
           <PlanDisplay getPlan={getUpfrontPlan} fallbackNavigationPath="/dashboard/flower-plans">
-            {({ plan, colorMap, flowerTypeMap }: { plan: UpfrontPlan; colorMap: Map<number, Color>; flowerTypeMap: Map<number, FlowerType> }) => (
+            {({ plan, flowerTypeMap }: { plan: UpfrontPlan; flowerTypeMap: Map<number, FlowerType> }) => (
               <>
                 {plan.status !== 'active' && planId && <PlanActivationBanner planId={planId} />}
                 <div className="space-y-8 mt-4">
@@ -60,11 +59,8 @@ const PlanOverviewPage = () => {
 
                     <PreferencesCard
                       plan={plan}
-                      colorMap={colorMap}
                       flowerTypeMap={flowerTypeMap}
                       editUrl={`/dashboard/plans/${planId}/edit-preferences`}
-                      getPlan={getUpfrontPlan}
-                      updatePlan={updateUpfrontPlan}
                     />
 
                     <MessagesCard

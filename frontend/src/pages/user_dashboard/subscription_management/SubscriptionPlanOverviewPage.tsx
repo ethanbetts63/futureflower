@@ -10,10 +10,9 @@ import PaymentHistoryCard from '@/components/PaymentHistoryCard';
 import PlanActivationBanner from '@/components/PlanActivationBanner';
 import PlanDisplay from '@/components/PlanDisplay';
 import SubscriptionStructureCard from '@/components/SubscriptionStructureCard';
-import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
+import { getSubscriptionPlan } from '@/api';
 import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
 import type { Plan } from '../../../types/Plan';
-import type { Color } from '../../../types/Color';
 import type { FlowerType } from '../../../types/FlowerType';
 
 const SubscriptionPlanOverviewPage: React.FC = () => {
@@ -29,7 +28,7 @@ const SubscriptionPlanOverviewPage: React.FC = () => {
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto max-w-4xl">
           <PlanDisplay getPlan={getSubscriptionPlan} fallbackNavigationPath="/dashboard/plans">
-            {({ plan, colorMap, flowerTypeMap }: { plan: Plan; colorMap: Map<number, Color>; flowerTypeMap: Map<number, FlowerType> }) => (
+            {({ plan, flowerTypeMap }: { plan: Plan; flowerTypeMap: Map<number, FlowerType> }) => (
                 isSubscriptionPlan(plan) && (
                     <>
                         {plan.status !== 'active' && planId && <PlanActivationBanner planId={planId} />}
@@ -58,11 +57,8 @@ const SubscriptionPlanOverviewPage: React.FC = () => {
 
                             <PreferencesCard
                                 plan={plan}
-                                colorMap={colorMap}
                                 flowerTypeMap={flowerTypeMap}
                                 editUrl={`/dashboard/subscription-plans/${planId}/edit-preferences`}
-                                getPlan={getSubscriptionPlan}
-                                updatePlan={updateSubscriptionPlan}
                             />
                             
                             <div className="flex justify-between items-center mt-8">
