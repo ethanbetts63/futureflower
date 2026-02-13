@@ -64,3 +64,21 @@ class TestPasswordResetRequestView:
         
         assert response.status_code == 200
         mock_send_email.assert_called_once_with(self.user)
+
+
+@pytest.mark.django_db
+def test_request_with_inactive_user_does_not_send(mocker):
+    """
+    Tests that a password reset is not sent for an inactive user.
+    """
+    from rest_framework.test import APIClient
+    client = APIClient()
+    from users.tests.factories.user_factory import UserFactory
+    inactive_user = UserFactory(email='inactive@example.com', is_active=False)
+    mock_send_email = mocker.patch('users.views.password_reset_request_view.send_password_reset_email')
+    
+    url = '/api/users/password-reset/request/'
+    response = client.post(url, {'email': 'inactive@example.com'}, format='json')
+    
+    assert response.status_code == 200
+    mock_send_email.assert_not_called()

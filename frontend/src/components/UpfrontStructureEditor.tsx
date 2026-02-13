@@ -1,4 +1,4 @@
-// futureflower/frontend/src/components/StructureEditor.tsx
+// futureflower/frontend/src/components/UpfrontStructureEditor.tsx
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -12,7 +12,7 @@ import type { UpfrontPlan, PartialUpfrontPlan, PlanStructureData } from '@/types
 import PlanStructureForm from '@/forms/PlanStructureForm';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
-import type { StructureEditorProps } from '../types/StructureEditorProps';
+import type { UpfrontStructureEditorProps } from '../types/UpfrontStructureEditorProps';
 import PaymentInitiatorButton from './PaymentInitiatorButton';
 
 const getMinDateString = () => {
@@ -21,7 +21,7 @@ const getMinDateString = () => {
     return minDate.toISOString().split('T')[0];
 };
 
-const StructureEditor: React.FC<StructureEditorProps> = ({
+const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
     mode,
     title,
     description,
@@ -36,7 +36,7 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
     // Core State
     const [formData, setFormData] = useState<PlanStructureData>({
         budget: 75,
-        frequency: 'monthly',
+        frequency: 'annually',
         years: 5,
         start_date: getMinDateString(),
     });
@@ -66,7 +66,7 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
             .then((plan: UpfrontPlan) => {
                 setFormData({
                     budget: Number(plan.budget) || 75,
-                    frequency: plan.frequency || 'monthly',
+                    frequency: plan.frequency || 'annually',
                     years: plan.years || 5,
                     start_date: plan.start_date || getMinDateString(),
                 });
@@ -187,6 +187,7 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
                                     years: formData.years,
                                     frequency: formData.frequency,
                                 }}
+                                backPath={backPath}
                                 disabled={isActionDisabled}
                             >
                                 Proceed to Payment
@@ -204,4 +205,4 @@ const StructureEditor: React.FC<StructureEditorProps> = ({
     );
 };
 
-export default StructureEditor;
+export default UpfrontStructureEditor;
