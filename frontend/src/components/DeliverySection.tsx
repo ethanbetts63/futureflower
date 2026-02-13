@@ -9,7 +9,7 @@ import { Check } from 'lucide-react';
 
 const features = [
   "We coordinate delivery through florists who already serve your area, prioritising local partners wherever possible.",
-  "Addresses, dates, and delivery frequency can be changed at any time. Moves don’t interrupt deliveries, and plans can be adjusted or cancelled with ease.",
+  "Addresses, dates, and delivery frequency can be changed at any time. Plans can be adjusted or cancelled with ease.",
   "Each bouquet can include a personalised message, written once and updated whenever you like. Bouquet preferences are completely within your control."
 ];
 
@@ -45,8 +45,8 @@ export const DeliverySection: React.FC = () => {
               ))}
             </ul>
 
-            <p className="text-lg italic">
-              Our role is simple: make sure flowers arrive, every time.
+            <p className="text-lg">
+              <span className="font-bold">Our role is simple:</span> <span className="italic">make sure quality flowers arrive, every time.</span>
             </p>
           </div>
         </div>
