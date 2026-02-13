@@ -2,9 +2,9 @@
 import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { ImpactTierSelector } from '@/components/ImpactTierSelector';
 import type { SubscriptionStructureFormProps } from '../types/SubscriptionStructureFormProps';
 
 
@@ -20,25 +20,14 @@ const SubscriptionStructureForm: React.FC<SubscriptionStructureFormProps> = ({
     onFormChange,
     setIsDebouncePending
 }) => {
-    const handleSliderChange = (value: number[]) => {
+    const handleBudgetChange = (budget: number) => {
         if (setIsDebouncePending) setIsDebouncePending(true);
-        onFormChange('budget', value[0]);
+        onFormChange('budget', budget);
     };
 
     return (
         <div className="space-y-6">
-            <div className="grid gap-2">
-                <Label htmlFor="budget-slider">Bouquet Budget: ${formData.budget}</Label>
-                <Slider
-                    id="budget-slider"
-                    aria-label="Bouquet Budget"
-                    min={75}
-                    max={500}
-                    step={5}
-                    value={[formData.budget]}
-                    onValueChange={handleSliderChange}
-                />
-            </div>
+            <ImpactTierSelector value={formData.budget} onChange={handleBudgetChange} />
 
             <div className="grid gap-2">
                 <Label htmlFor="frequency-select">Delivery Frequency</Label>
@@ -70,7 +59,7 @@ const SubscriptionStructureForm: React.FC<SubscriptionStructureFormProps> = ({
                     onChange={(e) => onFormChange('start_date', e.target.value)}
                 />
             </div>
-            
+
             <div className="grid gap-2">
                 <Label htmlFor="subscription-message">Message (Optional)</Label>
                 <Textarea

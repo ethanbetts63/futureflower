@@ -3,6 +3,7 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ImpactTierSelector } from '@/components/ImpactTierSelector';
 
 import type { PlanStructureFormProps } from '../types/PlanStructureFormProps';
 
@@ -13,7 +14,14 @@ const PlanStructureForm: React.FC<PlanStructureFormProps> = ({
   title = "Plan Structure"
 }) => {
 
-  const handleSliderChange = (field: 'budget' | 'years') => (value: number[]) => {
+  const handleBudgetChange = (budget: number) => {
+    if (setIsDebouncePending) {
+      setIsDebouncePending(true);
+    }
+    onFormChange('budget', budget);
+  };
+
+  const handleSliderChange = (field: 'years') => (value: number[]) => {
     if (setIsDebouncePending) {
       setIsDebouncePending(true);
     }
@@ -28,19 +36,8 @@ const PlanStructureForm: React.FC<PlanStructureFormProps> = ({
     <div>
       <h3 className="text-xl font-semibold mb-4">{title}</h3>
       <div className="space-y-6">
-        <div className="grid gap-2">
-          <Label htmlFor="budget-slider" className="text-sm">Bouquet Budget: ${formData.budget}</Label>
-          <Slider
-            id="budget-slider"
-            aria-label="Bouquet Budget"
-            min={75}
-            max={500}
-            step={5}
-            value={[formData.budget]}
-            onValueChange={handleSliderChange('budget')}
-          />
-          <p className="text-sm text-gray-500 mt-1">Adjust the budget for each individual bouquet (inc. delivery & tax).</p>
-        </div>
+        <ImpactTierSelector value={formData.budget} onChange={handleBudgetChange} />
+
         <div className="grid gap-2">
           <Label htmlFor="frequency-select" className="text-sm">Delivery Frequency</Label>
           <Select

@@ -1,4 +1,5 @@
 import petalImage from '../assets/petal.png';
+import floristMakingFlowersImage from '../assets/florist_making_flowers.png';
 
 const steps = [
   {
@@ -13,7 +14,7 @@ const steps = [
     title: 'We find the perfect florist.',
     description:
       'Our local partners hand-pick seasonal stems and craft a bouquet tailored to your preferences, wherever your recipient is.',
-    image: 'https://placehold.co/600x400/d4e2d4/2d4a2d?text=Local+Florist',
+    image: floristMakingFlowersImage,
   },
   {
     level: 3,

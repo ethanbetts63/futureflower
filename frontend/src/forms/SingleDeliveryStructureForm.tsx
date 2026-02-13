@@ -2,13 +2,13 @@
 import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Slider } from '@/components/ui/slider';
 import { Textarea } from '@/components/ui/textarea';
+import { ImpactTierSelector } from '@/components/ImpactTierSelector';
 import type { SingleDeliveryStructureFormProps } from '../types/SingleDeliveryStructureFormProps';
 
 const getMinDateString = () => {
     const minDate = new Date();
-    minDate.setDate(minDate.getDate() + 7); // At least 7 days in the future
+    minDate.setDate(minDate.getDate() + 7);
     return minDate.toISOString().split('T')[0];
 };
 
@@ -17,26 +17,14 @@ const SingleDeliveryStructureForm: React.FC<SingleDeliveryStructureFormProps> = 
     onFormChange,
     setIsDebouncePending
 }) => {
-    const handleSliderChange = (value: number[]) => {
+    const handleBudgetChange = (budget: number) => {
         if (setIsDebouncePending) setIsDebouncePending(true);
-        onFormChange('budget', value[0]);
+        onFormChange('budget', budget);
     };
 
     return (
         <div className="space-y-6">
-            <div className="grid gap-2">
-                <Label htmlFor="budget-slider">Bouquet Budget: ${formData.budget}</Label>
-                <Slider
-                    id="budget-slider"
-                    aria-label="Bouquet Budget"
-                    min={75}
-                    max={500}
-                    step={5}
-                    value={[formData.budget]}
-                    onValueChange={handleSliderChange}
-                />
-                 <p className="text-sm text-muted-foreground">The cost of the flowers for the bouquet.</p>
-            </div>
+            <ImpactTierSelector value={formData.budget} onChange={handleBudgetChange} />
 
             <div className="grid gap-2">
                 <Label htmlFor="start-date">Delivery Date</Label>
@@ -49,7 +37,7 @@ const SingleDeliveryStructureForm: React.FC<SingleDeliveryStructureFormProps> = 
                 />
                 <p className="text-sm text-muted-foreground">The date the bouquet will be delivered.</p>
             </div>
-            
+
             <div className="grid gap-2">
                 <Label htmlFor="card-message">Card Message</Label>
                 <Textarea
