@@ -1,7 +1,6 @@
 import React from 'react';
 import { ArrowDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Button } from "@/components/ui/button";
 import type { HeroV2Props } from '../types/HeroV2Props';
 import heroImage320 from '../assets/hero2-320w.webp';
 import heroImage640 from '../assets/hero2-640w.webp';
