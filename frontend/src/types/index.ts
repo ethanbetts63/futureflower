@@ -9,7 +9,6 @@ export type { BackButtonProps } from './BackButtonProps';
 export type { CreateEventLinkProps } from './CreateEventLinkProps';
 export type { PaymentHistoryCardProps } from './PaymentHistoryCardProps';
 export type { SeoProps } from './SeoProps';
-export type { StructureEditorProps } from './StructureEditorProps';
 export type { SubscriptionPlanTableProps } from './SubscriptionPlanTableProps';
 export type { SubscriptionStructureEditorProps } from './SubscriptionStructureEditorProps';
 export type { BannerProps } from './BannerProps';

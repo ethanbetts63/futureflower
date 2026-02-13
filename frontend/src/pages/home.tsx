@@ -1,4 +1,3 @@
-import React from 'react';
 import Seo from '../components/Seo';
 import { ProductCarousel } from '../components/ProductCarousel';
 import { FaqV2 } from '../components/FaqV2';

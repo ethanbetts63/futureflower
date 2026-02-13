@@ -1,25 +1,28 @@
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
+import smallFlowers from '@/assets/small_flowers.png';
+import medFlowers from '@/assets/med_flowers.png';
+import largeFlowers from '@/assets/large_flowers.png';
 
 const tiers = [
   {
     name: 'The Signature',
     price: 85,
     description: 'A beautiful, seasonal arrangement. Perfect for keeping the romance alive.',
-    image: 'https://placehold.co/600x400/e8d5c4/3d2b1f?text=Signature',
+    image: smallFlowers,
   },
   {
     name: 'The Statement',
     price: 150,
     description: 'Lush, premium stems designed to make an impression. Our most popular choice.',
-    image: 'https://placehold.co/600x400/d4e2d4/2d4a2d?text=Statement',
+    image: medFlowers,
     badge: 'Most Popular',
   },
   {
     name: 'The Grand Gesture',
     price: 350,
     description: 'A show-stopping display of luxury blooms for life\'s biggest milestones.',
-    image: 'https://placehold.co/600x400/d5cfe8/3b2d6b?text=Grand+Gesture',
+    image: largeFlowers,
   },
 ];
 
