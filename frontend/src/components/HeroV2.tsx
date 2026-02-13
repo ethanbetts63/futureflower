@@ -1,5 +1,7 @@
 import React from 'react';
 import { ArrowDown } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
 import type { HeroV2Props } from '../types/HeroV2Props';
 import heroImage320 from '../assets/hero2-320w.webp';
 import heroImage640 from '../assets/hero2-640w.webp';
@@ -42,15 +44,24 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title, subtitle, onLearnMore }) 
         <p className="mt-6 text-lg sm:text-xl leading-8">
           {subtitle}
         </p>
-        {onLearnMore && (
-          <button
-            onClick={onLearnMore}
-            className="mt-8 flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer"
+        <div className="mt-8 flex items-center gap-8">
+          {onLearnMore && (
+            <button
+              onClick={onLearnMore}
+              className="flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer"
+            >
+              <span className="text-sm font-medium">Learn more</span>
+              <ArrowDown className="h-4 w-4 animate-bounce" />
+            </button>
+          )}
+          <Link
+            to="/order"
+            className="inline-flex items-center gap-2 bg-green-600 text-white font-medium px-6 py-3 rounded-md hover:bg-green-700 transition-colors text-center shadow-sm"
           >
-            <span className="text-sm font-medium">Learn more</span>
-            <ArrowDown className="h-4 w-4 animate-bounce" />
-          </button>
-        )}
+            Order
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+          </Link>
+        </div>
       </div>
     </section>
   );

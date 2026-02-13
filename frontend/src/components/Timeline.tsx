@@ -57,7 +57,7 @@ export const Timeline: React.FC = () => {
         <style>{compressedTimelineStyles}</style>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-black mb-2 text-center">
-            A Simple 5-Step Process
+            A Simple 4-Step Process
           </h2>
           <p className="text-black pb-4 px-60 text-center">
             Create your account, download your poster or link — and that’s it. From then on, simply confirm requests and deliver the flowers. We handle everything else.
