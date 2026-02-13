@@ -17,18 +17,10 @@ const compressedTimelineStyles = `
 export const Timeline: React.FC = () => {
       const timelineData = [
       {
-        title: 'Quick Set Up',
-        description: [
-          'Create your account and download you custom instore poster',
-          'Optionally copy your Partner Link and it to your website',
-          'Upsell a customer or let the poster/link do the talking'
-        ]
-      },
-      {
         title: 'Customer Books Delivery',
         description: [
           'Sets budget, dates, and flower preferences',
-          'Pays for each bouquets budget (eg. $100) and customer protection fee',
+          'Pays for each bouquets budget (eg. $100) and customer protection/refund fee',
           'Our fee is in addition to the budget. Florists are always paid the full budget amount for accepted orders.',
         ],
       },
@@ -64,9 +56,12 @@ export const Timeline: React.FC = () => {
       <section className="pt-10 pb-20 bg-[var(--color4)]">
         <style>{compressedTimelineStyles}</style>
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-black mb-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-black mb-2 text-center">
             A Simple 5-Step Process
           </h2>
+          <p className="text-black pb-4 px-60 text-center">
+            Create your account, download your poster or link — and that’s it. From then on, simply confirm requests and deliver the flowers. We handle everything else.
+          </p>
           <VerticalTimeline lineColor={'#e5e7eb'}>
             {timelineData.map((item, index) => (
               <VerticalTimelineElement

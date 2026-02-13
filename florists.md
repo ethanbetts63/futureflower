@@ -58,7 +58,7 @@ The gift that keeps giving — even when the giver steps back.
 
 ### Customer Books Delivery
 *   Sets budget, dates, and flower preferences
-*   Pays for each bouquets budget (eg. $100) and customer protection fee
+*   Pays for each bouquets budget (eg. $100) and customer protection/refund fee
 *   Our fee is in addition to the budget. Florists are always paid the full budget amount for accepted orders.
 
 ### You're Notified (2 Weeks Before Delivery)
