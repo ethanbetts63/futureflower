@@ -1,10 +1,12 @@
+import petalImage from '../assets/petal.png';
+
 const steps = [
   {
     level: 1,
     title: 'Tell us the moment.',
     description:
       'A birthday, an anniversary, or just a Tuesday. Pick the date and the occasion — we take it from there.',
-    image: 'https://placehold.co/600x400/e8d5c4/3d2b1f?text=Choosing+Dates',
+    image: petalImage,
   },
   {
     level: 2,
