@@ -14,8 +14,6 @@ import heroMobileImage768 from '../assets/hero2_mobile-768w.webp';
 import heroMobileImage1024 from '../assets/hero2_mobile-1024w.webp';
 import heroMobileImage1280 from '../assets/hero2_mobile-1280w.webp';
 
-
-
 export const HeroV2: React.FC<HeroV2Props> = ({ title, subtitle, onLearnMore }) => {
   return (
     <section className="relative h-screen w-full flex items-end md:items-center">
