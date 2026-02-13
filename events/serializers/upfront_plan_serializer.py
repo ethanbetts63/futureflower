@@ -52,6 +52,7 @@ class UpfrontPlanSerializer(serializers.ModelSerializer):
             'recipient_street_address', 'recipient_suburb', 'recipient_city',
             'recipient_state', 'recipient_postcode', 'recipient_country',
             'preferred_flower_types', 'flower_notes',
+            'draft_card_messages',
             'events', 'payments',
         ]
         read_only_fields = [

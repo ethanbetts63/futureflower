@@ -1,9 +1,11 @@
 # payments/utils/webhook_handlers.py
+from datetime import date, timedelta
 from decimal import Decimal
 from django.conf import settings
 from django.db import transaction
 from payments.models import Payment
 from events.models import UpfrontPlan, SubscriptionPlan, Event
+from events.utils.fee_calc import frequency_to_deliveries_per_year
 from payments.utils.subscription_dates import get_next_delivery_date
 
 def handle_payment_intent_succeeded(payment_intent):
@@ -72,18 +74,32 @@ def handle_payment_intent_succeeded(payment_intent):
                 plan_to_activate.status = 'active'
                 plan_to_activate.save()
                 print(f"UpfrontPlan (PK: {plan_to_activate.pk}) successfully activated.")
-                
-                # If it's a single delivery plan, create the corresponding Event
-                if plan_to_activate.years == 1 and plan_to_activate.frequency == 'annually':
-                    if not Event.objects.filter(order=plan_to_activate.orderbase_ptr, delivery_date=plan_to_activate.start_date).exists():
-                        Event.objects.create(
-                            order=plan_to_activate.orderbase_ptr,
-                            delivery_date=plan_to_activate.start_date,
-                            message='' # Message is set during the flow, so initially empty
-                        )
-                        print(f"Single delivery Event for UpfrontPlan (PK: {plan_to_activate.pk}) created.")
-                    else:
-                        print(f"Single delivery Event for UpfrontPlan (PK: {plan_to_activate.pk}) already exists. Skipping duplicate.")
+
+                # Create all delivery events for this plan
+                if not Event.objects.filter(order=plan_to_activate.orderbase_ptr).exists():
+                    draft_messages = plan_to_activate.draft_card_messages or {}
+                    deliveries_per_year = frequency_to_deliveries_per_year(plan_to_activate.frequency)
+                    start = plan_to_activate.start_date or date.today()
+                    interval_days = 365 / deliveries_per_year
+                    events_to_create = []
+
+                    for year in range(plan_to_activate.years):
+                        for i in range(deliveries_per_year):
+                            index = year * deliveries_per_year + i
+                            days_offset = (year * 365) + (i * interval_days)
+                            delivery_date = start + timedelta(days=days_offset)
+                            events_to_create.append(
+                                Event(
+                                    order=plan_to_activate.orderbase_ptr,
+                                    delivery_date=delivery_date,
+                                    message=draft_messages.get(str(index), ''),
+                                )
+                            )
+
+                    Event.objects.bulk_create(events_to_create)
+                    print(f"Created {len(events_to_create)} Events for UpfrontPlan (PK: {plan_to_activate.pk}).")
+                else:
+                    print(f"Events for UpfrontPlan (PK: {plan_to_activate.pk}) already exist. Skipping duplicate.")
 
             else:
                 # Note: This handler is now only for upfront payments.

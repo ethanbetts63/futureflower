@@ -152,8 +152,8 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
 
                         {/* Flower Notes Section */}
                         <div>
-                            <h3 className="text-xl font-semibold mb-2">Flower Notes</h3>
-                            <p className="text-sm text-gray-600 mb-4">Any specific dislikes or special requests?</p>
+                            <h3 className="text-xl font-semibold mb-2">The florist should know...</h3>
+                            <p className="text-sm text-gray-600 mb-4">For instance, any specific dislikes or special requests? The florist will try their best to accommodate them.</p>
                             <Textarea
                                 placeholder="They love roses but they hate lilies..."
                                 value={flowerNotes}

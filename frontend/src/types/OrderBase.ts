@@ -24,4 +24,6 @@ export interface OrderBase {
 
     preferred_flower_types: number[];
     flower_notes?: string | null;
+
+    draft_card_messages?: Record<string, string>;
 }

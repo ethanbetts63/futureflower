@@ -2,11 +2,9 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django.db import transaction
-from ..models import UpfrontPlan, Event
+from ..models import UpfrontPlan
 from ..serializers.upfront_plan_serializer import UpfrontPlanSerializer
 from ..utils.upfront_price_calc import forever_flower_upfront_price, calculate_final_plan_cost
-from ..utils.fee_calc import frequency_to_deliveries_per_year
-from datetime import date, timedelta
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
@@ -96,13 +94,11 @@ class UpfrontPlanViewSet(viewsets.ModelViewSet):
     @transaction.atomic
     def perform_create(self, serializer):
         """
-        Overrides the default create behavior to also generate all associated
-        Event instances for the new UpfrontPlan and calculate the total price.
+        Overrides the default create behavior to calculate the total price.
+        Events are NOT created here — they are created after payment in the webhook handler.
         """
-        # First, save the UpfrontPlan instance
         upfront_plan = serializer.save()
 
-        # --- Calculate and save the total price ---
         upfront_price, _ = forever_flower_upfront_price(
             budget=upfront_plan.budget,
             frequency=upfront_plan.frequency,
@@ -110,28 +106,6 @@ class UpfrontPlanViewSet(viewsets.ModelViewSet):
         )
         upfront_plan.total_amount = upfront_price
         upfront_plan.save()
-
-        # --- Create the events based on the plan details ---
-        deliveries_per_year = frequency_to_deliveries_per_year(upfront_plan.frequency)
-        events_to_create = []
-        start_date = upfront_plan.start_date if upfront_plan.start_date else date.today()
-        # Calculate the interval between deliveries
-        interval_days = 365 / deliveries_per_year
-
-        for year in range(upfront_plan.years):
-            for i in range(deliveries_per_year):
-                # Calculate the delivery date for this event
-                days_offset = (year * 365) + (i * interval_days)
-                delivery_date = start_date + timedelta(days=days_offset)
-                
-                events_to_create.append(
-                    Event(
-                        order=upfront_plan.orderbase_ptr, # Link event to the base order
-                        delivery_date=delivery_date,
-                    )
-                )
-        
-        Event.objects.bulk_create(events_to_create)
     
     def partial_update(self, request, *args, **kwargs):
         """

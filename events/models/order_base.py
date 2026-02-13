@@ -93,6 +93,13 @@ class OrderBase(models.Model):
         help_text="Optional notes about flower preferences."
     )
 
+    # --- Draft Messages (pre-payment staging) ---
+    draft_card_messages = models.JSONField(
+        default=dict,
+        blank=True,
+        help_text="Staging area for card messages before payment. Keyed by delivery index (e.g. {'0': 'Happy Birthday!'}). Consumed when events are created on payment."
+    )
+
     def __str__(self):
         # This will show the specific type of order (e.g., "Upfront Plan")
         child_instance = self.get_child_instance()
