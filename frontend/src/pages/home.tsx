@@ -40,7 +40,7 @@ const HomePage = () => {
     },
     {
       "question": "Is delivery included in the price?",
-      "answer": "Cost of delivery is included in your yearly flower budget. Our service fee is placed seperately on top for transparency."
+      "answer": "Cost of delivery is included in your yearly flower budget."
     }
   ];
 

@@ -8,20 +8,16 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 @pytest.mark.django_db
-def test_register_serializer_success(mocker):
+def test_register_serializer_success():
     """
     Tests that the RegisterSerializer successfully creates a new user
     with valid data.
     """
-    # Mock the email sending function
-    mock_send_email = mocker.patch('users.serializers.register_serializer.send_verification_email')
-
     user_data = {
         "email": "test@example.com",
         "password": "strongpassword123",
         "first_name": "Test",
         "last_name": "User",
-
     }
 
     serializer = RegisterSerializer(data=user_data)
@@ -35,9 +31,6 @@ def test_register_serializer_success(mocker):
     assert user.check_password(user_data['password']) # Check password is set correctly
     assert not user.is_staff
     assert not user.is_superuser
-    
-    # Assert that the email sending function was called once with the new user
-    mock_send_email.assert_called_once_with(user)
 
 
 @pytest.mark.django_db

@@ -75,3 +75,6 @@ There is a mismatch between defined routes in `App.tsx` and internal navigation 
 
 ### 18. unused file? 
 C:\Users\ethan\coding\futureflower\events\views\public_upfront_price_view.py im fairly sure that this is not being used. C:\Users\ethan\coding\futureflower\events\urls.py but maybe im wrong. check me. 
+
+### 19. Get rid of the anonymization stuff. 
+It would be good to have but right now its overkill. 

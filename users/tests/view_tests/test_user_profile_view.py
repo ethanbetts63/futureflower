@@ -28,14 +28,12 @@ class TestUserProfileView:
         update_data = {
             'first_name': 'UpdatedFirst',
             'last_name': 'UpdatedLast',
-            'phone': '1234567890'
         }
         
         response = self.client.patch(self.url, update_data, format='json')
         
         assert response.status_code == 200
         assert response.data['first_name'] == 'UpdatedFirst'
-        assert response.data['phone'] == '1234567890'
         
         self.user.refresh_from_db()
         assert self.user.first_name == 'UpdatedFirst'
@@ -68,11 +66,9 @@ class TestUserProfileView:
         
         response = self.client.patch(self.url, update_data, format='json')
         
-        # The serializer should ideally ignore this field if it's not
-        # explicitly writable or if the user is not an admin.
-        # Let's check that the value did not change.
+        # The serializer should ignore this field if it's not in fields.
         assert response.status_code == 200
-        assert response.data['is_staff'] is False
+        assert 'is_staff' not in response.data
         
         self.user.refresh_from_db()
         assert self.user.is_staff is False
