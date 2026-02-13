@@ -1,39 +1,71 @@
-const featurePoints = [
+const steps = [
   {
     level: 1,
-    symbol: '🗓️',
-    title: 'You decide once.',
-    description: 'Choose the dates, budget and frequency. Attach meaningful messages and give preferences on bouquet composition.',
+    title: 'Tell us the moment.',
+    description:
+      'A birthday, an anniversary, or just a Tuesday. Pick the date and the occasion — we take it from there.',
+    image: 'https://placehold.co/600x400/e8d5c4/3d2b1f?text=Choosing+Dates',
   },
   {
     level: 2,
-    symbol: '🔒',
-    title: 'Lock it in.',
-    description: 'We communicate with our local partners so that you recieve the highest quality flowers, almost anywhere in the world.',
+    title: 'We find the perfect florist.',
+    description:
+      'Our local partners hand-pick seasonal stems and craft a bouquet tailored to your preferences, wherever your recipient is.',
+    image: 'https://placehold.co/600x400/d4e2d4/2d4a2d?text=Local+Florist',
   },
   {
     level: 3,
-    symbol: '✨',
-    title: 'It just happens.',
-    description: 'Every time, on time, we arrange the flowers — no risk of forgetting, no effort. Our expertise is reliability.',
-  }
+    title: 'They open the door.',
+    description:
+      'Fresh flowers arrive on the exact day you chose. No reminders needed, no effort required. Just the look on their face.',
+    image: 'https://placehold.co/600x400/d5cfe8/3b2d6b?text=Flower+Delivery',
+  },
 ];
 
 export const ProductCarousel = () => {
   return (
-    <div className="w-full py-6">
-      <div className="container mx-auto px-4 pt-2">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-black">Our Process: <span className="italic">simple, affordable, unforgetable</span>.</h2>
-        <div className="flex flex-wrap justify-center gap-6 pb-4">
-          {featurePoints.map((item) => (
-            <div key={item.level} className="flex-shrink-0 w-80 bg-white rounded-xl shadow-md p-6 transform transition-transform hover:-translate-y-1">
-              <div className="flex items-center mb-4">
-                <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 bg-[var(--color2)] rounded-full mr-4">
-                  <span className="text-xl font-bold text-black">{item.level}</span>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">{item.symbol} {item.title}</h3>
+    <div className="w-full pt-10 pb-12">
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black font-['Playfair_Display',_serif] tracking-tight">
+            How It Works
+          </h2>
+          <p className="mt-3 text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            Meaningful flowers on meaningful dates, minus the effort. One
+            decision is all it takes.
+          </p>
+        </div>
+
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
+          {steps.map((step) => (
+            <div
+              key={step.level}
+              className="group bg-white rounded-2xl shadow-md overflow-hidden transition-transform hover:-translate-y-1"
+            >
+              {/* Image with numbered badge */}
+              <div className="relative">
+                <img
+                  src={step.image}
+                  alt={step.title}
+                  className="w-full h-52 md:h-56 lg:h-64 object-cover"
+                  loading="lazy"
+                />
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex items-center justify-center w-11 h-11 bg-black text-white text-lg font-bold rounded-md shadow-lg">
+                  {step.level}
+                </span>
               </div>
-              <p className="text-gray-700">{item.description}</p>
+
+              {/* Text content */}
+              <div className="pt-9 pb-7 px-6 text-center">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 font-['Playfair_Display',_serif]">
+                  {step.title}
+                </h3>
+                <p className="mt-3 text-sm md:text-base text-gray-600 leading-relaxed">
+                  {step.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>
