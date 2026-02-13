@@ -8,8 +8,9 @@ import kitchenImage1280 from '../assets/kitchen-1280w.webp';
 import { Check } from 'lucide-react';
 
 const features = [
-  "Our service is discreet. You won't find our branding on the bouquets, preserving the personal touch of your gesture.",
-  "Planning ahead is an act of care, not a substitute for romance. A completely unique, and bespoke gift is gift that stands out."
+  "Your gesture stays personal. We don’t add logos or branding to the bouquet — and we source from small businesses wherever possible.",
+  "Planning ahead means choosing reliability. ", 
+  "Set it up once. We handle the coordination and logistics from there."
 ];
 
 export const RomanceSection: React.FC = () => {

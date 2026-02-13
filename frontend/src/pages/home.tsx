@@ -35,10 +35,6 @@ const HomePage = () => {
       "answer": "We can’t unsend flowers. But everything up until that point is fair game."
     },
     {
-      "question": "Can I increase or decrease the budget later?",
-      "answer": "Yes you can. For subscriptions this is as simple as increasing the subscription amount. For upfront payment plans, by lowering the cost of each bouquet we can increase the frequency or duration of the plan. By increasing the cost of each bouquet, we can do the opposite, or you can top off the amount, to maintain or increase the quality of the bouquets."
-    },
-    {
       "question": "What countries do you operate in?",
       "answer": "Currently we operate in the EU (Europe), United Kingdom, North America (USA & Canada), Australia and New Zealand."
     },

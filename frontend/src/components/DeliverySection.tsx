@@ -8,7 +8,7 @@ import deliveryImage1280 from '../assets/delivery-1280w.webp';
 import { Check } from 'lucide-react';
 
 const features = [
-  "We coordinate delivery through florists who already serve your area, prioritising local partners wherever possible.",
+  "Coordinated delivery through florists who already serve your area, prioritising local partners wherever possible.",
   "Addresses, dates, and delivery frequency can be changed at any time. Plans can be adjusted or cancelled with ease.",
   "Each bouquet can include a personalised message, written once and updated whenever you like. Bouquet preferences are completely within your control."
 ];
