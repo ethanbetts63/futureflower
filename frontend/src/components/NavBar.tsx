@@ -79,7 +79,7 @@ const NavBar: React.FC = () => {
                             <>
                                 {dashboardNavItems.map((item: NavItem) => (
                                     <Link to={item.to} key={item.to} onClick={() => setMenuOpen(false)} className="w-full flex justify-center">
-                                        <Button className="bg-white text-black font-bold hover:bg-gray-100 w-1/2 flex items-center justify-center px-4 py-2 h-auto">
+                                        <Button className="bg-white text-black font-bold hover:bg-gray-100 w-1/2 flex items-center justify-center px-4 py-2 h-10">
                                             {item.to === '/dashboard' && <img src={settingsPng} alt="Settings" className="mr-2 w-5 h-5" />}
                                             {item.label}
                                         </Button>
@@ -88,7 +88,7 @@ const NavBar: React.FC = () => {
                             </>
                         ) : (
                             <Link to="/dashboard" onClick={() => setMenuOpen(false)} className={`${screenWidth < BREAKPOINT ? 'w-full flex justify-center' : ''}`}>
-                                <Button className={`bg-white text-black font-bold hover:bg-gray-100 px-4 py-2 h-auto ${screenWidth < BREAKPOINT ? 'w-1/2 flex items-center justify-center' : ''}`}>
+                                <Button className={`bg-white text-black font-bold hover:bg-gray-100 px-4 py-2 h-10 ${screenWidth < BREAKPOINT ? 'w-1/2 flex items-center justify-center' : ''}`}>
                                     {screenWidth < BREAKPOINT ? (
                                         <>
                                             <img src={settingsPng} alt="Settings" className="mr-2 w-5 h-5" />
@@ -102,7 +102,7 @@ const NavBar: React.FC = () => {
                         )}
                         <Button
                             onClick={() => { logout(() => navigate('/')); setMenuOpen(false); }}
-                            className={`bg-white text-black font-bold hover:bg-gray-100 px-4 py-2 h-auto ${screenWidth < BREAKPOINT ? 'w-1/2 flex items-center justify-center' : ''}`}
+                            className={`bg-white text-black font-bold hover:bg-gray-100 px-4 py-2 h-10 ${screenWidth < BREAKPOINT ? 'w-1/2 flex items-center justify-center' : ''}`}
                         >
                             {screenWidth < BREAKPOINT ? (
                                 <>
@@ -116,12 +116,12 @@ const NavBar: React.FC = () => {
                     </>
                 ) : (
                     <Link to="/login" onClick={() => setMenuOpen(false)} className={`${screenWidth < BREAKPOINT ? 'w-full flex justify-center' : ''}`}>
-                        <Button className={`bg-white text-black font-bold hover:bg-gray-100 px-4 py-2 h-auto ${screenWidth < BREAKPOINT ? 'w-1/2 flex items-center justify-center' : ''}`}>Login</Button>
+                        <Button className={`bg-white text-black font-bold hover:bg-gray-100 px-4 py-2 h-10 ${screenWidth < BREAKPOINT ? 'w-1/2 flex items-center justify-center' : ''}`}>Login</Button>
                     </Link>
                 )}
 
                 <Link to="/order" onClick={() => setMenuOpen(false)} className={`${screenWidth < BREAKPOINT ? 'w-full flex justify-center' : ''}`}>
-                    <div className={`inline-flex items-center justify-center gap-2 bg-green-600 text-white font-medium px-4 py-2 rounded-md hover:bg-green-700 transition-colors text-center shadow-sm cursor-pointer ${screenWidth < BREAKPOINT ? 'w-1/2' : ''}`}>
+                    <div className={`inline-flex items-center justify-center gap-2 bg-green-600 text-white font-medium px-4 py-2 h-10 rounded-md hover:bg-green-700 transition-colors text-center shadow-sm cursor-pointer ${screenWidth < BREAKPOINT ? 'w-1/2' : ''}`}>
                         Order
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                     </div>
