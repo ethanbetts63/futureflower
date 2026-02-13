@@ -86,7 +86,7 @@ const ProductSelectionPage: React.FC = () => {
                 <div className="flex justify-center mb-4">
                   <CreditCard className="h-12 w-12 text-[var(--colorgreen)]" />
                 </div>
-                <CardTitle className="text-xl font-['Playfair_Display',_serif]">Prepaid Gift Plan</CardTitle>
+                <CardTitle className="text-xl font-['Playfair_Display',_serif]">Prepaid Subscription Plan</CardTitle>
                 <CardDescription className="text-gray-600">
                   Pay once for a year of deliveries. The perfect gift that keeps on giving. No recurring charges.
                 </CardDescription>

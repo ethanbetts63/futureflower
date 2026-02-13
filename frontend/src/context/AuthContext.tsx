@@ -23,11 +23,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const fullProfile = await api.getUserProfile();
       setUser(fullProfile);
-    } catch (error) {
-      console.error("Failed to fetch user profile, logging out.", error);
-      // Pass a dummy function for onLogoutSuccess if AuthContext doesn't need to navigate
-      // The actual navigation will happen from the component calling logout
-      logout(); // Clears tokens and user state
+    } catch (error: any) {
+      // Only log out if it's an authentication error (401 or 403)
+      // Otherwise, keep the session so we don't aggressively log users out during network blips
+      const status = error.data?.status || error.response?.status;
+      if (status === 401 || status === 403) {
+        console.error("Authentication failed, logging out.", error);
+        logout();
+      } else {
+        console.warn("Failed to fetch user profile due to network/server error. Retaining session.", error);
+      }
     } finally {
       setIsLoading(false);
     }

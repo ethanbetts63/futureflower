@@ -54,3 +54,6 @@ No React Error Boundary components. A crash in any component takes down the enti
 
 ### 11. Admin section is a stub
 `frontend/src/pages/admin/AdminHomePage.tsx` is minimal (~25 lines). Either build it out or remove it from routing to avoid confusion.
+
+### 12. Move to HttpOnly Cookies for Authentication
+The current JWT implementation stores tokens in `localStorage`, which is vulnerable to XSS. Moving to `HttpOnly` cookies would improve security by making tokens inaccessible to JavaScript. This requires updating the Django backend to set cookies and the frontend to include credentials in requests, as well as handling CSRF protection more explicitly.
