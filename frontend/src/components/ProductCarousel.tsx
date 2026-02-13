@@ -15,7 +15,7 @@ const featurePoints = [
     level: 3,
     symbol: '✨',
     title: 'It just happens.',
-    description: 'Every time, on time, we arrange the flowers — no risk of forgetting, no effort. Our expertise is reliability and arrangement.',
+    description: 'Every time, on time, we arrange the flowers — no risk of forgetting, no effort. Our expertise is reliability.',
   }
 ];
 
