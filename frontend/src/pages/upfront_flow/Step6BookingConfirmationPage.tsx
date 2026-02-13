@@ -13,9 +13,8 @@ import PlanDisplay from '@/components/PlanDisplay';
 import PaymentInitiatorButton from '@/components/PaymentInitiatorButton';
 import DiscountCodeInput from '@/components/DiscountCodeInput';
 
-import { getUpfrontPlan, updateUpfrontPlan } from '@/api';
+import { getUpfrontPlan } from '@/api';
 import type { UpfrontPlan } from '../../types/UpfrontPlan';
-import type { Color } from '../../types/Color';
 import type { FlowerType } from '../../types/FlowerType';
 
 
@@ -30,7 +29,7 @@ const Step6BookingConfirmationPage = () => {
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-4xl">
           <PlanDisplay getPlan={getUpfrontPlan} fallbackNavigationPath="/dashboard">
-            {({ plan, colorMap, flowerTypeMap }: { plan: UpfrontPlan; colorMap: Map<number, Color>; flowerTypeMap: Map<number, FlowerType> }) => (
+            {({ plan, flowerTypeMap }: { plan: UpfrontPlan; flowerTypeMap: Map<number, FlowerType> }) => (
               <div className="space-y-8">
                 <Card className="text-center w-full bg-white shadow-md border-none text-black">
                   <CardHeader>
@@ -57,11 +56,8 @@ const Step6BookingConfirmationPage = () => {
 
                   <PreferencesCard
                     plan={plan}
-                    colorMap={colorMap}
                     flowerTypeMap={flowerTypeMap}
                     editUrl={`/upfront-flow/upfront-plan/${planId}/preferences`}
-                    getPlan={getUpfrontPlan}
-                    updatePlan={updateUpfrontPlan}
                   />
 
                   <MessagesCard

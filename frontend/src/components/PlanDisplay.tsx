@@ -1,8 +1,7 @@
 // futureflower/frontend/src/components/PlanDisplay.tsx
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getColors, getFlowerTypes } from '@/api';
-import type { Color } from '../types/Color';
+import { getFlowerTypes } from '@/api';
 import type { FlowerType } from '../types/FlowerType';
 import type { Plan } from '../types/Plan';
 import { toast } from 'sonner';
@@ -19,12 +18,10 @@ function PlanDisplay<T extends Plan = Plan>({
     const navigate = useNavigate();
 
     const [plan, setPlan] = useState<T | null>(null);
-    const [colors, setColors] = useState<Color[]>([]);
     const [flowerTypes, setFlowerTypes] = useState<FlowerType[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const colorMap = useMemo(() => new Map(colors.map(c => [c.id, c])), [colors]);
     const flowerTypeMap = useMemo(() => new Map(flowerTypes.map(ft => [ft.id, ft])), [flowerTypes]);
 
     useEffect(() => {
@@ -38,13 +35,11 @@ function PlanDisplay<T extends Plan = Plan>({
             try {
                 setLoading(true);
                 setError(null);
-                const [planData, colorsData, flowerTypesData] = await Promise.all([
+                const [planData, flowerTypesData] = await Promise.all([
                     getPlan(planId),
-                    getColors(),
                     getFlowerTypes(),
                 ]);
                 setPlan(planData);
-                setColors(colorsData);
                 setFlowerTypes(flowerTypesData);
             } catch (err: any) {
                 const errorMessage = 'Failed to load plan details.';
@@ -80,7 +75,7 @@ function PlanDisplay<T extends Plan = Plan>({
         );
     }
 
-    return <>{children({ plan, colorMap, flowerTypeMap })}</>;
+    return <>{children({ plan, flowerTypeMap })}</>;
 };
 
 export default PlanDisplay;

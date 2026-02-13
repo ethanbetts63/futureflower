@@ -10,8 +10,8 @@ import RecipientCard from '@/components/RecipientCard';
 import PlanDisplay from '@/components/PlanDisplay';
 import SingleDeliveryStructureCard from '@/components/SingleDeliveryStructureCard';
 
-import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
-import type { Plan, Color, FlowerType, UpfrontPlan } from '@/types';
+import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
+import type { Plan, FlowerType, UpfrontPlan } from '@/types';
 
 import PaymentInitiatorButton from '@/components/PaymentInitiatorButton';
 
@@ -26,7 +26,7 @@ const Step5ConfirmationPage = () => {
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-4xl">
           <PlanDisplay getPlan={getUpfrontPlanAsSingleDelivery} fallbackNavigationPath="/dashboard">
-            {({ plan, colorMap, flowerTypeMap }: { plan: Plan; colorMap: Map<number, Color>; flowerTypeMap: Map<number, FlowerType> }) => {
+            {({ plan, flowerTypeMap }: { plan: Plan; flowerTypeMap: Map<number, FlowerType> }) => {
               // Since SingleDeliveryPlan is now UpfrontPlan, this check is no longer strictly needed
               // and the plan will always be of type UpfrontPlan in this context.
 
@@ -57,11 +57,8 @@ const Step5ConfirmationPage = () => {
 
                     <PreferencesCard
                       plan={plan}
-                      colorMap={colorMap}
                       flowerTypeMap={flowerTypeMap}
                       editUrl={`/single-delivery-flow/plan/${planId}/preferences`}
-                      getPlan={getUpfrontPlanAsSingleDelivery}
-                      updatePlan={updateUpfrontPlanAsSingleDelivery}
                     />
 
                     <Card className="bg-white shadow-md border-none text-black">

@@ -10,10 +10,9 @@ import PlanDisplay from '@/components/PlanDisplay';
 import SubscriptionStructureCard from '@/components/SubscriptionStructureCard';
 import PaymentInitiatorButton from '@/components/PaymentInitiatorButton';
 import DiscountCodeInput from '@/components/DiscountCodeInput';
-import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
+import { getSubscriptionPlan } from '@/api';
 import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
 import type { Plan } from '../../types/Plan';
-import type { Color } from '../../types/Color';
 import type { FlowerType } from '../../types/FlowerType';
 
 const Step5ConfirmationPage: React.FC = () => {
@@ -31,7 +30,7 @@ const Step5ConfirmationPage: React.FC = () => {
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-4xl">
           <PlanDisplay getPlan={getSubscriptionPlan} fallbackNavigationPath="/dashboard">
-            {({ plan, colorMap, flowerTypeMap }: { plan: Plan; colorMap: Map<number, Color>; flowerTypeMap: Map<number, FlowerType> }) => (
+            {({ plan, flowerTypeMap }: { plan: Plan; flowerTypeMap: Map<number, FlowerType> }) => (
               <div className="space-y-8">
                 <Card className="text-center w-full bg-white shadow-md border-none text-black">
                   <CardHeader>
@@ -54,11 +53,8 @@ const Step5ConfirmationPage: React.FC = () => {
 
                         <PreferencesCard
                             plan={plan}
-                            colorMap={colorMap}
                             flowerTypeMap={flowerTypeMap}
                             editUrl={`/subscribe-flow/subscription-plan/${planId}/preferences`}
-                            getPlan={getSubscriptionPlan}
-                            updatePlan={updateSubscriptionPlan}
                         />
 
                         <Card className="bg-white shadow-md border-none text-black">

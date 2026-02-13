@@ -1,7 +1,6 @@
 from django.core.management.base import BaseCommand
 from data_management.utils.generation_utils.terms_generator import TermsUpdateOrchestrator
 from data_management.utils.archive_db.database_archiver import DatabaseArchiver
-from data_management.utils.generation_utils.colors_generator import ColorGenerator
 from data_management.utils.generation_utils.flowers_generator import FlowerGenerator
 
 class Command(BaseCommand):
@@ -17,11 +16,6 @@ class Command(BaseCommand):
             '--archive',
             action='store_true',
             help='Archive the current database state to JSON files.',
-        )
-        parser.add_argument(
-            '--colors',
-            action='store_true',
-            help='Generate basic colors and write to colors.json.',
         )
         parser.add_argument(
             '--flowers',
@@ -44,12 +38,6 @@ class Command(BaseCommand):
             archiver = DatabaseArchiver(command=self)
             archiver.run()
 
-        if options['colors']:
-            something_generated = True
-            self.stdout.write(self.style.SUCCESS('Generating colors.json...'))
-            generator = ColorGenerator(command=self)
-            generator.run()
-
         if options['flowers']:
             something_generated = True
             self.stdout.write(self.style.SUCCESS('Generating flowers.json...'))
@@ -58,7 +46,7 @@ class Command(BaseCommand):
 
         if not something_generated:
             self.stdout.write(self.style.WARNING(
-                'No generation flag specified. Please use --terms, --archive, --colors, or --flowers.'
+                'No generation flag specified. Please use --terms, --archive, or --flowers.'
             ))
 
 

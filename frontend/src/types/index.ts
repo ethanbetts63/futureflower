@@ -31,7 +31,6 @@ export type { PreferencesCardProps } from './PreferencesCardProps';
 export type { UserDetailsSummaryProps } from './UserDetailsSummaryProps';
 export type { ArticleCarouselProps } from './ArticleCarouselProps';
 export type { ArticleLayoutProps } from './ArticleLayoutProps';
-export type { ColorSwatchProps } from './ColorSwatchProps';
 export type { DeliveryDatesCardProps } from './DeliveryDatesCardProps';
 export type { EditButtonProps } from './EditButtonProps';
 export type { FaqV2Props } from './FaqV2Props';
@@ -64,7 +63,6 @@ export type { SubscriptionStructureData } from './SubscriptionStructureData';
 export type { SubscriptionStructureFormProps } from './SubscriptionStructureFormProps';
 export type { CreatePaymentIntentPayload } from './CreatePaymentIntentPayload';
 export type { Payment } from './Payment';
-export type { Color } from './Color';
 export type { FlowerType } from './FlowerType';
 export type { UpfrontPlan } from './UpfrontPlan';
 export type { CreateUpfrontPlanPayload } from './CreateUpfrontPlanPayload';
@@ -99,4 +97,3 @@ export type {
 } from './Partner';
 export type { DeliveryRequestDetail } from './DeliveryRequest';
 export type { Payout, PayoutDetail, PayoutLineItem } from './Payout';
-

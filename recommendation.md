@@ -47,7 +47,7 @@ Ideas for reducing complexity across the project, organized by scope.
 ## Frontend
 
 ### 9. No client-side data caching
-Every page re-fetches data on navigation. Plan details, colors, flower types, and user profile are fetched fresh each time. Consider React Query or SWR for caching and deduplication.
+Every page re-fetches data on navigation. Plan details, flower types, and user profile are fetched fresh each time. Consider React Query or SWR for caching and deduplication.
 
 ### 10. No error boundaries
 No React Error Boundary components. A crash in any component takes down the entire app. Add error boundaries around major route sections.
