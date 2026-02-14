@@ -6,7 +6,7 @@ class PartnerUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Partner
         fields = [
-            'business_name', 'phone',
+            'business_name', 'phone', 'booking_slug',
             'street_address', 'suburb', 'city', 'state', 'postcode', 'country',
             'latitude', 'longitude', 'service_radius_km',
         ]

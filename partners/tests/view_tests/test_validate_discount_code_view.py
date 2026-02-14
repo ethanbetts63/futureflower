@@ -29,3 +29,19 @@ class TestValidateDiscountCodeView:
     def test_validate_non_existent_code(self):
         response = self.client.post(self.url, {"code": "NOSUCHCODE"}, format='json')
         assert response.status_code == 400
+
+    def test_validate_already_customer_fails(self):
+        from users.tests.factories.user_factory import UserFactory
+        from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
+        from payments.tests.factories.payment_factory import PaymentFactory
+        
+        user = UserFactory()
+        self.client.force_authenticate(user=user)
+        plan = UpfrontPlanFactory(user=user)
+        PaymentFactory(user=user, order=plan.orderbase_ptr, status='succeeded')
+        
+        dc = DiscountCodeFactory(code="NEWBIE")
+        response = self.client.post(self.url, {"code": "NEWBIE"}, format='json')
+        
+        assert response.status_code == 400
+        assert "only available for new customers" in response.data['code'][0].lower()

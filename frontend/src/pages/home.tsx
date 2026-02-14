@@ -65,7 +65,6 @@ const HomePage = () => {
       </section>
 
       <OfferingSection />
-      <ComparisonSection />
 
       {/* --- Main Content & Sticky Sidebar --- */}
       <div className="bg-[var(--color4)] py-8">
@@ -89,6 +88,7 @@ const HomePage = () => {
         </div>
       </div>
 
+      <div className="pt-8"><ComparisonSection /></div>
 
       <RomanceSection />
       <DeliverySection />
