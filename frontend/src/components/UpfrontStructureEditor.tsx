@@ -155,20 +155,6 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
                             onFormChange={handleFormChange}
                             setIsDebouncePending={setIsDebouncePending}
                         />
-                        <div className="mt-8 text-center h-12 flex flex-col items-center justify-center">
-                            {(isApiCalculating || isDebouncePending) ? (
-                                <Spinner className="h-8 w-8" />
-                            ) : amountOwing !== null ? (
-                                <>
-                                    <div className="text-2xl font-bold">${amountOwing.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                                    <p className="text-xs text-gray-600">
-                                        {mode === 'edit' ? 'Amount to pay for this change' : 'Total amount for this plan'} (inc. fees)
-                                    </p>
-                                </>
-                            ) : calculationError ? (
-                                 <div className="text-red-500 text-sm">{calculationError}</div>
-                            ) : null}
-                        </div>
                     </CardContent>
                     <CardFooter className="flex justify-between">
                         <BackButton to={backPath} />
