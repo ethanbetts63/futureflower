@@ -8,10 +8,10 @@ import BackButton from '@/components/BackButton';
 import PlanStructureCard from '@/components/PlanStructureCard';
 import DeliveryDatesCard from '@/components/DeliveryDatesCard';
 import PreferencesCard from '@/components/PreferencesCard';
-import MessagesCard from '@/components/MessagesCard';
+import MessagesCard from '@/components/form_flow/MessagesCard';
 import PlanDisplay from '@/components/PlanDisplay';
-import PaymentInitiatorButton from '@/components/PaymentInitiatorButton';
-import DiscountCodeInput from '@/components/DiscountCodeInput';
+import PaymentInitiatorButton from '@/components/form_flow/PaymentInitiatorButton';
+import DiscountCodeInput from '@/components/form_flow/DiscountCodeInput';
 
 import { getUpfrontPlan } from '@/api';
 import type { UpfrontPlan } from '../../types/UpfrontPlan';

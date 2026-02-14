@@ -8,12 +8,12 @@ import BackButton from '@/components/BackButton';
 import PreferencesCard from '@/components/PreferencesCard';
 import RecipientCard from '@/components/RecipientCard';
 import PlanDisplay from '@/components/PlanDisplay';
-import SingleDeliveryStructureCard from '@/components/SingleDeliveryStructureCard';
+import SingleDeliveryStructureCard from '@/components/form_flow/SingleDeliveryStructureCard';
 
 import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
 import type { Plan, FlowerType, UpfrontPlan } from '@/types';
 
-import PaymentInitiatorButton from '@/components/PaymentInitiatorButton';
+import PaymentInitiatorButton from '@/components/form_flow/PaymentInitiatorButton';
 
 
 const Step5ConfirmationPage = () => {

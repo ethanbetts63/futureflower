@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import PreferencesEditor from '@/components/PreferencesEditor';
-import StepProgressBar from '@/components/StepProgressBar';
+import PreferencesEditor from '@/components/form_flow/PreferencesEditor';
+import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
 
 const Step3PreferenceSelectionPage: React.FC = () => {

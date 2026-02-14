@@ -7,13 +7,13 @@ import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getFlowerTypes } from '@/api';
-import type { FlowerType } from '../types/FlowerType';
+import type { FlowerType } from '../../types/FlowerType';
 
 import { VibePicker } from '@/components/VibePicker';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import BackButton from '@/components/BackButton';
-import type { PreferencesEditorProps } from '../types/PreferencesEditorProps';
+import type { PreferencesEditorProps } from '../../types/PreferencesEditorProps';
 
 const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
     mode,

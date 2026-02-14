@@ -6,8 +6,8 @@ import { Spinner } from '@/components/ui/spinner';
 import EditButton from '@/components/EditButton';
 import { getProjectedDeliveries } from '@/api';
 import type { ProjectedDelivery } from '@/api/upfrontPlans';
-import type { DeliveryEvent } from '../types/DeliveryEvent';
-import type { MessagesCardProps } from '../types/MessagesCardProps';
+import type { DeliveryEvent } from '../../types/DeliveryEvent';
+import type { MessagesCardProps } from '../../types/MessagesCardProps';
 
 const MessagesCard: React.FC<MessagesCardProps> = ({ plan, editUrl }) => {
     const hasEvents = (plan.events?.length ?? 0) > 0;

@@ -1,13 +1,7 @@
 import React from 'react';
-
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import EditButton from '@/components/EditButton';
-
-
-
-
 import type { UserDetailsSummaryProps } from '../types/UserDetailsSummaryProps';
 
 const UserDetailsSummary: React.FC<UserDetailsSummaryProps> = ({ user }) => {

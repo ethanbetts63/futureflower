@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowDown } from 'lucide-react';
-import { BecomePartnerButton } from './BecomePartnerButton';
+import { BecomePartnerButton } from './florists_page/BecomePartnerButton';
 
 import deliveryImage from '../assets/delivery.webp';
 import deliveryImage320 from '../assets/delivery-320w.webp';

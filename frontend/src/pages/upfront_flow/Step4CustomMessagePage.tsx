@@ -2,7 +2,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import MessagesEditor from '@/components/form_flow/MessagesEditor';
-import StepProgressBar from '@/components/StepProgressBar';
+import StepProgressBar from '@/components/form_flow/StepProgressBar';
 
 const Step4CustomMessagePage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();

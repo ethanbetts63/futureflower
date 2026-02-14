@@ -9,7 +9,7 @@ import RecipientCard from '@/components/RecipientCard';
 import PaymentHistoryCard from '@/components/PaymentHistoryCard';
 import PlanActivationBanner from '@/components/PlanActivationBanner';
 import PlanDisplay from '@/components/PlanDisplay';
-import SubscriptionStructureCard from '@/components/SubscriptionStructureCard';
+import SubscriptionStructureCard from '@/components/form_flow/SubscriptionStructureCard';
 import { getSubscriptionPlan } from '@/api';
 import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
 import type { Plan } from '../../../types/Plan';

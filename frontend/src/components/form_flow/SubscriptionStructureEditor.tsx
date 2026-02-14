@@ -1,4 +1,4 @@
-// frontend/src/components/SingleDeliveryStructureEditor.tsx
+// futureflower/frontend/src/components/SubscriptionStructureEditor.tsx
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -7,14 +7,14 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery, calculateUpfrontPlanSingleDeliveryPrice } from '@/api/singleDeliveryPlans';
-import type { UpfrontPlan } from '../types/UpfrontPlan';
-import type { PartialUpfrontPlan } from '../types/PartialUpfrontPlan';
-import SingleDeliveryStructureForm from '@/forms/SingleDeliveryStructureForm';
-import type { SingleDeliveryStructureData } from '../types/SingleDeliveryStructureData';
+import { getSubscriptionPlan, updateSubscriptionPlan, calculateSubscriptionPrice } from '@/api';
+import type { SubscriptionPlan } from '../../types/SubscriptionPlan';
+import type { PartialSubscriptionPlan } from '../../types/PartialSubscriptionPlan';
+import SubscriptionStructureForm from '@/forms/SubscriptionStructureForm';
+import type { SubscriptionStructureData } from '../../types/SubscriptionStructureData';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
-import type { SingleDeliveryStructureEditorProps } from '../types/SingleDeliveryStructureEditorProps';
+import type { SubscriptionStructureEditorProps } from '../../types/SubscriptionStructureEditorProps';
 
 const getMinDateString = () => {
     const minDate = new Date();
@@ -22,7 +22,7 @@ const getMinDateString = () => {
     return minDate.toISOString().split('T')[0];
 };
 
-const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps> = ({
+const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = ({
     mode,
     title,
     description,
@@ -34,31 +34,34 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
 
-    const [formData, setFormData] = useState<SingleDeliveryStructureData>({
+    const [formData, setFormData] = useState<SubscriptionStructureData>({
         budget: 75,
+        frequency: 'annually',
         start_date: getMinDateString(),
-        card_message: '',
+        subscription_message: '',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     
-    const [totalAmount, setTotalAmount] = useState<number | null>(null);
+    const [pricePerDelivery, setPricePerDelivery] = useState<number | null>(null);
     const [isApiCalculating, setIsApiCalculating] = useState(false);
     const [isDebouncePending, setIsDebouncePending] = useState(true);
 
     useEffect(() => {
         if (!planId) {
+            toast.error("Plan ID is missing.");
             navigate('/dashboard');
             return;
         }
 
         setIsLoading(true);
-        getUpfrontPlanAsSingleDelivery(planId)
-            .then((plan: UpfrontPlan) => {
+        getSubscriptionPlan(planId)
+            .then((plan: SubscriptionPlan) => {
                 setFormData({
                     budget: Number(plan.budget) || 75,
+                    frequency: plan.frequency || 'annually',
                     start_date: plan.start_date || getMinDateString(),
-                    card_message: plan.draft_card_messages?.['0'] || '',
+                    subscription_message: plan.subscription_message || '',
                 });
             })
             .catch(error => {
@@ -72,11 +75,11 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
         if (!planId) return;
         setIsDebouncePending(false);
         setIsApiCalculating(true);
-        setTotalAmount(null);
+        setPricePerDelivery(null);
 
         try {
-            const data = await calculateUpfrontPlanSingleDeliveryPrice(planId, budget);
-            setTotalAmount(data.new_total_price);
+            const data = await calculateSubscriptionPrice(planId, budget);
+            setPricePerDelivery(data.price_per_delivery);
         } catch (err: any) {
             toast.error("Price Calculation Error", { description: err.message });
         } finally {
@@ -94,34 +97,31 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
         return () => debouncedCalculate.cancel?.();
     }, [formData.budget, isLoading, debouncedCalculate]);
 
-    const handleFormChange = (field: keyof SingleDeliveryStructureData, value: number | string) => {
-        setFormData((prev: SingleDeliveryStructureData) => ({ ...prev, [field]: value }));
+    const handleFormChange = (field: keyof SubscriptionStructureData, value: number | string) => {
+        setFormData((prev: SubscriptionStructureData) => ({ ...prev, [field]: value }));
     };
 
     const handleSave = async () => {
-        if (!planId || typeof totalAmount !== 'number') {
+        if (!planId || pricePerDelivery === null) {
             toast.error("Please wait for the price to be calculated.");
             return;
         }
 
         setIsSaving(true);
         try {
-            const payload: PartialUpfrontPlan = {
+            const payload: PartialSubscriptionPlan = {
+                ...formData,
                 budget: String(formData.budget),
-                start_date: formData.start_date,
-                frequency: 'annually',
-                years: 1,
-                total_amount: totalAmount,
-                draft_card_messages: { '0': formData.card_message },
+                price_per_delivery: pricePerDelivery,
             };
-            await updateUpfrontPlanAsSingleDelivery(planId, payload);
+            await updateSubscriptionPlan(planId, payload);
             
             if (mode === 'edit') {
-                toast.success("Plan details updated successfully!");
+                toast.success("Plan structure updated successfully!");
             }
             navigate(onSaveNavigateTo.replace('{planId}', planId));
         } catch (err: any) {
-            toast.error("Failed to save plan details.", { description: err.message });
+            toast.error("Failed to save plan structure.", { description: err.message });
         } finally {
             setIsSaving(false);
         }
@@ -141,7 +141,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                         <CardDescription>{description}</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-8">
-                        <SingleDeliveryStructureForm
+                        <SubscriptionStructureForm
                             formData={formData}
                             onFormChange={handleFormChange}
                             setIsDebouncePending={setIsDebouncePending}
@@ -149,7 +149,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                     </CardContent>
                     <CardFooter className="flex justify-between">
                         <BackButton to={backPath.replace('{planId}', planId || '')} />
-                        <Button size="lg" onClick={handleSave} disabled={isSaving || isApiCalculating || isDebouncePending || typeof totalAmount !== 'number'}>
+                        <Button size="lg" onClick={handleSave} disabled={isSaving || isApiCalculating || isDebouncePending || pricePerDelivery === null}>
                             {isSaving ? <Spinner className="mr-2 h-4 w-4 animate-spin" /> : null}
                             {isSaving ? 'Saving...' : saveButtonText}
                         </Button>
@@ -160,4 +160,4 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     );
 };
 
-export default SingleDeliveryStructureEditor;
+export default SubscriptionStructureEditor;

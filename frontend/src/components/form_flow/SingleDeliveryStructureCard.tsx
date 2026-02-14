@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Calendar, MessageSquare, StickyNote } from 'lucide-react';
 import EditButton from '@/components/EditButton';
 import { formatDate } from '@/utils/utils';
-import type { SingleDeliveryStructureCardProps } from '../types/SingleDeliveryStructureCardProps';
+import type { SingleDeliveryStructureCardProps } from '../../types/SingleDeliveryStructureCardProps';
 
 const SingleDeliveryStructureCard: React.FC<SingleDeliveryStructureCardProps> = ({ plan, editUrl }) => {
     // For a single delivery, the message is the first entry in draft_card_messages (index "0")

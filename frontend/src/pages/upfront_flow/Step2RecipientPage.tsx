@@ -1,7 +1,7 @@
 // futureflower/frontend/src/pages/flow/Step2RecipientPage.tsx
 import React from 'react';
-import RecipientEditor from '@/components/RecipientEditor';
-import StepProgressBar from '@/components/StepProgressBar';
+import RecipientEditor from '@/components/form_flow/RecipientEditor';
+import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import { getUpfrontPlan, updateUpfrontPlan } from '@/api';
 
 const Step2RecipientPage: React.FC = () => {

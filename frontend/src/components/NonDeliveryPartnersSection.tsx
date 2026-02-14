@@ -1,6 +1,6 @@
 import React from 'react';
 import { Check } from 'lucide-react';
-import { BecomePartnerButton } from './BecomePartnerButton';
+import { BecomePartnerButton } from './florists_page/BecomePartnerButton';
 
 import kitchenImage from '../assets/kitchen.webp';
 import kitchenImage320 from '../assets/kitchen-320w.webp';

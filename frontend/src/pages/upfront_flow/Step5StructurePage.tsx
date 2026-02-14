@@ -2,7 +2,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import UpfrontStructureEditor from '@/components/UpfrontStructureEditor';
-import StepProgressBar from '@/components/StepProgressBar';
+import StepProgressBar from '@/components/form_flow/StepProgressBar';
 
 const Step5StructurePage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();

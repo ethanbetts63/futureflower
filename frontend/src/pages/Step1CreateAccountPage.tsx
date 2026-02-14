@@ -10,7 +10,7 @@ import type { ProfileCreationData } from '../types/ProfileCreationData';
 import { registerUser } from '@/api';
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
-import StepProgressBar from '@/components/StepProgressBar';
+import StepProgressBar from '@/components/form_flow/StepProgressBar';
 
 const FLOW_CONFIG: Record<string, { planName: string; totalSteps: number }> = {
     'subscription': { planName: 'Subscription Plan', totalSteps: 4 },

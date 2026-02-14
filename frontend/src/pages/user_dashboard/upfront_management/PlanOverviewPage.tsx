@@ -6,7 +6,7 @@ import BackButton from '@/components/BackButton';
 import PlanStructureCard from '@/components/PlanStructureCard';
 import DeliveryDatesCard from '@/components/DeliveryDatesCard';
 import PreferencesCard from '@/components/PreferencesCard';
-import MessagesCard from '@/components/MessagesCard';
+import MessagesCard from '@/components/form_flow/MessagesCard';
 import RecipientCard from '@/components/RecipientCard';
 import PaymentHistoryCard from '@/components/PaymentHistoryCard';
 import PlanActivationBanner from '@/components/PlanActivationBanner';

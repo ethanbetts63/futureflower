@@ -4,9 +4,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
-import type { PartialUpfrontPlan } from '../types/PartialUpfrontPlan';
-import type { PartialSubscriptionPlan } from '../types/PartialSubscriptionPlan';
-import type { RecipientData } from '../types/RecipientData';
+import type { PartialUpfrontPlan } from '../../types/PartialUpfrontPlan';
+import type { PartialSubscriptionPlan } from '../../types/PartialSubscriptionPlan';
+import type { RecipientData } from '../../types/RecipientData';
 import RecipientForm from '@/forms/RecipientForm';
 import Seo from '@/components/Seo';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -15,7 +15,7 @@ import { Spinner } from '@/components/ui/spinner';
 import BackButton from '@/components/BackButton';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import type { RecipientEditorProps } from '../types/RecipientEditorProps';
+import type { RecipientEditorProps } from '../../types/RecipientEditorProps';
 
 
 type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
