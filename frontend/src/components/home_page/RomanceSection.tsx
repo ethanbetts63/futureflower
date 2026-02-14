@@ -1,10 +1,10 @@
 import React from 'react';
-import kitchenImage from '../assets/kitchen.webp';
-import kitchenImage320 from '../assets/kitchen-320w.webp';
-import kitchenImage640 from '../assets/kitchen-640w.webp';
-import kitchenImage768 from '../assets/kitchen-768w.webp';
-import kitchenImage1024 from '../assets/kitchen-1024w.webp';
-import kitchenImage1280 from '../assets/kitchen-1280w.webp';
+import kitchenImage from '../../assets/kitchen.webp';
+import kitchenImage320 from '../../assets/kitchen-320w.webp';
+import kitchenImage640 from '../../assets/kitchen-640w.webp';
+import kitchenImage768 from '../../assets/kitchen-768w.webp';
+import kitchenImage1024 from '../../assets/kitchen-1024w.webp';
+import kitchenImage1280 from '../../assets/kitchen-1280w.webp';
 import { Check } from 'lucide-react';
 
 const features = [

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import placeholderImg from '../assets/florist_packing.webp';
-import flowerIcon from '../assets/flower_symbol.svg';
-import subscriptionIconWhite from '../assets/subscription_symbol_white.svg';
+import placeholderImg from '../../assets/florist_packing.webp';
+import flowerIcon from '../../assets/flower_symbol.svg';
+import subscriptionIconWhite from '../../assets/subscription_symbol_white.svg';
 import FreeDeliveryBadge from './FreeDeliveryBadge';
 
 const OfferingSection: React.FC = () => {
