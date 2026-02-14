@@ -17,7 +17,7 @@ A birthday, an anniversary, or just a Tuesday. Pick the date and the occasion â€
 ### 2. We find the perfect florist.
 Our local partners hand-pick seasonal stems and craft a bouquet tailored to your preferences, wherever your recipient is.
 
-### 3. They open the door.
+### 3. Straight to your door.
 Fresh flowers arrive on the exact day you chose. No reminders needed, no effort required. Just the look on their face.
 
 ## Founder's Letter

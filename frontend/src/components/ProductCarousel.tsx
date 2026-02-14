@@ -19,7 +19,7 @@ const steps = [
   },
   {
     level: 3,
-    title: 'They open the door.',
+    title: 'Straight to your door.',
     description:
       'Fresh flowers arrive on the exact day you chose. No reminders needed, no effort required. Just the look on their face.',
     image: deliveryHighImage,
@@ -37,7 +37,7 @@ export const ProductCarousel = () => {
           </h2>
           <p className="mt-3 text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
             Meaningful flowers on meaningful dates, minus the effort. One
-            decision is all it takes.
+            decision, no hassle.
           </p>
         </div>
 
