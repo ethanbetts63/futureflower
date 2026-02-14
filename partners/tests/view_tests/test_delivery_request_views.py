@@ -13,7 +13,7 @@ class TestDeliveryRequestViews:
 
     def test_detail_view_success(self):
         dr = DeliveryRequestFactory()
-        url = f"/api/partners/delivery-requests/{dr.token}/"
+        url = f"/api/partners/delivery-requests/{dr.token}/details/"
         response = self.client.get(url)
         assert response.status_code == 200
         assert response.data['id'] == dr.id
