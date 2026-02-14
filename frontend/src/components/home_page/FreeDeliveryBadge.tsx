@@ -1,5 +1,5 @@
 import React from 'react';
-import deliveryIcon from '../assets/delivery_symbol.svg';
+import deliveryIcon from '../../assets/delivery_symbol.svg';
 
 interface FreeDeliveryBadgeProps {
   className?: string;
