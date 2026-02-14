@@ -13,6 +13,7 @@ import heroMobileImage640 from '../assets/hero2_mobile-640w.webp';
 import heroMobileImage768 from '../assets/hero2_mobile-768w.webp';
 import heroMobileImage1024 from '../assets/hero2_mobile-1024w.webp';
 import heroMobileImage1280 from '../assets/hero2_mobile-1280w.webp';
+import deliveryIcon from '../assets/delivery_symbol.svg';
 
 export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
   const navigate = useNavigate();
@@ -46,11 +47,19 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
 
       {/* Free Delivery Badge */}
       <div className="absolute top-8 right-6 sm:top-12 sm:right-12 z-10">
-        <div className="bg-white/95 backdrop-blur-sm rounded-full px-5 py-3 shadow-lg flex items-center gap-2.5">
-          <svg className="h-5 w-5 text-[var(--colorgreen)] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-          <span className="text-sm font-semibold text-gray-900 tracking-tight">Free Delivery</span>
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl px-6 py-5 shadow-xl flex items-center gap-4">
+          <div className="bg-[var(--colorgreen)] rounded-xl p-3">
+            <img src={deliveryIcon} alt="" className="h-7 w-7 animate-bounce" style={{ animationDuration: '2s' }} />
+          </div>
+          <div className="flex flex-col">
+            <div className="flex items-center gap-1.5">
+              <svg className="h-4 w-4 text-[var(--colorgreen)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span className="text-base font-bold text-gray-900 uppercase tracking-wide">Free Delivery</span>
+            </div>
+            <span className="text-xs text-gray-500 mt-0.5">Included on all products</span>
+          </div>
         </div>
       </div>
 
