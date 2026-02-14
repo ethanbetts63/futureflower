@@ -27,12 +27,10 @@ class TestUpfrontPlanSerializer:
         plan = UpfrontPlanFactory(status='active')
         serializer = UpfrontPlanSerializer(instance=plan, data={'total_amount': 1000}, partial=True)
         
-        assert not serializer.is_valid()
-        assert 'total_amount' in serializer.errors or 'non_field_errors' in serializer.errors
-        # Note: The serializer raises ValidationError in update(), so we check that
+        assert serializer.is_valid()
         
         with pytest.raises(ValidationError) as excinfo:
-            serializer.update(plan, {'total_amount': 1000})
+            serializer.save()
         assert "Cannot directly update 'total_amount' for an active plan" in str(excinfo.value)
 
     def test_update_inactive_plan_allowed(self):

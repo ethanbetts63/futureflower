@@ -3,16 +3,18 @@
 ## SEO Information
 *   **Title:** FutureFlower | Flower Subscription Service
 *   **Description:** The most romantic gestures are those that plan for a future together. Choose the dates, set the budget, and we organize flower deliveries, time after time - turning one decision into a lifetime of meaningful moments.
-*   **Image Alt Text:** A woman holding a large bouquet of flowers.
+*   **Hero Image Alt Text:** A woman holding a large bouquet of flowers.
+*   **Romance Section Image Alt Text:** A beautiful bouquet of flowers on a kitchen table with a couple dancing in the background.
+*   **Delivery Section Image Alt Text:** Florist delivering a bouquet of flowers.
 
 ## Hero Section
-The gift that keeps on giving.
+The gift that *keeps* on giving.
 
 ## International Availability (Announcement Bar)
 Scrollable list of operating countries including: United Kingdom, France, Germany, Italy, Spain, Portugal, Netherlands, Belgium, Austria, Switzerland, Ireland, Sweden, Norway, Denmark, Finland, Poland, Czech Republic, Greece, Romania, Hungary, Croatia, Slovakia, Slovenia, Bulgaria, Estonia, Latvia, Lithuania, Luxembourg, Malta, Cyprus, Iceland, USA, Canada, Australia, and New Zealand.
 
 ## How It Works
-Meaningful flowers on meaningful dates, minus the effort. One decision is all it takes.
+Meaningful flowers on meaningful dates, minus the effort. One decision, no hassle.
 
 ### 1. Tell us the moment.
 A birthday, an anniversary, or just a Tuesday. Pick the date and the occasion — we take it from there.
@@ -22,6 +24,17 @@ Our local partners hand-pick seasonal stems and craft a bouquet tailored to your
 
 ### 3. Straight to your door.
 Fresh flowers arrive on the exact day you chose. No reminders needed, no effort required. Just the look on their face.
+
+## Offering Section
+
+### Annual Subscription - The Person Who Never Forgets
+Don't leave your most important gestures to a last-minute reminder.
+*   Dates, budget, done: Set it up once, we handle the rest.
+*   Milestones first, flexibility second: Annual moments by default — weekly or monthly if you want more.
+*   Thoughtful by design: Customize messages and bouquet preferences.
+
+### The One-Off Delivery
+No subscription required. Just a single, beautiful gesture for a specific date.
 
 ## Founder's Letter
 **How do I say 'I love you' when I’m no longer there to say it?**
@@ -39,24 +52,24 @@ It's for the person who wants to be known as **the one who always remembers**—
 Ethan Betts.
 *Founder and Developer*
 
-## Our Services
+## Our Services (Sidebar/Detailed View)
 
 ### Subscriptions
 Set up flowers for the dates that matter most — from annual milestones like birthdays and anniversaries, to weekly or monthly deliveries if you want more.
-*   Dates, budget, done: Set it up once, we handle the rest.
-*   Milestones first, flexibility second: Annual moments by default — weekly or monthly if you want more.
-*   Thoughtful by design: Customize messages and bouquet preferences.
+*   **Dates, budget, done:** Set it up once, we handle the rest.
+*   **Milestones first, flexibility second:** Annual moments by default — weekly or monthly if you want more.
+*   **Thoughtful by design:** Customize messages and bouquet preferences.
 
-### Prepaid Plans
+### Prepaid Flowers
 From annual milestones to regular deliveries, flowers arrive exactly when you want.
-*   Future-proofed: No renewals, no reminders, no risk of forgetting.
-*   The kind of gift people remember: Shows thoughtfulness far beyond the day it’s given.
+*   **Future-proofed:** No renewals, no reminders, no risk of forgetting.
+*   **The kind of gift people remember:** Shows thoughtfulness far beyond the day it’s given.
 
-### One-Off Scheduled Deliveries
+### One-time Bouquet Delivery
 Flowers, scheduled today, delivered on a future date you choose. No matter how distant.
-*   Made for meaningful dates: Ideal for anniversaries, birthdays, Mother’s Day, and moments you don’t want to miss.
-*   No subscription required: One bouquet, one date, nothing ongoing.
-*   100% refundable: Full refund available up to 7 days before delivery.
+*   **Made for meaningful dates:** Ideal for anniversaries, birthdays, Mother’s Day, and moments you don’t want to miss.
+*   **No subscription required:** One bouquet, one date, nothing ongoing.
+*   **100% refundable:** Full refund available up to 7 days before delivery.
 
 ## Romance Section
 The art of thoughtful giving.
@@ -64,7 +77,7 @@ The art of thoughtful giving.
 *   Planning ahead means choosing reliability.
 *   Set it up once. We handle the coordination and logistics from there.
 
-Because there's nothing less romantic than forgetting.
+*Because there's nothing less romantic than forgetting.*
 
 ## Delivery Section
 Delivery, handled properly.
@@ -72,7 +85,7 @@ Delivery, handled properly.
 *   Addresses, dates, and delivery frequency can be changed at any time. Plans can be adjusted or cancelled with ease.
 *   Each bouquet can include a personalised message, written once and updated whenever you like. Bouquet preferences are completely within your control.
 
-Our role is simple: make sure quality flowers arrive, every time.
+**Our role is simple:** *make sure quality flowers arrive, every time.*
 
 ## Frequently Asked Questions
 

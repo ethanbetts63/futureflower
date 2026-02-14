@@ -15,6 +15,7 @@ class UpfrontPlanFactory(DjangoModelFactory):
     years = Faker('random_int', min=1, max=10)
     total_amount = Faker('pydecimal', left_digits=3, right_digits=2, positive=True, min_value=100, max_value=999) # Changed left_digits to 3 and max_value to 999
     currency = 'usd'
+    start_date = Faker('future_date')
     recipient_first_name = Faker('first_name')
     recipient_last_name = Faker('last_name')
     recipient_street_address = Faker('address')

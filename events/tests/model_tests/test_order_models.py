@@ -10,13 +10,13 @@ class TestOrderModels:
         assert plan.status == 'pending_payment'
         assert plan.budget == 100
         assert plan.years == 2
-        assert str(plan).startswith("UpfrontPlan")
+        assert str(plan).startswith("Upfront Plan")
 
     def test_subscription_plan_creation(self):
         plan = SubscriptionPlanFactory(budget=80, price_per_delivery=95)
         assert plan.status == 'pending_payment'
         assert plan.price_per_delivery == 95
-        assert str(plan).startswith("SubscriptionPlan")
+        assert str(plan).startswith("Subscription Plan")
 
     def test_order_base_get_child_instance_upfront(self):
         upfront = UpfrontPlanFactory()
@@ -34,7 +34,9 @@ class TestOrderModels:
 
     def test_order_base_str_representation(self):
         upfront = UpfrontPlanFactory()
+        # OrderBase.__str__ uses __class__.__name__ which is "UpfrontPlan"
         assert str(upfront.orderbase_ptr).startswith("UpfrontPlan")
         
         sub = SubscriptionPlanFactory()
+        # OrderBase.__str__ uses __class__.__name__ which is "SubscriptionPlan"
         assert str(sub.orderbase_ptr).startswith("SubscriptionPlan")
