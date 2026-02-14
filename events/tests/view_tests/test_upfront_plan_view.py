@@ -76,3 +76,18 @@ class TestUpfrontPlanViewSet:
         response = self.client.get(url)
         assert response.status_code == 200
         assert response.data is None
+
+    def test_filter_exclude_single_delivery(self):
+        # Single delivery plan (1 year, annually)
+        UpfrontPlanFactory(user=self.user, years=1, frequency='annually')
+        # Multi-year plan
+        UpfrontPlanFactory(user=self.user, years=5, frequency='quarterly')
+        
+        # Default: returns all
+        response = self.client.get(self.url)
+        assert len(response.data) == 2
+        
+        # Filtered: exclude single delivery
+        response = self.client.get(f"{self.url}?exclude_single_delivery=true")
+        assert len(response.data) == 1
+        assert response.data[0]['years'] == 5

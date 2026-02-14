@@ -31,6 +31,18 @@ An individual flower delivery within a plan. Auto-generated for upfront plans on
 ### FlowerType
 Simple reference table for customer flower preferences. Populated via management commands from JSON data files.
 
+## Testing
+
+The `events` app is covered by a comprehensive suite of tests:
+
+- **Model Tests:** Verifies `OrderBase`, `UpfrontPlan`, and `SubscriptionPlan` creation and string representations.
+- **Util Tests:** Covers pricing calculators, fee calculations, and delivery date projections.
+- **Serializer Tests:** Validates `UpfrontPlanSerializer` logic, including start date validation and update restrictions on active plans.
+- **View Tests:** Tests `UpfrontPlanViewSet`, `SubscriptionPlanViewSet`, `EventViewSet`, `FlowerTypeViewSet`, and public pricing endpoints. Includes authentication and ownership checks.
+- **Integration Tests:** Verifies that delivery `Event` objects are correctly generated upon successful payment (via mocked Stripe webhooks).
+
+Run tests using: `pytest events/tests`
+
 ### Discount
 Promotional discount codes linked to florist partners. Currently schema-only (not yet integrated into order/payment flow).
 
