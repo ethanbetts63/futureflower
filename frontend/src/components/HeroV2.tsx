@@ -14,6 +14,8 @@ import heroMobileImage768 from '../assets/hero2_mobile-768w.webp';
 import heroMobileImage1024 from '../assets/hero2_mobile-1024w.webp';
 import heroMobileImage1280 from '../assets/hero2_mobile-1280w.webp';
 import deliveryIcon from '../assets/delivery_symbol.svg';
+import flowerIcon from '../assets/flower_symbol.svg';
+import subscriptionIcon from '../assets/subscription_symbol.svg';
 
 export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
   const navigate = useNavigate();
@@ -78,9 +80,12 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
             onClick={() => handleNav('/event-gate/single-delivery')}
             className="w-full flex items-center justify-between bg-[var(--colorgreen)] text-black font-semibold px-6 py-4 rounded-lg hover:brightness-110 transition-all cursor-pointer group shadow-lg"
           >
-            <div className="text-left">
-              <span className="block text-base">Send Flowers</span>
-              <span className="block text-xs font-normal text-black/60">One-time delivery for a specific date</span>
+            <div className="flex items-center gap-4">
+              <img src={flowerIcon} alt="" className="h-8 w-8" />
+              <div className="text-left">
+                <span className="block text-base">Send Flowers</span>
+                <span className="block text-xs font-normal text-black/60">One-time delivery for a specific date</span>
+              </div>
             </div>
             <svg className="h-5 w-5 text-black/40 group-hover:text-black transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
           </button>
@@ -89,9 +94,14 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
             onClick={() => handleNav('/event-gate/subscription')}
             className="w-full flex items-center justify-between bg-white text-black font-semibold px-6 py-4 rounded-lg hover:bg-gray-100 transition-all cursor-pointer group shadow-lg"
           >
-            <div className="text-left">
-              <span className="block text-base">Flower Subscriptions</span>
-              <span className="block text-xs font-normal text-gray-500">Recurring flowers for every date that matters</span>
+            <div className="flex items-center gap-4">
+              <div className="flex -space-x-4">
+                <img src={subscriptionIcon} alt="" className="h-8 w-8" />
+              </div>
+              <div className="text-left">
+                <span className="block text-base">Flower Subscriptions</span>
+                <span className="block text-xs font-normal text-gray-500">Recurring flowers for every date that matters</span>
+              </div>
             </div>
             <svg className="h-5 w-5 text-gray-400 group-hover:text-black transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
           </button>
