@@ -75,7 +75,7 @@ const ComparisonSection: React.FC = () => (
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-[var(--colorgreen)] rounded-full"></div>
-                <span>Goes to Flowers</span>
+                <span>Goes to Florist</span>
               </div>
             </div>
           </div>

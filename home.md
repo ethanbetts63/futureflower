@@ -77,15 +77,15 @@ Scrollable list of operating countries including: United Kingdom, France, German
 *   **Competitors Bar:**
     *   30% Commission/Fees (Credit card icon)
     *   15% Delivery Cut (Delivery icon)
-    *   55% Goes to Flowers (Flower icon)
+    *   55% Goes to Florist (Flower icon)
 *   **FutureFlower Bar:**
     *   10% Commission/Fees (Credit card icon)
-    *   90% Goes to Flowers (Flower icon)
+    *   90% Goes to Florist (Flower icon)
 
 **Legend:**
 *   Red: Commission/Fees
 *   Gray: Delivery Cut
-*   Green: Goes to Flowers
+*   Green: Goes to Florist
 
 **Extra Info:**
 *   *Then how do you make money?*
