@@ -1,7 +1,6 @@
 import React from 'react';
 import heroImage from '../assets/hero2.png';
 import { Hero } from '../components/Hero';
-import ContactDetails from '../components/ContactDetails';
 import OtherSites from '../components/OtherSites';
 import { Letter } from '../components/Letter';
 import { CtaCard } from '../components/CtaCard';
