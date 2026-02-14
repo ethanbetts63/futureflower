@@ -1,13 +1,13 @@
 import React from 'react';
 import { ArrowDown } from 'lucide-react';
-import { BecomePartnerButton } from './florists_page/BecomePartnerButton';
+import { BecomePartnerButton } from './BecomePartnerButton';
 
-import deliveryImage from '../assets/delivery.webp';
-import deliveryImage320 from '../assets/delivery-320w.webp';
-import deliveryImage640 from '../assets/delivery-640w.webp';
-import deliveryImage768 from '../assets/delivery-768w.webp';
-import deliveryImage1024 from '../assets/delivery_med.png';
-import deliveryImage1280 from '../assets/delivery_high.png';
+import deliveryImage from '../../assets/delivery.webp';
+import deliveryImage320 from '../../assets/delivery-320w.webp';
+import deliveryImage640 from '../../assets/delivery-640w.webp';
+import deliveryImage768 from '../../assets/delivery-768w.webp';
+import deliveryImage1024 from '../../assets/delivery_med.png';
+import deliveryImage1280 from '../../assets/delivery_high.png';
 
 interface HeroFloristPageProps {
   scrollToContent: () => void;

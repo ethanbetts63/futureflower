@@ -23,7 +23,7 @@ const SubscriptionEditRecipientPage = lazy(() => import('./pages/user_dashboard/
 const SubscriptionEditPreferencesPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditPreferencesPage'));
 const SubscriptionEditStructurePage = lazy(() => import('./pages/user_dashboard/subscription_management/EditStructurePage'));
 
-const EventGate = lazy(() => import('@/components/EventGate'));
+const EventGate = lazy(() => import('@/components/form_flow/EventGate'));
 const Step1CreateAccountPage = lazy(() => import('./pages/Step1CreateAccountPage'));
 
 // Upfront Flow Pages

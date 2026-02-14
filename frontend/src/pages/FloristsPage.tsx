@@ -6,9 +6,9 @@ import { SendBusinessYourWay } from '../components/florists_page/SendBusinessYou
 import { ValuePropsA } from '../components/florists_page/ValuePropsA';
 import type { FaqItem } from '@/types/FaqItem';
 import { NonDeliveryPartnersSection } from '../components/florists_page/NonDeliveryPartnersSection';
-import { HeroFloristPage } from '../components/HeroFloristPage';
+import { HeroFloristPage } from '../components/florists_page/HeroFloristPage';
 import { WhyFutureFlowerSection } from '../components/florists_page/WhyFutureFlowerSection';
-import { ServicesCarouselSection } from '../components/ServicesCarouselSection';
+import { ServicesCarouselSection } from '../components/florists_page/ServicesCarouselSection';
 import { SoWhatsTheCatchSection } from '../components/florists_page/SoWhatsTheCatchSection';
 
 const FloristsPage = () => {

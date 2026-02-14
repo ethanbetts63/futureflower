@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import Seo from '../components/Seo';
+import Seo from '../Seo';
 import { getOrCreatePendingUpfrontPlan } from '@/api/upfrontPlans';
 import { getOrCreatePendingSubscriptionPlan } from '@/api/subscriptionPlans';
 import { getOrCreatePendingSingleDeliveryTypeUpfrontPlan } from '@/api/singleDeliveryPlans';
