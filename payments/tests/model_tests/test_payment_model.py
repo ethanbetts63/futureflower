@@ -10,8 +10,7 @@ def test_payment_creation():
     payment = PaymentFactory()
     assert isinstance(payment, Payment)
     assert payment.user is not None
-    assert payment.price is not None
-    assert payment.event is not None
+    assert payment.order is not None
     assert payment.stripe_payment_intent_id is not None
     assert payment.amount is not None
     assert payment.status is not None

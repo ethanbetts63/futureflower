@@ -45,6 +45,7 @@ Standard Django entry points for WSGI (production) and ASGI servers.
 2. `events` - Orders, deliveries, preferences, pricing
 3. `payments` - Stripe payment processing
 4. `data_management` - Content, blocklists, T&C, data utilities
+5. `partners` - Partner lifecycle, dashboards, and delivery requests
 
 ## Required Environment Variables
 
