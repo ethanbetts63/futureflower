@@ -39,7 +39,7 @@ const countries = [
 ];
 
 const CountryPill = ({ name, code }: { name: string; code: string }) => (
-  <span className="inline-flex items-center gap-1.5 bg-[var(--background-white)] rounded-full px-3 py-1 shadow-md text-xs font-medium text-black whitespace-nowrap flex-shrink-0">
+  <span className="inline-flex items-center gap-1.5 bg-[var(--background-white)] rounded-full px-3 py-1 text-xs font-medium text-black whitespace-nowrap flex-shrink-0">
     <span className={`fi fi-${code}`} style={{ fontSize: '0.9em' }} />
     {name}
   </span>
