@@ -4,8 +4,11 @@
 *   **Logo/Title:** FUTUREFLOWER
 *   **Buttons:**
     *   Login
-    *   Order (Includes icon: Arrow pointing right)
-    *   *If authenticated:* Dashboard (Includes icon: Settings cog), Logout (Includes icon: Logout)
+    *   Order (Includes icon: Flower symbol and Arrow pointing right)
+    *   *If authenticated:* 
+        *   Dashboard (Includes icon: Settings cog)
+        *   Logout (Includes icon: Logout)
+        *   Order (Includes icon: Flower symbol and Arrow pointing right)
 
 ## SEO Information
 *   **Title:** FutureFlower | Flower Subscription Service
@@ -18,7 +21,6 @@
 *   **Free Delivery Badge:**
     *   Text: FREE DELIVERY
     *   Subtext: Included on all products
-    *   Icon: Bouncing delivery truck
 *   **Heading:** The gift that *keeps* on giving.
 *   **Subheading:** Pick a date. Pick a budget. We handle the rest.
 *   **Action Buttons:**
@@ -34,12 +36,15 @@ Scrollable list of operating countries including: United Kingdom, France, German
 
 ### 1. Tell us the moment.
 *   **Description:** A birthday, an anniversary, or just a Tuesday. Pick the date and the occasion — we take it from there.
+*   **Badge:** Numbered "1" in a black box.
 
 ### 2. We find the perfect florist.
 *   **Description:** Our local partners hand-pick seasonal stems and craft a bouquet tailored to your preferences, wherever your recipient is.
+*   **Badge:** Numbered "2" in a black box.
 
 ### 3. Straight to your door.
 *   **Description:** Fresh flowers arrive on the exact day you chose. No reminders needed, no effort required. Just the look on their face.
+*   **Badge:** Numbered "3" in a black box.
 
 ## Offering Section
 
@@ -57,7 +62,7 @@ Scrollable list of operating countries including: United Kingdom, France, German
     *   **Dates, budget, done:** Set it up once, we handle the rest.
     *   **Milestones first, flexibility second:** Annual moments by default — weekly or monthly if you want more.
     *   **Thoughtful by design:** Customize messages and bouquet preferences.
-*   **Button:** Subscribe & Secure (Includes icon and arrow)
+*   **Button:** Subscribe & Secure (Includes subscription icon and arrow)
 
 ### Right Column: One-Off Card
 *   **Heading:** The One-Off Delivery
@@ -68,11 +73,25 @@ Scrollable list of operating countries including: United Kingdom, France, German
 **Heading:** The Secret Big Platforms Don't Tell You
 **Subheading:** Just as convenient as the big networks—only we let the florists keep 100% of their earnings.
 
+### Stacked Bar Chart: Get More Bloom for Your Buck
+*   **Competitors Bar:**
+    *   30% Commission/Fees (Credit card icon)
+    *   15% Delivery Cut (Delivery icon)
+    *   55% Goes to Flowers (Flower icon)
+*   **FutureFlower Bar:**
+    *   10% Commission/Fees (Credit card icon)
+    *   90% Goes to Flowers (Flower icon)
+
+**Legend:**
+*   Red: Commission/Fees
+*   Gray: Delivery Cut
+*   Green: Goes to Flowers
+
 **Extra Info:**
 *   *Then how do you make money?*
-*   We charge a transparent 10% fee. Our competitors slip a 20–30% commission into the order. That's how we are cheaper than our competitors and can still give florists 100% of the flower budget.
+*   We charge a transparent 10% fee. Our competitors slip a 20–30% commission into the order. That's how we can be cheaper and still give florists 100% of the flower budget.
 
-**Table:** "How Big Online Platforms Compare" (Located above the table in the right column)
+**Table:** "How Big Online Platforms Compare"
 
 | Feature | Big Networks | FutureFlower |
 | :--- | :--- | :--- |
@@ -112,20 +131,22 @@ Scrollable list of operating countries including: United Kingdom, France, German
 *   **Answer:** Currently we operate in the EU (Europe), United Kingdom, North America (USA & Canada), Australia and New Zealand.
 
 ## From the FutureFlower Blog (Article Carousel)
-*   **Heading:** From the FutureFlower Blog
-*   **Subheading:** Insights and guides for long-term floral planning.
-*   **Articles:**
-    *   The Best Flower Subscription Services in the United States (2026 Guide)
-    *   The Best Flower Subscription Services in Australia (2026 Guide)
-    *   The Best Flower Subscription Services in the United Kingdom (2026 Guide)
-    *   The Best Flower Subscription Services in Europe (2026 Guide)
-    *   The Best Flower Subscription Services in New Zealand (2026 Guide)
-    *   The Best Flower Delivery Services in Perth (2026 Guide)
-    *   The Best Flower Delivery Services in Sydney (2026 Guide)
-    *   The Best Flower Delivery Services in Adelaide (2026 Guide)
-    *   The Best Flower Delivery Services in Darwin (2026 Guide)
-    *   The Best Flower Delivery Services in Melbourne (2026 Guide)
-*   **Button:** See more blog posts
+**Heading:** From the FutureFlower Blog
+**Subheading:** Insights and guides for long-term floral planning.
+
+**Articles:**
+*   The Best Flower Subscription Services in the United States (2026 Guide)
+*   The Best Flower Subscription Services in Australia (2026 Guide)
+*   The Best Flower Subscription Services in the United Kingdom (2026 Guide)
+*   The Best Flower Subscription Services in Europe (2026 Guide)
+*   The Best Flower Subscription Services in New Zealand (2026 Guide)
+*   The Best Flower Delivery Services in Perth (2026 Guide)
+*   The Best Flower Delivery Services in Sydney (2026 Guide)
+*   The Best Flower Delivery Services in Adelaide (2026 Guide)
+*   The Best Flower Delivery Services in Darwin (2026 Guide)
+*   The Best Flower Delivery Services in Melbourne (2026 Guide)
+
+**Button:** See more blog posts
 
 ## Footer
 *   **Logo/Copyright:** © [Current Year] FutureFlower. All rights reserved.
@@ -133,4 +154,5 @@ Scrollable list of operating countries including: United Kingdom, France, German
     *   Florists
     *   Contact Us
     *   Terms & Conditions
+    *   *If Staff:* Admin Dashboard
 *   **Payment Badge:** Powered by Stripe
