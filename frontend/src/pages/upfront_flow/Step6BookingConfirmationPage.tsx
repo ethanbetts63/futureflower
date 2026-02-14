@@ -1,22 +1,21 @@
 // futureflower/frontend/src/pages/flow/Step6BookingConfirmationPage.tsx
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { CheckCircle, ArrowRight, Tag } from 'lucide-react';
+import { ArrowRight, MapPin, Calendar, Sprout, MessageSquare, Tag, Clock } from 'lucide-react';
 import Seo from '@/components/Seo';
 import BackButton from '@/components/BackButton';
-import PlanStructureCard from '@/components/PlanStructureCard';
-import DeliveryDatesCard from '@/components/DeliveryDatesCard';
-import PreferencesCard from '@/components/PreferencesCard';
-import MessagesCard from '@/components/form_flow/MessagesCard';
 import PlanDisplay from '@/components/PlanDisplay';
+import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
+import SummarySection from '@/components/form_flow/SummarySection';
+import ImpactSummary from '@/components/form_flow/ImpactSummary';
+import { Badge } from '@/components/ui/badge';
 import PaymentInitiatorButton from '@/components/form_flow/PaymentInitiatorButton';
 import DiscountCodeInput from '@/components/form_flow/DiscountCodeInput';
+import { formatDate } from '@/utils/utils';
 
 import { getUpfrontPlan } from '@/api';
 import type { UpfrontPlan } from '../../types/UpfrontPlan';
 import type { FlowerType } from '../../types/FlowerType';
-
 
 const Step6BookingConfirmationPage = () => {
   const { planId } = useParams<{ planId: string }>();
@@ -26,68 +25,124 @@ const Step6BookingConfirmationPage = () => {
   return (
     <>
       <Seo title="Confirm Your Plan | FutureFlower" />
-      <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
+      <div className="min-h-screen w-full py-12 md:py-20" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-4xl">
           <PlanDisplay getPlan={getUpfrontPlan} fallbackNavigationPath="/dashboard">
-            {({ plan, flowerTypeMap }: { plan: UpfrontPlan; flowerTypeMap: Map<number, FlowerType> }) => (
-              <div className="space-y-8">
-                <Card className="text-center w-full bg-white shadow-md border-none text-black">
-                  <CardHeader>
-                    <div className="flex justify-center items-center mb-4">
-                      <CheckCircle className="h-16 w-16 text-green-500" />
-                    </div>
-                    <CardTitle className="text-3xl">Confirm Your Flower Plan</CardTitle>
-                    <CardDescription className="text-muted-foreground">
-                      Please review the details of your plan below. This is the final step before payment.
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
+            {({ plan, flowerTypeMap }: { plan: UpfrontPlan; flowerTypeMap: Map<number, FlowerType> }) => {
+              const fullAddress = [
+                plan.recipient_street_address,
+                plan.recipient_suburb,
+                plan.recipient_city,
+                plan.recipient_state,
+                plan.recipient_postcode,
+                plan.recipient_country
+              ].filter(Boolean).join(', ');
 
-                <div className="space-y-6">
-                  <PlanStructureCard
-                    plan={plan}
-                    editUrl={`/upfront-flow/upfront-plan/${planId}/structure`}
-                  />
+              const preferredTypes = plan.preferred_flower_types
+                .map(id => flowerTypeMap.get(Number(id)))
+                .filter((ft): ft is FlowerType => !!ft);
 
-                  <DeliveryDatesCard
-                    plan={plan}
-                    editUrl={`/upfront-flow/upfront-plan/${planId}/structure`}
-                  />
+              const messages = plan.draft_card_messages || {};
+              const events = plan.events || [];
 
-                  <PreferencesCard
-                    plan={plan}
-                    flowerTypeMap={flowerTypeMap}
-                    editUrl={`/upfront-flow/upfront-plan/${planId}/preferences`}
-                  />
-
-                  <MessagesCard
-                    plan={plan}
-                    editUrl={`/upfront-flow/upfront-plan/${planId}/add-message`}
-                  />
-
-                  <Card className="bg-white shadow-md border-none text-black">
-                    <CardHeader>
-                      <CardTitle className="flex items-center"><Tag className="mr-2 h-5 w-5" />Final Price</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex justify-between items-center text-2xl font-bold">
-                        <span>Upfront Payment</span>
-                        <span>${Number(plan.total_amount).toFixed(2)}</span>
+              return (
+                <div className="space-y-10">
+                  <UnifiedSummaryCard 
+                    title="Review Your Flower Plan" 
+                    description="This is the final step before activating your flower plan. Please ensure everything is correct."
+                  >
+                    <SummarySection 
+                      label="Recipient" 
+                      editUrl={`/upfront-flow/upfront-plan/${planId}/recipient`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <MapPin className="h-5 w-5 text-black/20 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="font-bold text-lg font-['Playfair_Display',_serif]">
+                            {plan.recipient_first_name} {plan.recipient_last_name}
+                          </p>
+                          <p className="text-black/60">{fullAddress || 'No address provided'}</p>
+                        </div>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-2">This is the total amount you will be charged today to activate your plan.</p>
-                    </CardContent>
-                  </Card>
+                    </SummarySection>
 
-                  <Card className="bg-white shadow-md border-none text-black">
-                    <CardHeader>
-                      <CardTitle className="flex items-center"><Tag className="mr-2 h-5 w-5" />Discount Code</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <DiscountCodeInput onCodeValidated={(code) => setDiscountCode(code)} />
-                    </CardContent>
-                  </Card>
+                    <SummarySection 
+                      label="Plan Schedule" 
+                      editUrl={`/upfront-flow/upfront-plan/${planId}/structure`}
+                    >
+                      <div className="flex flex-col gap-4">
+                        <div className="flex items-center gap-3">
+                          <Clock className="h-5 w-5 text-black/20 flex-shrink-0" />
+                          <span className="font-bold font-['Playfair_Display',_serif] text-lg capitalize">
+                            {plan.frequency} Plan — {plan.years} {plan.years === 1 ? 'Year' : 'Years'}
+                          </span>
+                        </div>
+                        
+                        <div className="bg-black/5 rounded-2xl p-6">
+                          <h5 className="text-[10px] font-bold tracking-widest uppercase text-black/40 mb-4">Planned Deliveries</h5>
+                          <div className="space-y-4">
+                            {events.map((event, idx) => (
+                              <div key={idx} className="flex items-center justify-between border-b border-black/5 last:border-0 pb-3 last:pb-0">
+                                <div className="flex items-center gap-3">
+                                  <Calendar className="h-4 w-4 text-black/30" />
+                                  <span className="text-sm font-medium">{formatDate(event.date)}</span>
+                                </div>
+                                {messages[idx] && (
+                                  <div className="flex items-center gap-2 text-[var(--colorgreen)]">
+                                    <MessageSquare className="h-3.5 w-3.5" />
+                                    <span className="text-xs font-semibold uppercase tracking-tighter">Message Saved</span>
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </SummarySection>
 
-                  <div className="flex justify-between items-center mt-8">
+                    <SummarySection 
+                      label="Flower Preferences" 
+                      editUrl={`/upfront-flow/upfront-plan/${planId}/preferences`}
+                    >
+                      <div className="flex flex-col gap-4">
+                        <div className="flex items-start gap-3">
+                          <Sprout className="h-5 w-5 text-black/20 mt-0.5 flex-shrink-0" />
+                          <div className="flex flex-wrap gap-2">
+                            {preferredTypes.length > 0 ? (
+                              preferredTypes.map(type => (
+                                <Badge key={type.id} variant="secondary" className="bg-black/5 hover:bg-black/10 text-black border-none px-3 py-1">
+                                  {type.name}
+                                </Badge>
+                              ))
+                            ) : (
+                              <span className="text-black/40 italic">Florist's choice of seasonal blooms</span>
+                            )}
+                          </div>
+                        </div>
+                        {plan.flower_notes && (
+                          <div className="bg-black/5 p-4 rounded-xl text-sm text-black/70 italic">
+                            Notes for florist: {plan.flower_notes}
+                          </div>
+                        )}
+                      </div>
+                    </SummarySection>
+
+                    <ImpactSummary 
+                      price={Number(plan.price_per_delivery)} 
+                      editUrl={`/upfront-flow/upfront-plan/${planId}/structure`}
+                    />
+
+                    <SummarySection label="Promotions">
+                      <div className="flex items-start gap-3 mt-1">
+                        <Tag className="h-5 w-5 text-black/20 mt-1 flex-shrink-0" />
+                        <div className="flex-1">
+                          <DiscountCodeInput onCodeValidated={(code) => setDiscountCode(code)} />
+                        </div>
+                      </div>
+                    </SummarySection>
+                  </UnifiedSummaryCard>
+
+                  <div className="flex flex-col md:flex-row justify-between items-center gap-6 mt-8">
                     <BackButton to={`/upfront-flow/upfront-plan/${planId}/structure`} />
                     <PaymentInitiatorButton
                       itemType="UPFRONT_PLAN_NEW"
@@ -98,13 +153,14 @@ const Step6BookingConfirmationPage = () => {
                       onPaymentInitiate={() => setIsSubmitting(true)}
                       onPaymentError={() => setIsSubmitting(false)}
                       size="lg"
+                      className="w-full md:w-auto px-10 py-8 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all"
                     >
-                      Proceed to Payment <ArrowRight className="ml-2 h-5 w-5" />
+                      Proceed to Payment <ArrowRight className="ml-2 h-6 w-6" />
                     </PaymentInitiatorButton>
                   </div>
                 </div>
-              </div>
-            )}
+              );
+            }}
           </PlanDisplay>
         </div>
       </div>

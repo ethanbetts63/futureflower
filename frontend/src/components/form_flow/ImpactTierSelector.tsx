@@ -1,33 +1,6 @@
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
-import smallFlowers from '@/assets/small_flowers.png';
-import medFlowers from '@/assets/med_flowers.png';
-import largeFlowers from '@/assets/large_flowers.png';
-
-const tiers = [
-  {
-    name: 'The Signature',
-    price: 85,
-    description: 'A beautiful, seasonal arrangement. Perfect for keeping the romance alive.',
-    image: smallFlowers,
-  },
-  {
-    name: 'The Statement',
-    price: 150,
-    description: 'Lush, premium stems designed to make an impression. Our most popular choice.',
-    image: medFlowers,
-    badge: 'Most Popular',
-  },
-  {
-    name: 'The Grand Gesture',
-    price: 350,
-    description: 'A show-stopping display of luxury blooms for life\'s biggest milestones.',
-    image: largeFlowers,
-  },
-];
-
-const TIER_PRICES = new Set(tiers.map((t) => t.price));
-const MIN_BUDGET = 75;
+import { IMPACT_TIERS, TIER_PRICES, MIN_BUDGET } from '@/utils/pricingConstants';
 
 interface ImpactTierSelectorProps {
   value: number;
@@ -81,7 +54,7 @@ export const ImpactTierSelector: React.FC<ImpactTierSelectorProps> = ({ value, o
 
       {/* Tier cards */}
       <div className="flex gap-4 lg:gap-6 overflow-x-auto pt-2 pb-4 snap-x snap-mandatory scrollbar-hide">
-        {tiers.map((tier) => {
+        {IMPACT_TIERS.map((tier) => {
           const isSelected = value === tier.price && !showCustom;
           return (
             <button
