@@ -18,7 +18,7 @@ const OfferingSection: React.FC = () => {
   };
 
   return (
-    <section className="bg-[var(--background-white)] py-16 md:py-24">
+    <section className="bg-[var(--background-white)] pt-8 pb-8">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="bg-[#f5f0eb] border border-black/10 rounded-2xl p-6 md:p-10 lg:p-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
@@ -79,9 +79,13 @@ const OfferingSection: React.FC = () => {
 
                 <button
                   onClick={() => handleNav('/event-gate/subscription')}
-                  className="mt-8 w-full bg-black text-white font-semibold px-6 py-4 rounded-lg hover:bg-black/85 transition-colors cursor-pointer text-sm uppercase tracking-wider"
+                  className="mt-8 w-full flex items-center justify-between bg-black text-white font-semibold px-6 py-4 rounded-lg hover:bg-black/85 transition-colors cursor-pointer text-sm uppercase tracking-wider group"
                 >
-                  Subscribe & Secure
+                  <div className="flex items-center gap-2">
+                    <img src={subscriptionIconWhite} alt="" className="h-5 w-5" />
+                    <span>Subscribe & Secure</span>
+                  </div>
+                  <svg className="h-4 w-4 text-white/40 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </button>
               </div>
 

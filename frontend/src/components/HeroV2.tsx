@@ -13,9 +13,9 @@ import heroMobileImage640 from '../assets/hero2_mobile-640w.webp';
 import heroMobileImage768 from '../assets/hero2_mobile-768w.webp';
 import heroMobileImage1024 from '../assets/hero2_mobile-1024w.webp';
 import heroMobileImage1280 from '../assets/hero2_mobile-1280w.webp';
-import deliveryIcon from '../assets/delivery_symbol.svg';
 import flowerIcon from '../assets/flower_symbol.svg';
 import subscriptionIcon from '../assets/subscription_symbol.svg';
+import FreeDeliveryBadge from './FreeDeliveryBadge';
 
 export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
   const navigate = useNavigate();
@@ -48,22 +48,7 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
       </picture>
 
       {/* Free Delivery Badge */}
-      <div className="absolute top-8 right-6 sm:top-12 sm:right-12 z-10">
-        <div className="bg-white/95 backdrop-blur-md rounded-2xl px-6 py-5 shadow-xl flex items-center gap-4">
-          <div className="bg-[var(--colorgreen)] rounded-xl p-3">
-            <img src={deliveryIcon} alt="" className="h-7 w-7 animate-bounce" style={{ animationDuration: '2s' }} />
-          </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-1.5">
-              <svg className="h-4 w-4 text-[var(--colorgreen)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-              <span className="text-base font-bold text-gray-900 uppercase tracking-wide">Free Delivery</span>
-            </div>
-            <span className="text-xs text-gray-500 mt-0.5">Included on all products</span>
-          </div>
-        </div>
-      </div>
+      <FreeDeliveryBadge className="absolute top-8 right-6 sm:top-12 sm:right-12" />
 
       {/* Overlay Content */}
       <div className="relative ml-0 sm:ml-12 md:ml-24 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-black/70 p-8 sm:p-12 rounded-none sm:rounded-lg text-white">
