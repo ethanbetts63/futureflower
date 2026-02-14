@@ -2,11 +2,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import UpfrontStructureEditor from '@/components/UpfrontStructureEditor';
+import StepProgressBar from '@/components/StepProgressBar';
 
 const Step5StructurePage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();
 
     return (
+        <>
+        <StepProgressBar currentStep={5} totalSteps={5} planName="Upfront Plan" />
         <UpfrontStructureEditor
             mode="create"
             title="Define the Plan's Structure"
@@ -15,6 +18,7 @@ const Step5StructurePage: React.FC = () => {
             onSaveNavigateTo={`/upfront-flow/upfront-plan/${planId}/confirmation`}
             backPath={`/upfront-flow/upfront-plan/${planId}/add-message`}
         />
+        </>
     );
 };
 

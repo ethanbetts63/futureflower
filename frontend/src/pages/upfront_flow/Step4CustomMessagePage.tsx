@@ -2,11 +2,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import MessagesEditor from '@/components/MessagesEditor';
+import StepProgressBar from '@/components/StepProgressBar';
 
 const Step4CustomMessagePage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();
 
     return (
+        <>
+        <StepProgressBar currentStep={4} totalSteps={5} planName="Upfront Plan" />
         <MessagesEditor
             mode="create"
             title="Add Custom Messages (Optional)"
@@ -16,6 +19,7 @@ const Step4CustomMessagePage: React.FC = () => {
             backPath={`/upfront-flow/upfront-plan/${planId}/preferences`}
             showSkipButton={true}
         />
+        </>
     );
 };
 

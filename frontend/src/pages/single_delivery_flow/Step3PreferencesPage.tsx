@@ -2,12 +2,15 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import PreferencesEditor from '@/components/PreferencesEditor';
+import StepProgressBar from '@/components/StepProgressBar';
 import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
 
 const Step3PreferencesPage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();
 
     return (
+        <>
+        <StepProgressBar currentStep={3} totalSteps={4} planName="Single Delivery Plan" />
         <PreferencesEditor
             mode="create"
             title="The Florist's Brief"
@@ -19,6 +22,7 @@ const Step3PreferencesPage: React.FC = () => {
             getPlan={getUpfrontPlanAsSingleDelivery}
             updatePlan={updateUpfrontPlanAsSingleDelivery}
         />
+        </>
     );
 };
 

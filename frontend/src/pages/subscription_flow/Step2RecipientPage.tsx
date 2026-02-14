@@ -1,9 +1,12 @@
 import React from 'react';
 import RecipientEditor from '@/components/RecipientEditor';
+import StepProgressBar from '@/components/StepProgressBar';
 import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
 
 const Step2RecipientPage: React.FC = () => {
     return (
+        <>
+        <StepProgressBar currentStep={2} totalSteps={4} planName="Subscription Plan" />
         <RecipientEditor
             mode="create"
             title="Who will be receiving the flowers?"
@@ -13,6 +16,7 @@ const Step2RecipientPage: React.FC = () => {
             getPlan={getSubscriptionPlan}
             updatePlan={updateSubscriptionPlan}
         />
+        </>
     );
 };
 

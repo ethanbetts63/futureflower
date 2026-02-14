@@ -104,7 +104,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-4xl py-12">
                 <Seo title={`${title} | FutureFlower`} />
-                <Card className="text-black border-none shadow-md" style={{ backgroundColor: 'var(--backgroud-white)' }}>
+                <Card className="text-black border-none shadow-md" style={{ backgroundColor: 'var(--background-white)' }}>
                     <CardHeader>
                          <div className="flex justify-between items-start">
                             <div>

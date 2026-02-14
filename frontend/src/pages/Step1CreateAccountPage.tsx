@@ -10,6 +10,13 @@ import type { ProfileCreationData } from '../types/ProfileCreationData';
 import { registerUser } from '@/api';
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
+import StepProgressBar from '@/components/StepProgressBar';
+
+const FLOW_CONFIG: Record<string, { planName: string; totalSteps: number }> = {
+    'subscription': { planName: 'Subscription Plan', totalSteps: 4 },
+    'single-delivery': { planName: 'Single Delivery Plan', totalSteps: 4 },
+};
+const DEFAULT_FLOW = { planName: 'Upfront Plan', totalSteps: 5 };
 
 const CreateAccountPage: React.FC = () => {
     const navigate = useNavigate();
@@ -38,7 +45,13 @@ const CreateAccountPage: React.FC = () => {
         }
     };
 
+    const nextUrl = searchParams.get('next') || '';
+    const flowKey = Object.keys(FLOW_CONFIG).find(key => nextUrl.includes(key));
+    const { planName, totalSteps } = flowKey ? FLOW_CONFIG[flowKey] : DEFAULT_FLOW;
+
     return (
+        <>
+        <StepProgressBar currentStep={1} totalSteps={totalSteps} planName={planName} />
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-2xl py-12">
                 <Seo title="Create Account | FutureFlower" />
@@ -64,7 +77,8 @@ const CreateAccountPage: React.FC = () => {
                     </CardFooter>
                 </Card>
             </div>
-        </div>    
+        </div>
+        </>
     );
 };
 
