@@ -1,7 +1,7 @@
 // futureflower/frontend/src/pages/flow/Step5StructurePage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import UpfrontStructureEditor from '@/components/UpfrontStructureEditor';
+import UpfrontStructureEditor from '@/components/form_flow/UpfrontStructureEditor';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 
 const Step5StructurePage: React.FC = () => {

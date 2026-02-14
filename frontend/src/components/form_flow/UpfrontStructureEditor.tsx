@@ -12,8 +12,8 @@ import type { UpfrontPlan, PartialUpfrontPlan, PlanStructureData } from '@/types
 import PlanStructureForm from '@/forms/PlanStructureForm';
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
-import type { UpfrontStructureEditorProps } from '../types/UpfrontStructureEditorProps';
-import PaymentInitiatorButton from './form_flow/PaymentInitiatorButton';
+import type { UpfrontStructureEditorProps } from '../../types/UpfrontStructureEditorProps';
+import PaymentInitiatorButton from './PaymentInitiatorButton';
 
 const getMinDateString = () => {
     const minDate = new Date();

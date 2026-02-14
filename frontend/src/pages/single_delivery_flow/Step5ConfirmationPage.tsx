@@ -6,7 +6,7 @@ import { CheckCircle, ArrowRight, Tag } from 'lucide-react';
 import Seo from '@/components/Seo';
 import BackButton from '@/components/BackButton';
 import PreferencesCard from '@/components/PreferencesCard';
-import RecipientCard from '@/components/RecipientCard';
+import RecipientCard from '@/components/form_flow/RecipientCard';
 import PlanDisplay from '@/components/PlanDisplay';
 import SingleDeliveryStructureCard from '@/components/form_flow/SingleDeliveryStructureCard';
 

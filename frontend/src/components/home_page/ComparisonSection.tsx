@@ -1,7 +1,7 @@
 import React from 'react';
-import creditCardIcon from '../assets/credit_card_symbol.svg';
-import deliveryIcon from '../assets/delivery_symbol.svg';
-import flowerIcon from '../assets/flower_symbol.svg';
+import creditCardIcon from '../../assets/credit_card_symbol.svg';
+import deliveryIcon from '../../assets/delivery_symbol.svg';
+import flowerIcon from '../../assets/flower_symbol.svg';
 
 const rows = [
   { feature: 'Commission',       them: '20–30% per order',              us: '0%' },

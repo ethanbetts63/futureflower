@@ -1,15 +1,15 @@
 import { useRef } from 'react';
 import Seo from '../components/Seo';
 import { FaqV2 } from '../components/FaqV2';
-import { Timeline } from '../components/Timeline';
-import { SendBusinessYourWay } from '../components/SendBusinessYourWay';
-import { ValuePropsA } from '../components/ValuePropsA';
+import { Timeline } from '../components/florists_page/Timeline';
+import { SendBusinessYourWay } from '../components/florists_page/SendBusinessYourWay';
+import { ValuePropsA } from '../components/florists_page/ValuePropsA';
 import type { FaqItem } from '@/types/FaqItem';
-import { NonDeliveryPartnersSection } from '../components/NonDeliveryPartnersSection';
+import { NonDeliveryPartnersSection } from '../components/florists_page/NonDeliveryPartnersSection';
 import { HeroFloristPage } from '../components/HeroFloristPage';
-import { WhyFutureFlowerSection } from '../components/WhyFutureFlowerSection';
+import { WhyFutureFlowerSection } from '../components/florists_page/WhyFutureFlowerSection';
 import { ServicesCarouselSection } from '../components/ServicesCarouselSection';
-import { SoWhatsTheCatchSection } from '../components/SoWhatsTheCatchSection';
+import { SoWhatsTheCatchSection } from '../components/florists_page/SoWhatsTheCatchSection';
 
 const FloristsPage = () => {
   const contentRef = useRef<HTMLDivElement>(null);

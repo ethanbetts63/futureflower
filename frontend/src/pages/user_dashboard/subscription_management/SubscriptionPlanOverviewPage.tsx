@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/ca
 import Seo from '@/components/Seo';
 import BackButton from '@/components/BackButton';
 import PreferencesCard from '@/components/PreferencesCard';
-import RecipientCard from '@/components/RecipientCard';
+import RecipientCard from '@/components/form_flow/RecipientCard';
 import PaymentHistoryCard from '@/components/PaymentHistoryCard';
 import PlanActivationBanner from '@/components/PlanActivationBanner';
 import PlanDisplay from '@/components/PlanDisplay';

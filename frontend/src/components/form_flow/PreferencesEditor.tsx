@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import { getFlowerTypes } from '@/api';
 import type { FlowerType } from '../../types/FlowerType';
 
-import { VibePicker } from '@/components/VibePicker';
+import { VibePicker } from '@/components/form_flow/VibePicker';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import BackButton from '@/components/BackButton';

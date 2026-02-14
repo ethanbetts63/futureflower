@@ -1,5 +1,5 @@
 import React from 'react';
-import type { FlowerType } from '../types/FlowerType';
+import type { FlowerType } from '../../types/FlowerType';
 
 interface VibePickerProps {
   vibes: FlowerType[];

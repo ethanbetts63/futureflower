@@ -1,7 +1,7 @@
 // futureflower/frontend/src/pages/user_dashboard/EditStructurePage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import UpfrontStructureEditor from '@/components/UpfrontStructureEditor';
+import UpfrontStructureEditor from '@/components/form_flow/UpfrontStructureEditor';
 
 const EditStructurePage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();

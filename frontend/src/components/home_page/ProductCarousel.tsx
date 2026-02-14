@@ -1,6 +1,6 @@
-import petalImage from '../assets/petal.png';
-import floristMakingFlowersImage from '../assets/florist_making_flowers.png';
-import deliveryHighImage from '../assets/delivery_high.png';
+import petalImage from '../../assets/petal.png';
+import floristMakingFlowersImage from '../../assets/florist_making_flowers.png';
+import deliveryHighImage from '../../assets/delivery_high.png';
 
 const steps = [
   {

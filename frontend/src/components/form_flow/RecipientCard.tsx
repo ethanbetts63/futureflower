@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { User, Home } from 'lucide-react';
 import EditButton from '@/components/EditButton';
-import type { RecipientCardProps } from '../types/RecipientCardProps';
+import type { RecipientCardProps } from '../../types/RecipientCardProps';
 
 const RecipientCard: React.FC<RecipientCardProps> = ({ plan, editUrl }) => {
     const fullAddress = [plan.recipient_street_address, plan.recipient_suburb, plan.recipient_city, plan.recipient_state, plan.recipient_postcode, plan.recipient_country].filter(Boolean).join(', ');
