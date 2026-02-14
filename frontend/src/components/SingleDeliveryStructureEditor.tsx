@@ -48,8 +48,8 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     const [calculationError, setCalculationError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!isAuthenticated || !planId) {
-            navigate('/login');
+        if (!planId) {
+            navigate('/dashboard');
             return;
         }
 

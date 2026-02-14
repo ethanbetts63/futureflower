@@ -53,11 +53,6 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
         : projectedDeliveries.length;
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            toast.error("You must be logged in to manage a flower plan.");
-            navigate('/login');
-            return;
-        }
         if (!planId) {
             toast.error("No flower plan specified.");
             navigate('/dashboard');

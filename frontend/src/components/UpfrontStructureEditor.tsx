@@ -50,11 +50,6 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
     const [calculationError, setCalculationError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            toast.error("You must be logged in to manage a plan.");
-            navigate('/login');
-            return;
-        }
         if (!planId) {
             toast.error("No plan specified.");
             navigate('/dashboard');

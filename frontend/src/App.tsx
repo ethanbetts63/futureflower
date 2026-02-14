@@ -59,6 +59,7 @@ const BusinessDetailsPage = lazy(() => import('./pages/partner/BusinessDetailsPa
 
 const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
 const PaymentStatusPage = lazy(() => import('./pages/PaymentStatusPage'));
+const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
 
 // --- Misc Pages ---
 const BlocklistSuccessPage = lazy(() => import('./pages/BlocklistSuccessPage'));
@@ -116,27 +117,24 @@ function App() {
                 <Route path="/articles/best-flower-delivery-perth" element={<BestFlowerDeliveryPerth />} />
                 <Route path="/articles/best-flower-delivery-sydney" element={<BestFlowerDeliverySydney />} />
 
-                {/* Event Creation Flow */}
-                <Route path="/order" element={<ProductSelectionPage />} />
-                <Route path="/event-gate/:flowType?" element={<EventGate />} />
-                <Route path="/upfront-flow/create-account" element={<Step1CreateAccountPage />} />
-                <Route path="/upfront-flow/upfront-plan/:planId/recipient" element={<Step2RecipientPage />} />
-                <Route path="/upfront-flow/upfront-plan/:planId/structure" element={<Step5StructurePage />} />
-                <Route path="/upfront-flow/upfront-plan/:planId/preferences" element={<Step3PreferenceSelectionPage />} />
-                <Route path="/upfront-flow/upfront-plan/:planId/add-message" element={<Step4CustomMessagePage />} />
-                <Route path="/upfront-flow/upfront-plan/:planId/confirmation" element={<Step6BookingConfirmationPage />} />
+                {/* Event Creation Flow - Post Gate */}
+                <Route path="/upfront-flow/upfront-plan/:planId/recipient" element={<ProtectedRoute><Step2RecipientPage /></ProtectedRoute>} />
+                <Route path="/upfront-flow/upfront-plan/:planId/structure" element={<ProtectedRoute><Step5StructurePage /></ProtectedRoute>} />
+                <Route path="/upfront-flow/upfront-plan/:planId/preferences" element={<ProtectedRoute><Step3PreferenceSelectionPage /></ProtectedRoute>} />
+                <Route path="/upfront-flow/upfront-plan/:planId/add-message" element={<ProtectedRoute><Step4CustomMessagePage /></ProtectedRoute>} />
+                <Route path="/upfront-flow/upfront-plan/:planId/confirmation" element={<ProtectedRoute><Step6BookingConfirmationPage /></ProtectedRoute>} />
                 
-                {/* Subscription Plan Flow */}
-                <Route path="/subscribe-flow/subscription-plan/:planId/recipient" element={<SubscriptionStep2RecipientPage />} />
-                <Route path="/subscribe-flow/subscription-plan/:planId/preferences" element={<SubscriptionStep3PreferenceSelectionPage />} />
-                <Route path="/subscribe-flow/subscription-plan/:planId/structure" element={<SubscriptionStep4StructurePage />} />
-                <Route path="/subscribe-flow/subscription-plan/:planId/confirmation" element={<SubscriptionStep5ConfirmationPage />} />
+                {/* Subscription Plan Flow - Post Gate */}
+                <Route path="/subscribe-flow/subscription-plan/:planId/recipient" element={<ProtectedRoute><SubscriptionStep2RecipientPage /></ProtectedRoute>} />
+                <Route path="/subscribe-flow/subscription-plan/:planId/preferences" element={<ProtectedRoute><SubscriptionStep3PreferenceSelectionPage /></ProtectedRoute>} />
+                <Route path="/subscribe-flow/subscription-plan/:planId/structure" element={<ProtectedRoute><SubscriptionStep4StructurePage /></ProtectedRoute>} />
+                <Route path="/subscribe-flow/subscription-plan/:planId/confirmation" element={<ProtectedRoute><SubscriptionStep5ConfirmationPage /></ProtectedRoute>} />
 
-                {/* Single Delivery Plan Flow */}
-                <Route path="/single-delivery-flow/plan/:planId/recipient" element={<SingleDeliveryStep2RecipientPage />} />
-                <Route path="/single-delivery-flow/plan/:planId/preferences" element={<SingleDeliveryStep3PreferencesPage />} />
-                <Route path="/single-delivery-flow/plan/:planId/structure" element={<SingleDeliveryStep4StructurePage />} />
-                <Route path="/single-delivery-flow/plan/:planId/confirmation" element={<SingleDeliveryStep5ConfirmationPage />} />
+                {/* Single Delivery Plan Flow - Post Gate */}
+                <Route path="/single-delivery-flow/plan/:planId/recipient" element={<ProtectedRoute><SingleDeliveryStep2RecipientPage /></ProtectedRoute>} />
+                <Route path="/single-delivery-flow/plan/:planId/preferences" element={<ProtectedRoute><SingleDeliveryStep3PreferencesPage /></ProtectedRoute>} />
+                <Route path="/single-delivery-flow/plan/:planId/structure" element={<ProtectedRoute><SingleDeliveryStep4StructurePage /></ProtectedRoute>} />
+                <Route path="/single-delivery-flow/plan/:planId/confirmation" element={<ProtectedRoute><SingleDeliveryStep5ConfirmationPage /></ProtectedRoute>} />
 
 
 
@@ -150,16 +148,16 @@ function App() {
                 <Route path="/partner/payouts/:payoutId" element={<Navigate to="/dashboard/partner/payouts" replace />} />
 
                 {/* Unified Checkout and Status Pages */}
-                <Route path="/checkout" element={<CheckoutPage />} />
-                <Route path="/payment-status" element={<PaymentStatusPage />} />
+                <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
+                <Route path="/payment-status" element={<ProtectedRoute><PaymentStatusPage /></ProtectedRoute>} />
 
                 {/* Admin Section */}
-                <Route path="/admin-dashboard" element={<AdminLayout />}>
+                <Route path="/admin-dashboard" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
                   <Route index element={<AdminHomePage />} />
                 </Route>
 
                 {/* Logged-in user dashboard routes */}
-                <Route path="/dashboard" element={<UserDashboardLayout />}>
+                <Route path="/dashboard" element={<ProtectedRoute><UserDashboardLayout /></ProtectedRoute>}>
                   <Route index element={<UserDashboardPage />} />
                   <Route path="account" element={<AccountManagementPage />} />
                   <Route path="plans" element={<UpfrontPlanListPage />} />

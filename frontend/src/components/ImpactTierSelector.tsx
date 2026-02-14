@@ -80,7 +80,7 @@ export const ImpactTierSelector: React.FC<ImpactTierSelectorProps> = ({ value, o
       </div>
 
       {/* Tier cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+      <div className="flex gap-4 lg:gap-6 overflow-x-auto pt-2 pb-4 snap-x snap-mandatory scrollbar-hide">
         {tiers.map((tier) => {
           const isSelected = value === tier.price && !showCustom;
           return (
@@ -88,7 +88,7 @@ export const ImpactTierSelector: React.FC<ImpactTierSelectorProps> = ({ value, o
               key={tier.price}
               type="button"
               onClick={() => handleTierSelect(tier.price)}
-              className={`relative bg-white rounded-2xl overflow-hidden text-left transition-all cursor-pointer flex flex-col ${
+              className={`relative bg-white rounded-2xl overflow-hidden text-left transition-all cursor-pointer flex flex-col flex-shrink-0 w-72 md:w-auto md:flex-1 snap-start ${
                 isSelected
                   ? 'ring-2 ring-[var(--colorgreen)] shadow-lg'
                   : 'shadow-md hover:-translate-y-1 hover:shadow-lg'

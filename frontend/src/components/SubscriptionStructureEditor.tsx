@@ -49,9 +49,9 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
     const [calculationError, setCalculationError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!isAuthenticated || !planId) {
-            toast.error("Authentication or plan ID is missing.");
-            navigate('/login');
+        if (!planId) {
+            toast.error("Plan ID is missing.");
+            navigate('/dashboard');
             return;
         }
 

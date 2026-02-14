@@ -48,11 +48,6 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
     const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            toast.error("You must be logged in to proceed.");
-            navigate('/login');
-            return;
-        }
         if (!planId) {
             toast.error("No plan ID was provided.");
             navigate('/dashboard');
