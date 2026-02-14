@@ -9,6 +9,7 @@ import { RomanceSection } from '../components/RomanceSection';
 import type { FaqItem } from '@/types/FaqItem';
 import { ArticleCarousel } from '../components/ArticleCarousel';
 import AnnouncementBar from '../components/AnnouncementBar';
+import OfferingSection from '../components/OfferingSection';
 
 
 const HomePage = () => {
@@ -61,6 +62,8 @@ const HomePage = () => {
       <section className="bg-primary">
         <ProductCarousel />
       </section>
+
+      <OfferingSection />
 
       {/* --- Main Content & Sticky Sidebar --- */}
       <div className="bg-[var(--color4)] py-8">

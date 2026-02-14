@@ -28,8 +28,8 @@ An individual flower delivery within a plan. Auto-generated for upfront plans on
 
 **Key fields:** `order` (FK to OrderBase), `delivery_date`, `message`, `status`
 
-### Color / FlowerType
-Simple reference tables for customer flower preferences. Populated via management commands from JSON data files.
+### FlowerType
+Simple reference table for customer flower preferences. Populated via management commands from JSON data files.
 
 ### Discount
 Promotional discount codes linked to florist partners. Currently schema-only (not yet integrated into order/payment flow).

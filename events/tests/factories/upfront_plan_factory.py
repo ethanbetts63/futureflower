@@ -11,7 +11,7 @@ class UpfrontPlanFactory(DjangoModelFactory):
     user = SubFactory(UserFactory)
     status = 'pending_payment'
     budget = Faker('pydecimal', left_digits=2, right_digits=2, positive=True, min_value=50, max_value=99)
-    frequency = factory.LazyFunction(lambda: factory.random.randgen.choice(['weekly', 'fortnightly', 'monthly', 'quarterly', 'bi-annually', 'annually']))
+    frequency = Faker('random_element', elements=['weekly', 'fortnightly', 'monthly', 'quarterly', 'bi-annually', 'annually'])
     years = Faker('random_int', min=1, max=10)
     total_amount = Faker('pydecimal', left_digits=3, right_digits=2, positive=True, min_value=100, max_value=999) # Changed left_digits to 3 and max_value to 999
     currency = 'usd'
