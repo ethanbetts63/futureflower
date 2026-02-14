@@ -22,14 +22,14 @@ const ComparisonSection: React.FC = () => (
           <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-black font-['Playfair_Display',_serif] leading-tight">
             The Secret Big Platforms Don't Tell You
           </h2>
-          <p className="mt-6 text-lg text-black/60 leading-relaxed">
+          <p className="mt-2 text-lg text-black/60 leading-relaxed">
             Just as convenient as the big networks—only we let the florists keep 100% of their earnings.
           </p>
 
           {/* Stacked Bar Chart Section */}
-          <div className="mt-8 mb-8">
-            <h3 className="text-xl font-bold text-black mb-6 font-['Playfair_Display',_serif]">
-              Get more bloom for your buck
+          <div className="mt-4 mb-8">
+            <h3 className="text-xl font-semibold text-black italic mb-6 font-['Playfair_Display',_serif]">
+              Get More Bloom for Your Buck
             </h3>
             
             <div className="flex flex-col gap-6">
@@ -40,10 +40,10 @@ const ComparisonSection: React.FC = () => (
                   <div className="w-[30%] bg-red-400 flex items-center justify-center relative group" title="Commission/Fees">
                     <img src={creditCardIcon} alt="Fees" className="h-6 w-6 opacity-80 invert brightness-0" />
                   </div>
-                  <div className="w-[10%] bg-gray-400 flex items-center justify-center relative group" title="Delivery Cut">
+                  <div className="w-[15%] bg-gray-400 flex items-center justify-center relative group" title="Delivery Cut">
                     <img src={deliveryIcon} alt="Delivery" className="h-5 w-5 opacity-80 invert brightness-0" />
                   </div>
-                  <div className="w-[60%] bg-[var(--colorgreen)] flex items-center justify-center relative group" title="Flowers">
+                  <div className="w-[55%] bg-[var(--colorgreen)] flex items-center justify-center relative group" title="Flowers">
                     <img src={flowerIcon} alt="Flowers" className="h-6 w-6 opacity-80 invert brightness-0" />
                   </div>
                 </div>
@@ -64,7 +64,7 @@ const ComparisonSection: React.FC = () => (
             </div>
 
             {/* Legend */}
-            <div className="flex flex-wrap gap-x-6 gap-y-2 mt-6 text-xs font-medium text-black/60">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 mt-4 text-xs font-medium text-black/60">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-red-400 rounded-full"></div>
                 <span>Commission/Fees</span>
@@ -80,11 +80,11 @@ const ComparisonSection: React.FC = () => (
             </div>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-black/10">
+          <div className="mt-6 pt-2 border-t border-black/10">
             <p className="text-sm font-semibold text-black/70 italic">Then how do you make money?</p>
             <p className="mt-2 text-sm text-black/50 leading-relaxed">
               We charge a transparent 10% fee. Our competitors slip a 20–30% commission into the order.
-              That's how we are cheaper than our competitors and can still give florists 100% of the flower budget.
+              That's how we can be cheaper and still give florists 100% of the flower budget.
             </p>
           </div>
         </div>
@@ -92,7 +92,7 @@ const ComparisonSection: React.FC = () => (
 
       {/* Right Column — Table */}
       <div className="flex flex-col items-center justify-center p-4 md:p-12 lg:px-20 bg-[var(--color4)]">
-        <p className="mb-6 text-xs font-semibold tracking-[0.2em] text-black/50 uppercase">
+        <p className="mb-6 text-s font-bold tracking-[0.2em] text-black uppercase">
           How Big Online Platforms Compare
         </p>
         <div className="w-full max-w-2xl bg-white rounded-2xl shadow-md border border-black/5 overflow-hidden">
