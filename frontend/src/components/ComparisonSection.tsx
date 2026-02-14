@@ -1,4 +1,7 @@
 import React from 'react';
+import creditCardIcon from '../assets/credit_card_symbol.svg';
+import deliveryIcon from '../assets/delivery_symbol.svg';
+import flowerIcon from '../assets/flower_symbol.svg';
 
 const rows = [
   { feature: 'Commission',       them: '20–30% per order',              us: '0%' },
@@ -22,6 +25,60 @@ const ComparisonSection: React.FC = () => (
           <p className="mt-6 text-lg text-black/60 leading-relaxed">
             Just as convenient as the big networks—only we let the florists keep 100% of their earnings.
           </p>
+
+          {/* Stacked Bar Chart Section */}
+          <div className="mt-8 mb-8">
+            <h3 className="text-xl font-bold text-black mb-6 font-['Playfair_Display',_serif]">
+              Get more bloom for your buck
+            </h3>
+            
+            <div className="flex flex-col gap-6">
+              {/* Competitors Bar */}
+              <div className="flex flex-col gap-2">
+                <span className="text-xs font-semibold text-black/50 uppercase tracking-wider">Competitors</span>
+                <div className="flex h-12 w-full rounded-full overflow-hidden shadow-sm">
+                  <div className="w-[30%] bg-red-400 flex items-center justify-center relative group" title="Commission/Fees">
+                    <img src={creditCardIcon} alt="Fees" className="h-6 w-6 opacity-80 invert brightness-0" />
+                  </div>
+                  <div className="w-[10%] bg-gray-400 flex items-center justify-center relative group" title="Delivery Cut">
+                    <img src={deliveryIcon} alt="Delivery" className="h-5 w-5 opacity-80 invert brightness-0" />
+                  </div>
+                  <div className="w-[60%] bg-[var(--colorgreen)] flex items-center justify-center relative group" title="Flowers">
+                    <img src={flowerIcon} alt="Flowers" className="h-6 w-6 opacity-80 invert brightness-0" />
+                  </div>
+                </div>
+              </div>
+
+              {/* FutureFlower Bar */}
+              <div className="flex flex-col gap-2">
+                <span className="text-xs font-semibold text-black/50 uppercase tracking-wider">FutureFlower</span>
+                <div className="flex h-12 w-full rounded-full overflow-hidden shadow-sm">
+                  <div className="w-[10%] bg-red-400 flex items-center justify-center relative group" title="Commission/Fees">
+                     <img src={creditCardIcon} alt="Fees" className="h-5 w-5 opacity-80 invert brightness-0" />
+                  </div>
+                  <div className="w-[90%] bg-[var(--colorgreen)] flex items-center justify-center relative group" title="Flowers">
+                    <img src={flowerIcon} alt="Flowers" className="h-6 w-6 opacity-80 invert brightness-0" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Legend */}
+            <div className="flex flex-wrap gap-x-6 gap-y-2 mt-6 text-xs font-medium text-black/60">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                <span>Commission/Fees</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+                <span>Delivery Cut</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-[var(--colorgreen)] rounded-full"></div>
+                <span>Goes to Flowers</span>
+              </div>
+            </div>
+          </div>
 
           <div className="mt-12 pt-8 border-t border-black/10">
             <p className="text-sm font-semibold text-black/70 italic">Then how do you make money?</p>

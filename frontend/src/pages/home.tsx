@@ -1,7 +1,6 @@
 import Seo from '../components/Seo';
 import { ProductCarousel } from '../components/ProductCarousel';
 import { FaqV2 } from '../components/FaqV2';
-
 import { HeroV2 } from '../components/HeroV2';
 import { DeliverySection } from '../components/DeliverySection';
 import { RomanceSection } from '../components/RomanceSection';
