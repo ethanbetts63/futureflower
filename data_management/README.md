@@ -29,7 +29,6 @@ All under `/api/data/`:
 ### `python manage.py generate`
 Data generation orchestrator with flags:
 - `--terms` - Generates TermsAndConditions from HTML files in `data/` matching `terms_v*.html`
-- `--colors` - Populates Color model from `data/colors.json`
 - `--flowers` - Populates FlowerType model from `data/flowers.json`
 - `--archive` - Archives current database to JSON files
 

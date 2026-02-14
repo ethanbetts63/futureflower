@@ -6,7 +6,6 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from users.models import User
 from events.models import Event
-from events.utils.send_reminder_email import send_reminder_email
 
 class Command(BaseCommand):
     help = 'Sends a test email using the configured email backend. Can send a simple text email or a multipart email based on a Django template.'
@@ -35,51 +34,9 @@ class Command(BaseCommand):
             default='{}',
             help='A JSON string representing the context to pass to the template.'
         )
-        # Specific test for the event reminder flow
-        parser.add_argument(
-            '--reminder_test',
-            action='store_true',
-            help='Run a specific test for the event reminder email using a random User and Event.'
-        )
 
     def handle(self, *args, **options):
         recipient = options['recipient']
-
-        if options['reminder_test']:
-            self.stdout.write(self.style.SUCCESS("--- Running Event Reminder Test ---"))
-            try:
-                user = User.objects.order_by('?').first()
-                event = Event.objects.order_by('?').first()
-
-                if not user:
-                    self.stderr.write(self.style.ERROR("Test failed: Could not find any Users in the database."))
-                    return
-                if not event:
-                    self.stderr.write(self.style.ERROR("Test failed: Could not find any Events in the database."))
-                    return
-                
-                self.stdout.write(f"Found random User: {user.email}")
-                self.stdout.write(f"Found random Event: {event.name}")
-
-                # Create a temporary, in-memory Notification object for the test
-                notification = Notification(
-                    user=user,
-                    event=event,
-                    recipient_contact_info=recipient,
-                    # Other fields are not needed for the email context
-                )
-
-                self.stdout.write(f"Attempting to send reminder email to {recipient}...")
-                success = send_reminder_email(notification, recipient)
-
-                if success:
-                    self.stdout.write(self.style.SUCCESS("Successfully sent event reminder test email."))
-                else:
-                    self.stderr.write(self.style.ERROR("The send_reminder_email function reported a failure."))
-
-            except Exception as e:
-                self.stderr.write(self.style.ERROR(f"An unexpected error occurred during the reminder test: {e}"))
-            return
 
         # --- Default generic email testing logic ---
         self.stdout.write(self.style.SUCCESS("--- Running Generic Email Test ---"))

@@ -7,15 +7,15 @@ from django.core.management.base import CommandError
 @pytest.mark.django_db
 class TestGenerateCommand:
 
-    @patch('data_management.management.commands.generate.FaqUpdateOrchestrator')
-    def test_generate_faqs_flag(self, mock_orchestrator):
-        """Test that the --faqs flag calls the FaqUpdateOrchestrator."""
+    @patch('data_management.management.commands.generate.FlowerGenerator')
+    def test_generate_flowers_flag(self, mock_generator):
+        """Test that the --flowers flag calls the FlowerGenerator."""
         out = StringIO()
-        call_command('generate', '--faqs', stdout=out)
+        call_command('generate', '--flowers', stdout=out)
         
-        mock_orchestrator.assert_called_once()
-        mock_orchestrator.return_value.run.assert_called_once()
-        assert 'Starting FAQ generation...' in out.getvalue()
+        mock_generator.assert_called_once()
+        mock_generator.return_value.run.assert_called_once()
+        assert 'Generating flowers.json...' in out.getvalue()
 
     @patch('data_management.management.commands.generate.TermsUpdateOrchestrator')
     def test_generate_terms_flag(self, mock_orchestrator):
@@ -43,16 +43,16 @@ class TestGenerateCommand:
         call_command('generate', stdout=out)
         assert 'No generation flag specified' in out.getvalue()
 
-    @patch('data_management.management.commands.generate.FaqUpdateOrchestrator')
-    @patch('data_management.management.commands.generate.TierUpdateOrchestrator')
-    def test_multiple_flags(self, mock_tier_orchestrator, mock_faq_orchestrator):
+    @patch('data_management.management.commands.generate.TermsUpdateOrchestrator')
+    @patch('data_management.management.commands.generate.FlowerGenerator')
+    def test_multiple_flags(self, mock_flower_generator, mock_terms_orchestrator):
         """Test that multiple flags can be used at the same time."""
         out = StringIO()
-        call_command('generate', '--faqs', '--tiers', stdout=out)
+        call_command('generate', '--terms', '--flowers', stdout=out)
         
-        mock_faq_orchestrator.assert_called_once()
-        mock_faq_orchestrator.return_value.run.assert_called_once()
+        mock_terms_orchestrator.assert_called_once()
+        mock_flower_generator.assert_called_once()
         
         output = out.getvalue()
-        assert 'Starting FAQ generation...' in output
-        assert 'Starting Tier and Price generation...' in output
+        assert 'Starting Terms and Conditions generation...' in output
+        assert 'Generating flowers.json...' in output

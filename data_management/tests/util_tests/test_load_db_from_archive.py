@@ -37,21 +37,20 @@ class TestLoadDbFromArchive:
         
         expected_calls = [
             call([python_executable, 'manage.py', 'flush', '--no-input'], check=True, capture_output=True, text=True, env=ANY, encoding='utf-8', errors='replace'),
-            call([python_executable, 'manage.py', 'loaddata', os.path.join(latest_archive_dir, 'payments.tier.json')], check=True, capture_output=True, text=True, env=ANY, encoding='utf-8', errors='replace'),
-            call([python_executable, 'manage.py', 'loaddata', os.path.join(latest_archive_dir, 'payments.price.json')], check=True, capture_output=True, text=True, env=ANY, encoding='utf-8', errors='replace'),
-            # ... and so on for all files in load_order
+            call([python_executable, 'manage.py', 'loaddata', os.path.join(latest_archive_dir, 'data_management.termsandconditions.json')], check=True, capture_output=True, text=True, env=ANY, encoding='utf-8', errors='replace'),
+            # ... and so on
         ]
         
         # Check that flush was called
         mock_subprocess_run.assert_any_call([python_executable, 'manage.py', 'flush', '--no-input'], check=True, capture_output=True, text=True, env=ANY, encoding='utf-8', errors='replace')
         
         # Check that loaddata was called for each file
-        assert mock_subprocess_run.call_count == 10 # 1 flush + 9 loaddata
+        assert mock_subprocess_run.call_count == 5 # 1 flush + 4 loaddata
         
         stdout = mock_command.stdout.getvalue()
         assert f"Loading data from latest archive: {latest_archive_dir}" in stdout
         assert "Flushing database..." in stdout
-        assert "Loading payments.tier.json" in stdout
+        assert "Loading data_management.termsandconditions.json" in stdout
         assert "Data loading from archive complete" in stdout
 
     def test_archive_dir_not_found(self, mock_isdir, mock_listdir, mock_exists, mock_command):
@@ -101,6 +100,6 @@ class TestLoadDbFromArchive:
         load_db_from_latest_archive(command=mock_command)
         
         stderr = mock_command.stderr.getvalue()
-        assert "Failed to load payments.tier.json" in stderr
+        assert "Failed to load data_management.termsandconditions.json" in stderr
         assert "Load failed" in stderr
         assert "Aborting data load" in stderr

@@ -1,11 +1,10 @@
-# payments/tests/view_tests/test_create_payment_intent_view.py
 import pytest
 from rest_framework.test import APIClient
 import stripe
+from decimal import Decimal
 from users.tests.factories.user_factory import UserFactory
-from payments.tests.factories.tier_factory import TierFactory
-from payments.tests.factories.price_factory import PriceFactory
-from events.tests.factories.event_factory import EventFactory
+from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
+from partners.tests.factories.discount_code_factory import DiscountCodeFactory
 from payments.models import Payment
 
 @pytest.mark.django_db
@@ -15,74 +14,68 @@ class TestCreatePaymentIntentView:
         self.client = APIClient()
         self.user = UserFactory()
         self.client.force_authenticate(user=self.user)
-        self.tier = TierFactory()
-        self.price = PriceFactory(tier=self.tier, amount=10.00)
-        self.event = EventFactory(user=self.user)
+        self.url = '/api/payments/create-payment-intent/'
 
-    def test_create_payment_intent_success(self, mocker):
-        """
-        Tests successful creation of a payment intent.
-        """
-        mock_payment_intent = mocker.MagicMock()
-        mock_payment_intent.id = 'pi_123'
-        mock_payment_intent.client_secret = 'cs_123'
-        mocker.patch.object(stripe.PaymentIntent, 'create', return_value=mock_payment_intent)
+    def test_create_payment_intent_upfront_plan_new_success(self, mocker):
+        plan = UpfrontPlanFactory(user=self.user, total_amount=Decimal('100.00'))
+        
+        mock_pi = mocker.MagicMock()
+        mock_pi.id = 'pi_123'
+        mock_pi.client_secret = 'cs_123'
+        mocker.patch.object(stripe.PaymentIntent, 'create', return_value=mock_pi)
+        mocker.patch.object(stripe.Customer, 'create', return_value=mocker.MagicMock(id='cus_123'))
 
         data = {
-            'event_id': self.event.id,
-            'target_tier_id': self.tier.id,
+            'item_type': 'UPFRONT_PLAN_NEW',
+            'details': {
+                'upfront_plan_id': plan.id
+            }
         }
-        response = self.client.post('/api/payments/create-payment-intent/', data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         assert response.status_code == 200
         assert response.data['clientSecret'] == 'cs_123'
-        assert Payment.objects.count() == 1
-        payment = Payment.objects.first()
-        assert payment.user == self.user
-        assert payment.event == self.event
-        assert payment.price == self.price
-        assert payment.stripe_payment_intent_id == 'pi_123'
-        assert payment.status == 'pending'
+        
+        payment = Payment.objects.get(stripe_payment_intent_id='pi_123')
+        assert payment.amount == Decimal('100.00')
+        assert payment.order == plan.orderbase_ptr
+
+    def test_create_payment_intent_with_discount_success(self, mocker):
+        plan = UpfrontPlanFactory(user=self.user, total_amount=Decimal('100.00'))
+        dc = DiscountCodeFactory(code="SAVE10", discount_amount=Decimal('10.00'), is_active=True)
+        
+        mocker.patch.object(stripe.PaymentIntent, 'create', return_value=mocker.MagicMock(id='pi_123', client_secret='cs_123'))
+        mocker.patch.object(stripe.Customer, 'create', return_value=mocker.MagicMock(id='cus_123'))
+
+        data = {
+            'item_type': 'UPFRONT_PLAN_NEW',
+            'details': {
+                'upfront_plan_id': plan.id,
+                'discount_code': 'SAVE10'
+            }
+        }
+        response = self.client.post(self.url, data, format='json')
+
+        assert response.status_code == 200
+        payment = Payment.objects.get(stripe_payment_intent_id='pi_123')
+        assert payment.amount == Decimal('90.00')
+        
+        self.user.refresh_from_db()
+        assert self.user.referred_by_partner == dc.partner
 
     def test_create_payment_intent_unauthenticated(self):
         self.client.logout()
-        data = {
-            'event_id': self.event.id,
-            'target_tier_id': self.tier.id,
-        }
-        response = self.client.post('/api/payments/create-payment-intent/', data, format='json')
+        response = self.client.post(self.url, {}, format='json')
         assert response.status_code == 401
 
     def test_missing_parameters(self):
-        response = self.client.post('/api/payments/create-payment-intent/', {}, format='json')
+        response = self.client.post(self.url, {}, format='json')
         assert response.status_code == 400
-        assert "event_id and target_tier_id are required" in response.data['error']
 
-    def test_event_not_found(self):
-        other_user_event = EventFactory()
+    def test_plan_not_found(self):
         data = {
-            'event_id': other_user_event.id,
-            'target_tier_id': self.tier.id,
+            'item_type': 'UPFRONT_PLAN_NEW',
+            'details': {'upfront_plan_id': 999}
         }
-        response = self.client.post('/api/payments/create-payment-intent/', data, format='json')
+        response = self.client.post(self.url, data, format='json')
         assert response.status_code == 404
-
-    def test_no_active_price(self):
-        tier_no_price = TierFactory()
-        data = {
-            'event_id': self.event.id,
-            'target_tier_id': tier_no_price.id,
-        }
-        response = self.client.post('/api/payments/create-payment-intent/', data, format='json')
-        assert response.status_code == 400
-        assert "No active, paid, single-delivery price could be found" in response.data['error']
-
-    def test_stripe_api_error(self, mocker):
-        mocker.patch.object(stripe.PaymentIntent, 'create', side_effect=stripe.error.StripeError("Stripe Error"))
-        data = {
-            'event_id': self.event.id,
-            'target_tier_id': self.tier.id,
-        }
-        response = self.client.post('/api/payments/create-payment-intent/', data, format='json')
-        assert response.status_code == 500
-        assert "Stripe Error" in response.data['error']

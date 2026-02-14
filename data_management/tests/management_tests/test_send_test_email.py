@@ -64,26 +64,6 @@ class TestSendTestEmailCommand:
         mock_email_multi_alternatives.return_value.send.assert_called_once()
         assert "Successfully sent email" in out.getvalue()
 
-    @patch('data_management.management.commands.send_test_email.send_reminder_email')
-    def test_reminder_test_flow(self, mock_send_reminder_email):
-        """Test the --reminder_test flag flow."""
-        mock_send_reminder_email.return_value = True
-        UserFactory()
-        EventFactory()
-        
-        out = StringIO()
-        call_command('send_test_email', '--reminder_test', '--recipient=reminder@test.com', stdout=out)
-        
-        mock_send_reminder_email.assert_called_once()
-        assert mock_send_reminder_email.call_args[0][1] == 'reminder@test.com'
-        assert "Successfully sent event reminder test email" in out.getvalue()
-
-    def test_reminder_test_no_data(self):
-        """Test the --reminder_test flag when there is no data in the database."""
-        err = StringIO()
-        call_command('send_test_email', '--reminder_test', stderr=err)
-        assert "Could not find any Users" in err.getvalue()
-
     def test_invalid_json_context(self):
         """Test that the command handles invalid JSON in the --context argument."""
         err = StringIO()
