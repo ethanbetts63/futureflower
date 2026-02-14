@@ -70,12 +70,12 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
           {title}
         </h1>
-        <p className="mt-4 text-base sm:text-lg text-white/80">
+        <p className="mt-4 text-base sm:text-lg text-white">
           Pick a date. Pick a budget. We handle the rest.
         </p>
 
         {/* Two primary CTAs */}
-        <div className="mt-8 flex flex-col gap-3">
+        <div className="mt-4 flex flex-col gap-3">
           <button
             onClick={() => handleNav('/event-gate/single-delivery')}
             className="w-full flex items-center justify-between bg-[var(--colorgreen)] text-black font-semibold px-6 py-4 rounded-lg hover:brightness-110 transition-all cursor-pointer group shadow-lg"
