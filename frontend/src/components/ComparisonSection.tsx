@@ -16,9 +16,6 @@ const ComparisonSection: React.FC = () => (
       {/* Left Column — Text */}
       <div className="flex items-center justify-center p-8 md:p-16 lg:p-24 bg-[var(--color4)]">
         <div className="max-w-xl w-full">
-          <p className="text-xs font-semibold tracking-[0.2em] text-black/50 uppercase">
-            How Big Online Platforms Compare
-          </p>
           <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-black font-['Playfair_Display',_serif] leading-tight">
             The Secret Big Platforms Don't Tell You
           </h2>
@@ -37,7 +34,10 @@ const ComparisonSection: React.FC = () => (
       </div>
 
       {/* Right Column — Table */}
-      <div className="flex items-center justify-center p-4 md:p-12 lg:p-20 bg-[var(--color4)]">
+      <div className="flex flex-col items-center justify-center p-4 md:p-12 lg:p-20 bg-[var(--color4)]">
+        <p className="mb-6 text-xs font-semibold tracking-[0.2em] text-black/50 uppercase">
+          How Big Online Platforms Compare
+        </p>
         <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-black/5 overflow-hidden">
 
           {/* Column headers */}

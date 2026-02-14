@@ -38,10 +38,6 @@ const HomePage = () => {
       "question": "What countries do you operate in?",
       "answer": "Currently we operate in the EU (Europe), United Kingdom, North America (USA & Canada), Australia and New Zealand."
     },
-    {
-      "question": "Is delivery included in the price?",
-      "answer": "Cost of delivery is included in your yearly flower budget."
-    }
   ];
 
   return (
@@ -65,7 +61,7 @@ const HomePage = () => {
 
       <OfferingSection />
 
-      <div className="pt-8"><ComparisonSection /></div>
+      <ComparisonSection />
 
       <RomanceSection />
       <DeliverySection />
