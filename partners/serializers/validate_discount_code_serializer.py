@@ -20,11 +20,12 @@ class ValidateDiscountCodeSerializer(serializers.Serializer):
 
         user = self.context.get('request').user
 
-        if discount_code.partner.user == user:
-            raise serializers.ValidationError("You cannot use your own discount code.")
+        if user.is_authenticated:
+            if discount_code.partner.user == user:
+                raise serializers.ValidationError("You cannot use your own discount code.")
 
-        if Payment.objects.filter(user=user, status='succeeded').exists():
-            raise serializers.ValidationError("Discount codes are only available for new customers.")
+            if Payment.objects.filter(user=user, status='succeeded').exists():
+                raise serializers.ValidationError("Discount codes are only available for new customers.")
 
         return value
 

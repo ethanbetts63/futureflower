@@ -80,10 +80,9 @@ def test_password_is_write_only():
         """
         Tests that the serializer correctly links a valid delivery partner.
         """
-        from users.tests.factories.partner_factory import PartnerFactory
+        from partners.tests.factories.partner_factory import PartnerFactory
         partner = PartnerFactory(partner_type='delivery', status='active')
-        
-        user_data = {
+            user_data = {
             "email": "partner_test@example.com",
             "password": "strongpassword123",
             "first_name": "Partner",
@@ -103,8 +102,9 @@ def test_password_is_write_only():
         """
         Tests that the serializer rejects invalid partners (wrong type or inactive).
         """
-        from users.tests.factories.partner_factory import PartnerFactory
+        from partners.tests.factories.partner_factory import PartnerFactory
         inactive_partner = PartnerFactory(partner_type='delivery', status='pending')
+    
         retail_partner = PartnerFactory(partner_type='non_delivery', status='active')
         
         # Test inactive

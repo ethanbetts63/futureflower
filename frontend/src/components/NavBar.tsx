@@ -10,6 +10,7 @@ import { useNavigation } from '@/context/NavigationContext';
 import type { NavItem } from '../types/NavItem';
 import settingsPng from '../assets/settings.png';
 import logoutPng from '../assets/logout.png';
+import flowerIcon from '../assets/flower_symbol.svg';
 
 const BREAKPOINT = 1048; 
 
@@ -122,7 +123,7 @@ const NavBar: React.FC = () => {
 
                 <Link to="/order" onClick={() => setMenuOpen(false)} className={`${screenWidth < BREAKPOINT ? 'w-full flex justify-center' : ''}`}>
                     <div className={`inline-flex items-center justify-center gap-2 bg-[var(--colorgreen)] text-black font-bold px-4 py-2 h-10 rounded-md hover:brightness-110 transition-all text-center shadow-sm cursor-pointer ${screenWidth < BREAKPOINT ? 'w-1/2' : ''}`}>
-                        Order
+                        <img src={flowerIcon} alt="Order" className="h-6 w-6" />
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                     </div>
                 </Link>

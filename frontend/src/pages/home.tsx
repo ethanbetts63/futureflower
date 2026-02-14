@@ -10,6 +10,7 @@ import type { FaqItem } from '@/types/FaqItem';
 import { ArticleCarousel } from '../components/ArticleCarousel';
 import AnnouncementBar from '../components/AnnouncementBar';
 import OfferingSection from '../components/OfferingSection';
+import ComparisonSection from '../components/ComparisonSection';
 
 
 const HomePage = () => {
@@ -64,6 +65,7 @@ const HomePage = () => {
       </section>
 
       <OfferingSection />
+      <ComparisonSection />
 
       {/* --- Main Content & Sticky Sidebar --- */}
       <div className="bg-[var(--color4)] py-8">

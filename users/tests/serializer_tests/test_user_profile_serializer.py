@@ -28,7 +28,7 @@ def test_user_profile_serializer_is_partner_true():
     """
     Tests that is_partner returns True if the user has a partner profile.
     """
-    from users.tests.factories.partner_factory import PartnerFactory
+    from partners.tests.factories.partner_factory import PartnerFactory
     partner = PartnerFactory()
     user = partner.user
     
