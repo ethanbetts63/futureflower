@@ -45,7 +45,6 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     const [totalAmount, setTotalAmount] = useState<number | null>(null);
     const [isApiCalculating, setIsApiCalculating] = useState(false);
     const [isDebouncePending, setIsDebouncePending] = useState(true);
-    const [calculationError, setCalculationError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!planId) {
@@ -73,14 +72,12 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
         if (!planId) return;
         setIsDebouncePending(false);
         setIsApiCalculating(true);
-        setCalculationError(null);
         setTotalAmount(null);
 
         try {
             const data = await calculateUpfrontPlanSingleDeliveryPrice(planId, budget);
             setTotalAmount(data.new_total_price);
         } catch (err: any) {
-            setCalculationError(err.message);
             toast.error("Price Calculation Error", { description: err.message });
         } finally {
             setIsApiCalculating(false);

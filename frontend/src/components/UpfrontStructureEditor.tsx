@@ -47,7 +47,6 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
     const [amountOwing, setAmountOwing] = useState<number | null>(null);
     const [isApiCalculating, setIsApiCalculating] = useState(false);
     const [isDebouncePending, setIsDebouncePending] = useState(true);
-    const [calculationError, setCalculationError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!planId) {
@@ -82,14 +81,12 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
 
         setIsDebouncePending(false);
         setIsApiCalculating(true);
-        setCalculationError(null);
         setAmountOwing(null);
 
         try {
             const data = await calculateUpfrontPriceForPlan(planId, { budget, frequency, years });
             setAmountOwing(data.amount_owing);
         } catch (err: any) {
-            setCalculationError(err.message);
             toast.error("Price Calculation Error", { description: err.message });
         } finally {
             setIsApiCalculating(false);
@@ -138,7 +135,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
     }
     
     const showPaymentButton = mode === 'edit' && amountOwing !== null && amountOwing > 0;
-    const isActionDisabled = Boolean(isSaving || isApiCalculating || isDebouncePending || amountOwing === null || calculationError);
+    const isActionDisabled = Boolean(isSaving || isApiCalculating || isDebouncePending || amountOwing === null);
 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>

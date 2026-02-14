@@ -46,7 +46,6 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
     const [pricePerDelivery, setPricePerDelivery] = useState<number | null>(null);
     const [isApiCalculating, setIsApiCalculating] = useState(false);
     const [isDebouncePending, setIsDebouncePending] = useState(true);
-    const [calculationError, setCalculationError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!planId) {
@@ -76,14 +75,12 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
         if (!planId) return;
         setIsDebouncePending(false);
         setIsApiCalculating(true);
-        setCalculationError(null);
         setPricePerDelivery(null);
 
         try {
             const data = await calculateSubscriptionPrice(planId, budget);
             setPricePerDelivery(data.price_per_delivery);
         } catch (err: any) {
-            setCalculationError(err.message);
             toast.error("Price Calculation Error", { description: err.message });
         } finally {
             setIsApiCalculating(false);
