@@ -7,7 +7,7 @@ const steps = [
     level: 1,
     title: 'Tell us the moment.',
     description:
-      'A birthday, an anniversary, or just a Tuesday. Pick the date and the occasion — we take it from there.',
+      'A birthday, an anniversary, or just a Tuesday. Choose the date, preferences and occasion — we take it from there.',
     image: petalImage,
   },
   {

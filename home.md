@@ -35,7 +35,7 @@ Scrollable list of operating countries including: United Kingdom, France, German
 *   **Subheading:** Meaningful flowers on meaningful dates, minus the effort. One decision, no hassle.
 
 ### 1. Tell us the moment.
-*   **Description:** A birthday, an anniversary, or just a Tuesday. Pick the date and the occasion — we take it from there.
+*   **Description:** A birthday, an anniversary, or just a Tuesday. Choose the date, preferences and occasion — we take it from there.
 *   **Badge:** Numbered "1" in a black box.
 
 ### 2. We find the perfect florist.
