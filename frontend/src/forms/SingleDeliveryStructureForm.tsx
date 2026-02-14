@@ -3,7 +3,7 @@ import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { ImpactTierSelector } from '@/components/ImpactTierSelector';
+import { ImpactTierSelector } from '@/components/form_flow/ImpactTierSelector';
 import type { SingleDeliveryStructureFormProps } from '../types/SingleDeliveryStructureFormProps';
 
 const getMinDateString = () => {

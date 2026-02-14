@@ -1,6 +1,6 @@
 import { ArticleLayout } from '../../components/ArticleLayout';
 import articleImage from '../../assets/kitchen.webp';
-import { ArticleCarousel } from '../../components/ArticleCarousel';
+import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import Seo from '../../components/Seo';
 
 const BestFlowerSubscriptionServicesUK = () => {

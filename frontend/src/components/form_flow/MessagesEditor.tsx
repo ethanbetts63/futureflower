@@ -9,13 +9,13 @@ import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getUpfrontPlan, updateUpfrontPlan, updateEvent, getProjectedDeliveries } from '@/api';
 import type { ProjectedDelivery } from '@/api/upfrontPlans';
-import type { DeliveryEvent } from '../types/DeliveryEvent';
+import type { DeliveryEvent } from '../../types/DeliveryEvent';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from '@/components/ui/label';
 import BackButton from '@/components/BackButton';
-import type { UpfrontPlan } from '../types/UpfrontPlan';
-import type { MessagesEditorProps } from '../types/MessagesEditorProps';
+import type { UpfrontPlan } from '../../types/UpfrontPlan';
+import type { MessagesEditorProps } from '../../types/MessagesEditorProps';
 
 type MessageMode = 'single' | 'multiple';
 

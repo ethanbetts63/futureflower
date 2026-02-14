@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArticleCarousel } from '../components/ArticleCarousel';
+import { ArticleCarousel } from '../components/home_page/ArticleCarousel';
 import Seo from '../components/Seo';
 import deliveryImage from '../assets/delivery.webp';
 

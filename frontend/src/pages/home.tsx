@@ -1,14 +1,14 @@
 import Seo from '../components/Seo';
-import { ProductCarousel } from '../components/ProductCarousel';
+import { ProductCarousel } from '../components/home_page/ProductCarousel';
 import { FaqV2 } from '../components/FaqV2';
-import { HeroV2 } from '../components/HeroV2';
-import { DeliverySection } from '../components/DeliverySection';
-import { RomanceSection } from '../components/RomanceSection';
+import { HeroV2 } from '../components/home_page/HeroV2';
+import { DeliverySection } from '../components/home_page/DeliverySection';
+import { RomanceSection } from '../components/home_page/RomanceSection';
 import type { FaqItem } from '@/types/FaqItem';
-import { ArticleCarousel } from '../components/ArticleCarousel';
-import AnnouncementBar from '../components/AnnouncementBar';
-import OfferingSection from '../components/OfferingSection';
-import ComparisonSection from '../components/ComparisonSection';
+import { ArticleCarousel } from '../components/home_page/ArticleCarousel';
+import AnnouncementBar from '../components/home_page/AnnouncementBar';
+import OfferingSection from '../components/home_page/OfferingSection';
+import ComparisonSection from '../components/home_page/ComparisonSection';
 
 
 const HomePage = () => {

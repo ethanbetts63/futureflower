@@ -1,6 +1,6 @@
 import { ArticleLayout } from '../../components/ArticleLayout';
 import articleImage from '../../assets/florist.webp'; // Re-using this image
-import { ArticleCarousel } from '../../components/ArticleCarousel';
+import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import Seo from '../../components/Seo';
 
 const BestFlowerSubscriptionServicesEU = () => {

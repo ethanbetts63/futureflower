@@ -1,6 +1,6 @@
 import { ArticleLayout } from '../../components/ArticleLayout';
 import articleImage from '../../assets/florist_packing.webp'; // Reusing existing image for now
-import { ArticleCarousel } from '../../components/ArticleCarousel';
+import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import Seo from '../../components/Seo';
 
 const BestFlowerDeliveryMelbourne = () => {

@@ -1,7 +1,7 @@
 // futureflower/frontend/src/pages/flow/Step4CustomMessagePage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import MessagesEditor from '@/components/MessagesEditor';
+import MessagesEditor from '@/components/form_flow/MessagesEditor';
 import StepProgressBar from '@/components/StepProgressBar';
 
 const Step4CustomMessagePage: React.FC = () => {

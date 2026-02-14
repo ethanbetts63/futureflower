@@ -1,7 +1,7 @@
 // futureflower/frontend/src/pages/user_dashboard/EditMessagesPage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import MessagesEditor from '@/components/MessagesEditor';
+import MessagesEditor from '@/components/form_flow/MessagesEditor';
 
 const EditMessagesPage: React.FC = () => {
     const { planId } = useParams<{ planId: string }>();

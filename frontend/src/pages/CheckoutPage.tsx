@@ -9,7 +9,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import Seo from '@/components/Seo';
 import CheckoutForm from '@/forms/CheckoutForm';
-import OrderSummaryCard from '@/components/OrderSummaryCard'; 
+import OrderSummaryCard from '@/components/form_flow/OrderSummaryCard'; 
 import BackButton from '@/components/BackButton';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);

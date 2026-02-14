@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Spinner } from '@/components/ui/spinner';
 import { getSubscriptionPlan } from '@/api/subscriptionPlans';
 import { getUpfrontPlan } from '@/api/upfrontPlans';
-import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans'; // Updated import
-import type { SubscriptionPlan, UpfrontPlan } from '@/types'; // Removed SingleDeliveryPlan
+import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
+import type { SubscriptionPlan, UpfrontPlan } from '@/types'; 
 import { Badge } from '@/components/ui/badge';
 import { Flower, Calendar, Repeat, DollarSign } from 'lucide-react';
 
@@ -14,8 +14,7 @@ interface OrderSummaryCardProps {
     itemType: 'SUBSCRIPTION_PLAN_NEW' | 'UPFRONT_PLAN_NEW' | 'SINGLE_DELIVERY_PLAN_NEW' | string;
 }
 
-type Plan = SubscriptionPlan | UpfrontPlan; // Removed SingleDeliveryPlan from union
-
+type Plan = SubscriptionPlan | UpfrontPlan; 
 const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType }) => {
     const [plan, setPlan] = useState<Plan | null>(null);
     const [isLoading, setIsLoading] = useState(true);
