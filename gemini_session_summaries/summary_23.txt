@@ -1,0 +1,29 @@
+Gemini Session Summary #23
+Date: Friday, February 13, 2026
+
+Major Changes & Decisions:
+
+1. Auth Stability (ProtectedRoute):
+   - Implemented a global `ProtectedRoute` component in `frontend/src/components/ProtectedRoute.tsx`.
+   - This component resolves the "intermittent logout" issue by waiting for the AuthContext `isLoading` state to finish before making redirection decisions.
+   - Wrapped all sensitive routes (Dashboard, Flow Steps, Checkout, Admin) in `App.tsx` with `ProtectedRoute`.
+   - Removed manual authentication and redirection logic from polymorphic editors (Recipient, Preferences, Messages) and structure editors, making them cleaner and more focused.
+
+2. Structure Editor Consolidation:
+   - Identified that `StructureEditor.tsx` and `UpfrontStructureEditor.tsx` were functional duplicates.
+   - Deleted the unused `UpfrontStructureEditor.tsx` and renamed the active `StructureEditor.tsx` to `UpfrontStructureEditor.tsx` to align with the naming convention of its siblings (`Subscription...` and `SingleDelivery...`).
+   - Updated the default frequency to "annually" across the upfront plan editors.
+
+3. Checkout UX Improvements:
+   - Added a "Back" button to the `CheckoutPage.tsx`.
+   - Updated `PaymentInitiatorButton` to accept and pass a `backPath` via React Router location state.
+   - Ensured all confirmation pages and structure editors provide the correct `backPath` to allow users to return to their previous step from the payment screen.
+
+4. Routing & Cleanup:
+   - Fixed route inconsistencies in `PlanOverviewPage.tsx` where hardcoded links to `/dashboard/plans/` were causing 404s.
+   - Restored several critical routes (`/order`, `/event-gate`, and `/upfront-flow/create-account`) that were accidentally omitted during the auth refactor.
+   - Cleaned up unused variables and imports identified by the TypeScript compiler during the build process.
+
+5. Technical Validation:
+   - Successfully executed `npm run build` to verify that all code changes are syntactically correct and production-ready.
+   - Verified that the `ProtectedRoute` correctly handles the "Auth Gap" during page refreshes by showing a loading spinner instead of redirecting to login.

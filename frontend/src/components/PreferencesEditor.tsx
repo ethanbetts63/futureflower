@@ -1,7 +1,6 @@
 // futureflower/frontend/src/components/PreferencesEditor.tsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
@@ -29,7 +28,6 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
 }) => {
     const { planId } = useParams<{ planId: string }>();
     const navigate = useNavigate();
-    const { isAuthenticated } = useAuth();
 
     // Data fetching state
     const [flowerTypes, setFlowerTypes] = useState<FlowerType[]>([]);
@@ -42,11 +40,6 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
     const [flowerNotes, setFlowerNotes] = useState<string>('');
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            toast.error("You must be logged in to manage preferences.");
-            navigate('/login');
-            return;
-        }
         if (!planId) {
             toast.error("No plan specified.");
             navigate('/dashboard');
@@ -78,7 +71,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         };
 
         fetchData();
-    }, [isAuthenticated, navigate, planId, getPlan]);
+    }, [navigate, planId, getPlan]);
     
     const handleSave = async () => {
         if (!planId) return;
@@ -104,7 +97,6 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         navigate(onSaveNavigateTo);
     }
 
-    if (!isAuthenticated) return null;
     if (isLoading) return <div className="flex justify-center items-center h-screen"><Spinner className="h-12 w-12" /></div>;
     if (error) return <div className="text-center py-12 text-red-500">{error}</div>;
 
@@ -112,7 +104,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-4xl py-12">
                 <Seo title={`${title} | FutureFlower`} />
-                <Card className="bg-white text-black border-none shadow-md">
+                <Card className="text-black border-none shadow-md" style={{ backgroundColor: 'var(--backgroud-white)' }}>
                     <CardHeader>
                          <div className="flex justify-between items-start">
                             <div>

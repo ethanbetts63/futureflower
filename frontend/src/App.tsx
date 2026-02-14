@@ -117,6 +117,11 @@ function App() {
                 <Route path="/articles/best-flower-delivery-perth" element={<BestFlowerDeliveryPerth />} />
                 <Route path="/articles/best-flower-delivery-sydney" element={<BestFlowerDeliverySydney />} />
 
+                {/* Event Creation Flow */}
+                <Route path="/order" element={<ProductSelectionPage />} />
+                <Route path="/event-gate/:flowType?" element={<EventGate />} />
+                <Route path="/upfront-flow/create-account" element={<Step1CreateAccountPage />} />
+
                 {/* Event Creation Flow - Post Gate */}
                 <Route path="/upfront-flow/upfront-plan/:planId/recipient" element={<ProtectedRoute><Step2RecipientPage /></ProtectedRoute>} />
                 <Route path="/upfront-flow/upfront-plan/:planId/structure" element={<ProtectedRoute><Step5StructurePage /></ProtectedRoute>} />

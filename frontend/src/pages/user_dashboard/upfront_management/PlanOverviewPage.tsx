@@ -23,7 +23,7 @@ const PlanOverviewPage = () => {
       <Seo title="Plan Overview | FutureFlower" />
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto max-w-4xl">
-          <PlanDisplay getPlan={getUpfrontPlan} fallbackNavigationPath="/dashboard/flower-plans">
+          <PlanDisplay getPlan={getUpfrontPlan} fallbackNavigationPath="/dashboard/plans">
             {({ plan, flowerTypeMap }: { plan: UpfrontPlan; flowerTypeMap: Map<number, FlowerType> }) => (
               <>
                 {plan.status !== 'active' && planId && <PlanActivationBanner planId={planId} />}
@@ -42,34 +42,34 @@ const PlanOverviewPage = () => {
 
                     <RecipientCard
                       plan={plan}
-                      editUrl={`/dashboard/plans/${planId}/edit-recipient`}
+                      editUrl={`/dashboard/upfront-plans/${planId}/edit-recipient`}
                     />
 
                     {!(plan.frequency === 'annually' && plan.years === 1) && (
                       <PlanStructureCard
                         plan={plan}
-                        editUrl={`/dashboard/plans/${planId}/edit-structure`}
+                        editUrl={`/dashboard/upfront-plans/${planId}/edit-structure`}
                       />
                     )}
 
                     <DeliveryDatesCard
                       plan={plan}
-                      editUrl={`/dashboard/plans/${planId}/edit-structure`}
+                      editUrl={`/dashboard/upfront-plans/${planId}/edit-structure`}
                     />
 
                     <PreferencesCard
                       plan={plan}
                       flowerTypeMap={flowerTypeMap}
-                      editUrl={`/dashboard/plans/${planId}/edit-preferences`}
+                      editUrl={`/dashboard/upfront-plans/${planId}/edit-preferences`}
                     />
 
                     <MessagesCard
                       plan={plan}
-                      editUrl={`/dashboard/plans/${planId}/edit-messages`}
+                      editUrl={`/dashboard/upfront-plans/${planId}/edit-messages`}
                     />
                     
                     <div className="flex justify-between items-center mt-8">
-                      <BackButton to="/dashboard/flower-plans" />
+                      <BackButton to="/dashboard/plans" />
                     </div>
                   </div>
                 </div>
