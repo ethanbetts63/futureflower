@@ -7,7 +7,7 @@ import EditButton from '@/components/EditButton';
 import type { FlowerType } from '../types/FlowerType';
 import type { PreferencesCardProps } from '../types/PreferencesCardProps';
 
-// Helper component for displaying a list of flower types by name
+// Helper component for displaying a list of vibes/occasions
 const FlowerTypePreferenceList: React.FC<{ title: string; typeIds: number[]; typeMap: Map<number, FlowerType>; icon: React.ElementType; }> = ({ title, typeIds, typeMap, icon: Icon }) => {
     const types = useMemo(() =>
         typeIds.map(id => typeMap.get(Number(id))).filter((ft): ft is FlowerType => !!ft),
@@ -36,11 +36,11 @@ const PreferencesCard: React.FC<PreferencesCardProps> = ({ plan, flowerTypeMap, 
                 <EditButton to={editUrl} />
             </CardHeader>
             <CardContent className="space-y-6">
-                <FlowerTypePreferenceList title="Flower Preferences" typeIds={plan.preferred_flower_types} typeMap={flowerTypeMap} icon={Sprout} />
+                <FlowerTypePreferenceList title="The Vibe" typeIds={plan.preferred_flower_types} typeMap={flowerTypeMap} icon={Sprout} />
                 
                 {plan.flower_notes && (
                     <div>
-                        <h4 className="font-semibold mb-2">Flower Notes</h4>
+                        <h4 className="font-semibold mb-2">Florist Notes</h4>
                         <p className="text-sm text-gray-700 whitespace-pre-wrap">{plan.flower_notes}</p>
                     </div>
                 )}

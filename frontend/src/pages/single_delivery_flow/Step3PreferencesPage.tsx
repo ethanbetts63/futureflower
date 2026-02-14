@@ -10,8 +10,8 @@ const Step3PreferencesPage: React.FC = () => {
     return (
         <PreferencesEditor
             mode="create"
-            title="Set Preferences"
-            description="Choose flower styles and add notes to make the bouquet perfect. This step is optional."
+            title="The Florist's Brief"
+            description="Set the vibe and give your florist the inside scoop. This step is optional but it makes a difference."
             saveButtonText="Next: Details"
             onSaveNavigateTo={`/single-delivery-flow/plan/${planId}/structure`}
             backPath={`/single-delivery-flow/plan/${planId}/recipient`}

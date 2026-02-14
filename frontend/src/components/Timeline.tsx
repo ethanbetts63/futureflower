@@ -19,7 +19,7 @@ export const Timeline: React.FC = () => {
       {
         title: 'Customer Books Delivery',
         description: [
-          'Sets budget, dates, and flower preferences',
+          'Sets budget, dates, and occasion vibe',
           'Pays for each bouquets budget (eg. $100) and customer protection/refund fee',
           'Our fee is in addition to the budget. Florists are always paid the full budget amount for accepted orders.',
         ],

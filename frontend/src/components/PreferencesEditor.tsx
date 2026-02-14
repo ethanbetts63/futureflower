@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 import { getFlowerTypes } from '@/api';
 import type { FlowerType } from '../types/FlowerType';
 
-import { SelectableTag } from '@/components';
+import { VibePicker } from '@/components/VibePicker';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import BackButton from '@/components/BackButton';
@@ -38,7 +38,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
     const [error, setError] = useState<string | null>(null);
 
     // Selection state
-    const [preferredFlowerTypes, setPreferredFlowerTypes] = useState<number[]>([]);
+    const [selectedVibe, setSelectedVibe] = useState<number | null>(null);
     const [flowerNotes, setFlowerNotes] = useState<string>('');
 
     useEffect(() => {
@@ -48,7 +48,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
             return;
         }
         if (!planId) {
-            toast.error("No flower plan specified.");
+            toast.error("No plan specified.");
             navigate('/dashboard');
             return;
         }
@@ -64,7 +64,8 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
                 setFlowerTypes(flowerTypesData);
 
                 if (planData) {
-                    setPreferredFlowerTypes(planData.preferred_flower_types.map(Number));
+                    const ids = planData.preferred_flower_types.map(Number);
+                    setSelectedVibe(ids.length > 0 ? ids[0] : null);
                     setFlowerNotes(planData.flower_notes || '');
                 }
 
@@ -79,16 +80,12 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         fetchData();
     }, [isAuthenticated, navigate, planId, getPlan]);
     
-    const handleToggle = (id: number) => {
-        setPreferredFlowerTypes(prev => prev.includes(id) ? prev.filter(itemId => itemId !== id) : [...prev, id]);
-    };
-
     const handleSave = async () => {
         if (!planId) return;
         setIsSaving(true);
         try {
             await updatePlan(planId, {
-                preferred_flower_types: preferredFlowerTypes,
+                preferred_flower_types: selectedVibe !== null ? [selectedVibe] : [],
                 flower_notes: flowerNotes,
             });
             if (mode === 'edit') {
@@ -132,30 +129,20 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
                         </div>
                     </CardHeader>
                     <CardContent className="space-y-8">
-                        {/* Flower Types Section */}
-                        <div>
-                            <h3 className="text-xl font-semibold mb-2">Flower Preferences</h3>
-                            <p className="text-sm text-gray-600 mb-4">Select the styles they love!</p>
-                            <div className="flex flex-wrap gap-2 justify-center ">
-                                {flowerTypes.map(ft => (
-                                    <SelectableTag
-                                        key={ft.id}
-                                        label={ft.name}
-                                        isSelected={preferredFlowerTypes.includes(ft.id)}
-                                        onClick={() => handleToggle(ft.id)}
-                                    />
-                                ))}
-                            </div>
-                        </div>
+                        <VibePicker
+                            vibes={flowerTypes}
+                            selected={selectedVibe}
+                            onSelect={setSelectedVibe}
+                        />
 
                         <Separator />
 
-                        {/* Flower Notes Section */}
+                        {/* Florist Notes Section */}
                         <div>
-                            <h3 className="text-xl font-semibold mb-2">The florist should know...</h3>
-                            <p className="text-sm text-gray-600 mb-4">For instance, any specific dislikes or special requests? The florist will try their best to accommodate them.</p>
+                            <h3 className="text-xl font-semibold mb-2">Anything else the florist should know?</h3>
+                            <p className="text-sm text-gray-600 mb-4">Favourite colours, dislikes, allergies — anything that helps them get it right.</p>
                             <Textarea
-                                placeholder="They love roses but they hate lilies..."
+                                placeholder="She loves peonies but hates lilies. Keep it soft and pastel."
                                 value={flowerNotes}
                                 onChange={(e) => setFlowerNotes(e.target.value)}
                                 className="min-h-[100px]"

@@ -10,8 +10,8 @@ const Step3PreferenceSelectionPage: React.FC = () => {
     return (
         <PreferencesEditor
             mode="create"
-            title="Add Your Preferences (Optional)"
-            description="Let us know what they love and what they don't. This helps our florists create bouquets they'll adore."
+            title="The Florist's Brief"
+            description="Set the vibe and give your florist the inside scoop. This step is optional but it makes a difference."
             saveButtonText="Save & Continue"
             onSaveNavigateTo={`/upfront-flow/upfront-plan/${planId}/add-message`}
             backPath={`/upfront-flow/upfront-plan/${planId}/structure`}
