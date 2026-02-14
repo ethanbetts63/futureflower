@@ -44,6 +44,16 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
         />
       </picture>
 
+      {/* Free Delivery Badge */}
+      <div className="absolute top-8 right-6 sm:top-12 sm:right-12 z-10">
+        <div className="bg-white/95 backdrop-blur-sm rounded-full px-5 py-3 shadow-lg flex items-center gap-2.5">
+          <svg className="h-5 w-5 text-[var(--colorgreen)] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          <span className="text-sm font-semibold text-gray-900 tracking-tight">Free Delivery</span>
+        </div>
+      </div>
+
       {/* Overlay Content */}
       <div className="relative ml-0 sm:ml-12 md:ml-24 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-black/70 p-8 sm:p-12 rounded-none sm:rounded-lg text-white">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
