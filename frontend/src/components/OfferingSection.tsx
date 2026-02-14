@@ -4,6 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import placeholderImg from '../assets/florist_packing.webp';
 import flowerIcon from '../assets/flower_symbol.svg';
 import subscriptionIconWhite from '../assets/subscription_symbol_white.svg';
+import FreeDeliveryBadge from './FreeDeliveryBadge';
 
 const OfferingSection: React.FC = () => {
   const navigate = useNavigate();
@@ -24,7 +25,8 @@ const OfferingSection: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
 
             {/* Left — Image */}
-            <div className="rounded-xl overflow-hidden">
+            <div className="relative rounded-xl overflow-hidden">
+              <FreeDeliveryBadge className="absolute top-4 left-4 scale-85 origin-top-left" />
               <img
                 src={placeholderImg}
                 alt="A florist carefully preparing a bouquet"

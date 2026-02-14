@@ -30,7 +30,7 @@ const FreeDeliveryBadge: React.FC<FreeDeliveryBadgeProps> = ({ className = "" })
             </svg>
             <span className="text-base font-bold text-gray-900 uppercase tracking-wide">Free Delivery</span>
           </div>
-          <span className="text-xs text-gray-500 mt-0.5">Included on all products</span>
+          <span className="text-xs text-black pl-4 mt-0.5">Included on all products</span>
         </div>
       </div>
     </div>
