@@ -88,7 +88,7 @@ export const ImpactTierSelector: React.FC<ImpactTierSelectorProps> = ({ value, o
               key={tier.price}
               type="button"
               onClick={() => handleTierSelect(tier.price)}
-              className={`relative bg-white rounded-2xl overflow-hidden text-left transition-all cursor-pointer ${
+              className={`relative bg-white rounded-2xl overflow-hidden text-left transition-all cursor-pointer flex flex-col ${
                 isSelected
                   ? 'ring-2 ring-[var(--colorgreen)] shadow-lg'
                   : 'shadow-md hover:-translate-y-1 hover:shadow-lg'
@@ -119,7 +119,7 @@ export const ImpactTierSelector: React.FC<ImpactTierSelectorProps> = ({ value, o
               />
 
               {/* Content */}
-              <div className="p-5">
+              <div className="p-5 flex-1">
                 <div className="flex items-baseline justify-between mb-2">
                   <h4 className="text-lg font-bold text-gray-900 font-['Playfair_Display',_serif]">
                     {tier.name}

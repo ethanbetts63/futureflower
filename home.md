@@ -7,20 +7,18 @@
 
 ## Hero Section
 The gift that keeps on giving.
-The most meaningful gestures are the ones you plan ahead. Choose the dates, set the budget, and we organize flower deliveries, time after time. One thoughtful decision, infinite effortless giving.
-Order
 
-## Our Process
-Simple, affordable, unforgetable.
+## How It Works
+Meaningful flowers on meaningful dates, minus the effort. One decision is all it takes.
 
-### 1. You decide once.
-Choose the dates, budget and frequency. Attach meaningful messages and give preferences on bouquet composition.
+### 1. Tell us the moment.
+A birthday, an anniversary, or just a Tuesday. Pick the date and the occasion — we take it from there.
 
-### 2. Lock it in.
-We communicate with our local partners so that you recieve the highest quality flowers, almost anywhere in the world.
+### 2. We find the perfect florist.
+Our local partners hand-pick seasonal stems and craft a bouquet tailored to your preferences, wherever your recipient is.
 
-### 3. It just happens.
-Every time, on time, we arrange the flowers — no risk of forgetting, no effort. Our expertise is reliability.
+### 3. They open the door.
+Fresh flowers arrive on the exact day you chose. No reminders needed, no effort required. Just the look on their face.
 
 ## Founder's Letter
 **How do I say 'I love you' when I’m no longer there to say it?**
@@ -85,7 +83,7 @@ We can’t unsend flowers. But everything up until that point is fair game.
 Currently we operate in the EU (Europe), United Kingdom, North America (USA & Canada), Australia and New Zealand.
 
 ### Is delivery included in the price?
-Cost of delivery is included in your yearly flower budget. Our service fee is placed seperately on top for transparency.
+Cost of delivery is included in your yearly flower budget.
 
 ## From the FutureFlower Blog
 Insights and guides for long-term floral planning.

@@ -1,5 +1,6 @@
 import petalImage from '../assets/petal.png';
 import floristMakingFlowersImage from '../assets/florist_making_flowers.png';
+import deliveryHighImage from '../assets/delivery_high.png';
 
 const steps = [
   {
@@ -21,7 +22,7 @@ const steps = [
     title: 'They open the door.',
     description:
       'Fresh flowers arrive on the exact day you chose. No reminders needed, no effort required. Just the look on their face.',
-    image: 'https://placehold.co/600x400/d5cfe8/3b2d6b?text=Flower+Delivery',
+    image: deliveryHighImage,
   },
 ];
 
