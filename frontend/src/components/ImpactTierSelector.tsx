@@ -120,7 +120,7 @@ export const ImpactTierSelector: React.FC<ImpactTierSelectorProps> = ({ value, o
 
               {/* Content */}
               <div className="p-5 flex-1">
-                <div className="flex items-baseline justify-between mb-2">
+                <div className="flex items-baseline justify-between gap-x-4 mb-2">
                   <h4 className="text-lg font-bold text-gray-900 font-['Playfair_Display',_serif]">
                     {tier.name}
                   </h4>
