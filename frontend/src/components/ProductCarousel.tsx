@@ -28,7 +28,7 @@ const steps = [
 
 export const ProductCarousel = () => {
   return (
-    <div className="w-full pt-10 pb-12">
+    <div className="w-full pt-6 pb-6">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-10">

@@ -8,6 +8,7 @@ import { DeliverySection } from '../components/DeliverySection';
 import { RomanceSection } from '../components/RomanceSection';
 import type { FaqItem } from '@/types/FaqItem';
 import { ArticleCarousel } from '../components/ArticleCarousel';
+import AnnouncementBar from '../components/AnnouncementBar';
 
 
 const HomePage = () => {
@@ -54,6 +55,7 @@ const HomePage = () => {
       <HeroV2
         title={<>The gift that <span className='italic'>keeps</span> on giving.</>}
       />
+      <AnnouncementBar />
 
       {/* --- Hierarchy Section --- */}
       <section className="bg-primary">

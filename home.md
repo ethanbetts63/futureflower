@@ -8,6 +8,9 @@
 ## Hero Section
 The gift that keeps on giving.
 
+## International Availability (Announcement Bar)
+Scrollable list of operating countries including: United Kingdom, France, Germany, Italy, Spain, Portugal, Netherlands, Belgium, Austria, Switzerland, Ireland, Sweden, Norway, Denmark, Finland, Poland, Czech Republic, Greece, Romania, Hungary, Croatia, Slovakia, Slovenia, Bulgaria, Estonia, Latvia, Lithuania, Luxembourg, Malta, Cyprus, Iceland, USA, Canada, Australia, and New Zealand.
+
 ## How It Works
 Meaningful flowers on meaningful dates, minus the effort. One decision is all it takes.
 

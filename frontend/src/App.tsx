@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import HomePage from './pages/home';
 import NavBar from './components/NavBar';
-import AnnouncementBar from './components/AnnouncementBar';
 import Footer from './components/Footer';
 import { Toaster } from "@/components/ui/sonner"
 import { Spinner } from './components/ui/spinner';
@@ -93,7 +92,6 @@ function App() {
   return (
     <HelmetProvider>
       <div className="min-h-screen flex flex-col">
-        <AnnouncementBar />
         <NavBar />
         <Toaster position="top-center" />
         <div className="flex-grow">

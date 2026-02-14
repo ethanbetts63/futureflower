@@ -39,7 +39,7 @@ const countries = [
 ];
 
 const CountryPill = ({ name, code }: { name: string; code: string }) => (
-  <span className="inline-flex items-center gap-1.5 bg-[var(--background-white)] rounded-full px-3 py-1 text-xs font-medium text-black whitespace-nowrap flex-shrink-0">
+  <span className="inline-flex items-center gap-1.5  rounded-full px-3 py-1  bg-white text-xs font-medium text-black whitespace-nowrap flex-shrink-0">
     <span className={`fi fi-${code}`} style={{ fontSize: '0.9em' }} />
     {name}
   </span>
@@ -47,7 +47,7 @@ const CountryPill = ({ name, code }: { name: string; code: string }) => (
 
 const AnnouncementBar = () => {
   return (
-    <div className="bg-[var(--color3)] overflow-hidden pt-2 pb-1">
+    <div className="bg-white overflow-hidden pt-2 pb-2">
       <div className="ticker-track flex gap-3">
         {countries.map((c) => (
           <CountryPill key={c.code} name={c.name} code={c.code} />
@@ -62,9 +62,6 @@ const AnnouncementBar = () => {
         .ticker-track {
           animation: ticker-scroll 180s linear infinite;
           width: max-content;
-        }
-        .ticker-track:hover {
-          animation-play-state: paused;
         }
         @keyframes ticker-scroll {
           0% { transform: translateX(0); }
