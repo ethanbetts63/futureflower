@@ -93,7 +93,7 @@ const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
       onClick={handleInitiatePayment}
       disabled={disabled || isLoading}
       className={cn(
-        "bg-[var(--colorgreen)] text-black font-normal px-6 py-3 rounded-xl hover:brightness-110 transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 min-w-[200px] border-none text-base",
+        "bg-[var(--colorgreen)] text-black font-normal px-6 py-3 rounded-xl hover:bg-[#22c55e] hover:shadow-xl transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 min-w-[200px] border-none text-base",
         className
       )}
       {...props}
