@@ -12,8 +12,6 @@ const Step4StructurePage: React.FC = () => {
         <StepProgressBar currentStep={4} totalSteps={4} planName="Single Delivery Plan" />
         <SingleDeliveryStructureEditor
             mode="create"
-            title="Delivery Details"
-            description="Set the budget for the bouquet, when it should be delivered, and an optional message."
             saveButtonText="Next: Confirm Your Order"
             onSaveNavigateTo={`/single-delivery-flow/plan/${planId}/confirmation`}
             backPath={`/single-delivery-flow/plan/${planId}/preferences`}

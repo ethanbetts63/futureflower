@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import { ChevronRight } from 'lucide-react';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getFlowerTypes } from '@/api';

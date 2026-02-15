@@ -1,7 +1,7 @@
 // futureflower/frontend/src/pages/flow/Step6BookingConfirmationPage.tsx
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ArrowRight, MapPin, Calendar, Sprout, MessageSquare, Tag, Clock } from 'lucide-react';
+import { MapPin, Calendar, Sprout, MessageSquare, Tag, Clock } from 'lucide-react';
 import Seo from '@/components/Seo';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import PlanDisplay from '@/components/PlanDisplay';

@@ -1,7 +1,7 @@
 // futureflower/frontend/src/pages/subscription_flow/Step5ConfirmationPage.tsx
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ArrowRight, MapPin, Calendar, Sprout, RefreshCw, Tag } from 'lucide-react';
+import { MapPin, Calendar, Sprout, RefreshCw, Tag } from 'lucide-react';
 import Seo from '@/components/Seo';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import PlanDisplay from '@/components/PlanDisplay';

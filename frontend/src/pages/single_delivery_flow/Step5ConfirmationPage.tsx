@@ -1,7 +1,7 @@
 // frontend/src/pages/single_delivery_flow/Step5ConfirmationPage.tsx
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ArrowRight, MapPin, Calendar, MessageSquare, StickyNote, Sprout } from 'lucide-react';
+import { MapPin, Calendar, MessageSquare, StickyNote, Sprout } from 'lucide-react';
 import Seo from '@/components/Seo';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import PlanDisplay from '@/components/PlanDisplay';

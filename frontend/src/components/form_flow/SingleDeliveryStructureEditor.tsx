@@ -3,7 +3,6 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
@@ -26,8 +25,8 @@ const getMinDateString = () => {
 
 const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps> = ({
     mode,
-    title,
-    description,
+    title = "Delivery Details",
+    description = "Set the budget for the bouquet, when it should be delivered, and an optional message.",
     saveButtonText,
     onSaveNavigateTo,
     backPath,
@@ -148,11 +147,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
             <div className="container mx-auto max-w-2xl py-12">
                 <Seo title={`${title} | FutureFlower`} />
                 <Card className="bg-white text-black border-none shadow-md">
-                    <CardHeader>
-                        <CardTitle className="text-3xl">{title}</CardTitle>
-                        <CardDescription>{description}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-8">
+                    <CardContent className="space-y-8 pt-8">
                         <SingleDeliveryStructureForm
                             formData={formData}
                             onFormChange={handleFormChange}
