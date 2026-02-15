@@ -14,7 +14,7 @@ const Step4StructurePage: React.FC = () => {
             mode="create"
             title="Define Your Subscription"
             description="Set the budget, frequency, and start date for your flower subscription. You can also add an optional message for all deliveries."
-            saveButtonText="Next: Confirm Your Plan"
+            saveButtonText="Next: Confirmation"
             onSaveNavigateTo={`/subscribe-flow/subscription-plan/${planId}/confirmation`}
             backPath={`/subscribe-flow/subscription-plan/${planId}/preferences`}
         />

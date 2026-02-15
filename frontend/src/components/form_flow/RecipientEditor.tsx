@@ -154,13 +154,12 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
                             <p className="text-sm text-muted-foreground">Any special instructions for the delivery driver.</p>
                         </div>
                     </CardContent>
-                    <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 border-t border-black/5">
-                        <FlowBackButton to={backButtonTo} className="w-full sm:w-auto" />
+                    <CardFooter className="flex flex-row justify-between items-center gap-4 pt-8 border-t border-black/5">
+                        <FlowBackButton to={backButtonTo} />
                         <FlowNextButton 
                             label={saveButtonText} 
                             onClick={handleSave} 
                             isLoading={isSaving}
-                            className="w-full sm:w-auto"
                         />
                     </CardFooter>
                 </Card>

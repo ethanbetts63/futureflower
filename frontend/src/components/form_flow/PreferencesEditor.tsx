@@ -120,13 +120,12 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
                         </div>
 
                     </CardContent>
-                    <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-4 border-t border-black/5">
-                        <FlowBackButton to={backPath} className="w-full sm:w-auto" />
+                    <CardFooter className="flex flex-row justify-between items-center gap-4 pt-4 border-t border-black/5">
+                        <FlowBackButton to={backPath} />
                         <FlowNextButton 
                             label={saveButtonText} 
                             onClick={handleSave} 
                             isLoading={isSaving}
-                            className="w-full sm:w-auto"
                         />
                     </CardFooter>
                 </Card>

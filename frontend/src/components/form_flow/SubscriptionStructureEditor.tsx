@@ -153,17 +153,15 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
                             setIsDebouncePending={setIsDebouncePending}
                         />
                     </CardContent>
-                    <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 border-t border-black/5">
+                    <CardFooter className="flex flex-row justify-between items-center gap-4 pt-8 border-t border-black/5">
                         <FlowBackButton 
                             to={backPath.replace('{planId}', planId || '')} 
-                            className="w-full sm:w-auto"
                         />
                         <FlowNextButton 
                             label={saveButtonText} 
                             onClick={handleSave} 
                             isLoading={isSaving}
                             disabled={isApiCalculating || isDebouncePending || totalAmount === null}
-                            className="w-full sm:w-auto"
                         />
                     </CardFooter>
                 </Card>

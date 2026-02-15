@@ -51,7 +51,7 @@ const Step5ConfirmationPage = () => {
                     title="Confirm Your Delivery" 
                     description="Please review the details of your order before proceeding to payment."
                     footer={
-                      <>
+                      <div className="flex flex-row justify-between items-center w-full gap-4">
                         <FlowBackButton to={`/single-delivery-flow/plan/${planId}/structure`} />
                         <PaymentInitiatorButton
                           itemType="UPFRONT_PLAN_NEW"
@@ -60,11 +60,10 @@ const Step5ConfirmationPage = () => {
                           disabled={isSubmitting || !planId}
                           onPaymentInitiate={() => setIsSubmitting(true)}
                           onPaymentError={() => setIsSubmitting(false)}
-                          className="w-full md:w-auto"
                         >
-                          Proceed to Payment
+                          Next: Payment
                         </PaymentInitiatorButton>
-                      </>
+                      </div>
                     }
                   >
                     <SummarySection 

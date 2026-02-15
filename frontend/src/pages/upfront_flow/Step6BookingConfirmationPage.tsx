@@ -51,7 +51,7 @@ const Step6BookingConfirmationPage = () => {
                     title="Review Your Flower Plan" 
                     description="This is the final step before activating your flower plan. Please ensure everything is correct."
                     footer={
-                      <>
+                      <div className="flex flex-row justify-between items-center w-full gap-4">
                         <FlowBackButton to={`/upfront-flow/upfront-plan/${planId}/structure`} />
                         <PaymentInitiatorButton
                           itemType="UPFRONT_PLAN_NEW"
@@ -61,11 +61,10 @@ const Step6BookingConfirmationPage = () => {
                           disabled={isSubmitting || !planId}
                           onPaymentInitiate={() => setIsSubmitting(true)}
                           onPaymentError={() => setIsSubmitting(false)}
-                          className="w-full md:w-auto"
                         >
-                          Proceed to Payment
+                          Next: Payment
                         </PaymentInitiatorButton>
-                      </>
+                      </div>
                     }
                   >
                     <SummarySection 

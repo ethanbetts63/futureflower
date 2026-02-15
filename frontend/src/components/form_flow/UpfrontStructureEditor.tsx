@@ -159,8 +159,8 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
                             setIsDebouncePending={setIsDebouncePending}
                         />
                     </CardContent>
-                    <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 border-t border-black/5">
-                        <FlowBackButton to={backPath} className="w-full sm:w-auto" />
+                    <CardFooter className="flex flex-row justify-between items-center gap-4 pt-8 border-t border-black/5">
+                        <FlowBackButton to={backPath} />
                         {showPaymentButton ? (
                             <PaymentInitiatorButton
                                 itemType="UPFRONT_PLAN_MODIFY"
@@ -172,9 +172,8 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
                                 }}
                                 backPath={backPath}
                                 disabled={isActionDisabled}
-                                className="w-full sm:w-auto"
                             >
-                                Proceed to Payment
+                                Next: Payment
                             </PaymentInitiatorButton>
                         ) : (
                             <FlowNextButton 
@@ -182,7 +181,6 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
                                 onClick={handleSave} 
                                 isLoading={isSaving}
                                 disabled={isActionDisabled}
-                                className="w-full sm:w-auto"
                             />
                         )}
                     </CardFooter>
