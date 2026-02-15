@@ -18,7 +18,7 @@ const UnifiedSummaryCard: React.FC<UnifiedSummaryCardProps> = ({
 }) => {
   return (
     <Card className={`w-full bg-white shadow-none md:shadow-xl md:shadow-black/5 border-none text-black overflow-hidden rounded-none md:rounded-3xl ${className}`}>
-      <CardHeader className="bg-white border-b border-black/5 px-4 md:px-8 py-2">
+      <CardHeader className="bg-white border-b border-black/5 px-4 md:px-8">
         <CardTitle className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif]">
           {title}
         </CardTitle>
@@ -26,7 +26,7 @@ const UnifiedSummaryCard: React.FC<UnifiedSummaryCardProps> = ({
           {description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="px-4 md:px-8 py-6 bg-white">
+      <CardContent className="px-4 md:px-8 bg-white">
         <div className="flex flex-col">
           {children}
         </div>
