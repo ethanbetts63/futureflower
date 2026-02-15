@@ -129,7 +129,7 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
                         <span>$0.00</span>
                     </div>
                     <div className="flex items-center justify-between">
-                        <span className="text-muted-foreground flex items-center"><DollarSign className="mr-2 h-4 w-4" />Customer Refund Protection</span>
+                        <span className="text-muted-foreground flex items-center"><DollarSign className="mr-2 h-4 w-4" />Service & Refund Protection</span>
                         <span>${totalServiceFee.toFixed(2)}</span>
                     </div>
                 </div>
