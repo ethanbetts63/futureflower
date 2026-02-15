@@ -9,8 +9,6 @@ const EditStructurePage: React.FC = () => {
     return (
         <SubscriptionStructureEditor
             mode="edit"
-            title="Edit Your Subscription"
-            description="Update the budget, frequency, or message for your flower subscription."
             saveButtonText="Save Changes"
             onSaveNavigateTo={`/dashboard/subscription-plans/${planId}/overview`}
             backPath={`/dashboard/subscription-plans/${planId}/overview`}

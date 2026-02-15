@@ -2,7 +2,7 @@
 import { useParams } from 'react-router-dom';
 import { MapPin, Calendar, Sprout, Clock, MessageSquare, CreditCard } from 'lucide-react';
 import Seo from '@/components/Seo';
-import BackButton from '@/components/BackButton';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import PaymentHistoryCard from '@/components/PaymentHistoryCard';
 import PlanActivationBanner from '@/components/PlanActivationBanner';
 import PlanDisplay from '@/components/PlanDisplay';
@@ -140,7 +140,7 @@ const PlanOverviewPage = () => {
                   </div>
 
                   <div className="flex justify-between items-center mt-8">
-                    <BackButton to="/dashboard/plans" />
+                    <FlowBackButton to="/dashboard/plans" />
                   </div>
                 </div>
               );

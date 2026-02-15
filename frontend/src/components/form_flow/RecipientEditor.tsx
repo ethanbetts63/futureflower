@@ -9,7 +9,7 @@ import type { PartialSubscriptionPlan } from '../../types/PartialSubscriptionPla
 import type { RecipientData } from '../../types/RecipientData';
 import RecipientForm from '@/forms/RecipientForm';
 import Seo from '@/components/Seo';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
@@ -23,7 +23,7 @@ type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
 
 const RecipientEditor: React.FC<RecipientEditorProps> = ({
     mode,
-    title,
+    title = "Recipient Details",
     saveButtonText,
     onSaveNavigateTo,
     onCancelNavigateTo,
@@ -133,10 +133,7 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
             <div className="container mx-auto max-w-2xl py-12">
                 <Seo title={`${title} | FutureFlower`} />
                 <Card className="bg-white text-black border-none shadow-md">
-                    <CardHeader>
-                        <CardTitle className="text-3xl">{title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
+                    <CardContent className="pt-8">
                         <RecipientForm
                             formData={formData}
                             onFormChange={handleFormChange}

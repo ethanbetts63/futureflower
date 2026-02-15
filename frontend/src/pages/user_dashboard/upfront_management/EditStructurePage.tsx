@@ -9,8 +9,6 @@ const EditStructurePage: React.FC = () => {
     return (
         <UpfrontStructureEditor
             mode="edit"
-            title="Edit Plan Structure"
-            description="Adjust the budget, frequency, or duration of your plan. Any changes in cost will be calculated before you save."
             saveButtonText="Save Changes"
             onSaveNavigateTo={`/dashboard/plans/${planId}/overview`}
             backPath={`/dashboard/plans/${planId}/overview`}

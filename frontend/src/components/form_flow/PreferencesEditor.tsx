@@ -95,10 +95,10 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
-            <div className="container mx-auto max-w-4xl py-12">
+            <div className="container mx-auto max-w-4xl py-8">
                 <Seo title={`${title} | FutureFlower`} />
                 <Card className="text-black border-none shadow-md" style={{ backgroundColor: 'var(--background-white)' }}>
-                    <CardContent className="space-y-8 pt-8">
+                    <CardContent className="space-y-8 pt-2">
                         <VibePicker
                             vibes={flowerTypes}
                             selected={selectedVibe}
@@ -120,7 +120,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
                         </div>
 
                     </CardContent>
-                    <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 border-t border-black/5">
+                    <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-4 border-t border-black/5">
                         <FlowBackButton to={backPath} className="w-full sm:w-auto" />
                         <FlowNextButton 
                             label={saveButtonText} 
