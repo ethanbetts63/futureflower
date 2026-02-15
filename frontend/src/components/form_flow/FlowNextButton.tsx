@@ -22,7 +22,7 @@ const FlowNextButton: React.FC<FlowNextButtonProps> = ({
     <Button
       asChild={asChild}
       className={cn(
-        "bg-[var(--colorgreen)] text-black font-normal px-6 py-3 rounded-xl hover:brightness-110 transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 min-w-[160px] border-none text-base",
+        "bg-[var(--colorgreen)] text-black font-normal px-6 py-3 rounded-xl hover:bg-[#22c55e] hover:shadow-xl transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 min-w-[160px] border-none text-base",
         className
       )}
       disabled={disabled || isLoading}
