@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { MapPin, Calendar, MessageSquare, StickyNote, Sprout } from 'lucide-react';
 import Seo from '@/components/Seo';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
+import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import PlanDisplay from '@/components/PlanDisplay';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/form_flow/SummarySection';
@@ -23,6 +24,7 @@ const Step5ConfirmationPage = () => {
   return (
     <>
       <Seo title="Confirm Your Order | FutureFlower" />
+      <StepProgressBar planName="Single Delivery" currentStep={4} totalSteps={4} isReview={true} />
       <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-0 md:px-4 max-w-4xl">
           <PlanDisplay getPlan={getUpfrontPlanAsSingleDelivery} fallbackNavigationPath="/dashboard">
