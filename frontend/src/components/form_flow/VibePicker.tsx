@@ -21,8 +21,9 @@ export const VibePicker: React.FC<VibePickerProps> = ({ vibes, selected, onSelec
       </div>
 
       {/* Scrollable cards */}
-      <div className="flex gap-4 overflow-x-auto px-8 scroll-px-8 pt-2 pb-8 snap-x snap-mandatory scrollbar-hide">
-        {vibes.map((vibe) => {
+      <div className="-mx-4 md:-mx-8">
+        <div className="flex gap-4 overflow-x-auto px-4 md:px-8 scroll-px-4 md:scroll-px-8 pt-2 pb-8 snap-x snap-mandatory scrollbar-hide">
+          {vibes.map((vibe) => {
           const isSelected = selected === vibe.id;
           return (
             <button

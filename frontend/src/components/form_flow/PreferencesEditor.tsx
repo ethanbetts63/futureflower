@@ -95,10 +95,10 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
-            <div className="container mx-auto max-w-4xl py-8">
+            <div className="container mx-auto max-w-4xl py-0 md:py-12 px-0 md:px-4">
                 <Seo title={`${title} | FutureFlower`} />
-                <Card className="text-black border-none shadow-md" style={{ backgroundColor: 'var(--background-white)' }}>
-                    <CardContent className="space-y-8 pt-2">
+                <Card className="bg-white text-black border-none shadow-none md:shadow-md rounded-none md:rounded-xl overflow-hidden">
+                    <CardContent className="space-y-8 pt-6 md:pt-10 px-4 md:px-8">
                         <VibePicker
                             vibes={flowerTypes}
                             selected={selectedVibe}
@@ -108,7 +108,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
                         <Separator />
 
                         {/* Florist Notes Section */}
-                        <div>
+                        <div className="pb-4">
                             <h3 className="text-xl font-semibold mb-2">Anything else the florist should know? (optional)</h3>
                             <p className="text-sm text-gray-600 mb-4">Favourite colours, dislikes, allergies — anything that helps them get it right.</p>
                             <Textarea
@@ -120,7 +120,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
                         </div>
 
                     </CardContent>
-                    <CardFooter className="flex flex-row justify-between items-center gap-4 pt-4 border-t border-black/5">
+                    <CardFooter className="flex flex-row justify-between items-center gap-4 py-6 md:py-10 px-4 md:px-8 border-t border-black/5">
                         <FlowBackButton to={backPath} />
                         <FlowNextButton 
                             label={saveButtonText} 

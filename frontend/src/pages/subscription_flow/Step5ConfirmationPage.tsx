@@ -28,8 +28,8 @@ const Step5ConfirmationPage: React.FC = () => {
   return (
     <>
       <Seo title="Confirm Your Subscription | FutureFlower" />
-      <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
-        <div className="container mx-auto px-4 max-w-4xl">
+      <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
+        <div className="container mx-auto px-0 md:px-4 max-w-4xl">
           <PlanDisplay getPlan={getSubscriptionPlan} fallbackNavigationPath="/dashboard">
             {({ plan, flowerTypeMap }: { plan: Plan; flowerTypeMap: Map<number, FlowerType> }) => {
               if (!isSubscriptionPlan(plan)) return null;

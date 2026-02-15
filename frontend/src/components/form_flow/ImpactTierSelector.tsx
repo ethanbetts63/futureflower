@@ -53,8 +53,9 @@ export const ImpactTierSelector: React.FC<ImpactTierSelectorProps> = ({ value, o
       </div>
 
       {/* Tier cards */}
-      <div className="flex gap-4 lg:gap-6 overflow-x-auto px-8 scroll-px-2 pt-4 pb-8 snap-x snap-mandatory scrollbar-hide">
-        {IMPACT_TIERS.map((tier) => {
+      <div className="-mx-4 md:-mx-8">
+        <div className="flex gap-4 lg:gap-6 overflow-x-auto px-4 md:px-8 scroll-px-4 md:scroll-px-8 pt-4 pb-8 snap-x snap-mandatory scrollbar-hide">
+          {IMPACT_TIERS.map((tier) => {
           const isSelected = value === tier.price && !showCustom;
           return (
             <button

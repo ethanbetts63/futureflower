@@ -50,7 +50,7 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
 
     if (isLoading) {
         return (
-            <Card className="bg-white text-black border-none shadow-md w-full">
+            <Card className="bg-white text-black border-none shadow-none md:shadow-md w-full rounded-none md:rounded-xl">
                 <CardContent className="flex justify-center items-center p-8">
                     <Spinner />
                 </CardContent>
@@ -60,11 +60,11 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
 
     if (error || !plan) {
         return (
-            <Card className="bg-white text-black border-none shadow-md w-full">
-                <CardHeader>
+            <Card className="bg-white text-black border-none shadow-none md:shadow-md w-full rounded-none md:rounded-xl">
+                <CardHeader className="px-4 md:px-8">
                     <CardTitle className="text-red-500">Error</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="px-4 md:px-8 pb-10">
                     <p>{error || 'Could not display order summary.'}</p>
                 </CardContent>
             </Card>
@@ -98,15 +98,15 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
     const capitalizedFrequency = plan.frequency ? plan.frequency.charAt(0).toUpperCase() + plan.frequency.slice(1) : null;
 
     return (
-        <Card className="bg-white text-black border-none shadow-md w-full">
-            <CardHeader>
+        <Card className="bg-white text-black border-t md:border-none border-black/5 shadow-none md:shadow-md w-full rounded-none md:rounded-xl overflow-hidden">
+            <CardHeader className="px-4 md:px-8 pt-6 md:pt-10">
                 <CardTitle className="flex justify-between items-center">
                     <span>{planIsSubscription ? 'Subscription Details' : (planIsSingleDelivery ? 'Single Delivery Details' : 'Order Summary')}</span>
                     <Badge variant="secondary">{planType}</Badge>
                 </CardTitle>
                 <CardDescription>Review the details of your order before completing payment.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 px-4 md:px-8 pb-10">
                 <div className="space-y-2 text-sm">
                     {planIsSubscription && (
                     <div className="flex items-center justify-between">

@@ -61,25 +61,25 @@ const CheckoutPage: React.FC = () => {
     const options: StripeElementsOptions = { clientSecret, appearance };
 
     return (
-        <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
+        <div className="min-h-screen w-full py-0 md:py-8" style={{ backgroundColor: 'var(--color4)' }}>
             <Seo title="Complete Payment | FutureFlower" />
-            <div className="container mx-auto max-w-5xl px-4">
+            <div className="container mx-auto max-w-5xl px-0 md:px-4">
                 {backPath && (
-                    <div className="mb-6">
+                    <div className="mb-6 px-4 md:px-0 pt-6 md:pt-0">
                         <FlowBackButton to={backPath} />
                     </div>
                 )}
-                <div className="flex flex-col md:flex-row gap-8 items-start">
+                <div className="flex flex-col md:flex-row gap-0 md:gap-8 items-start">
                     
                     {/* Left Column: Payment Form */}
                     <div className="w-full md:w-3/5">
-                        <Card className="bg-white text-black border-none shadow-md">
-                            <CardHeader>
+                        <Card className="bg-white text-black border-none shadow-none md:shadow-md rounded-none md:rounded-xl overflow-hidden">
+                            <CardHeader className="px-4 md:px-8 pt-6 md:pt-10">
                                 <div className="text-center text-sm pb-2"><p>Powered by <span className="font-bold">Stripe</span></p></div>
                                 <CardTitle className="text-2xl text-center">Complete Your Payment</CardTitle>
                                 <CardDescription className="text-center">Enter your card information below to finalize your purchase.</CardDescription>
                             </CardHeader>
-                            <CardContent>
+                            <CardContent className="px-4 md:px-8 pb-10">
                                 <Elements options={options} stripe={stripePromise}>
                                     <CheckoutForm 
                                         planId={planId}
@@ -93,7 +93,7 @@ const CheckoutPage: React.FC = () => {
                     </div>
 
                     {/* Right Column: Order Summary */}
-                    <div className="w-full md:w-2/5">
+                    <div className="w-full md:w-2/5 mt-0 md:mt-0">
                         <OrderSummaryCard planId={planId} itemType={itemType} />
                     </div>
 

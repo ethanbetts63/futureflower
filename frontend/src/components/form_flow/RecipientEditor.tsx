@@ -129,20 +129,20 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
-            <div className="container mx-auto max-w-2xl py-12">
+            <div className="container mx-auto max-w-4xl py-0 md:py-12 px-0 md:px-4">
                 <Seo title={`${title} | FutureFlower`} />
-                <Card className="bg-white text-black border-none shadow-md">
-                    <CardHeader>
+                <Card className="bg-white text-black border-none shadow-none md:shadow-md rounded-none md:rounded-xl overflow-hidden">
+                    <CardHeader className="px-4 md:px-8 pt-6 md:pt-10">
                         <CardTitle className="text-3xl">{title}</CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="px-4 md:px-8 py-6">
                         <RecipientForm
                             formData={formData}
                             onFormChange={handleFormChange}
                             title="" // Title is handled by the CardHeader
                         />
 
-                        <div className="grid gap-2 mt-6">
+                        <div className="grid gap-2 mt-6 pb-4">
                             <Label htmlFor="delivery-notes">Delivery Notes (Optional)</Label>
                             <Textarea
                                 id="delivery-notes"
@@ -154,7 +154,7 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
                             <p className="text-sm text-muted-foreground">Any special instructions for the delivery driver.</p>
                         </div>
                     </CardContent>
-                    <CardFooter className="flex flex-row justify-between items-center gap-4 pt-8 border-t border-black/5">
+                    <CardFooter className="flex flex-row justify-between items-center gap-4 py-6 md:py-10 px-4 md:px-8 border-t border-black/5">
                         <FlowBackButton to={backButtonTo} />
                         <FlowNextButton 
                             label={saveButtonText} 

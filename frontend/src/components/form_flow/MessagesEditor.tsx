@@ -182,11 +182,11 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
-            <div className="container mx-auto max-w-4xl py-12">
+            <div className="container mx-auto max-w-4xl py-0 md:py-12 px-0 md:px-4">
                 <Seo title={`${title} | FutureFlower`} />
-                <Card className="bg-white text-black border-none shadow-md">
-                    <CardHeader>
-                        <div className="flex justify-between items-start">
+                <Card className="bg-white text-black border-none shadow-none md:shadow-md rounded-none md:rounded-xl overflow-hidden">
+                    <CardHeader className="px-4 md:px-8 pt-6 md:pt-10">
+                        <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                             <div>
                                 <CardTitle className="text-3xl">{title}</CardTitle>
                                 <CardDescription className="text-black">
@@ -204,7 +204,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
                             )}
                         </div>
                     </CardHeader>
-                    <CardContent className="space-y-8">
+                    <CardContent className="space-y-8 px-4 md:px-8 py-6">
                         <div>
                             <h3 className="text-xl font-semibold mb-4">Your Messages</h3>
 
@@ -249,7 +249,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
                             )}
 
                             {messageMode === 'multiple' && !hasEvents && (
-                                <div className="space-y-6">
+                                <div className="space-y-6 pb-4">
                                     <p className="text-sm text-gray-600">You have {totalDeliveries} deliveries planned.</p>
                                     {projectedDeliveries.map((delivery) => (
                                         <div key={delivery.index} className="space-y-2">
@@ -269,7 +269,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
                             )}
                         </div>
                     </CardContent>
-                    <CardFooter className="flex flex-row justify-between items-center gap-4 pt-8 border-t border-black/5">
+                    <CardFooter className="flex flex-row justify-between items-center gap-4 py-6 md:py-10 px-4 md:px-8 border-t border-black/5">
                         <FlowBackButton to={backPath} />
                         <FlowNextButton 
                             label={saveButtonText} 
