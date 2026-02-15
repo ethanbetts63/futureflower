@@ -115,7 +115,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
                             setIsDebouncePending={() => {}} // No-op now
                         />
                     </CardContent>
-                    <CardFooter className="flex flex-row justify-between items-center gap-4 py-6 md:py-10 px-4 md:px-8 border-t border-black/5">
+                    <CardFooter className="flex flex-row justify-between items-center gap-4 py-2 px-4 md:px-8 border-t border-black/5">
                         <FlowBackButton to={backPath} />
                         <FlowNextButton 
                             label={saveButtonText} 
