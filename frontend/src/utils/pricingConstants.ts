@@ -22,7 +22,7 @@ export const IMPACT_TIERS: ImpactTier[] = [
   {
     name: 'The Statement',
     price: 150,
-    description: 'Lush, premium stems designed to make an impression. Our most popular choice.',
+    description: 'Lush, premium flowers designed to make an impression. Our most popular choice.',
     image: medFlowers,
     badge: 'Most Popular',
   },

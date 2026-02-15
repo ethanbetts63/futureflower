@@ -53,7 +53,7 @@ export const ImpactTierSelector: React.FC<ImpactTierSelectorProps> = ({ value, o
       </div>
 
       {/* Tier cards */}
-      <div className="flex gap-4 lg:gap-6 overflow-x-auto pt-2 pb-4 snap-x snap-mandatory scrollbar-hide">
+      <div className="flex gap-4 lg:gap-6 overflow-x-auto px-8 scroll-px-2 pt-4 pb-8 snap-x snap-mandatory scrollbar-hide">
         {IMPACT_TIERS.map((tier) => {
           const isSelected = value === tier.price && !showCustom;
           return (
@@ -61,9 +61,9 @@ export const ImpactTierSelector: React.FC<ImpactTierSelectorProps> = ({ value, o
               key={tier.price}
               type="button"
               onClick={() => handleTierSelect(tier.price)}
-              className={`relative bg-white rounded-2xl overflow-hidden text-left transition-all cursor-pointer flex flex-col flex-shrink-0 w-72 md:w-auto md:flex-1 snap-start ${
+              className={`relative bg-white rounded-2xl text-left transition-all cursor-pointer flex flex-col flex-shrink-0 w-60 snap-start ${
                 isSelected
-                  ? 'ring-2 ring-[var(--colorgreen)] shadow-lg'
+                  ? 'ring-2 ring-[var(--colorgreen)] shadow-xl'
                   : 'shadow-md hover:-translate-y-1 hover:shadow-lg'
               }`}
             >
@@ -83,13 +83,15 @@ export const ImpactTierSelector: React.FC<ImpactTierSelectorProps> = ({ value, o
                 </span>
               )}
 
-              {/* Image */}
-              <img
-                src={tier.image}
-                alt={tier.name}
-                className="w-full h-40 md:h-44 object-cover"
-                loading="lazy"
-              />
+              {/* Image Wrapper for Clipping */}
+              <div className="w-full h-40 md:h-44 overflow-hidden rounded-t-2xl">
+                <img
+                  src={tier.image}
+                  alt={tier.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
 
               {/* Content */}
               <div className="p-5 flex-1">

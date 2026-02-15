@@ -84,7 +84,7 @@ const BestFlowerSubscriptionServicesNZ = () => {
           <p><strong>Delivery frequency:</strong> Monthly or as scheduled</p>
           <p><strong>Shipping:</strong> Nationwide (through partner florists)</p>
           <p>Teleflora isn’t a single subscription brand but an international network that connects you with local NZ florists for bouquets delivered on a recurring schedule. Because each bouquet is hand-crafted by a professional florist before delivery, the quality and freshness are often noticeably higher than generic boxed subscriptions.</p>
-          <p>Teleflora arrangements tend to feature more premium stems and design focus, and local florists can tailor bouquets to regional seasonality and preferences. While pricing isn’t always as transparent as with big subscription brands, the quality and personal touch can be worth it.</p>
+          <p>Teleflora arrangements tend to feature more premium flowers and design focus, and local florists can tailor bouquets to regional seasonality and preferences. While pricing isn’t always as transparent as with big subscription brands, the quality and personal touch can be worth it.</p>
           <p><strong>Best for:</strong> Subscribers who care most about florist-crafted arrangements and freshness.</p>
 
           <h2 className="text-3xl font-bold tracking-tight">How Flower Subscriptions in New Zealand Work</h2>
