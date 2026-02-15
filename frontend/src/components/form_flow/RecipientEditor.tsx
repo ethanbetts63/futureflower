@@ -9,8 +9,7 @@ import type { PartialSubscriptionPlan } from '../../types/PartialSubscriptionPla
 import type { RecipientData } from '../../types/RecipientData';
 import RecipientForm from '@/forms/RecipientForm';
 import Seo from '@/components/Seo';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import FlowNextButton from '@/components/form_flow/FlowNextButton';
@@ -23,7 +22,7 @@ type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
 
 const RecipientEditor: React.FC<RecipientEditorProps> = ({
     mode,
-    title = "Recipient Details",
+    title,
     saveButtonText,
     onSaveNavigateTo,
     onCancelNavigateTo,
@@ -113,7 +112,7 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
         }
     };
     
-    const handleCancel = () => {
+    const handleBack = () => {
         const destination = onCancelNavigateTo.replace('{planId}', planId || '');
         navigate(destination);
     }
@@ -126,14 +125,17 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
         );
     }
 
-    const backButtonTo = mode === 'edit' && planId ? onCancelNavigateTo.replace('{planId}', planId) : undefined;
+    const backButtonTo = planId ? onCancelNavigateTo.replace('{planId}', planId) : onCancelNavigateTo;
 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-2xl py-12">
                 <Seo title={`${title} | FutureFlower`} />
                 <Card className="bg-white text-black border-none shadow-md">
-                    <CardContent className="pt-8">
+                    <CardHeader>
+                        <CardTitle className="text-3xl">{title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
                         <RecipientForm
                             formData={formData}
                             onFormChange={handleFormChange}
@@ -153,15 +155,7 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
                         </div>
                     </CardContent>
                     <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 border-t border-black/5">
-                        <div className="flex gap-4 w-full sm:w-auto">
-                            {backButtonTo ? (
-                                <FlowBackButton to={backButtonTo} />
-                            ) : (
-                                <Button variant="outline" size="lg" className="px-8 py-6 rounded-xl border-2" onClick={handleCancel} disabled={isSaving}>
-                                    Cancel
-                                </Button>
-                            )}
-                        </div>
+                        <FlowBackButton to={backButtonTo} className="w-full sm:w-auto" />
                         <FlowNextButton 
                             label={saveButtonText} 
                             onClick={handleSave} 

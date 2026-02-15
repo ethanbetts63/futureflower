@@ -12,7 +12,7 @@ const Step2RecipientPage: React.FC = () => {
             title="Who will be receiving the flowers?"
             saveButtonText="Next: Plan Preferences"
             onSaveNavigateTo="/subscribe-flow/subscription-plan/{planId}/preferences"
-            onCancelNavigateTo="/dashboard"
+            onCancelNavigateTo="/order"
             getPlan={getSubscriptionPlan}
             updatePlan={updateSubscriptionPlan}
         />
