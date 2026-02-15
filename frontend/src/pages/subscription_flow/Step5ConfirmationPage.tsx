@@ -53,7 +53,7 @@ const Step5ConfirmationPage: React.FC = () => {
                     title="Review Your Subscription" 
                     description="Please review your subscription details below. This is the final step before payment."
                     footer={
-                      <div className="flex flex-col md:flex-row justify-between items-center gap-6 w-full">
+                      <>
                         <BackButton to={`/subscribe-flow/subscription-plan/${planId}/structure`} />
                         <PaymentInitiatorButton
                           itemType="SUBSCRIPTION_PLAN_NEW"
@@ -66,11 +66,11 @@ const Step5ConfirmationPage: React.FC = () => {
                           onPaymentInitiate={() => setIsSubmitting(true)}
                           onPaymentError={() => setIsSubmitting(false)}
                           size="lg"
-                          className="w-full md:w-auto px-10 py-8 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all"
+                          className="w-full md:w-auto px-10 py-6 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all"
                         >
                           Proceed to Payment <ArrowRight className="ml-2 h-6 w-6" />
                         </PaymentInitiatorButton>
-                      </div>
+                      </>
                     }
                   >
                     <SummarySection 

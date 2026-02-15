@@ -29,7 +29,7 @@ const ImpactSummary: React.FC<ImpactSummaryProps> = ({ price, editUrl }) => {
         </div>
         
         <div>
-          <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-1">
+          <span className="text-xs font-bold tracking-[0.2em] text-black uppercase block mb-1">
             Impact Selection
           </span>
           <h4 className="text-xl font-bold text-black font-['Playfair_Display',_serif]">

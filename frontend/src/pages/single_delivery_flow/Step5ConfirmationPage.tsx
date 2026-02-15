@@ -23,7 +23,7 @@ const Step5ConfirmationPage = () => {
   return (
     <>
       <Seo title="Confirm Your Order | FutureFlower" />
-      <div className="min-h-screen w-full py-12 md:py-20" style={{ backgroundColor: 'var(--color4)' }}>
+      <div className="min-h-screen w-full py-12" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-4xl">
           <PlanDisplay getPlan={getUpfrontPlanAsSingleDelivery} fallbackNavigationPath="/dashboard">
             {({ plan, flowerTypeMap }: { plan: Plan; flowerTypeMap: Map<number, FlowerType> }) => {
@@ -46,12 +46,12 @@ const Step5ConfirmationPage = () => {
                 .filter((ft): ft is FlowerType => !!ft);
 
               return (
-                <div className="">
+                <div>
                   <UnifiedSummaryCard 
                     title="Confirm Your Delivery" 
                     description="Please review the details of your order before proceeding to payment."
                     footer={
-                      <div className="flex flex-col md:flex-row justify-between items-center w-full">
+                      <>
                         <BackButton to={`/single-delivery-flow/plan/${planId}/structure`} />
                         <PaymentInitiatorButton
                           itemType="UPFRONT_PLAN_NEW"
@@ -61,11 +61,11 @@ const Step5ConfirmationPage = () => {
                           onPaymentInitiate={() => setIsSubmitting(true)}
                           onPaymentError={() => setIsSubmitting(false)}
                           size="lg"
-                          className="w-full md:w-auto px-10 py-4 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all"
+                          className="w-full md:w-auto px-10 py-6 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all"
                         >
                           Proceed to Payment <ArrowRight className="ml-2 h-3 w-3" />
                         </PaymentInitiatorButton>
-                      </div>
+                      </>
                     }
                   >
                     <SummarySection 
@@ -108,8 +108,8 @@ const Step5ConfirmationPage = () => {
                         label="Card Message" 
                         editUrl={`/single-delivery-flow/plan/${planId}/structure`}
                       >
-                        <div className="flex items-start gap-3 bg-[var(--colorgreen)]/10 p-5 rounded-2xl border border-[var(--colorgreen)]/20">
-                          <MessageSquare className="h-5 w-5 text-[var(--colorgreen)] mt-1 flex-shrink-0" />
+                        <div className="flex items-start bg-[var(--colorgreen)]/10 rounded-2xl border border-[var(--colorgreen)]/20 p-6">
+                          <MessageSquare className="h-5 w-5 text-[var(--colorgreen)] mt-1 flex-shrink-0 mr-4" />
                           <p className="text-lg font-medium italic text-black/80 leading-relaxed">
                             "{message}"
                           </p>

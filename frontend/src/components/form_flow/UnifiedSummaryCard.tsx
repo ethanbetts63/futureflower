@@ -6,11 +6,18 @@ interface UnifiedSummaryCardProps {
   description: string;
   children: React.ReactNode;
   footer?: React.ReactNode;
+  className?: string;
 }
 
-const UnifiedSummaryCard: React.FC<UnifiedSummaryCardProps> = ({ title, description, children, footer }) => {
+const UnifiedSummaryCard: React.FC<UnifiedSummaryCardProps> = ({ 
+  title, 
+  description, 
+  children, 
+  footer,
+  className = ""
+}) => {
   return (
-    <Card className="w-full bg-white shadow-xl shadow-black/5 border-none text-black overflow-hidden rounded-3xl">
+    <Card className={`w-full bg-[#fcfaf8] shadow-xl shadow-black/5 border-none text-black overflow-hidden rounded-3xl ${className}`}>
       <CardHeader className="bg-[#fcfaf8] border-b border-black/5 p-4">
         <CardTitle className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif]">
           {title}
@@ -19,14 +26,16 @@ const UnifiedSummaryCard: React.FC<UnifiedSummaryCardProps> = ({ title, descript
           {description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="p-4">
+      <CardContent className="p-4 bg-white">
         <div className="flex flex-col">
           {children}
         </div>
       </CardContent>
       {footer && (
-        <CardFooter className="bg-[#fcfaf8] border-t border-black/5 p-4">
-          {footer}
+        <CardFooter className="bg-[#fcfaf8] border-t border-black/5 p-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 w-full">
+            {footer}
+          </div>
         </CardFooter>
       )}
     </Card>

@@ -77,7 +77,7 @@ const PlanOverviewPage = () => {
                         </div>
                         
                         <div className="bg-black/5 rounded-2xl p-6">
-                          <h5 className="text-[10px] font-bold tracking-widest uppercase text-black/40 mb-4">Upcoming Deliveries</h5>
+                          <h5 className="text-xs font-bold tracking-widest uppercase text-black mb-4">Upcoming Deliveries</h5>
                           <div className="space-y-4">
                             {events.map((event, idx) => (
                               <div key={idx} className="flex items-center justify-between border-b border-black/5 last:border-0 pb-3 last:pb-0">

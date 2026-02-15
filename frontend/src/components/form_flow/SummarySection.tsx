@@ -11,7 +11,7 @@ const SummarySection: React.FC<SummarySectionProps> = ({ label, children, editUr
   return (
     <div className="flex flex-col sm:flex-row items-start justify-between gap-4 py-6 border-b border-black/5 last:border-0">
       <div className="flex-1">
-        <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-2">
+        <span className="text-xs font-bold tracking-[0.2em] text-black uppercase block mb-2">
           {label}
         </span>
         <div className="text-black leading-relaxed">
