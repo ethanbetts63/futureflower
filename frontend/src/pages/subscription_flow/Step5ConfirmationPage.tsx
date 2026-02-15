@@ -94,7 +94,7 @@ const Step5ConfirmationPage: React.FC = () => {
                         <div className="flex items-center gap-3">
                           <RefreshCw className="h-5 w-5 text-black/20 flex-shrink-0" />
                           <span className="font-bold font-['Playfair_Display',_serif] text-lg capitalize">
-                            Every {plan.frequency}
+                            {plan.frequency}
                           </span>
                         </div>
                         <div className="flex items-center gap-3">
@@ -127,7 +127,7 @@ const Step5ConfirmationPage: React.FC = () => {
                         </div>
                         {plan.flower_notes && (
                           <div className="bg-black/5 p-4 rounded-xl text-sm text-black/70 italic">
-                            Notes for florist: {plan.flower_notes}
+                            <span className="font-semibold">Notes for florist:</span> {plan.flower_notes}
                           </div>
                         )}
                       </div>

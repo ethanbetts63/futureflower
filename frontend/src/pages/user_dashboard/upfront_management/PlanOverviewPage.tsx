@@ -118,8 +118,8 @@ const PlanOverviewPage = () => {
                           </div>
                         </div>
                         {plan.flower_notes && (
-                          <div className="bg-black/5 p-4 rounded-xl text-sm text-black/70 italic">
-                            Notes for florist: {plan.flower_notes}
+                          <div className="bg-black/5 p-4 rounded-xl text-sm text-black/70 italic ">
+                            <span className="font-semibold">Notes for florist:</span> {plan.flower_notes}
                           </div>
                         )}
                       </div>

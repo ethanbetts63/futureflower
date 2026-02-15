@@ -135,8 +135,8 @@ const Step5ConfirmationPage = () => {
                           </div>
                         </div>
                         {upfrontPlan.flower_notes && (
-                          <div className="bg-black/5 p-4 rounded-xl text-sm text-black/70 italic">
-                            Notes for florist: {upfrontPlan.flower_notes}
+                          <div className="bg-black/5 p-4 rounded-xl text-sm text-black/70 italic ">
+                            <span className="font-semibold">Notes for florist:</span> {upfrontPlan.flower_notes}
                           </div>
                         )}
                       </div>
