@@ -1,10 +1,8 @@
 // futureflower/frontend/src/components/PreferencesEditor.tsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
-import { ChevronRight } from 'lucide-react';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getFlowerTypes } from '@/api';
@@ -19,12 +17,10 @@ import type { PreferencesEditorProps } from '../../types/PreferencesEditorProps'
 
 const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
     mode,
-    title,
-    description,
+    title = "The Florist's Brief",
     saveButtonText,
     onSaveNavigateTo,
     backPath,
-    showSkipButton,
     getPlan,
     updatePlan,
 }) => {
@@ -94,11 +90,6 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
         }
     };
 
-    const handleSkip = () => {
-        toast.info("You can add preferences later from your dashboard.");
-        navigate(onSaveNavigateTo);
-    }
-
     if (isLoading) return <div className="flex justify-center items-center h-screen"><Spinner className="h-12 w-12" /></div>;
     if (error) return <div className="text-center py-12 text-red-500">{error}</div>;
 
@@ -107,26 +98,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
             <div className="container mx-auto max-w-4xl py-12">
                 <Seo title={`${title} | FutureFlower`} />
                 <Card className="text-black border-none shadow-md" style={{ backgroundColor: 'var(--background-white)' }}>
-                    <CardHeader>
-                         <div className="flex justify-between items-start">
-                            <div>
-                                <CardTitle className="text-3xl">{title}</CardTitle>
-                                <CardDescription className="text-black">
-                                    {description}
-                                </CardDescription>
-                            </div>
-                            {showSkipButton && (
-                                <Button 
-                                    onClick={handleSkip} 
-                                    className="bg-white text-black font-semibold px-6 py-4 rounded-lg hover:bg-gray-100 transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 border-none"
-                                >
-                                    <span>Skip for Now</span>
-                                    <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-black transition-colors" />
-                                </Button>
-                            )}
-                        </div>
-                    </CardHeader>
-                    <CardContent className="space-y-8">
+                    <CardContent className="space-y-8 pt-2">
                         <VibePicker
                             vibes={flowerTypes}
                             selected={selectedVibe}
@@ -137,7 +109,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
 
                         {/* Florist Notes Section */}
                         <div>
-                            <h3 className="text-xl font-semibold mb-2">Anything else the florist should know?</h3>
+                            <h3 className="text-xl font-semibold mb-2">Anything else the florist should know? (optional)</h3>
                             <p className="text-sm text-gray-600 mb-4">Favourite colours, dislikes, allergies — anything that helps them get it right.</p>
                             <Textarea
                                 placeholder="She loves peonies but hates lilies. Keep it soft and pastel."
