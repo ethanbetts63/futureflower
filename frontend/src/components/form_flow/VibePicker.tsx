@@ -53,6 +53,7 @@ export const VibePicker: React.FC<VibePickerProps> = ({ vibes, selected, onSelec
             </button>
           );
         })}
+        </div>
       </div>
     </div>
   );

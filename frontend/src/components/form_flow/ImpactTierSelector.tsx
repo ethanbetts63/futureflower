@@ -109,6 +109,7 @@ export const ImpactTierSelector: React.FC<ImpactTierSelectorProps> = ({ value, o
             </button>
           );
         })}
+        </div>
       </div>
 
       {/* Custom amount */}

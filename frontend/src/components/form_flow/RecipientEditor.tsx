@@ -112,11 +112,6 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
         }
     };
     
-    const handleBack = () => {
-        const destination = onCancelNavigateTo.replace('{planId}', planId || '');
-        navigate(destination);
-    }
-    
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-screen">
