@@ -16,8 +16,8 @@ export interface OrderBase {
     recipient_postcode: string | null;
     recipient_country: string | null;
 
-    budget: string;
-    total_amount: string;
+    budget: number;
+    total_amount: number;
     frequency: string;
 
     preferred_delivery_time: string | null;

@@ -83,7 +83,7 @@ const PlanOverviewPage = () => {
                               <div key={idx} className="flex items-center justify-between border-b border-black/5 last:border-0 pb-3 last:pb-0">
                                 <div className="flex items-center gap-3">
                                   <Calendar className="h-4 w-4 text-black/30" />
-                                  <span className="text-sm font-medium">{formatDate(event.date)}</span>
+                                  <span className="text-sm font-medium">{formatDate(event.delivery_date)}</span>
                                 </div>
                                 {messages[idx] && (
                                   <div className="flex items-center gap-2 text-[var(--colorgreen)]">
@@ -126,7 +126,7 @@ const PlanOverviewPage = () => {
                     </SummarySection>
 
                     <ImpactSummary 
-                      price={Number(plan.price_per_delivery)} 
+                      price={Number(plan.total_amount)} 
                       editUrl={`/dashboard/upfront-plans/${planId}/edit-structure`}
                     />
                   </UnifiedSummaryCard>

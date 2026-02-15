@@ -71,25 +71,14 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
         );
     }
 
-    const planIsSubscription = 'subscription_message' in plan;
-    const planIsUpfront = 'years' in plan && !planIsSubscription;
+    const planIsSubscription = 'stripe_subscription_id' in plan || !('years' in plan);
+    const planIsUpfront = 'years' in plan;
 
     // A single delivery plan is an upfront plan with 1 year and annually frequency
     const planIsSingleDelivery = planIsUpfront && (plan as UpfrontPlan).years === 1 && plan.frequency === 'annually';
 
     const totalPlanAmount = Number(plan.total_amount);
     const flowerBudget = Number(plan.budget);
-    
-    // For subscriptions, fee is per delivery. For upfront, it's total fee.
-    const serviceFee = totalPlanAmount - (planIsUpfront ? (flowerBudget * (plan as UpfrontPlan).years * (plan.frequency === 'annually' ? 1 : 0 /* this logic is simplified, assuming annually for upfront mostly */)) : flowerBudget);
-    
-    // Actually, simpler logic: the fee per delivery is always (total_amount - budget) for subscriptions
-    // For upfront it's (total_amount - (budget * total_deliveries))
-    // But since the backend already calculates total_amount correctly, we can just show the diff.
-    
-    const feeDisplay = planIsSubscription 
-        ? (totalPlanAmount - flowerBudget)
-        : (totalPlanAmount - (flowerBudget * ((plan as UpfrontPlan).years || 1) * (plan.frequency === 'annually' ? 1 : 12 /* fallback */)));
     
     // Let's use a more robust way to get total deliveries for upfront
     const deliveriesPerYear = {

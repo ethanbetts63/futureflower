@@ -82,7 +82,7 @@ const Step5ConfirmationPage: React.FC = () => {
                         <div className="flex items-center gap-3">
                           <Calendar className="h-5 w-5 text-black/20 flex-shrink-0" />
                           <span className="text-black/60">
-                            Starting on {new Date(plan.start_date).toLocaleDateString(undefined, { dateStyle: 'long' })}
+                            Starting on {plan.start_date ? new Date(plan.start_date).toLocaleDateString(undefined, { dateStyle: 'long' }) : 'Not set'}
                           </span>
                         </div>
                       </div>
@@ -116,7 +116,7 @@ const Step5ConfirmationPage: React.FC = () => {
                     </SummarySection>
 
                     <ImpactSummary 
-                      price={Number(plan.price_per_delivery)} 
+                      price={Number(plan.total_amount)} 
                       editUrl={`/subscribe-flow/subscription-plan/${planId}/structure`}
                     />
 

@@ -82,7 +82,7 @@ const SubscriptionPlanOverviewPage: React.FC = () => {
                         <div className="flex items-center gap-3">
                           <Calendar className="h-5 w-5 text-black/20 flex-shrink-0" />
                           <span className="text-black/60">
-                            Next delivery on {new Date(plan.start_date).toLocaleDateString(undefined, { dateStyle: 'long' })}
+                            Next delivery on {plan.start_date ? new Date(plan.start_date).toLocaleDateString(undefined, { dateStyle: 'long' }) : 'Not set'}
                           </span>
                         </div>
                       </div>
@@ -116,7 +116,7 @@ const SubscriptionPlanOverviewPage: React.FC = () => {
                     </SummarySection>
 
                     <ImpactSummary 
-                      price={Number(plan.price_per_delivery)} 
+                      price={Number(plan.total_amount)} 
                       editUrl={`/dashboard/subscription-plans/${planId}/edit-structure`}
                     />
                   </UnifiedSummaryCard>

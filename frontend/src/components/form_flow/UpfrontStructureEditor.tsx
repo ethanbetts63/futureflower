@@ -114,7 +114,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
         // For 'edit' mode, this only handles saves that do not require payment (e.g., if amountOwing is 0).
         setIsSaving(true);
         try {
-            const payload: PartialUpfrontPlan = { ...formData, budget: String(formData.budget) };
+            const payload: PartialUpfrontPlan = { ...formData, budget: formData.budget };
             if (mode === 'create' && amountOwing !== null) {
                 payload.total_amount = amountOwing;
             }

@@ -85,7 +85,7 @@ const SubscriptionPlanTable: React.FC<SubscriptionPlanTableProps> = ({ showTitle
               <TableCell className="text-black text-base">
                 {`${plan.recipient_first_name || ''} ${plan.recipient_last_name || ''}`.trim() || 'N/A'}
               </TableCell>
-              <TableCell className="text-right text-black text-base">${Number(plan.price_per_delivery).toFixed(2)}</TableCell>
+              <TableCell className="text-right text-black text-base">${Number(plan.total_amount).toFixed(2)}</TableCell>
               <TableCell className="text-right text-black text-base">{plan.frequency ? frequencyMap[plan.frequency] : 'N/A'}</TableCell>
               <TableCell className="rounded-r-lg text-right text-base">
                 <Button asChild variant="default" size="sm">

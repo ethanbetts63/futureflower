@@ -111,7 +111,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
         try {
             const payload: PartialSubscriptionPlan = {
                 ...formData,
-                budget: String(formData.budget),
+                budget: formData.budget,
                 total_amount: totalAmount,
             };
             await updateSubscriptionPlan(planId, payload);

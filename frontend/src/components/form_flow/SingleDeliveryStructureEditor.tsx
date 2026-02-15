@@ -107,7 +107,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
         setIsSaving(true);
         try {
             const payload: PartialUpfrontPlan = {
-                budget: String(formData.budget),
+                budget: formData.budget,
                 start_date: formData.start_date,
                 frequency: 'annually',
                 years: 1,

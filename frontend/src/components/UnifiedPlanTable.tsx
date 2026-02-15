@@ -92,7 +92,7 @@ const UnifiedPlanTable: React.FC<{ showTitle?: boolean }> = ({ showTitle = true 
           {plans.map((plan) => {
             const isSubscription = plan.displayType === 'Subscription';
             const price = isSubscription 
-              ? (plan as SubscriptionPlan).price_per_delivery 
+              ? (plan as SubscriptionPlan).total_amount 
               : (plan as UpfrontPlan).budget;
             
             const viewLink = isSubscription

@@ -77,7 +77,7 @@ const SingleDeliveryPlanTable: React.FC<UpfrontPlanTableProps> = ({ showTitle = 
               <TableCell className="text-black text-base">
                 {`${plan.recipient_first_name || ''} ${plan.recipient_last_name || ''}`.trim() || 'N/A'}
               </TableCell>
-              <TableCell className="text-right text-black text-base">${plan.total_amount.toFixed(2)}</TableCell>
+              <TableCell className="text-right text-black text-base">${Number(plan.total_amount).toFixed(2)}</TableCell>
               <TableCell className="text-right text-black text-base">{plan.events.length}</TableCell>
               <TableCell className="rounded-r-lg text-right text-base">
                 <Button asChild variant="default" size="sm">

@@ -52,7 +52,7 @@ const SubscriptionPlanSummary: React.FC<SubscriptionPlanSummaryProps> = ({ plan 
         <div className="border-t my-2"></div>
         <div className="flex justify-between text-xl font-bold">
           <span>Amount Due Today</span>
-          <span>${Number(plan.price_per_delivery).toFixed(2)}</span>
+          <span>${Number(plan.total_amount).toFixed(2)}</span>
         </div>
         <p className="text-sm text-muted-foreground">
             You will be charged this amount {frequencyMap[plan.frequency || 'monthly']} starting today.
