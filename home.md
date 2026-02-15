@@ -39,7 +39,7 @@ Scrollable list of operating countries including: United Kingdom, France, German
 *   **Badge:** Numbered "1" in a black box.
 
 ### 2. We find the perfect florist.
-*   **Description:** Our local partners hand-pick seasonal stems and craft a bouquet tailored to your preferences, wherever your recipient is.
+*   **Description:** Our local partners hand-pick seasonal flowers and craft a bouquet tailored to your preferences, wherever your recipient is.
 *   **Badge:** Numbered "2" in a black box.
 
 ### 3. Straight to your door.

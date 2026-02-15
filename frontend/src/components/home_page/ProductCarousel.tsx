@@ -14,14 +14,14 @@ const steps = [
     level: 2,
     title: 'We find the perfect florist.',
     description:
-      'Our local partners hand-pick seasonal stems and craft a bouquet tailored to your preferences, wherever your recipient is.',
+      'Our local partners hand-pick seasonal flowers and craft a bouquet tailored to your preferences, wherever your recipient is.',
     image: floristMakingFlowersImage,
   },
   {
     level: 3,
     title: 'Straight to your door.',
     description:
-      'Fresh flowers arrive on the exact day you chose. No reminders needed, no effort required. Just the look on their face.',
+      'Fresh flowers arrive on the exact day you chose. No reminders needed, no effort required.',
     image: deliveryHighImage,
   },
 ];
