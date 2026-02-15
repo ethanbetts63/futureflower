@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
@@ -25,7 +25,6 @@ const getMinDateString = () => {
 const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
     mode,
     title = "Define the Plan's Structure",
-    description = "Set the budget, frequency, and duration of your flower plan.",
     saveButtonText,
     onSaveNavigateTo,
     backPath,
@@ -153,7 +152,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
             <div className="container mx-auto max-w-2xl py-12">
                 <Seo title={`${title} | FutureFlower`} />
                 <Card className="text-black border-none shadow-md" style={{ backgroundColor: 'var(--background-white)' }}>
-                    <CardContent className="space-y-8 pt-8">
+                    <CardContent className="space-y-8 pt-2">
                         <PlanStructureForm
                             formData={formData}
                             onFormChange={handleFormChange}
