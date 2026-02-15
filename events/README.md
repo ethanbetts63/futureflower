@@ -21,7 +21,7 @@ Also used for single deliveries (years=1, frequency='annually') as a special cas
 ### SubscriptionPlan (extends OrderBase)
 A recurring flower delivery subscription billed per delivery cycle via Stripe.
 
-**Key fields:** `price_per_delivery`, `stripe_subscription_id`, `subscription_message`
+**Key fields:** `total_amount`, `stripe_subscription_id`, `subscription_message`
 
 ### Event
 An individual flower delivery within a plan. Auto-generated for upfront plans on creation; created per-payment for subscriptions via webhook.

@@ -22,7 +22,7 @@ class TestCreateSubscriptionView:
         start_date = date.today() + timedelta(days=20)
         plan = SubscriptionPlanFactory(
             user=self.user, 
-            price_per_delivery=Decimal('100.00'), 
+            total_amount=Decimal('100.00'), 
             start_date=start_date,
             frequency=frequency
         )

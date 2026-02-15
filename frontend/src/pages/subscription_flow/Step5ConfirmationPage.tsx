@@ -28,7 +28,7 @@ const Step5ConfirmationPage: React.FC = () => {
   return (
     <>
       <Seo title="Confirm Your Subscription | FutureFlower" />
-      <div className="min-h-screen w-full py-12 md:py-20" style={{ backgroundColor: 'var(--color4)' }}>
+      <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-4xl">
           <PlanDisplay getPlan={getSubscriptionPlan} fallbackNavigationPath="/dashboard">
             {({ plan, flowerTypeMap }: { plan: Plan; flowerTypeMap: Map<number, FlowerType> }) => {
