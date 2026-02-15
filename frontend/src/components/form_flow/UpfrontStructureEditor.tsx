@@ -1,19 +1,17 @@
 // futureflower/frontend/src/components/UpfrontStructureEditor.tsx
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getUpfrontPlan, updateUpfrontPlan, calculateUpfrontPriceForPlan } from '@/api';
+import { getUpfrontPlan, updateUpfrontPlan } from '@/api';
 import type { UpfrontPlan, PartialUpfrontPlan, PlanStructureData } from '@/types';
 import PlanStructureForm from '@/forms/PlanStructureForm';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import FlowNextButton from '@/components/form_flow/FlowNextButton';
-import { debounce } from '@/utils/debounce';
 import type { UpfrontStructureEditorProps } from '../../types/UpfrontStructureEditorProps';
-import PaymentInitiatorButton from './PaymentInitiatorButton';
 import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
 
 const getMinDateString = () => {
@@ -42,11 +40,6 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
-    
-    // Price calculation state
-    const [amountOwing, setAmountOwing] = useState<number | null>(null);
-    const [isApiCalculating, setIsApiCalculating] = useState(false);
-    const [isDebouncePending, setIsDebouncePending] = useState(true);
 
     useEffect(() => {
         if (!planId) {
@@ -82,37 +75,6 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
             .finally(() => setIsLoading(false));
     }, [planId, isAuthenticated, navigate, backPath]);
 
-    const calculateAmountOwing = useCallback(async (budget: number, frequency: string, years: number) => {
-        if (!planId) {
-             setIsApiCalculating(false);
-             setIsDebouncePending(false);
-             return;
-        }
-
-        setIsDebouncePending(false);
-        setIsApiCalculating(true);
-        setAmountOwing(null);
-
-        try {
-            const data = await calculateUpfrontPriceForPlan(planId, { budget, frequency, years });
-            setAmountOwing(data.amount_owing);
-        } catch (err: any) {
-            toast.error("Price Calculation Error", { description: err.message });
-        } finally {
-            setIsApiCalculating(false);
-        }
-    }, [planId]);
-
-    const debouncedCalculate = useMemo(() => debounce(calculateAmountOwing, 500), [calculateAmountOwing]);
-
-    useEffect(() => {
-        if (!isLoading) {
-            setIsDebouncePending(true);
-            debouncedCalculate(formData.budget, formData.frequency, formData.years);
-        }
-        return () => debouncedCalculate.cancel?.();
-    }, [formData.budget, formData.frequency, formData.years, isLoading, debouncedCalculate]);
-
     const handleFormChange = (field: keyof PlanStructureData, value: number | string) => {
         setFormData((prev: PlanStructureData) => ({ ...prev, [field]: value }));
     };
@@ -120,14 +82,9 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
     const handleSave = async () => {
         if (!planId) return;
 
-        // For 'create' mode, save details and navigate to confirmation.
-        // For 'edit' mode, this only handles saves that do not require payment (e.g., if amountOwing is 0).
         setIsSaving(true);
         try {
             const payload: PartialUpfrontPlan = { ...formData, budget: formData.budget };
-            if (mode === 'create' && amountOwing !== null) {
-                payload.total_amount = amountOwing;
-            }
             await updateUpfrontPlan(planId, payload);
             if (mode === 'edit') {
                 toast.success("Plan structure updated successfully!");
@@ -144,8 +101,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
         return <div className="flex justify-center items-center h-screen"><Spinner className="h-12 w-12" /></div>;
     }
     
-    const showPaymentButton = mode === 'edit' && amountOwing !== null && amountOwing > 0;
-    const isActionDisabled = Boolean(isSaving || isApiCalculating || isDebouncePending || amountOwing === null);
+    const isActionDisabled = isSaving;
 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
@@ -156,33 +112,17 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
                         <PlanStructureForm
                             formData={formData}
                             onFormChange={handleFormChange}
-                            setIsDebouncePending={setIsDebouncePending}
+                            setIsDebouncePending={() => {}} // No-op now
                         />
                     </CardContent>
                     <CardFooter className="flex flex-row justify-between items-center gap-4 pt-8 border-t border-black/5">
                         <FlowBackButton to={backPath} />
-                        {showPaymentButton ? (
-                            <PaymentInitiatorButton
-                                itemType="UPFRONT_PLAN_MODIFY"
-                                details={{
-                                    upfront_plan_id: planId,
-                                    budget: formData.budget,
-                                    years: formData.years,
-                                    frequency: formData.frequency,
-                                }}
-                                backPath={backPath}
-                                disabled={isActionDisabled}
-                            >
-                                Next: Payment
-                            </PaymentInitiatorButton>
-                        ) : (
-                            <FlowNextButton 
-                                label={saveButtonText} 
-                                onClick={handleSave} 
-                                isLoading={isSaving}
-                                disabled={isActionDisabled}
-                            />
-                        )}
+                        <FlowNextButton 
+                            label={saveButtonText} 
+                            onClick={handleSave} 
+                            isLoading={isSaving}
+                            disabled={isActionDisabled}
+                        />
                     </CardFooter>
                 </Card>
             </div>

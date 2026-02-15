@@ -40,7 +40,7 @@ class CreateSubscriptionView(APIView):
         except SubscriptionPlan.DoesNotExist:
             return Response({"error": "SubscriptionPlan not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        if not all([plan.price_per_delivery, plan.price_per_delivery > 0, plan.start_date, plan.frequency]):
+        if not all([plan.total_amount, plan.total_amount > 0, plan.start_date, plan.frequency]):
             return Response({"error": "Plan is missing price, start date, or frequency."}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
@@ -73,7 +73,7 @@ class CreateSubscriptionView(APIView):
                 items=[{
                     "price_data": {
                         "currency": plan.currency.lower(),
-                        "unit_amount": int(plan.price_per_delivery * 100),
+                        "unit_amount": int(plan.total_amount * 100),
                         "product": settings.STRIPE_SUBSCRIPTION_PRODUCT_ID,
                         "recurring": recurring_options,
                     }

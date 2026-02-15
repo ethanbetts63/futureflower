@@ -1,19 +1,18 @@
 // frontend/src/components/SingleDeliveryStructureEditor.tsx
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery, calculateUpfrontPlanSingleDeliveryPrice } from '@/api/singleDeliveryPlans';
+import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
 import type { UpfrontPlan } from '../../types/UpfrontPlan';
 import type { PartialUpfrontPlan } from '../../types/PartialUpfrontPlan';
 import SingleDeliveryStructureForm from '@/forms/SingleDeliveryStructureForm';
 import type { SingleDeliveryStructureData } from '../../types/SingleDeliveryStructureData';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import FlowNextButton from '@/components/form_flow/FlowNextButton';
-import { debounce } from '@/utils/debounce';
 import type { SingleDeliveryStructureEditorProps } from '../../types/SingleDeliveryStructureEditorProps';
 import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
 
@@ -41,10 +40,6 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
-    
-    const [totalAmount, setTotalAmount] = useState<number | null>(null);
-    const [isApiCalculating, setIsApiCalculating] = useState(false);
-    const [isDebouncePending, setIsDebouncePending] = useState(true);
 
     useEffect(() => {
         if (!planId) {
@@ -78,41 +73,12 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
             .finally(() => setIsLoading(false));
     }, [planId, isAuthenticated, navigate, backPath]);
 
-    const calculatePrice = useCallback(async (budget: number) => {
-        if (!planId) return;
-        setIsDebouncePending(false);
-        setIsApiCalculating(true);
-        setTotalAmount(null);
-
-        try {
-            const data = await calculateUpfrontPlanSingleDeliveryPrice(planId, budget);
-            setTotalAmount(data.new_total_price);
-        } catch (err: any) {
-            toast.error("Price Calculation Error", { description: err.message });
-        } finally {
-            setIsApiCalculating(false);
-        }
-    }, [planId]);
-
-    const debouncedCalculate = useMemo(() => debounce(calculatePrice, 500), [calculatePrice]);
-
-    useEffect(() => {
-        if (!isLoading) {
-            setIsDebouncePending(true);
-            debouncedCalculate(formData.budget);
-        }
-        return () => debouncedCalculate.cancel?.();
-    }, [formData.budget, isLoading, debouncedCalculate]);
-
     const handleFormChange = (field: keyof SingleDeliveryStructureData, value: number | string) => {
         setFormData((prev: SingleDeliveryStructureData) => ({ ...prev, [field]: value }));
     };
 
     const handleSave = async () => {
-        if (!planId || typeof totalAmount !== 'number') {
-            toast.error("Please wait for the price to be calculated.");
-            return;
-        }
+        if (!planId) return;
 
         setIsSaving(true);
         try {
@@ -121,7 +87,6 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                 start_date: formData.start_date,
                 frequency: 'annually',
                 years: 1,
-                total_amount: totalAmount,
                 draft_card_messages: { '0': formData.card_message },
             };
             await updateUpfrontPlanAsSingleDelivery(planId, payload);
@@ -150,7 +115,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                         <SingleDeliveryStructureForm
                             formData={formData}
                             onFormChange={handleFormChange}
-                            setIsDebouncePending={setIsDebouncePending}
+                            setIsDebouncePending={() => {}} // No-op now
                         />
                     </CardContent>
                     <CardFooter className="flex flex-row justify-between items-center gap-4 pt-8 border-t border-black/5">
@@ -161,7 +126,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                             label={saveButtonText} 
                             onClick={handleSave} 
                             isLoading={isSaving}
-                            disabled={isApiCalculating || isDebouncePending || typeof totalAmount !== 'number'}
+                            disabled={isSaving}
                         />
                     </CardFooter>
                 </Card>

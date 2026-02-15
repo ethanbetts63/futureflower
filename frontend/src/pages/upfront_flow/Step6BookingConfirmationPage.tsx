@@ -144,7 +144,7 @@ const Step6BookingConfirmationPage = () => {
                     </SummarySection>
 
                     <ImpactSummary 
-                      price={Number(plan.total_amount)} 
+                      price={Number(plan.budget)} 
                       editUrl={`/upfront-flow/upfront-plan/${planId}/structure`}
                     />
 

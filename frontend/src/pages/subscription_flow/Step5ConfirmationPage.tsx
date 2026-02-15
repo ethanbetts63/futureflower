@@ -134,7 +134,7 @@ const Step5ConfirmationPage: React.FC = () => {
                     </SummarySection>
 
                     <ImpactSummary 
-                      price={Number(plan.total_amount)} 
+                      price={Number(plan.budget)} 
                       editUrl={`/subscribe-flow/subscription-plan/${planId}/structure`}
                     />
 

@@ -38,6 +38,11 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Associate the plan with the current user
         validated_data['user'] = self.context['request'].user
+        
+        budget = validated_data.get('budget')
+        if budget:
+            validated_data['total_amount'] = self._calculate_total_amount(budget)
+            
         return super().create(validated_data)
 
     @staticmethod
@@ -46,15 +51,12 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
         return (budget + fee).quantize(Decimal('0.01'))
 
     def update(self, instance, validated_data):
-        proposed_total = validated_data.get('total_amount')
-        budget = validated_data.get('budget', instance.budget)
-
-        if proposed_total is not None and budget is not None:
-            server_calculated_total = self._calculate_total_amount(budget)
-
-            if abs(server_calculated_total - proposed_total) > Decimal('0.01'):
-                raise ValidationError({
-                    'total_amount': f"The provided amount ${proposed_total} does not match the server-calculated price of ${server_calculated_total} for the given budget."
-                })
+        budget = validated_data.get('budget')
+        
+        # If budget or frequency is updated, recalculate the total_amount
+        if budget is not None or 'frequency' in validated_data:
+            effective_budget = budget if budget is not None else instance.budget
+            if effective_budget:
+                validated_data['total_amount'] = self._calculate_total_amount(effective_budget)
 
         return super().update(instance, validated_data)

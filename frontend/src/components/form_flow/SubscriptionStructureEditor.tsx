@@ -1,19 +1,18 @@
 // futureflower/frontend/src/components/SubscriptionStructureEditor.tsx
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getSubscriptionPlan, updateSubscriptionPlan, calculateSubscriptionPrice } from '@/api';
+import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
 import type { SubscriptionPlan } from '../../types/SubscriptionPlan';
 import type { PartialSubscriptionPlan } from '../../types/PartialSubscriptionPlan';
 import SubscriptionStructureForm from '@/forms/SubscriptionStructureForm';
 import type { SubscriptionStructureData } from '../../types/SubscriptionStructureData';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import FlowNextButton from '@/components/form_flow/FlowNextButton';
-import { debounce } from '@/utils/debounce';
 import type { SubscriptionStructureEditorProps } from '../../types/SubscriptionStructureEditorProps';
 import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
 
@@ -42,10 +41,6 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
-    
-    const [totalAmount, setTotalAmount] = useState<number | null>(null);
-    const [isApiCalculating, setIsApiCalculating] = useState(false);
-    const [isDebouncePending, setIsDebouncePending] = useState(true);
 
     useEffect(() => {
         if (!planId) {
@@ -81,48 +76,18 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
             .finally(() => setIsLoading(false));
     }, [planId, isAuthenticated, navigate, backPath]);
 
-    const calculatePrice = useCallback(async (budget: number) => {
-        if (!planId) return;
-        setIsDebouncePending(false);
-        setIsApiCalculating(true);
-        setTotalAmount(null);
-
-        try {
-            const data = await calculateSubscriptionPrice(planId, budget);
-            setTotalAmount(data.total_amount);
-        } catch (err: any) {
-            toast.error("Price Calculation Error", { description: err.message });
-        } finally {
-            setIsApiCalculating(false);
-        }
-    }, [planId]);
-
-    const debouncedCalculate = useMemo(() => debounce(calculatePrice, 500), [calculatePrice]);
-
-    useEffect(() => {
-        if (!isLoading) {
-            setIsDebouncePending(true);
-            debouncedCalculate(formData.budget);
-        }
-        return () => debouncedCalculate.cancel?.();
-    }, [formData.budget, isLoading, debouncedCalculate]);
-
     const handleFormChange = (field: keyof SubscriptionStructureData, value: number | string) => {
         setFormData((prev: SubscriptionStructureData) => ({ ...prev, [field]: value }));
     };
 
     const handleSave = async () => {
-        if (!planId || totalAmount === null) {
-            toast.error("Please wait for the price to be calculated.");
-            return;
-        }
+        if (!planId) return;
 
         setIsSaving(true);
         try {
             const payload: PartialSubscriptionPlan = {
                 ...formData,
                 budget: formData.budget,
-                total_amount: totalAmount,
             };
             await updateSubscriptionPlan(planId, payload);
             
@@ -150,7 +115,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
                         <SubscriptionStructureForm
                             formData={formData}
                             onFormChange={handleFormChange}
-                            setIsDebouncePending={setIsDebouncePending}
+                            setIsDebouncePending={() => {}} // No-op now
                         />
                     </CardContent>
                     <CardFooter className="flex flex-row justify-between items-center gap-4 pt-8 border-t border-black/5">
@@ -161,7 +126,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
                             label={saveButtonText} 
                             onClick={handleSave} 
                             isLoading={isSaving}
-                            disabled={isApiCalculating || isDebouncePending || totalAmount === null}
+                            disabled={isSaving}
                         />
                     </CardFooter>
                 </Card>

@@ -143,7 +143,7 @@ const Step5ConfirmationPage = () => {
                     </SummarySection>
 
                     <ImpactSummary 
-                      price={Number(upfrontPlan.total_amount)} 
+                      price={Number(upfrontPlan.budget)} 
                       editUrl={`/single-delivery-flow/plan/${planId}/structure`}
                     />
                   </UnifiedSummaryCard>
