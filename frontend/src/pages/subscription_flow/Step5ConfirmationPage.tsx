@@ -1,7 +1,7 @@
 // futureflower/frontend/src/pages/subscription_flow/Step5ConfirmationPage.tsx
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { MapPin, Calendar, Sprout, RefreshCw, Tag } from 'lucide-react';
+import { MapPin, Calendar, Sprout, RefreshCw, Tag, MessageSquare } from 'lucide-react';
 import Seo from '@/components/Seo';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import PlanDisplay from '@/components/PlanDisplay';
@@ -22,7 +22,7 @@ const Step5ConfirmationPage: React.FC = () => {
   const [discountCode, setDiscountCode] = useState<string | null>(null);
 
   const isSubscriptionPlan = (plan: any): plan is SubscriptionPlan => {
-    return 'stripe_subscription_id' in plan;
+    return 'stripe_subscription_id' in plan || 'subscription_message' in plan;
   };
 
   return (
@@ -105,6 +105,20 @@ const Step5ConfirmationPage: React.FC = () => {
                         </div>
                       </div>
                     </SummarySection>
+
+                    {plan.subscription_message && (
+                      <SummarySection 
+                        label="Card Message" 
+                        editUrl={`/subscribe-flow/subscription-plan/${planId}/structure`}
+                      >
+                        <div className="flex items-start bg-[var(--colorgreen)]/10 rounded-2xl border border-[var(--colorgreen)]/20 p-6">
+                          <MessageSquare className="h-5 w-5 text-[var(--colorgreen)] mt-1 flex-shrink-0 mr-4" />
+                          <p className="text-lg font-medium italic text-black/80 leading-relaxed">
+                            "{plan.subscription_message}"
+                          </p>
+                        </div>
+                      </SummarySection>
+                    )}
 
                     <SummarySection 
                       label="Flower Preferences" 
