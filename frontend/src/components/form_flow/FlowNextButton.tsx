@@ -22,7 +22,7 @@ const FlowNextButton: React.FC<FlowNextButtonProps> = ({
     <Button
       asChild={asChild}
       className={cn(
-        "bg-[var(--colorgreen)] text-black font-semibold px-8 py-6 rounded-xl hover:brightness-110 transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 min-w-[200px] border-none text-lg",
+        "bg-[var(--colorgreen)] text-black font-normal px-6 py-3 rounded-xl hover:brightness-110 transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 min-w-[160px] border-none text-base",
         className
       )}
       disabled={disabled || isLoading}
@@ -34,7 +34,7 @@ const FlowNextButton: React.FC<FlowNextButtonProps> = ({
             {isLoading && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
             <span>{label.startsWith('Next:') ? label : `Next: ${label}`}</span>
           </div>
-          <ChevronRight className="h-5 w-5 text-black/40 group-hover:text-black transition-colors" />
+          <ChevronRight className="h-4 w-4 text-black/40 group-hover:text-black transition-colors" />
         </>
       )}
     </Button>

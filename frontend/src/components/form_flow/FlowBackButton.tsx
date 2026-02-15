@@ -34,15 +34,15 @@ const FlowBackButton: React.FC<FlowBackButtonProps> = ({
   const content = (
     <>
       <div className="flex items-center gap-2">
-        <ChevronLeft className="h-5 w-5 text-black/40 group-hover:text-black transition-colors" />
+        <ChevronLeft className="h-4 w-4 text-white/70 group-hover:text-white transition-colors" />
         <span>{label}</span>
       </div>
-      <ChevronRight className="h-5 w-5 text-black/10 group-hover:text-black/40 transition-colors" />
+      <ChevronRight className="h-4 w-4 text-white/20 group-hover:text-white/60 transition-colors" />
     </>
   );
 
   const baseClassName = cn(
-    "bg-[var(--colorgreen)] text-black font-semibold px-8 py-6 rounded-xl hover:brightness-110 transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 min-w-[200px] border-none text-lg",
+    "bg-red-500 text-white font-normal px-6 py-3 rounded-xl hover:bg-red-600 transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 min-w-[140px] border-none text-base",
     className
   );
 
