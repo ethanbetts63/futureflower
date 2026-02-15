@@ -14,10 +14,11 @@ import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
 import type { UpfrontStructureEditorProps } from '../../types/UpfrontStructureEditorProps';
 import PaymentInitiatorButton from './PaymentInitiatorButton';
+import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
 
 const getMinDateString = () => {
     const minDate = new Date();
-    minDate.setDate(minDate.getDate() + 7);
+    minDate.setDate(minDate.getDate() + MIN_DAYS_BEFORE_FIRST_DELIVERY);
     return minDate.toISOString().split('T')[0];
 };
 
@@ -58,11 +59,21 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
         setIsLoading(true);
         getUpfrontPlan(planId)
             .then((plan: UpfrontPlan) => {
+                let startDate = plan.start_date || getMinDateString();
+                
+                // Auto-correct if date is too soon and plan is not yet active
+                if (plan.status !== 'active') {
+                    const minDateStr = getMinDateString();
+                    if (startDate < minDateStr) {
+                        startDate = minDateStr;
+                    }
+                }
+
                 setFormData({
                     budget: Number(plan.budget) || 75,
                     frequency: plan.frequency || 'annually',
                     years: plan.years || 5,
-                    start_date: plan.start_date || getMinDateString(),
+                    start_date: startDate,
                 });
             })
             .catch(error => {

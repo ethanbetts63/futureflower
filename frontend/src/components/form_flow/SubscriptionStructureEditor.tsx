@@ -15,10 +15,11 @@ import type { SubscriptionStructureData } from '../../types/SubscriptionStructur
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
 import type { SubscriptionStructureEditorProps } from '../../types/SubscriptionStructureEditorProps';
+import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
 
 const getMinDateString = () => {
     const minDate = new Date();
-    minDate.setDate(minDate.getDate() + 7);
+    minDate.setDate(minDate.getDate() + MIN_DAYS_BEFORE_FIRST_DELIVERY);
     return minDate.toISOString().split('T')[0];
 };
 
@@ -57,10 +58,20 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
         setIsLoading(true);
         getSubscriptionPlan(planId)
             .then((plan: SubscriptionPlan) => {
+                let startDate = plan.start_date || getMinDateString();
+                
+                // Auto-correct if date is too soon and plan is not yet active
+                if (plan.status !== 'active') {
+                    const minDateStr = getMinDateString();
+                    if (startDate < minDateStr) {
+                        startDate = minDateStr;
+                    }
+                }
+
                 setFormData({
                     budget: Number(plan.budget) || 75,
                     frequency: plan.frequency || 'annually',
-                    start_date: plan.start_date || getMinDateString(),
+                    start_date: startDate,
                     subscription_message: plan.subscription_message || '',
                 });
             })

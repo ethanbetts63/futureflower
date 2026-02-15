@@ -4,6 +4,7 @@ import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ImpactTierSelector } from '@/components/form_flow/ImpactTierSelector';
+import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
 
 import type { PlanStructureFormProps } from '../types/PlanStructureFormProps';
 
@@ -29,7 +30,7 @@ const PlanStructureForm: React.FC<PlanStructureFormProps> = ({
   };
 
   const minDate = new Date();
-  minDate.setDate(minDate.getDate() + 7);
+  minDate.setDate(minDate.getDate() + MIN_DAYS_BEFORE_FIRST_DELIVERY);
   const minDateString = minDate.toISOString().split('T')[0];
 
   return (

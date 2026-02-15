@@ -6,12 +6,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { ImpactTierSelector } from '@/components/form_flow/ImpactTierSelector';
 import type { SubscriptionStructureFormProps } from '../types/SubscriptionStructureFormProps';
-
-
+import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
 
 const getMinDateString = () => {
     const minDate = new Date();
-    minDate.setDate(minDate.getDate() + 7);
+    minDate.setDate(minDate.getDate() + MIN_DAYS_BEFORE_FIRST_DELIVERY);
     return minDate.toISOString().split('T')[0];
 };
 

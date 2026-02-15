@@ -15,10 +15,11 @@ import type { SingleDeliveryStructureData } from '../../types/SingleDeliveryStru
 import BackButton from '@/components/BackButton';
 import { debounce } from '@/utils/debounce';
 import type { SingleDeliveryStructureEditorProps } from '../../types/SingleDeliveryStructureEditorProps';
+import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
 
 const getMinDateString = () => {
     const minDate = new Date();
-    minDate.setDate(minDate.getDate() + 7);
+    minDate.setDate(minDate.getDate() + MIN_DAYS_BEFORE_FIRST_DELIVERY);
     return minDate.toISOString().split('T')[0];
 };
 
@@ -55,9 +56,19 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
         setIsLoading(true);
         getUpfrontPlanAsSingleDelivery(planId)
             .then((plan: UpfrontPlan) => {
+                let startDate = plan.start_date || getMinDateString();
+                
+                // Auto-correct if date is too soon and plan is not yet active
+                if (plan.status !== 'active') {
+                    const minDateStr = getMinDateString();
+                    if (startDate < minDateStr) {
+                        startDate = minDateStr;
+                    }
+                }
+
                 setFormData({
                     budget: Number(plan.budget) || 75,
-                    start_date: plan.start_date || getMinDateString(),
+                    start_date: startDate,
                     card_message: plan.draft_card_messages?.['0'] || '',
                 });
             })
