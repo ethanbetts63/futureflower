@@ -20,7 +20,7 @@ export async function updateSubscriptionPlan(planId: string, planData: PartialSu
     return handleResponse(response);
 }
 
-export async function calculateSubscriptionPrice(planId: string, budget: number): Promise<{ price_per_delivery: number }> {
+export async function calculateSubscriptionPrice(planId: string, budget: number): Promise<{ total_amount: number }> {
   const response = await authedFetch(`/api/events/subscription-plans/${planId}/calculate-price/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

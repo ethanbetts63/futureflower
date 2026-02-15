@@ -8,6 +8,5 @@ export type PartialUpfrontPlan = Partial<UpfrontPlan>;
  */
 export interface UpfrontPlan extends OrderBase {
     years: number;
-    total_amount: number;
     events: DeliveryEvent[];
 }

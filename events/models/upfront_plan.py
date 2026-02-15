@@ -11,12 +11,6 @@ class UpfrontPlan(OrderBase):
         help_text="The total number of years for the plan."
     )
 
-    # --- Pricing Details ---
-    total_amount = models.DecimalField(
-        max_digits=10, decimal_places=2, null=True, blank=True,
-        help_text="The final total amount for the plan."
-    )
-
     def __str__(self):
         return f"Upfront Plan {self.id} for {self.user.username}"
 

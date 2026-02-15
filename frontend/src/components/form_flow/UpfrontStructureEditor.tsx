@@ -141,7 +141,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-2xl py-12">
                 <Seo title={`${title} | FutureFlower`} />
-                <Card className="text-black border-none shadow-md" style={{ backgroundColor: 'var(--backgroud-white)' }}>
+                <Card className="text-black border-none shadow-md" style={{ backgroundColor: 'var(--background-white)' }}>
                     <CardHeader>
                         <CardTitle className="text-3xl">{title}</CardTitle>
                         <CardDescription>{description}</CardDescription>

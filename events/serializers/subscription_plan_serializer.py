@@ -23,7 +23,7 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
             'recipient_postcode', 'recipient_country', 'delivery_notes',
             'created_at', 'updated_at', 'preferred_flower_types', 'flower_notes',
             'start_date', 'budget',
-            'frequency', 'price_per_delivery', 'stripe_subscription_id', 'subscription_message',
+            'frequency', 'total_amount', 'stripe_subscription_id', 'subscription_message',
             'payments', 'next_payment_date', 'next_delivery_date'
         ]
         read_only_fields = ['user', 'status', 'stripe_subscription_id', 'created_at', 'updated_at', 'next_payment_date', 'next_delivery_date']
@@ -41,20 +41,20 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
     @staticmethod
-    def _calculate_price_per_delivery(budget: Decimal) -> Decimal:
+    def _calculate_total_amount(budget: Decimal) -> Decimal:
         fee = calculate_service_fee(budget)
         return (budget + fee).quantize(Decimal('0.01'))
 
     def update(self, instance, validated_data):
-        proposed_price = validated_data.get('price_per_delivery')
+        proposed_total = validated_data.get('total_amount')
         budget = validated_data.get('budget', instance.budget)
 
-        if proposed_price is not None and budget is not None:
-            server_calculated_price = self._calculate_price_per_delivery(budget)
+        if proposed_total is not None and budget is not None:
+            server_calculated_total = self._calculate_total_amount(budget)
 
-            if abs(server_calculated_price - proposed_price) > Decimal('0.01'):
+            if abs(server_calculated_total - proposed_total) > Decimal('0.01'):
                 raise ValidationError({
-                    'price_per_delivery': f"The provided price ${proposed_price} does not match the server-calculated price of ${server_calculated_price} for the given budget."
+                    'total_amount': f"The provided amount ${proposed_total} does not match the server-calculated price of ${server_calculated_total} for the given budget."
                 })
 
         return super().update(instance, validated_data)

@@ -43,7 +43,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     
-    const [pricePerDelivery, setPricePerDelivery] = useState<number | null>(null);
+    const [totalAmount, setTotalAmount] = useState<number | null>(null);
     const [isApiCalculating, setIsApiCalculating] = useState(false);
     const [isDebouncePending, setIsDebouncePending] = useState(true);
 
@@ -75,11 +75,11 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
         if (!planId) return;
         setIsDebouncePending(false);
         setIsApiCalculating(true);
-        setPricePerDelivery(null);
+        setTotalAmount(null);
 
         try {
             const data = await calculateSubscriptionPrice(planId, budget);
-            setPricePerDelivery(data.price_per_delivery);
+            setTotalAmount(data.total_amount);
         } catch (err: any) {
             toast.error("Price Calculation Error", { description: err.message });
         } finally {
@@ -102,7 +102,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
     };
 
     const handleSave = async () => {
-        if (!planId || pricePerDelivery === null) {
+        if (!planId || totalAmount === null) {
             toast.error("Please wait for the price to be calculated.");
             return;
         }
@@ -112,7 +112,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
             const payload: PartialSubscriptionPlan = {
                 ...formData,
                 budget: String(formData.budget),
-                price_per_delivery: pricePerDelivery,
+                total_amount: totalAmount,
             };
             await updateSubscriptionPlan(planId, payload);
             
@@ -149,7 +149,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
                     </CardContent>
                     <CardFooter className="flex justify-between">
                         <BackButton to={backPath.replace('{planId}', planId || '')} />
-                        <Button size="lg" onClick={handleSave} disabled={isSaving || isApiCalculating || isDebouncePending || pricePerDelivery === null}>
+                        <Button size="lg" onClick={handleSave} disabled={isSaving || isApiCalculating || isDebouncePending || totalAmount === null}>
                             {isSaving ? <Spinner className="mr-2 h-4 w-4 animate-spin" /> : null}
                             {isSaving ? 'Saving...' : saveButtonText}
                         </Button>

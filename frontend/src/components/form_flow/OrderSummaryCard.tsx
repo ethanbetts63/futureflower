@@ -71,13 +71,40 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
         );
     }
 
-    const planIsSubscription = 'price_per_delivery' in plan;
-    const planIsUpfront = 'total_amount' in plan && !planIsSubscription;
+    const planIsSubscription = 'subscription_message' in plan;
+    const planIsUpfront = 'years' in plan && !planIsSubscription;
 
     // A single delivery plan is an upfront plan with 1 year and annually frequency
     const planIsSingleDelivery = planIsUpfront && (plan as UpfrontPlan).years === 1 && plan.frequency === 'annually';
 
-    const totalPrice = planIsSubscription ? (plan as SubscriptionPlan).price_per_delivery : (plan as UpfrontPlan).total_amount;
+    const totalPlanAmount = Number(plan.total_amount);
+    const flowerBudget = Number(plan.budget);
+    
+    // For subscriptions, fee is per delivery. For upfront, it's total fee.
+    const serviceFee = totalPlanAmount - (planIsUpfront ? (flowerBudget * (plan as UpfrontPlan).years * (plan.frequency === 'annually' ? 1 : 0 /* this logic is simplified, assuming annually for upfront mostly */)) : flowerBudget);
+    
+    // Actually, simpler logic: the fee per delivery is always (total_amount - budget) for subscriptions
+    // For upfront it's (total_amount - (budget * total_deliveries))
+    // But since the backend already calculates total_amount correctly, we can just show the diff.
+    
+    const feeDisplay = planIsSubscription 
+        ? (totalPlanAmount - flowerBudget)
+        : (totalPlanAmount - (flowerBudget * ((plan as UpfrontPlan).years || 1) * (plan.frequency === 'annually' ? 1 : 12 /* fallback */)));
+    
+    // Let's use a more robust way to get total deliveries for upfront
+    const deliveriesPerYear = {
+        'weekly': 52,
+        'fortnightly': 26,
+        'monthly': 12,
+        'quarterly': 4,
+        'bi-annually': 2,
+        'annually': 1,
+    }[plan.frequency?.toLowerCase() || 'annually'] || 1;
+
+    const totalDeliveries = planIsUpfront ? ((plan as UpfrontPlan).years * deliveriesPerYear) : 1;
+    const totalFlowerValue = flowerBudget * totalDeliveries;
+    const totalServiceFee = totalPlanAmount - totalFlowerValue;
+
     const planType = planIsSubscription ? 'Subscription' : (planIsSingleDelivery ? 'Single Delivery' : 'Upfront Plan');
     const capitalizedFrequency = plan.frequency ? plan.frequency.charAt(0).toUpperCase() + plan.frequency.slice(1) : null;
 
@@ -100,7 +127,7 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
                     )}
                     <div className="flex items-center justify-between">
                         <span className="text-muted-foreground flex items-center"><Flower className="mr-2 h-4 w-4" />Flower Budget</span>
-                        <span>${Number(plan.budget).toFixed(2)}</span>
+                        <span>${flowerBudget.toFixed(2)} {planIsUpfront && `(x${totalDeliveries} deliveries)`}</span>
                     </div>
                     {!planIsSingleDelivery && !planIsSubscription && (
                         <div className="flex items-center justify-between">
@@ -108,27 +135,32 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
                             <span>{(plan as UpfrontPlan).years} {(plan as UpfrontPlan).years > 1 ? 'Years' : 'Year'}</span>
                         </div>
                     )}
+                    <div className="flex items-center justify-between">
+                        <span className="text-muted-foreground flex items-center"><Calendar className="mr-2 h-4 w-4" />Delivery</span>
+                        <span>$0.00</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                        <span className="text-muted-foreground flex items-center"><DollarSign className="mr-2 h-4 w-4" />Customer Refund Protection</span>
+                        <span>${totalServiceFee.toFixed(2)}</span>
+                    </div>
                 </div>
-                {planIsSubscription && (
-                    <>
-                        <div className="flex items-center justify-between text-sm">
-                            <span className="text-muted-foreground flex items-center"><DollarSign className="mr-2 h-4 w-4" />Handling</span>
-                            <span>${(Number((plan as SubscriptionPlan).price_per_delivery) - Number((plan as SubscriptionPlan).budget)).toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between items-center text-lg font-semibold">
-                            <span className="flex items-center"><DollarSign className="mr-2 h-5 w-5" />Total Per Delivery</span>
-                            <span>${Number((plan as SubscriptionPlan).price_per_delivery).toFixed(2)}</span>
-                        </div>
-                    </>
-                )}
+                
                 <div className="border-t border-gray-200 my-4"></div>
                 <div className="flex justify-between items-center text-xl font-bold">
-                    <span className="flex items-center"><DollarSign className="mr-2 h-5 w-5" />Amount Due Today</span>
-                    <span>{planIsSubscription ? '$0.00' : `$${Number(totalPrice).toFixed(2)}`}</span>
+                    <span className="flex items-center"><DollarSign className="mr-2 h-5 w-5" />{planIsSubscription ? 'Total Per Delivery' : 'Amount Due Today'}</span>
+                    <span>${totalPlanAmount.toFixed(2)}</span>
                 </div>
+                
+                {planIsSubscription && (
+                    <div className="flex justify-between items-center text-sm font-medium mt-4 pt-4 border-t border-dashed border-gray-200">
+                        <span>Amount Due Today</span>
+                        <span>$0.00</span>
+                    </div>
+                )}
+
                 {planIsSubscription && (plan as SubscriptionPlan).next_payment_date && (
                     <div className="text-sm text-center text-muted-foreground mt-2">
-                        Your first payment of ${Number((plan as SubscriptionPlan).price_per_delivery).toFixed(2)} will be charged on {new Date((plan as SubscriptionPlan).next_payment_date!).toLocaleDateString()}.
+                        Your first payment of ${totalPlanAmount.toFixed(2)} will be charged on {new Date((plan as SubscriptionPlan).next_payment_date!).toLocaleDateString()}.
                     </div>
                 )}
             </CardContent>

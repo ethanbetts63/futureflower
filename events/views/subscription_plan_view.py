@@ -15,14 +15,14 @@ class SubscriptionPlanViewSet(viewsets.ModelViewSet):
     serializer_class = SubscriptionPlanSerializer
     permission_classes = [IsAuthenticated]
 
-    def _calculate_price_per_delivery(self, budget: Decimal) -> Decimal:
+    def _calculate_total_amount(self, budget: Decimal) -> Decimal:
         """
-        Calculates the price per delivery for a subscription plan based on a given budget.
+        Calculates the total amount (budget + fee) per delivery for a subscription plan.
         """
         fee = calculate_service_fee(budget)
-        price_per_delivery = budget + fee
+        total_amount = budget + fee
 
-        return price_per_delivery.quantize(Decimal('0.01'))
+        return total_amount.quantize(Decimal('0.01'))
 
     def get_queryset(self):
         """
@@ -47,7 +47,7 @@ class SubscriptionPlanViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'], url_path='calculate-price')
     def calculate_price(self, request, pk=None):
         """
-        Calculates the price per delivery for a subscription plan based on a given budget.
+        Calculates the total amount per delivery for a subscription plan based on a given budget.
         """
         budget_str = request.data.get('budget')
 
@@ -59,6 +59,6 @@ class SubscriptionPlanViewSet(viewsets.ModelViewSet):
         except (InvalidOperation, TypeError):
             return Response({'error': 'Invalid budget format.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        price_per_delivery = self._calculate_price_per_delivery(budget)
+        total_amount = self._calculate_total_amount(budget)
 
-        return Response({'price_per_delivery': price_per_delivery}, status=status.HTTP_200_OK)
+        return Response({'total_amount': total_amount}, status=status.HTTP_200_OK)

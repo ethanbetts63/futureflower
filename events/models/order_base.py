@@ -45,6 +45,10 @@ class OrderBase(models.Model):
         max_digits=10, decimal_places=2, null=True, blank=True,
         help_text="The budget per bouquet."
     )
+    total_amount = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True,
+        help_text="The final total amount for the plan (budget + fees)."
+    )
     frequency = models.CharField(
         max_length=20,
         choices=FREQUENCY_CHOICES,

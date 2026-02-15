@@ -5,10 +5,6 @@ class SubscriptionPlan(OrderBase):
     """
     An order where the user pays on a recurring basis.
     """
-    price_per_delivery = models.DecimalField(
-        max_digits=10, decimal_places=2, null=True, blank=True,
-        help_text="The calculated cost for each billing cycle (budget + service fee)."
-    )
     stripe_subscription_id = models.CharField(
         max_length=255, blank=True, null=True,
         help_text="The ID from Stripe for managing the subscription."

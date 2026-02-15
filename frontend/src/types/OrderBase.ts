@@ -17,6 +17,7 @@ export interface OrderBase {
     recipient_country: string | null;
 
     budget: string;
+    total_amount: string;
     frequency: string;
 
     preferred_delivery_time: string | null;
