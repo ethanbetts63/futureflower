@@ -108,17 +108,17 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
-            <div className="container mx-auto max-w-2xl py-12">
+            <div className="container mx-auto max-w-4xl py-0 md:py-12 px-0 md:px-4">
                 <Seo title={`${title} | FutureFlower`} />
-                <Card className="bg-white text-black border-none shadow-md">
-                    <CardContent className="space-y-8 pt-2">
+                <Card className="bg-white text-black border-none shadow-none md:shadow-md rounded-none md:rounded-xl overflow-hidden">
+                    <CardContent className="space-y-8 pt-6 md:pt-10 px-4 md:px-8">
                         <SubscriptionStructureForm
                             formData={formData}
                             onFormChange={handleFormChange}
                             setIsDebouncePending={() => {}} // No-op now
                         />
                     </CardContent>
-                    <CardFooter className="flex flex-row justify-between items-center gap-4 pt-8 border-t border-black/5">
+                    <CardFooter className="flex flex-row justify-between items-center gap-4 py-6 md:py-10 px-4 md:px-8 border-t border-black/5">
                         <FlowBackButton 
                             to={backPath.replace('{planId}', planId || '')} 
                         />
