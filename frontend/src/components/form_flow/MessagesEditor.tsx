@@ -13,7 +13,8 @@ import type { DeliveryEvent } from '../../types/DeliveryEvent';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from '@/components/ui/label';
-import BackButton from '@/components/BackButton';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
+import FlowNextButton from '@/components/form_flow/FlowNextButton';
 import type { UpfrontPlan } from '../../types/UpfrontPlan';
 import type { MessagesEditorProps } from '../../types/MessagesEditorProps';
 
@@ -192,8 +193,12 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
                                 </CardDescription>
                             </div>
                             {showSkipButton && (
-                                <Button variant="destructive" onClick={handleSkip} className="bg-transparent text-red-500 hover:bg-red-50 ml-4">
-                                    Skip for Now
+                                <Button 
+                                    onClick={handleSkip} 
+                                    className="bg-white text-black font-semibold px-6 py-4 rounded-lg hover:bg-gray-100 transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 border-none"
+                                >
+                                    <span>Skip for Now</span>
+                                    <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-black transition-colors" />
                                 </Button>
                             )}
                         </div>
@@ -263,12 +268,14 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
                             )}
                         </div>
                     </CardContent>
-                    <CardFooter className="flex justify-between">
-                        <BackButton to={backPath} />
-                        <Button size="lg" onClick={handleSave} disabled={isSaving}>
-                            {isSaving ? <Spinner className="mr-2 h-4 w-4 animate-spin" /> : null}
-                            {isSaving ? 'Saving...' : saveButtonText}
-                        </Button>
+                    <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 border-t border-black/5">
+                        <FlowBackButton to={backPath} className="w-full sm:w-auto" />
+                        <FlowNextButton 
+                            label={saveButtonText} 
+                            onClick={handleSave} 
+                            isLoading={isSaving}
+                            className="w-full sm:w-auto"
+                        />
                     </CardFooter>
                 </Card>
             </div>

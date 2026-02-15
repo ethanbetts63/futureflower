@@ -12,7 +12,8 @@ import Seo from '@/components/Seo';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import BackButton from '@/components/BackButton';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
+import FlowNextButton from '@/components/form_flow/FlowNextButton';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import type { RecipientEditorProps } from '../../types/RecipientEditorProps';
@@ -154,16 +155,22 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
                             <p className="text-sm text-muted-foreground">Any special instructions for the delivery driver.</p>
                         </div>
                     </CardContent>
-                    <CardFooter className="flex justify-between">
-                        {backButtonTo ? <BackButton to={backButtonTo} /> : <div />}
-                        <div className="flex gap-4">
-                            <Button variant="outline" size="lg" onClick={handleCancel} disabled={isSaving}>
-                                Cancel
-                            </Button>
-                            <Button size="lg" onClick={handleSave} disabled={isSaving}>
-                                {isSaving ? <Spinner className="mr-2 h-4 w-4" /> : saveButtonText}
-                            </Button>
+                    <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 border-t border-black/5">
+                        <div className="flex gap-4 w-full sm:w-auto">
+                            {backButtonTo ? (
+                                <FlowBackButton to={backButtonTo} />
+                            ) : (
+                                <Button variant="outline" size="lg" className="px-8 py-6 rounded-xl border-2" onClick={handleCancel} disabled={isSaving}>
+                                    Cancel
+                                </Button>
+                            )}
                         </div>
+                        <FlowNextButton 
+                            label={saveButtonText} 
+                            onClick={handleSave} 
+                            isLoading={isSaving}
+                            className="w-full sm:w-auto"
+                        />
                     </CardFooter>
                 </Card>
             </div>

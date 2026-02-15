@@ -12,7 +12,8 @@ import type { UpfrontPlan } from '../../types/UpfrontPlan';
 import type { PartialUpfrontPlan } from '../../types/PartialUpfrontPlan';
 import SingleDeliveryStructureForm from '@/forms/SingleDeliveryStructureForm';
 import type { SingleDeliveryStructureData } from '../../types/SingleDeliveryStructureData';
-import BackButton from '@/components/BackButton';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
+import FlowNextButton from '@/components/form_flow/FlowNextButton';
 import { debounce } from '@/utils/debounce';
 import type { SingleDeliveryStructureEditorProps } from '../../types/SingleDeliveryStructureEditorProps';
 import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
@@ -158,12 +159,18 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                             setIsDebouncePending={setIsDebouncePending}
                         />
                     </CardContent>
-                    <CardFooter className="flex justify-between">
-                        <BackButton to={backPath.replace('{planId}', planId || '')} />
-                        <Button size="lg" onClick={handleSave} disabled={isSaving || isApiCalculating || isDebouncePending || typeof totalAmount !== 'number'}>
-                            {isSaving ? <Spinner className="mr-2 h-4 w-4 animate-spin" /> : null}
-                            {isSaving ? 'Saving...' : saveButtonText}
-                        </Button>
+                    <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 border-t border-black/5">
+                        <FlowBackButton 
+                            to={backPath.replace('{planId}', planId || '')} 
+                            className="w-full sm:w-auto"
+                        />
+                        <FlowNextButton 
+                            label={saveButtonText} 
+                            onClick={handleSave} 
+                            isLoading={isSaving}
+                            disabled={isApiCalculating || isDebouncePending || typeof totalAmount !== 'number'}
+                            className="w-full sm:w-auto"
+                        />
                     </CardFooter>
                 </Card>
             </div>

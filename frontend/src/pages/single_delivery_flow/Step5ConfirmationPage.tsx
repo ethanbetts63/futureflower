@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ArrowRight, MapPin, Calendar, MessageSquare, StickyNote, Sprout } from 'lucide-react';
 import Seo from '@/components/Seo';
-import BackButton from '@/components/BackButton';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import PlanDisplay from '@/components/PlanDisplay';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/form_flow/SummarySection';
@@ -52,7 +52,7 @@ const Step5ConfirmationPage = () => {
                     description="Please review the details of your order before proceeding to payment."
                     footer={
                       <>
-                        <BackButton to={`/single-delivery-flow/plan/${planId}/structure`} />
+                        <FlowBackButton to={`/single-delivery-flow/plan/${planId}/structure`} />
                         <PaymentInitiatorButton
                           itemType="UPFRONT_PLAN_NEW"
                           details={{ upfront_plan_id: planId }}

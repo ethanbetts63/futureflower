@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ArrowRight, MapPin, Calendar, Sprout, RefreshCw, Tag } from 'lucide-react';
 import Seo from '@/components/Seo';
-import BackButton from '@/components/BackButton';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import PlanDisplay from '@/components/PlanDisplay';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/form_flow/SummarySection';
@@ -54,7 +54,7 @@ const Step5ConfirmationPage: React.FC = () => {
                     description="Please review your subscription details below. This is the final step before payment."
                     footer={
                       <>
-                        <BackButton to={`/subscribe-flow/subscription-plan/${planId}/structure`} />
+                        <FlowBackButton to={`/subscribe-flow/subscription-plan/${planId}/structure`} />
                         <PaymentInitiatorButton
                           itemType="SUBSCRIPTION_PLAN_NEW"
                           details={{

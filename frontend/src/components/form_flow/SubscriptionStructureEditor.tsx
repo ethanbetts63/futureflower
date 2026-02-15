@@ -12,7 +12,8 @@ import type { SubscriptionPlan } from '../../types/SubscriptionPlan';
 import type { PartialSubscriptionPlan } from '../../types/PartialSubscriptionPlan';
 import SubscriptionStructureForm from '@/forms/SubscriptionStructureForm';
 import type { SubscriptionStructureData } from '../../types/SubscriptionStructureData';
-import BackButton from '@/components/BackButton';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
+import FlowNextButton from '@/components/form_flow/FlowNextButton';
 import { debounce } from '@/utils/debounce';
 import type { SubscriptionStructureEditorProps } from '../../types/SubscriptionStructureEditorProps';
 import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
@@ -158,12 +159,18 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
                             setIsDebouncePending={setIsDebouncePending}
                         />
                     </CardContent>
-                    <CardFooter className="flex justify-between">
-                        <BackButton to={backPath.replace('{planId}', planId || '')} />
-                        <Button size="lg" onClick={handleSave} disabled={isSaving || isApiCalculating || isDebouncePending || totalAmount === null}>
-                            {isSaving ? <Spinner className="mr-2 h-4 w-4 animate-spin" /> : null}
-                            {isSaving ? 'Saving...' : saveButtonText}
-                        </Button>
+                    <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 border-t border-black/5">
+                        <FlowBackButton 
+                            to={backPath.replace('{planId}', planId || '')} 
+                            className="w-full sm:w-auto"
+                        />
+                        <FlowNextButton 
+                            label={saveButtonText} 
+                            onClick={handleSave} 
+                            isLoading={isSaving}
+                            disabled={isApiCalculating || isDebouncePending || totalAmount === null}
+                            className="w-full sm:w-auto"
+                        />
                     </CardFooter>
                 </Card>
             </div>

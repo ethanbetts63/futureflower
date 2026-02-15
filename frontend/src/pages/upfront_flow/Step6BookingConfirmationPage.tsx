@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ArrowRight, MapPin, Calendar, Sprout, MessageSquare, Tag, Clock } from 'lucide-react';
 import Seo from '@/components/Seo';
-import BackButton from '@/components/BackButton';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import PlanDisplay from '@/components/PlanDisplay';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/form_flow/SummarySection';
@@ -52,7 +52,7 @@ const Step6BookingConfirmationPage = () => {
                     description="This is the final step before activating your flower plan. Please ensure everything is correct."
                     footer={
                       <>
-                        <BackButton to={`/upfront-flow/upfront-plan/${planId}/structure`} />
+                        <FlowBackButton to={`/upfront-flow/upfront-plan/${planId}/structure`} />
                         <PaymentInitiatorButton
                           itemType="UPFRONT_PLAN_NEW"
                           details={{ upfront_plan_id: planId }}

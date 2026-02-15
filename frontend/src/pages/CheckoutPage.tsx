@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import Seo from '@/components/Seo';
 import CheckoutForm from '@/forms/CheckoutForm';
 import OrderSummaryCard from '@/components/form_flow/OrderSummaryCard'; 
-import BackButton from '@/components/BackButton';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -66,7 +66,7 @@ const CheckoutPage: React.FC = () => {
             <div className="container mx-auto max-w-5xl px-4">
                 {backPath && (
                     <div className="mb-6">
-                        <BackButton to={backPath} />
+                        <FlowBackButton to={backPath} />
                     </div>
                 )}
                 <div className="flex flex-col md:flex-row gap-8 items-start">

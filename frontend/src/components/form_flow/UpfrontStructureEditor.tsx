@@ -10,7 +10,8 @@ import { toast } from 'sonner';
 import { getUpfrontPlan, updateUpfrontPlan, calculateUpfrontPriceForPlan } from '@/api';
 import type { UpfrontPlan, PartialUpfrontPlan, PlanStructureData } from '@/types';
 import PlanStructureForm from '@/forms/PlanStructureForm';
-import BackButton from '@/components/BackButton';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
+import FlowNextButton from '@/components/form_flow/FlowNextButton';
 import { debounce } from '@/utils/debounce';
 import type { UpfrontStructureEditorProps } from '../../types/UpfrontStructureEditorProps';
 import PaymentInitiatorButton from './PaymentInitiatorButton';
@@ -164,11 +165,10 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
                             setIsDebouncePending={setIsDebouncePending}
                         />
                     </CardContent>
-                    <CardFooter className="flex justify-between">
-                        <BackButton to={backPath} />
+                    <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 border-t border-black/5">
+                        <FlowBackButton to={backPath} className="w-full sm:w-auto" />
                         {showPaymentButton ? (
                             <PaymentInitiatorButton
-                                size="lg"
                                 itemType="UPFRONT_PLAN_MODIFY"
                                 details={{
                                     upfront_plan_id: planId,
@@ -178,14 +178,18 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
                                 }}
                                 backPath={backPath}
                                 disabled={isActionDisabled}
+                                className="w-full sm:w-auto bg-[var(--colorgreen)] text-black font-semibold px-8 py-6 rounded-xl hover:brightness-110 transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 border-none text-lg"
                             >
                                 Proceed to Payment
                             </PaymentInitiatorButton>
                         ) : (
-                            <Button size="lg" onClick={handleSave} disabled={isActionDisabled}>
-                                {isSaving && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
-                                {isSaving ? 'Saving...' : saveButtonText}
-                            </Button>
+                            <FlowNextButton 
+                                label={saveButtonText} 
+                                onClick={handleSave} 
+                                isLoading={isSaving}
+                                disabled={isActionDisabled}
+                                className="w-full sm:w-auto"
+                            />
                         )}
                     </CardFooter>
                 </Card>
