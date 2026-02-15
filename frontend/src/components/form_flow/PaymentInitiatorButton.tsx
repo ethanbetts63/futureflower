@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { ChevronRight } from 'lucide-react';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { createPaymentIntent } from '@/api/payments';
@@ -30,6 +31,7 @@ const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
   onPaymentError,
   children,
   disabled,
+  className,
   ...props
 }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -90,16 +92,19 @@ const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
     <Button
       onClick={handleInitiatePayment}
       disabled={disabled || isLoading}
+      className={cn(
+        "bg-[var(--colorgreen)] text-black font-normal px-6 py-3 rounded-xl hover:brightness-110 transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 min-w-[200px] border-none text-base",
+        className
+      )}
       {...props}
     >
-      {isLoading ? (
-        <>
+      <div className="flex items-center gap-2">
+        {isLoading ? (
           <Spinner className="mr-2 h-4 w-4 animate-spin" />
-          Processing...
-        </>
-      ) : (
-        children
-      )}
+        ) : null}
+        <span>{children}</span>
+      </div>
+      <ChevronRight className="h-4 w-4 text-black/40 group-hover:text-black transition-colors" />
     </Button>
   );
 };

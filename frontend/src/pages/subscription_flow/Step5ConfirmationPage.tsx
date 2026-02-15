@@ -65,10 +65,9 @@ const Step5ConfirmationPage: React.FC = () => {
                           disabled={isSubmitting || !planId}
                           onPaymentInitiate={() => setIsSubmitting(true)}
                           onPaymentError={() => setIsSubmitting(false)}
-                          size="lg"
-                          className="w-full md:w-auto px-10 py-6 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all"
+                          className="w-full md:w-auto"
                         >
-                          Proceed to Payment <ArrowRight className="ml-2 h-6 w-6" />
+                          Proceed to Payment
                         </PaymentInitiatorButton>
                       </>
                     }

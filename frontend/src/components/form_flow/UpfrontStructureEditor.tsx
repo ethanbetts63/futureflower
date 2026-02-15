@@ -178,7 +178,7 @@ const UpfrontStructureEditor: React.FC<UpfrontStructureEditorProps> = ({
                                 }}
                                 backPath={backPath}
                                 disabled={isActionDisabled}
-                                className="w-full sm:w-auto bg-[var(--colorgreen)] text-black font-semibold px-8 py-6 rounded-xl hover:brightness-110 transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 border-none text-lg"
+                                className="w-full sm:w-auto"
                             >
                                 Proceed to Payment
                             </PaymentInitiatorButton>
