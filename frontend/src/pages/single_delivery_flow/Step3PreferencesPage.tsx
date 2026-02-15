@@ -13,12 +13,9 @@ const Step3PreferencesPage: React.FC = () => {
         <StepProgressBar currentStep={3} totalSteps={4} planName="Single Delivery Plan" />
         <PreferencesEditor
             mode="create"
-            title="The Florist's Brief"
-            description="Set the vibe and give your florist the inside scoop. This step is optional but it makes a difference."
             saveButtonText="Next: Details"
             onSaveNavigateTo={`/single-delivery-flow/plan/${planId}/structure`}
             backPath={`/single-delivery-flow/plan/${planId}/recipient`}
-            showSkipButton={true}
             getPlan={getUpfrontPlanAsSingleDelivery}
             updatePlan={updateUpfrontPlanAsSingleDelivery}
         />

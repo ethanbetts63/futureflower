@@ -98,7 +98,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
             <div className="container mx-auto max-w-4xl py-12">
                 <Seo title={`${title} | FutureFlower`} />
                 <Card className="text-black border-none shadow-md" style={{ backgroundColor: 'var(--background-white)' }}>
-                    <CardContent className="space-y-8 pt-2">
+                    <CardContent className="space-y-8 pt-8">
                         <VibePicker
                             vibes={flowerTypes}
                             selected={selectedVibe}

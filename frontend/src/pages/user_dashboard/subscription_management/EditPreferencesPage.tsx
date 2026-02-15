@@ -10,12 +10,9 @@ const EditPreferencesPage: React.FC = () => {
     return (
         <PreferencesEditor
             mode="edit"
-            title="Edit Florist's Brief"
-            description="Update the vibe and notes for this subscription. It helps our florists get it just right."
             saveButtonText="Save Changes"
             onSaveNavigateTo={`/dashboard/subscription-plans/${planId}/overview`}
             backPath={`/dashboard/subscription-plans/${planId}/overview`}
-            showSkipButton={false}
             getPlan={getSubscriptionPlan}
             updatePlan={updateSubscriptionPlan}
         />
