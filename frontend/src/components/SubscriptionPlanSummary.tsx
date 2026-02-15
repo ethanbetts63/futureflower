@@ -6,7 +6,7 @@ import type { SubscriptionPlanSummaryProps } from '../types/SubscriptionPlanSumm
 import type { Plan, SubscriptionPlan } from '../types';
 
 const isSubscriptionPlan = (p: Plan): p is SubscriptionPlan => {
-    return 'frequency' in p && 'price_per_delivery' in p;
+    return 'stripe_subscription_id' in p;
 };
 
 const SubscriptionPlanSummary: React.FC<SubscriptionPlanSummaryProps> = ({ plan }) => {

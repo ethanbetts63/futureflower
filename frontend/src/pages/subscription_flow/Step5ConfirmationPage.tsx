@@ -22,7 +22,7 @@ const Step5ConfirmationPage: React.FC = () => {
   const [discountCode, setDiscountCode] = useState<string | null>(null);
 
   const isSubscriptionPlan = (plan: any): plan is SubscriptionPlan => {
-    return 'frequency' in plan && 'price_per_delivery' in plan;
+    return 'stripe_subscription_id' in plan;
   };
 
   return (
