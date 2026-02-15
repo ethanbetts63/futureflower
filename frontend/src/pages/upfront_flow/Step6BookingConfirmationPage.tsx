@@ -50,6 +50,24 @@ const Step6BookingConfirmationPage = () => {
                   <UnifiedSummaryCard 
                     title="Review Your Flower Plan" 
                     description="This is the final step before activating your flower plan. Please ensure everything is correct."
+                    footer={
+                      <div className="flex flex-col md:flex-row justify-between items-center gap-6 w-full">
+                        <BackButton to={`/upfront-flow/upfront-plan/${planId}/structure`} />
+                        <PaymentInitiatorButton
+                          itemType="UPFRONT_PLAN_NEW"
+                          details={{ upfront_plan_id: planId }}
+                          discountCode={discountCode}
+                          backPath={`/upfront-flow/upfront-plan/${planId}/confirmation`}
+                          disabled={isSubmitting || !planId}
+                          onPaymentInitiate={() => setIsSubmitting(true)}
+                          onPaymentError={() => setIsSubmitting(false)}
+                          size="lg"
+                          className="w-full md:w-auto px-10 py-8 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all"
+                        >
+                          Proceed to Payment <ArrowRight className="ml-2 h-6 w-6" />
+                        </PaymentInitiatorButton>
+                      </div>
+                    }
                   >
                     <SummarySection 
                       label="Recipient" 
@@ -141,23 +159,6 @@ const Step6BookingConfirmationPage = () => {
                       </div>
                     </SummarySection>
                   </UnifiedSummaryCard>
-
-                  <div className="flex flex-col md:flex-row justify-between items-center gap-6 mt-8">
-                    <BackButton to={`/upfront-flow/upfront-plan/${planId}/structure`} />
-                    <PaymentInitiatorButton
-                      itemType="UPFRONT_PLAN_NEW"
-                      details={{ upfront_plan_id: planId }}
-                      discountCode={discountCode}
-                      backPath={`/upfront-flow/upfront-plan/${planId}/confirmation`}
-                      disabled={isSubmitting || !planId}
-                      onPaymentInitiate={() => setIsSubmitting(true)}
-                      onPaymentError={() => setIsSubmitting(false)}
-                      size="lg"
-                      className="w-full md:w-auto px-10 py-8 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all"
-                    >
-                      Proceed to Payment <ArrowRight className="ml-2 h-6 w-6" />
-                    </PaymentInitiatorButton>
-                  </div>
                 </div>
               );
             }}

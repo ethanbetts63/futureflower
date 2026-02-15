@@ -46,10 +46,27 @@ const Step5ConfirmationPage = () => {
                 .filter((ft): ft is FlowerType => !!ft);
 
               return (
-                <div className="space-y-10">
+                <div className="">
                   <UnifiedSummaryCard 
                     title="Confirm Your Delivery" 
                     description="Please review the details of your order before proceeding to payment."
+                    footer={
+                      <div className="flex flex-col md:flex-row justify-between items-center w-full">
+                        <BackButton to={`/single-delivery-flow/plan/${planId}/structure`} />
+                        <PaymentInitiatorButton
+                          itemType="UPFRONT_PLAN_NEW"
+                          details={{ upfront_plan_id: planId }}
+                          backPath={`/single-delivery-flow/plan/${planId}/confirmation`}
+                          disabled={isSubmitting || !planId}
+                          onPaymentInitiate={() => setIsSubmitting(true)}
+                          onPaymentError={() => setIsSubmitting(false)}
+                          size="lg"
+                          className="w-full md:w-auto px-10 py-4 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all"
+                        >
+                          Proceed to Payment <ArrowRight className="ml-2 h-3 w-3" />
+                        </PaymentInitiatorButton>
+                      </div>
+                    }
                   >
                     <SummarySection 
                       label="Recipient" 
@@ -132,22 +149,6 @@ const Step5ConfirmationPage = () => {
                       editUrl={`/single-delivery-flow/plan/${planId}/structure`}
                     />
                   </UnifiedSummaryCard>
-
-                  <div className="flex flex-col md:flex-row justify-between items-center gap-6 mt-8">
-                    <BackButton to={`/single-delivery-flow/plan/${planId}/structure`} />
-                    <PaymentInitiatorButton
-                      itemType="UPFRONT_PLAN_NEW"
-                      details={{ upfront_plan_id: planId }}
-                      backPath={`/single-delivery-flow/plan/${planId}/confirmation`}
-                      disabled={isSubmitting || !planId}
-                      onPaymentInitiate={() => setIsSubmitting(true)}
-                      onPaymentError={() => setIsSubmitting(false)}
-                      size="lg"
-                      className="w-full md:w-auto px-10 py-8 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all"
-                    >
-                      Proceed to Payment <ArrowRight className="ml-2 h-6 w-6" />
-                    </PaymentInitiatorButton>
-                  </div>
                 </div>
               );
             }}
