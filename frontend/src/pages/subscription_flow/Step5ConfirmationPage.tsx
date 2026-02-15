@@ -48,7 +48,7 @@ const Step5ConfirmationPage: React.FC = () => {
                 .filter((ft): ft is FlowerType => !!ft);
 
               return (
-                <div className="space-y-10">
+                <div>
                   <UnifiedSummaryCard 
                     title="Review Your Subscription" 
                     description="Please review your subscription details below. This is the final step before payment."
@@ -75,7 +75,7 @@ const Step5ConfirmationPage: React.FC = () => {
                       label="Recipient" 
                       editUrl={`/subscribe-flow/subscription-plan/${planId}/recipient`}
                     >
-                      <div className="flex items-start gap-3">
+                      <div className="flex items-start">
                         <MapPin className="h-5 w-5 text-black/20 mt-0.5 flex-shrink-0" />
                         <div>
                           <p className="font-bold text-lg font-['Playfair_Display',_serif]">

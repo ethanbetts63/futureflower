@@ -10,7 +10,7 @@ const StepProgressBar: React.FC<StepProgressBarProps> = ({ currentStep, totalSte
     const progressPercent = (currentStep / totalSteps) * 100;
 
     return (
-        <div className="w-full bg-[var(--background-white)] border-b border-black/10 px-4 py-4">
+        <div className="w-full bg-white border-b border-black/10 px-4 py-4">
             <div className="container mx-auto max-w-3xl">
                 <div className="flex items-center justify-between mb-2">
                     <p className="text-xs font-semibold tracking-[0.2em] text-black/80 uppercase">

@@ -17,8 +17,8 @@ const UnifiedSummaryCard: React.FC<UnifiedSummaryCardProps> = ({
   className = ""
 }) => {
   return (
-    <Card className={`w-full bg-[var(--background-white)] shadow-none md:shadow-xl md:shadow-black/5 border-none text-black overflow-hidden rounded-none md:rounded-3xl ${className}`}>
-      <CardHeader className="bg-[var(--background-white)] border-b border-black/5 px-4 md:px-8 py-2">
+    <Card className={`w-full bg-white shadow-none md:shadow-xl md:shadow-black/5 border-none text-black overflow-hidden rounded-none md:rounded-3xl ${className}`}>
+      <CardHeader className="bg-white border-b border-black/5 px-4 md:px-8 py-2">
         <CardTitle className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif]">
           {title}
         </CardTitle>
@@ -32,7 +32,7 @@ const UnifiedSummaryCard: React.FC<UnifiedSummaryCardProps> = ({
         </div>
       </CardContent>
       {footer && (
-        <CardFooter className="bg-[var(--background-white)] border-t border-black/5 py-2 px-4 md:px-8">
+        <CardFooter className="bg-white border-t border-black/5 py-2 px-4 md:px-8">
           <div className="flex flex-row justify-between items-center gap-6 w-full">
             {footer}
           </div>

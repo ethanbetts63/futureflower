@@ -19,7 +19,7 @@ const OfferingSection: React.FC = () => {
   };
 
   return (
-    <section className="bg-[var(--background-white)] pb-8 md:pt-8">
+    <section className="bg-white pb-8 md:pt-8">
       <div className="container mx-auto px-0 md:px-4 lg:px-8">
         <div className="bg-[#f5f0eb] md:border md:border-black/10 md:rounded-2xl p-6 md:p-10 lg:p-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
