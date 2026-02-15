@@ -13,9 +13,9 @@ class TestOrderModels:
         assert str(plan).startswith("Upfront Plan")
 
     def test_subscription_plan_creation(self):
-        plan = SubscriptionPlanFactory(budget=80, price_per_delivery=95)
+        plan = SubscriptionPlanFactory(budget=80, total_amount=95)
         assert plan.status == 'pending_payment'
-        assert plan.price_per_delivery == 95
+        assert plan.total_amount == 95
         assert str(plan).startswith("Subscription Plan")
 
     def test_order_base_get_child_instance_upfront(self):
