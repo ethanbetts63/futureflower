@@ -9,7 +9,6 @@ import PlanDisplay from '@/components/PlanDisplay';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/form_flow/SummarySection';
 import ImpactSummary from '@/components/form_flow/ImpactSummary';
-import { Badge } from '@/components/ui/badge';
 import { formatDate } from '@/utils/utils';
 
 import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';

@@ -20,7 +20,7 @@ const SummarySection: React.FC<SummarySectionProps> = ({ label, children, editUr
       </div>
       
       {editUrl && (
-        <div className="flex-shrink-0 pt-1">
+        <div className="flex-shrink-0 pt-1 w-full sm:w-auto text-right">
           <Link 
             to={editUrl} 
             className="text-xs font-semibold text-black/40 hover:text-black underline underline-offset-4 transition-colors"

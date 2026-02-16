@@ -9,7 +9,6 @@ import PlanDisplay from '@/components/PlanDisplay';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/form_flow/SummarySection';
 import ImpactSummary from '@/components/form_flow/ImpactSummary';
-import { Badge } from '@/components/ui/badge';
 import PaymentInitiatorButton from '@/components/form_flow/PaymentInitiatorButton';
 import DiscountCodeInput from '@/components/form_flow/DiscountCodeInput';
 import { getSubscriptionPlan } from '@/api';
