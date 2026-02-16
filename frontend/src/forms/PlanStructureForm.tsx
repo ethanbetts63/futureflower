@@ -4,7 +4,7 @@ import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ImpactTierSelector } from '@/components/form_flow/ImpactTierSelector';
-import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
+import { MIN_DAYS_BEFORE_CREATE, MIN_DAYS_BEFORE_EDIT } from '@/utils/systemConstants';
 
 import type { PlanStructureFormProps } from '../types/PlanStructureFormProps';
 
@@ -12,7 +12,8 @@ const PlanStructureForm: React.FC<PlanStructureFormProps> = ({
   formData,
   onFormChange,
   setIsDebouncePending,
-  title = "Plan Structure"
+  title = "Plan Structure",
+  isEdit = false
 }) => {
 
   const handleBudgetChange = (budget: number) => {
@@ -29,8 +30,9 @@ const PlanStructureForm: React.FC<PlanStructureFormProps> = ({
     onFormChange(field, value[0]);
   };
 
+  const leadTime = isEdit ? MIN_DAYS_BEFORE_EDIT : MIN_DAYS_BEFORE_CREATE;
   const minDate = new Date();
-  minDate.setDate(minDate.getDate() + MIN_DAYS_BEFORE_FIRST_DELIVERY);
+  minDate.setDate(minDate.getDate() + leadTime);
   const minDateString = minDate.toISOString().split('T')[0];
 
   return (
@@ -78,7 +80,7 @@ const PlanStructureForm: React.FC<PlanStructureFormProps> = ({
           <p className="text-sm text-gray-500 mt-1">Adjust the total duration of the plan in years.</p>
         </div>
         <div className="grid gap-2">
-            <Label htmlFor="start-date-input" className="text-sm">First Delivery Date</Label>
+            <Label htmlFor="start-date-input" className="text-sm">Next Delivery Date</Label>
             <Input
                 id="start-date-input"
                 type="date"
@@ -87,7 +89,9 @@ const PlanStructureForm: React.FC<PlanStructureFormProps> = ({
                 onChange={(e) => onFormChange('start_date', e.target.value)}
                 className="w-full"
             />
-            <p className="text-sm text-gray-500 mt-1">Select the date for the first bouquet delivery. Must be at least 7 days from today.</p>
+            <p className="text-sm text-gray-500 mt-1">
+              Select the date for the next bouquet delivery. Must be at least {leadTime} days from today.
+            </p>
         </div>
       </div>
     </div>

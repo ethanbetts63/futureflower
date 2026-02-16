@@ -14,11 +14,12 @@ import type { SubscriptionStructureData } from '../../types/SubscriptionStructur
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import FlowNextButton from '@/components/form_flow/FlowNextButton';
 import type { SubscriptionStructureEditorProps } from '../../types/SubscriptionStructureEditorProps';
-import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
+import { MIN_DAYS_BEFORE_CREATE, MIN_DAYS_BEFORE_EDIT } from '@/utils/systemConstants';
 
-const getMinDateString = () => {
+const getMinDateString = (isEdit: boolean) => {
     const minDate = new Date();
-    minDate.setDate(minDate.getDate() + MIN_DAYS_BEFORE_FIRST_DELIVERY);
+    const leadTime = isEdit ? MIN_DAYS_BEFORE_EDIT : MIN_DAYS_BEFORE_CREATE;
+    minDate.setDate(minDate.getDate() + leadTime);
     return minDate.toISOString().split('T')[0];
 };
 
@@ -32,11 +33,12 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
     const { planId } = useParams<{ planId: string }>();
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
+    const isEditMode = mode === 'edit';
 
     const [formData, setFormData] = useState<SubscriptionStructureData>({
         budget: 150,
         frequency: 'annually',
-        start_date: getMinDateString(),
+        start_date: getMinDateString(isEditMode),
         subscription_message: '',
     });
     const [isLoading, setIsLoading] = useState(true);
@@ -52,11 +54,11 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
         setIsLoading(true);
         getSubscriptionPlan(planId)
             .then((plan: SubscriptionPlan) => {
-                let startDate = plan.start_date || getMinDateString();
+                let startDate = plan.start_date || getMinDateString(isEditMode);
                 
                 // Auto-correct if date is too soon and plan is not yet active
                 if (plan.status !== 'active') {
-                    const minDateStr = getMinDateString();
+                    const minDateStr = getMinDateString(isEditMode);
                     if (startDate < minDateStr) {
                         startDate = minDateStr;
                     }
@@ -74,7 +76,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
                 navigate(backPath);
             })
             .finally(() => setIsLoading(false));
-    }, [planId, isAuthenticated, navigate, backPath]);
+    }, [planId, isAuthenticated, navigate, backPath, isEditMode]);
 
     const handleFormChange = (field: keyof SubscriptionStructureData, value: number | string) => {
         setFormData((prev: SubscriptionStructureData) => ({ ...prev, [field]: value }));
@@ -119,6 +121,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
                             formData={formData}
                             onFormChange={handleFormChange}
                             setIsDebouncePending={() => {}}
+                            isEdit={isEditMode}
                         />
                     </CardContent>
                     <CardFooter className="flex flex-row justify-between items-center gap-4 py-2 px-4 md:px-8 border-t border-black/5">

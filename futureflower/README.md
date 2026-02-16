@@ -19,7 +19,8 @@ Central configuration for the Django project.
 
 **Business rule settings:**
 - `EVENT_PRICE = 10.00` - Base service fee
-- `MIN_DAYS_BEFORE_FIRST_DELIVERY = 7` - Minimum lead time for first delivery
+- `MIN_DAYS_BEFORE_CREATE = 3` - Lead time for new orders
+- `MIN_DAYS_BEFORE_EDIT = 7` - Lead time for modifying active orders
 - `SUBSCRIPTION_CHARGE_LEAD_DAYS = 6` - Days before delivery to charge subscription
 
 ### urls.py

@@ -5,4 +5,5 @@ export interface PlanStructureFormProps {
   onFormChange: (field: keyof PlanStructureData, value: number | string) => void;
   setIsDebouncePending?: (isPending: boolean) => void;
   title?: string;
+  isEdit?: boolean;
 }

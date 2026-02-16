@@ -14,11 +14,12 @@ import type { SingleDeliveryStructureData } from '../../types/SingleDeliveryStru
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import FlowNextButton from '@/components/form_flow/FlowNextButton';
 import type { SingleDeliveryStructureEditorProps } from '../../types/SingleDeliveryStructureEditorProps';
-import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
+import { MIN_DAYS_BEFORE_CREATE, MIN_DAYS_BEFORE_EDIT } from '@/utils/systemConstants';
 
-const getMinDateString = () => {
+const getMinDateString = (isEdit: boolean) => {
     const minDate = new Date();
-    minDate.setDate(minDate.getDate() + MIN_DAYS_BEFORE_FIRST_DELIVERY);
+    const leadTime = isEdit ? MIN_DAYS_BEFORE_EDIT : MIN_DAYS_BEFORE_CREATE;
+    minDate.setDate(minDate.getDate() + leadTime);
     return minDate.toISOString().split('T')[0];
 };
 
@@ -32,10 +33,11 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     const { planId } = useParams<{ planId: string }>();
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
+    const isEditMode = mode === 'edit';
 
     const [formData, setFormData] = useState<SingleDeliveryStructureData>({
         budget: 150,
-        start_date: getMinDateString(),
+        start_date: getMinDateString(isEditMode),
         card_message: '',
     });
     const [isLoading, setIsLoading] = useState(true);
@@ -50,11 +52,11 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
         setIsLoading(true);
         getUpfrontPlanAsSingleDelivery(planId)
             .then((plan: UpfrontPlan) => {
-                let startDate = plan.start_date || getMinDateString();
+                let startDate = plan.start_date || getMinDateString(isEditMode);
                 
                 // Auto-correct if date is too soon and plan is not yet active
                 if (plan.status !== 'active') {
-                    const minDateStr = getMinDateString();
+                    const minDateStr = getMinDateString(isEditMode);
                     if (startDate < minDateStr) {
                         startDate = minDateStr;
                     }
@@ -71,7 +73,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                 navigate(backPath);
             })
             .finally(() => setIsLoading(false));
-    }, [planId, isAuthenticated, navigate, backPath]);
+    }, [planId, isAuthenticated, navigate, backPath, isEditMode]);
 
     const handleFormChange = (field: keyof SingleDeliveryStructureData, value: number | string) => {
         setFormData((prev: SingleDeliveryStructureData) => ({ ...prev, [field]: value }));
@@ -119,6 +121,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                             formData={formData}
                             onFormChange={handleFormChange}
                             setIsDebouncePending={() => {}}
+                            isEdit={isEditMode}
                         />
                     </CardContent>
                     <CardFooter className="flex flex-row justify-between items-center gap-4 py-2 px-4 md:px-8 border-t border-black/5">

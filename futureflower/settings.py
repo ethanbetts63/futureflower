@@ -38,7 +38,8 @@ SITE_URL = os.environ.get("SITE_URL")
 HASHING_SALT = os.environ.get("HASHING_SALT")
 ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
 ADMIN_NUMBER = os.environ.get("ADMIN_NUMBER")
-MIN_DAYS_BEFORE_FIRST_DELIVERY = 7
+MIN_DAYS_BEFORE_CREATE = 3
+MIN_DAYS_BEFORE_EDIT = 7
 SUBSCRIPTION_CHARGE_LEAD_DAYS = 6
 
 # SECURITY WARNING: don't run with debug turned on in production!

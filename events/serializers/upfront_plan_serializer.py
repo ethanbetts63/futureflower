@@ -36,11 +36,17 @@ class UpfrontPlanSerializer(serializers.ModelSerializer):
         the minimum number of days away.
         """
         if value:
-            min_days = settings.MIN_DAYS_BEFORE_FIRST_DELIVERY
+            # Determine if this is an update to an active plan
+            instance = getattr(self, 'instance', None)
+            is_active = instance and instance.status == 'active'
+            
+            min_days = settings.MIN_DAYS_BEFORE_EDIT if is_active else settings.MIN_DAYS_BEFORE_CREATE
             earliest_date = date.today() + timedelta(days=min_days)
             if value < earliest_date:
+                action_text = "modified" if is_active else "confirmed"
                 raise serializers.ValidationError(
-                    f"The first delivery must be at least {min_days} days from now so our admin can confirm and organise your first delivery."
+                    f"The next delivery must be at least {min_days} days from now so our florist has enough time to prepare. "
+                    f"Your request cannot be {action_text} for this date."
                 )
         return value
 

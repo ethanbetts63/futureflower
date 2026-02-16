@@ -73,8 +73,11 @@ Users with unpaid plans are often forced back through the configuration flow to 
 ### 17. The "Inconsistent Routing" Issue
 There is a mismatch between defined routes in `App.tsx` and internal navigation (e.g., `/dashboard/upfront-plans/` vs `/dashboard/plans/`). This needs to be audited and unified to prevent 404s and broken links during plan management.
 
-### 18. unused file? 
+### 18. Active Upfront Plan Modification: Schedule Desync
+When an active Upfront plan is modified (budget, years, or frequency), the system successfully calculates the price difference and updates the plan metadata via the `UPFRONT_PLAN_MODIFY` webhook handler. However, it does **not** update or re-generate the existing `DeliveryEvent` objects. This results in a "Stale Schedule" where the user has paid for a new structure, but the system still tracks deliveries based on the old one.
+
+### 19. unused file? 
 C:\Users\ethan\coding\futureflower\events\views\public_upfront_price_view.py im fairly sure that this is not being used. C:\Users\ethan\coding\futureflower\events\urls.py but maybe im wrong. check me. 
 
-### 19. Get rid of the anonymization stuff. 
+### 20. Get rid of the anonymization stuff. 
 It would be good to have but right now its overkill. 

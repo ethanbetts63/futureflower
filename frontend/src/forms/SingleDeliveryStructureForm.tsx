@@ -5,23 +5,27 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ImpactTierSelector } from '@/components/form_flow/ImpactTierSelector';
 import type { SingleDeliveryStructureFormProps } from '../types/SingleDeliveryStructureFormProps';
-import { MIN_DAYS_BEFORE_FIRST_DELIVERY } from '@/utils/systemConstants';
+import { MIN_DAYS_BEFORE_CREATE, MIN_DAYS_BEFORE_EDIT } from '@/utils/systemConstants';
 
-const getMinDateString = () => {
+const getMinDateString = (isEdit: boolean) => {
     const minDate = new Date();
-    minDate.setDate(minDate.getDate() + MIN_DAYS_BEFORE_FIRST_DELIVERY);
+    const leadTime = isEdit ? MIN_DAYS_BEFORE_EDIT : MIN_DAYS_BEFORE_CREATE;
+    minDate.setDate(minDate.getDate() + leadTime);
     return minDate.toISOString().split('T')[0];
 };
 
 const SingleDeliveryStructureForm: React.FC<SingleDeliveryStructureFormProps> = ({
     formData,
     onFormChange,
-    setIsDebouncePending
+    setIsDebouncePending,
+    isEdit = false
 }) => {
     const handleBudgetChange = (budget: number) => {
         if (setIsDebouncePending) setIsDebouncePending(true);
         onFormChange('budget', budget);
     };
+
+    const leadTime = isEdit ? MIN_DAYS_BEFORE_EDIT : MIN_DAYS_BEFORE_CREATE;
 
     return (
         <div className="space-y-6">
@@ -32,11 +36,13 @@ const SingleDeliveryStructureForm: React.FC<SingleDeliveryStructureFormProps> = 
                 <Input
                     id="start-date"
                     type="date"
-                    min={getMinDateString()}
+                    min={getMinDateString(isEdit)}
                     value={formData.start_date}
                     onChange={(e) => onFormChange('start_date', e.target.value)}
                 />
-                <p className="text-sm text-muted-foreground">The date the bouquet will be delivered.</p>
+                <p className="text-sm text-muted-foreground">
+                    The date the bouquet will be delivered. Must be at least {leadTime} days from today.
+                </p>
             </div>
 
             <div className="grid gap-2">

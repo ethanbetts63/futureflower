@@ -1,4 +1,6 @@
 from decimal import Decimal
+from datetime import date, timedelta
+from django.conf import settings
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from events.models import SubscriptionPlan
@@ -13,6 +15,26 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
     payments = PaymentSerializer(many=True, read_only=True)
     next_payment_date = serializers.SerializerMethodField()
     next_delivery_date = serializers.SerializerMethodField()
+
+    def validate_start_date(self, value):
+        """
+        Check that the start date is not in the past and is at least
+        the minimum number of days away.
+        """
+        if value:
+            instance = getattr(self, 'instance', None)
+            is_active = instance and instance.status == 'active'
+            
+            min_days = settings.MIN_DAYS_BEFORE_EDIT if is_active else settings.MIN_DAYS_BEFORE_CREATE
+            earliest_date = date.today() + timedelta(days=min_days)
+            
+            if value < earliest_date:
+                action_text = "modified" if is_active else "confirmed"
+                raise serializers.ValidationError(
+                    f"The next delivery must be at least {min_days} days from now so our florist has enough time to prepare. "
+                    f"Your request cannot be {action_text} for this date."
+                )
+        return value
 
     class Meta:
         model = SubscriptionPlan
