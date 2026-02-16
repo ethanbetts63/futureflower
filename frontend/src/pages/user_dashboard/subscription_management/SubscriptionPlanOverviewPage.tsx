@@ -125,7 +125,7 @@ const SubscriptionPlanOverviewPage: React.FC = () => {
                     </SummarySection>
 
                     <ImpactSummary 
-                      price={Number(plan.total_amount)} 
+                      price={Number(plan.budget)} 
                       editUrl={`/dashboard/subscription-plans/${planId}/edit-structure`}
                     />
                   </UnifiedSummaryCard>
