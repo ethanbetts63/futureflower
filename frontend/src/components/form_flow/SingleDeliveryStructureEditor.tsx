@@ -34,7 +34,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     const { isAuthenticated } = useAuth();
 
     const [formData, setFormData] = useState<SingleDeliveryStructureData>({
-        budget: 75,
+        budget: 150,
         start_date: getMinDateString(),
         card_message: '',
     });
@@ -61,7 +61,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                 }
 
                 setFormData({
-                    budget: Number(plan.budget) || 75,
+                    budget: Number(plan.budget) || 150,
                     start_date: startDate,
                     card_message: plan.draft_card_messages?.['0'] || '',
                 });
