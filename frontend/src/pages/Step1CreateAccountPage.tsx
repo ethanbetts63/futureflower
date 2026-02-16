@@ -56,16 +56,16 @@ const CreateAccountPage: React.FC = () => {
             <div className="container mx-auto max-w-4xl py-0 md:py-12 px-0 md:px-4">
                 <Seo title="Create Account | FutureFlower" />
                 <Card className="bg-white text-black border-none shadow-none md:shadow-md rounded-none md:rounded-xl overflow-hidden">
-                    <CardHeader className="px-4 md:px-8 pt-6 md:pt-10">
+                    <CardHeader className="px-4 md:px-8 pt-2">
                         <CardTitle className="text-3xl">Create Your Account</CardTitle>
                         <CardDescription className="text-black">
                             Welcome! Let's get your account set up so you can create your first order. 
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="px-4 md:px-8 py-6">
+                    <CardContent className="px-4 md:px-8 py-2">
                         <ProfileCreationForm initialData={{}} onSubmit={handleFormSubmit} />
                     </CardContent>
-                    <CardFooter className="flex flex-row justify-end items-center gap-4 py-6 md:py-10 px-4 md:px-8 border-t border-black/5">
+                    <CardFooter className="flex flex-row justify-end items-center gap-4 py-2 px-4 md:px-8 border-t border-black/5">
                         <Button 
                             size="lg"
                             className="w-full md:w-auto"
