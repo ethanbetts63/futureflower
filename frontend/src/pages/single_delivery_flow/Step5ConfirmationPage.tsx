@@ -90,7 +90,7 @@ const Step5ConfirmationPage = () => {
                         label="Card Message" 
                         editUrl={`/single-delivery-flow/plan/${planId}/structure`}
                       >
-                        <div className="flex items-start bg-[var(--colorgreen)]/10 rounded-2xl border border-[var(--colorgreen)]/20 p-6">
+                        <div className="flex items-start bg-[var(--colorgreen)]/10 rounded-2xl border border-[var(--colorgreen)]/20 p-4">
                           <MessageSquare className="h-5 w-5 text-[var(--colorgreen)] mt-1 flex-shrink-0 mr-4" />
                           <p className="text-lg font-medium italic text-black/80 leading-relaxed">
                             "{message}"
