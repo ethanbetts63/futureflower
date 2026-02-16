@@ -210,10 +210,6 @@ const CheckoutPage: React.FC = () => {
                                     <span className="font-semibold">${totalFlowerValue.toFixed(2)}</span>
                                 </div>
                                 <div className="flex items-center justify-between text-sm">
-                                    <span className="text-black/60">Service & Refund Protection</span>
-                                    <span className="font-semibold">${totalServiceFee.toFixed(2)}</span>
-                                </div>
-                                <div className="flex items-center justify-between text-sm">
                                     <span className="text-black/60">Delivery</span>
                                     <span className="font-semibold">$0.00</span>
                                 </div>

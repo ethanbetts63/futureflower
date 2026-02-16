@@ -128,10 +128,6 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
                         <span className="text-muted-foreground flex items-center"><Calendar className="mr-2 h-4 w-4" />Delivery</span>
                         <span>$0.00</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                        <span className="text-muted-foreground flex items-center"><DollarSign className="mr-2 h-4 w-4" />Service & Refund Protection</span>
-                        <span>${totalServiceFee.toFixed(2)}</span>
-                    </div>
                 </div>
                 
                 <div className="border-t border-gray-200 my-4"></div>

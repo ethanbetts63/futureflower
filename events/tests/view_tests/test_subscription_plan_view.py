@@ -37,10 +37,10 @@ class TestSubscriptionPlanViewSet:
         plan = SubscriptionPlanFactory(user=self.user)
         url = f"{self.url}{plan.id}/calculate-price/"
         
-        # 100 + max(5, 15) = 115
+        # 100 + 0 = 100
         response = self.client.post(url, {"budget": "100.00"}, format='json')
         assert response.status_code == 200
-        assert Decimal(response.data['total_amount']) == Decimal('115.00')
+        assert Decimal(response.data['total_amount']) == Decimal('100.00')
 
     def test_calculate_price_invalid(self):
         plan = SubscriptionPlanFactory(user=self.user)

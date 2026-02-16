@@ -18,8 +18,8 @@ class TestCreateSubscriptionView:
 
     @pytest.mark.parametrize("frequency", ['weekly', 'monthly', 'annually'])
     def test_create_subscription_success(self, mocker, frequency):
-        # Set start_date far enough in the future to avoid past trial_end
-        start_date = date.today() + timedelta(days=20)
+        # We now expect a PaymentIntent for the first delivery amount
+        start_date = date.today() + timedelta(days=2) # Lead time doesn't matter for initial payment
         plan = SubscriptionPlanFactory(
             user=self.user, 
             total_amount=Decimal('100.00'), 
@@ -29,33 +29,29 @@ class TestCreateSubscriptionView:
         
         mocker.patch.object(stripe.Customer, 'create', return_value=mocker.MagicMock(id='cus_123'))
         
-        mock_sub = mocker.MagicMock()
-        mock_sub.id = 'sub_123'
-        mock_sub.pending_setup_intent = 'si_123'
-        mocker.patch.object(stripe.Subscription, 'create', return_value=mock_sub)
-        
-        mock_si = mocker.MagicMock()
-        mock_si.id = 'si_123'
-        mock_si.client_secret = 'cs_123'
-        mocker.patch.object(stripe.SetupIntent, 'retrieve', return_value=mock_si)
-        mocker.patch.object(stripe.SetupIntent, 'modify')
+        mock_pi = mocker.MagicMock()
+        mock_pi.id = 'pi_123'
+        mock_pi.client_secret = 'pi_secret_123'
+        mock_pi.status = 'requires_payment_method'
+        mocker.patch.object(stripe.PaymentIntent, 'create', return_value=mock_pi)
 
         data = {'subscription_plan_id': plan.id}
         response = self.client.post(self.url, data, format='json')
 
         assert response.status_code == 200
-        assert response.data['clientSecret'] == 'cs_123'
+        assert response.data['clientSecret'] == 'pi_secret_123'
         
-        plan.refresh_from_db()
-        assert plan.stripe_subscription_id == 'sub_123'
+        # In the new flow, Payment is created, but plan status remains 'pending_payment'
+        # until the webhook fulfills it.
+        from payments.models import Payment
+        assert Payment.objects.filter(order=plan.orderbase_ptr, stripe_payment_intent_id='pi_123').exists()
 
-    def test_create_subscription_past_start_date_fails(self):
-        # Start date today, lead days 6 -> trial_end is in the past
-        start_date = date.today()
-        plan = SubscriptionPlanFactory(user=self.user, start_date=start_date)
+    def test_create_subscription_invalid_plan_fails(self):
+        # Missing total_amount
+        plan = SubscriptionPlanFactory(user=self.user, total_amount=None)
         
         data = {'subscription_plan_id': plan.id}
         response = self.client.post(self.url, data, format='json')
         
         assert response.status_code == 400
-        assert "billing is in the past" in response.data['error']
+        assert "missing price" in response.data['error'].lower()

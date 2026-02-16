@@ -42,19 +42,19 @@ class TestFutureFlowerUpfrontPrice:
         assert upfront_price > upfront_price_low # Expect higher values to result in higher price
 
     def test_commission_and_min_fee(self):
-        # Test case where budget * commission_pct is less than min_fee_per_delivery
-        budget = 10  # 5% of 10 is 0.5, which is less than 15
+        # Test case where budget * commission_pct is less than min_fee_per_delivery (both 0)
+        budget = 10
         frequency = 'annually'
         years = 1
         upfront_price, breakdown = forever_flower_upfront_price(budget, frequency, years)
-        assert breakdown['fee_per_delivery'] == 15.00 # Should use min_fee_per_delivery
+        assert breakdown['fee_per_delivery'] == 0.00
 
-        # Test case where budget * commission_pct is more than min_fee_per_delivery
-        budget = 500 # 5% of 500 is 25, which is more than 15
+        # Test case where budget * commission_pct is more than min_fee_per_delivery (both 0)
+        budget = 500
         frequency = 'annually'
         years = 1
         upfront_price, breakdown = forever_flower_upfront_price(budget, frequency, years)
-        assert breakdown['fee_per_delivery'] == 25.00 # Should use calculated commission
+        assert breakdown['fee_per_delivery'] == 0.00
 
 
 class TestCalculateFinalPlanCost:

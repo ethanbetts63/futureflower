@@ -28,8 +28,11 @@ class CreateSubscriptionView(APIView):
         except SubscriptionPlan.DoesNotExist:
             return Response({"error": "SubscriptionPlan not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        if not all([plan.total_amount, plan.total_amount > 0, plan.start_date, plan.frequency]):
+        if not all([plan.total_amount is not None, plan.start_date, plan.frequency]):
             return Response({"error": "Plan is missing price, start date, or frequency."}, status=status.HTTP_400_BAD_REQUEST)
+            
+        if plan.total_amount <= 0:
+            return Response({"error": "Plan amount must be greater than zero."}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             user = request.user
