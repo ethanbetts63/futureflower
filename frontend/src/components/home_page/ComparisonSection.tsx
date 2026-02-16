@@ -4,7 +4,7 @@ import deliveryIcon from '../../assets/delivery_symbol.svg';
 import flowerIcon from '../../assets/flower_symbol.svg';
 
 const rows = [
-  { feature: 'Commission',       them: '20–30% per order',              us: '0%' },
+  { feature: 'Commission',       them: '20–40% per order',              us: '10%' },
   { feature: 'Monthly Fees',     them: 'Often $100–$200+ monthly',      us: '$0' },
   { feature: 'Order Rejection',  them: '$10–$25 penalty for rejecting', us: '$0' },
   { feature: 'Delivery Fee',     them: 'Often retain delivery margin',  us: 'Fully Paid' },
@@ -83,7 +83,7 @@ const ComparisonSection: React.FC = () => (
           <div className="mt-6 pt-2 border-t border-black/10">
             <p className="text-sm font-semibold text-black/80 italic">Then how do you make money?</p>
             <p className="mt-2 text-sm text-black/70 leading-relaxed">
-              We charge a transparent 10% fee. Our competitors slip in a 20–30% commission and often keep the delivery fee.
+              We charge a transparent 10% fee. Our competitors slip in a 20–40% commission and often keep the delivery fee.
               That's how we can be cheaper and still give florists 100% of the flower budget.
             </p>
           </div>

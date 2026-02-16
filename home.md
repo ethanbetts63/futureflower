@@ -89,13 +89,13 @@ Scrollable list of operating countries including: United Kingdom, France, German
 
 **Extra Info:**
 *   *Then how do you make money?*
-*   We charge a transparent 10% fee. Our competitors slip in a 20–30% commission and often keep the delivery fee. That's how we can be cheaper and still give florists 100% of the flower budget.
+*   We charge a transparent 10%. Our competitors slip in a 20–30% commission and often keep the delivery fee. That's how we can be cheaper and still give florists 100% of the flower budget.
 
 **Table:** "How Big Online Platforms Compare"
 
 | Feature | Big Networks | FutureFlower |
 | :--- | :--- | :--- |
-| **Commission** | 20–30% per order | **0%** |
+| **Commission** | 20–40% per order | **0%** |
 | **Monthly Fees** | Often $100–$200+ monthly | **$0** |
 | **Order Rejection** | $10–$25 penalty for rejecting | **$0** |
 | **Delivery Fee** | Often retain delivery margin | **Fully Paid** |
