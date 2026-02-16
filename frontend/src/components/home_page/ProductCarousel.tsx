@@ -5,23 +5,23 @@ import deliveryHighImage from '../../assets/delivery_high.png';
 const steps = [
   {
     level: 1,
-    title: 'Tell us the moment.',
+    title: 'Choose the Vibe.',
     description:
-      'A birthday, an anniversary, or just a Tuesday. Choose the date, preferences and occasion — we take it from there.',
+      'Birthday. Romantic. Sympathy. Celebration. Just because. We design around the moment.',
     image: petalImage,
   },
   {
     level: 2,
-    title: 'We find the perfect florist.',
+    title: 'Choose the Impact.',
     description:
-      'Our local partners hand-pick seasonal flowers and craft a bouquet tailored to your preferences, wherever your recipient is.',
+      'A thoughtful gesture. A classic arrangement. A statement piece. You set the budget — we use all of it on the flowers.',
     image: floristMakingFlowersImage,
   },
   {
     level: 3,
-    title: 'Straight to your door.',
+    title: 'We handle the rest.',
     description:
-      'Fresh flowers arrive on the exact day you chose. No reminders needed, no effort required.',
+      'A local florist creates something unique and beautiful. No catalog copies. No warehouse stock. Just real floristry.',
     image: deliveryHighImage,
   },
 ];
