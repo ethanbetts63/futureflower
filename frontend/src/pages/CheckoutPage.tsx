@@ -149,9 +149,9 @@ const CheckoutPage: React.FC = () => {
                             </div>
                         }
                     >
-                        {/* Compact Review Section */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-8 mb-8 border-b border-black/5">
-                            {/* Impact Selection - Compact */}
+                        {/* Review Section */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Impact Selection  */}
                             <div className="flex items-center gap-4">
                                 <div className="w-16 h-16 rounded-xl overflow-hidden shadow-sm border border-black/5 bg-[var(--color4)] flex-shrink-0">
                                     {tier?.image ? (
@@ -204,14 +204,18 @@ const CheckoutPage: React.FC = () => {
 
                         {/* Price Breakdown */}
                         <SummarySection label="Order Total">
-                            <div className="space-y-3 bg-black/5 rounded-2xl p-6 mt-1">
+                            <div className="space-y-3 bg-black/5 rounded-2xl p-4 mt-1">
                                 <div className="flex items-center justify-between text-sm">
                                     <span className="text-black/60">Flower Value {!planIsSubscription && `(x${totalDeliveries} deliveries)`}</span>
                                     <span className="font-semibold">${totalFlowerValue.toFixed(2)}</span>
                                 </div>
                                 <div className="flex items-center justify-between text-sm">
-                                    <span className="text-black/60">Service & Protection</span>
+                                    <span className="text-black/60">Service & Refund Protection</span>
                                     <span className="font-semibold">${totalServiceFee.toFixed(2)}</span>
+                                </div>
+                                <div className="flex items-center justify-between text-sm">
+                                    <span className="text-black/60">Delivery</span>
+                                    <span className="font-semibold">$0.00</span>
                                 </div>
                                 <div className="pt-3 border-t border-black/10 flex items-center justify-between">
                                     <span className="font-bold text-black flex items-center gap-2">
@@ -230,7 +234,7 @@ const CheckoutPage: React.FC = () => {
 
                         {/* Payment Section */}
                         <SummarySection label="Payment Details">
-                            <div className="mt-2">
+                            <div>
                                 <Elements options={options} stripe={stripePromise}>
                                     <CheckoutForm 
                                         planId={planId}
