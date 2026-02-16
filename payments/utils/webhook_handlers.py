@@ -97,11 +97,9 @@ def handle_payment_intent_succeeded(payment_intent):
                     print(f"Events for UpfrontPlan (PK: {plan_to_activate.pk}) already exist. Skipping duplicate.")
 
             elif item_type == 'SUBSCRIPTION_PLAN_NEW':
-                print(f"DEBUG: Processing SUBSCRIPTION_PLAN_NEW for order {order.id}")
                 plan_to_activate = SubscriptionPlan.objects.get(id=order.id)
                 plan_to_activate.status = 'active'
                 plan_to_activate.save()
-                print(f"DEBUG: SubscriptionPlan {plan_to_activate.pk} status set to active.")
 
                 # 1. Create the first delivery Event
                 if not Event.objects.filter(order=plan_to_activate.orderbase_ptr, delivery_date=plan_to_activate.start_date).exists():
@@ -110,7 +108,6 @@ def handle_payment_intent_succeeded(payment_intent):
                         delivery_date=plan_to_activate.start_date,
                         message=plan_to_activate.subscription_message
                     )
-                    print(f"DEBUG: Created first Event for delivery on {plan_to_activate.start_date}.")
 
                 # 2. Create the actual Stripe Subscription for future deliveries
                 if not plan_to_activate.stripe_subscription_id:
@@ -120,23 +117,17 @@ def handle_payment_intent_succeeded(payment_intent):
                     
                     stripe.api_key = settings.STRIPE_SECRET_KEY
                     
-                    print(f"DEBUG: Creating Stripe subscription for plan {plan_to_activate.id}")
-                    
                     # Calculate the trial end (7 days before the 2nd delivery)
                     second_delivery_date = calculate_second_delivery_date(plan_to_activate.start_date, plan_to_activate.frequency)
                     trial_end_date = second_delivery_date - timedelta(days=settings.SUBSCRIPTION_CHARGE_LEAD_DAYS)
                     trial_end_timestamp = int(datetime.combine(trial_end_date, time.min).timestamp())
                     
-                    print(f"DEBUG: 2nd Delivery: {second_delivery_date}, Trial End: {trial_end_date} (TS: {trial_end_timestamp})")
-                    
                     # Ensure trial end is in the future
                     if trial_end_timestamp <= datetime.now().timestamp():
-                        print("DEBUG: Trial end in past, shifting forward 60 seconds.")
                         trial_end_timestamp = int(datetime.now().timestamp() + 60)
 
                     # Use the payment method from the successful PaymentIntent
                     payment_method_id = payment_intent.get('payment_method')
-                    print(f"DEBUG: Using PaymentMethod: {payment_method_id}")
 
                     subscription = stripe.Subscription.create(
                         customer=plan_to_activate.user.stripe_customer_id,
@@ -158,7 +149,7 @@ def handle_payment_intent_succeeded(payment_intent):
                     
                     plan_to_activate.stripe_subscription_id = subscription.id
                     plan_to_activate.save()
-                    print(f"DEBUG: Successfully created Stripe Subscription {subscription.id}")
+                    print(f"Stripe Subscription {subscription.id} created for plan {plan_to_activate.id}.")
 
             else:
                 print(f"Unhandled item_type '{item_type}' in payment_intent.succeeded webhook. No action taken.")
