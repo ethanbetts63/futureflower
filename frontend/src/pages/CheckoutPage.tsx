@@ -12,13 +12,14 @@ import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/form_flow/SummarySection';
-import ImpactSummary from '@/components/form_flow/ImpactSummary';
-import { MapPin, Calendar, Clock, RefreshCw, DollarSign, ShieldCheck } from 'lucide-react';
+import { MapPin, Calendar, RefreshCw, DollarSign, ShieldCheck } from 'lucide-react';
 import { getSubscriptionPlan } from '@/api/subscriptionPlans';
 import { getUpfrontPlan } from '@/api/upfrontPlans';
 import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
 import type { UpfrontPlan, Plan } from '@/types';
 import { formatDate } from '@/utils/utils';
+import { getImpactTier } from '@/utils/pricingConstants';
+import flowerIcon from '@/assets/flower_symbol.svg';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -46,7 +47,6 @@ const CheckoutPage: React.FC = () => {
             setIntentType(intent);
             setBackPath(back);
 
-            // Fetch plan details for the summary
             const fetchPlan = async () => {
                 try {
                     let fetchedPlan: Plan;
@@ -93,6 +93,7 @@ const CheckoutPage: React.FC = () => {
 
     const planIsSubscription = 'stripe_subscription_id' in plan || !('years' in plan);
     const upfrontPlan = plan as UpfrontPlan;
+    const isSingleDelivery = !planIsSubscription && upfrontPlan.years === 1 && upfrontPlan.frequency === 'annually';
     
     const fullAddress = [
         plan.recipient_street_address,
@@ -105,6 +106,7 @@ const CheckoutPage: React.FC = () => {
 
     const totalPlanAmount = Number(plan.total_amount);
     const flowerBudget = Number(plan.budget);
+    const tier = getImpactTier(flowerBudget);
     
     const deliveriesPerYear = {
         'weekly': 52,
@@ -119,15 +121,15 @@ const CheckoutPage: React.FC = () => {
     const totalFlowerValue = flowerBudget * totalDeliveries;
     const totalServiceFee = totalPlanAmount - totalFlowerValue;
 
-    const planName = planIsSubscription ? "Flower Subscription" : (upfrontPlan.years === 1 && upfrontPlan.frequency === 'annually' ? "Single Delivery" : "Upfront Plan");
+    const planName = planIsSubscription ? "Flower Subscription" : (isSingleDelivery ? "Single Delivery" : "Upfront Plan");
 
     return (
         <>
             <Seo title="Complete Your Order | FutureFlower" />
             <StepProgressBar 
                 planName={planName} 
-                currentStep={planIsSubscription || (upfrontPlan.years === 1 && upfrontPlan.frequency === 'annually') ? 4 : 5} 
-                totalSteps={planIsSubscription || (upfrontPlan.years === 1 && upfrontPlan.frequency === 'annually') ? 4 : 5} 
+                currentStep={planIsSubscription || isSingleDelivery ? 4 : 5} 
+                totalSteps={planIsSubscription || isSingleDelivery ? 4 : 5} 
                 isReview={true}
                 customLabel="Payment"
             />
@@ -135,8 +137,8 @@ const CheckoutPage: React.FC = () => {
             <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
                 <div className="container mx-auto px-0 md:px-4 max-w-4xl">
                     <UnifiedSummaryCard
-                        title="Complete Your Payment"
-                        description="Review your order summary and provide your payment details below to finish."
+                        title="Final Step: Payment"
+                        description="Review your summary and complete your payment to finalize your booking."
                         footer={
                             <div className="flex flex-row items-center w-full gap-4">
                                 {backPath && <FlowBackButton to={backPath} />}
@@ -147,76 +149,87 @@ const CheckoutPage: React.FC = () => {
                             </div>
                         }
                     >
-                        {/* Recipient Summary */}
-                        <SummarySection label="Recipient">
-                            <div className="flex items-start gap-3">
-                                <MapPin className="h-5 w-5 text-black/20 mt-0.5 flex-shrink-0" />
+                        {/* Compact Review Section */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-8 mb-8 border-b border-black/5">
+                            {/* Impact Selection - Compact */}
+                            <div className="flex items-center gap-4">
+                                <div className="w-16 h-16 rounded-xl overflow-hidden shadow-sm border border-black/5 bg-[var(--color4)] flex-shrink-0">
+                                    {tier?.image ? (
+                                        <img src={tier.image} alt={tier.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center">
+                                            <img src={flowerIcon} alt="" className="h-6 w-6 opacity-20" />
+                                        </div>
+                                    )}
+                                </div>
                                 <div>
-                                    <p className="font-bold text-lg font-['Playfair_Display',_serif]">
-                                        {plan.recipient_first_name} {plan.recipient_last_name}
-                                    </p>
-                                    <p className="text-black/60">{fullAddress || 'No address provided'}</p>
+                                    <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Selection</span>
+                                    <h4 className="text-lg font-bold text-black font-['Playfair_Display',_serif]">
+                                        {tier ? tier.name : 'Custom Selection'}
+                                    </h4>
                                 </div>
                             </div>
-                        </SummarySection>
 
-                        {/* Schedule Summary */}
-                        <SummarySection label="Schedule">
-                            <div className="flex flex-col gap-3">
-                                <div className="flex items-center gap-3">
-                                    {planIsSubscription ? <RefreshCw className="h-5 w-5 text-black/20 flex-shrink-0" /> : <Clock className="h-5 w-5 text-black/20 flex-shrink-0" />}
-                                    <span className="font-bold font-['Playfair_Display',_serif] text-lg capitalize">
-                                        {planIsSubscription ? `Every ${plan.frequency}` : `${plan.frequency} Plan — ${upfrontPlan.years} ${upfrontPlan.years === 1 ? 'Year' : 'Years'}`}
-                                    </span>
+                            {/* Schedule - Compact */}
+                            <div className="flex items-start gap-3">
+                                <div className="p-2 bg-black/5 rounded-lg flex-shrink-0">
+                                    {planIsSubscription ? <RefreshCw className="h-4 w-4 text-black/40" /> : <Calendar className="h-4 w-4 text-black/40" />}
                                 </div>
-                                <div className="flex items-center gap-3">
-                                    <Calendar className="h-5 w-5 text-black/20 flex-shrink-0" />
-                                    <span className="text-black/60">
-                                        {planIsSubscription ? (
-                                            `First delivery on ${plan.start_date ? formatDate(plan.start_date) : 'Not set'}`
-                                        ) : (
-                                            `Scheduled for ${formatDate(plan.start_date)}`
+                                <div>
+                                    <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Schedule</span>
+                                    <p className="font-bold text-black font-['Playfair_Display']">
+                                        {isSingleDelivery ? `Single Delivery — ${formatDate(plan.start_date)}` : (
+                                            planIsSubscription ? `Every ${plan.frequency}` : `${plan.frequency} Plan — ${upfrontPlan.years} Years`
                                         )}
-                                    </span>
+                                    </p>
+                                    {!isSingleDelivery && (
+                                        <p className="text-xs text-black/60">
+                                            {planIsSubscription ? `Next: ${formatDate(plan.start_date)}` : `Starts: ${formatDate(plan.start_date)}`}
+                                        </p>
+                                    )}
                                 </div>
                             </div>
-                        </SummarySection>
 
-                        {/* Impact / Budget */}
-                        <ImpactSummary price={flowerBudget} />
+                            {/* Recipient - Compact */}
+                            <div className="flex items-start gap-3 md:col-span-2 bg-black/5 p-4 rounded-2xl">
+                                <MapPin className="h-4 w-4 text-black/40 mt-1 flex-shrink-0" />
+                                <div>
+                                    <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Recipient</span>
+                                    <p className="text-sm font-semibold">
+                                        {plan.recipient_first_name} {plan.recipient_last_name} • <span className="text-black/60 font-normal">{fullAddress}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
                         {/* Price Breakdown */}
-                        <SummarySection label="Price Breakdown">
+                        <SummarySection label="Order Total">
                             <div className="space-y-3 bg-black/5 rounded-2xl p-6 mt-1">
                                 <div className="flex items-center justify-between text-sm">
                                     <span className="text-black/60">Flower Value {!planIsSubscription && `(x${totalDeliveries} deliveries)`}</span>
                                     <span className="font-semibold">${totalFlowerValue.toFixed(2)}</span>
                                 </div>
                                 <div className="flex items-center justify-between text-sm">
-                                    <span className="text-black/60">Service & Refund Protection</span>
+                                    <span className="text-black/60">Service & Protection</span>
                                     <span className="font-semibold">${totalServiceFee.toFixed(2)}</span>
-                                </div>
-                                <div className="flex items-center justify-between text-sm">
-                                    <span className="text-black/60">Delivery</span>
-                                    <span className="font-semibold">$0.00</span>
                                 </div>
                                 <div className="pt-3 border-t border-black/10 flex items-center justify-between">
                                     <span className="font-bold text-black flex items-center gap-2">
                                         <DollarSign className="h-4 w-4 text-black/40" />
-                                        {planIsSubscription ? 'Total Per Delivery' : 'Total Amount Due'}
+                                        {planIsSubscription ? 'Amount Per Delivery' : 'Total Amount Due'}
                                     </span>
                                     <span className="text-xl font-bold text-black">${totalPlanAmount.toFixed(2)}</span>
                                 </div>
                                 {planIsSubscription && (
                                     <p className="text-[10px] text-black/40 text-center uppercase tracking-widest mt-2">
-                                        Charged recurringly at the frequency selected above.
+                                        Recurring payment at the frequency selected.
                                     </p>
                                 )}
                             </div>
                         </SummarySection>
 
                         {/* Payment Section */}
-                        <SummarySection label="Payment Method">
+                        <SummarySection label="Payment Details">
                             <div className="mt-2">
                                 <Elements options={options} stripe={stripePromise}>
                                     <CheckoutForm 
