@@ -185,7 +185,7 @@ const MessagesEditor: React.FC<MessagesEditorProps> = ({
             <div className="container mx-auto max-w-4xl py-0 md:py-12 px-0 md:px-4">
                 <Seo title={`${title} | FutureFlower`} />
                 <Card className="bg-white text-black border-none shadow-none md:shadow-xl md:shadow-black/5 rounded-none md:rounded-[2rem] overflow-hidden">
-                    <CardHeader className="px-4 md:px-8 pt-6 md:pt-10">
+                    <CardHeader className="px-4 md:px-8 pt-2">
                         <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                             <div>
                                 <CardTitle className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif]">{title}</CardTitle>
