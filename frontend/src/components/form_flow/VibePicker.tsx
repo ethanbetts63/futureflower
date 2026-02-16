@@ -1,5 +1,6 @@
 import React from 'react';
 import type { FlowerType } from '../../types/FlowerType';
+import medFlowers from '@/assets/med_flowers.png';
 
 interface VibePickerProps {
   vibes: FlowerType[];
@@ -21,38 +22,56 @@ export const VibePicker: React.FC<VibePickerProps> = ({ vibes, selected, onSelec
       </div>
 
       {/* Scrollable cards */}
-        <div className="flex gap-4 overflow-x-auto px-4 md:px-8 scroll-px-4 md:scroll-px-8 pt-2 pb-8 snap-x snap-mandatory scrollbar-hide">
+      <div className="-mx-4">
+        <div className="flex gap-4 lg:gap-6 overflow-x-auto px-4 md:px-8 scroll-px-4 md:scroll-px-8 pt-4 pb-8 snap-x snap-mandatory scrollbar-hide">
           {vibes.map((vibe) => {
-          const isSelected = selected === vibe.id;
-          return (
-            <button
-              key={vibe.id}
-              type="button"
-              onClick={() => onSelect(isSelected ? null : vibe.id)}
-              className={`relative flex-shrink-0 w-36 bg-white rounded-2xl text-center transition-all cursor-pointer snap-start ${
-                isSelected
-                  ? 'ring-2 ring-[var(--colorgreen)] shadow-lg'
-                  : 'shadow-md hover:-translate-y-1 hover:shadow-lg'
-              }`}
-            >
-              {/* Selected indicator */}
-              {isSelected && (
-                <span className="absolute top-2.5 right-2.5 flex items-center justify-center w-5 h-5 bg-[var(--colorgreen)] rounded-full z-10">
-                  <svg className="w-3 h-3 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </span>
-              )}
+            const isSelected = selected === vibe.id;
+            return (
+              <button
+                key={vibe.id}
+                type="button"
+                onClick={() => onSelect(isSelected ? null : vibe.id)}
+                className={`relative bg-white rounded-2xl text-left transition-all cursor-pointer flex flex-col flex-shrink-0 w-44 snap-start ${
+                  isSelected
+                    ? 'ring-2 ring-[var(--colorgreen)] shadow-xl'
+                    : 'shadow-md hover:-translate-y-1 hover:shadow-lg'
+                }`}
+              >
+                {/* Selected indicator */}
+                {isSelected && (
+                  <span className="absolute top-2.5 right-2.5 flex items-center justify-center w-5 h-5 bg-[var(--colorgreen)] rounded-full z-10">
+                    <svg className="w-3 h-3 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                )}
 
-              <div className="px-4 py-6">
-                <span className="text-base font-bold text-gray-900 font-['Playfair_Display',_serif]">
-                  {vibe.name}
-                </span>
-              </div>
-            </button>
-          );
-        })}
+                {/* Image */}
+                <div className="w-full h-32 overflow-hidden rounded-t-2xl">
+                  <img
+                    src={medFlowers}
+                    alt={vibe.name}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="px-4 py-3">
+                  <span className="text-base font-bold text-gray-900 font-['Playfair_Display',_serif]">
+                    {vibe.name}
+                  </span>
+                  {vibe.tagline && (
+                    <p className="mt-0.5 text-xs text-gray-500 leading-snug">
+                      {vibe.tagline}
+                    </p>
+                  )}
+                </div>
+              </button>
+            );
+          })}
         </div>
+      </div>
     </div>
   );
 };

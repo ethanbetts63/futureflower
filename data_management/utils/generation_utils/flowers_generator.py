@@ -27,8 +27,8 @@ class FlowerGenerator:
             return
 
         flowers_to_create = [
-            FlowerType(name=flower_name)
-            for flower_name in flowers_data
+            FlowerType(name=flower['name'], tagline=flower.get('tagline', ''))
+            for flower in flowers_data
         ]
 
         self.command.stdout.write(f"Creating {len(flowers_to_create)} new flower types...")

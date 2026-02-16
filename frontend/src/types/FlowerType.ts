@@ -4,4 +4,5 @@
 export interface FlowerType {
     id: number;
     name: string;
+    tagline: string;
 }

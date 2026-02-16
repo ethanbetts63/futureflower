@@ -5,4 +5,4 @@ from ..models import FlowerType
 class FlowerTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = FlowerType
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'tagline']

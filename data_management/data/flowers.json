@@ -1,12 +1,12 @@
 [
-    "Anniversary",
-    "Birthday",
-    "Just Because",
-    "Sympathy",
-    "Mother's Day",
-    "Father's Day",
-    "Romance",
-    "Congratulations",
-    "Thank You",
-    "Get Well Soon"
+    { "name": "Anniversary", "tagline": "Celebrate another year" },
+    { "name": "Birthday", "tagline": "Make their day pop" },
+    { "name": "Just Because", "tagline": "No reason needed" },
+    { "name": "Sympathy", "tagline": "Thoughtful & gentle" },
+    { "name": "Mother's Day", "tagline": "She deserves the world" },
+    { "name": "Father's Day", "tagline": "For the man himself" },
+    { "name": "Romance", "tagline": "Say it with petals" },
+    { "name": "Congratulations", "tagline": "They earned this" },
+    { "name": "Thank You", "tagline": "Gratitude, arranged" },
+    { "name": "Get Well Soon", "tagline": "Brighten the room" }
 ]

@@ -34,16 +34,16 @@ Scrollable list of operating countries including: United Kingdom, France, German
 *   **Heading:** How It Works
 *   **Subheading:** Meaningful flowers on meaningful dates, minus the effort. One decision, no hassle.
 
-### 1. Tell us the moment.
-*   **Description:** A birthday, an anniversary, or just a Tuesday. Choose the date, preferences and occasion — we take it from there.
+### 1. Choose the Vibe.
+*   **Description:** Birthday. Romantic. Sympathy. Celebration. Just because. We design around your preferences.
 *   **Badge:** Numbered "1" in a black box.
 
-### 2. We find the perfect florist.
-*   **Description:** Our local partners hand-pick seasonal flowers and craft a bouquet tailored to your preferences, wherever your recipient is.
+### 2. Choose the Impact.
+*   **Description:** A thoughtful gesture. A classic arrangement. A statement piece. You set the budget — our florists design accordingly.
 *   **Badge:** Numbered "2" in a black box.
 
-### 3. Straight to your door.
-*   **Description:** Fresh flowers arrive on the exact day you chose. No reminders needed, no effort required. Just the look on their face.
+### 3. We handle the rest.
+*   **Description:** A local florist creates something unique and beautiful. No catalog copies. No warehouse stock. Just real floristry.
 *   **Badge:** Numbered "3" in a black box.
 
 ## Offering Section
@@ -89,7 +89,7 @@ Scrollable list of operating countries including: United Kingdom, France, German
 
 **Extra Info:**
 *   *Then how do you make money?*
-*   We charge a transparent 10% fee. Our competitors slip a 20–30% commission into the order. That's how we can be cheaper and still give florists 100% of the flower budget.
+*   We charge a transparent 10% fee. Our competitors slip in a 20–30% commission and often keep the delivery fee. That's how we can be cheaper and still give florists 100% of the flower budget.
 
 **Table:** "How Big Online Platforms Compare"
 
