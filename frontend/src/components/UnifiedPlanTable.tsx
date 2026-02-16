@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { showErrorToast } from '@/utils/utils';
 import { Button } from '@/components/ui/button';
@@ -60,14 +59,14 @@ const UnifiedPlanTable: React.FC<{ showTitle?: boolean }> = ({ showTitle = true 
     }
 
     if (error) {
-      return <p className="text-red-500 text-center">{error}</p>;
+      return <p className="text-red-500 text-center py-8">{error}</p>;
     }
 
     if (plans.length === 0) {
       return (
-        <div className="text-center py-8">
-          <p className="text-black mb-4">You have no flower plans yet.</p>
-          <Button asChild variant="outline">
+        <div className="text-center py-12 bg-black/5 rounded-3xl mt-4">
+          <p className="text-black/60 mb-6 italic">You have no flower plans yet.</p>
+          <Button asChild variant="default" className="font-bold">
             <Link to="/order">
               <Plus className="mr-2 h-4 w-4" /> Create Your First Plan
             </Link>
@@ -77,79 +76,79 @@ const UnifiedPlanTable: React.FC<{ showTitle?: boolean }> = ({ showTitle = true 
     }
 
     return (
-      <Table className="border-separate border-spacing-y-3">
-        <TableHeader>
-          <TableRow className="border-none hover:bg-transparent">
-            <TableHead className="text-black text-base">Type</TableHead>
-            <TableHead className="text-black text-base">Status</TableHead>
-            <TableHead className="text-black text-base">Recipient</TableHead>
-            <TableHead className="text-right text-black text-base">Budget/Price</TableHead>
-            <TableHead className="text-right text-black text-base">Frequency</TableHead>
-            <TableHead></TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {plans.map((plan) => {
-            const isSubscription = plan.displayType === 'Subscription';
-            const price = isSubscription 
-              ? (plan as SubscriptionPlan).total_amount 
-              : (plan as UpfrontPlan).budget;
-            
-            const viewLink = isSubscription
-              ? `/dashboard/subscription-plans/${plan.id}/overview`
-              : `/dashboard/upfront-plans/${plan.id}/overview`;
+      <div className="overflow-x-auto -mx-4 md:mx-0">
+        <Table className="w-full">
+          <TableHeader>
+            <TableRow className="border-b-black/5 hover:bg-transparent">
+              <TableHead className="text-black/40 uppercase text-[10px] font-bold tracking-widest">Type</TableHead>
+              <TableHead className="text-black/40 uppercase text-[10px] font-bold tracking-widest">Status</TableHead>
+              <TableHead className="text-black/40 uppercase text-[10px] font-bold tracking-widest">Recipient</TableHead>
+              <TableHead className="text-right text-black/40 uppercase text-[10px] font-bold tracking-widest">Price</TableHead>
+              <TableHead className="text-right text-black/40 uppercase text-[10px] font-bold tracking-widest">Frequency</TableHead>
+              <TableHead></TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {plans.map((plan) => {
+              const isSubscription = plan.displayType === 'Subscription';
+              const price = isSubscription 
+                ? (plan as SubscriptionPlan).total_amount 
+                : (plan as UpfrontPlan).budget;
+              
+              const viewLink = isSubscription
+                ? `/dashboard/subscription-plans/${plan.id}/overview`
+                : `/dashboard/upfront-plans/${plan.id}/overview`;
 
-            return (
-              <TableRow
-                key={`${plan.displayType}-${plan.id}`}
-                className="bg-[hsl(347,100%,97%)] border-none hover:bg-[hsl(347,100%,97%)]"
-              >
-                <TableCell className="rounded-l-lg text-base">
-                   <Badge variant="outline" className="bg-white">{plan.displayType}</Badge>
-                </TableCell>
-                <TableCell className="text-base">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    plan.status === 'active'
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {plan.status === 'active' ? 'Active' : (plan.status.replace('_', ' ') || 'Pending')}
-                  </span>
-                </TableCell>
-                <TableCell className="text-black text-base">
-                  {`${plan.recipient_first_name || ''} ${plan.recipient_last_name || ''}`.trim() || 'N/A'}
-                </TableCell>
-                <TableCell className="text-right text-black text-base">
-                    ${Number(price).toFixed(2)}
-                    {isSubscription && <span className="text-[10px] block text-muted-foreground">per delivery</span>}
-                </TableCell>
-                <TableCell className="text-right text-black text-base capitalize">{plan.frequency}</TableCell>
-                <TableCell className="rounded-r-lg text-right text-base">
-                  <Button asChild variant="default" size="sm">
-                    <Link to={viewLink}>
-                      <Eye className="mr-2 h-4 w-4" /> View
-                    </Link>
-                  </Button>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
+              return (
+                <TableRow
+                  key={`${plan.displayType}-${plan.id}`}
+                  className="border-b-black/5 last:border-0 hover:bg-black/[0.02] transition-colors"
+                >
+                  <TableCell className="py-5">
+                     <Badge variant="outline" className="bg-black/5 text-black/60 text-[10px] uppercase font-bold tracking-tighter border-black/10">
+                       {plan.displayType}
+                     </Badge>
+                  </TableCell>
+                  <TableCell className="py-5">
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                      plan.status === 'active'
+                        ? 'bg-[var(--colorgreen)]/10 text-[var(--colorgreen)]'
+                        : 'bg-yellow-500/10 text-yellow-600'
+                    }`}>
+                      {plan.status === 'active' ? 'Active' : (plan.status.replace('_', ' ') || 'Pending')}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-black font-bold font-['Playfair_Display',_serif] py-5">
+                    {`${plan.recipient_first_name || ''} ${plan.recipient_last_name || ''}`.trim() || 'N/A'}
+                  </TableCell>
+                  <TableCell className="text-right py-5">
+                      <span className="font-bold font-['Playfair_Display',_serif] text-lg">${Number(price).toFixed(2)}</span>
+                      {isSubscription && <span className="text-[10px] block text-black/40 uppercase font-bold">per delivery</span>}
+                  </TableCell>
+                  <TableCell className="text-right text-black/60 text-sm capitalize py-5">
+                    {plan.displayType === 'Single Delivery' ? 'N/A' : plan.frequency}
+                  </TableCell>
+                  <TableCell className="text-right py-5">
+                    <Button asChild variant="ghost" size="sm" className="hover:bg-black/5 rounded-full h-10 w-10 p-0">
+                      <Link to={viewLink}>
+                        <Eye className="h-5 w-5" />
+                        <span className="sr-only">View</span>
+                      </Link>
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </div>
     );
   };
 
   return (
-    <Card className="bg-white shadow-md border-none text-black">
-      {showTitle && (
-        <CardHeader>
-          <CardTitle className="text-3xl">Your Flower Plans</CardTitle>
-        </CardHeader>
-      )}
-      <CardContent>
-        {renderContent()}
-      </CardContent>
-    </Card>
+    <div className="w-full">
+      {renderContent()}
+    </div>
   );
 };
 
