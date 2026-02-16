@@ -5,10 +5,13 @@ interface StepProgressBarProps {
     totalSteps: number;
     planName: string;
     isReview?: boolean;
+    customLabel?: string;
 }
 
-const StepProgressBar: React.FC<StepProgressBarProps> = ({ currentStep, totalSteps, planName, isReview }) => {
+const StepProgressBar: React.FC<StepProgressBarProps> = ({ currentStep, totalSteps, planName, isReview, customLabel }) => {
     const progressPercent = isReview ? 100 : (currentStep / totalSteps) * 100;
+
+    const displayLabel = customLabel || (isReview ? "Final Review" : `Step ${currentStep} of ${totalSteps}`);
 
     return (
         <div className="w-full bg-white border-b border-black/10 px-4 py-4">
@@ -18,7 +21,7 @@ const StepProgressBar: React.FC<StepProgressBarProps> = ({ currentStep, totalSte
                         {planName}
                     </p>
                     <p className="text-s font-semibold text-black/80">
-                        {isReview ? "Final Review" : `Step ${currentStep} of ${totalSteps}`}
+                        {displayLabel}
                     </p>
                 </div>
                 <div className="w-full h-1.5 bg-black/10 rounded-full overflow-hidden">
