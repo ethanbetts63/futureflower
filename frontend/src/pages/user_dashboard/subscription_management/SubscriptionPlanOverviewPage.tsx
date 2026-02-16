@@ -1,7 +1,7 @@
 // futureflower/frontend/src/pages/user_dashboard/subscription_management/SubscriptionPlanOverviewPage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { MapPin, Calendar, Sprout, RefreshCw, CreditCard } from 'lucide-react';
+import { MapPin, Calendar, Sprout, RefreshCw } from 'lucide-react';
 import Seo from '@/components/Seo';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import PaymentHistoryCard from '@/components/PaymentHistoryCard';

@@ -16,7 +16,7 @@ type UnifiedPlan = (UpfrontPlan | SubscriptionPlan) & {
     displayType: 'Upfront' | 'Subscription' | 'Single Delivery';
 };
 
-const UnifiedPlanTable: React.FC<{ showTitle?: boolean }> = ({ showTitle = true }) => {
+const UnifiedPlanTable: React.FC = () => {
   const [plans, setPlans] = useState<UnifiedPlan[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

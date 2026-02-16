@@ -13,7 +13,7 @@ const UpfrontPlanListPage: React.FC = () => {
           description="Review and manage your scheduled flower deliveries and subscriptions."
         >
           <div className="py-4">
-            <UnifiedPlanTable showTitle={false} />
+            <UnifiedPlanTable />
           </div>
         </UnifiedSummaryCard>
       </div>

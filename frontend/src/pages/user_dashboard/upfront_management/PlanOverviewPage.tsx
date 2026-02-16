@@ -1,6 +1,6 @@
 // futureflower/frontend/src/pages/user_dashboard/PlanOverviewPage.tsx
 import { useParams } from 'react-router-dom';
-import { MapPin, Calendar, Sprout, Clock, MessageSquare, CreditCard } from 'lucide-react';
+import { MapPin, Calendar, Sprout, Clock, MessageSquare } from 'lucide-react';
 import Seo from '@/components/Seo';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import PaymentHistoryCard from '@/components/PaymentHistoryCard';

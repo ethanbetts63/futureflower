@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { deleteAccount } from '@/api';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import {
@@ -40,47 +39,46 @@ const DeleteAccountSection: React.FC = () => {
     };
 
     return (
-        <Card className="bg-white text-black border-none shadow-md">
-            <CardContent className="flex justify-between items-center text-black">
-                <div className="flex flex-col">
-                    <p className="font-semibold text-black">Delete Your Account</p>
-                    <p className="text-sm text-black">Once you delete your account, there is no going back. All of your data, including personal details and flower plans, will be permanently removed.</p>
+        <div className="bg-red-50/50 border border-red-100 rounded-3xl p-6 md:p-8">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div className="flex flex-col space-y-1">
+                    <p className="font-bold text-lg font-['Playfair_Display',_serif] text-red-900">Delete Your Account</p>
+                    <p className="text-sm text-red-700/70 leading-relaxed max-w-xl">Once you delete your account, there is no going back. All of your data, including personal details and flower plans, will be permanently removed.</p>
                 </div>
 
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
-                        <Button variant="destructive" disabled={isDeleting}>
+                        <Button variant="destructive" disabled={isDeleting} className="rounded-full px-8 font-bold shadow-lg shadow-red-200">
                             {isDeleting ? 'Deleting...' : 'Delete Account'}
                         </Button>
                     </AlertDialogTrigger>
-                    <AlertDialogContent className="bg-white text-black">
+                    <AlertDialogContent className="bg-white text-black border-none rounded-3xl p-8">
                         <AlertDialogHeader>
-                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                            <AlertDialogDescription className="bg-white text-black">
+                            <AlertDialogTitle className="text-2xl font-bold font-['Playfair_Display',_serif]">Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription className="text-black/60 text-base py-4">
                                 This action cannot be undone. This will permanently delete your
                                 account and remove all your data from our servers.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
-                        <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={handleDeleteAccount} className="bg-destructive hover:bg-destructive/90 text-white">
+                        <AlertDialogFooter className="gap-4">
+                            <AlertDialogCancel className="rounded-full px-8">Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleDeleteAccount} className="bg-red-600 hover:bg-red-700 text-white rounded-full px-8 font-bold">
                                 Yes, delete my account
                             </AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
-
-            </CardContent>
+            </div>
             {deleteError && (
-                 <CardContent>
-                    <Alert variant="destructive">
+                 <div className="mt-6">
+                    <Alert variant="destructive" className="rounded-2xl">
                         <Terminal className="h-4 w-4" />
                         <AlertTitle>Deletion Failed</AlertTitle>
                         <AlertDescription>{deleteError}</AlertDescription>
                     </Alert>
-                </CardContent>
+                </div>
             )}
-        </Card>
+        </div>
     );
 };
 

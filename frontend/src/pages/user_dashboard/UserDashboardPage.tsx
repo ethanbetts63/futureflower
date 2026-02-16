@@ -84,7 +84,7 @@ const UserDashboardPage: React.FC = () => {
             <UserDetailsSummary user={user} />
             <NextDeliveryCard deliveryInfo={nextDelivery} />
             <div className="col-span-1 md:col-span-2">
-                <UnifiedPlanTable showTitle={false} />
+                <UnifiedPlanTable />
             </div>
           </>
         )}

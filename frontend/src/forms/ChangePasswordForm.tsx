@@ -80,7 +80,7 @@ export const ChangePasswordForm: React.FC = () => {
           <FormMessage>{errors.new_password_confirm?.message}</FormMessage>
         </FormItem>
 
-        <Button type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting} className="rounded-full px-8 font-bold shadow-lg shadow-black/5">
           Change Password
         </Button>
       </form>
