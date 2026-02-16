@@ -72,8 +72,8 @@ const AccountManagementPage: React.FC = () => {
     }
 
     return (
-        <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto space-y-8">
+        <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
+            <div className="container mx-auto max-w-4xl space-y-8">
                 <Seo title="Manage Account | FutureFlower" />
                 {profile && (
                     <Card className="bg-white text-black border-none shadow-md">

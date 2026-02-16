@@ -66,7 +66,7 @@ const UserDashboardPage: React.FC = () => {
   }, [plans]);
 
   return (
-    <div className="w-full text-black">
+    <div className="w-full text-black p-4 md:p-8">
       <h1 className="text-3xl font-bold mb-6">Welcome to Your Dashboard</h1>
       <p className="mb-8 text-lg">
         This is your central hub for managing everything related to your Forever Flower account. 

@@ -55,7 +55,7 @@ function UserDashboardLayout() {
           )}
         </nav>
       </aside>
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-0">
         <Outlet />
       </main>
     </div>
