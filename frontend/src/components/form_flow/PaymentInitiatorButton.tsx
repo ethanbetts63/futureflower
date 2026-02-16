@@ -71,7 +71,8 @@ const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
         onPaymentSuccess(clientSecret);
       } else {
         const idToPass = details.upfront_plan_id || details.subscription_plan_id || details.one_time_order_id || details.single_delivery_plan_id;
-        const intentType = itemType === 'SUBSCRIPTION_PLAN_NEW' ? 'setup' : 'payment';
+        // Subscriptions now use 'payment' intent because we take the first payment immediately
+        const intentType = 'payment';
         
         // Default navigation behavior, now including itemType, intentType, and backPath
         navigate('/checkout', { state: { clientSecret, planId: idToPass, itemType: itemType, intentType: intentType, backPath: backPath } });

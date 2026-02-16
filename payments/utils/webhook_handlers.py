@@ -1,5 +1,6 @@
 # payments/utils/webhook_handlers.py
 from decimal import Decimal
+from datetime import timedelta
 from django.conf import settings
 from django.db import transaction
 from payments.models import Payment
@@ -95,15 +96,75 @@ def handle_payment_intent_succeeded(payment_intent):
                 else:
                     print(f"Events for UpfrontPlan (PK: {plan_to_activate.pk}) already exist. Skipping duplicate.")
 
+            elif item_type == 'SUBSCRIPTION_PLAN_NEW':
+                print(f"DEBUG: Processing SUBSCRIPTION_PLAN_NEW for order {order.id}")
+                plan_to_activate = SubscriptionPlan.objects.get(id=order.id)
+                plan_to_activate.status = 'active'
+                plan_to_activate.save()
+                print(f"DEBUG: SubscriptionPlan {plan_to_activate.pk} status set to active.")
+
+                # 1. Create the first delivery Event
+                if not Event.objects.filter(order=plan_to_activate.orderbase_ptr, delivery_date=plan_to_activate.start_date).exists():
+                    Event.objects.create(
+                        order=plan_to_activate.orderbase_ptr,
+                        delivery_date=plan_to_activate.start_date,
+                        message=plan_to_activate.subscription_message
+                    )
+                    print(f"DEBUG: Created first Event for delivery on {plan_to_activate.start_date}.")
+
+                # 2. Create the actual Stripe Subscription for future deliveries
+                if not plan_to_activate.stripe_subscription_id:
+                    import stripe
+                    from datetime import datetime, time
+                    from payments.utils.subscription_dates import get_recurring_options, calculate_second_delivery_date
+                    
+                    stripe.api_key = settings.STRIPE_SECRET_KEY
+                    
+                    print(f"DEBUG: Creating Stripe subscription for plan {plan_to_activate.id}")
+                    
+                    # Calculate the trial end (7 days before the 2nd delivery)
+                    second_delivery_date = calculate_second_delivery_date(plan_to_activate.start_date, plan_to_activate.frequency)
+                    trial_end_date = second_delivery_date - timedelta(days=settings.SUBSCRIPTION_CHARGE_LEAD_DAYS)
+                    trial_end_timestamp = int(datetime.combine(trial_end_date, time.min).timestamp())
+                    
+                    print(f"DEBUG: 2nd Delivery: {second_delivery_date}, Trial End: {trial_end_date} (TS: {trial_end_timestamp})")
+                    
+                    # Ensure trial end is in the future
+                    if trial_end_timestamp <= datetime.now().timestamp():
+                        print("DEBUG: Trial end in past, shifting forward 60 seconds.")
+                        trial_end_timestamp = int(datetime.now().timestamp() + 60)
+
+                    # Use the payment method from the successful PaymentIntent
+                    payment_method_id = payment_intent.get('payment_method')
+                    print(f"DEBUG: Using PaymentMethod: {payment_method_id}")
+
+                    subscription = stripe.Subscription.create(
+                        customer=plan_to_activate.user.stripe_customer_id,
+                        items=[{
+                            "price_data": {
+                                "currency": plan_to_activate.currency.lower(),
+                                "unit_amount": int(plan_to_activate.total_amount * 100),
+                                "product": settings.STRIPE_SUBSCRIPTION_PRODUCT_ID,
+                                "recurring": get_recurring_options(plan_to_activate.frequency),
+                            }
+                        }],
+                        trial_end=trial_end_timestamp,
+                        default_payment_method=payment_method_id,
+                        metadata={
+                            'plan_id': plan_to_activate.id,
+                            'item_type': 'SUBSCRIPTION_PLAN_RECURRING'
+                        }
+                    )
+                    
+                    plan_to_activate.stripe_subscription_id = subscription.id
+                    plan_to_activate.save()
+                    print(f"DEBUG: Successfully created Stripe Subscription {subscription.id}")
+
             else:
-                # Note: This handler is now only for upfront payments.
-                # Subscription activation is handled by setup_intent.succeeded.
                 print(f"Unhandled item_type '{item_type}' in payment_intent.succeeded webhook. No action taken.")
 
     except Payment.DoesNotExist:
         print(f"CRITICAL ERROR: Payment object not found for PI ID: {payment_intent_id}. The webhook may have arrived before the initial request completed.")
-    except UpfrontPlan.DoesNotExist:
-        print(f"CRITICAL ERROR: Plan not found for Order ID: {payment.order.id} during webhook processing.")
     except Exception as e:
         print(f"UNEXPECTED ERROR during payment_intent.succeeded processing. PI ID: {payment_intent_id}, Error: {e}")
 
@@ -118,7 +179,7 @@ def handle_invoice_payment_succeeded(invoice):
 
     try:
         with transaction.atomic():
-            subscription_plan = SubscriptionPlan.objects.get(stripe_subscription_id=subscription_id)
+            subscription_plan = SubscriptionPlan.objects.select_for_update().get(stripe_subscription_id=subscription_id)
             print(f"Found SubscriptionPlan (PK: {subscription_plan.pk}) for Stripe Subscription ID: {subscription_id}")
 
             # Create a Payment record for this transaction (idempotent via unique stripe_payment_intent_id)
@@ -137,34 +198,43 @@ def handle_invoice_payment_succeeded(invoice):
                 print(f"Payment record (PK: {payment.pk}) already exists for this invoice. Skipping duplicate.")
 
             # Process referral commission for subscription payments
-            if created:
-                try:
-                    from partners.utils.commission_utils import process_referral_commission
-                    process_referral_commission(payment)
-                except Exception as e:
-                    print(f"Error processing referral commission for subscription: {e}")
+            try:
+                from partners.utils.commission_utils import process_referral_commission
+                process_referral_commission(payment)
+            except Exception as e:
+                print(f"Error processing referral commission for subscription: {e}")
 
-            # Only create the Event if the Payment was newly created (idempotency)
+            # Only create the next Event if the Payment was newly created (idempotency)
             if not created:
+                print(f"Payment record (PK: {payment.pk}) already exists for this invoice. Skipping duplicate.")
                 return
 
-            # Determine the next delivery date using the drift-free calculation
-            next_delivery_date = get_next_delivery_date(subscription_plan)
+            # Determine the delivery date for this specific payment.
+            # Since we charge exactly 7 days before delivery, the delivery date 
+            # is the date the invoice was created plus 7 days.
+            invoice_created_ts = invoice.get('created')
+            if invoice_created_ts:
+                from datetime import date
+                invoice_date = date.fromtimestamp(invoice_created_ts)
+                delivery_date = invoice_date + timedelta(days=settings.SUBSCRIPTION_CHARGE_LEAD_DAYS)
+            else:
+                # Fallback to the drift-free calculation if timestamp is missing
+                delivery_date = get_next_delivery_date(subscription_plan)
 
-            if next_delivery_date is None:
-                print(f"WARNING: Could not determine next delivery date for SubscriptionPlan (PK: {subscription_plan.pk}). Skipping Event creation.")
+            if delivery_date is None:
+                print(f"WARNING: Could not determine delivery date for SubscriptionPlan (PK: {subscription_plan.pk}). Skipping Event creation.")
                 return
 
             # Create a new Event for the delivery that was just paid for
-            if not Event.objects.filter(order=subscription_plan.orderbase_ptr, delivery_date=next_delivery_date).exists():
+            if not Event.objects.filter(order=subscription_plan.orderbase_ptr, delivery_date=delivery_date).exists():
                 Event.objects.create(
                     order=subscription_plan.orderbase_ptr,
-                    delivery_date=next_delivery_date,
+                    delivery_date=delivery_date,
                     message=subscription_plan.subscription_message
                 )
-                print(f"Created new Event for delivery on {next_delivery_date}.")
+                print(f"Created new Event for recurring delivery on {delivery_date}.")
             else:
-                print(f"Event for delivery on {next_delivery_date} already exists. Skipping duplicate.")
+                print(f"Event for delivery on {delivery_date} already exists. Skipping duplicate.")
 
     except SubscriptionPlan.DoesNotExist:
         print(f"CRITICAL ERROR: SubscriptionPlan not found for Stripe Subscription ID: {subscription_id}")

@@ -9,6 +9,36 @@ if TYPE_CHECKING:
     from events.models import SubscriptionPlan
 
 
+def get_recurring_options(frequency: str) -> dict:
+    """Maps plan frequency to Stripe's recurring interval options."""
+    mapping = {
+        'weekly': {'interval': 'week', 'interval_count': 1},
+        'fortnightly': {'interval': 'week', 'interval_count': 2},
+        'monthly': {'interval': 'month', 'interval_count': 1},
+        'quarterly': {'interval': 'month', 'interval_count': 3},
+        'bi-annually': {'interval': 'month', 'interval_count': 6},
+        'annually': {'interval': 'year', 'interval_count': 1},
+    }
+    return mapping.get(frequency)
+
+
+def calculate_second_delivery_date(start_date, frequency):
+    """Calculates the date of the second delivery based on start_date and frequency."""
+    if frequency == 'weekly':
+        return start_date + timedelta(weeks=1)
+    elif frequency == 'fortnightly':
+        return start_date + timedelta(weeks=2)
+    elif frequency == 'monthly':
+        return start_date + relativedelta(months=1)
+    elif frequency == 'quarterly':
+        return start_date + relativedelta(months=3)
+    elif frequency == 'bi-annually':
+        return start_date + relativedelta(months=6)
+    elif frequency == 'annually':
+        return start_date + relativedelta(years=1)
+    return None
+
+
 def get_next_payment_date(plan: 'SubscriptionPlan') -> date | None:
     """
     Calculates the next upcoming payment date for a subscription plan.

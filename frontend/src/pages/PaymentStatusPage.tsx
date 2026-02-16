@@ -101,9 +101,11 @@ const UniversalPaymentStatusPage: React.FC = () => {
                         setTimeout(() => {
                             let targetPath = '/dashboard';
                             if (planId && planId !== "N/A") {
-                                // All upfront-related payments (including single delivery) should go to the upfront plan overview
+                                // Redirection logic based on itemType
                                 if (itemType && (itemType.startsWith('UPFRONT_PLAN') || itemType === 'SINGLE_DELIVERY_PLAN_NEW')) {
                                     targetPath = `/dashboard/upfront-plans/${planId}/overview`;
+                                } else if (itemType === 'SUBSCRIPTION_PLAN_NEW') {
+                                    targetPath = `/dashboard/subscription-plans/${planId}/overview`;
                                 } else {
                                     targetPath = '/dashboard'; // Default fallback
                                 }
