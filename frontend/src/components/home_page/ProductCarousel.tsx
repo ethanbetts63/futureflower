@@ -7,14 +7,14 @@ const steps = [
     level: 1,
     title: 'Choose the Vibe.',
     description:
-      'Birthday. Romantic. Sympathy. Celebration. Just because. We design around the moment.',
+      'Birthday. Romantic. Sympathy. Celebration. Just because. We design around your preferences.',
     image: petalImage,
   },
   {
     level: 2,
     title: 'Choose the Impact.',
     description:
-      'A thoughtful gesture. A classic arrangement. A statement piece. You set the budget — we use all of it on the flowers.',
+      'A thoughtful gesture. A classic arrangement. A statement piece. You set the budget — our florists design accordingly.',
     image: floristMakingFlowersImage,
   },
   {
