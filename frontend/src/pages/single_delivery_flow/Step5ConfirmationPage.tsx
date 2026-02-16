@@ -14,6 +14,7 @@ import { formatDate } from '@/utils/utils';
 
 import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
 import type { Plan, FlowerType, UpfrontPlan } from '@/types';
+import { OCCASION_IMAGES, DEFAULT_FLOWER_IMAGE } from '@/utils/flowerTypeImages';
 
 import PaymentInitiatorButton from '@/components/form_flow/PaymentInitiatorButton';
 
@@ -121,21 +122,33 @@ const Step5ConfirmationPage = () => {
                       label="Flower Preferences" 
                       editUrl={`/single-delivery-flow/plan/${planId}/preferences`}
                     >
-                      <div className="flex flex-col gap-4">
-                        <div className="flex items-start gap-3">
-                          <Sprout className="h-5 w-5 text-black/20 mt-0.5 flex-shrink-0" />
-                          <div className="flex flex-wrap gap-2">
-                            {preferredTypes.length > 0 ? (
-                              preferredTypes.map(type => (
-                                <Badge key={type.id} variant="secondary" className="bg-black/5 hover:bg-black/10 text-black border-none px-3 py-1">
-                                  {type.name}
-                                </Badge>
-                              ))
-                            ) : (
-                              <span className="text-black/40 italic">Florist's choice of seasonal blooms</span>
-                            )}
-                          </div>
-                        </div>
+                      <div className="flex flex-col gap-6">
+                         {preferredTypes.length > 0 ? (
+                            <div className="flex items-start gap-4">
+                              <div className="w-24 h-24 rounded-xl overflow-hidden shadow-sm border border-black/5 flex-shrink-0">
+                                <img 
+                                  src={OCCASION_IMAGES[preferredTypes[0].name] || DEFAULT_FLOWER_IMAGE} 
+                                  alt={preferredTypes[0].name}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div>
+                                <h4 className="text-xl font-bold text-black font-['Playfair_Display',_serif]">
+                                  {preferredTypes[0].name}
+                                </h4>
+                                {preferredTypes[0].tagline && (
+                                  <p className="text-sm text-black/60 leading-relaxed mt-1">
+                                    {preferredTypes[0].tagline}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-3">
+                                <Sprout className="h-5 w-5 text-black/20 flex-shrink-0" />
+                                <span className="text-black/40 italic">Florist's choice of seasonal blooms</span>
+                            </div>
+                          )}
                         {upfrontPlan.flower_notes && (
                           <div className="bg-black/5 p-4 rounded-xl text-sm text-black/70 italic ">
                             <span className="font-semibold">Notes for florist:</span> {upfrontPlan.flower_notes}
