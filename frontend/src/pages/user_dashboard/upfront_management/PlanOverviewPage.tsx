@@ -21,8 +21,8 @@ const PlanOverviewPage = () => {
   return (
     <>
       <Seo title="Plan Overview | FutureFlower" />
-      <div className="min-h-screen w-full py-12 md:py-20" style={{ backgroundColor: 'var(--color4)' }}>
-        <div className="container mx-auto px-4 max-w-4xl">
+      <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
+        <div className="container mx-auto px-0 md:px-4 max-w-4xl">
           <PlanDisplay getPlan={getUpfrontPlan} fallbackNavigationPath="/dashboard/plans">
             {({ plan, flowerTypeMap }: { plan: UpfrontPlan; flowerTypeMap: Map<number, FlowerType> }) => {
               const fullAddress = [
@@ -48,7 +48,16 @@ const PlanOverviewPage = () => {
                   <UnifiedSummaryCard 
                     title="Plan Overview" 
                     description="Review and manage the details of your scheduled flower plan."
+                    footer={
+                      <div className="flex justify-start items-center w-full">
+                        <FlowBackButton to="/dashboard/plans" />
+                      </div>
+                    }
                   >
+                    <SummarySection label="Billing History">
+                      <PaymentHistoryCard plan={plan} />
+                    </SummarySection>
+
                     <SummarySection 
                       label="Recipient" 
                       editUrl={`/dashboard/upfront-plans/${planId}/edit-recipient`}
@@ -130,18 +139,6 @@ const PlanOverviewPage = () => {
                       editUrl={`/dashboard/upfront-plans/${planId}/edit-structure`}
                     />
                   </UnifiedSummaryCard>
-
-                  <div className="mt-12 pt-12 border-t border-black/5">
-                    <div className="flex items-center gap-2 mb-6">
-                      <CreditCard className="h-5 w-5 text-black/40" />
-                      <h3 className="text-xl font-bold font-['Playfair_Display',_serif]">Billing History</h3>
-                    </div>
-                    <PaymentHistoryCard plan={plan} />
-                  </div>
-
-                  <div className="flex justify-between items-center mt-8">
-                    <FlowBackButton to="/dashboard/plans" />
-                  </div>
                 </div>
               );
             }}
