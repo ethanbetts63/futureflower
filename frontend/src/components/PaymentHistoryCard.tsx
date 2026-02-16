@@ -1,5 +1,4 @@
 // src/components/PaymentHistoryCard.tsx
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { PaymentHistoryCardProps } from '../types/PaymentHistoryCardProps';
 import type { Payment } from '../types/Payment';
@@ -16,8 +15,6 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
   let nextDeliveryDateStr: string | null = null;
   if (isSubscriptionPlan(plan)) {
     if (plan.next_payment_date) {
-      // Backend returns date as YYYY-MM-DD. Appending T00:00:00 ensures it's parsed as local time midnight
-      // and avoids timezone-related "off by one day" errors.
       nextPaymentDateStr = new Date(`${plan.next_payment_date}T00:00:00`).toLocaleDateString(undefined, {
           year: 'numeric',
           month: 'long',
@@ -34,45 +31,41 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
   }
 
   return (
-    <Card className="w-full bg-white shadow-md border-none text-black">
-      <CardHeader>
-        <CardTitle>Payment History</CardTitle>
-        <CardDescription>A record of all payments for this plan.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        {nextPaymentDateStr && (
-          <div className="mb-6 border-b border-gray-200 pb-4">
-            <h3 className="text-lg font-semibold text-black">Next Payment Due</h3>
-            <p className="text-gray-600">{nextPaymentDateStr}</p>
-          </div>
-        )}
-        {nextDeliveryDateStr && (
-          <div className="mb-6 border-b border-gray-200 pb-4">
-            <h3 className="text-lg font-semibold text-black">Next Delivery Date</h3>
-            <p className="text-gray-600">{nextDeliveryDateStr}</p>
-          </div>
-        )}
+    <div className="w-full text-black">
+      {nextPaymentDateStr && (
+        <div className="mb-6 border-b border-black/5 pb-4">
+          <h3 className="text-sm font-bold tracking-widest uppercase text-black/40 mb-1">Next Payment Due</h3>
+          <p className="font-bold font-['Playfair_Display',_serif] text-lg">{nextPaymentDateStr}</p>
+        </div>
+      )}
+      {nextDeliveryDateStr && (
+        <div className="mb-6 border-b border-black/5 pb-4">
+          <h3 className="text-sm font-bold tracking-widest uppercase text-black/40 mb-1">Next Delivery Date</h3>
+          <p className="font-bold font-['Playfair_Display',_serif] text-lg">{nextDeliveryDateStr}</p>
+        </div>
+      )}
+      <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow className="border-b-gray-200">
-              <TableHead className="text-black">Date</TableHead>
-              <TableHead className="text-black text-right">Amount</TableHead>
-              <TableHead className="text-black text-center">Status</TableHead>
+            <TableRow className="border-b-black/5 hover:bg-transparent">
+              <TableHead className="text-black/40 uppercase text-[10px] font-bold tracking-widest">Date</TableHead>
+              <TableHead className="text-black/40 uppercase text-[10px] font-bold tracking-widest text-right">Amount</TableHead>
+              <TableHead className="text-black/40 uppercase text-[10px] font-bold tracking-widest text-center">Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {payments && payments.length > 0 ? (
               payments.map((payment: Payment) => (
-                <TableRow key={payment.id} className="border-none">
-                  <TableCell className="font-medium">{new Date(payment.created_at).toLocaleDateString()}</TableCell>
-                  <TableCell className="text-right">${parseFloat(payment.amount).toFixed(2)}</TableCell>
-                  <TableCell className="text-center">
-                     <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${
+                <TableRow key={payment.id} className="border-b-black/5 last:border-0 hover:bg-black/[0.02] transition-colors">
+                  <TableCell className="font-medium py-4">{new Date(payment.created_at).toLocaleDateString()}</TableCell>
+                  <TableCell className="text-right py-4 font-bold font-['Playfair_Display',_serif]">${parseFloat(payment.amount).toFixed(2)}</TableCell>
+                  <TableCell className="text-center py-4">
+                     <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                         payment.status === 'succeeded'
-                          ? 'bg-green-100 text-green-800'
+                          ? 'bg-[var(--colorgreen)]/10 text-[var(--colorgreen)]'
                           : payment.status === 'failed'
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-yellow-100 text-yellow-800' // Default to pending
+                          ? 'bg-red-500/10 text-red-600'
+                          : 'bg-yellow-500/10 text-yellow-600'
                       }`}>
                       {payment.status}
                     </span>
@@ -81,15 +74,15 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={3} className="text-center text-gray-500 py-4">
+                <TableCell colSpan={3} className="text-center text-black/40 py-8 italic text-sm">
                   No payment history found.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 
