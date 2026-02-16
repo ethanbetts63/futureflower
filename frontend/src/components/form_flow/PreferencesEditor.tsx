@@ -126,6 +126,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
                             label={saveButtonText} 
                             onClick={handleSave} 
                             isLoading={isSaving}
+                            disabled={selectedVibe === null}
                         />
                     </CardFooter>
                 </Card>
