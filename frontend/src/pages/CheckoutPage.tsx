@@ -17,7 +17,7 @@ import { getSubscriptionPlan } from '@/api/subscriptionPlans';
 import { getUpfrontPlan } from '@/api/upfrontPlans';
 import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
 import type { UpfrontPlan, Plan } from '@/types';
-import { formatDate } from '@/utils/utils';
+import { formatDate, capitalize } from '@/utils/utils';
 import { getImpactTier } from '@/utils/pricingConstants';
 import flowerIcon from '@/assets/flower_symbol.svg';
 
@@ -179,7 +179,7 @@ const CheckoutPage: React.FC = () => {
                                     <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Schedule</span>
                                     <p className="font-bold text-black font-['Playfair_Display']">
                                         {isSingleDelivery ? `Single Delivery — ${formatDate(plan.start_date)}` : (
-                                            planIsSubscription ? `Every ${plan.frequency}` : `${plan.frequency} Plan — ${upfrontPlan.years} Years`
+                                            planIsSubscription ? `${capitalize(plan.frequency)}` : `${capitalize(plan.frequency)} Plan — ${upfrontPlan.years} Years`
                                         )}
                                     </p>
                                     {!isSingleDelivery && (

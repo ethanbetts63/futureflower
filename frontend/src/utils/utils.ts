@@ -71,3 +71,13 @@ export function formatDate(dateString: string | undefined, format: 'long' | 'YYY
     day: 'numeric',
   });
 }
+
+/**
+ * Capitalizes the first letter of a string.
+ * @param str The string to capitalize.
+ * @returns The capitalized string.
+ */
+export function capitalize(str: string | undefined): string {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
