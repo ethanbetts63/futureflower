@@ -1,6 +1,32 @@
 import React from 'react';
 import type { FlowerType } from '../../types/FlowerType';
+
+import anniversaryImg from '@/assets/occasions/anniversary.png';
+import birthdayImg from '@/assets/occasions/birthday.png';
+import funeralImg from '@/assets/occasions/funeral.png';
+import getWellImg from '@/assets/occasions/get_well.png';
+import justBecauseImg from '@/assets/occasions/just_becuase.png';
+import mothersDayImg from '@/assets/occasions/mothers_day.png';
+import newBornImg from '@/assets/occasions/new_born.png';
+import romanceImg from '@/assets/occasions/romance.png';
+import sympathyImg from '@/assets/occasions/sympathy.png';
+import thankYouImg from '@/assets/occasions/thank_you.png';
+import weddingImg from '@/assets/occasions/wedding.png';
 import medFlowers from '@/assets/med_flowers.png';
+
+const OCCASION_IMAGES: Record<string, string> = {
+  'Anniversary': anniversaryImg,
+  'Birthday': birthdayImg,
+  'Funeral': funeralImg,
+  'Get Well': getWellImg,
+  'Just Because': justBecauseImg,
+  "Mother's Day": mothersDayImg,
+  'New Born': newBornImg,
+  'Romance': romanceImg,
+  'Sympathy': sympathyImg,
+  'Thank You': thankYouImg,
+  'Wedding': weddingImg,
+};
 
 interface VibePickerProps {
   vibes: FlowerType[];
@@ -26,6 +52,7 @@ export const VibePicker: React.FC<VibePickerProps> = ({ vibes, selected, onSelec
         <div className="flex gap-4 lg:gap-6 overflow-x-auto px-4 md:px-8 scroll-px-4 md:scroll-px-8 pt-4 pb-8 snap-x snap-mandatory scrollbar-hide">
           {vibes.map((vibe) => {
             const isSelected = selected === vibe.id;
+            const image = OCCASION_IMAGES[vibe.name] || medFlowers;
             return (
               <button
                 key={vibe.id}
@@ -49,7 +76,7 @@ export const VibePicker: React.FC<VibePickerProps> = ({ vibes, selected, onSelec
                 {/* Image */}
                 <div className="w-full h-32 overflow-hidden rounded-t-2xl">
                   <img
-                    src={medFlowers}
+                    src={image}
                     alt={vibe.name}
                     className="w-full h-full object-cover"
                     loading="lazy"
