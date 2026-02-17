@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
@@ -118,8 +117,8 @@ export function LoginForm({
                 {/* Signup Link */}
                 <div className="text-center text-sm text-black">
                   Don&apos;t have an account?{" "}
-                  <Link to="/event-gate" className="underline underline-offset-2 hover:underline hover:text-primary">
-                    Create an Event
+                  <Link to="/order" className="underline underline-offset-2 hover:underline hover:text-primary">
+                    Order Flowers
                   </Link>
                 </div>
 
