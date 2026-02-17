@@ -34,6 +34,7 @@ const Footer: React.FC = () => {
           <div className="flex flex-col md:items-end gap-4">
             <nav className="flex gap-6 justify-center md:justify-end">
               <Link to="/florists" className="text-sm hover:underline">Florists</Link>
+              <Link to="/affiliates" className="text-sm hover:underline">Affiliates</Link>
               <Link to="/contact" className="text-sm hover:underline">Contact Us</Link>
               <Link to="/terms-and-conditions" className="text-sm hover:underline">Terms & Conditions</Link>
               {(user?.is_staff || user?.is_superuser) && (

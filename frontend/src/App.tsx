@@ -62,6 +62,7 @@ const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
 
 // --- Misc Pages ---
 const BlocklistSuccessPage = lazy(() => import('./pages/BlocklistSuccessPage'));
+const AffiliatesPage = lazy(() => import('./pages/AffiliatesPage'));
 const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
 const ResetPasswordConfirmPage = lazy(() => import('./pages/ResetPasswordConfirmPage'));
@@ -105,6 +106,7 @@ function App() {
                 <Route path="/reset-password-confirm/:uid/:token" element={<ResetPasswordConfirmPage />} />
                 <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
                 <Route path="/florists" element={<FloristsPage />} />
+                <Route path="/affiliates" element={<AffiliatesPage />} />
                 <Route path="/blocklist-success" element={<BlocklistSuccessPage />} />
                 <Route path="/articles" element={<BlogExplorePage />} />
                 <Route path="/articles/best-flower-subscription-services-us" element={<BestFlowerSubscriptionServicesUS />} />
