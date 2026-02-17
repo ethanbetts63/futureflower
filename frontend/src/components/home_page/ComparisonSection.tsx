@@ -23,7 +23,7 @@ const ComparisonSection: React.FC = () => (
             The Secret Big Platforms Don't Tell You
           </h2>
           <p className="mt-2 text-lg text-black/60 leading-relaxed">
-            Just as convenient as the big networks—only we let the florists keep 100% of their earnings.
+            Same price, more flowers. By cutting the fees big networks charge, we ensure more of your money ends up in the bouquet.
           </p>
 
           {/* Stacked Bar Chart Section */}

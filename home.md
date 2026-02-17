@@ -71,7 +71,7 @@ Scrollable list of operating countries including: United Kingdom, France, German
 
 ## Comparison Section
 **Heading:** The Secret Big Platforms Don't Tell You
-**Subheading:** Just as convenient as the big networks—only we let the florists keep 100% of their earnings.
+**Subheading:** Same price, more flowers. By cutting the fees big networks charge, we ensure more of your money ends up in the bouquet.
 
 ### Stacked Bar Chart: Get More Bloom for Your Buck
 *   **Competitors Bar:**
