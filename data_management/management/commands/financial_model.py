@@ -9,7 +9,7 @@ from rich import box
 # ──────────────────────────────────────────────────────────
 
 STRIPE_WISE_COMBINE_RATE = 0.035          # 3.5%
-SERVICE_FEE_RATE = 0.1         # 10% added on top of bouquet budget
+SERVICE_FEE_RATE = 0.1          # 10% (e.g., $110 total = $100 bouquet + $10 fee)
 COMMISSION_RATE = 0.05          # 5% of bouquet budget
 DISCOUNT_AMOUNT = 5.00          # $5 off first bouquet (non-delivery partners)
 INTEREST_RATE = 0.045           # 4.5% annual on float
@@ -26,8 +26,9 @@ UPFRONT_DISCOUNTS = [0, 0.05, 0.10]
 # Upfront prepaid: 1 delivery per year, multi-year plans
 UPFRONT_YEARS_OPTIONS = [2, 3, 5]
 
-# Subscription hold time (1-2 weeks, use 0.25 months ≈ 1 week)
-SUBSCRIPTION_HOLD_MONTHS = 0.25  # ~1 week
+# Subscription hold times
+SUBSCRIPTION_RECURRING_HOLD_MONTHS = 0.25  # ~1 week
+SUBSCRIPTION_FIRST_DELIVERY_LEAD_TIME = 3.0 # Default assumption: 3 months from setup to first delivery
 
 
 def _c(val):
@@ -68,7 +69,7 @@ def calc_float_income(total_payment, hold_months):
     return total_payment * INTEREST_RATE * (hold_months / 12)
 
 
-def calc_single_delivery(budget, source, is_first=True, has_commission=True, hold_months=12):
+def calc_single_delivery(price, source, is_first=True, has_commission=True, hold_months=12):
     """
     Calculate economics for a single delivery.
 
@@ -76,23 +77,24 @@ def calc_single_delivery(budget, source, is_first=True, has_commission=True, hol
     is_first: only matters for non_delivery_partner (discount on first order)
     has_commission: whether commission applies (non-del partners: first 3 orders only)
     """
-    customer_pays = budget * (1 + SERVICE_FEE_RATE)
+    customer_pays = price
 
     # Non-delivery partner: $5 discount on first bouquet only
     if source == "non_delivery_partner" and is_first:
         customer_pays -= DISCOUNT_AMOUNT
 
-    stripe_wise_fee = customer_pays * STRIPE_WISE_COMBINE_RATE
-    florist_cost = budget
+    # Service fee is factored in: price = florist_cost * (1 + SERVICE_FEE_RATE)
+    # So florist_cost = price / (1 + SERVICE_FEE_RATE)
+    florist_cost = price / (1 + SERVICE_FEE_RATE)
 
-    # Commissions
-    # Non-delivery partner: 5% commission on first 3 orders only
-    # Delivery partner decline: 5% commission to original partner
+    stripe_wise_fee = customer_pays * STRIPE_WISE_COMBINE_RATE
+
+    # Commissions are calculated on the florist cost
     commission = 0
     if source == "non_delivery_partner" and has_commission:
-        commission = budget * COMMISSION_RATE
+        commission = florist_cost * COMMISSION_RATE
     elif source == "delivery_partner_decline":
-        commission = budget * COMMISSION_RATE
+        commission = florist_cost * COMMISSION_RATE
 
     base_profit = customer_pays - stripe_wise_fee - florist_cost - commission
     float_income = calc_float_income(customer_pays, hold_months)
@@ -112,28 +114,32 @@ def calc_single_delivery(budget, source, is_first=True, has_commission=True, hol
     }
 
 
-def calc_upfront(budget, source, years, deliveries_per_year, upfront_discount, hold_months_avg=12):
+def calc_upfront(price, source, years, deliveries_per_year, upfront_discount, hold_months_avg=12):
     """Calculate economics for an upfront prepaid plan."""
     total_deliveries = years * deliveries_per_year
-    full_price_per_delivery = budget * (1 + SERVICE_FEE_RATE)
+    
+    # Nominal price before any discounts
+    total_nominal_price = price * total_deliveries
 
     first_delivery_discount = DISCOUNT_AMOUNT if source == "non_delivery_partner" else 0
 
-    total_full_price = (full_price_per_delivery * total_deliveries) - first_delivery_discount
+    total_full_price = total_nominal_price - first_delivery_discount
     total_customer_pays = total_full_price * (1 - upfront_discount)
     upfront_discount_amount = total_full_price - total_customer_pays
 
     stripe_wise_fee = total_customer_pays * STRIPE_WISE_COMBINE_RATE
-    florist_cost = budget * total_deliveries
+    
+    florist_cost_per_delivery = price / (1 + SERVICE_FEE_RATE)
+    total_florist_cost = florist_cost_per_delivery * total_deliveries
 
     commission = 0
     if source == "non_delivery_partner":
         # Commission only on first 3 orders
-        commission = budget * COMMISSION_RATE * min(total_deliveries, 3)
+        commission = florist_cost_per_delivery * COMMISSION_RATE * min(total_deliveries, 3)
     elif source == "delivery_partner_decline":
-        commission = budget * COMMISSION_RATE * total_deliveries
+        commission = florist_cost_per_delivery * COMMISSION_RATE * total_deliveries
 
-    base_profit = total_customer_pays - stripe_wise_fee - florist_cost - commission
+    base_profit = total_customer_pays - stripe_wise_fee - total_florist_cost - commission
     float_income = calc_float_income(total_customer_pays, hold_months_avg)
     total_profit = base_profit + float_income
     margin = total_profit / total_customer_pays if total_customer_pays else 0
@@ -144,7 +150,7 @@ def calc_upfront(budget, source, years, deliveries_per_year, upfront_discount, h
         "customer_pays": total_customer_pays,
         "upfront_discount_amount": upfront_discount_amount,
         "stripe_wise_fee": stripe_wise_fee,
-        "florist_cost": florist_cost,
+        "florist_cost": total_florist_cost,
         "commission": commission,
         "base_profit": base_profit,
         "float_income": float_income,
@@ -154,10 +160,58 @@ def calc_upfront(budget, source, years, deliveries_per_year, upfront_discount, h
     }
 
 
+def calc_subscription(budget, source, deliveries_per_year, lead_time_months):
+    """
+    Calculate economics for a subscription lifecycle (Year 1).
+    First payment at Day 0 (hold time = lead_time_months).
+    Subsequent payments 7 days before delivery (hold time = 0.25 months).
+    """
+    total_profit = 0
+    total_customer_pays = 0
+    
+    for i in range(deliveries_per_year):
+        is_first = (i == 0)
+        # Commission only on first 3 orders for non-delivery partners
+        # or always for delivery_partner_decline
+        has_commission = False
+        if source == "non_delivery_partner" and i < 3:
+            has_commission = True
+        elif source == "delivery_partner_decline":
+            has_commission = True
+            
+        hold = lead_time_months if is_first else SUBSCRIPTION_RECURRING_HOLD_MONTHS
+        
+        delivery_eco = calc_single_delivery(
+            budget, 
+            source, 
+            is_first=is_first, 
+            has_commission=has_commission, 
+            hold_months=hold
+        )
+        
+        total_profit += delivery_eco["total_profit"]
+        total_customer_pays += delivery_eco["customer_pays"]
+
+    margin = total_profit / total_customer_pays if total_customer_pays else 0
+    profit_per_delivery = total_profit / deliveries_per_year if deliveries_per_year else 0
+    
+    return {
+        "total_profit": total_profit,
+        "margin": margin,
+        "profit_per_delivery": profit_per_delivery,
+        "customer_pays": total_customer_pays
+    }
+
+
 SCENARIO_COLS = [
-    ("Direct / Del Accept / Non-Del (4th+)", "direct", True, False),
+    ("Direct / Del Accept", "direct", True, False),
     ("Non-Del (1st)", "non_delivery_partner", True, True),
-    ("Non-Del (2nd-3rd) / Del (Decline)", "non_delivery_partner", False, True),
+    ("Non-Del (2-3) / Del (Decline)", "non_delivery_partner", False, True),
+]
+
+UPFRONT_SCENARIO_COLS = [
+    ("Direct / Del Accept", "direct"),
+    ("Del Partner Decline", "delivery_partner_decline"),
 ]
 
 
@@ -181,6 +235,8 @@ class Command(BaseCommand):
         console.print()
         self._print_unit_economics(console, budget)
         console.print()
+        self._print_subscription_analysis(console, budget)
+        console.print()
         self._print_hold_time_sensitivity(console, budget)
         console.print()
         self._print_budget_sensitivity(console)
@@ -198,12 +254,38 @@ class Command(BaseCommand):
         table.add_row("Discount (Non-Del Partner, 1st order)", _c(DISCOUNT_AMOUNT))
         table.add_row("Interest Rate on Float", _pct(INTEREST_RATE))
         table.add_row("Bouquet Budgets", ", ".join(f"${b}" for b in BOUQUET_BUDGETS))
+        table.add_row("Sub. Lead Time (Order #1)", f"{SUBSCRIPTION_FIRST_DELIVERY_LEAD_TIME} mo")
+        table.add_row("Sub. Hold Time (Order #2+)", f"{SUBSCRIPTION_RECURRING_HOLD_MONTHS * 4:.1f} weeks")
+
+        console.print(table)
+
+    def _print_subscription_analysis(self, console, budget):
+        """Analyze year 1 of a subscription with the new payment schedule."""
+        title = f"Subscription Year 1 Analysis — ${budget} Price (Lead Time: {SUBSCRIPTION_FIRST_DELIVERY_LEAD_TIME}mo)"
+        table = Table(title=title, box=box.ROUNDED, title_style="bold cyan", header_style="bold")
+        
+        table.add_column("Deliveries/Year", style="white")
+        for label, _, _, _ in SCENARIO_COLS:
+            table.add_column(label, justify="right", min_width=14)
+
+        for count in [1, 2, 4, 12]:
+            cells = []
+            for _, source, _, _ in SCENARIO_COLS:
+                r = calc_subscription(budget, source, count, SUBSCRIPTION_FIRST_DELIVERY_LEAD_TIME)
+                profit = r["total_profit"]
+                ppd = r["profit_per_delivery"]
+                margin = r["margin"]
+                cells.append(Text(
+                    f"{_c(profit)} ({_c(ppd)}/del, {_pct(margin)})",
+                    style=_style(profit),
+                ))
+            table.add_row(f"{count} del/yr", *cells)
 
         console.print(table)
 
     def _print_unit_economics(self, console, budget):
         table = Table(
-            title=f"Unit Economics — Single Delivery @ ${budget} Budget",
+            title=f"Unit Economics — Single Delivery @ ${budget} Price",
             box=box.ROUNDED, title_style="bold cyan", header_style="bold",
         )
         table.add_column("", style="white", min_width=16)
@@ -240,7 +322,7 @@ class Command(BaseCommand):
 
     def _print_hold_time_sensitivity(self, console, budget):
         table = Table(
-            title=f"Hold Time Sensitivity — ${budget} Budget (Profit + Margin per Delivery)",
+            title=f"Hold Time Sensitivity — ${budget} Price (Profit + Margin per Delivery)",
             box=box.ROUNDED, title_style="bold cyan", header_style="bold",
         )
         table.add_column("Hold Time", style="white", min_width=10)
@@ -273,10 +355,10 @@ class Command(BaseCommand):
 
     def _print_budget_sensitivity(self, console):
         table = Table(
-            title="Budget Sensitivity — Profit + Margin per Delivery (12mo Hold)",
+            title="Price Sensitivity — Profit + Margin per Delivery (12mo Hold)",
             box=box.ROUNDED, title_style="bold cyan", header_style="bold",
         )
-        table.add_column("Budget", style="white", min_width=8)
+        table.add_column("Price", style="white", min_width=8)
         for label, _, _, _ in SCENARIO_COLS:
             table.add_column(label, justify="right", min_width=14)
 
@@ -299,16 +381,16 @@ class Command(BaseCommand):
             avg_hold = (years - 1) * 6
 
             table = Table(
-                title=f"Upfront {years}-Year Plan — ${budget} Budget, 1 Delivery/Year (Avg Hold: {avg_hold}mo)",
+                title=f"Upfront {years}-Year Plan — ${budget} Price, 1 Delivery/Year (Avg Hold: {avg_hold}mo)",
                 box=box.ROUNDED, title_style="bold cyan", header_style="bold",
             )
             table.add_column("Discount", style="white", min_width=10)
-            for label, _, _, _ in SCENARIO_COLS:
+            for label, _ in UPFRONT_SCENARIO_COLS:
                 table.add_column(label, justify="right", min_width=14)
 
             for disc in UPFRONT_DISCOUNTS:
                 cells = []
-                for _, source, is_first, comm in SCENARIO_COLS:
+                for _, source in UPFRONT_SCENARIO_COLS:
                     r = calc_upfront(budget, source, years, 1, disc, hold_months_avg=avg_hold)
                     profit = r["total_profit"]
                     ppd = r["profit_per_delivery"]
