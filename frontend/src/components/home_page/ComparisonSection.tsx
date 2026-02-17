@@ -56,7 +56,7 @@ const ComparisonSection: React.FC = () => (
                   <div className="w-[15%] bg-red-400 flex items-center justify-center relative group" title="Commission/Fees">
                      <img src={creditCardIcon} alt="Fees" className="h-5 w-5 opacity-80 invert brightness-0" />
                   </div>
-                  <div className="w-[90%] bg-[var(--colorgreen)] flex items-center justify-center relative group" title="Flowers">
+                  <div className="w-[85%] bg-[var(--colorgreen)] flex items-center justify-center relative group" title="Flowers">
                     <img src={flowerIcon} alt="Flowers" className="h-6 w-6 opacity-80 invert brightness-0" />
                   </div>
                 </div>
