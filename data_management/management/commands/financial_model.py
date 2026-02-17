@@ -11,6 +11,9 @@ from rich import box
 STRIPE_WISE_COMBINE_RATE = 0.035          # 3.5%
 SERVICE_FEE_RATE = 0.15         # 15%
 COMMISSION_RATE = 0.05          # 5% of bouquet budget
+TIERED_REWARD_LOW = 5.00         # Under $100
+TIERED_REWARD_MID = 10.00        # $100 - $150
+TIERED_REWARD_HIGH = 15.00       # Over $150
 DISCOUNT_AMOUNT = 10.00          # $5 off first bouquet (non-delivery partners)
 INTEREST_RATE = 0.045           # 4.5% annual on float
 
@@ -242,6 +245,8 @@ class Command(BaseCommand):
         self._print_budget_sensitivity(console)
         console.print()
         self._print_upfront_analysis(console, budget)
+        console.print()
+        self._print_payout_margin_analysis(console)
 
     def _print_assumptions(self, console):
         table = Table(title="Assumptions", box=box.ROUNDED, title_style="bold cyan", header_style="bold")
@@ -250,7 +255,8 @@ class Command(BaseCommand):
 
         table.add_row("Stripe + Wise Fee Rate", _pct(STRIPE_WISE_COMBINE_RATE))
         table.add_row("Service Fee Rate", _pct(SERVICE_FEE_RATE))
-        table.add_row("Commission Rate", _pct(COMMISSION_RATE))
+        table.add_row("Commission Rate (Flat)", _pct(COMMISSION_RATE))
+        table.add_row("Tiered Rewards (Low/Mid/High)", f"{_c(TIERED_REWARD_LOW)} / {_c(TIERED_REWARD_MID)} / {_c(TIERED_REWARD_HIGH)}")
         table.add_row("Discount (Non-Del Partner, 1st order)", _c(DISCOUNT_AMOUNT))
         table.add_row("Interest Rate on Float", _pct(INTEREST_RATE))
         table.add_row("Bouquet Budgets", ", ".join(f"${b}" for b in BOUQUET_BUDGETS))
@@ -403,4 +409,38 @@ class Command(BaseCommand):
 
             console.print(table)
             console.print()
+
+    def _print_payout_margin_analysis(self, console):
+        """Analyze margin impact for different fixed payout amounts."""
+        payouts = [5, 10, 15, 20]
+        table = Table(
+            title="Affiliate Payout Margin Analysis (Margin % and $ Profit)",
+            box=box.ROUNDED, title_style="bold cyan", header_style="bold",
+        )
+        table.add_column("Bouquet Price", style="white", min_width=12)
+        table.add_column("Net Cut (Pre-Payout)", justify="right", style="dim", min_width=18)
+        
+        for p in payouts:
+            table.add_column(f"${p} Payout", justify="right", min_width=15)
+
+        for budget in BOUQUET_BUDGETS:
+            # Net Cut = Budget - Stripe/Wise - Florist Cost
+            stripe_fee = budget * STRIPE_WISE_COMBINE_RATE
+            florist_cost = budget / (1 + SERVICE_FEE_RATE)
+            net_cut_pre_payout = budget - stripe_fee - florist_cost
+            
+            cells = [
+                Text(_c(budget), style="bold"),
+                Text(_c(net_cut_pre_payout), style="dim")
+            ]
+            
+            for p in payouts:
+                profit = net_cut_pre_payout - p
+                margin = profit / budget if budget else 0
+                cells.append(Text(f"{_pct(margin)} ({_c(profit)})", style=_style(profit)))
+            
+            table.add_row(*cells)
+
+        console.print(table)
+        console.print(Text("Note: Net Cut = Price - Stripe/Wise Fee - Florist Cost. Margin is calculated on the full Price.", style="italic dim"))
 

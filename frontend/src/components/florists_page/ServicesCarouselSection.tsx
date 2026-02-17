@@ -17,7 +17,7 @@ const services = [
     title: 'Subscriptions',
     tagline: 'Flowers that show up on time — every time — without anyone having to remember.',
     points: [
-      'We specialise in emotionally significant dates: Mother\'s Day, anniversaries, birthdays.',
+      'We specialise in annual subscriptions for significant dates (e.g. birthdays) but we also offer weekly, fortnightly, monthly and bi-annual schedules.',
       'We manage reminders, payments, scheduling, and changes.',
       'Customers love "this is handled forever" — you benefit from predictable, repeat revenue.',
     ],

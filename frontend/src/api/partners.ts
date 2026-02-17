@@ -41,11 +41,6 @@ export async function validateDiscountCode(code: string): Promise<DiscountValida
   return handleResponse(response);
 }
 
-export async function resolvePartnerSlug(slug: string): Promise<{ partner_id: number; business_name: string }> {
-  const response = await fetch(`/api/partners/resolve-slug/${slug}/`);
-  return handleResponse(response);
-}
-
 export async function getDeliveryRequestByToken(token: string): Promise<DeliveryRequestDetail> {
   const response = await fetch(`/api/partners/delivery-requests/${token}/details/`);
   return handleResponse(response);

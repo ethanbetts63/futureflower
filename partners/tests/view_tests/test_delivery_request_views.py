@@ -32,7 +32,7 @@ class TestDeliveryRequestViews:
         mocker.patch('partners.utils.reassignment.reassign_delivery_request')
         
         partner = PartnerFactory()
-        user = UserFactory(source_partner=partner)
+        user = UserFactory(referred_by_partner=partner)
         event = EventFactory(order__user=user, order__budget=100)
         dr = DeliveryRequestFactory(partner=partner, event=event, status='pending')
         

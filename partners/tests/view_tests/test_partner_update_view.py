@@ -21,10 +21,3 @@ class TestPartnerUpdateView:
         assert partner.business_name == "New Name"
         assert partner.city == "Sydney"
 
-    def test_update_booking_slug_unique(self):
-        PartnerFactory(booking_slug="taken")
-        partner = PartnerFactory(user=self.user, booking_slug="my-slug")
-        
-        response = self.client.patch(self.url, {"booking_slug": "taken"}, format='json')
-        assert response.status_code == 400
-        assert "booking_slug" in response.data

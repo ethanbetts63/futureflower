@@ -4,7 +4,6 @@ export interface Partner {
   status: 'pending' | 'active' | 'suspended';
   business_name: string;
   phone: string;
-  booking_slug: string | null;
   street_address: string;
   suburb: string;
   city: string;

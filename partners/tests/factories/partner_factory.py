@@ -12,4 +12,3 @@ class PartnerFactory(DjangoModelFactory):
     status = 'active'
     business_name = factory.Faker('company')
     phone = factory.Faker('phone_number')
-    booking_slug = factory.Faker('slug')

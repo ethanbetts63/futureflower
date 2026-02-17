@@ -32,7 +32,6 @@ class Partner(models.Model):
     phone = models.CharField(max_length=30, blank=True)
 
     # Phase 2: Delivery partner fields
-    booking_slug = models.SlugField(max_length=100, unique=True, null=True, blank=True)
     street_address = models.CharField(max_length=255, blank=True)
     suburb = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=100, blank=True)

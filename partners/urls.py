@@ -4,7 +4,6 @@ from partners.views import (
     PartnerDashboardView,
     PartnerUpdateView,
     ValidateDiscountCodeView,
-    ResolveSlugView,
     DeliveryRequestDetailView,
     DeliveryRequestRespondView,
     DeliveryRequestListView,
@@ -23,7 +22,6 @@ urlpatterns = [
     path('validate-discount-code/', ValidateDiscountCodeView.as_view(), name='validate-discount-code'),
 
     # Phase 2
-    path('resolve-slug/<slug:slug>/', ResolveSlugView.as_view(), name='resolve-slug'),
     path('delivery-requests/', DeliveryRequestListView.as_view(), name='delivery-request-list'),
     path('delivery-requests/<str:token>/details/', DeliveryRequestDetailView.as_view(), name='delivery-request-detail'),
     path('delivery-requests/<str:token>/respond/', DeliveryRequestRespondView.as_view(), name='delivery-request-respond'),

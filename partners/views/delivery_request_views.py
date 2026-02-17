@@ -73,10 +73,10 @@ class DeliveryRequestRespondView(APIView):
         dr.status = 'declined'
         dr.save()
 
-        # If the user was sourced by this partner, create 5% commission
+        # If the user was referred by this partner, create 5% commission
         order = dr.event.order
         user = order.user
-        if hasattr(user, 'source_partner') and user.source_partner == dr.partner:
+        if hasattr(user, 'referred_by_partner') and user.referred_by_partner == dr.partner:
             budget = getattr(order, 'budget', None)
             if budget:
                 Commission.objects.create(
@@ -85,7 +85,7 @@ class DeliveryRequestRespondView(APIView):
                     commission_type='referral',
                     amount=budget * Decimal('0.05'),
                     status='pending',
-                    note='Commission for declined delivery of sourced customer',
+                    note='Commission for declined delivery of referred customer',
                 )
 
         # Trigger reassignment

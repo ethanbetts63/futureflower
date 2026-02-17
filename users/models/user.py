@@ -38,15 +38,6 @@ class User(AbstractUser):
         help_text="The partner who referred this user via discount code."
     )
 
-    source_partner = models.ForeignKey(
-        'partners.Partner',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='sourced_users',
-        help_text="The delivery partner through whose link this user registered."
-    )
-
     # --------------------------------------------------------------------------
     # Anonymization Fields
     # These fields store the hashes of PII and are only populated upon account

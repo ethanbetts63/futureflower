@@ -36,20 +36,20 @@ class Command(BaseCommand):
                 ))
                 continue
 
-            # Determine partner: user's source_partner if within radius, else closest match
+            # Determine partner: user's referred_by_partner if within radius, else closest match
             chosen_partner = None
 
-            source_partner = getattr(user, 'source_partner', None)
-            if (source_partner and source_partner.partner_type == 'delivery'
-                    and source_partner.status == 'active'
-                    and source_partner.latitude is not None
-                    and source_partner.longitude is not None):
+            referred_partner = getattr(user, 'referred_by_partner', None)
+            if (referred_partner and referred_partner.partner_type == 'delivery'
+                    and referred_partner.status == 'active'
+                    and referred_partner.latitude is not None
+                    and referred_partner.longitude is not None):
                 distance = haversine_km(
                     delivery_lat, delivery_lng,
-                    source_partner.latitude, source_partner.longitude
+                    referred_partner.latitude, referred_partner.longitude
                 )
-                if distance <= source_partner.service_radius_km:
-                    chosen_partner = source_partner
+                if distance <= referred_partner.service_radius_km:
+                    chosen_partner = referred_partner
 
             if not chosen_partner:
                 # Geographic match: find closest partner within their radius

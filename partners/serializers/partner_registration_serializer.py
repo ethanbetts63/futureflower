@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from django.utils.text import slugify
 from partners.models import Partner, DiscountCode
 
 User = get_user_model()
@@ -48,18 +47,6 @@ class PartnerRegistrationSerializer(serializers.Serializer):
                 })
         return data
 
-    def _generate_booking_slug(self, business_name, first_name, last_name):
-        """Generate a unique booking slug from business name, falling back to user name."""
-        base = business_name.strip() if business_name else f"{first_name} {last_name}"
-        slug = slugify(base)[:80] or 'partner'
-        # Ensure uniqueness
-        candidate = slug
-        counter = 1
-        while Partner.objects.filter(booking_slug=candidate).exists():
-            candidate = f"{slug}-{counter}"
-            counter += 1
-        return candidate
-
     def create(self, validated_data):
         email = validated_data['email'].lower()
 
@@ -80,11 +67,6 @@ class PartnerRegistrationSerializer(serializers.Serializer):
 
         if validated_data.get('partner_type') == 'delivery':
             partner_fields.update({
-                'booking_slug': self._generate_booking_slug(
-                    validated_data.get('business_name', ''),
-                    validated_data['first_name'],
-                    validated_data['last_name'],
-                ),
                 'street_address': validated_data.get('street_address', ''),
                 'suburb': validated_data.get('suburb', ''),
                 'city': validated_data.get('city', ''),
@@ -98,9 +80,8 @@ class PartnerRegistrationSerializer(serializers.Serializer):
 
         partner = Partner.objects.create(**partner_fields)
 
-        # Only create discount code for non-delivery partners
-        if validated_data.get('partner_type', 'non_delivery') == 'non_delivery':
-            code = DiscountCode.generate_code(validated_data.get('business_name', ''))
-            DiscountCode.objects.create(partner=partner, code=code)
+        # Create discount code for all partners
+        code = DiscountCode.generate_code(validated_data.get('business_name', ''))
+        DiscountCode.objects.create(partner=partner, code=code)
 
         return user

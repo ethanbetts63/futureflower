@@ -53,7 +53,7 @@ class PartnerDashboardSerializer(serializers.ModelSerializer):
         model = Partner
         fields = [
             'id', 'partner_type', 'status', 'business_name', 'phone',
-            'booking_slug', 'discount_code', 'commission_summary',
+            'discount_code', 'commission_summary',
             'recent_commissions', 'delivery_requests',
             'street_address', 'suburb', 'city', 'state', 'postcode', 'country',
             'latitude', 'longitude', 'service_radius_km',
