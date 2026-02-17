@@ -83,8 +83,7 @@ const ComparisonSection: React.FC = () => (
           <div className="mt-6 pt-2 border-t border-black/10">
             <p className="text-sm font-semibold text-black/80 italic">Then how do you make money?</p>
             <p className="mt-2 text-sm text-black/70 leading-relaxed">
-              We charge a transparent 10% fee. Our competitors slip in a 20–40% commission and often keep the delivery fee.
-              That's how we can be cheaper and still give florists 100% of the flower budget.
+              Where our competitors slip in a 20–40% commission, monthly fees, and delivery cuts, we charge a simple 10%. You get more, the florist gets more, and we get customers that keep coming back.
             </p>
           </div>
         </div>

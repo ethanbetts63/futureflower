@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { getUpfrontPlans, getUserProfile } from '@/api';
 import { type UserProfile } from '@/types/UserProfile';
@@ -10,6 +11,8 @@ import UnifiedPlanTable from '@/components/UnifiedPlanTable';
 import UserDetailsSummary from '@/components/UserDetailsSummary';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
+import Seo from '@/components/Seo';
+import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 
 const UserDashboardPage: React.FC = () => {
   const [plans, setPlans] = useState<UpfrontPlan[]>([]);
@@ -66,28 +69,31 @@ const UserDashboardPage: React.FC = () => {
   }, [plans]);
 
   return (
-    <div className="w-full text-black p-4 md:p-8">
-      <h1 className="text-3xl font-bold mb-6">Welcome to Your Dashboard</h1>
-      <p className="mb-8 text-lg">
-        This is your central hub for managing everything related to your Forever Flower account. 
-        Here you can get a quick overview of your flower plans, upcoming deliveries, and account details.
-      </p>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {loading ? (
-          <div className="bg-white p-6 rounded-lg shadow-md flex items-center justify-center col-span-1 md:col-span-2">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="ml-4 text-muted-foreground">Loading your summary...</p>
+    <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
+      <div className="container mx-auto max-w-4xl">
+        <Seo title="Dashboard | FutureFlower" />
+        
+        <UnifiedSummaryCard 
+          title="Welcome to Your Dashboard" 
+          description="This is your central hub for managing everything related to your Forever Flower account. Here you can get a quick overview of your flower plans, upcoming deliveries, and account details."
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
+            {loading ? (
+              <div className="bg-white p-6 rounded-lg flex items-center justify-center col-span-1 md:col-span-2">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <p className="ml-4 text-muted-foreground">Loading your summary...</p>
+              </div>
+            ) : (
+              <>
+                <UserDetailsSummary user={user} />
+                <NextDeliveryCard deliveryInfo={nextDelivery} />
+                <div className="col-span-1 md:col-span-2 pt-4">
+                    <UnifiedPlanTable />
+                </div>
+              </>
+            )}
           </div>
-        ) : (
-          <>
-            <UserDetailsSummary user={user} />
-            <NextDeliveryCard deliveryInfo={nextDelivery} />
-            <div className="col-span-1 md:col-span-2">
-                <UnifiedPlanTable />
-            </div>
-          </>
-        )}
+        </UnifiedSummaryCard>
       </div>
     </div>
   );
