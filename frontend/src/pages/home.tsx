@@ -1,6 +1,6 @@
 import Seo from '../components/Seo';
-import { ProductCarousel } from '../components/home_page/ProductCarousel';
-import type { ProductCarouselStep } from '../components/home_page/ProductCarousel';
+import { ProductCarousel } from '../components/ProductCarousel';
+import type { ProductCarouselStep } from '../components/ProductCarousel';
 import petalImage from '../assets/petal.png';
 import floristMakingFlowersImage from '../assets/florist_making_flowers.png';
 import deliveryHighImage from '../assets/delivery_high.png';

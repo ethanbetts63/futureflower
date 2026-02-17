@@ -12,7 +12,7 @@ Learn more
 
 ## No Cost, No Admin, No Risk.
 *   Only sales you're leaving behind.
-*   Decline your customers, still get paid 5%.
+*   Decline your customers, still get paid.
 *   Easy upsell. Locked revenue.
 *   We absorb bad review risk.
 
@@ -48,40 +48,9 @@ Upfront commitment for customers. Guaranteed future revenue for florists.
 *   No missed payments, cancellations, or admin overhead for you.
 *   We manage the capital risk, schedule, and customer communication.
 
-### Transferable Subscriptions & Plans
-The gift that keeps giving — even when the giver steps back.
-*   Customers can transfer control to the recipient after purchase.
-*   Recipients manage preferences, delivery dates, pauses, or address changes.
-*   Removes friction, reduces support, and keeps subscriptions active longer.
-
-## How we work together: A Simple 4-Step Process
-
-### Customer Books Delivery
-*   Sets budget, dates, and flower preferences
-*   Pays for each bouquets budget (eg. $100) and customer protection/refund fee
-*   Our fee is in addition to the budget. Florists are always paid the full budget amount for accepted orders.
-
-### You're Notified (2 Weeks Before Delivery)
-*   Full order details sent via text & email: budget, address, preferences
-*   Click acceptance link to confirm or deny the order (no penalty for denying)
-*   No admin, dashboards or sites to manage - one link handled from email or text
-*   If you decline a customer you signed up, receive a 5% commission instead
-
-### 2nd Notice (1 Week Before Delivery)
-*   Additional requests sent to ensure receipt of the acceptance link
-*   You have 48 hours to accept or decline
-*   Same 5% commision for declining.
-*   No response = decline
-
-### Delivery Day
-*   Create a bouquet that matches the budget and preferences (as closely as possible)
-*   Deliver using your normal process
-*   Full budget amount paid weekly for all accepted orders.
-
 ## We Send Business Your Way
 We're not just helping you capture in-store opportunities — we're actively marketing flower subscriptions and scheduled deliveries online. When customers in your area find us through Google, Instagram, or referrals, we send them directly to you.
 *   Orders from customers who found us, not you
-*   Full budget payment for every delivery you accept
 *   Geographic exclusivity in your service area
 *   Zero marketing spend to acquire these customers
 *   **Image Alt Text:** A florist preparing a bouquet in their shop.

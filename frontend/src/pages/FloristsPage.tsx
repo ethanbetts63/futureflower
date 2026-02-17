@@ -1,12 +1,11 @@
 import { useRef } from 'react';
 import Seo from '../components/Seo';
-import { ProductCarousel } from '../components/home_page/ProductCarousel';
-import type { ProductCarouselStep } from '../components/home_page/ProductCarousel';
+import { ProductCarousel } from '../components/ProductCarousel';
+import type { ProductCarouselStep } from '../components/ProductCarousel';
 import { FaqV2 } from '../components/FaqV2';
 import floristPackingImage from '../assets/florist_packing.webp';
 import petalImage from '../assets/petal.png';
 import deliveryHighImage from '../assets/delivery_high.png';
-import { Timeline } from '../components/florists_page/Timeline';
 import { SendBusinessYourWay } from '../components/florists_page/SendBusinessYourWay';
 import { ValuePropsA } from '../components/florists_page/ValuePropsA';
 import type { FaqItem } from '@/types/FaqItem';
@@ -59,7 +58,7 @@ const FloristsPage = () => {
     },
     {
       question: 'Is there a service debt or lock-in?',
-      answer: 'No service debts. You\'ll receive a request for all orders from customers you sign up, but if you can\'t or don\'t want to fulfil a request, we\'ll pass it to another florist and give you a 5% commission instead. Conversely, requests that other florists can\'t fill can come straight to you.',
+      answer: 'No service debts. You\'ll receive a request for all orders from customers you sign up, but if you can\'t or don\'t want to fulfil a request, we\'ll pass it to another florist and give you a $5-25 referral bonus instead. Conversely, requests that other florists can\'t fill can come straight to you.',
     },
     {
       question: 'What does it cost?',
@@ -97,8 +96,6 @@ const FloristsPage = () => {
       <ComparisonSectionFlorists />
 
       <ServicesCarouselSection />
-      <Timeline />
-
       <SendBusinessYourWay />
 
       <SoWhatsTheCatchSection />

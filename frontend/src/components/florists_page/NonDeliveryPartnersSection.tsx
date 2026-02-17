@@ -11,7 +11,7 @@ import kitchenImage1280 from '../../assets/kitchen-1280w.webp';
 
 const features = [
   "All you need is a small poster in-store or a link on your website.",
-  "You get a 5% referral commission on all purchases.",
+  "You get a $5-$25 referral commission on all purchases.",
   "We handle all the logistics, customer service, and delivery.",
   "Unlock an easy and helpful upsell opportunity."
 ];

@@ -3,7 +3,7 @@ import { Check } from 'lucide-react';
 
 const points = [
   'Only sales you\'re leaving behind.',
-  'Decline your customers, still get paid 5%.',
+  'Decline your customers, still get paid.',
   'Easy upsell. Locked revenue.',
   'We absorb bad review risk.',
 ];

@@ -31,30 +31,22 @@ const services = [
       'No missed payments, cancellations, or admin overhead for you.',
       'We manage the capital risk, schedule, and customer communication.',
     ],
-  },
-  {
-    icon: Gift,
-    title: 'Transferable Subscriptions & Plans',
-    tagline: 'The gift that keeps giving — even when the giver steps back.',
-    points: [
-      'Customers can transfer control to the recipient after purchase.',
-      'Recipients manage preferences, delivery dates, pauses, or address changes.',
-      'Removes friction, reduces support, and keeps subscriptions active longer.',
-    ],
-  },
+  }
 ];
 
 export const ServicesCarouselSection: React.FC = () => {
   return (
     <section className="bg-primary py-6">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-black">
-          Our Services
-        </h2>
-        <p className="text-center text-gray-600 mb-6 max-w-2xl mx-auto">
-          Everything you need to offer long-term flower commitments — without the long-term headache.
-        </p>
-        <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black font-['Playfair_Display',_serif] tracking-tight">
+            Our Services
+          </h2>
+          <p className="mt-3 text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            Everything you need to offer long-term flower commitments — without the headache.
+          </p>
+        </div>
+        <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide max-w-6xl mx-auto justify-center">
           {services.map((service) => (
             <div
               key={service.title}
