@@ -25,8 +25,9 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             '--admin_user',
-            action='store_true',
-            help='Create the default admin user, partner, and discount code.',
+            type=str,
+            metavar='PASSWORD',
+            help='Create the default admin user, partner, and discount code. Provide the password as the argument.',
         )
 
     def handle(self, *args, **options):
@@ -53,7 +54,7 @@ class Command(BaseCommand):
         if options['admin_user']:
             something_generated = True
             self.stdout.write(self.style.SUCCESS('Setting up admin user...'))
-            generator = AdminUserGenerator(command=self)
+            generator = AdminUserGenerator(command=self, password=options['admin_user'])
             generator.run()
 
         if not something_generated:

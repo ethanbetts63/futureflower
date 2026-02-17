@@ -9,7 +9,6 @@ ADMIN_USER = {
     'email': 'ethanbetts63@gmail.com',
     'first_name': 'Ethan',
     'last_name': 'Betts',
-    'password': 'pbkdf2_sha256$1200000$qJ0rKVZtFWWuHsazmmoYTa$mncUX+jzFrOX/+EnFvAVKgILIRe3zDCZvL2FgWArYF0=',
     'is_superuser': True,
     'is_staff': True,
     'is_active': True,
@@ -39,8 +38,9 @@ ADMIN_DISCOUNT_CODE = {
 
 
 class AdminUserGenerator:
-    def __init__(self, command):
+    def __init__(self, command, password):
         self.command = command
+        self.password = password
 
     def run(self):
         # Create or update user
@@ -48,6 +48,8 @@ class AdminUserGenerator:
             username=ADMIN_USER['username'],
             defaults=ADMIN_USER,
         )
+        user.set_password(self.password)
+        user.save()
         if created:
             self.command.stdout.write(f"Created admin user: {user.email}")
         else:
