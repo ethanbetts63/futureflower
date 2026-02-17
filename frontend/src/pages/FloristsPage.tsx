@@ -15,6 +15,7 @@ import { HeroFloristPage } from '../components/florists_page/HeroFloristPage';
 import { WhyFutureFlowerSection } from '../components/florists_page/WhyFutureFlowerSection';
 import { ServicesCarouselSection } from '../components/florists_page/ServicesCarouselSection';
 import { SoWhatsTheCatchSection } from '../components/florists_page/SoWhatsTheCatchSection';
+import ComparisonSectionFlorists from '../components/florists_page/ComparisonSectionFlorists';
 
 const FloristsPage = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -92,6 +93,8 @@ const FloristsPage = () => {
           steps={floristHowItWorksSteps}
         />
       </section>
+
+      <ComparisonSectionFlorists />
 
       <ServicesCarouselSection />
       <Timeline />
