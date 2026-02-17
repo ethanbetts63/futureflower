@@ -50,7 +50,7 @@ const FloristsPage = () => {
   const floristFaqs: FaqItem[] = [
     {
       question: 'What if I can\'t or don\'t want to fulfill a delivery?',
-      answer: 'No problem at all. If you can\'t fulfill a delivery request from a customer you referred to us, we\'ll pass the business on to another florist and cut you a 5% referral bonus. You can always say no to a delivery request without penalty.',
+      answer: 'If a customer you signed up through your link/QR code places an order you can\'t fulfill, we don\'t want you to lose out. We pass the order to a trusted partner and pay you a tiered referral fee ($5 for small bouquets, up to $25 for premium arrangements). It ensures your digital shopfront earns you money even when you\'re fully booked.',
     },
     {
       question: 'How do refunds work?',
