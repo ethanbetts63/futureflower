@@ -1,0 +1,90 @@
+[
+{
+  "model": "events.flowertype",
+  "pk": 126,
+  "fields": {
+    "name": "Just Because",
+    "tagline": "No reason needed"
+  }
+},
+{
+  "model": "events.flowertype",
+  "pk": 127,
+  "fields": {
+    "name": "Anniversary",
+    "tagline": "Celebrate another year"
+  }
+},
+{
+  "model": "events.flowertype",
+  "pk": 128,
+  "fields": {
+    "name": "Birthday",
+    "tagline": "Make their day pop"
+  }
+},
+{
+  "model": "events.flowertype",
+  "pk": 129,
+  "fields": {
+    "name": "Romance",
+    "tagline": "Say it with petals"
+  }
+},
+{
+  "model": "events.flowertype",
+  "pk": 130,
+  "fields": {
+    "name": "Get Well",
+    "tagline": "Brighten the room"
+  }
+},
+{
+  "model": "events.flowertype",
+  "pk": 131,
+  "fields": {
+    "name": "Funeral",
+    "tagline": "Honour their memory"
+  }
+},
+{
+  "model": "events.flowertype",
+  "pk": 132,
+  "fields": {
+    "name": "Wedding",
+    "tagline": "For the big day"
+  }
+},
+{
+  "model": "events.flowertype",
+  "pk": 133,
+  "fields": {
+    "name": "Mother's Day",
+    "tagline": "She deserves the world"
+  }
+},
+{
+  "model": "events.flowertype",
+  "pk": 134,
+  "fields": {
+    "name": "New Born",
+    "tagline": "Welcome to the world"
+  }
+},
+{
+  "model": "events.flowertype",
+  "pk": 135,
+  "fields": {
+    "name": "Sympathy",
+    "tagline": "Thoughtful & gentle"
+  }
+},
+{
+  "model": "events.flowertype",
+  "pk": 136,
+  "fields": {
+    "name": "Thank You",
+    "tagline": "Gratitude, arranged"
+  }
+}
+]

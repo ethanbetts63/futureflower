@@ -1,0 +1,90 @@
+[
+{
+  "model": "events.subscriptionplan",
+  "pk": 25,
+  "fields": {
+    "stripe_subscription_id": null,
+    "subscription_message": null
+  }
+},
+{
+  "model": "events.subscriptionplan",
+  "pk": 24,
+  "fields": {
+    "stripe_subscription_id": "sub_1T1WzdDz0KAwmQx7qRDCWwTR",
+    "subscription_message": ""
+  }
+},
+{
+  "model": "events.subscriptionplan",
+  "pk": 23,
+  "fields": {
+    "stripe_subscription_id": null,
+    "subscription_message": ""
+  }
+},
+{
+  "model": "events.subscriptionplan",
+  "pk": 21,
+  "fields": {
+    "stripe_subscription_id": "sub_1T1WOlDz0KAwmQx7MigLSyt8",
+    "subscription_message": ""
+  }
+},
+{
+  "model": "events.subscriptionplan",
+  "pk": 20,
+  "fields": {
+    "stripe_subscription_id": "sub_1T1ViYDz0KAwmQx7s4jWQ68M",
+    "subscription_message": ""
+  }
+},
+{
+  "model": "events.subscriptionplan",
+  "pk": 19,
+  "fields": {
+    "stripe_subscription_id": "sub_1T1V43Dz0KAwmQx7re6prPhI",
+    "subscription_message": "dshewr"
+  }
+},
+{
+  "model": "events.subscriptionplan",
+  "pk": 18,
+  "fields": {
+    "stripe_subscription_id": "sub_1T1RkPDz0KAwmQx7zXkdxOLz",
+    "subscription_message": ""
+  }
+},
+{
+  "model": "events.subscriptionplan",
+  "pk": 14,
+  "fields": {
+    "stripe_subscription_id": "sub_1T15hqDz0KAwmQx7pE4Ml52D",
+    "subscription_message": "this is a mesage"
+  }
+},
+{
+  "model": "events.subscriptionplan",
+  "pk": 11,
+  "fields": {
+    "stripe_subscription_id": null,
+    "subscription_message": ""
+  }
+},
+{
+  "model": "events.subscriptionplan",
+  "pk": 10,
+  "fields": {
+    "stripe_subscription_id": "sub_1T0eREDz0KAwmQx7YaV2P0iI",
+    "subscription_message": ""
+  }
+},
+{
+  "model": "events.subscriptionplan",
+  "pk": 7,
+  "fields": {
+    "stripe_subscription_id": "sub_1T0QhxDz0KAwmQx7RUEsv5H9",
+    "subscription_message": "messageing"
+  }
+}
+]
