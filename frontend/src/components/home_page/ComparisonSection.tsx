@@ -4,7 +4,7 @@ import deliveryIcon from '../../assets/delivery_symbol.svg';
 import flowerIcon from '../../assets/flower_symbol.svg';
 
 const rows = [
-  { feature: 'Commission',       them: '20–40% per order',              us: '10%' },
+  { feature: 'Commission',       them: '20–40% per order',              us: '15%' },
   { feature: 'Monthly Fees',     them: 'Often $100–$200+ monthly',      us: '$0' },
   { feature: 'Order Rejection',  them: '$10–$25 penalty for rejecting', us: '$0' },
   { feature: 'Delivery Fee',     them: 'Often retain delivery margin',  us: 'Fully Paid' },
@@ -53,7 +53,7 @@ const ComparisonSection: React.FC = () => (
               <div className="flex flex-col gap-2">
                 <span className="text-xs font-semibold text-black/50 uppercase tracking-wider">FutureFlower</span>
                 <div className="flex h-12 w-full rounded-full overflow-hidden shadow-sm">
-                  <div className="w-[10%] bg-red-400 flex items-center justify-center relative group" title="Commission/Fees">
+                  <div className="w-[15%] bg-red-400 flex items-center justify-center relative group" title="Commission/Fees">
                      <img src={creditCardIcon} alt="Fees" className="h-5 w-5 opacity-80 invert brightness-0" />
                   </div>
                   <div className="w-[90%] bg-[var(--colorgreen)] flex items-center justify-center relative group" title="Flowers">
@@ -83,7 +83,7 @@ const ComparisonSection: React.FC = () => (
           <div className="mt-6 pt-2 border-t border-black/10">
             <p className="text-sm font-semibold text-black/80 italic">Then how do you make money?</p>
             <p className="mt-2 text-sm text-black/70 leading-relaxed">
-              Where our competitors slip in a 20–40% commission, monthly fees, and delivery cuts, we charge a simple 10%. You get more, the florist gets more, and we get customers that keep coming back.
+              Where our competitors slip in a 20–40% commission, monthly fees, and delivery cuts, we charge a simple 15%. You get more, the florist gets more, and we get customers that keep coming back.
             </p>
           </div>
         </div>
