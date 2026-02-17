@@ -37,10 +37,10 @@ const StripeConnectReturnPage: React.FC = () => {
   return (
     <>
       <Seo title="Stripe Connect | FutureFlower" />
-      <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
-        <div className="container mx-auto px-4 max-w-lg">
-          <Card className="bg-white shadow-md border-none text-black text-center">
-            <CardHeader>
+      <div className="min-h-screen w-full py-0 md:py-12 px-0 md:px-4" style={{ backgroundColor: 'var(--color4)' }}>
+        <div className="container mx-auto max-w-4xl">
+          <Card className="bg-white text-black border-none shadow-none md:shadow-xl md:shadow-black/5 rounded-none md:rounded-[2rem] overflow-hidden text-center">
+            <CardHeader className="px-4 md:px-8">
               <div className="flex justify-center mb-4">
                 {isComplete ? (
                   <CheckCircle className="h-16 w-16 text-green-500" />
@@ -48,11 +48,11 @@ const StripeConnectReturnPage: React.FC = () => {
                   <XCircle className="h-16 w-16 text-yellow-500" />
                 )}
               </div>
-              <CardTitle className="text-2xl">
+              <CardTitle className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif]">
                 {isComplete ? 'Onboarding Complete!' : 'Onboarding Incomplete'}
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 px-4 md:px-8">
               <p className="text-muted-foreground">
                 {isComplete
                   ? 'Your Stripe account is set up. You can now receive payouts.'

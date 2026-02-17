@@ -81,18 +81,18 @@ const DeliveryRequestPage: React.FC = () => {
   return (
     <>
       <Seo title="Delivery Request | FutureFlower" />
-      <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
-        <div className="container mx-auto px-4 max-w-2xl space-y-6">
-          <Card className="bg-white shadow-md border-none text-black">
-            <CardHeader>
+      <div className="min-h-screen w-full py-0 md:py-12 px-0 md:px-4" style={{ backgroundColor: 'var(--color4)' }}>
+        <div className="container mx-auto max-w-4xl space-y-6">
+          <Card className="bg-white text-black border-none shadow-none md:shadow-xl md:shadow-black/5 rounded-none md:rounded-[2rem] overflow-hidden">
+            <CardHeader className="px-4 md:px-8">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-2xl">Delivery Request</CardTitle>
+                <CardTitle className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif]">Delivery Request</CardTitle>
                 <Badge variant="outline" className="text-sm capitalize">{request.status}</Badge>
               </div>
               <CardDescription>Review the delivery details below.</CardDescription>
             </CardHeader>
 
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 px-4 md:px-8">
               {/* Delivery Date */}
               <div className="flex items-center gap-3">
                 <Calendar className="h-5 w-5 text-muted-foreground" />

@@ -97,14 +97,14 @@ const PartnerRegistrationPage: React.FC = () => {
   return (
     <>
       <Seo title={`${isDelivery ? 'Delivery' : 'Referral'} Partner Registration | FutureFlower`} />
-      <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
-        <div className="container mx-auto px-4 max-w-2xl">
-          <div className="mb-4">
+      <div className="min-h-screen w-full py-0 md:py-12 px-0 md:px-4" style={{ backgroundColor: 'var(--color4)' }}>
+        <div className="container mx-auto max-w-4xl">
+          <div className="mb-4 px-4 md:px-0">
             <BackButton to="/partner/register" />
           </div>
-          <Card className="bg-white text-black border-none shadow-md">
-            <CardHeader>
-              <CardTitle className="text-3xl">
+          <Card className="bg-white text-black border-none shadow-none md:shadow-xl md:shadow-black/5 rounded-none md:rounded-[2rem] overflow-hidden">
+            <CardHeader className="px-4 md:px-8">
+              <CardTitle className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif]">
                 {isDelivery ? 'Delivery Partner' : 'Referral Partner'} Registration
               </CardTitle>
               <CardDescription>
@@ -115,7 +115,7 @@ const PartnerRegistrationPage: React.FC = () => {
             </CardHeader>
 
             <form onSubmit={handleSubmit}>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-6 px-4 md:px-8">
                 {/* Account Details */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -202,7 +202,7 @@ const PartnerRegistrationPage: React.FC = () => {
                 )}
               </CardContent>
 
-              <CardFooter className="flex justify-end">
+              <CardFooter className="flex justify-end border-t border-black/5 py-2 px-4 md:px-8">
                 <Button type="submit" size="lg" disabled={isSubmitting}>
                   {isSubmitting && <Spinner className="mr-2 h-4 w-4" />}
                   Register

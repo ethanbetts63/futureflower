@@ -37,12 +37,13 @@ const PayoutsPage: React.FC = () => {
   return (
     <>
       <Seo title="Payouts | FutureFlower" />
-      <div className="w-full space-y-6">
-          <Card className="bg-white shadow-md border-none text-black">
-            <CardHeader>
-              <CardTitle className="text-2xl">Payout History</CardTitle>
+      <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
+        <div className="container mx-auto max-w-4xl">
+          <Card className="bg-white text-black border-none shadow-none md:shadow-xl md:shadow-black/5 rounded-none md:rounded-[2rem] overflow-hidden">
+            <CardHeader className="px-4 md:px-8">
+              <CardTitle className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif]">Payout History</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-4 md:px-8">
               {payouts.length === 0 ? (
                 <p className="text-muted-foreground">No payouts yet.</p>
               ) : (
@@ -69,6 +70,7 @@ const PayoutsPage: React.FC = () => {
               )}
             </CardContent>
           </Card>
+        </div>
       </div>
     </>
   );

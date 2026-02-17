@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, RefreshCw, CreditCard, Gift } from 'lucide-react';
+import { Calendar, RefreshCw, CreditCard } from 'lucide-react';
 
 const services = [
   {

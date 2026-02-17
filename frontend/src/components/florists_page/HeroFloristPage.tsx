@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowDown } from 'lucide-react';
 import { BecomePartnerButton } from './BecomePartnerButton';
+import WeeklyPayoutBadge from './WeeklyPayoutBadge';
 
 import deliveryImage from '../../assets/delivery.webp';
 import deliveryImage320 from '../../assets/delivery-320w.webp';
@@ -31,6 +32,10 @@ export const HeroFloristPage: React.FC<HeroFloristPageProps> = ({ scrollToConten
           className="w-full h-full object-cover"
         />
       </picture>
+
+      {/* Weekly Payout Badge */}
+      <WeeklyPayoutBadge className="absolute top-8 right-6 sm:top-12 sm:right-12" />
+
       <div className="relative ml-0 sm:ml-12 md:ml-24 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-black/70 p-8 sm:p-12 rounded-none sm:rounded-lg text-white">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
           Turn one sale into <span className="italic">many</span>.

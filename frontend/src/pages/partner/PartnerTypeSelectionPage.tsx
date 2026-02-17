@@ -11,10 +11,10 @@ const PartnerTypeSelectionPage: React.FC = () => {
   return (
     <>
       <Seo title="Become a Partner | FutureFlower" />
-      <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
-        <div className="container mx-auto px-4 max-w-3xl">
+      <div className="min-h-screen w-full py-0 md:py-12 px-0 md:px-4" style={{ backgroundColor: 'var(--color4)' }}>
+        <div className="container mx-auto max-w-4xl px-4 md:px-0">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-black">Become a Partner</h1>
+            <h1 className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif] text-black">Become a Partner</h1>
             <p className="mt-2 text-black">
               Choose the partnership type that best suits you.
             </p>
