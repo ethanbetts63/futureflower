@@ -28,7 +28,7 @@ const WeeklyPayoutBadge: React.FC<WeeklyPayoutBadgeProps> = ({ className = "" })
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            <span className="text-base font-bold text-gray-900 uppercase tracking-wide">Weekly Payouts</span>
+            <span className="text-base font-bold text-gray-900 uppercase tracking-wide">Bi-Weekly Payouts</span>
           </div>
           <span className="text-xs text-black pl-4 mt-0.5">Fast cash flow you control</span>
         </div>
