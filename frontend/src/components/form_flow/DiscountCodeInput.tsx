@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
@@ -19,22 +19,18 @@ const DiscountCodeInput: React.FC<DiscountCodeInputProps> = ({
   existingCode,
   onDiscountApplied,
 }) => {
-  const [code, setCode] = useState('');
+  // Initialize from existingCode on first render only
+  const initialized = useRef(false);
+  const [code, setCode] = useState(() => existingCode || '');
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<DiscountValidationResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  // If there's an existing code on mount, show it as already applied
-  useEffect(() => {
+  const [result, setResult] = useState<DiscountValidationResult | null>(() => {
     if (existingCode) {
-      setCode(existingCode);
-      setResult({
-        code: existingCode,
-        discount_amount: '0',
-        partner_name: '',
-      });
+      initialized.current = true;
+      return { code: existingCode, discount_amount: '0', partner_name: null };
     }
-  }, [existingCode]);
+    return null;
+  });
+  const [error, setError] = useState<string | null>(null);
 
   const handleApply = async () => {
     if (!code.trim()) return;
@@ -100,11 +96,14 @@ const DiscountCodeInput: React.FC<DiscountCodeInputProps> = ({
         )}
       </div>
 
-      {result && result.partner_name && (
+      {result && (
         <div className="flex items-center gap-2 text-sm text-green-600">
           <CheckCircle className="h-4 w-4" />
           <span>
-            Code from <strong>{result.partner_name}</strong> applied! ${Number(result.discount_amount).toFixed(2)} off.
+            {result.partner_name
+              ? <>Code from <strong>{result.partner_name}</strong> applied! ${Number(result.discount_amount).toFixed(2)} off.</>
+              : <>Discount code applied.</>
+            }
           </span>
         </div>
       )}

@@ -1,6 +1,6 @@
 import pytest
 from decimal import Decimal
-from partners.utils.commission_utils import process_referral_commission
+from partners.utils.commission_utils import process_referral_commission, get_referral_commission_amount
 from partners.models import Commission
 from partners.tests.factories.partner_factory import PartnerFactory
 from users.tests.factories.user_factory import UserFactory
@@ -10,39 +10,80 @@ from payments.tests.factories.payment_factory import PaymentFactory
 @pytest.mark.django_db
 class TestCommissionUtils:
     def test_process_referral_commission_success(self):
-        partner = PartnerFactory()
+        partner = PartnerFactory(partner_type='non_delivery')
         user = UserFactory(referred_by_partner=partner)
-        plan = UpfrontPlanFactory(user=user, budget=100)
+        plan = UpfrontPlanFactory(user=user, budget=75)
         payment = PaymentFactory(user=user, order=plan.orderbase_ptr, status='succeeded')
-        
-        # Payment count is 1
+
         process_referral_commission(payment)
-        
+
         commission = Commission.objects.get(payment=payment)
         assert commission.partner == partner
-        assert commission.amount == Decimal('5.00') # 5% of 100
+        assert commission.amount == Decimal('5')
         assert commission.commission_type == 'referral'
 
     def test_process_referral_commission_no_partner(self):
         user = UserFactory(referred_by_partner=None)
         plan = UpfrontPlanFactory(user=user, budget=100)
         payment = PaymentFactory(user=user, order=plan.orderbase_ptr, status='succeeded')
-        
+
+        process_referral_commission(payment)
+        assert Commission.objects.count() == 0
+
+    def test_process_referral_commission_delivery_partner_skipped(self):
+        partner = PartnerFactory(partner_type='delivery')
+        user = UserFactory(referred_by_partner=partner)
+        plan = UpfrontPlanFactory(user=user, budget=100)
+        payment = PaymentFactory(user=user, order=plan.orderbase_ptr, status='succeeded')
+
         process_referral_commission(payment)
         assert Commission.objects.count() == 0
 
     def test_process_referral_commission_limit_exceeded(self):
-        partner = PartnerFactory()
+        partner = PartnerFactory(partner_type='non_delivery')
         user = UserFactory(referred_by_partner=partner)
         plan = UpfrontPlanFactory(user=user, budget=100)
-        
+
         # Create 3 previous succeeded payments
         for _ in range(3):
             PaymentFactory(user=user, order=plan.orderbase_ptr, status='succeeded')
-            
+
         # 4th succeeded payment
         payment = PaymentFactory(user=user, order=plan.orderbase_ptr, status='succeeded')
-        
+
         process_referral_commission(payment)
-        # Succeeded count is now 4, so it should NOT create a commission
         assert Commission.objects.count() == 0
+
+
+@pytest.mark.django_db
+class TestReferralCommissionTiers:
+    def test_budget_under_100(self):
+        assert get_referral_commission_amount(Decimal('50')) == Decimal('5')
+        assert get_referral_commission_amount(Decimal('99.99')) == Decimal('5')
+
+    def test_budget_under_150(self):
+        assert get_referral_commission_amount(Decimal('100')) == Decimal('10')
+        assert get_referral_commission_amount(Decimal('149.99')) == Decimal('10')
+
+    def test_budget_under_200(self):
+        assert get_referral_commission_amount(Decimal('150')) == Decimal('15')
+        assert get_referral_commission_amount(Decimal('199.99')) == Decimal('15')
+
+    def test_budget_under_250(self):
+        assert get_referral_commission_amount(Decimal('200')) == Decimal('20')
+        assert get_referral_commission_amount(Decimal('249.99')) == Decimal('20')
+
+    def test_budget_250_and_above(self):
+        assert get_referral_commission_amount(Decimal('250')) == Decimal('25')
+        assert get_referral_commission_amount(Decimal('500')) == Decimal('25')
+
+    def test_tiered_commission_applied_to_payment(self):
+        partner = PartnerFactory(partner_type='non_delivery')
+        user = UserFactory(referred_by_partner=partner)
+        plan = UpfrontPlanFactory(user=user, budget=175)
+        payment = PaymentFactory(user=user, order=plan.orderbase_ptr, status='succeeded')
+
+        process_referral_commission(payment)
+
+        commission = Commission.objects.get(payment=payment)
+        assert commission.amount == Decimal('15')

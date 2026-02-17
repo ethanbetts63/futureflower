@@ -5,9 +5,31 @@ import sys
 def load_db_from_latest_archive(command):
     base_archive_dir = os.path.join('data_management', 'data', 'archive', 'db_backups')
     load_order = [
-        'data_management.termsandconditions.json',
+        # Users & Core
         'users.user.json',
+        'sites.site.json',
+        
+        # Data Management
+        'data_management.termsandconditions.json',
+        'data_management.blockedemail.json',
+
+        # Events & Plans
+        'events.flowertype.json',
         'events.event.json',
+        'events.subscriptionplan.json',
+        'events.upfrontplan.json',
+        'events.orderbase.json',
+
+        # Partners
+        'partners.partner.json',
+        'partners.commission.json',
+        'partners.discountcode.json',
+        'partners.discountusage.json',
+        'partners.deliveryrequest.json',
+        'partners.payout.json',
+        'partners.payoutlineitem.json',
+        
+        # Payments
         'payments.payment.json',
     ]
 
