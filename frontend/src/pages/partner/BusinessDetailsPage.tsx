@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import ServiceAreaMap from '@/components/ServiceAreaMap';
+import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import { toast } from 'sonner';
 import { getPartnerDashboard, updatePartnerDetails } from '@/api/partners';
 
@@ -106,76 +107,79 @@ const BusinessDetailsPage: React.FC = () => {
       <Seo title="Business Details | FutureFlower" />
       <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
         <div className="container mx-auto max-w-4xl">
-        <Card className="bg-white text-black border-none shadow-none md:shadow-xl md:shadow-black/5 rounded-none md:rounded-[2rem] overflow-hidden">
           <form onSubmit={handleSubmit}>
-            <CardHeader className="px-4 md:px-8">
-              <CardTitle className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif]">Business Details</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6 px-4 md:px-8">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="business_name">Business Name</Label>
-                  <Input id="business_name" name="business_name" value={form.business_name} onChange={handleChange} />
+            <UnifiedSummaryCard
+              title="Business Details"
+              description="Update your business information and service area."
+              footer={
+                <div className="flex flex-row justify-between items-center w-full gap-4">
+                  <FlowBackButton to="/dashboard/partner" label="Dashboard" />
+                  <Button type="submit" size="lg" disabled={isSubmitting}>
+                    {isSubmitting && <Spinner className="mr-2 h-4 w-4" />}
+                    Save Changes
+                  </Button>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" name="phone" value={form.phone} onChange={handleChange} />
-                </div>
-              </div>
-
-              {isDelivery && (
-                <div className="border-t pt-6 space-y-4">
-                  <h3 className="font-semibold text-lg">Store Location</h3>
-
+              }
+            >
+              <div className="py-6 space-y-6">
+                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="street_address">Street Address</Label>
-                    <Input id="street_address" name="street_address" value={form.street_address} onChange={handleChange} />
+                    <Label htmlFor="business_name">Business Name</Label>
+                    <Input id="business_name" name="business_name" value={form.business_name} onChange={handleChange} />
                   </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="suburb">Suburb</Label>
-                      <Input id="suburb" name="suburb" value={form.suburb} onChange={handleChange} />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="city">City</Label>
-                      <Input id="city" name="city" value={form.city} onChange={handleChange} />
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone</Label>
+                    <Input id="phone" name="phone" value={form.phone} onChange={handleChange} />
                   </div>
-
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="state">State</Label>
-                      <Input id="state" name="state" value={form.state} onChange={handleChange} />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="postcode">Postcode</Label>
-                      <Input id="postcode" name="postcode" value={form.postcode} onChange={handleChange} />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="country">Country</Label>
-                      <Input id="country" name="country" value={form.country} onChange={handleChange} />
-                    </div>
-                  </div>
-
-                  <ServiceAreaMap
-                    latitude={latitude}
-                    longitude={longitude}
-                    radiusKm={radiusKm}
-                    onLocationChange={(lat, lng) => { setLatitude(lat); setLongitude(lng); }}
-                    onRadiusChange={setRadiusKm}
-                  />
                 </div>
-              )}
-            </CardContent>
-            <CardFooter className="flex justify-end border-t border-black/5 py-2 px-4 md:px-8">
-              <Button type="submit" size="lg" disabled={isSubmitting}>
-                {isSubmitting && <Spinner className="mr-2 h-4 w-4" />}
-                Save Changes
-              </Button>
-            </CardFooter>
+
+                {isDelivery && (
+                  <div className="border-t border-black/5 pt-6 space-y-4">
+                    <h3 className="font-semibold text-lg text-black">Store Location</h3>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="street_address">Street Address</Label>
+                      <Input id="street_address" name="street_address" value={form.street_address} onChange={handleChange} />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="suburb">Suburb</Label>
+                        <Input id="suburb" name="suburb" value={form.suburb} onChange={handleChange} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="city">City</Label>
+                        <Input id="city" name="city" value={form.city} onChange={handleChange} />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="state">State</Label>
+                        <Input id="state" name="state" value={form.state} onChange={handleChange} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="postcode">Postcode</Label>
+                        <Input id="postcode" name="postcode" value={form.postcode} onChange={handleChange} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="country">Country</Label>
+                        <Input id="country" name="country" value={form.country} onChange={handleChange} />
+                      </div>
+                    </div>
+
+                    <ServiceAreaMap
+                      latitude={latitude}
+                      longitude={longitude}
+                      radiusKm={radiusKm}
+                      onLocationChange={(lat, lng) => { setLatitude(lat); setLongitude(lng); }}
+                      onRadiusChange={setRadiusKm}
+                    />
+                  </div>
+                )}
+              </div>
+            </UnifiedSummaryCard>
           </form>
-        </Card>
         </div>
       </div>
     </>

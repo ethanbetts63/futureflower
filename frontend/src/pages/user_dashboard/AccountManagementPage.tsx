@@ -10,6 +10,7 @@ import { ChangePasswordForm } from '@/forms/ChangePasswordForm';
 import Seo from '@/components/Seo';
 import DeleteAccountSection from '@/components/DeleteAccountSection';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
 
 const AccountManagementPage: React.FC = () => {
     const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -91,9 +92,14 @@ const AccountManagementPage: React.FC = () => {
             <div className="container mx-auto max-w-4xl">
                 <Seo title="Manage Account | FutureFlower" />
                 
-                <UnifiedSummaryCard 
-                    title="Account Management" 
+                <UnifiedSummaryCard
+                    title="Account Management"
                     description="Update your personal details, manage security settings, and control your account data."
+                    footer={
+                        <div className="flex justify-start items-center w-full">
+                            <FlowBackButton to="/dashboard" label="Dashboard" />
+                        </div>
+                    }
                 >
                     {profile && (
                         <div className="py-6 border-b border-black/5">

@@ -9,6 +9,7 @@ import NextDeliveryCard from '@/components/NextDeliveryCard';
 import type { NextDeliveryInfo } from '../../types/NextDeliveryInfo';
 import UnifiedPlanTable from '@/components/UnifiedPlanTable';
 import UserDetailsSummary from '@/components/UserDetailsSummary';
+import SummarySection from '@/components/form_flow/SummarySection';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import Seo from '@/components/Seo';
@@ -73,26 +74,30 @@ const UserDashboardPage: React.FC = () => {
       <div className="container mx-auto max-w-4xl">
         <Seo title="Dashboard | FutureFlower" />
         
-        <UnifiedSummaryCard 
-          title="Welcome to Your Dashboard" 
-          description="This is your central hub for managing everything related to your Forever Flower account. Here you can get a quick overview of your flower plans, upcoming deliveries, and account details."
+        <UnifiedSummaryCard
+          title="Welcome to Your Dashboard"
+          description="Your central hub for managing your Forever Flower account."
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
-            {loading ? (
-              <div className="bg-white p-6 rounded-lg flex items-center justify-center col-span-1 md:col-span-2">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="ml-4 text-muted-foreground">Loading your summary...</p>
-              </div>
-            ) : (
-              <>
+          {loading ? (
+            <div className="py-12 flex items-center justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-black/20" />
+              <p className="ml-4 text-black/40">Loading your summary...</p>
+            </div>
+          ) : (
+            <>
+              <SummarySection label="Account Details">
                 <UserDetailsSummary user={user} />
+              </SummarySection>
+
+              <SummarySection label="Your Next Delivery">
                 <NextDeliveryCard deliveryInfo={nextDelivery} />
-                <div className="col-span-1 md:col-span-2 pt-4">
-                    <UnifiedPlanTable />
-                </div>
-              </>
-            )}
-          </div>
+              </SummarySection>
+
+              <SummarySection label="Your Flower Plans">
+                <UnifiedPlanTable />
+              </SummarySection>
+            </>
+          )}
         </UnifiedSummaryCard>
       </div>
     </div>
