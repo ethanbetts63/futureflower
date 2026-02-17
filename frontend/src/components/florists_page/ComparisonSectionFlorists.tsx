@@ -68,6 +68,9 @@ const ComparisonSection: React.FC = () => (
             </div>
           ))}
         </div>
+        <p className="mt-3 text-xs text-black/50 max-w-2xl w-full">
+          **For all customers you signed up and no rejection fee for customers we signed up.
+        </p>
       </div>
 
     </div>
