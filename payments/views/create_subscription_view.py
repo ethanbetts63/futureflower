@@ -59,6 +59,14 @@ class CreateSubscriptionView(APIView):
                 except stripe.error.StripeError:
                     pass
 
+            # Build metadata
+            metadata = {
+                'plan_id': plan.id,
+                'item_type': 'SUBSCRIPTION_PLAN_NEW'
+            }
+            if plan.discount_code:
+                metadata['discount_code'] = plan.discount_code.code
+
             # Create the PaymentIntent for the first delivery
             payment_intent = stripe.PaymentIntent.create(
                 amount=amount_in_cents,
@@ -66,10 +74,7 @@ class CreateSubscriptionView(APIView):
                 customer=user.stripe_customer_id,
                 setup_future_usage='off_session',
                 automatic_payment_methods={'enabled': True},
-                metadata={
-                    'plan_id': plan.id,
-                    'item_type': 'SUBSCRIPTION_PLAN_NEW'
-                }
+                metadata=metadata
             )
 
             # Create a corresponding Payment record

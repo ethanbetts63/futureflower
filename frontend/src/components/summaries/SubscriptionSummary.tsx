@@ -20,22 +20,23 @@ interface SubscriptionSummaryProps {
   flowerTypeMap: Map<number, FlowerType>;
   context: 'ordering' | 'management';
   planId: string;
+  onRefreshPlan?: () => void;
 }
 
-const SubscriptionSummary: React.FC<SubscriptionSummaryProps> = ({ 
-  plan, 
-  flowerTypeMap, 
-  context, 
-  planId 
+const SubscriptionSummary: React.FC<SubscriptionSummaryProps> = ({
+  plan,
+  flowerTypeMap,
+  context,
+  planId,
+  onRefreshPlan,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [discountCode, setDiscountCode] = useState<string | null>(null);
 
   const isOrdering = context === 'ordering';
-  
+
   // Base paths for editing
-  const editBasePath = isOrdering 
-    ? `/subscribe-flow/subscription-plan/${planId}` 
+  const editBasePath = isOrdering
+    ? `/subscribe-flow/subscription-plan/${planId}`
     : `/dashboard/subscription-plans/${planId}`;
 
   const preferredTypes = plan.preferred_flower_types
@@ -50,10 +51,10 @@ const SubscriptionSummary: React.FC<SubscriptionSummaryProps> = ({
         plan.status !== 'active' && <PlanActivationBanner planId={planId} />
       )}
 
-      <UnifiedSummaryCard 
-        title={isOrdering ? "Review Your Subscription" : "Subscription Overview"} 
-        description={isOrdering 
-          ? "Please review your subscription details below. This is the final step before payment." 
+      <UnifiedSummaryCard
+        title={isOrdering ? "Review Your Subscription" : "Subscription Overview"}
+        description={isOrdering
+          ? "Please review your subscription details below. This is the final step before payment."
           : "Review and manage the details of your active flower subscription."
         }
         footer={
@@ -63,7 +64,6 @@ const SubscriptionSummary: React.FC<SubscriptionSummaryProps> = ({
               <PaymentInitiatorButton
                 itemType="SUBSCRIPTION_PLAN_NEW"
                 details={{ subscription_plan_id: planId }}
-                discountCode={discountCode}
                 backPath={`${editBasePath}/confirmation`}
                 disabled={isSubmitting || !planId}
                 onPaymentInitiate={() => setIsSubmitting(true)}
@@ -90,8 +90,8 @@ const SubscriptionSummary: React.FC<SubscriptionSummaryProps> = ({
           editUrl={`${editBasePath}/edit-recipient`}
         />
 
-        <SummarySection 
-          label="Subscription Schedule" 
+        <SummarySection
+          label="Subscription Schedule"
           editUrl={`${editBasePath}/edit-structure`}
         >
           <div className="flex flex-col gap-3">
@@ -112,8 +112,8 @@ const SubscriptionSummary: React.FC<SubscriptionSummaryProps> = ({
         </SummarySection>
 
         {plan.subscription_message && (
-          <SummarySection 
-            label="Card Message" 
+          <SummarySection
+            label="Card Message"
             editUrl={`${editBasePath}/edit-structure`}
           >
             <div className="flex items-start bg-[var(--colorgreen)]/10 rounded-2xl border border-[var(--colorgreen)]/20 p-6">
@@ -131,8 +131,8 @@ const SubscriptionSummary: React.FC<SubscriptionSummaryProps> = ({
           editUrl={`${editBasePath}/edit-preferences`}
         />
 
-        <ImpactSummary 
-          price={Number(plan.budget)} 
+        <ImpactSummary
+          price={Number(plan.budget)}
           editUrl={`${editBasePath}/edit-structure`}
         />
 
@@ -141,7 +141,12 @@ const SubscriptionSummary: React.FC<SubscriptionSummaryProps> = ({
             <div className="flex items-start gap-3 mt-1">
               <Tag className="h-5 w-5 text-black/20 mt-1 flex-shrink-0" />
               <div className="flex-1">
-                <DiscountCodeInput onCodeValidated={(code) => setDiscountCode(code)} />
+                <DiscountCodeInput
+                  planId={planId}
+                  planType="subscription"
+                  existingCode={plan.discount_code_display}
+                  onDiscountApplied={() => onRefreshPlan?.()}
+                />
               </div>
             </div>
           </SummarySection>

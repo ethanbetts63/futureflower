@@ -79,5 +79,19 @@ When an active Upfront plan is modified (budget, years, or frequency), the syste
 ### 19. unused file? 
 C:\Users\ethan\coding\futureflower\events\views\public_upfront_price_view.py im fairly sure that this is not being used. C:\Users\ethan\coding\futureflower\events\urls.py but maybe im wrong. check me. 
 
-### 20. Get rid of the anonymization stuff. 
-It would be good to have but right now its overkill. 
+### 20. Get rid of the anonymization stuff.
+It would be good to have but right now its overkill.
+
+### 21. Payment Method Fraud Prevention for Discount Codes
+
+**Problem:** Discount codes are restricted to first-time customers, but this is only enforced per-account. A bad actor could create multiple accounts and reuse the same credit card to claim the discount repeatedly.
+
+**Ideal Solution (Option C — Pre-Confirmation Check):**
+
+1. Add a `stripe_payment_method_id` field to the `Payment` model to record which card/method was used for each payment.
+2. Change the payment intent to use `capture_method: 'manual'` when a discount code is involved. This authorizes the card but doesn't charge it yet.
+3. After the user attaches their payment method (but before confirming the charge), call Stripe to retrieve the payment method fingerprint (`payment_method.card.fingerprint`). Stripe assigns the same fingerprint to the same physical card regardless of which account uses it.
+4. Check your database: has this fingerprint been used on a *different* account that also used a discount code? If yes, reject the payment and cancel the intent.
+5. If clean, confirm the payment intent to capture the funds.
+
+**Why this is deferred:** It adds meaningful complexity (manual capture flow, fingerprint storage, new validation step) for a fraud vector that only matters at scale. The current per-account first-purchase check is sufficient for now. Revisit when discount code abuse becomes a measurable problem.

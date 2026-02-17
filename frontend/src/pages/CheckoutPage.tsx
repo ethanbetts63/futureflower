@@ -28,7 +28,7 @@ const CheckoutPage: React.FC = () => {
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const [planId, setPlanId] = useState<string | null>(null);
     const [itemType, setItemType] = useState<string | null>(null);
-    const [intentType, setIntentType] = useState<'payment' | 'setup' | null>(null); 
+    const [intentType, setIntentType] = useState<'payment' | 'setup' | null>(null);
     const [backPath, setBackPath] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [plan, setPlan] = useState<Plan | null>(null);
@@ -37,7 +37,7 @@ const CheckoutPage: React.FC = () => {
         const secret = location.state?.clientSecret;
         const id = location.state?.planId;
         const type = location.state?.itemType;
-        const intent = location.state?.intentType as 'payment' | 'setup'; 
+        const intent = location.state?.intentType as 'payment' | 'setup';
         const back = location.state?.backPath;
 
         if (secret && id && type && intent) {
@@ -55,7 +55,7 @@ const CheckoutPage: React.FC = () => {
                     } else if (type === 'UPFRONT_PLAN_NEW') {
                         fetchedPlan = await getUpfrontPlan(id);
                     } else if (type === 'SINGLE_DELIVERY_PLAN_NEW') {
-                        fetchedPlan = await getUpfrontPlanAsSingleDelivery(id); 
+                        fetchedPlan = await getUpfrontPlanAsSingleDelivery(id);
                     } else {
                         throw new Error(`Invalid itemType: ${type}`);
                     }
@@ -79,7 +79,7 @@ const CheckoutPage: React.FC = () => {
             </div>
         );
     }
-    
+
     if (!clientSecret || !planId || !itemType || !intentType || !plan) {
         if (!isLoading) {
             toast.error("Checkout session is invalid or has expired.");
@@ -94,7 +94,7 @@ const CheckoutPage: React.FC = () => {
     const planIsSubscription = 'stripe_subscription_id' in plan || !('years' in plan);
     const upfrontPlan = plan as UpfrontPlan;
     const isSingleDelivery = !planIsSubscription && upfrontPlan.years === 1 && upfrontPlan.frequency === 'annually';
-    
+
     const fullAddress = [
         plan.recipient_street_address,
         plan.recipient_suburb,
@@ -104,35 +104,26 @@ const CheckoutPage: React.FC = () => {
         plan.recipient_country
     ].filter(Boolean).join(', ');
 
+    const subtotal = Number(plan.subtotal);
+    const discountAmount = Number(plan.discount_amount);
+    const taxAmount = Number(plan.tax_amount);
     const totalPlanAmount = Number(plan.total_amount);
     const flowerBudget = Number(plan.budget);
     const tier = getImpactTier(flowerBudget);
-    
-    const deliveriesPerYear = {
-        'weekly': 52,
-        'fortnightly': 26,
-        'monthly': 12,
-        'quarterly': 4,
-        'bi-annually': 2,
-        'annually': 1,
-    }[plan.frequency?.toLowerCase() || 'annually'] || 1;
-
-    const totalDeliveries = !planIsSubscription ? (upfrontPlan.years * deliveriesPerYear) : 1;
-    const totalFlowerValue = flowerBudget * totalDeliveries;
 
     const planName = planIsSubscription ? "Flower Subscription" : (isSingleDelivery ? "Single Delivery" : "Upfront Plan");
 
     return (
         <>
             <Seo title="Complete Your Order | FutureFlower" />
-            <StepProgressBar 
-                planName={planName} 
-                currentStep={planIsSubscription || isSingleDelivery ? 4 : 5} 
-                totalSteps={planIsSubscription || isSingleDelivery ? 4 : 5} 
+            <StepProgressBar
+                planName={planName}
+                currentStep={planIsSubscription || isSingleDelivery ? 4 : 5}
+                totalSteps={planIsSubscription || isSingleDelivery ? 4 : 5}
                 isReview={true}
                 customLabel="Payment"
             />
-            
+
             <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
                 <div className="container mx-auto px-0 md:px-4 max-w-4xl">
                     <UnifiedSummaryCard
@@ -205,9 +196,21 @@ const CheckoutPage: React.FC = () => {
                         <SummarySection label="Order Total">
                             <div className="space-y-3 bg-black/5 rounded-2xl p-4 mt-1">
                                 <div className="flex items-center justify-between text-sm">
-                                    <span className="text-black/60">Flower Value {!planIsSubscription && `(x${totalDeliveries} deliveries)`}</span>
-                                    <span className="font-semibold">${totalFlowerValue.toFixed(2)}</span>
+                                    <span className="text-black/60">Subtotal</span>
+                                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
                                 </div>
+                                {discountAmount > 0 && (
+                                    <div className="flex items-center justify-between text-sm text-green-600">
+                                        <span>Discount</span>
+                                        <span className="font-semibold">-${discountAmount.toFixed(2)}</span>
+                                    </div>
+                                )}
+                                {taxAmount > 0 && (
+                                    <div className="flex items-center justify-between text-sm">
+                                        <span className="text-black/60">Tax</span>
+                                        <span className="font-semibold">${taxAmount.toFixed(2)}</span>
+                                    </div>
+                                )}
                                 <div className="flex items-center justify-between text-sm">
                                     <span className="text-black/60">Delivery</span>
                                     <span className="font-semibold">$0.00</span>
@@ -231,7 +234,7 @@ const CheckoutPage: React.FC = () => {
                         <SummarySection label="Payment Details">
                             <div>
                                 <Elements options={options} stripe={stripePromise}>
-                                    <CheckoutForm 
+                                    <CheckoutForm
                                         planId={planId}
                                         source="checkout"
                                         intentType={intentType}

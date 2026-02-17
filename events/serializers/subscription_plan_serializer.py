@@ -15,6 +15,10 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
     payments = PaymentSerializer(many=True, read_only=True)
     next_payment_date = serializers.SerializerMethodField()
     next_delivery_date = serializers.SerializerMethodField()
+    discount_code_display = serializers.SerializerMethodField()
+
+    def get_discount_code_display(self, obj):
+        return obj.discount_code.code if obj.discount_code else None
 
     def validate_start_date(self, value):
         """
@@ -45,7 +49,8 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
             'recipient_postcode', 'recipient_country', 'delivery_notes',
             'created_at', 'updated_at', 'preferred_flower_types', 'flower_notes',
             'start_date', 'budget',
-            'frequency', 'total_amount', 'stripe_subscription_id', 'subscription_message',
+            'frequency', 'subtotal', 'discount_amount', 'tax_amount', 'total_amount', 'discount_code_display',
+            'stripe_subscription_id', 'subscription_message',
             'payments', 'next_payment_date', 'next_delivery_date'
         ]
         read_only_fields = ['user', 'status', 'stripe_subscription_id', 'created_at', 'updated_at', 'next_payment_date', 'next_delivery_date']
@@ -63,8 +68,8 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
         
         budget = validated_data.get('budget')
         if budget:
-            validated_data['total_amount'] = self._calculate_total_amount(budget)
-            
+            validated_data['subtotal'] = self._calculate_total_amount(budget)
+
         return super().create(validated_data)
 
     @staticmethod
@@ -79,6 +84,6 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
         if budget is not None or 'frequency' in validated_data:
             effective_budget = budget if budget is not None else instance.budget
             if effective_budget:
-                validated_data['total_amount'] = self._calculate_total_amount(effective_budget)
+                validated_data['subtotal'] = self._calculate_total_amount(effective_budget)
 
         return super().update(instance, validated_data)

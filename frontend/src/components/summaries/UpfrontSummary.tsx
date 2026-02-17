@@ -20,24 +20,25 @@ interface UpfrontSummaryProps {
   flowerTypeMap: Map<number, FlowerType>;
   context: 'ordering' | 'management';
   planId: string;
+  onRefreshPlan?: () => void;
 }
 
-const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({ 
-  plan, 
-  flowerTypeMap, 
-  context, 
-  planId 
+const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
+  plan,
+  flowerTypeMap,
+  context,
+  planId,
+  onRefreshPlan,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [discountCode, setDiscountCode] = useState<string | null>(null);
 
   const isOrdering = context === 'ordering';
   const isSingleDelivery = plan.years === 1 && plan.frequency === 'annually' && plan.status !== 'active';
-  
+
   // Base paths for editing
-  const editBasePath = isOrdering 
-    ? (isSingleDelivery 
-        ? `/single-delivery-flow/plan/${planId}` 
+  const editBasePath = isOrdering
+    ? (isSingleDelivery
+        ? `/single-delivery-flow/plan/${planId}`
         : `/upfront-flow/upfront-plan/${planId}`)
     : `/dashboard/upfront-plans/${planId}`;
 
@@ -47,7 +48,7 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
 
   const messages = plan.draft_card_messages || {};
   const events = plan.events || [];
-  
+
   // For Single Delivery or context where we want to highlight the main message
   const firstDraftMessage = messages['0'] || '';
   const firstEventMessage = events[0]?.message || '';
@@ -56,21 +57,21 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
   return (
     <div className="space-y-8">
       {isOrdering ? (
-        <StepProgressBar 
-          planName={isSingleDelivery ? "Single Delivery" : "Upfront Plan"} 
-          currentStep={isSingleDelivery ? 4 : 5} 
-          totalSteps={isSingleDelivery ? 4 : 5} 
-          isReview={true} 
+        <StepProgressBar
+          planName={isSingleDelivery ? "Single Delivery" : "Upfront Plan"}
+          currentStep={isSingleDelivery ? 4 : 5}
+          totalSteps={isSingleDelivery ? 4 : 5}
+          isReview={true}
         />
       ) : (
         plan.status !== 'active' && <PlanActivationBanner planId={planId} />
       )}
 
-      <UnifiedSummaryCard 
-        title={isOrdering ? (isSingleDelivery ? "Confirm Your Delivery" : "Review Your Flower Plan") : "Plan Overview"} 
-        description={isOrdering 
-          ? (isSingleDelivery 
-              ? "Please review the details of your order before proceeding to payment." 
+      <UnifiedSummaryCard
+        title={isOrdering ? (isSingleDelivery ? "Confirm Your Delivery" : "Review Your Flower Plan") : "Plan Overview"}
+        description={isOrdering
+          ? (isSingleDelivery
+              ? "Please review the details of your order before proceeding to payment."
               : "This is the final step before activating your flower plan. Please ensure everything is correct.")
           : "Review and manage the details of your scheduled flower plan."
         }
@@ -81,7 +82,6 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
               <PaymentInitiatorButton
                 itemType="UPFRONT_PLAN_NEW"
                 details={{ upfront_plan_id: planId }}
-                discountCode={discountCode}
                 backPath={`${editBasePath}/confirmation`}
                 disabled={isSubmitting || !planId}
                 onPaymentInitiate={() => setIsSubmitting(true)}
@@ -110,8 +110,8 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
 
         {isSingleDelivery && isOrdering ? (
           /* Specialized Single Delivery Schedule for Ordering */
-          <SummarySection 
-            label="Delivery Date" 
+          <SummarySection
+            label="Delivery Date"
             editUrl={`${editBasePath}/structure`}
           >
             <div className="flex items-center gap-3">
@@ -131,8 +131,8 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
           </SummarySection>
         ) : (
           /* Standard Upfront Plan Schedule */
-          <SummarySection 
-            label="Plan Schedule" 
+          <SummarySection
+            label="Plan Schedule"
             editUrl={`${editBasePath}/edit-structure`}
           >
             <div className="flex flex-col gap-4">
@@ -142,7 +142,7 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
                   {plan.frequency} Plan — {plan.years} {plan.years === 1 ? 'Year' : 'Years'}
                 </span>
               </div>
-              
+
               <div className="bg-black/5 rounded-2xl p-6">
                 <h5 className="text-xs font-bold tracking-widest uppercase text-black mb-4">
                   {isOrdering ? 'Planned Deliveries' : 'Upcoming Deliveries'}
@@ -170,8 +170,8 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
 
         {(isSingleDelivery && isOrdering && mainMessage) && (
           /* Single Delivery Highlights the Message as a Top-Level section in ordering */
-          <SummarySection 
-            label="Card Message" 
+          <SummarySection
+            label="Card Message"
             editUrl={`${editBasePath}/structure`}
           >
             <div className="flex items-start bg-[var(--colorgreen)]/10 rounded-2xl border border-[var(--colorgreen)]/20 p-4">
@@ -189,8 +189,8 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
           editUrl={`${editBasePath}/edit-preferences`}
         />
 
-        <ImpactSummary 
-          price={Number(plan.budget)} 
+        <ImpactSummary
+          price={Number(plan.budget)}
           editUrl={`${editBasePath}/edit-structure`}
         />
 
@@ -199,7 +199,12 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
             <div className="flex items-start gap-3 mt-1">
               <Tag className="h-5 w-5 text-black/20 mt-1 flex-shrink-0" />
               <div className="flex-1">
-                <DiscountCodeInput onCodeValidated={(code) => setDiscountCode(code)} />
+                <DiscountCodeInput
+                  planId={planId}
+                  planType="upfront"
+                  existingCode={plan.discount_code_display}
+                  onDiscountApplied={() => onRefreshPlan?.()}
+                />
               </div>
             </div>
           </SummarySection>

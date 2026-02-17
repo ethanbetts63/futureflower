@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from django.conf import settings
 
@@ -45,9 +46,27 @@ class OrderBase(models.Model):
         max_digits=10, decimal_places=2, null=True, blank=True,
         help_text="The budget per bouquet."
     )
+    subtotal = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0,
+        help_text="Output of the pricing formula before discounts/tax."
+    )
+    discount_code = models.ForeignKey(
+        'partners.DiscountCode',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        help_text="The discount code applied to this order."
+    )
+    discount_amount = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0,
+        help_text="The discount amount applied to this order."
+    )
+    tax_amount = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0,
+        help_text="Tax amount (placeholder for future use)."
+    )
     total_amount = models.DecimalField(
         max_digits=10, decimal_places=2, null=True, blank=True,
-        help_text="The final total amount for the plan (budget + fees)."
+        help_text="The final total amount for the plan, auto-computed on save."
     )
     frequency = models.CharField(
         max_length=20,
@@ -103,6 +122,14 @@ class OrderBase(models.Model):
         blank=True,
         help_text="Staging area for card messages before payment. Keyed by delivery index (e.g. {'0': 'Happy Birthday!'}). Consumed when events are created on payment."
     )
+
+    def save(self, *args, **kwargs):
+        self.total_amount = (
+            (self.subtotal or Decimal('0'))
+            - (self.discount_amount or Decimal('0'))
+            + (self.tax_amount or Decimal('0'))
+        )
+        super().save(*args, **kwargs)
 
     def __str__(self):
         # This will show the specific type of order (e.g., "Upfront Plan")

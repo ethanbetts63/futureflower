@@ -17,7 +17,11 @@ export interface OrderBase {
     recipient_country: string | null;
 
     budget: number;
+    subtotal: number;
+    discount_amount: number;
+    tax_amount: number;
     total_amount: number;
+    discount_code_display: string | null;
     frequency: string;
 
     preferred_delivery_time: string | null;

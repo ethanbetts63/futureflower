@@ -1,12 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from partners.serializers import ValidateDiscountCodeSerializer
 
 
 class ValidateDiscountCodeView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = ValidateDiscountCodeSerializer(
@@ -14,4 +13,4 @@ class ValidateDiscountCodeView(APIView):
             context={'request': request}
         )
         serializer.is_valid(raise_exception=True)
-        return Response(serializer.get_discount_info())
+        return Response(serializer.apply_discount())

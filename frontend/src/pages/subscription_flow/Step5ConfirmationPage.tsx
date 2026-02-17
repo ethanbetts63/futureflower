@@ -22,7 +22,7 @@ const Step5ConfirmationPage: React.FC = () => {
       <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-0 md:px-4 max-w-4xl">
           <PlanDisplay getPlan={getSubscriptionPlan} fallbackNavigationPath="/dashboard">
-            {({ plan, flowerTypeMap }: { plan: Plan; flowerTypeMap: Map<number, FlowerType> }) => {
+            {({ plan, flowerTypeMap, refreshPlan }: { plan: Plan; flowerTypeMap: Map<number, FlowerType>; refreshPlan: () => Promise<void> }) => {
               if (!isSubscriptionPlan(plan)) return null;
 
               return (
@@ -31,6 +31,7 @@ const Step5ConfirmationPage: React.FC = () => {
                   flowerTypeMap={flowerTypeMap}
                   context="ordering"
                   planId={planId || ''}
+                  onRefreshPlan={refreshPlan}
                 />
               );
             }}

@@ -126,7 +126,7 @@ class UpfrontPlanViewSet(viewsets.ModelViewSet):
             frequency=upfront_plan.frequency,
             years=upfront_plan.years,
         )
-        upfront_plan.total_amount = upfront_price
+        upfront_plan.subtotal = upfront_price
         upfront_plan.save()
     
     def partial_update(self, request, *args, **kwargs):

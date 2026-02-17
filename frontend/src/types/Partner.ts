@@ -63,9 +63,10 @@ export interface PayoutSummary {
 }
 
 export interface DiscountCodeValidation {
-  code: string;
+  code: string | null;
   discount_amount: string;
-  partner_name: string;
+  partner_name: string | null;
+  new_total_amount?: string;
 }
 
 export type DiscountValidationResult = DiscountCodeValidation;

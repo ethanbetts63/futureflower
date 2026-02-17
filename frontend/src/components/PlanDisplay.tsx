@@ -75,7 +75,17 @@ function PlanDisplay<T extends Plan = Plan>({
         );
     }
 
-    return <>{children({ plan, flowerTypeMap })}</>;
+    const refreshPlan = async () => {
+        if (!planId) return;
+        try {
+            const planData = await getPlan(planId);
+            setPlan(planData);
+        } catch (err) {
+            console.error('Failed to refresh plan:', err);
+        }
+    };
+
+    return <>{children({ plan, flowerTypeMap, refreshPlan })}</>;
 };
 
 export default PlanDisplay;

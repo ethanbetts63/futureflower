@@ -28,7 +28,14 @@ class UpfrontPlanSerializer(serializers.ModelSerializer):
 
     # Make total_amount and currency explicitly writable fields
     total_amount = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, allow_null=True)
+    subtotal = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, allow_null=True)
+    discount_amount = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, read_only=True)
+    tax_amount = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, read_only=True)
+    discount_code_display = serializers.SerializerMethodField()
     currency = serializers.CharField(max_length=3, required=False, allow_null=True)
+
+    def get_discount_code_display(self, obj):
+        return obj.discount_code.code if obj.discount_code else None
 
     def validate_start_date(self, value):
         """
@@ -55,7 +62,7 @@ class UpfrontPlanSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'user', 'status', 'start_date', 'budget', 'frequency',
             'years', 'delivery_notes', 'created_at', 'updated_at',
-            'total_amount', 'currency',
+            'subtotal', 'discount_amount', 'tax_amount', 'total_amount', 'discount_code_display', 'currency',
             'recipient_first_name', 'recipient_last_name',
             'recipient_street_address', 'recipient_suburb', 'recipient_city',
             'recipient_state', 'recipient_postcode', 'recipient_country',
@@ -74,7 +81,7 @@ class UpfrontPlanSerializer(serializers.ModelSerializer):
 
         if all(x is not None for x in [budget, frequency, years]):
             new_total, _ = forever_flower_upfront_price(Decimal(budget), frequency, int(years))
-            validated_data['total_amount'] = new_total
+            validated_data['subtotal'] = new_total
 
         return super().create(validated_data)
 
@@ -104,7 +111,7 @@ class UpfrontPlanSerializer(serializers.ModelSerializer):
 
             if all([new_budget, new_freq, new_years]):
                 new_total, _ = forever_flower_upfront_price(new_budget, new_freq, new_years)
-                validated_data['total_amount'] = new_total
+                validated_data['subtotal'] = new_total
 
         # Allow updates for inactive plans or other fields
         return super().update(instance, validated_data)

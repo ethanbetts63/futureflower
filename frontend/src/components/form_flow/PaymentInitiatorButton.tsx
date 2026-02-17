@@ -13,7 +13,6 @@ import { cn } from '@/utils/utils';
 interface PaymentInitiatorButtonProps extends ButtonProps {
   itemType: 'UPFRONT_PLAN_MODIFY' | 'UPFRONT_PLAN_NEW' | 'SUBSCRIPTION_PLAN_NEW' | 'SINGLE_DELIVERY_PLAN_NEW';
   details: CreatePaymentIntentPayload['details'];
-  discountCode?: string | null;
   backPath?: string;
   onPaymentInitiate?: () => void;
   onPaymentSuccess?: (clientSecret: string) => void;
@@ -23,7 +22,6 @@ interface PaymentInitiatorButtonProps extends ButtonProps {
 const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
   itemType,
   details,
-  discountCode,
   backPath,
   onClick,
   onPaymentInitiate,
@@ -56,12 +54,9 @@ const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
         const response = await createSubscription(payload);
         clientSecret = response.clientSecret;
       } else {
-        const detailsWithDiscount = discountCode
-          ? { ...details, discount_code: discountCode }
-          : details;
         const payload = {
           item_type: itemType,
-          details: detailsWithDiscount,
+          details,
         };
         const response = await createPaymentIntent(payload);
         clientSecret = response.clientSecret;
@@ -73,7 +68,7 @@ const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
         const idToPass = details.upfront_plan_id || details.subscription_plan_id || details.one_time_order_id || details.single_delivery_plan_id;
         // Subscriptions now use 'payment' intent because we take the first payment immediately
         const intentType = 'payment';
-        
+
         // Default navigation behavior, now including itemType, intentType, and backPath
         navigate('/checkout', { state: { clientSecret, planId: idToPass, itemType: itemType, intentType: intentType, backPath: backPath } });
       }
