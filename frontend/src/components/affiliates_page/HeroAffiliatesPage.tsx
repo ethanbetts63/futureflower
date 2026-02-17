@@ -2,12 +2,12 @@ import React from 'react';
 import { ArrowDown } from 'lucide-react';
 import { BecomePartnerButton } from '../florists_page/BecomePartnerButton'; // Reusing the button component
 
-import heroAffiliateImage from '../../assets/florist_packing.webp'; // Placeholder image
-import heroAffiliateImage320 from '../../assets/florist_packing-320w.webp'; // Placeholder image
-import heroAffiliateImage640 from '../../assets/florist_packing-640w.webp'; // Placeholder image
-import heroAffiliateImage768 from '../../assets/florist_packing-768w.webp'; // Placeholder image
-import heroAffiliateImage1024 from '../../assets/florist_packing-1024w.webp'; // Placeholder image
-import heroAffiliateImage1280 from '../../assets/florist_packing-1280w.webp'; // Placeholder image
+import deliveryImage from '../../assets/delivery.webp';
+import deliveryImage320 from '../../assets/delivery-320w.webp';
+import deliveryImage640 from '../../assets/delivery-640w.webp';
+import deliveryImage768 from '../../assets/delivery-768w.webp';
+import deliveryImage1024 from '../../assets/delivery_med.png';
+import deliveryImage1280 from '../../assets/delivery_high.png';
 
 
 interface HeroAffiliatesPageProps {
@@ -20,14 +20,14 @@ export const HeroAffiliatesPage: React.FC<HeroAffiliatesPageProps> = ({ scrollTo
       <picture className="absolute inset-0 w-full h-full">
         <source
           media="(min-width: 768px)"
-          srcSet={`${heroAffiliateImage320} 320w, ${heroAffiliateImage640} 640w, ${heroAffiliateImage768} 768w, ${heroAffiliateImage1024} 1024w, ${heroAffiliateImage1280} 1280w`}
+          srcSet={`${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`}
           sizes="100vw"
         />
         <img
-          src={heroAffiliateImage}
-          srcSet={`${heroAffiliateImage320} 320w, ${heroAffiliateImage640} 640w, ${heroAffiliateImage768} 768w, ${heroAffiliateImage1024} 1024w, ${heroAffiliateImage1280} 1280w`}
+          src={deliveryImage}
+          srcSet={`${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`}
           sizes="100vw"
-          alt="Person arranging flowers, representing affiliate influence" // SEO Alt Text
+          alt="Person receiving flowers, representing affiliate rewards" // SEO Alt Text
           fetchPriority="high"
           className="w-full h-full object-cover"
         />
@@ -48,7 +48,7 @@ export const HeroAffiliatesPage: React.FC<HeroAffiliatesPageProps> = ({ scrollTo
             <span className="text-sm font-medium">Read more</span>
             <ArrowDown className="h-4 w-4 animate-bounce" />
           </button>
-          <BecomePartnerButton buttonText="Get Started" /> {/* Reusing and customizing text */}
+          <BecomePartnerButton /> {/* Reusing and customizing text */}
         </div>
       </div>
     </section>
