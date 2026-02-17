@@ -1,7 +1,8 @@
 # Home Page - Textual Representation
 
 ## Navigation (NavBar)
-*   **Logo/Title:** FUTUREFLOWER
+*   **Logo:** FutureFlower Logo image
+*   **Center Title:** FUTUREFLOWER (Visible on medium screens and larger)
 *   **Buttons:**
     *   Login
     *   Order (Includes icon: Flower symbol and Arrow pointing right)
@@ -9,10 +10,12 @@
         *   Dashboard (Includes icon: Settings cog)
         *   Logout (Includes icon: Logout)
         *   Order (Includes icon: Flower symbol and Arrow pointing right)
+*   **Mobile Behavior:** Burger menu toggle for navigation items.
 
 ## SEO Information
 *   **Title:** FutureFlower | Flower Subscription Service
 *   **Description:** The most romantic gestures are those that plan for a future together. Choose the dates, set the budget, and we organize flower deliveries, time after time - turning one decision into a lifetime of meaningful moments.
+*   **OG Image:** /og-images/og-homepage.webp
 *   **Hero Image Alt Text:** A woman holding a large bouquet of flowers.
 *   **Romance Section Image Alt Text:** A beautiful bouquet of flowers on a kitchen table with a couple dancing in the background.
 *   **Delivery Section Image Alt Text:** Florist delivering a bouquet of flowers.
@@ -89,13 +92,13 @@ Scrollable list of operating countries including: United Kingdom, France, German
 
 **Extra Info:**
 *   *Then how do you make money?*
-*   We charge a transparent 10%. Our competitors slip in a 20–30% commission and often keep the delivery fee. That's how we can be cheaper and still give florists 100% of the flower budget.
+*   Where our competitors slip in a 20–40% commission, monthly fees, and delivery cuts, we charge a simple 10%. You get more, the florist gets more, and we get customers that keep coming back.
 
 **Table:** "How Big Online Platforms Compare"
 
 | Feature | Big Networks | FutureFlower |
 | :--- | :--- | :--- |
-| **Commission** | 20–40% per order | **0%** |
+| **Commission** | 20–40% per order | **10%** |
 | **Monthly Fees** | Often $100–$200+ monthly | **$0** |
 | **Order Rejection** | $10–$25 penalty for rejecting | **$0** |
 | **Delivery Fee** | Often retain delivery margin | **Fully Paid** |
@@ -155,4 +158,4 @@ Scrollable list of operating countries including: United Kingdom, France, German
     *   Contact Us
     *   Terms & Conditions
     *   *If Staff:* Admin Dashboard
-*   **Payment Badge:** Powered by Stripe
+*   **Payment Badge:** Powered by Stripe (Logo)
