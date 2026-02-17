@@ -25,12 +25,9 @@ class ValidateDiscountCodeSerializer(serializers.Serializer):
             return value
 
         try:
-            discount_code = DiscountCode.objects.select_related('partner', 'partner__user').get(code=value)
+            discount_code = DiscountCode.objects.select_related('partner', 'partner__user').get(code=value, is_active=True)
         except DiscountCode.DoesNotExist:
             raise serializers.ValidationError("This discount code does not exist.")
-
-        if not discount_code.is_active:
-            raise serializers.ValidationError("This discount code is no longer active.")
 
         if discount_code.partner.status != 'active':
             raise serializers.ValidationError("This discount code is not currently valid.")
@@ -62,7 +59,7 @@ class ValidateDiscountCodeSerializer(serializers.Serializer):
                 'new_total_amount': str(plan.total_amount),
             }
 
-        discount_code = DiscountCode.objects.select_related('partner').get(code=code)
+        discount_code = DiscountCode.objects.select_related('partner').get(code=code, is_active=True)
 
         plan.discount_code = discount_code
         plan.discount_amount = discount_code.discount_amount

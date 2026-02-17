@@ -82,6 +82,6 @@ class PartnerRegistrationSerializer(serializers.Serializer):
 
         # Create discount code for all partners
         code = DiscountCode.generate_code(validated_data.get('business_name', ''))
-        DiscountCode.objects.create(partner=partner, code=code)
+        DiscountCode.objects.create(partner=partner, code=code, discount_amount=5)
 
         return user

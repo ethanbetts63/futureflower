@@ -39,7 +39,7 @@ def handle_payment_intent_succeeded(payment_intent):
             if discount_code_str:
                 try:
                     from partners.models import DiscountCode, DiscountUsage
-                    dc = DiscountCode.objects.get(code__iexact=discount_code_str)
+                    dc = DiscountCode.objects.get(code__iexact=discount_code_str, is_active=True)
                     if not DiscountUsage.objects.filter(payment=payment).exists():
                         DiscountUsage.objects.create(
                             discount_code=dc,
