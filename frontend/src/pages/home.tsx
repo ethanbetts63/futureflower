@@ -12,7 +12,7 @@ import type { FaqItem } from '@/types/FaqItem';
 import { ArticleCarousel } from '../components/home_page/ArticleCarousel';
 import AnnouncementBar from '../components/home_page/AnnouncementBar';
 import OfferingSection from '../components/home_page/OfferingSection';
-import ComparisonSection from '../components/home_page/ComparisonSection';
+import ComparisonSection from '../components/home_page/ComparisonSectionHome';
 
 
 const HomePage = () => {
