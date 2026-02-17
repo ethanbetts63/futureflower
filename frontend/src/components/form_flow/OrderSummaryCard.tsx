@@ -91,9 +91,6 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType })
     }[plan.frequency?.toLowerCase() || 'annually'] || 1;
 
     const totalDeliveries = planIsUpfront ? ((plan as UpfrontPlan).years * deliveriesPerYear) : 1;
-    const totalFlowerValue = flowerBudget * totalDeliveries;
-    const totalServiceFee = totalPlanAmount - totalFlowerValue;
-
     const planType = planIsSubscription ? 'Subscription' : (planIsSingleDelivery ? 'Single Delivery' : 'Upfront Plan');
     const capitalizedFrequency = plan.frequency ? plan.frequency.charAt(0).toUpperCase() + plan.frequency.slice(1) : null;
 

@@ -119,7 +119,6 @@ const CheckoutPage: React.FC = () => {
 
     const totalDeliveries = !planIsSubscription ? (upfrontPlan.years * deliveriesPerYear) : 1;
     const totalFlowerValue = flowerBudget * totalDeliveries;
-    const totalServiceFee = totalPlanAmount - totalFlowerValue;
 
     const planName = planIsSubscription ? "Flower Subscription" : (isSingleDelivery ? "Single Delivery" : "Upfront Plan");
 
