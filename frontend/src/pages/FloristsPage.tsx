@@ -1,6 +1,11 @@
 import { useRef } from 'react';
 import Seo from '../components/Seo';
+import { ProductCarousel } from '../components/home_page/ProductCarousel';
+import type { ProductCarouselStep } from '../components/home_page/ProductCarousel';
 import { FaqV2 } from '../components/FaqV2';
+import floristPackingImage from '../assets/florist_packing.webp';
+import petalImage from '../assets/petal.png';
+import deliveryHighImage from '../assets/delivery_high.png';
 import { Timeline } from '../components/florists_page/Timeline';
 import { SendBusinessYourWay } from '../components/florists_page/SendBusinessYourWay';
 import { ValuePropsA } from '../components/florists_page/ValuePropsA';
@@ -17,6 +22,30 @@ const FloristsPage = () => {
   const scrollToContent = () => {
     contentRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const floristHowItWorksSteps: ProductCarouselStep[] = [
+    {
+      level: 1,
+      title: 'Set Up Your Link and/or QR Code.',
+      description:
+        'Display your unique discount code (instore poster / website link). The discount comes out of our margin, not yours.',
+      image: floristPackingImage, // TODO: replace with QR code image
+    },
+    {
+      level: 2,
+      title: 'Customer Makes Their Order.',
+      description:
+        'Customers selects budget, preferences, and delivery details. These will all be provided to you.',
+      image: petalImage, // TODO: replace with customer ordering image
+    },
+    {
+      level: 3,
+      title: 'You Accept or Reject Orders.',
+      description:
+        'Recieve a text and email with an acceptance link. Accept and handle the delivery yourself, or reject for a tiered reward ($5–$25) depending on the bouquet value.',
+      image: deliveryHighImage, // TODO: replace with florist delivery image
+    },
+  ];
 
   const floristFaqs: FaqItem[] = [
     {
@@ -56,8 +85,17 @@ const FloristsPage = () => {
 
       <WhyFutureFlowerSection />
 
+      <section className="bg-primary">
+        <ProductCarousel
+          title="How It Works"
+          subtitle="Set up once, earn ongoing revenue. No admin, no complexity, no cost."
+          steps={floristHowItWorksSteps}
+        />
+      </section>
+
       <ServicesCarouselSection />
       <Timeline />
+
       <SendBusinessYourWay />
 
       <SoWhatsTheCatchSection />

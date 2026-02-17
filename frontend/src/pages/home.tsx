@@ -1,5 +1,9 @@
 import Seo from '../components/Seo';
 import { ProductCarousel } from '../components/home_page/ProductCarousel';
+import type { ProductCarouselStep } from '../components/home_page/ProductCarousel';
+import petalImage from '../assets/petal.png';
+import floristMakingFlowersImage from '../assets/florist_making_flowers.png';
+import deliveryHighImage from '../assets/delivery_high.png';
 import { FaqV2 } from '../components/FaqV2';
 import { HeroV2 } from '../components/home_page/HeroV2';
 import { DeliverySection } from '../components/home_page/DeliverySection';
@@ -23,6 +27,30 @@ const HomePage = () => {
       "name": "Ethan Betts"
     }
   };
+
+  const howItWorksSteps: ProductCarouselStep[] = [
+    {
+      level: 1,
+      title: 'Choose the Vibe.',
+      description:
+        'Birthday. Romantic. Sympathy. Celebration. Just because. We design around your preferences.',
+      image: petalImage,
+    },
+    {
+      level: 2,
+      title: 'Choose the Impact.',
+      description:
+        'A thoughtful gesture. A classic arrangement. A statement piece. You set the budget — our florists design accordingly.',
+      image: floristMakingFlowersImage,
+    },
+    {
+      level: 3,
+      title: 'We handle the rest.',
+      description:
+        'A local florist creates something unique and beautiful. No catalog copies. No warehouse stock. Just real floristry.',
+      image: deliveryHighImage,
+    },
+  ];
 
   const homeFaqs: FaqItem[] = [
     {
@@ -55,7 +83,11 @@ const HomePage = () => {
 
       {/* --- Hierarchy Section --- */}
       <section className="bg-primary">
-        <ProductCarousel />
+        <ProductCarousel
+          title="How It Works"
+          subtitle="Meaningful flowers on meaningful dates, minus the effort. One decision, no hassle."
+          steps={howItWorksSteps}
+        />
       </section>
 
       <OfferingSection />

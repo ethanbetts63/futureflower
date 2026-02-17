@@ -1,43 +1,27 @@
-import petalImage from '../../assets/petal.png';
-import floristMakingFlowersImage from '../../assets/florist_making_flowers.png';
-import deliveryHighImage from '../../assets/delivery_high.png';
+export interface ProductCarouselStep {
+  level: number;
+  title: string;
+  description: string;
+  image: string;
+}
 
-const steps = [
-  {
-    level: 1,
-    title: 'Choose the Vibe.',
-    description:
-      'Birthday. Romantic. Sympathy. Celebration. Just because. We design around your preferences.',
-    image: petalImage,
-  },
-  {
-    level: 2,
-    title: 'Choose the Impact.',
-    description:
-      'A thoughtful gesture. A classic arrangement. A statement piece. You set the budget — our florists design accordingly.',
-    image: floristMakingFlowersImage,
-  },
-  {
-    level: 3,
-    title: 'We handle the rest.',
-    description:
-      'A local florist creates something unique and beautiful. No catalog copies. No warehouse stock. Just real floristry.',
-    image: deliveryHighImage,
-  },
-];
+interface ProductCarouselProps {
+  title: string;
+  subtitle: string;
+  steps: ProductCarouselStep[];
+}
 
-export const ProductCarousel = () => {
+export const ProductCarousel = ({ title, subtitle, steps }: ProductCarouselProps) => {
   return (
     <div className="w-full pt-6 pb-6">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black font-['Playfair_Display',_serif] tracking-tight">
-            How It Works
+            {title}
           </h2>
           <p className="mt-3 text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
-            Meaningful flowers on meaningful dates, minus the effort. One
-            decision, no hassle.
+            {subtitle}
           </p>
         </div>
 
