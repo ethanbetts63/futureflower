@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAdminDashboard } from '@/api/admin';
 import type { AdminEvent, AdminDashboard } from '@/types/Admin';
-import { Spinner } from '@/components/ui/spinner';
+import { Loader2 } from 'lucide-react';
+import Seo from '@/components/Seo';
+import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
+import SummarySection from '@/components/form_flow/SummarySection';
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr + 'T00:00:00');
@@ -27,72 +30,64 @@ const EventCard: React.FC<EventCardProps> = ({ event, section }) => {
   const location = [event.recipient_suburb, event.recipient_city].filter(Boolean).join(', ');
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
-      <div className="flex justify-between items-start gap-4">
-        <div className="flex-1 min-w-0">
-          <p className="font-semibold text-gray-900 truncate">{recipientName}</p>
-          <p className="text-sm text-gray-600">{formatDate(event.delivery_date)}</p>
-          {location && <p className="text-sm text-gray-500">{location}</p>}
-          <p className="text-sm font-medium text-gray-700 mt-1">${event.budget}</p>
-          {section === 'to_order' && (
-            <p className={`text-sm font-semibold mt-1 ${days <= 3 ? 'text-red-600' : days <= 7 ? 'text-orange-500' : 'text-gray-500'}`}>
-              {days < 0 ? `${Math.abs(days)} days overdue` : days === 0 ? 'Today' : `in ${days} day${days === 1 ? '' : 's'}`}
-            </p>
-          )}
-        </div>
-        <div className="flex flex-col gap-2 flex-shrink-0">
+    <div className="flex justify-between items-start gap-4 py-3 border-b border-black/5 last:border-0">
+      <div className="flex-1 min-w-0">
+        <p className="font-semibold text-black truncate">{recipientName}</p>
+        <p className="text-sm text-black/60">{formatDate(event.delivery_date)}</p>
+        {location && <p className="text-sm text-black/40">{location}</p>}
+        <p className="text-sm font-medium text-black/70 mt-0.5">${event.budget}</p>
+        {section === 'to_order' && (
+          <p className={`text-sm font-semibold mt-0.5 ${days <= 3 ? 'text-red-600' : days <= 7 ? 'text-orange-500' : 'text-black/40'}`}>
+            {days < 0 ? `${Math.abs(days)} days overdue` : days === 0 ? 'Today' : `in ${days} day${days === 1 ? '' : 's'}`}
+          </p>
+        )}
+      </div>
+      <div className="flex flex-col gap-2 flex-shrink-0">
+        <Link
+          to={`/dashboard/admin/events/${event.id}`}
+          className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-center text-black/70"
+        >
+          View
+        </Link>
+        {section === 'to_order' && (
           <Link
-            to={`/dashboard/admin/events/${event.id}`}
-            className="text-sm px-3 py-1.5 rounded border border-gray-300 hover:bg-gray-50 text-center"
+            to={`/dashboard/admin/events/${event.id}/mark-ordered`}
+            className="text-xs px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700 text-center"
           >
-            View
+            Place Order
           </Link>
-          {section === 'to_order' && (
-            <Link
-              to={`/dashboard/admin/events/${event.id}/mark-ordered`}
-              className="text-sm px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700 text-center"
-            >
-              Place Order
-            </Link>
-          )}
-          {section === 'ordered' && (
-            <Link
-              to={`/dashboard/admin/events/${event.id}/mark-delivered`}
-              className="text-sm px-3 py-1.5 rounded bg-green-600 text-white hover:bg-green-700 text-center"
-            >
-              Confirm Delivery
-            </Link>
-          )}
-        </div>
+        )}
+        {section === 'ordered' && (
+          <Link
+            to={`/dashboard/admin/events/${event.id}/mark-delivered`}
+            className="text-xs px-3 py-1.5 rounded bg-green-600 text-white hover:bg-green-700 text-center"
+          >
+            Confirm Delivery
+          </Link>
+        )}
       </div>
     </div>
   );
 };
 
-interface SectionProps {
+interface QueueSectionProps {
   title: string;
   events: AdminEvent[];
   section: 'to_order' | 'ordered' | 'delivered';
 }
 
-const Section: React.FC<SectionProps> = ({ title, events, section }) => (
-  <div>
-    <div className="flex items-center gap-3 mb-4">
-      <h2 className="text-xl font-bold text-gray-800">{title}</h2>
-      <span className="bg-gray-200 text-gray-700 text-sm font-semibold px-2.5 py-0.5 rounded-full">
-        {events.length}
-      </span>
-    </div>
+const QueueSection: React.FC<QueueSectionProps> = ({ title, events, section }) => (
+  <SummarySection label={`${title} (${events.length})`}>
     {events.length === 0 ? (
-      <p className="text-gray-500 text-sm italic">No events currently in this queue.</p>
+      <p className="text-sm text-black/40 italic">No events currently in this queue.</p>
     ) : (
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col">
         {events.map((event) => (
           <EventCard key={event.id} event={event} section={section} />
         ))}
       </div>
     )}
-  </div>
+  </SummarySection>
 );
 
 const AdminDashboardPage: React.FC = () => {
@@ -107,27 +102,29 @@ const AdminDashboardPage: React.FC = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <Spinner className="h-10 w-10" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return <p className="p-8 text-red-600">Error: {error}</p>;
-  }
-
-  if (!dashboard) return null;
-
   return (
-    <div className="p-6 max-w-5xl mx-auto">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Admin Task Queue</h1>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Section title="To Order" events={dashboard.to_order} section="to_order" />
-        <Section title="Ordered" events={dashboard.ordered} section="ordered" />
-        <Section title="Delivered" events={dashboard.delivered} section="delivered" />
+    <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
+      <div className="container mx-auto max-w-4xl">
+        <Seo title="Admin Dashboard | FutureFlower" />
+        <UnifiedSummaryCard
+          title="Admin Dashboard"
+          description="Manage upcoming deliveries — place orders and confirm deliveries."
+        >
+          {loading ? (
+            <div className="py-12 flex items-center justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-black/20" />
+              <p className="ml-4 text-black/40">Loading task queue...</p>
+            </div>
+          ) : error ? (
+            <div className="py-12 text-center text-red-600 text-sm">{error}</div>
+          ) : dashboard ? (
+            <>
+              <QueueSection title="To Order" events={dashboard.to_order} section="to_order" />
+              <QueueSection title="Ordered" events={dashboard.ordered} section="ordered" />
+              <QueueSection title="Delivered" events={dashboard.delivered} section="delivered" />
+            </>
+          ) : null}
+        </UnifiedSummaryCard>
       </div>
     </div>
   );

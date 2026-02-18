@@ -24,7 +24,7 @@ function UserDashboardLayout() {
     }
 
     if (user?.is_staff || user?.is_superuser) {
-      dashboardLinks.push({ to: '/dashboard/admin', label: 'Task Queue' });
+      dashboardLinks.push({ to: '/dashboard/admin', label: 'Admin Dashboard' });
     }
 
     setDashboardNavItems(dashboardLinks);
@@ -62,7 +62,7 @@ function UserDashboardLayout() {
             <div className="border-t border-gray-600 pt-4">
               <p className="text-xs uppercase tracking-wider text-gray-400 mb-4">Admin</p>
               <div className="flex flex-col space-y-6">
-                <Link to="/dashboard/admin" className="text-lg hover:text-gray-300">Task Queue</Link>
+                <Link to="/dashboard/admin" className="text-lg hover:text-gray-300">Admin Dashboard</Link>
               </div>
             </div>
           )}

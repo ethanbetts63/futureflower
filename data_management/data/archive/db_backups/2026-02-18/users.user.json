@@ -1,0 +1,28 @@
+[
+{
+  "model": "users.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$hGvcwSHRoosaPwC8Tz3RZ0$zOz5Bd+TOZ6OHk8QqWvJJsuSs91CaJbiJ4QUqQCreOw=",
+    "last_login": "2026-02-18T09:02:54.827Z",
+    "is_superuser": true,
+    "username": "ethanbetts63@gmail.com",
+    "first_name": "Ethan",
+    "last_name": "Betts",
+    "email": "ethanbetts63@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-02-17T21:34:03.728Z",
+    "password_reset_last_sent_at": null,
+    "agreed_to_terms": null,
+    "stripe_customer_id": null,
+    "referred_by_partner": null,
+    "anonymized_at": null,
+    "hash_first_name": "",
+    "hash_last_name": "",
+    "hash_email": "",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
