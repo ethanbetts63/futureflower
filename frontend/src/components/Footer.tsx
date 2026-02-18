@@ -13,38 +13,44 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="bg-primary text-primary-foreground">
-      <div className="container mx-auto py-8 px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
-          
-          {/* Left Side: Logo and Copyright */}
-          <div className="flex items-center gap-4 mb-4 md:mb-0">
-                            <img
-                                width="367"
-                                height="367"
-                                className="h-20 w-auto"
-                                src={logo}
-                                srcSet={`${logo128} 128w, ${logo192} 192w, ${logo256} 256w`}
-                                sizes="80px"
-                                alt="FutureFlower Logo"
-                            />
-            <p className="text-sm">&copy; {currentYear} FutureFlower. All rights reserved.</p>
+      <div className="container mx-auto py-10 px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
+          {/* Brand */}
+          <div className="flex flex-col gap-3">
+            <img
+              width="367"
+              height="367"
+              className="h-16 w-auto"
+              src={logo}
+              srcSet={`${logo128} 128w, ${logo192} 192w, ${logo256} 256w`}
+              sizes="64px"
+              alt="FutureFlower Logo"
+            />
+            <p className="text-sm opacity-80">&copy; {currentYear} FutureFlower. All rights reserved.</p>
+            <div className="flex items-center gap-1 mt-1">
+              <span className="text-xs opacity-60">Powered by</span>
+              <img src={stripeLogo} alt="Stripe" className="h-5" />
+            </div>
           </div>
 
-          {/* Right Side: Navigation Links & Payment Badge */}
-          <div className="flex flex-col md:items-end gap-4">
-            <nav className="flex gap-6 justify-center md:justify-end">
-              <Link to="/florists" className="text-sm hover:underline">Florists</Link>
-              <Link to="/affiliates" className="text-sm hover:underline">Affiliates</Link>
-              <Link to="/contact" className="text-sm hover:underline">Contact Us</Link>
-              <Link to="/terms-and-conditions" className="text-sm hover:underline">Terms & Conditions</Link>
-              {(user?.is_staff || user?.is_superuser) && (
-                <Link to="/admin-dashboard" className="text-sm hover:underline">Admin Dashboard</Link>
-              )}
-            </nav>
-            <div className="flex items-center justify-center md:justify-end gap-0">
-                <span className="text-xs opacity-70">Powered by</span>
-                <img src={stripeLogo} alt="Stripe" className="h-6" />
-            </div>
+          {/* Site Links */}
+          <div className="flex flex-col gap-2">
+            <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Company</p>
+            <Link to="/florists" className="text-sm hover:underline">Florists</Link>
+            <Link to="/affiliates" className="text-sm hover:underline">Affiliates</Link>
+            <Link to="/contact" className="text-sm hover:underline">Contact Us</Link>
+            {(user?.is_staff || user?.is_superuser) && (
+              <Link to="/admin-dashboard" className="text-sm hover:underline">Admin Dashboard</Link>
+            )}
+          </div>
+
+          {/* Legal Links */}
+          <div className="flex flex-col gap-2">
+            <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Legal</p>
+            <Link to="/terms-and-conditions/customer" className="text-sm hover:underline">Customer Terms & Conditions</Link>
+            <Link to="/terms-and-conditions/florist" className="text-sm hover:underline">Florist Terms & Conditions</Link>
+            <Link to="/terms-and-conditions/affiliate" className="text-sm hover:underline">Affiliate Terms & Conditions</Link>
           </div>
 
         </div>

@@ -107,7 +107,8 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password-confirm/:uid/:token" element={<ResetPasswordConfirmPage />} />
-                <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
+                <Route path="/terms-and-conditions/:type" element={<TermsAndConditionsPage />} />
+                <Route path="/terms-and-conditions" element={<Navigate to="/terms-and-conditions/customer" replace />} />
                 <Route path="/florists" element={<FloristsPage />} />
                 <Route path="/affiliates" element={<AffiliatesPage />} />
                 <Route path="/blocklist-success" element={<BlocklistSuccessPage />} />

@@ -1,21 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { getLatestTermsAndConditions } from '@/api';
+import { useParams, Navigate } from 'react-router-dom';
+import { getTermsByType } from '@/api';
 import type { TermsAndConditions } from '@/types/TermsAndConditions';
 import Seo from '@/components/Seo';
 import { Spinner } from '@/components/ui/spinner';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 
+const VALID_TYPES = ['florist', 'customer', 'affiliate'] as const;
+type TermsType = typeof VALID_TYPES[number];
+
+const TYPE_LABELS: Record<TermsType, string> = {
+    florist: 'Florist',
+    customer: 'Customer',
+    affiliate: 'Affiliate',
+};
+
 const TermsAndConditionsPage: React.FC = () => {
+    const { type } = useParams<{ type: string }>();
     const [terms, setTerms] = useState<TermsAndConditions | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    const validType = VALID_TYPES.includes(type as TermsType) ? (type as TermsType) : null;
+
     useEffect(() => {
+        if (!validType) return;
+
         const fetchTerms = async () => {
             try {
                 setIsLoading(true);
-                const data = await getLatestTermsAndConditions();
+                setError(null);
+                const data = await getTermsByType(validType);
                 setTerms(data);
             } catch (err: any) {
                 setError(err.message || 'Failed to load terms and conditions.');
@@ -25,7 +41,11 @@ const TermsAndConditionsPage: React.FC = () => {
         };
 
         fetchTerms();
-    }, []);
+    }, [validType]);
+
+    if (!validType) {
+        return <Navigate to="/terms-and-conditions/customer" replace />;
+    }
 
     const renderContent = () => {
         if (isLoading) {
@@ -48,9 +68,7 @@ const TermsAndConditionsPage: React.FC = () => {
         }
 
         if (terms) {
-            return (
-                <div dangerouslySetInnerHTML={{ __html: terms.content }} />
-            );
+            return <div dangerouslySetInnerHTML={{ __html: terms.content }} />;
         }
 
         return null;
@@ -58,7 +76,7 @@ const TermsAndConditionsPage: React.FC = () => {
 
     return (
         <>
-            <Seo title="Terms & Conditions | FutureFlower" />
+            <Seo title={`${TYPE_LABELS[validType]} Terms & Conditions | FutureFlower`} />
             <div className="container mx-auto px-4 py-8 max-w-4xl prose dark:prose-invert">
                 {renderContent()}
             </div>
