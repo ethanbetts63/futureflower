@@ -8,7 +8,7 @@
 
 ## Hero Section
 *   **Title:** Turn your influence into flowers.
-*   **Subtitle:** Give your audience $5 off their first order and earn up to $75 per referral. No limits. No confusing tracking. Just thoughtful gifting that keeps paying.
+*   **Subtitle:** Give your audience $5 off and earn up to $75 per referral. No limits. No confusing tracking. Just thoughtful gifting that keeps paying.
 *   **Buttons:**
     *   Read more (with arrow down)
     *   Get Started (links to /partner/register)
