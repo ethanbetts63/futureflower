@@ -25,14 +25,14 @@ const AffiliatesPage = () => {
       level: 1,
       title: 'Grab your code.',
       description:
-        'Get your custom $5 discount code (e.g., DEBRA5) in minutes. Feel free to use it yourself to test the service before you share.',
+        'Create your account and get your custom $5 discount code (e.g., DEBRA5) in minutes.',
       image: petalImage, // TODO: replace with code/discount image
     },
     {
       level: 2,
       title: 'Share the Smarter Way to Buy Flowers.',
       description:
-        'Show how the same price delivers more flowers, true florist\'s choice design, and real support for local florists.',
+        'Show how the same price delivers more flowers, true florist\'s choice design, and supports local florists.',
       image: floristImage, // TODO: replace with sharing/social image
     },
     {
