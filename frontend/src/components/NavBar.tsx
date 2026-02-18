@@ -17,7 +17,7 @@ const NavBar: React.FC = () => {
   const close = () => setMenuOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-black border-b border-white/10">
+    <header className="sticky top-0 z-50 w-full bg-white border-b border-black/10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
 
@@ -30,9 +30,9 @@ const NavBar: React.FC = () => {
               alt="FutureFlower"
               width="367"
               height="367"
-              className="h-10 w-auto"
+              className="h-10 w-auto brightness-0"
             />
-            <span className="hidden sm:block font-['Playfair_Display',_serif] italic font-bold text-2xl md:text-3xl text-white tracking-widest leading-none">
+            <span className="hidden sm:block font-['Playfair_Display',_serif] italic font-bold text-2xl md:text-3xl text-black tracking-widest leading-none">
               FUTUREFLOWER
             </span>
           </Link>
@@ -47,7 +47,7 @@ const NavBar: React.FC = () => {
                       key={item.to}
                       to={item.to}
                       onClick={close}
-                      className="text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase"
+                      className="text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase"
                     >
                       {item.label}
                     </Link>
@@ -56,14 +56,14 @@ const NavBar: React.FC = () => {
                   <Link
                     to="/dashboard"
                     onClick={close}
-                    className="text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase"
+                    className="text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase"
                   >
                     Dashboard
                   </Link>
                 )}
                 <button
                   onClick={() => { logout(() => navigate('/')); close(); }}
-                  className="text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase"
+                  className="text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase"
                 >
                   Logout
                 </button>
@@ -72,7 +72,7 @@ const NavBar: React.FC = () => {
               <Link
                 to="/login"
                 onClick={close}
-                className="text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase"
+                className="text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase"
               >
                 Login
               </Link>
@@ -81,7 +81,7 @@ const NavBar: React.FC = () => {
             <Link
               to="/order"
               onClick={close}
-              className="inline-flex items-center bg-white text-black font-bold px-5 py-2 text-xs tracking-widest uppercase hover:bg-white/90 transition-colors"
+              className="inline-flex items-center bg-black text-white font-bold px-5 py-2 text-xs tracking-widest uppercase hover:bg-black/80 transition-colors"
             >
               Order Now
             </Link>
@@ -92,7 +92,7 @@ const NavBar: React.FC = () => {
             <Link
               to="/order"
               onClick={close}
-              className="inline-flex items-center bg-white text-black font-bold px-4 py-1.5 text-xs tracking-widest uppercase"
+              className="inline-flex items-center bg-black text-white font-bold px-4 py-1.5 text-xs tracking-widest uppercase"
             >
               Order
             </Link>
@@ -102,9 +102,9 @@ const NavBar: React.FC = () => {
               aria-label="Toggle menu"
               aria-expanded={menuOpen}
             >
-              <span className={`block w-5 h-px bg-white transition-all duration-300 origin-center ${menuOpen ? 'rotate-45 translate-y-[6px]' : ''}`} />
-              <span className={`block w-5 h-px bg-white transition-all duration-300 ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
-              <span className={`block w-5 h-px bg-white transition-all duration-300 origin-center ${menuOpen ? '-rotate-45 -translate-y-[6px]' : ''}`} />
+              <span className={`block w-5 h-px bg-black transition-all duration-300 origin-center ${menuOpen ? 'rotate-45 translate-y-[6px]' : ''}`} />
+              <span className={`block w-5 h-px bg-black transition-all duration-300 ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
+              <span className={`block w-5 h-px bg-black transition-all duration-300 origin-center ${menuOpen ? '-rotate-45 -translate-y-[6px]' : ''}`} />
             </button>
           </div>
 
@@ -113,7 +113,7 @@ const NavBar: React.FC = () => {
 
       {/* Mobile dropdown */}
       <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-64' : 'max-h-0'}`}>
-        <nav className="bg-black border-t border-white/10 px-6 py-3 flex flex-col">
+        <nav className="bg-white border-t border-black/10 px-6 py-3 flex flex-col">
           {isAuthenticated ? (
             <>
               {dashboardNavItems.length > 0 ? (
@@ -122,7 +122,7 @@ const NavBar: React.FC = () => {
                     key={item.to}
                     to={item.to}
                     onClick={close}
-                    className="py-3 text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase border-b border-white/5 last:border-0"
+                    className="py-3 text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase border-b border-black/5 last:border-0"
                   >
                     {item.label}
                   </Link>
@@ -131,14 +131,14 @@ const NavBar: React.FC = () => {
                 <Link
                   to="/dashboard"
                   onClick={close}
-                  className="py-3 text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase border-b border-white/5"
+                  className="py-3 text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase border-b border-black/5"
                 >
                   Dashboard
                 </Link>
               )}
               <button
                 onClick={() => { logout(() => navigate('/')); close(); }}
-                className="py-3 text-left text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase"
+                className="py-3 text-left text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase"
               >
                 Logout
               </button>
@@ -147,7 +147,7 @@ const NavBar: React.FC = () => {
             <Link
               to="/login"
               onClick={close}
-              className="py-3 text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase"
+              className="py-3 text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase"
             >
               Login
             </Link>
