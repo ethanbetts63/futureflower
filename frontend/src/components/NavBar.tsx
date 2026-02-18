@@ -36,7 +36,7 @@ const NavBar: React.FC = () => {
               height="367"
               className="h-11 w-auto"
             />
-            <span className="hidden sm:block font-['Playfair_Display',_serif] font-bold text-2xl md:text-3xl text-black tracking-wide leading-none">
+            <span className="hidden italic sm:block font-['Playfair_Display',_serif] font-bold text-3xl md:text-4xl text-white tracking-wide leading-none">
               FUTUREFLOWER
             </span>
           </Link>
@@ -87,7 +87,7 @@ const NavBar: React.FC = () => {
             <Link
               to="/order"
               onClick={close}
-              className="ml-2 inline-flex items-center gap-2 bg-[var(--colorgreen)] text-black font-bold px-4 py-2 rounded-lg text-sm hover:brightness-105 transition-all shadow-sm"
+              className="ml-2 inline-flex items-center gap-2 bg-white text-black font-bold px-4 py-2 rounded-lg text-sm hover:brightness-105 transition-all shadow-sm"
             >
               <img src={flowerIcon} alt="" className="h-5 w-5" />
               Order
