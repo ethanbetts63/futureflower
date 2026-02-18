@@ -3,7 +3,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import Seo from '@/components/Seo';
 import PlanDisplay from '@/components/PlanDisplay';
-import SubscriptionSummary from '@/components/summaries/SubscriptionSummary';
+import SubscriptionSummary from '@/components/SubscriptionSummary';
 import { getSubscriptionPlan } from '@/api';
 import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
 import type { Plan } from '../../types/Plan';

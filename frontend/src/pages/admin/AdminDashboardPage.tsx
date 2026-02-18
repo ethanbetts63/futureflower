@@ -5,7 +5,7 @@ import type { AdminEvent, AdminDashboard } from '@/types/Admin';
 import { Loader2 } from 'lucide-react';
 import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
-import SummarySection from '@/components/form_flow/SummarySection';
+import SummarySection from '@/components/SummarySection';
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr + 'T00:00:00');

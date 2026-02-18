@@ -16,24 +16,6 @@ const Footer: React.FC = () => {
       <div className="container mx-auto py-10 px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
 
-          {/* Brand */}
-          <div className="flex flex-col gap-3">
-            <img
-              width="367"
-              height="367"
-              className="h-16 w-auto"
-              src={logo}
-              srcSet={`${logo128} 128w, ${logo192} 192w, ${logo256} 256w`}
-              sizes="64px"
-              alt="FutureFlower Logo"
-            />
-            <p className="text-sm opacity-80">&copy; {currentYear} FutureFlower. All rights reserved.</p>
-            <div className="flex items-center gap-1 mt-1">
-              <span className="text-xs opacity-60">Powered by</span>
-              <img src={stripeLogo} alt="Stripe" className="h-5" />
-            </div>
-          </div>
-
           {/* Site Links */}
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Company</p>
@@ -51,6 +33,24 @@ const Footer: React.FC = () => {
             <Link to="/terms-and-conditions/customer" className="text-sm hover:underline">Customer Terms & Conditions</Link>
             <Link to="/terms-and-conditions/florist" className="text-sm hover:underline">Florist Terms & Conditions</Link>
             <Link to="/terms-and-conditions/affiliate" className="text-sm hover:underline">Affiliate Terms & Conditions</Link>
+          </div>
+
+          {/* Brand */}
+          <div className="flex flex-col gap-3">
+            <img
+              width="367"
+              height="367"
+              className="h-16 w-16 object-contain"
+              src={logo}
+              srcSet={`${logo128} 128w, ${logo192} 192w, ${logo256} 256w`}
+              sizes="64px"
+              alt="FutureFlower Logo"
+            />
+            <p className="text-sm opacity-80">&copy; {currentYear} FutureFlower. All rights reserved.</p>
+            <div className="flex items-center gap-1 mt-1">
+              <span className="text-xs opacity-60">Powered by</span>
+              <img src={stripeLogo} alt="Stripe" className="h-5" />
+            </div>
           </div>
 
         </div>

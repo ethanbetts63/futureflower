@@ -2,7 +2,7 @@
 import { useParams } from 'react-router-dom';
 import Seo from '@/components/Seo';
 import PlanDisplay from '@/components/PlanDisplay';
-import UpfrontSummary from '@/components/summaries/UpfrontSummary';
+import UpfrontSummary from '@/components/UpfrontSummary';
 import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
 import type { Plan, FlowerType, UpfrontPlan } from '@/types';
 

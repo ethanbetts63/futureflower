@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapPin } from 'lucide-react';
-import SummarySection from './SummarySection';
+import SummarySection from '../SummarySection';
 import type { OrderBase } from '@/types/OrderBase';
 
 interface RecipientSummaryProps {

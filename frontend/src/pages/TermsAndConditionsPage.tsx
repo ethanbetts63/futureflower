@@ -4,8 +4,8 @@ import { getTermsByType } from '@/api';
 import type { TermsAndConditions } from '@/types/TermsAndConditions';
 import Seo from '@/components/Seo';
 import { Spinner } from '@/components/ui/spinner';
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal } from "lucide-react";
+import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
+import SummarySection from '@/components/SummarySection';
 
 const VALID_TYPES = ['florist', 'customer', 'affiliate'] as const;
 type TermsType = typeof VALID_TYPES[number];
@@ -52,23 +52,24 @@ const TermsAndConditionsPage: React.FC = () => {
             return (
                 <div className="flex justify-center items-center h-64">
                     <Spinner className="w-8 h-8 mr-2" />
-                    <p>Loading...</p>
+                    <p className="text-black/60">Loading...</p>
                 </div>
             );
         }
 
         if (error) {
             return (
-                <Alert variant="destructive">
-                    <Terminal className="h-4 w-4" />
-                    <AlertTitle>Error</AlertTitle>
-                    <AlertDescription>{error}</AlertDescription>
-                </Alert>
+                <p className="text-red-500">{error}</p>
             );
         }
 
         if (terms) {
-            return <div dangerouslySetInnerHTML={{ __html: terms.content }} />;
+            return (
+                <div
+                    className="text-black [&_*]:text-black [&_h1]:font-bold [&_h2]:font-bold [&_h3]:font-bold leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: terms.content }}
+                />
+            );
         }
 
         return null;
@@ -77,8 +78,17 @@ const TermsAndConditionsPage: React.FC = () => {
     return (
         <>
             <Seo title={`${TYPE_LABELS[validType]} Terms & Conditions | FutureFlower`} />
-            <div className="container mx-auto px-4 py-8 max-w-4xl prose dark:prose-invert">
-                {renderContent()}
+            <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
+                <div className="container mx-auto max-w-4xl">
+                    <UnifiedSummaryCard
+                        title="Terms & Conditions"
+                        description={`${TYPE_LABELS[validType]} Terms & Conditions`}
+                    >
+                        <SummarySection label={TYPE_LABELS[validType]}>
+                            {renderContent()}
+                        </SummarySection>
+                    </UnifiedSummaryCard>
+                </div>
             </div>
         </>
     );

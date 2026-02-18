@@ -9,7 +9,7 @@ import NextDeliveryCard from '@/components/NextDeliveryCard';
 import type { NextDeliveryInfo } from '../../types/NextDeliveryInfo';
 import UnifiedPlanTable from '@/components/UnifiedPlanTable';
 import UserDetailsSummary from '@/components/UserDetailsSummary';
-import SummarySection from '@/components/form_flow/SummarySection';
+import SummarySection from '@/components/SummarySection';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import Seo from '@/components/Seo';

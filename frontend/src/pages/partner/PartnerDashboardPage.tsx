@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import Seo from '@/components/Seo';
 import StripeConnectBanner from '@/components/StripeConnectBanner';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
-import SummarySection from '@/components/form_flow/SummarySection';
+import SummarySection from '@/components/SummarySection';
 import { getPartnerDashboard } from '@/api/partners';
 import type { Partner } from '@/types';
 import { useNavigate } from 'react-router-dom';

@@ -4,7 +4,7 @@ import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import PlanActivationBanner from '@/components/PlanActivationBanner';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
-import SummarySection from '@/components/form_flow/SummarySection';
+import SummarySection from '@/components/SummarySection';
 import RecipientSummary from '@/components/form_flow/RecipientSummary';
 import FlowerPreferencesSummary from '@/components/form_flow/FlowerPreferencesSummary';
 import ImpactSummary from '@/components/form_flow/ImpactSummary';

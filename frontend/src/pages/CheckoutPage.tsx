@@ -11,7 +11,7 @@ import CheckoutForm from '@/forms/CheckoutForm';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
-import SummarySection from '@/components/form_flow/SummarySection';
+import SummarySection from '@/components/SummarySection';
 import { MapPin, Calendar, RefreshCw, DollarSign, ShieldCheck } from 'lucide-react';
 import { getSubscriptionPlan } from '@/api/subscriptionPlans';
 import { getUpfrontPlan } from '@/api/upfrontPlans';
