@@ -82,7 +82,16 @@ C:\Users\ethan\coding\futureflower\events\views\public_upfront_price_view.py im 
 ### 20. Get rid of the anonymization stuff.
 It would be good to have but right now its overkill.
 
-### 21. Payment Method Fraud Prevention for Discount Codes
+### 21. Event Evidence Images
+Add image upload fields to the `Event` model for admin documentation purposes:
+- `ordering_evidence_image` — screenshot of the placed order
+- `delivery_evidence_image` — photo confirmation of delivery
+
+Deferred because media storage infrastructure (S3 or equivalent) adds complexity that isn't justified yet. The text evidence fields (`ordering_evidence_text`, `delivery_evidence_text`) cover the immediate need. Revisit once media uploads are needed elsewhere in the app.
+
+---
+
+### 22. Payment Method Fraud Prevention for Discount Codes
 
 **Problem:** Discount codes are restricted to first-time customers, but this is only enforced per-account. A bad actor could create multiple accounts and reuse the same credit card to claim the discount repeatedly.
 
