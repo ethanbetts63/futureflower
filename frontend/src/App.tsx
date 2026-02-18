@@ -80,8 +80,11 @@ const BestFlowerDeliveryPerth = lazy(() => import('./pages/articles/BestFlowerDe
 const BestFlowerDeliverySydney = lazy(() => import('./pages/articles/BestFlowerDeliverySydney'));
 
 // --- Admin Pages ---
-const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
-const AdminHomePage = lazy(() => import('./pages/admin/AdminHomePage'));
+const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'));
+const AdminEventDetailPage = lazy(() => import('./pages/admin/AdminEventDetailPage'));
+const MarkOrderedPage = lazy(() => import('./pages/admin/MarkOrderedPage'));
+const MarkDeliveredPage = lazy(() => import('./pages/admin/MarkDeliveredPage'));
+const AdminGuard = lazy(() => import('./components/AdminGuard'));
 
 const LoadingFallback = () => (
   <div className="flex justify-center items-center h-screen">
@@ -156,11 +159,6 @@ function App() {
                 <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
                 <Route path="/payment-status" element={<ProtectedRoute><PaymentStatusPage /></ProtectedRoute>} />
 
-                {/* Admin Section */}
-                <Route path="/admin-dashboard" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
-                  <Route index element={<AdminHomePage />} />
-                </Route>
-
                 {/* Logged-in user dashboard routes */}
                 <Route path="/dashboard" element={<ProtectedRoute><UserDashboardLayout /></ProtectedRoute>}>
                   <Route index element={<UserDashboardPage />} />
@@ -180,6 +178,11 @@ function App() {
                   <Route path="partner/details" element={<BusinessDetailsPage />} />
                   <Route path="partner/payouts" element={<PayoutsPage />} />
                   <Route path="partner/payouts/:payoutId" element={<PayoutDetailPage />} />
+                  {/* Admin routes (inside dashboard layout) */}
+                  <Route path="admin" element={<AdminGuard><AdminDashboardPage /></AdminGuard>} />
+                  <Route path="admin/events/:eventId" element={<AdminGuard><AdminEventDetailPage /></AdminGuard>} />
+                  <Route path="admin/events/:eventId/mark-ordered" element={<AdminGuard><MarkOrderedPage /></AdminGuard>} />
+                  <Route path="admin/events/:eventId/mark-delivered" element={<AdminGuard><MarkDeliveredPage /></AdminGuard>} />
                 </Route>
 
               </Routes>

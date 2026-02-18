@@ -5,16 +5,28 @@ from twilio.rest import Client
 
 logger = logging.getLogger(__name__)
 
-def send_admin_payment_notification(payment_id: str):
+
+def send_admin_payment_notification(payment_id: str, order=None):
     """
-    Sends a notification to the admin via email and SMS after a successful payment.
+    Sends an immediate notification to the admin via email and SMS after a successful payment.
 
     Args:
         payment_id: The ID of the successful payment, for logging purposes.
+        order: The OrderBase instance associated with the payment (optional, for order context).
     """
-    message = "YOU'RE RICH! FutureFlower just made money! LETS GOOOOOOO!"
-    subject = "🎉 You Got Paid! 🎉"
-    
+    subject = "New FutureFlower Order Received"
+
+    if order:
+        message = (
+            f"New order received!\n\n"
+            f"Recipient: {order.recipient_first_name} {order.recipient_last_name}\n"
+            f"Delivery Date: {order.start_date}\n"
+            f"Budget: ${order.budget}\n"
+            f"Payment ID: {payment_id}"
+        )
+    else:
+        message = f"New FutureFlower payment received. Payment ID: {payment_id}"
+
     admin_email = settings.ADMIN_EMAIL
     admin_number = settings.ADMIN_NUMBER
 
@@ -26,22 +38,24 @@ def send_admin_payment_notification(payment_id: str):
         return
 
     try:
-        # Send email to admin directly via Mailgun
         response = requests.post(
             f"https://api.mailgun.net/v3/{settings.MAILGUN_DOMAIN}/messages",
             auth=("api", settings.MAILGUN_API_KEY),
-            data={"from": settings.DEFAULT_FROM_EMAIL,
-                  "to": [admin_email],
-                  "subject": subject,
-                  "text": message})
+            data={
+                "from": settings.DEFAULT_FROM_EMAIL,
+                "to": [admin_email],
+                "subject": subject,
+                "text": message,
+            },
+            timeout=10,
+        )
         response.raise_for_status()
 
-        # Send SMS to admin directly via Twilio
         client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
         client.messages.create(
             body=message,
             messaging_service_sid=settings.TWILIO_MESSAGING_SERVICE_SID,
-            to=admin_number
+            to=admin_number,
         )
 
     except Exception as e:

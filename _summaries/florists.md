@@ -95,7 +95,7 @@ No catch, our business model is florist first. We charge a flat 15% per order. N
 **Title:** We Send Business Your Way
 We're not just helping you capture in-store opportunities — we're actively marketing flower subscriptions and scheduled deliveries online. When customers in your area find us through Google, Instagram, or referrals, we send them directly to you.
 *   Orders from customers who found us, not you
-*   Geographic exclusivity in your service area
+*   Geographic Delivery Preference in your service area
 *   Zero marketing spend to acquire these customers
 
 ## So what's the catch?

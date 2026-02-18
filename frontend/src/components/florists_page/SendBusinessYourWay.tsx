@@ -10,7 +10,7 @@ import { BecomePartnerButton } from './BecomePartnerButton';
 
 const benefits = [
   'Orders from customers who found us, not you',
-  'Geographic exclusivity in your service area',
+  'Geographic Delivery Preference in your service area',
   'Zero marketing spend to acquire these customers',
 ];
 

@@ -23,12 +23,16 @@ function UserDashboardLayout() {
       );
     }
 
+    if (user?.is_staff || user?.is_superuser) {
+      dashboardLinks.push({ to: '/dashboard/admin', label: 'Task Queue' });
+    }
+
     setDashboardNavItems(dashboardLinks);
 
     return () => {
       setDashboardNavItems([]);
     };
-  }, [setDashboardNavItems, user?.is_partner]);
+  }, [setDashboardNavItems, user?.is_partner, user?.is_staff, user?.is_superuser]);
 
   return (
     <div className="flex min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
@@ -52,6 +56,15 @@ function UserDashboardLayout() {
                 </div>
               </div>
             </>
+          )}
+
+          {(user?.is_staff || user?.is_superuser) && (
+            <div className="border-t border-gray-600 pt-4">
+              <p className="text-xs uppercase tracking-wider text-gray-400 mb-4">Admin</p>
+              <div className="flex flex-col space-y-6">
+                <Link to="/dashboard/admin" className="text-lg hover:text-gray-300">Task Queue</Link>
+              </div>
+            </div>
           )}
         </nav>
       </aside>

@@ -96,3 +96,4 @@ export type {
 } from './Partner';
 export type { DeliveryRequestDetail } from './DeliveryRequest';
 export type { Payout, PayoutDetail, PayoutLineItem } from './Payout';
+export type { AdminEvent, AdminDashboard, MarkOrderedPayload, MarkDeliveredPayload } from './Admin';

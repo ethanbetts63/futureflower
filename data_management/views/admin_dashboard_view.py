@@ -1,0 +1,43 @@
+from datetime import date, timedelta
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
+from events.models import Event
+from data_management.serializers.admin_event_serializer import AdminEventSerializer
+
+
+class AdminDashboardView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        cutoff = date.today() + timedelta(days=14)
+
+        to_order_qs = (
+            Event.objects
+            .filter(status='scheduled', delivery_date__lte=cutoff)
+            .select_related('order', 'order__user')
+            .prefetch_related('order__preferred_flower_types')
+            .order_by('delivery_date')
+        )
+
+        ordered_qs = (
+            Event.objects
+            .filter(status='ordered')
+            .select_related('order', 'order__user')
+            .prefetch_related('order__preferred_flower_types')
+            .order_by('delivery_date')
+        )
+
+        delivered_qs = (
+            Event.objects
+            .filter(status='delivered')
+            .select_related('order', 'order__user')
+            .prefetch_related('order__preferred_flower_types')
+            .order_by('-delivered_at')[:50]
+        )
+
+        return Response({
+            'to_order': AdminEventSerializer(to_order_qs, many=True).data,
+            'ordered': AdminEventSerializer(ordered_qs, many=True).data,
+            'delivered': AdminEventSerializer(delivered_qs, many=True).data,
+        })

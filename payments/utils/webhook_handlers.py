@@ -7,6 +7,8 @@ from payments.models import Payment
 from events.models import UpfrontPlan, SubscriptionPlan, Event
 from events.utils.delivery_dates import calculate_projected_delivery_dates
 from payments.utils.subscription_dates import get_next_delivery_date
+from payments.utils.send_admin_payment_notification import send_admin_payment_notification
+from data_management.utils.notification_factory import create_admin_event_notifications
 
 def handle_payment_intent_succeeded(payment_intent):
     """
@@ -91,8 +93,11 @@ def handle_payment_intent_succeeded(payment_intent):
                         )
                         for d in projected
                     ]
-                    Event.objects.bulk_create(events_to_create)
-                    print(f"Created {len(events_to_create)} Events for UpfrontPlan (PK: {plan_to_activate.pk}).")
+                    created_events = Event.objects.bulk_create(events_to_create)
+                    print(f"Created {len(created_events)} Events for UpfrontPlan (PK: {plan_to_activate.pk}).")
+                    for event in created_events:
+                        create_admin_event_notifications(event)
+                    send_admin_payment_notification(payment_intent_id, order=plan_to_activate)
                 else:
                     print(f"Events for UpfrontPlan (PK: {plan_to_activate.pk}) already exist. Skipping duplicate.")
 
@@ -103,11 +108,13 @@ def handle_payment_intent_succeeded(payment_intent):
 
                 # 1. Create the first delivery Event
                 if not Event.objects.filter(order=plan_to_activate.orderbase_ptr, delivery_date=plan_to_activate.start_date).exists():
-                    Event.objects.create(
+                    first_event = Event.objects.create(
                         order=plan_to_activate.orderbase_ptr,
                         delivery_date=plan_to_activate.start_date,
                         message=plan_to_activate.subscription_message
                     )
+                    create_admin_event_notifications(first_event)
+                    send_admin_payment_notification(payment_intent_id, order=plan_to_activate)
 
                 # 2. Create the actual Stripe Subscription for future deliveries
                 if not plan_to_activate.stripe_subscription_id:
@@ -218,11 +225,13 @@ def handle_invoice_payment_succeeded(invoice):
 
             # Create a new Event for the delivery that was just paid for
             if not Event.objects.filter(order=subscription_plan.orderbase_ptr, delivery_date=delivery_date).exists():
-                Event.objects.create(
+                new_event = Event.objects.create(
                     order=subscription_plan.orderbase_ptr,
                     delivery_date=delivery_date,
                     message=subscription_plan.subscription_message
                 )
+                create_admin_event_notifications(new_event)
+                send_admin_payment_notification(invoice.get('payment_intent', ''), order=subscription_plan)
                 print(f"Created new Event for recurring delivery on {delivery_date}.")
             else:
                 print(f"Event for delivery on {delivery_date} already exists. Skipping duplicate.")
