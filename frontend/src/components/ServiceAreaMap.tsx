@@ -76,7 +76,7 @@ const ServiceAreaMap: React.FC<ServiceAreaMapProps> = ({
     <div className="space-y-4 pb-4">
       <label className="text-sm font-medium">Service Area</label>
       <p className="text-sm text-muted-foreground">Drop a pin on your store location and set the radius you're willing to deliver within. You'll only receive delivery requests for orders within this area.</p>
-      <div className="h-[300px] rounded-lg overflow-hidden border">
+      <div className="h-[300px] rounded-lg overflow-hidden border relative z-0">
         <MapContainer center={[20, 0]} zoom={1} style={{ height: '100%', width: '100%' }}>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
