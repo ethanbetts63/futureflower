@@ -91,6 +91,27 @@ Deferred because media storage infrastructure (S3 or equivalent) adds complexity
 
 ---
 
+### 23. Terms Acceptance Versioning
+
+**Current state:** `TermsAcceptance` records which version of each terms type a user accepted. Accepting any version of a type is currently sufficient to proceed.
+
+**Future work:** Add logic to require re-acceptance when a newer version is published. The check would be:
+
+```python
+latest = TermsAndConditions.objects.filter(terms_type='customer').order_by('-published_at').first()
+user.terms_acceptances.filter(terms=latest).exists()
+```
+
+Instead of the current looser check:
+
+```python
+user.terms_acceptances.filter(terms__terms_type='customer').exists()
+```
+
+Deferred because terms are not expected to change frequently and the infrastructure (TermsAcceptance model, API endpoint, frontend gating) is already in place. Swap the check when versioning becomes a real requirement.
+
+---
+
 ### 22. Payment Method Fraud Prevention for Discount Codes
 
 **Problem:** Discount codes are restricted to first-time customers, but this is only enforced per-account. A bad actor could create multiple accounts and reuse the same credit card to claim the discount repeatedly.

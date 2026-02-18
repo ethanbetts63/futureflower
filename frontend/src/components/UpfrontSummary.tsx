@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Calendar, MessageSquare, Tag, Clock, StickyNote } from 'lucide-react';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
@@ -11,6 +12,8 @@ import ImpactSummary from '@/components/form_flow/ImpactSummary';
 import PaymentInitiatorButton from '@/components/form_flow/PaymentInitiatorButton';
 import DiscountCodeInput from '@/components/form_flow/DiscountCodeInput';
 import PaymentHistoryCard from '@/components/PaymentHistoryCard';
+import { Checkbox } from '@/components/ui/checkbox';
+import { acceptTerms } from '@/api';
 import { formatDate } from '@/utils/utils';
 import type { UpfrontPlan } from '@/types/UpfrontPlan';
 import type { FlowerType } from '@/types/FlowerType';
@@ -31,6 +34,7 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
   onRefreshPlan,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const isOrdering = context === 'ordering';
   const isSingleDelivery = plan.years === 1 && plan.frequency === 'annually' && plan.status !== 'active';
@@ -83,7 +87,7 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
                 itemType="UPFRONT_PLAN_NEW"
                 details={{ upfront_plan_id: planId }}
                 backPath={`${editBasePath}/confirmation`}
-                disabled={isSubmitting || !planId}
+                disabled={isSubmitting || !planId || !termsAccepted}
                 onPaymentInitiate={() => setIsSubmitting(true)}
                 onPaymentError={() => setIsSubmitting(false)}
               >
@@ -207,6 +211,29 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
                 />
               </div>
             </div>
+          </SummarySection>
+        )}
+
+        {isOrdering && (
+          <SummarySection label="Terms & Conditions">
+            <label className="flex items-start gap-3 cursor-pointer">
+              <Checkbox
+                checked={termsAccepted}
+                onCheckedChange={(checked) => {
+                  const accepted = checked === true;
+                  setTermsAccepted(accepted);
+                  if (accepted) acceptTerms('customer').catch(console.error);
+                }}
+                className="mt-0.5 flex-shrink-0"
+              />
+              <span className="text-sm text-black/70 leading-relaxed">
+                I have read and agree to the{' '}
+                <Link to="/terms-and-conditions/customer" target="_blank" className="underline text-black hover:text-black/70">
+                  Customer Terms & Conditions
+                </Link>
+                .
+              </span>
+            </label>
           </SummarySection>
         )}
       </UnifiedSummaryCard>

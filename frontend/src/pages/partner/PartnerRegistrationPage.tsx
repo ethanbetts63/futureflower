@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams, Navigate } from 'react-router-dom';
+import { useNavigate, useParams, Navigate, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
 import BackButton from '@/components/BackButton';
 import ServiceAreaMap from '@/components/ServiceAreaMap';
 import { registerPartner } from '@/api/partners';
+import { acceptTerms } from '@/api';
 import type { PartnerRegistrationData } from '@/types';
 
 const PartnerRegistrationPage: React.FC = () => {
@@ -18,6 +20,8 @@ const PartnerRegistrationPage: React.FC = () => {
   const navigate = useNavigate();
   const { handleLoginSuccess } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [customerTermsAccepted, setCustomerTermsAccepted] = useState(false);
+  const [partnerTermsAccepted, setPartnerTermsAccepted] = useState(false);
 
   // Service area map state
   const [latitude, setLatitude] = useState<number | null>(null);
@@ -64,6 +68,11 @@ const PartnerRegistrationPage: React.FC = () => {
       return;
     }
 
+    if (!customerTermsAccepted || !partnerTermsAccepted) {
+      toast.error('Please accept all terms and conditions before registering.');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -80,6 +89,10 @@ const PartnerRegistrationPage: React.FC = () => {
 
       const authResponse = await registerPartner(data);
       await handleLoginSuccess(authResponse);
+      await Promise.all([
+        acceptTerms('customer'),
+        acceptTerms(isDelivery ? 'florist' : 'affiliate'),
+      ]);
       navigate('/dashboard/partner');
     } catch (error: any) {
       const errorData = error.data || {};
@@ -200,10 +213,41 @@ const PartnerRegistrationPage: React.FC = () => {
                     />
                   </div>
                 )}
+                {/* Terms & Conditions */}
+                <div className="border-t pt-6 space-y-3">
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <Checkbox
+                      checked={customerTermsAccepted}
+                      onCheckedChange={(checked) => setCustomerTermsAccepted(checked === true)}
+                      className="mt-0.5 flex-shrink-0"
+                    />
+                    <span className="text-sm text-black/70 leading-relaxed">
+                      I have read and agree to the{' '}
+                      <Link to="/terms-and-conditions/customer" target="_blank" className="underline text-black hover:text-black/70">
+                        Customer Terms & Conditions
+                      </Link>
+                      .
+                    </span>
+                  </label>
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <Checkbox
+                      checked={partnerTermsAccepted}
+                      onCheckedChange={(checked) => setPartnerTermsAccepted(checked === true)}
+                      className="mt-0.5 flex-shrink-0"
+                    />
+                    <span className="text-sm text-black/70 leading-relaxed">
+                      I have read and agree to the{' '}
+                      <Link to={`/terms-and-conditions/${isDelivery ? 'florist' : 'affiliate'}`} target="_blank" className="underline text-black hover:text-black/70">
+                        {isDelivery ? 'Florist' : 'Affiliate'} Terms & Conditions
+                      </Link>
+                      .
+                    </span>
+                  </label>
+                </div>
               </CardContent>
 
               <CardFooter className="flex justify-end border-t border-black/5 py-2 px-4 md:px-8">
-                <Button type="submit" size="lg" disabled={isSubmitting}>
+                <Button type="submit" size="lg" disabled={isSubmitting || !customerTermsAccepted || !partnerTermsAccepted}>
                   {isSubmitting && <Spinner className="mr-2 h-4 w-4" />}
                   Register
                 </Button>

@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
 
           {/* Site Links */}
           <div className="flex flex-col gap-2">
-            <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Company</p>
+            <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Quick Links</p>
             <Link to="/florists" className="text-sm hover:underline">Florists</Link>
             <Link to="/affiliates" className="text-sm hover:underline">Affiliates</Link>
             <Link to="/contact" className="text-sm hover:underline">Contact Us</Link>

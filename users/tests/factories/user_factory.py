@@ -2,7 +2,6 @@ import factory
 from factory.django import DjangoModelFactory
 from users.models import User
 from faker import Faker
-from data_management.tests.factories.terms_and_conditions_factory import TermsAndConditionsFactory
 
 fake = Faker()
 
@@ -16,7 +15,7 @@ class UserFactory(DjangoModelFactory):
     last_name = factory.Faker('last_name')
     username = factory.Faker('user_name')
     email = factory.Faker('email')
-    
+
     @factory.post_generation
     def password(self, create, extracted, **kwargs):
         """
@@ -27,4 +26,3 @@ class UserFactory(DjangoModelFactory):
         self.set_password(password)
 
     is_active = True
-    agreed_to_terms = factory.SubFactory(TermsAndConditionsFactory)
