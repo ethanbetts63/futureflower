@@ -7,10 +7,6 @@ import logo256 from '../assets/logo-256w.webp';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigation } from '@/context/NavigationContext';
 import type { NavItem } from '../types/NavItem';
-import sideMenuSymbol from '../assets/side_menu_symbol.svg';
-import flowerIcon from '../assets/flower_symbol.svg';
-import settingsPng from '../assets/settings.png';
-import logoutPng from '../assets/logout.png';
 
 const NavBar: React.FC = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -21,28 +17,28 @@ const NavBar: React.FC = () => {
   const close = () => setMenuOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[var(--color3)] border-b border-black/10 shadow-sm">
+    <header className="sticky top-0 z-50 w-full bg-black border-b border-white/10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
 
-          {/* Left: Logo + brand name */}
+          {/* Logo + brand */}
           <Link to="/" onClick={close} className="flex items-center gap-3 flex-shrink-0">
             <img
               src={logo}
               srcSet={`${logo128} 128w, ${logo192} 192w, ${logo256} 256w`}
-              sizes="44px"
+              sizes="40px"
               alt="FutureFlower"
               width="367"
               height="367"
-              className="h-11 w-auto"
+              className="h-10 w-auto"
             />
-            <span className="hidden italic sm:block font-['Playfair_Display',_serif] font-bold text-3xl md:text-4xl text-white tracking-wide leading-none">
+            <span className="hidden sm:block font-['Playfair_Display',_serif] italic font-bold text-2xl md:text-3xl text-white tracking-widest leading-none">
               FUTUREFLOWER
             </span>
           </Link>
 
-          {/* Right: Desktop actions */}
-          <div className="hidden md:flex items-center gap-1">
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-8">
             {isAuthenticated ? (
               <>
                 {dashboardNavItems.length > 0 ? (
@@ -51,7 +47,7 @@ const NavBar: React.FC = () => {
                       key={item.to}
                       to={item.to}
                       onClick={close}
-                      className="px-3 py-2 rounded-md text-sm font-semibold bg-white text-black hover:bg-gray-100 transition-colors shadow-sm"
+                      className="text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase"
                     >
                       {item.label}
                     </Link>
@@ -60,25 +56,23 @@ const NavBar: React.FC = () => {
                   <Link
                     to="/dashboard"
                     onClick={close}
-                    className="p-2 rounded-md bg-white text-black hover:bg-gray-100 transition-colors shadow-sm"
-                    title="Dashboard"
+                    className="text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase"
                   >
-                    <img src={settingsPng} alt="Dashboard" className="w-5 h-5" />
+                    Dashboard
                   </Link>
                 )}
                 <button
                   onClick={() => { logout(() => navigate('/')); close(); }}
-                  className="p-2 rounded-md bg-white text-black hover:bg-gray-100 transition-colors shadow-sm"
-                  title="Logout"
+                  className="text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase"
                 >
-                  <img src={logoutPng} alt="Logout" className="w-5 h-5" />
+                  Logout
                 </button>
               </>
             ) : (
               <Link
                 to="/login"
                 onClick={close}
-                className="px-4 py-2 rounded-md text-sm font-semibold bg-white text-black hover:bg-gray-100 transition-colors shadow-sm"
+                className="text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase"
               >
                 Login
               </Link>
@@ -87,45 +81,39 @@ const NavBar: React.FC = () => {
             <Link
               to="/order"
               onClick={close}
-              className="ml-2 inline-flex items-center gap-2 bg-white text-black font-bold px-4 py-2 rounded-lg text-sm hover:brightness-105 transition-all shadow-sm"
+              className="inline-flex items-center bg-white text-black font-bold px-5 py-2 text-xs tracking-widest uppercase hover:bg-white/90 transition-colors"
             >
-              <img src={flowerIcon} alt="" className="h-5 w-5" />
-              Order
+              Order Now
             </Link>
-          </div>
+          </nav>
 
-          {/* Right: Mobile — Order CTA + Hamburger */}
-          <div className="flex md:hidden items-center gap-2">
+          {/* Mobile: Order + Animated hamburger */}
+          <div className="flex md:hidden items-center gap-4">
             <Link
               to="/order"
               onClick={close}
-              className="inline-flex items-center gap-1.5 bg-[var(--colorgreen)] text-black font-bold px-3 py-1.5 rounded-lg text-sm hover:brightness-105 transition-all shadow-sm"
+              className="inline-flex items-center bg-white text-black font-bold px-4 py-1.5 text-xs tracking-widest uppercase"
             >
-              <img src={flowerIcon} alt="" className="h-4 w-4" />
               Order
             </Link>
             <button
               onClick={() => setMenuOpen(o => !o)}
-              className="p-2 rounded-md bg-white hover:bg-gray-100 transition-colors shadow-sm"
+              className="flex flex-col justify-center items-center w-8 h-8 gap-[5px]"
               aria-label="Toggle menu"
               aria-expanded={menuOpen}
             >
-              {menuOpen ? (
-                <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : (
-                <img src={sideMenuSymbol} alt="Menu" className="w-6 h-6" />
-              )}
+              <span className={`block w-5 h-px bg-white transition-all duration-300 origin-center ${menuOpen ? 'rotate-45 translate-y-[6px]' : ''}`} />
+              <span className={`block w-5 h-px bg-white transition-all duration-300 ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
+              <span className={`block w-5 h-px bg-white transition-all duration-300 origin-center ${menuOpen ? '-rotate-45 -translate-y-[6px]' : ''}`} />
             </button>
           </div>
 
         </div>
       </div>
 
-      {/* Mobile dropdown menu */}
-      {menuOpen && (
-        <div className="md:hidden border-t border-black/10 bg-[var(--color3)] px-4 py-2">
+      {/* Mobile dropdown */}
+      <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-64' : 'max-h-0'}`}>
+        <nav className="bg-black border-t border-white/10 px-6 py-3 flex flex-col">
           {isAuthenticated ? (
             <>
               {dashboardNavItems.length > 0 ? (
@@ -134,7 +122,7 @@ const NavBar: React.FC = () => {
                     key={item.to}
                     to={item.to}
                     onClick={close}
-                    className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-black/10 transition-colors text-black font-medium"
+                    className="py-3 text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase border-b border-white/5 last:border-0"
                   >
                     {item.label}
                   </Link>
@@ -143,17 +131,15 @@ const NavBar: React.FC = () => {
                 <Link
                   to="/dashboard"
                   onClick={close}
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-black/10 transition-colors text-black font-medium"
+                  className="py-3 text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase border-b border-white/5"
                 >
-                  <img src={settingsPng} alt="" className="w-5 h-5" />
                   Dashboard
                 </Link>
               )}
               <button
                 onClick={() => { logout(() => navigate('/')); close(); }}
-                className="w-full flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-black/10 transition-colors text-black font-medium"
+                className="py-3 text-left text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase"
               >
-                <img src={logoutPng} alt="" className="w-5 h-5" />
                 Logout
               </button>
             </>
@@ -161,13 +147,13 @@ const NavBar: React.FC = () => {
             <Link
               to="/login"
               onClick={close}
-              className="flex items-center px-3 py-3 rounded-lg hover:bg-black/10 transition-colors text-black font-medium"
+              className="py-3 text-xs font-semibold text-white/60 hover:text-white transition-colors tracking-widest uppercase"
             >
               Login
             </Link>
           )}
-        </div>
-      )}
+        </nav>
+      </div>
     </header>
   );
 };
