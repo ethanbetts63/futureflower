@@ -4,6 +4,18 @@ from django.conf import settings
 from data_management.models import TermsAndConditions
 from django.utils.timezone import now
 
+# Maps filename prefix to the terms_type choice value
+FILENAME_TYPE_MAP = {
+    'florist': 'florist',
+    'customer': 'customer',
+    'affiliates': 'affiliate',
+}
+
+# Matches: florist_terms.html, customer_terms_v2.html, affiliates_terms_v1.0.html, etc.
+TERMS_FILE_PATTERN = re.compile(
+    r'^(florist|customer|affiliates)_terms(?:_v([\d\.]+))?\.html$'
+)
+
 class TermsUpdateOrchestrator:
     def __init__(self, command):
         self.command = command
@@ -12,11 +24,10 @@ class TermsUpdateOrchestrator:
     def run(self):
         self.command.stdout.write(self.command.style.SUCCESS("Starting Terms and Conditions update..."))
 
-        # Find all terms_v*.html files
-        html_files = [f for f in os.listdir(self.data_dir) if re.match(r'terms_v\d+(\.\d+)*\.html', f)]
+        html_files = [f for f in os.listdir(self.data_dir) if TERMS_FILE_PATTERN.match(f)]
 
         if not html_files:
-            self.command.stdout.write(self.command.style.WARNING("No 'terms_v*.html' files found."))
+            self.command.stdout.write(self.command.style.WARNING("No terms HTML files found."))
             return
 
         for file_name in html_files:
@@ -25,28 +36,28 @@ class TermsUpdateOrchestrator:
         self.command.stdout.write(self.command.style.SUCCESS("Successfully updated Terms and Conditions."))
 
     def process_file(self, file_name):
-        # Extract version from filename
-        version_match = re.search(r'v([\d\.]+)\.html', file_name)
-        if not version_match:
-            self.command.stdout.write(self.command.style.ERROR(f"Could not extract version from {file_name}"))
+        match = TERMS_FILE_PATTERN.match(file_name)
+        if not match:
+            self.command.stdout.write(self.command.style.ERROR(f"Could not parse {file_name}"))
             return
 
-        version = version_match.group(1)
+        prefix, version = match.group(1), match.group(2) or '1.0'
+        terms_type = FILENAME_TYPE_MAP[prefix]
 
-        # Check if this version already exists
-        if TermsAndConditions.objects.filter(version=version).exists():
-            self.command.stdout.write(self.command.style.NOTICE(f"Version {version} already exists. Skipping."))
+        if TermsAndConditions.objects.filter(terms_type=terms_type, version=version).exists():
+            self.command.stdout.write(self.command.style.NOTICE(
+                f"{terms_type} v{version} already exists. Skipping."
+            ))
             return
 
-        # Read HTML content
         file_path = os.path.join(self.data_dir, file_name)
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # Create new TermsAndConditions object
         terms = TermsAndConditions.objects.create(
+            terms_type=terms_type,
             version=version,
             content=content,
-            published_at=now()
+            published_at=now(),
         )
-        self.command.stdout.write(self.command.style.SUCCESS(f"Created new Terms and Conditions version: {terms}"))
+        self.command.stdout.write(self.command.style.SUCCESS(f"Created: {terms}"))

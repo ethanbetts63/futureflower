@@ -9,27 +9,20 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("events", "0001_initial"),
+        ("data_management", "0001_initial"),
         ("partners", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="orderbase",
-            name="discount_code",
+            model_name="notification",
+            name="recipient_partner",
             field=models.ForeignKey(
                 blank=True,
-                help_text="The discount code applied to this order.",
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                to="partners.discountcode",
-            ),
-        ),
-        migrations.AddField(
-            model_name="orderbase",
-            name="preferred_flower_types",
-            field=models.ManyToManyField(
-                blank=True, related_name="preferred_orders", to="events.flowertype"
+                related_name="notifications",
+                to="partners.partner",
             ),
         ),
     ]
