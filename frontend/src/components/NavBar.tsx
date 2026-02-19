@@ -83,7 +83,7 @@ const NavBar: React.FC = () => {
               onClick={close}
               className="inline-flex items-center bg-black text-white font-bold px-5 py-2 text-xs tracking-widest uppercase hover:bg-black/80 transition-colors"
             >
-              Order Now
+              Order
             </Link>
           </nav>
 
