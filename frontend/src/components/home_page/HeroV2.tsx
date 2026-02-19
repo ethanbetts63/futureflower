@@ -15,7 +15,8 @@ import heroMobileImage1024 from '../../assets/hero2_mobile-1024w.webp';
 import heroMobileImage1280 from '../../assets/hero2_mobile-1280w.webp';
 import flowerIcon from '../../assets/flower_symbol.svg';
 import subscriptionIcon from '../../assets/subscription_symbol.svg';
-import FreeDeliveryBadge from './FreeDeliveryBadge';
+import deliveryIcon from '../../assets/delivery_symbol.svg';
+import Badge from '../Badge';
 
 export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
   const navigate = useNavigate();
@@ -46,9 +47,21 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
           className="w-full h-full object-cover"
         />
       </picture>
+      <Badge
+        title="Free Delivery"
+        subtext="Included on all products"
+        symbol={
+          <img
+            src={deliveryIcon}
+            alt=""
+            className="h-7 w-7 animate-bounce"
+            style={{ animationDuration: '2s' }}
+          />
+        }
+        className="absolute top-8 right-6 sm:top-12 sm:right-12"
+      />
 
-      {/* Free Delivery Badge */}
-      <FreeDeliveryBadge className="absolute top-8 right-6 sm:top-12 sm:right-12" />
+
 
       {/* Overlay Content */}
       <div className="relative ml-0 sm:ml-12 md:ml-24 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-black/70 p-8 sm:p-12 rounded-none sm:rounded-lg text-white">

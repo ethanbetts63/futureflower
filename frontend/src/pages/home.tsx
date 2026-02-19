@@ -11,6 +11,8 @@ import { RomanceSection } from '../components/home_page/RomanceSection';
 import type { FaqItem } from '@/types/FaqItem';
 import { ArticleCarousel } from '../components/home_page/ArticleCarousel';
 import AnnouncementBar from '../components/home_page/AnnouncementBar';
+import deliveryIcon from '../assets/delivery_symbol.svg';
+import Badge from '../components/Badge';
 import OfferingSection from '../components/home_page/OfferingSection';
 import ComparisonSection from '../components/home_page/ComparisonSectionHome';
 
@@ -80,6 +82,18 @@ const HomePage = () => {
         title={<>The gift that <span className='italic'>keeps</span> on giving.</>}
       />
       <AnnouncementBar />
+      <Badge
+        title="Free Delivery"
+        subtext="Included on all products"
+        symbol={
+          <img
+            src={deliveryIcon}
+            alt=""
+            className="h-7 w-7 animate-bounce"
+            style={{ animationDuration: '2s' }}
+          />
+        }
+      />
 
       {/* --- Hierarchy Section --- */}
       <section className="bg-primary">
