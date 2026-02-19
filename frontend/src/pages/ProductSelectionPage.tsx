@@ -39,7 +39,7 @@ const ProductSelectionPage: React.FC = () => {
                 <ul className="space-y-2">
                   <li className="flex items-start"><span className="mr-2 text-green-600">✔</span>Ideal for anniversaries & birthdays</li>
                   <li className="flex items-start"><span className="mr-2 text-green-600">✔</span>No subscription required</li>
-                  <li className="flex items-start"><span className="mr-2 text-green-600">✔</span>100% refundable up to 7 days before delivery</li>
+                  <li className="flex items-start"><span className="mr-2 text-green-600">✔</span>100% refundable up to 14 days before delivery</li>
                 </ul>
                 <div className="pt-4 mt-auto">
                   <Button className="w-full bg-[var(--colorgreen)] text-black hover:opacity-90 hover:bg-[var(--colorgreen)]" size="lg">

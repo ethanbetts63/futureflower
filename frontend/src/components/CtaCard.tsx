@@ -73,7 +73,7 @@ export const CtaCard: React.FC = () => {
         features: [
           { heading: 'Made for meaningful dates', subtext: 'Ideal for anniversaries, birthdays, Mother’s Day, and moments you don’t want to miss.' },
           { heading: 'No subscription required', subtext: 'One bouquet, one date, nothing ongoing.' },
-          { heading: '100% refundable', subtext: 'Full refund available up to 7 days before delivery.' },
+          { heading: '100% refundable', subtext: 'Full refund available up to 14 days before delivery.' },
         ],
       },
       onGetStarted: () => handleNavigation('/event-gate/single-delivery'),

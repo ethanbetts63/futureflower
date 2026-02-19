@@ -213,7 +213,7 @@ def handle_invoice_payment_succeeded(invoice):
                 return
 
             # Determine the delivery date for this specific payment.
-            # Since we charge exactly 7 days before delivery, the delivery date 
+            # Since we charge exactly 14 days before delivery, the delivery date 
             # is the date the invoice was created plus 7 days.
             invoice_created_ts = invoice.get('created')
             if invoice_created_ts:

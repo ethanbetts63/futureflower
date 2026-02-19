@@ -91,7 +91,7 @@ const HomePage = () => {
     },
     {
       "question": "What is your refund policy?",
-      "answer": "We hope it doesn't come to this, but if your flowers arrive with a major issue (e.g. damaged, dead) or you cancel and give us enough notice, we will of course happily issue a refund. For more information please read the customer terms and conditions."
+      "answer": "All orders are 100% refundable up to 14 days before your delivery date, after that point we can not guarantee a refund but we will try our utmost. If your flowers arrive with a major issue (e.g. damaged, dead) this is of course enough reason for a refund. For more information please read the customer terms and conditions."
     },
     {
       "question": "What countries do you operate in?",

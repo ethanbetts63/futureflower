@@ -167,7 +167,7 @@ def calc_subscription(budget, source, deliveries_per_year, lead_time_months):
     """
     Calculate economics for a subscription lifecycle (Year 1).
     First payment at Day 0 (hold time = lead_time_months).
-    Subsequent payments 7 days before delivery (hold time = 0.25 months).
+    Subsequent payments 14 days before delivery (hold time = 0.25 months).
     """
     total_profit = 0
     total_customer_pays = 0
