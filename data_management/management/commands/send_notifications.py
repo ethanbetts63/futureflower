@@ -1,7 +1,7 @@
 from datetime import date
 from django.core.management.base import BaseCommand
 from data_management.models import Notification
-from data_management.utils.notification_sender import send_notification
+from data_management.utils.send_notification import send_notification
 
 
 class Command(BaseCommand):

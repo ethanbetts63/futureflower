@@ -52,20 +52,11 @@ Every page re-fetches data on navigation. Plan details, flower types, and user p
 ### 10. No error boundaries
 No React Error Boundary components. A crash in any component takes down the entire app. Add error boundaries around major route sections.
 
-### 11. Admin section is a stub
-`frontend/src/pages/admin/AdminHomePage.tsx` is minimal (~25 lines). Either build it out or remove it from routing to avoid confusion.
-
 ### 12. Move to HttpOnly Cookies for Authentication
 The current JWT implementation stores tokens in `localStorage`, which is vulnerable to XSS. Moving to `HttpOnly` cookies would improve security by making tokens inaccessible to JavaScript. This requires updating the Django backend to set cookies and the frontend to include credentials in requests, as well as handling CSRF protection more explicitly.
 
 ### 13. Summary Table for Checkout
 The `OrderSummaryCard` on the checkout page currently calculates "Handling" fees and totals using frontend-only logic. This creates a risk of discrepancies between what the user sees and what they are actually charged. Fee calculations should be centralized or retrieved from the API.
-
-### 14. Empty States and "What's Next?"
-The dashboard currently lacks helpful empty states. Instead of just stating "You have no plans," it should provide a clear call-to-action (CTA) to start the creation flow, guiding new users toward their first purchase.
-
-### 15. Post-Purchase Editing Friction
-The entire post-purchase management system needs a rethink. Currently, making small changes (like updating delivery notes or flower preferences) requires navigating to separate edit pages. Implementing in-place editing or modal-based updates would significantly improve the user experience.
 
 ### 16. The "Active vs. Inactive" State Confusion
 Users with unpaid plans are often forced back through the configuration flow to find a payment button. The dashboard and plan overview pages should provide a direct "Complete Payment" or "Activate" button to streamline the path to revenue for existing pending plans.
@@ -79,8 +70,8 @@ When an active Upfront plan is modified (budget, years, or frequency), the syste
 ### 19. unused file? 
 C:\Users\ethan\coding\futureflower\events\views\public_upfront_price_view.py im fairly sure that this is not being used. C:\Users\ethan\coding\futureflower\events\urls.py but maybe im wrong. check me. 
 
-### 20. Get rid of the anonymization stuff.
-It would be good to have but right now its overkill.
+### 20. Anonymization stuff.
+On delete in a previous app we hashed + salted all sensitive info on a users profile, plans and events. i copied over a lot of the logic, some of the models have a couple extra hashing fields. but it never fully got set up. either we can delete this and transition to a regular delete process or fully set it up. 
 
 ### 21. Event Evidence Images
 Add image upload fields to the `Event` model for admin documentation purposes:

@@ -23,9 +23,6 @@ The admin section is not a separate application. It lives inside `/dashboard/adm
 - **No duplicate auth infrastructure.** The existing JWT auth, `ProtectedRoute`, and `useAuth` context handle everything. The `AdminGuard` component simply checks `user.is_staff || user.is_superuser` and redirects if false.
 - **No separate nav shell to maintain.** The admin sidebar section appears conditionally in the existing sidebar — same pattern as the partner section — and disappears for non-staff users.
 - **Simpler routing.** Admin routes are nested inside the `/dashboard` route block in `App.tsx`. They benefit from the same layout and lazy-loading setup as everything else.
-
-A separate admin shell (the original `AdminLayout.tsx`) was removed. It added complexity without adding anything useful.
-
 ---
 
 ## The Delivery Lifecycle
