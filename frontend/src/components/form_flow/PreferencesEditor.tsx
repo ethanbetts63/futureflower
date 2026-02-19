@@ -56,7 +56,15 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
 
                 if (planData) {
                     const ids = planData.preferred_flower_types.map(Number);
-                    setSelectedVibe(ids.length > 0 ? ids[0] : null);
+                    let initialVibe = ids.length > 0 ? ids[0] : null;
+
+                    // If no preferred flower types from the plan, and flower types are available,
+                    // default to the first available flower type.
+                    if (initialVibe === null && flowerTypesData.length > 0) {
+                        initialVibe = flowerTypesData[0].id;
+                    }
+                    
+                    setSelectedVibe(initialVibe);
                     setFlowerNotes(planData.flower_notes || '');
                 }
 

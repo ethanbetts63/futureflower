@@ -62,6 +62,46 @@ def cancel_event_notifications(event):
     Notification.objects.filter(related_event=event, status='pending').update(status='cancelled')
 
 
+def create_customer_delivery_day_notification(event):
+    """
+    Creates a pending email notification for the customer on the delivery day.
+    Includes the next scheduled delivery date if one exists.
+    """
+    from events.models import Event as EventModel
+
+    order = event.order
+    user = order.user
+
+    next_event = EventModel.objects.filter(
+        order=order,
+        delivery_date__gt=event.delivery_date,
+    ).order_by('delivery_date').first()
+
+    first_name = user.first_name or user.username
+    recipient_name = f"{order.recipient_first_name} {order.recipient_last_name}".strip()
+
+    body = (
+        f"Hi {first_name},\n\n"
+        f"Your FutureFlower delivery is today! "
+        f"Flowers should be arriving for {recipient_name}.\n"
+    )
+
+    if next_event:
+        body += f"\nYour next delivery after this one is scheduled for {next_event.delivery_date}.\n"
+
+    body += "\nThank you for choosing FutureFlower!"
+
+    Notification.objects.create(
+        recipient_type='customer',
+        recipient_user=user,
+        channel='email',
+        subject="Your FutureFlower delivery is today!",
+        body=body,
+        scheduled_for=event.delivery_date,
+        related_event=event,
+    )
+
+
 def create_admin_delivery_day_notifications(event):
     """
     Called when admin marks an event as 'ordered'.

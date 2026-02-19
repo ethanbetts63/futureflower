@@ -8,7 +8,8 @@ from events.models import UpfrontPlan, SubscriptionPlan, Event
 from events.utils.delivery_dates import calculate_projected_delivery_dates
 from payments.utils.subscription_dates import get_next_delivery_date
 from payments.utils.send_admin_payment_notification import send_admin_payment_notification
-from data_management.utils.notification_factory import create_admin_event_notifications
+from payments.utils.send_customer_payment_notification import send_customer_payment_notification
+from data_management.utils.notification_factory import create_admin_event_notifications, create_customer_delivery_day_notification
 
 def handle_payment_intent_succeeded(payment_intent):
     """
@@ -97,6 +98,8 @@ def handle_payment_intent_succeeded(payment_intent):
                     print(f"Created {len(created_events)} Events for UpfrontPlan (PK: {plan_to_activate.pk}).")
                     for event in created_events:
                         create_admin_event_notifications(event)
+                        create_customer_delivery_day_notification(event)
+                    send_customer_payment_notification(plan_to_activate.user, plan_to_activate)
                     send_admin_payment_notification(payment_intent_id, order=plan_to_activate)
                 else:
                     print(f"Events for UpfrontPlan (PK: {plan_to_activate.pk}) already exist. Skipping duplicate.")
@@ -114,6 +117,8 @@ def handle_payment_intent_succeeded(payment_intent):
                         message=plan_to_activate.subscription_message
                     )
                     create_admin_event_notifications(first_event)
+                    create_customer_delivery_day_notification(first_event)
+                    send_customer_payment_notification(plan_to_activate.user, plan_to_activate)
                     send_admin_payment_notification(payment_intent_id, order=plan_to_activate)
 
                 # 2. Create the actual Stripe Subscription for future deliveries
@@ -231,6 +236,7 @@ def handle_invoice_payment_succeeded(invoice):
                     message=subscription_plan.subscription_message
                 )
                 create_admin_event_notifications(new_event)
+                create_customer_delivery_day_notification(new_event)
                 send_admin_payment_notification(invoice.get('payment_intent', ''), order=subscription_plan)
                 print(f"Created new Event for recurring delivery on {delivery_date}.")
             else:
