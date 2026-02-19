@@ -55,20 +55,12 @@ No React Error Boundary components. A crash in any component takes down the enti
 ### 12. Move to HttpOnly Cookies for Authentication
 The current JWT implementation stores tokens in `localStorage`, which is vulnerable to XSS. Moving to `HttpOnly` cookies would improve security by making tokens inaccessible to JavaScript. This requires updating the Django backend to set cookies and the frontend to include credentials in requests, as well as handling CSRF protection more explicitly.
 
-### 13. Summary Table for Checkout
-The `OrderSummaryCard` on the checkout page currently calculates "Handling" fees and totals using frontend-only logic. This creates a risk of discrepancies between what the user sees and what they are actually charged. Fee calculations should be centralized or retrieved from the API.
-
 ### 16. The "Active vs. Inactive" State Confusion
 Users with unpaid plans are often forced back through the configuration flow to find a payment button. The dashboard and plan overview pages should provide a direct "Complete Payment" or "Activate" button to streamline the path to revenue for existing pending plans.
 
-### 17. The "Inconsistent Routing" Issue
-There is a mismatch between defined routes in `App.tsx` and internal navigation (e.g., `/dashboard/upfront-plans/` vs `/dashboard/plans/`). This needs to be audited and unified to prevent 404s and broken links during plan management.
 
 ### 18. Active Upfront Plan Modification: Schedule Desync
 When an active Upfront plan is modified (budget, years, or frequency), the system successfully calculates the price difference and updates the plan metadata via the `UPFRONT_PLAN_MODIFY` webhook handler. However, it does **not** update or re-generate the existing `DeliveryEvent` objects. This results in a "Stale Schedule" where the user has paid for a new structure, but the system still tracks deliveries based on the old one.
-
-### 19. unused file? 
-C:\Users\ethan\coding\futureflower\events\views\public_upfront_price_view.py im fairly sure that this is not being used. C:\Users\ethan\coding\futureflower\events\urls.py but maybe im wrong. check me. 
 
 
 ### 21. Event Evidence Images
