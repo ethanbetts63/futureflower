@@ -47,7 +47,7 @@ const NavBar: React.FC = () => {
                       key={item.to}
                       to={item.to}
                       onClick={close}
-                      className="text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase"
+                      className="text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
                     >
                       {item.label}
                     </Link>
@@ -56,14 +56,14 @@ const NavBar: React.FC = () => {
                   <Link
                     to="/dashboard"
                     onClick={close}
-                    className="text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase"
+                    className="text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
                   >
                     Dashboard
                   </Link>
                 )}
                 <button
                   onClick={() => { logout(() => navigate('/')); close(); }}
-                  className="text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase"
+                  className="text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
                 >
                   Logout
                 </button>
@@ -72,7 +72,7 @@ const NavBar: React.FC = () => {
               <Link
                 to="/login"
                 onClick={close}
-                className="text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase"
+                className="text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
               >
                 Login
               </Link>
@@ -122,7 +122,7 @@ const NavBar: React.FC = () => {
                     key={item.to}
                     to={item.to}
                     onClick={close}
-                    className="py-3 text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase border-b border-black/5 last:border-0"
+                    className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5 last:border-0"
                   >
                     {item.label}
                   </Link>
@@ -131,14 +131,14 @@ const NavBar: React.FC = () => {
                 <Link
                   to="/dashboard"
                   onClick={close}
-                  className="py-3 text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase border-b border-black/5"
+                  className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5"
                 >
                   Dashboard
                 </Link>
               )}
               <button
                 onClick={() => { logout(() => navigate('/')); close(); }}
-                className="py-3 text-left text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase"
+                className="py-3 text-left text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
               >
                 Logout
               </button>
@@ -147,7 +147,7 @@ const NavBar: React.FC = () => {
             <Link
               to="/login"
               onClick={close}
-              className="py-3 text-xs font-semibold text-black/50 hover:text-black transition-colors tracking-widest uppercase"
+              className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
             >
               Login
             </Link>
