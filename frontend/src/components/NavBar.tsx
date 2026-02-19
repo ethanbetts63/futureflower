@@ -37,58 +37,8 @@ const NavBar: React.FC = () => {
             </span>
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {isAuthenticated ? (
-              <>
-                {dashboardNavItems.length > 0 ? (
-                  dashboardNavItems.map((item: NavItem) => (
-                    <Link
-                      key={item.to}
-                      to={item.to}
-                      onClick={close}
-                      className="text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
-                    >
-                      {item.label}
-                    </Link>
-                  ))
-                ) : (
-                  <Link
-                    to="/dashboard"
-                    onClick={close}
-                    className="text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
-                  >
-                    Dashboard
-                  </Link>
-                )}
-                <button
-                  onClick={() => { logout(() => navigate('/')); close(); }}
-                  className="text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <Link
-                to="/login"
-                onClick={close}
-                className="text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
-              >
-                Login
-              </Link>
-            )}
-
-            <Link
-              to="/order"
-              onClick={close}
-              className="inline-flex items-center bg-black text-white font-bold px-5 py-2 text-xs tracking-widest uppercase hover:bg-black/80 transition-colors"
-            >
-              Order
-            </Link>
-          </nav>
-
-          {/* Mobile: Order + Animated hamburger */}
-          <div className="flex lg:hidden items-center gap-4">
+          {/* Order + Animated hamburger */}
+          <div className="flex items-center gap-4">
             <Link
               to="/order"
               onClick={close}
@@ -111,8 +61,8 @@ const NavBar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile dropdown */}
-      <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-64' : 'max-h-0'}`}>
+      {/* Dropdown menu */}
+      <div className={`overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-64' : 'max-h-0'}`}>
         <nav className="bg-white border-t border-black/10 px-6 py-3 flex flex-col">
           {isAuthenticated ? (
             <>
@@ -122,7 +72,7 @@ const NavBar: React.FC = () => {
                     key={item.to}
                     to={item.to}
                     onClick={close}
-                    className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5 last:border-0"
+                    className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5"
                   >
                     {item.label}
                   </Link>
