@@ -40,8 +40,6 @@ export type { NextDeliveryInfo } from './NextDeliveryInfo';
 export type { NextDeliveryCardProps } from './NextDeliveryCardProps';
 export type { OtherSite } from './OtherSite';
 export type { OtherSitesProps } from './OtherSitesProps';
-export type { NavItem } from './NavItem';
-export type { NavigationContextType } from './NavigationContextType';
 export type { AuthContextType } from './AuthContextType';
 export type { FaqItem } from './FaqItem';
 export type { TermsAndConditions } from './TermsAndConditions';

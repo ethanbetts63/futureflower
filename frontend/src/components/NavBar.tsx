@@ -1,23 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.webp';
 import logo128 from '../assets/logo-128w.webp';
 import logo192 from '../assets/logo-192w.webp';
 import logo256 from '../assets/logo-256w.webp';
 import { useAuth } from '@/context/AuthContext';
-import { useNavigation } from '@/context/NavigationContext';
-import type { NavItem } from '../types/NavItem';
 
 const NavBar: React.FC = () => {
-  const { isAuthenticated, logout } = useAuth();
-  const { dashboardNavItems } = useNavigation();
+  const { isAuthenticated, logout, user } = useAuth();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
 
   const close = () => setMenuOpen(false);
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        close();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b border-black/10">
+    <header ref={navRef} className="sticky top-0 z-50 w-full bg-white border-b border-black/10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
 
@@ -62,28 +70,38 @@ const NavBar: React.FC = () => {
       </div>
 
       {/* Dropdown menu */}
-      <div className={`overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-64' : 'max-h-0'}`}>
+      <div className={`overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-96' : 'max-h-0'}`}>
         <nav className="bg-white border-t border-black/10 px-6 py-3 flex flex-col">
           {isAuthenticated ? (
             <>
-              {dashboardNavItems.length > 0 ? (
-                dashboardNavItems.map((item: NavItem) => (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    onClick={close}
-                    className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5"
-                  >
-                    {item.label}
+              <Link to="/dashboard" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                Dashboard
+              </Link>
+              <Link to="/dashboard/account" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                Account Management
+              </Link>
+              <Link to="/dashboard/plans" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                Flower Plan Management
+              </Link>
+              <Link to="/dashboard/refunds" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                Refunds
+              </Link>
+              {user?.is_partner && (
+                <>
+                  <Link to="/dashboard/partner" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                    Business Dashboard
                   </Link>
-                ))
-              ) : (
-                <Link
-                  to="/dashboard"
-                  onClick={close}
-                  className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5"
-                >
-                  Dashboard
+                  <Link to="/dashboard/partner/details" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                    Business Details
+                  </Link>
+                  <Link to="/dashboard/partner/payouts" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                    Payouts
+                  </Link>
+                </>
+              )}
+              {(user?.is_staff || user?.is_superuser) && (
+                <Link to="/dashboard/admin" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                  Admin Dashboard
                 </Link>
               )}
               <button
