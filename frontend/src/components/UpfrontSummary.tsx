@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Calendar, MessageSquare, Tag, Clock, StickyNote } from 'lucide-react';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
@@ -14,7 +14,19 @@ import DiscountCodeInput from '@/components/form_flow/DiscountCodeInput';
 import PaymentHistoryCard from '@/components/PaymentHistoryCard';
 import { Checkbox } from '@/components/ui/checkbox';
 import { acceptTerms } from '@/api';
+import { cancelUpfrontPlan } from '@/api/upfrontPlans';
 import { formatDate } from '@/utils/utils';
+import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from '@/components/ui/alert-dialog';
 import type { UpfrontPlan } from '@/types/UpfrontPlan';
 import type { FlowerType } from '@/types/FlowerType';
 
@@ -33,8 +45,27 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
   planId,
   onRefreshPlan,
 }) => {
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [cancelError, setCancelError] = useState<string | null>(null);
+
+  const handleCancelPlan = async () => {
+    setIsCancelling(true);
+    setCancelError(null);
+    try {
+      await cancelUpfrontPlan(planId);
+      setCancelDialogOpen(false);
+      toast.success('Your plan has been cancelled. To request a refund for remaining deliveries, email ethanbetts63@gmail.com.');
+      navigate('/dashboard/plans');
+    } catch {
+      setCancelError('Something went wrong. Please try again.');
+    } finally {
+      setIsCancelling(false);
+    }
+  };
 
   const isOrdering = context === 'ordering';
   const isSingleDelivery = plan.years === 1 && plan.frequency === 'annually' && plan.status !== 'active';
@@ -236,7 +267,52 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
             </label>
           </SummarySection>
         )}
+
+        {!isOrdering && plan.status === 'active' && (
+          <SummarySection label="Danger Zone">
+            <div className="border border-red-200 rounded-2xl p-5 bg-red-50/50">
+              <p className="text-sm text-black/60 mb-4">
+                Cancelling this plan will stop all future deliveries. If you have paid upfront for
+                remaining deliveries, you can request a refund by email.
+              </p>
+              {cancelError && (
+                <p className="text-red-500 text-sm mb-3">{cancelError}</p>
+              )}
+              <button
+                onClick={() => setCancelDialogOpen(true)}
+                className="text-red-600 font-semibold text-sm underline hover:text-red-700 transition-colors cursor-pointer"
+              >
+                Cancel this plan
+              </button>
+            </div>
+          </SummarySection>
+        )}
       </UnifiedSummaryCard>
+
+      <AlertDialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Cancel this plan?</AlertDialogTitle>
+            <AlertDialogDescription>
+              All upcoming scheduled deliveries will be cancelled. This cannot be undone.
+              To request a refund for remaining deliveries, email ethanbetts63@gmail.com.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isCancelling}>Go back</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => {
+                e.preventDefault();
+                handleCancelPlan();
+              }}
+              disabled={isCancelling}
+              className="bg-black text-white hover:bg-black/80"
+            >
+              {isCancelling ? 'Cancelling...' : 'Yes, cancel plan'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

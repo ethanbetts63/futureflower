@@ -1,4 +1,5 @@
 # futureflower/events/views/upfront_plan_view.py
+import logging
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django.db import transaction
@@ -6,10 +7,14 @@ from ..models import UpfrontPlan
 from ..serializers.upfront_plan_serializer import UpfrontPlanSerializer
 from ..utils.upfront_price_calc import forever_flower_upfront_price, calculate_final_plan_cost
 from ..utils.delivery_dates import calculate_projected_delivery_dates
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.response import Response
 from rest_framework import status
 from decimal import Decimal, InvalidOperation
+from data_management.models.notification import Notification
+from payments.utils.send_admin_payment_notification import send_admin_cancellation_notification
+
+logger = logging.getLogger(__name__)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -112,6 +117,46 @@ class UpfrontPlanViewSet(viewsets.ModelViewSet):
                 qs = qs.filter(frequency=frequency)
 
         return qs
+
+    @action(detail=True, methods=['post'], url_path='cancel')
+    @transaction.atomic
+    def cancel(self, request, pk=None):
+        """
+        Cancels an active upfront plan.
+        """
+        try:
+            plan = UpfrontPlan.objects.get(pk=pk, user=request.user)
+        except UpfrontPlan.DoesNotExist:
+            return Response({'error': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        if plan.status != 'active':
+            return Response(
+                {'error': 'Only active plans can be cancelled.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        plan.status = 'cancelled'
+        plan.save()
+
+        # Cancel all scheduled events and their pending notifications
+        scheduled_events = list(plan.events.filter(status='scheduled'))
+        for event in scheduled_events:
+            Notification.objects.filter(
+                related_event=event, status='pending'
+            ).update(status='cancelled')
+            event.status = 'cancelled'
+            event.save()
+
+        # Notify admin if any ordered events exist
+        ordered_events = list(plan.events.filter(status='ordered'))
+        if ordered_events:
+            ordered_ids = ', '.join(str(e.id) for e in ordered_events)
+            send_admin_cancellation_notification(
+                f"User cancelled upfront plan {plan.id}. "
+                f"The following events are already ordered and may require florist contact: {ordered_ids}"
+            )
+
+        return Response({'status': 'cancelled'}, status=status.HTTP_200_OK)
 
     @transaction.atomic
     def perform_create(self, serializer):

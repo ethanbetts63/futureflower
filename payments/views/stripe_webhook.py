@@ -6,11 +6,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from payments.utils.webhook_handlers import (
-    handle_payment_intent_succeeded, 
+    handle_payment_intent_succeeded,
     handle_invoice_payment_succeeded,
     handle_payment_intent_failed,
     handle_setup_intent_succeeded,
-    handle_setup_intent_failed
+    handle_setup_intent_failed,
+    handle_subscription_deleted,
 )
 
 class StripeWebhookView(APIView):
@@ -50,7 +51,10 @@ class StripeWebhookView(APIView):
 
         elif event['type'] == 'setup_intent.failed':
             handle_setup_intent_failed(event['data']['object'])
-        
+
+        elif event['type'] == 'customer.subscription.deleted':
+            handle_subscription_deleted(event['data']['object'])
+
         else:
             print(f"Unhandled event type {event['type']}")
 

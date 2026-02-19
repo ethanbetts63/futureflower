@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Calendar, RefreshCw, Tag, MessageSquare } from 'lucide-react';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
@@ -33,6 +33,7 @@ const SubscriptionSummary: React.FC<SubscriptionSummaryProps> = ({
   planId,
   onRefreshPlan,
 }) => {
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
 
@@ -176,6 +177,23 @@ const SubscriptionSummary: React.FC<SubscriptionSummaryProps> = ({
                 .
               </span>
             </label>
+          </SummarySection>
+        )}
+
+        {!isOrdering && plan.status === 'active' && (
+          <SummarySection label="Danger Zone">
+            <div className="border border-red-200 rounded-2xl p-5 bg-red-50/50">
+              <p className="text-sm text-black/60 mb-4">
+                Cancelling your subscription will stop future charges. You can choose to keep your
+                next scheduled delivery or cancel everything immediately.
+              </p>
+              <button
+                onClick={() => navigate(`/dashboard/subscription-plans/${planId}/cancel`)}
+                className="text-red-600 font-semibold text-sm underline hover:text-red-700 transition-colors cursor-pointer"
+              >
+                Cancel Subscription
+              </button>
+            </div>
           </SummarySection>
         )}
       </UnifiedSummaryCard>

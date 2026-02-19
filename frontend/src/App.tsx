@@ -22,6 +22,8 @@ const SubscriptionPlanOverviewPage = lazy(() => import('./pages/user_dashboard/s
 const SubscriptionEditRecipientPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditRecipientPage'));
 const SubscriptionEditPreferencesPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditPreferencesPage'));
 const SubscriptionEditStructurePage = lazy(() => import('./pages/user_dashboard/subscription_management/EditStructurePage'));
+const CancelSubscriptionPage = lazy(() => import('./pages/user_dashboard/subscription_management/CancelSubscriptionPage'));
+const RefundRequestPage = lazy(() => import('./pages/user_dashboard/RefundRequestPage'));
 
 const EventGate = lazy(() => import('@/components/form_flow/EventGate'));
 const Step1CreateAccountPage = lazy(() => import('./pages/Step1CreateAccountPage'));
@@ -174,6 +176,8 @@ function App() {
                   <Route path="subscription-plans/:planId/edit-recipient" element={<SubscriptionEditRecipientPage />} />
                   <Route path="subscription-plans/:planId/edit-preferences" element={<SubscriptionEditPreferencesPage />} />
                   <Route path="subscription-plans/:planId/edit-structure" element={<SubscriptionEditStructurePage />} />
+                  <Route path="subscription-plans/:planId/cancel" element={<CancelSubscriptionPage />} />
+                  <Route path="refunds" element={<RefundRequestPage />} />
                   {/* Partner routes (inside dashboard layout) */}
                   <Route path="partner" element={<PartnerDashboardPage />} />
                   <Route path="partner/details" element={<BusinessDetailsPage />} />

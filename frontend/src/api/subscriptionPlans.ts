@@ -41,3 +41,11 @@ export async function getSubscriptionPlans(): Promise<SubscriptionPlan[]> {
     const response = await authedFetch('/api/events/subscription-plans/');
     return handleResponse(response);
 }
+
+export async function cancelSubscription(planId: string, cancelType: 'keep_current' | 'cancel_all'): Promise<void> {
+    const response = await authedFetch(`/api/events/subscription-plans/${planId}/cancel/`, {
+        method: 'POST',
+        body: JSON.stringify({ cancel_type: cancelType }),
+    });
+    await handleResponse(response);
+}

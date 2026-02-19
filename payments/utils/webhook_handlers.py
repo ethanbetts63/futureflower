@@ -289,6 +289,49 @@ def handle_setup_intent_succeeded(setup_intent):
         print(f"UNEXPECTED ERROR during setup_intent.succeeded processing for plan {plan_id}: {e}")
 
 
+def handle_subscription_deleted(subscription):
+    """
+    Handles the customer.subscription.deleted event from Stripe.
+    Acts as a safety net for cancellations that happen outside our API
+    (e.g. payment failure, manual cancellation in Stripe dashboard).
+    """
+    subscription_id = subscription.get('id')
+    if not subscription_id:
+        print("Webhook received customer.subscription.deleted without a subscription ID. Skipping.")
+        return
+
+    print(f"Processing customer.subscription.deleted for Stripe Subscription ID: {subscription_id}")
+
+    try:
+        with transaction.atomic():
+            plan = SubscriptionPlan.objects.select_for_update().get(
+                stripe_subscription_id=subscription_id
+            )
+
+            if plan.status == 'cancelled':
+                print(f"SubscriptionPlan (PK: {plan.pk}) already cancelled. Skipping.")
+                return
+
+            plan.status = 'cancelled'
+            plan.save()
+            print(f"SubscriptionPlan (PK: {plan.pk}) marked as cancelled via webhook.")
+
+            # Cancel remaining scheduled events and their notifications
+            scheduled_events = plan.events.filter(status='scheduled')
+            for event in scheduled_events:
+                from data_management.models.notification import Notification
+                Notification.objects.filter(
+                    related_event=event, status='pending'
+                ).update(status='cancelled')
+                event.status = 'cancelled'
+                event.save()
+
+    except SubscriptionPlan.DoesNotExist:
+        print(f"SubscriptionPlan not found for Stripe Subscription ID: {subscription_id}. Skipping.")
+    except Exception as e:
+        print(f"UNEXPECTED ERROR during customer.subscription.deleted for {subscription_id}: {e}")
+
+
 def handle_setup_intent_failed(setup_intent):
     """
     Handles the setup_intent.payment_failed event from Stripe.

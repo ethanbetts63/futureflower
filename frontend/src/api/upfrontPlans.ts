@@ -61,3 +61,10 @@ export async function calculateUpfrontPriceForPlan(planId: string, payload: Calc
   });
   return handleResponse(response);
 }
+
+export async function cancelUpfrontPlan(planId: string): Promise<void> {
+  const response = await authedFetch(`/api/events/upfront-plans/${planId}/cancel/`, {
+    method: 'POST',
+  });
+  await handleResponse(response);
+}

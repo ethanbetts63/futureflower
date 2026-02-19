@@ -81,7 +81,6 @@ class OrderBase(models.Model):
     recipient_last_name = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's last name.")
     hash_recipient_last_name = models.CharField(max_length=64, blank=True, null=True, editable=False)
     recipient_street_address = models.CharField(max_length=255, blank=True, null=True, help_text="Recipient's street address.")
-    hash_recipient_street_address = models.CharField(max_length=64, blank=True, null=True, editable=False)
     recipient_suburb = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's suburb or neighborhood.")
     recipient_city = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's city.")
     recipient_state = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's state, province, or region.")

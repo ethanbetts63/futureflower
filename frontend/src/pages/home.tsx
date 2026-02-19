@@ -89,7 +89,7 @@ const HomePage = () => {
           <img
             src={deliveryIcon}
             alt=""
-            className="h-7 w-7 animate-bounce"
+            className="h-5 w-5 md:h-7 md:w-7 animate-bounce"
             style={{ animationDuration: '2s' }}
           />
         }
