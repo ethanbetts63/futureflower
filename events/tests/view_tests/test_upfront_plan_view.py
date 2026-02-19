@@ -1,9 +1,13 @@
 import pytest
+from unittest.mock import patch
 from rest_framework.test import APIClient
 from decimal import Decimal
 from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
+from events.tests.factories.event_factory import EventFactory
 from users.tests.factories.user_factory import UserFactory
 from events.utils.upfront_price_calc import forever_flower_upfront_price
+from events.models import Event
+from data_management.models.notification import Notification
 
 @pytest.mark.django_db
 class TestUpfrontPlanViewSet:
@@ -82,12 +86,108 @@ class TestUpfrontPlanViewSet:
         UpfrontPlanFactory(user=self.user, years=1, frequency='annually')
         # Multi-year plan
         UpfrontPlanFactory(user=self.user, years=5, frequency='quarterly')
-        
+
         # Default: returns all
         response = self.client.get(self.url)
         assert len(response.data) == 2
-        
+
         # Filtered: exclude single delivery
         response = self.client.get(f"{self.url}?exclude_single_delivery=true")
         assert len(response.data) == 1
         assert response.data[0]['years'] == 5
+
+
+def make_notification(event, status='pending'):
+    return Notification.objects.create(
+        recipient_type='admin',
+        channel='email',
+        body='Test',
+        scheduled_for=event.delivery_date,
+        status=status,
+        related_event=event,
+    )
+
+
+@pytest.mark.django_db
+class TestUpfrontPlanCancelAction:
+
+    def setup_method(self):
+        self.client = APIClient()
+        self.user = UserFactory()
+        self.client.force_authenticate(user=self.user)
+        self.base_url = '/api/events/upfront-plans/'
+
+    def _cancel_url(self, plan_id):
+        return f'{self.base_url}{plan_id}/cancel/'
+
+    def test_unauthenticated_cannot_cancel(self):
+        plan = UpfrontPlanFactory(user=self.user, status='active')
+        self.client.force_authenticate(user=None)
+        response = self.client.post(self._cancel_url(plan.id), format='json')
+        assert response.status_code == 401
+
+    def test_cannot_cancel_other_users_plan(self):
+        other_plan = UpfrontPlanFactory(user=UserFactory(), status='active')
+        response = self.client.post(self._cancel_url(other_plan.id), format='json')
+        assert response.status_code == 404
+
+    def test_cannot_cancel_non_active_plan(self):
+        plan = UpfrontPlanFactory(user=self.user, status='cancelled')
+        response = self.client.post(self._cancel_url(plan.id), format='json')
+        assert response.status_code == 400
+
+    def test_cancel_marks_plan_cancelled(self):
+        plan = UpfrontPlanFactory(user=self.user, status='active')
+        response = self.client.post(self._cancel_url(plan.id), format='json')
+        assert response.status_code == 200
+        plan.refresh_from_db()
+        assert plan.status == 'cancelled'
+
+    def test_cancel_cancels_all_scheduled_events(self):
+        plan = UpfrontPlanFactory(user=self.user, status='active')
+        e1 = EventFactory(order=plan, status='scheduled')
+        e2 = EventFactory(order=plan, status='scheduled')
+
+        self.client.post(self._cancel_url(plan.id), format='json')
+
+        e1.refresh_from_db()
+        e2.refresh_from_db()
+        assert e1.status == 'cancelled'
+        assert e2.status == 'cancelled'
+
+    def test_cancel_does_not_touch_delivered_events(self):
+        plan = UpfrontPlanFactory(user=self.user, status='active')
+        delivered = EventFactory(order=plan, status='delivered')
+
+        self.client.post(self._cancel_url(plan.id), format='json')
+
+        delivered.refresh_from_db()
+        assert delivered.status == 'delivered'
+
+    def test_cancel_cancels_pending_notifications(self):
+        plan = UpfrontPlanFactory(user=self.user, status='active')
+        event = EventFactory(order=plan, status='scheduled')
+        notif = make_notification(event, status='pending')
+
+        self.client.post(self._cancel_url(plan.id), format='json')
+
+        notif.refresh_from_db()
+        assert notif.status == 'cancelled'
+
+    def test_ordered_events_trigger_admin_notification(self):
+        plan = UpfrontPlanFactory(user=self.user, status='active')
+        EventFactory(order=plan, status='ordered')
+
+        with patch('events.views.upfront_plan_view.send_admin_cancellation_notification') as mock_notify:
+            self.client.post(self._cancel_url(plan.id), format='json')
+
+        mock_notify.assert_called_once()
+
+    def test_no_ordered_events_no_admin_notification(self):
+        plan = UpfrontPlanFactory(user=self.user, status='active')
+        EventFactory(order=plan, status='scheduled')
+
+        with patch('events.views.upfront_plan_view.send_admin_cancellation_notification') as mock_notify:
+            self.client.post(self._cancel_url(plan.id), format='json')
+
+        mock_notify.assert_not_called()

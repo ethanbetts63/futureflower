@@ -4,8 +4,25 @@ import { ProductCarousel } from '../components/ProductCarousel';
 import type { ProductCarouselStep } from '../components/ProductCarousel';
 import { FaqV2 } from '../components/FaqV2';
 import floristPackingImage from '../assets/florist_packing.webp';
+import floristPackingImage320 from '../assets/florist_packing-320w.webp';
+import floristPackingImage640 from '../assets/florist_packing-640w.webp';
+import floristPackingImage768 from '../assets/florist_packing-768w.webp';
+import floristPackingImage1024 from '../assets/florist_packing-1024w.webp';
+import floristPackingImage1280 from '../assets/florist_packing-1280w.webp';
+
 import petalImage from '../assets/petal.png';
+import petalImage320 from '../assets/petal-320w.webp';
+import petalImage640 from '../assets/petal-640w.webp';
+import petalImage768 from '../assets/petal-768w.webp';
+import petalImage1024 from '../assets/petal-1024w.webp';
+import petalImage1280 from '../assets/petal-1280w.webp';
+
 import deliveryHighImage from '../assets/delivery_high.png';
+import deliveryHighImage320 from '../assets/delivery_high-320w.webp';
+import deliveryHighImage640 from '../assets/delivery_high-640w.webp';
+import deliveryHighImage768 from '../assets/delivery_high-768w.webp';
+import deliveryHighImage1024 from '../assets/delivery_high-1024w.webp';
+import deliveryHighImage1280 from '../assets/delivery_high-1280w.webp';
 import { SendBusinessYourWay } from '../components/florists_page/SendBusinessYourWay';
 import { ValuePropsA } from '../components/florists_page/ValuePropsA';
 import type { FaqItem } from '@/types/FaqItem';
@@ -31,21 +48,36 @@ const FloristsPage = () => {
       title: 'Set Up Your Link and/or QR Code.',
       description:
         'Display your unique discount code (instore poster / website link). The discount comes out of our margin, not yours.',
-      image: floristPackingImage, // TODO: replace with QR code image
+      image: {
+        src: floristPackingImage,
+        srcSet: `${floristPackingImage320} 320w, ${floristPackingImage640} 640w, ${floristPackingImage768} 768w, ${floristPackingImage1024} 1024w, ${floristPackingImage1280} 1280w`,
+        sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
+        alt: 'Florist packing image for setting up link/QR code',
+      },
     },
     {
       level: 2,
       title: 'Customer Makes Their Order.',
       description:
         'Customers selects budget, preferences, and delivery details. These will all be provided to you.',
-      image: petalImage, // TODO: replace with customer ordering image
+      image: {
+        src: petalImage,
+        srcSet: `${petalImage320} 320w, ${petalImage640} 640w, ${petalImage768} 768w, ${petalImage1024} 1024w, ${petalImage1280} 1280w`,
+        sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
+        alt: 'Petal image for customer making their order',
+      },
     },
     {
       level: 3,
       title: 'You Accept or Reject Orders.',
       description:
         'Recieve a text and email with an acceptance link. Accept and handle the delivery yourself, or reject for a tiered reward ($5–$25) depending on the bouquet value.',
-      image: deliveryHighImage, // TODO: replace with florist delivery image
+      image: {
+        src: deliveryHighImage,
+        srcSet: `${deliveryHighImage320} 320w, ${deliveryHighImage640} 640w, ${deliveryHighImage768} 768w, ${deliveryHighImage1024} 1024w, ${deliveryHighImage1280} 1280w`,
+        sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
+        alt: 'Delivery image for accepting or rejecting orders',
+      },
     },
   ];
 

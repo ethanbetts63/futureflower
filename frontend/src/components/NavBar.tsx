@@ -38,7 +38,7 @@ const NavBar: React.FC = () => {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-8">
             {isAuthenticated ? (
               <>
                 {dashboardNavItems.length > 0 ? (
@@ -88,7 +88,7 @@ const NavBar: React.FC = () => {
           </nav>
 
           {/* Mobile: Order + Animated hamburger */}
-          <div className="flex md:hidden items-center gap-4">
+          <div className="flex lg:hidden items-center gap-4">
             <Link
               to="/order"
               onClick={close}
@@ -112,7 +112,7 @@ const NavBar: React.FC = () => {
       </div>
 
       {/* Mobile dropdown */}
-      <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-64' : 'max-h-0'}`}>
+      <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-64' : 'max-h-0'}`}>
         <nav className="bg-white border-t border-black/10 px-6 py-3 flex flex-col">
           {isAuthenticated ? (
             <>

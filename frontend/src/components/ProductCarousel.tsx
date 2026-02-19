@@ -2,7 +2,12 @@ export interface ProductCarouselStep {
   level: number;
   title: string;
   description: string;
-  image: string;
+  image: {
+    src: string;
+    srcSet: string;
+    sizes: string;
+    alt: string;
+  };
 }
 
 interface ProductCarouselProps {
@@ -34,12 +39,15 @@ export const ProductCarousel = ({ title, subtitle, steps }: ProductCarouselProps
             >
               {/* Image with numbered badge */}
               <div className="relative">
-                <img
-                  src={step.image}
-                  alt={step.title}
-                  className="w-full h-52 md:h-56 lg:h-64 object-cover"
-                  loading="lazy"
-                />
+                <picture>
+                  <source type="image/webp" srcSet={step.image.srcSet} sizes={step.image.sizes} />
+                  <img
+                    src={step.image.src}
+                    alt={step.image.alt}
+                    className="w-full h-52 md:h-56 lg:h-64 object-cover"
+                    loading="lazy"
+                  />
+                </picture>
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex items-center justify-center w-11 h-11 bg-black text-white text-lg font-bold rounded-md shadow-lg">
                   {step.level}
                 </span>
