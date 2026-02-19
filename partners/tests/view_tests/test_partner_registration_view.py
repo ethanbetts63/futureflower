@@ -21,8 +21,10 @@ class TestPartnerRegistrationView:
         response = self.client.post(self.url, data, format='json')
         
         assert response.status_code == 201
-        assert "access" in response.data
-        
+        assert 'access_token' in response.cookies
+        assert response.cookies['access_token']['httponly']
+        assert 'access' not in response.data
+
         user = User.objects.get(email="newpartner@example.com")
         assert user.first_name == "Partner"
         

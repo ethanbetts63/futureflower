@@ -9,7 +9,7 @@ def _enforce_csrf(request):
     Enforce CSRF validation for cookie-based JWT authentication.
     This mirrors what SessionAuthentication does to protect cookie-based auth from CSRF.
     """
-    check = CSRFCheck(request)
+    check = CSRFCheck(get_response=lambda r: None)
     check.process_request(request)
     reason = check.process_view(request, None, (), {})
     if reason:
