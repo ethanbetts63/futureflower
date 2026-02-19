@@ -2,11 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { getImpactTier } from '@/utils/pricingConstants';
 import flowerIcon from '@/assets/flower_symbol.svg';
-
-interface ImpactSummaryProps {
-  price: number;
-  editUrl?: string;
-}
+import type { ImpactSummaryProps } from '@/types/ImpactSummaryProps';
 
 const ImpactSummary: React.FC<ImpactSummaryProps> = ({ price, editUrl }) => {
   const tier = getImpactTier(price);

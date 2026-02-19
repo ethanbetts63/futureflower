@@ -1,13 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-
-interface UnifiedSummaryCardProps {
-  title: string;
-  description: string;
-  children: React.ReactNode;
-  footer?: React.ReactNode;
-  className?: string;
-}
+import type { UnifiedSummaryCardProps } from '@/types/UnifiedSummaryCardProps';
 
 const UnifiedSummaryCard: React.FC<UnifiedSummaryCardProps> = ({ 
   title, 

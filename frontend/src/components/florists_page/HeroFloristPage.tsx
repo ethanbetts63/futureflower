@@ -3,6 +3,7 @@ import { ArrowDown } from 'lucide-react';
 import { BecomePartnerButton } from './BecomePartnerButton';
 import moneyBagIcon from '../../assets/money_bag.svg';
 import Badge from '../Badge';
+import type { HeroFloristPageProps } from '@/types/HeroFloristPageProps';
 
 import deliveryImage from '../../assets/delivery.webp';
 import deliveryImage320 from '../../assets/delivery-320w.webp';
@@ -10,10 +11,6 @@ import deliveryImage640 from '../../assets/delivery-640w.webp';
 import deliveryImage768 from '../../assets/delivery-768w.webp';
 import deliveryImage1024 from '../../assets/delivery_med.png';
 import deliveryImage1280 from '../../assets/delivery_high.png';
-
-interface HeroFloristPageProps {
-  scrollToContent: () => void;
-}
 
 export const HeroFloristPage: React.FC<HeroFloristPageProps> = ({ scrollToContent }) => {
   return (

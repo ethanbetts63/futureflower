@@ -3,21 +3,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { ChevronRight } from 'lucide-react';
-import { Button, type ButtonProps } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { createPaymentIntent } from '@/api/payments';
 import { createSubscription } from '@/api/subscriptionPlans'; // Import createSubscription
-import type { CreatePaymentIntentPayload } from '@/types';
+import type { PaymentInitiatorButtonProps } from '@/types/PaymentInitiatorButtonProps';
 import { cn } from '@/utils/utils';
-
-interface PaymentInitiatorButtonProps extends ButtonProps {
-  itemType: 'UPFRONT_PLAN_MODIFY' | 'UPFRONT_PLAN_NEW' | 'SUBSCRIPTION_PLAN_NEW' | 'SINGLE_DELIVERY_PLAN_NEW';
-  details: CreatePaymentIntentPayload['details'];
-  backPath?: string;
-  onPaymentInitiate?: () => void;
-  onPaymentSuccess?: (clientSecret: string) => void;
-  onPaymentError?: (error: any) => void;
-}
 
 const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
   itemType,

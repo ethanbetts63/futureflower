@@ -5,13 +5,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { CheckCircle, XCircle } from 'lucide-react';
 import { validateDiscountCode } from '@/api/partners';
 import type { DiscountValidationResult } from '@/types';
-
-interface DiscountCodeInputProps {
-  planId: string;
-  planType: 'upfront' | 'subscription';
-  existingCode?: string | null;
-  onDiscountApplied: () => void;
-}
+import type { DiscountCodeInputProps } from '@/types/DiscountCodeInputProps';
 
 const DiscountCodeInput: React.FC<DiscountCodeInputProps> = ({
   planId,

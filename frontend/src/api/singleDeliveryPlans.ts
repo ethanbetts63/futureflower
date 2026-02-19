@@ -1,6 +1,7 @@
 import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
 import type { UpfrontPlan, PartialUpfrontPlan } from "@/types";
+import type { CalculatedPriceResponse } from '@/types/CalculatedPriceResponse';
 
 function parseUpfrontPlan(plan: any): UpfrontPlan {
     return {
@@ -35,12 +36,6 @@ export async function updateUpfrontPlanAsSingleDelivery(planId: string, planData
     });
     const data = await handleResponse<any>(response);
     return parseUpfrontPlan(data);
-}
-
-interface CalculatedPriceResponse {
-  new_total_price: number;
-  total_paid: number;
-  amount_owing: number;
 }
 
 export async function calculateUpfrontPlanSingleDeliveryPrice(planId: string, budget: number): Promise<CalculatedPriceResponse> {

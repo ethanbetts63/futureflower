@@ -1,12 +1,7 @@
 import React from 'react';
 import { MapPin } from 'lucide-react';
 import SummarySection from '../SummarySection';
-import type { OrderBase } from '@/types/OrderBase';
-
-interface RecipientSummaryProps {
-  plan: OrderBase;
-  editUrl: string;
-}
+import type { RecipientSummaryProps } from '@/types/RecipientSummaryProps';
 
 const RecipientSummary: React.FC<RecipientSummaryProps> = ({ plan, editUrl }) => {
   const fullAddress = [

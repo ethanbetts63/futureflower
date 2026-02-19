@@ -1,13 +1,9 @@
 import React from 'react';
-import { Button, type ButtonProps } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 import { cn } from '@/utils/utils';
 import { Spinner } from '@/components/ui/spinner';
-
-interface FlowNextButtonProps extends ButtonProps {
-  label: string;
-  isLoading?: boolean;
-}
+import type { FlowNextButtonProps } from '@/types/FlowNextButtonProps';
 
 const FlowNextButton: React.FC<FlowNextButtonProps> = ({ 
   label, 

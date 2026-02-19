@@ -15,16 +15,8 @@ import DiscountCodeInput from '@/components/form_flow/DiscountCodeInput';
 import { Checkbox } from '@/components/ui/checkbox';
 import { acceptTerms } from '@/api';
 import { formatDate } from '@/utils/utils';
-import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
+import type { SubscriptionSummaryProps } from '@/types/SubscriptionSummaryProps';
 import type { FlowerType } from '@/types/FlowerType';
-
-interface SubscriptionSummaryProps {
-  plan: SubscriptionPlan;
-  flowerTypeMap: Map<number, FlowerType>;
-  context: 'ordering' | 'management';
-  planId: string;
-  onRefreshPlan?: () => void;
-}
 
 const SubscriptionSummary: React.FC<SubscriptionSummaryProps> = ({
   plan,

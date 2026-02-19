@@ -1,13 +1,9 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Button, type ButtonProps } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import { cn } from '@/utils/utils';
-
-interface FlowBackButtonProps extends ButtonProps {
-  to?: string;
-  label?: string;
-}
+import type { FlowBackButtonProps } from '@/types/FlowBackButtonProps';
 
 const FlowBackButton: React.FC<FlowBackButtonProps> = ({ 
   to, 

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAdminDashboard } from '@/api/admin';
-import type { AdminEvent, AdminDashboard } from '@/types/Admin';
+import type { AdminDashboard } from '@/types/Admin';
 import { Loader2 } from 'lucide-react';
 import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
+import type { EventCardProps } from '@/types/EventCardProps';
+import type { QueueSectionProps } from '@/types/QueueSectionProps';
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr + 'T00:00:00');
@@ -17,11 +19,6 @@ function daysUntil(dateStr: string): number {
   today.setHours(0, 0, 0, 0);
   const target = new Date(dateStr + 'T00:00:00');
   return Math.ceil((target.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-}
-
-interface EventCardProps {
-  event: AdminEvent;
-  section: 'to_order' | 'ordered' | 'delivered';
 }
 
 const EventCard: React.FC<EventCardProps> = ({ event, section }) => {
@@ -69,12 +66,6 @@ const EventCard: React.FC<EventCardProps> = ({ event, section }) => {
     </div>
   );
 };
-
-interface QueueSectionProps {
-  title: string;
-  events: AdminEvent[];
-  section: 'to_order' | 'ordered' | 'delivered';
-}
 
 const QueueSection: React.FC<QueueSectionProps> = ({ title, events, section }) => (
   <SummarySection label={`${title} (${events.length})`}>

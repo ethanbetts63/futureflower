@@ -1,11 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-interface SummarySectionProps {
-  label: string;
-  children: React.ReactNode;
-  editUrl?: string;
-}
+import type { SummarySectionProps } from '@/types/SummarySectionProps';
 
 const SummarySection: React.FC<SummarySectionProps> = ({ label, children, editUrl }) => {
   return (

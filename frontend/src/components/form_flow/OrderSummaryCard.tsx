@@ -5,14 +5,10 @@ import { Spinner } from '@/components/ui/spinner';
 import { getSubscriptionPlan } from '@/api/subscriptionPlans';
 import { getUpfrontPlan } from '@/api/upfrontPlans';
 import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
-import type { SubscriptionPlan, UpfrontPlan } from '@/types'; 
+import type { SubscriptionPlan, UpfrontPlan } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import { Flower, Calendar, Repeat, DollarSign } from 'lucide-react';
-
-interface OrderSummaryCardProps {
-    planId: string;
-    itemType: 'SUBSCRIPTION_PLAN_NEW' | 'UPFRONT_PLAN_NEW' | 'SINGLE_DELIVERY_PLAN_NEW' | string;
-}
+import type { OrderSummaryCardProps } from '@/types/OrderSummaryCardProps';
 
 type Plan = SubscriptionPlan | UpfrontPlan; 
 const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType }) => {

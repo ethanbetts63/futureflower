@@ -1,20 +1,7 @@
-export interface ProductCarouselStep {
-  level: number;
-  title: string;
-  description: string;
-  image: {
-    src: string;
-    srcSet: string;
-    sizes: string;
-    alt: string;
-  };
-}
+import type { ProductCarouselStep } from '@/types/ProductCarouselStep';
+import type { ProductCarouselProps } from '@/types/ProductCarouselProps';
 
-interface ProductCarouselProps {
-  title: string;
-  subtitle: string;
-  steps: ProductCarouselStep[];
-}
+export type { ProductCarouselStep };
 
 export const ProductCarousel = ({ title, subtitle, steps }: ProductCarouselProps) => {
   return (

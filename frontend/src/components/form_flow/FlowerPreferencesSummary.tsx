@@ -1,14 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sprout } from 'lucide-react';
-import type { FlowerType } from '@/types/FlowerType';
 import { OCCASION_IMAGES, DEFAULT_FLOWER_IMAGE } from '@/utils/flowerTypeImages';
-
-interface FlowerPreferencesSummaryProps {
-  preferredTypes: FlowerType[];
-  flowerNotes?: string | null;
-  editUrl: string;
-}
+import type { FlowerPreferencesSummaryProps } from '@/types/FlowerPreferencesSummaryProps';
 
 const FlowerPreferencesSummary: React.FC<FlowerPreferencesSummaryProps> = ({ preferredTypes, flowerNotes, editUrl }) => {
   return (

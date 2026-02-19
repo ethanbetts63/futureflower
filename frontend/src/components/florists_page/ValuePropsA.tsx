@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check } from 'lucide-react';
+import type { ValuePropsAProps } from '@/types/ValuePropsAProps';
 
 const points = [
   'Only sales you\'re leaving behind.',
@@ -7,10 +8,6 @@ const points = [
   'Easy upsell. Locked revenue.',
   'We absorb bad review risk.',
 ];
-
-interface ValuePropsAProps {
-  contentRef?: React.RefObject<HTMLDivElement | null>;
-}
 
 export const ValuePropsA: React.FC<ValuePropsAProps> = ({ contentRef }) => {
   return (

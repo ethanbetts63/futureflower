@@ -1,14 +1,9 @@
 import smallFlowers from '@/assets/small_flowers.png';
 import medFlowers from '@/assets/med_flowers.png';
 import largeFlowers from '@/assets/large_flowers.png';
+import type { ImpactTier } from '@/types/ImpactTier';
 
-export interface ImpactTier {
-  name: string;
-  price: number;
-  description: string;
-  image: string;
-  badge?: string;
-}
+export type { ImpactTier };
 
 export const MIN_BUDGET = 75;
 

@@ -2,30 +2,11 @@ import React from 'react';
 import creditCardIcon from '../assets/credit_card_symbol.svg';
 import deliveryIcon from '../assets/delivery_symbol.svg';
 import flowerIcon from '../assets/flower_symbol.svg';
+import type { BarChartEntry } from '@/types/BarChartEntry';
+import type { LegendItem } from '@/types/LegendItem';
+import type { ComparisonBarChartProps } from '@/types/ComparisonBarChartProps';
 
-export interface BarSegment {
-  widthPercent: number;
-  color: string;
-  icon: string;
-  iconAlt: string;
-  title: string;
-}
-
-export interface BarChartEntry {
-  label: string;
-  segments: BarSegment[];
-}
-
-export interface LegendItem {
-  color: string;
-  label: string;
-}
-
-interface ComparisonBarChartProps {
-  heading: string;
-  bars: BarChartEntry[];
-  legend: LegendItem[];
-}
+export type { BarChartEntry, LegendItem };
 
 export const ComparisonBarChart: React.FC<ComparisonBarChartProps> = ({ heading, bars, legend }) => (
   <div className="mt-4 mb-8">

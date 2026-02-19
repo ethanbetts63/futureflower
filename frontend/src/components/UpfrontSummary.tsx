@@ -27,16 +27,8 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from '@/components/ui/alert-dialog';
-import type { UpfrontPlan } from '@/types/UpfrontPlan';
+import type { UpfrontSummaryProps } from '@/types/UpfrontSummaryProps';
 import type { FlowerType } from '@/types/FlowerType';
-
-interface UpfrontSummaryProps {
-  plan: UpfrontPlan;
-  flowerTypeMap: Map<number, FlowerType>;
-  context: 'ordering' | 'management';
-  planId: string;
-  onRefreshPlan?: () => void;
-}
 
 const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
   plan,

@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { IMPACT_TIERS, TIER_PRICES, MIN_BUDGET } from '@/utils/pricingConstants';
-
-interface ImpactTierSelectorProps {
-  value: number;
-  onChange: (budget: number) => void;
-}
+import type { ImpactTierSelectorProps } from '@/types/ImpactTierSelectorProps';
 
 export const ImpactTierSelector: React.FC<ImpactTierSelectorProps> = ({ value, onChange }) => {
   const isCustom = !TIER_PRICES.has(value);

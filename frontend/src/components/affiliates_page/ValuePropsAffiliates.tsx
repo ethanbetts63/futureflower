@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check } from 'lucide-react';
+import type { ValuePropsAffiliatesProps } from '@/types/ValuePropsAffiliatesProps';
 
 const points = [
   'Tiered Rewards: Earn $5–$25 per sale based on bouquet size.',
@@ -7,10 +8,6 @@ const points = [
   'Follower Perk: A custom $5 discount code for your audience.',
   'High-Value Product: Locally crafted, high quality bouquets.',
 ];
-
-interface ValuePropsAffiliatesProps {
-  contentRef?: React.RefObject<HTMLDivElement | null>;
-}
 
 export const ValuePropsAffiliates: React.FC<ValuePropsAffiliatesProps> = ({ contentRef }) => {
   return (

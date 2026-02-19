@@ -5,10 +5,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { CreditCard } from 'lucide-react';
 import { initiateStripeConnectOnboarding } from '@/api/partners';
 import { toast } from 'sonner';
-
-interface StripeConnectBannerProps {
-  onboardingComplete: boolean;
-}
+import type { StripeConnectBannerProps } from '@/types/StripeConnectBannerProps';
 
 const StripeConnectBanner: React.FC<StripeConnectBannerProps> = ({ onboardingComplete }) => {
   const [isLoading, setIsLoading] = useState(false);

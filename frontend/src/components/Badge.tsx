@@ -1,11 +1,5 @@
-import React, { type ReactNode } from 'react';
-
-interface BadgeProps {
-  title: string;
-  subtext: string;
-  symbol: ReactNode; // Can be an SVG, img, or any ReactNode
-  className?: string;
-}
+import React from 'react';
+import type { BadgeProps } from '@/types/BadgeProps';
 
 const Badge: React.FC<BadgeProps> = ({ title, subtext, symbol, className = "" }) => {
   return (

@@ -1,12 +1,6 @@
 import React from 'react';
-import type { FlowerType } from '../../types/FlowerType';
 import { OCCASION_IMAGES, DEFAULT_FLOWER_IMAGE } from '@/utils/flowerTypeImages';
-
-interface VibePickerProps {
-  vibes: FlowerType[];
-  selected: number | null;
-  onSelect: (id: number | null) => void;
-}
+import type { VibePickerProps } from '@/types/VibePickerProps';
 
 export const VibePicker: React.FC<VibePickerProps> = ({ vibes, selected, onSelect }) => {
   return (

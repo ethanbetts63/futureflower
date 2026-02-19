@@ -2,8 +2,6 @@
 import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
 import type { DeliveryEvent, FlowerType } from '../types';
-import type { PriceBreakdown } from '../types/PriceBreakdown';
-import type { CalculatePlanPayload } from '../types/CalculatePlanPayload';
 
 export async function getEvents(): Promise<DeliveryEvent[]> {
     const response = await authedFetch('/api/events/', {
@@ -47,15 +45,6 @@ export async function activateFreeEvent(eventId: number): Promise<DeliveryEvent>
         method: 'POST',
     });
     return handleResponse(response);
-}
-
-export async function calculatePrice(payload: CalculatePlanPayload): Promise<{ upfront_price: number; breakdown: PriceBreakdown }> {
-  const response = await fetch('/api/events/calculate-price/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-  return handleResponse(response);
 }
 
 export async function getFlowerTypes(): Promise<FlowerType[]> {

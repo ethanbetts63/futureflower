@@ -70,8 +70,6 @@ When an active Upfront plan is modified (budget, years, or frequency), the syste
 ### 19. unused file? 
 C:\Users\ethan\coding\futureflower\events\views\public_upfront_price_view.py im fairly sure that this is not being used. C:\Users\ethan\coding\futureflower\events\urls.py but maybe im wrong. check me. 
 
-### 20. Anonymization stuff.
-On delete in a previous app we hashed + salted all sensitive info on a users profile, plans and events. i copied over a lot of the logic, some of the models have a couple extra hashing fields. but it never fully got set up. either we can delete this and transition to a regular delete process or fully set it up. 
 
 ### 21. Event Evidence Images
 Add image upload fields to the `Event` model for admin documentation purposes:

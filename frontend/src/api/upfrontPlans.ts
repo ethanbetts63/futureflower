@@ -3,6 +3,9 @@ import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
 import type { UpfrontPlan, CreateUpfrontPlanPayload, PartialUpfrontPlan } from "@/types";
 import type { CalculatePlanPayload } from '../types/CalculatePlanPayload';
+import type { ProjectedDelivery } from '@/types/ProjectedDelivery';
+
+export type { ProjectedDelivery };
 
 export async function getUpfrontPlan(planId: string): Promise<UpfrontPlan> {
     const response = await authedFetch(`/api/events/upfront-plans/${planId}/`);
@@ -41,11 +44,6 @@ export async function updateUpfrontPlan(planId: string, planData: PartialUpfront
         body: JSON.stringify(planData),
     });
     return handleResponse(response);
-}
-
-export interface ProjectedDelivery {
-    index: number;
-    date: string;
 }
 
 export async function getProjectedDeliveries(planId: string): Promise<ProjectedDelivery[]> {
