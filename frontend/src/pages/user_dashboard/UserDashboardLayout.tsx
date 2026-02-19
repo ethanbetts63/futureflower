@@ -13,6 +13,7 @@ function UserDashboardLayout() {
       { to: '/dashboard', label: 'Dashboard' },
       { to: '/dashboard/account', label: 'Account Management' },
       { to: '/dashboard/plans', label: 'Flower Plan Management' },
+      { to: '/dashboard/refunds', label: 'Refunds' },
     ];
 
     if (user?.is_partner) {
@@ -44,6 +45,7 @@ function UserDashboardLayout() {
           </Link>
           <Link to="/dashboard/account" className="text-lg hover:text-gray-300">Account Management</Link>
           <Link to="/dashboard/plans" className="text-lg hover:text-gray-300">Flower Plan Management</Link>
+          <Link to="/dashboard/refunds" className="text-lg hover:text-gray-300">Refunds</Link>
 
           {user?.is_partner && (
             <>

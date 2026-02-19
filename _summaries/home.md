@@ -1,7 +1,7 @@
 # Home Page - Textual Representation
 
 ## SEO Information
-*   **Title:** FutureFlower | Flower Subscription Service
+*   **Title:** FutureFlower | Flower Delivery & Subscriptions
 *   **Description:** The most romantic gestures are those that plan for a future together. Choose the dates, set the budget, and we organize flower deliveries, time after time - turning one decision into a lifetime of meaningful moments.
 *   **Canonical Path:** /
 *   **OG Image:** /og-images/og-homepage.webp

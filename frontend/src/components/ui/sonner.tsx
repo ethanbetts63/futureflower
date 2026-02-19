@@ -28,11 +28,13 @@ const Toaster = ({ ...props }: ToasterProps) => {
           "--normal-text": "black",
           "--normal-border": "black",
           "--border-radius": "var(--radius)",
+          "--gray-400": "black",
+          "--toast-description-color": "black",
         } as React.CSSProperties
       }
       toastOptions={{
         classNames: {
-          description: "text-black",
+          description: "!text-black",
         },
       }}
       {...props}
