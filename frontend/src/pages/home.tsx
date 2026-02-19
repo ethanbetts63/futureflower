@@ -28,8 +28,6 @@ import { RomanceSection } from '../components/home_page/RomanceSection';
 import type { FaqItem } from '@/types/FaqItem';
 import { ArticleCarousel } from '../components/home_page/ArticleCarousel';
 import AnnouncementBar from '../components/home_page/AnnouncementBar';
-import deliveryIcon from '../assets/delivery_symbol.svg';
-import Badge from '../components/Badge';
 import OfferingSection from '../components/home_page/OfferingSection';
 import ComparisonSection from '../components/home_page/ComparisonSectionHome';
 

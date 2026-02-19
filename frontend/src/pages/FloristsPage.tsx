@@ -32,8 +32,6 @@ import { WhyFutureFlowerSection } from '../components/florists_page/WhyFutureFlo
 import { ServicesCarouselSection } from '../components/florists_page/ServicesCarouselSection';
 import { SoWhatsTheCatchSection } from '../components/florists_page/SoWhatsTheCatchSection';
 import ComparisonSectionFlorists from '../components/florists_page/ComparisonSectionFlorists';
-import moneyBagIcon from '../assets/money_bag.svg';
-import Badge from '../components/Badge';
 
 const FloristsPage = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -114,7 +112,7 @@ const FloristsPage = () => {
       />
 
       <HeroFloristPage scrollToContent={scrollToContent} />
-      
+
       <ValuePropsA contentRef={contentRef} />
 
       <WhyFutureFlowerSection />
