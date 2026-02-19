@@ -91,7 +91,7 @@ const HomePage = () => {
     },
     {
       "question": "What is your refund policy?",
-      "answer": "We can’t unsend flowers. But everything up until that point is fair game."
+      "answer": "We hope it doesn't come to this, but if your flowers arrive with a major issue (e.g. damaged, dead) or you cancel and give us enough notice, we will of course happily issue a refund. For more information please read the customer terms and conditions."
     },
     {
       "question": "What countries do you operate in?",

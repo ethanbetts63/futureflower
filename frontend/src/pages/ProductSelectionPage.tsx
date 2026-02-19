@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, RefreshCw, CreditCard } from 'lucide-react';
+import { Calendar, RefreshCw } from 'lucide-react';
 import Seo from '@/components/Seo';
 
 const ProductSelectionPage: React.FC = () => {
@@ -20,7 +20,7 @@ const ProductSelectionPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Single Delivery Card */}
             <Card
               className="bg-white text-black border-2 border-transparent hover:border-[var(--colorgreen)] cursor-pointer transition-all shadow-md flex flex-col h-full"
@@ -72,34 +72,6 @@ const ProductSelectionPage: React.FC = () => {
                 <div className="pt-4 mt-auto">
                   <Button className="w-full bg-[var(--colorgreen)] text-black hover:opacity-90 hover:bg-[var(--colorgreen)]" size="lg">
                     Select Subscription
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-             {/* Prepaid Plan Card */}
-             <Card
-              className="bg-white text-black border-2 border-transparent hover:border-[var(--colorgreen)] cursor-pointer transition-all shadow-md flex flex-col h-full"
-              onClick={() => navigate('/event-gate')}
-            >
-              <CardHeader className="text-center">
-                <div className="flex justify-center mb-4">
-                  <CreditCard className="h-12 w-12 text-[var(--colorgreen)]" />
-                </div>
-                <CardTitle className="text-xl font-['Playfair_Display',_serif]">Prepaid Subscription Plan</CardTitle>
-                <CardDescription className="text-gray-600">
-                  Pay once for a year of deliveries. The perfect gift that keeps on giving. No recurring charges.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm text-black flex-1 flex flex-col">
-                <ul className="space-y-2">
-                  <li className="flex items-start"><span className="mr-2 text-green-600">✔</span>Future-proofed & paid upfront</li>
-                  <li className="flex items-start"><span className="mr-2 text-green-600">✔</span>The gift people remember</li>
-                  <li className="flex items-start"><span className="mr-2 text-green-600">✔</span>No renewals, no reminders</li>
-                </ul>
-                <div className="pt-4 mt-auto">
-                  <Button className="w-full bg-[var(--colorgreen)] text-black hover:opacity-90 hover:bg-[var(--colorgreen)]" size="lg">
-                    Select Prepaid Plan
                   </Button>
                 </div>
               </CardContent>
