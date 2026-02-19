@@ -15,7 +15,7 @@ const ComparisonSection: React.FC = () => (
     <div className="grid grid-cols-1 lg:grid-cols-2">
 
       {/* Left Column — Text */}
-      <div className="flex items-center justify-center p-8 bg-[var(--color4)]">
+      <div className="flex items-center justify-center p-8 md:px-8 md:py-6 bg-[var(--color4)]">
         <div className="max-w-xl w-full">
           <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-black font-['Playfair_Display',_serif] leading-tight">
             The Secret Big Platforms Don't Tell You
@@ -40,7 +40,7 @@ const ComparisonSection: React.FC = () => (
       </div>
 
       {/* Right Column — Table */}
-      <div className="flex flex-col items-center justify-center p-4 md:p-12 lg:px-20 bg-[var(--color4)]">
+      <div className="flex flex-col items-center justify-center p-4 md:px-8 md:py-6 lg:px-20 bg-[var(--color4)]">
         <p className="mb-6 text-s font-bold tracking-[0.2em] text-black uppercase">
           How Big Online Platforms Compare
         </p>

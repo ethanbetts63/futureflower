@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-
 import type { FieldErrors, Resolver } from 'react-hook-form';
 import type { ProfileCreationData } from '../types/ProfileCreationData';
 import type { ProfileCreationFormProps } from '../types/ProfileCreationFormProps';
