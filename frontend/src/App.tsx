@@ -98,7 +98,7 @@ function App() {
       <div className="min-h-screen flex flex-col">
         <NavBar />
         <Toaster position="top-center" />
-        <div className="flex-grow">
+        <div className="flex-grow flex flex-col">
           <Suspense fallback={<LoadingFallback />}>
               <Routes>
                 {/* Public routes */}

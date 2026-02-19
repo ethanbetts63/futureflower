@@ -3,7 +3,7 @@ import Seo from '../components/Seo';
 
 const LoginPage = () => {
   return (
-    <div className="bg-[var(--color4)] flex h-full flex-col items-center justify-center p-6 md:p-10">
+    <div className="bg-[var(--color4)] flex flex-grow min-h-full flex-col items-center justify-center p-6 md:p-10">
       <Seo
         title="Login | FutureFlower"
         description="Access your FutureFlower account to manage your critical long-term events and view your notification settings."

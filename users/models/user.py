@@ -11,10 +11,6 @@ class User(AbstractUser):
         blank=True,
         help_text="Timestamp of when the last password reset email was sent."
     )
-
-    # Legal — tracks which T&C versions this user has accepted, with timestamps.
-    # Use user.terms_acceptances.all() for audit detail (includes accepted_at).
-    # Use user.accepted_terms.filter(terms_type='customer').exists() for quick checks.
     accepted_terms = models.ManyToManyField(
         'data_management.TermsAndConditions',
         through='data_management.TermsAcceptance',

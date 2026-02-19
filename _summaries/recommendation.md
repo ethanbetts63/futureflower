@@ -116,3 +116,6 @@ Deferred because terms are not expected to change frequently and the infrastruct
 5. If clean, confirm the payment intent to capture the funds.
 
 **Why this is deferred:** It adds meaningful complexity (manual capture flow, fingerprint storage, new validation step) for a fraud vector that only matters at scale. The current per-account first-purchase check is sufficient for now. Revisit when discount code abuse becomes a measurable problem.
+
+### 23. skip a delivery 
+long term it would be good to be able to offer the user when they go to cancel their cubscription something like "going on holiday? why not just put your subscription on hold"
