@@ -67,21 +67,20 @@ export const ProfileCreationForm: React.FC<ProfileCreationFormProps> = ({ initia
                 </div>
                 <FormField control={form.control} name="email" render={({ field }) => (
                     <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>Email<span className="text-red-500">*</span></FormLabel>
                         <FormControl>
                             <Input {...field} type="email" />
                         </FormControl>
-                        <FormDescription>&nbsp;</FormDescription>
                         <FormMessage />
                     </FormItem>
                 )} />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                      <FormField control={form.control} name="password" render={({ field }) => (
-                        <FormItem><FormLabel>Password</FormLabel><FormControl><Input {...field} type="password" /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>Password<span className="text-red-500">*</span></FormLabel><FormControl><Input {...field} type="password" /></FormControl><FormMessage /></FormItem>
                     )} />
                      <FormField control={form.control} name="confirmPassword" render={({ field }) => (
-                        <FormItem><FormLabel>Confirm Password</FormLabel><FormControl><Input {...field} type="password" /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>Confirm Password<span className="text-red-500">*</span></FormLabel><FormControl><Input {...field} type="password" /></FormControl><FormMessage /></FormItem>
                     )} />
                 </div>
                 

@@ -114,18 +114,6 @@ const HomePage = () => {
         title={<>The gift that <span className='italic'>keeps</span> on giving.</>}
       />
       <AnnouncementBar />
-      <Badge
-        title="Free Delivery"
-        subtext="Included on all products"
-        symbol={
-          <img
-            src={deliveryIcon}
-            alt=""
-            className="h-5 w-5 md:h-7 md:w-7 animate-bounce"
-            style={{ animationDuration: '2s' }}
-          />
-        }
-      />
 
       {/* --- Hierarchy Section --- */}
       <section className="bg-primary">
