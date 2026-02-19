@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect, type ReactNode, useCallback } from 'react';
 import * as api from '@/api';
-import type { AuthResponse } from '../types/AuthResponse';
 import type { UserProfile } from '../types/UserProfile';
 import type { AuthContextType } from '../types/AuthContextType';
 
@@ -13,23 +12,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const loadUserProfile = useCallback(async () => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      setUser(null);
-      setIsLoading(false);
-      return;
-    }
-
     try {
       const fullProfile = await api.getUserProfile();
       setUser(fullProfile);
     } catch (error: any) {
-      // Only log out if it's an authentication error (401 or 403)
-      // Otherwise, keep the session so we don't aggressively log users out during network blips
+      // Only clear the user on authentication errors — don't log out on network blips
       const status = error.data?.status || error.response?.status;
       if (status === 401 || status === 403) {
-        console.error("Authentication failed, logging out.", error);
-        logout();
+        setUser(null);
       } else {
         console.warn("Failed to fetch user profile due to network/server error. Retaining session.", error);
       }
@@ -39,7 +29,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    // On initial load, try to restore session by fetching the user profile
+    // On initial load, try to restore session by fetching the user profile.
+    // The access cookie (if present) will be sent automatically by the browser.
     setIsLoading(true);
     loadUserProfile();
   }, [loadUserProfile]);
@@ -59,42 +50,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   /**
    * Central handler for successful authentication.
-   * Sets tokens and then loads the full user profile.
+   * Tokens are already set as HttpOnly cookies by the server — we just
+   * need to load the user profile to populate the context.
    */
-  const handleLoginSuccess = async (authResponse: AuthResponse) => {
-    const { access, refresh } = authResponse;
-    localStorage.setItem('accessToken', access);
-    localStorage.setItem('refreshToken', refresh);
-    
-    // After setting tokens, load the full user profile to populate the context
+  const handleLoginSuccess = async () => {
     setIsLoading(true);
     await loadUserProfile();
   };
 
   /**
    * Login handler for the traditional email/password form.
-   * It calls the API and then uses handleLoginSuccess on the response.
    */
   const loginWithPassword = async (email: string, password: string) => {
     try {
-      const authResponse = await api.loginUser(email, password);
-      await handleLoginSuccess(authResponse);
+      await api.loginUser(email, password);
+      await handleLoginSuccess();
     } catch (error) {
-      // Clear any partial login data on failure and re-throw for the form to handle
-      logout();
       throw error;
     }
   };
 
   /**
-   * Clears user state and removes tokens from localStorage.
+   * Calls the server logout endpoint to clear HttpOnly cookies, then clears local state.
    */
-  const logout = (onLogoutSuccess?: () => void) => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+  const logout = async (onLogoutSuccess?: () => void) => {
+    try {
+      await api.logoutUser();
+    } catch {
+      // If the logout request fails (e.g. already expired), still clear local state
+    }
     setUser(null);
     if (onLogoutSuccess) {
-        onLogoutSuccess();
+      onLogoutSuccess();
     }
   };
 

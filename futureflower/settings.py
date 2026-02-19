@@ -169,12 +169,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.User"
 
+# Cookie names for JWT tokens
+AUTH_COOKIE = 'access_token'
+AUTH_COOKIE_REFRESH = 'refresh_token'
+
 # Django Rest Framework Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        # SessionAuth is still useful for browsing the API, and for the 'claim account' flow
-        'rest_framework.authentication.SessionAuthentication', 
+        'users.authentication.CookieJWTAuthentication',
+        # SessionAuth is still useful for browsing the Django admin
+        'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',

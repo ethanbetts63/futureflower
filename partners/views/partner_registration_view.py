@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from partners.serializers import PartnerRegistrationSerializer
+from users.views.token_views import _set_auth_cookies
 
 
 class PartnerRegistrationView(APIView):
@@ -16,9 +17,7 @@ class PartnerRegistrationView(APIView):
 
         refresh = RefreshToken.for_user(user)
 
-        return Response({
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
+        response = Response({
             'user': {
                 'id': user.id,
                 'email': user.email,
@@ -26,3 +25,6 @@ class PartnerRegistrationView(APIView):
                 'last_name': user.last_name,
             }
         }, status=status.HTTP_201_CREATED)
+
+        _set_auth_cookies(response, refresh.access_token, refresh)
+        return response

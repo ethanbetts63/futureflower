@@ -1,6 +1,4 @@
 export interface AuthResponse {
-    refresh: string;
-    access: string;
     user: {
         id: number;
         email: string;

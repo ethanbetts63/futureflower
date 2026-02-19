@@ -24,13 +24,8 @@ const DeleteAccountSection: React.FC = () => {
         setDeleteError(null);
         try {
             await deleteAccount();
-            
-            // Clear the JWT tokens from storage to log the user out on the client side.
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            
-            // Redirect to the homepage. The user is now logged out.
-            window.location.href = '/'; 
+            // Redirect to the homepage. Auth cookies are cleared server-side on account deletion.
+            window.location.href = '/';
 
         } catch (err: any) {
             setDeleteError(err.message || 'Failed to delete account. Please try again.');

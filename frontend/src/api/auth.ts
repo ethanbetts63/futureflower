@@ -9,9 +9,10 @@ type PasswordResetConfirmPayload = {
   password_confirm: string;
 }
 
-export async function loginUser(email: string, password: string): Promise<AuthResponse> {
+export async function loginUser(email: string, password: string): Promise<{ detail: string }> {
   const response = await fetch('/api/token/', {
     method: 'POST',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: email, password }),
   });
@@ -21,10 +22,19 @@ export async function loginUser(email: string, password: string): Promise<AuthRe
 export async function registerUser(userData: ProfileCreationData): Promise<AuthResponse> {
   const response = await fetch('/api/users/register/', {
     method: 'POST',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData),
   });
   return handleResponse(response);
+}
+
+export async function logoutUser(): Promise<void> {
+  await fetch('/api/token/logout/', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+  });
 }
 
 export async function claimAccount(password: string): Promise<{ detail: string }> {

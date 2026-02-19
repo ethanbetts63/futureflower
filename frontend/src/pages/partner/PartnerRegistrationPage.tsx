@@ -87,8 +87,8 @@ const PartnerRegistrationPage: React.FC = () => {
         }),
       };
 
-      const authResponse = await registerPartner(data);
-      await handleLoginSuccess(authResponse);
+      await registerPartner(data);
+      await handleLoginSuccess();
       await Promise.all([
         acceptTerms('customer'),
         acceptTerms(isDelivery ? 'florist' : 'affiliate'),

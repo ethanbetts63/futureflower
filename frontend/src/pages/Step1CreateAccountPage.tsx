@@ -27,8 +27,8 @@ const CreateAccountPage: React.FC = () => {
     const handleFormSubmit = async (data: ProfileCreationData) => {
         setIsSubmitting(true);
         try {
-            const authResponse = await registerUser(data);
-            await handleLoginSuccess(authResponse);
+            await registerUser(data);
+            await handleLoginSuccess();
             const nextUrl = searchParams.get('next') || '/event-gate';
             navigate(nextUrl); // Navigate to the event gate to start the plan creation flow
         } catch (error: any) {

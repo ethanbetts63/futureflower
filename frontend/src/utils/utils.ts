@@ -18,7 +18,7 @@ export function showErrorToast(message: string) {
  * Retrieves the CSRF token from the document's cookies.
  * @returns The CSRF token string, or null if not found.
  */
-function getCsrfToken(): string | null {
+export function getCsrfToken(): string | null {
   const cookieValue = document.cookie
     .split('; ')
     .find(row => row.startsWith('csrftoken='))
