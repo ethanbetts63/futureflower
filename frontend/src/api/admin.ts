@@ -1,5 +1,5 @@
 import { authedFetch } from './apiClient';
-import type { AdminDashboard, AdminEvent, AdminPartner, MarkOrderedPayload, MarkDeliveredPayload } from '../types/Admin';
+import type { AdminDashboard, AdminEvent, AdminPartner, AdminPlan, AdminPlanDetail, MarkOrderedPayload, MarkDeliveredPayload } from '../types/Admin';
 
 export async function getAdminDashboard(): Promise<AdminDashboard> {
   const res = await authedFetch('/api/data/admin/dashboard/');
@@ -65,5 +65,22 @@ export async function approvePartner(id: number): Promise<AdminPartner> {
 export async function denyPartner(id: number): Promise<AdminPartner> {
   const res = await authedFetch(`/api/partners/admin/${id}/deny/`, { method: 'POST' });
   if (!res.ok) throw new Error('Failed to deny partner');
+  return res.json();
+}
+
+export async function getAdminPlanDetail(planType: string, planId: string | number): Promise<AdminPlanDetail> {
+  const res = await authedFetch(`/api/data/admin/plans/${planType}/${planId}/`);
+  if (!res.ok) throw new Error('Failed to fetch plan');
+  return res.json();
+}
+
+export async function getAdminPlans(params: { status?: string; plan_type?: string; search?: string } = {}): Promise<AdminPlan[]> {
+  const qs = new URLSearchParams();
+  if (params.status) qs.set('status', params.status);
+  if (params.plan_type) qs.set('plan_type', params.plan_type);
+  if (params.search) qs.set('search', params.search);
+  const query = qs.toString();
+  const res = await authedFetch(`/api/data/admin/plans/${query ? `?${query}` : ''}`);
+  if (!res.ok) throw new Error('Failed to fetch plans');
   return res.json();
 }

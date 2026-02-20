@@ -1,0 +1,35 @@
+export interface AdminEvent {
+  id: number;
+  delivery_date: string;
+  status: 'scheduled' | 'ordered' | 'delivered' | 'cancelled';
+  message: string | null;
+  ordered_at: string | null;
+  ordering_evidence_text: string | null;
+  delivered_at: string | null;
+  delivery_evidence_text: string | null;
+  // Order fields
+  order_id: number;
+  order_type: string;
+  budget: string;
+  total_amount: string;
+  frequency: string | null;
+  start_date: string | null;
+  preferred_delivery_time: string | null;
+  delivery_notes: string | null;
+  // Recipient
+  recipient_first_name: string;
+  recipient_last_name: string;
+  recipient_street_address: string;
+  recipient_suburb: string;
+  recipient_city: string;
+  recipient_state: string;
+  recipient_postcode: string;
+  recipient_country: string;
+  // Preferences
+  flower_notes: string | null;
+  preferred_flower_types: string[];
+  // Customer
+  customer_first_name: string;
+  customer_last_name: string;
+  customer_email: string;
+}

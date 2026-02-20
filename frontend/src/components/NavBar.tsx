@@ -70,7 +70,7 @@ const NavBar: React.FC = () => {
       </div>
 
       {/* Dropdown menu */}
-      <div className={`overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-96' : 'max-h-0'}`}>
+      <div className={`overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-screen' : 'max-h-0'}`}>
         <nav className="bg-white border-t border-black/10 px-6 py-3 flex flex-col">
           {isAuthenticated ? (
             <>
@@ -106,6 +106,9 @@ const NavBar: React.FC = () => {
                   </Link>
                   <Link to="/dashboard/admin/partners" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                     Partner List
+                  </Link>
+                  <Link to="/dashboard/admin/plans" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                    Admin Plan List
                   </Link>
                 </>
               )}
