@@ -32,6 +32,28 @@ class TestPartnerRegistrationView:
         assert partner.business_name == "Partner Flowers"
         assert partner.status == 'pending' # Default status
 
+    def test_partner_registration_creates_stripe_connect_account(self, mocker):
+        mock_account = mocker.patch('stripe.Account.create')
+        mock_account.return_value = mocker.MagicMock(id='acct_new123')
+
+        data = {
+            "email": "stripetest@example.com",
+            "password": "strongpassword123",
+            "first_name": "Stripe",
+            "last_name": "Test",
+            "business_name": "Stripe Flowers",
+            "phone": "0400000001",
+        }
+        response = self.client.post(self.url, data, format='json')
+
+        assert response.status_code == 201
+        from partners.models import Partner
+        from users.models import User
+        user = User.objects.get(email="stripetest@example.com")
+        partner = Partner.objects.get(user=user)
+        assert partner.stripe_connect_account_id == 'acct_new123'
+        mock_account.assert_called_once()
+
     def test_partner_registration_duplicate_email(self):
         from users.tests.factories.user_factory import UserFactory
         UserFactory(email="existing@example.com")
