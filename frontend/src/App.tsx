@@ -84,6 +84,7 @@ const BestFlowerDeliverySydney = lazy(() => import('./pages/articles/BestFlowerD
 // --- Admin Pages ---
 const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'));
 const AdminEventDetailPage = lazy(() => import('./pages/admin/AdminEventDetailPage'));
+const AdminPartnerListPage = lazy(() => import('./pages/admin/AdminPartnerListPage'));
 const AdminPartnerDetailPage = lazy(() => import('./pages/admin/AdminPartnerDetailPage'));
 const MarkOrderedPage = lazy(() => import('./pages/admin/MarkOrderedPage'));
 const MarkDeliveredPage = lazy(() => import('./pages/admin/MarkDeliveredPage'));
@@ -189,6 +190,7 @@ function App() {
                   <Route path="admin/events/:eventId" element={<AdminGuard><AdminEventDetailPage /></AdminGuard>} />
                   <Route path="admin/events/:eventId/mark-ordered" element={<AdminGuard><MarkOrderedPage /></AdminGuard>} />
                   <Route path="admin/events/:eventId/mark-delivered" element={<AdminGuard><MarkDeliveredPage /></AdminGuard>} />
+                  <Route path="admin/partners" element={<AdminGuard><AdminPartnerListPage /></AdminGuard>} />
                   <Route path="admin/partners/:partnerId" element={<AdminGuard><AdminPartnerDetailPage /></AdminGuard>} />
                 </Route>
 

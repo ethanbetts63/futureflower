@@ -144,6 +144,14 @@ const AdminDashboardPage: React.FC = () => {
                     ))}
                   </div>
                 )}
+                <div className="mt-3">
+                  <Link
+                    to="/dashboard/admin/partners"
+                    className="text-xs font-semibold text-black/40 hover:text-black underline underline-offset-4 transition-colors"
+                  >
+                    See all partners
+                  </Link>
+                </div>
               </SummarySection>
               <QueueSection title="To Order" events={dashboard.to_order} section="to_order" />
               <QueueSection title="Ordered" events={dashboard.ordered} section="ordered" />

@@ -10,4 +10,10 @@ from .delivery_request_views import (
 )
 from .stripe_connect_views import StripeConnectOnboardView, StripeConnectStatusView
 from .payout_views import PayoutListView, PayoutDetailView
-from .admin_partner_views import AdminPendingPartnersView, AdminApprovePartnerView, AdminDenyPartnerView
+from .admin_partner_views import (
+    AdminPendingPartnersView,
+    AdminPartnerListView,
+    AdminPartnerDetailView,
+    AdminApprovePartnerView,
+    AdminDenyPartnerView,
+)

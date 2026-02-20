@@ -43,6 +43,19 @@ export async function getPendingPartners(): Promise<AdminPartner[]> {
   return res.json();
 }
 
+export async function getAdminPartners(status?: string): Promise<AdminPartner[]> {
+  const url = status ? `/api/partners/admin/list/?status=${status}` : '/api/partners/admin/list/';
+  const res = await authedFetch(url);
+  if (!res.ok) throw new Error('Failed to fetch partners');
+  return res.json();
+}
+
+export async function getAdminPartner(id: number): Promise<AdminPartner> {
+  const res = await authedFetch(`/api/partners/admin/${id}/`);
+  if (!res.ok) throw new Error('Failed to fetch partner');
+  return res.json();
+}
+
 export async function approvePartner(id: number): Promise<AdminPartner> {
   const res = await authedFetch(`/api/partners/admin/${id}/approve/`, { method: 'POST' });
   if (!res.ok) throw new Error('Failed to approve partner');

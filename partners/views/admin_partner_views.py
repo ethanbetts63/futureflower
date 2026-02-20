@@ -19,6 +19,28 @@ class AdminPendingPartnersView(APIView):
         return Response(AdminPartnerSerializer(partners, many=True).data)
 
 
+class AdminPartnerListView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        qs = Partner.objects.select_related('user').order_by('created_at')
+        status_filter = request.query_params.get('status')
+        if status_filter:
+            qs = qs.filter(status=status_filter)
+        return Response(AdminPartnerSerializer(qs, many=True).data)
+
+
+class AdminPartnerDetailView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, pk):
+        try:
+            partner = Partner.objects.select_related('user').get(pk=pk)
+        except Partner.DoesNotExist:
+            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        return Response(AdminPartnerSerializer(partner).data)
+
+
 class AdminApprovePartnerView(APIView):
     permission_classes = [IsAdminUser]
 

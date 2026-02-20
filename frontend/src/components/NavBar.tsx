@@ -100,9 +100,14 @@ const NavBar: React.FC = () => {
                 </>
               )}
               {(user?.is_staff || user?.is_superuser) && (
-                <Link to="/dashboard/admin" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                  Admin Dashboard
-                </Link>
+                <>
+                  <Link to="/dashboard/admin" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                    Admin Dashboard
+                  </Link>
+                  <Link to="/dashboard/admin/partners" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                    Partner List
+                  </Link>
+                </>
               )}
               <button
                 onClick={() => { logout(() => navigate('/')); close(); }}

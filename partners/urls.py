@@ -13,6 +13,8 @@ from partners.views import (
     PayoutListView,
     PayoutDetailView,
     AdminPendingPartnersView,
+    AdminPartnerListView,
+    AdminPartnerDetailView,
     AdminApprovePartnerView,
     AdminDenyPartnerView,
 )
@@ -32,6 +34,8 @@ urlpatterns = [
 
     # Admin
     path('admin/pending/', AdminPendingPartnersView.as_view(), name='admin-pending-partners'),
+    path('admin/list/', AdminPartnerListView.as_view(), name='admin-partner-list'),
+    path('admin/<int:pk>/', AdminPartnerDetailView.as_view(), name='admin-partner-detail'),
     path('admin/<int:pk>/approve/', AdminApprovePartnerView.as_view(), name='admin-approve-partner'),
     path('admin/<int:pk>/deny/', AdminDenyPartnerView.as_view(), name='admin-deny-partner'),
 
