@@ -1,6 +1,7 @@
 import pytest
 import os
-from unittest.mock import MagicMock
+import json
+from unittest.mock import MagicMock, patch
 from data_management.utils.generation_utils.flowers_generator import FlowerGenerator
 from data_management.utils.generation_utils.terms_generator import TermsUpdateOrchestrator
 from data_management.models import TermsAndConditions
@@ -11,37 +12,51 @@ class TestGenerationUtils:
     def test_flower_generator(self, tmp_path):
         # Mock command and data file
         command = MagicMock()
-        generator = FlowerGenerator(command=command)
         
-        # Create a dummy flowers.json
+        # Create a dummy flowers.json with correct structure
         data_dir = tmp_path / "data"
         data_dir.mkdir()
         flowers_file = data_dir / "flowers.json"
-        import json
-        with open(flowers_file, 'w') as f:
-            json.dump(["Rose", "Lily", "Tulip"], f)
         
-        # Patch the path to the data file
-        with pytest.MonkeyPatch.context() as mp:
-            mp.setattr(generator, 'file_path', str(flowers_file))
-            generator.run()
+        flowers_data = [
+            {"name": "Rose", "tagline": "Classic"},
+            {"name": "Lily", "tagline": "Elegant"},
+            {"name": "Tulip", "tagline": "Spring"}
+        ]
+        
+        with open(flowers_file, 'w') as f:
+            json.dump(flowers_data, f)
+        
+        # Patch the file path within the class instance or init
+        # Since file_path is set in __init__, we need to patch it after instantiation or mock os.path.join
+        
+        # Easier: Instantiate then overwrite file_path
+        generator = FlowerGenerator(command=command)
+        generator.file_path = str(flowers_file)
+        
+        generator.run()
         
         assert FlowerType.objects.count() == 3
         assert FlowerType.objects.filter(name="Rose").exists()
 
     def test_terms_generator(self, tmp_path):
         command = MagicMock()
-        orchestrator = TermsUpdateOrchestrator(command=command)
         
-        # Create dummy terms_v1.html
+        # Create dummy terms file with correct naming convention
+        # Pattern: ^(florist|customer|affiliates)_terms(?:_v([\d\.]+))?\.html$
         data_dir = tmp_path / "data"
         data_dir.mkdir()
-        terms_file = data_dir / "terms_v1.html"
-        terms_file.write_text("<p>Terms content</p>")
+        terms_file = data_dir / "customer_terms_v1.0.html"
+        terms_file.write_text("<p>Customer Terms content</p>", encoding='utf-8')
         
-        with pytest.MonkeyPatch.context() as mp:
-            mp.setattr(orchestrator, 'data_dir', str(data_dir))
-            orchestrator.run()
+        orchestrator = TermsUpdateOrchestrator(command=command)
+        # Overwrite data_dir to point to our temp dir
+        orchestrator.data_dir = str(data_dir)
+        
+        orchestrator.run()
         
         assert TermsAndConditions.objects.count() == 1
-        assert TermsAndConditions.objects.get(version=1).content == "<p>Terms content</p>"
+        terms = TermsAndConditions.objects.first()
+        assert terms.terms_type == 'customer'
+        assert terms.version == '1.0'
+        assert terms.content == "<p>Customer Terms content</p>"
