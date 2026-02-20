@@ -51,14 +51,6 @@ class TestValidateDiscountCodeView:
         }
         response = self.client.post(self.url, data, format='json')
         assert response.status_code == 400
-        # The serializer raises a general validation error for the code field
-        # We might need to check how DRF formats this
-        # Assuming typical behavior: {"non_field_errors": ["..."]} or {"code": ["..."]}
-        # Based on serializer code: validate_code raises ValidationError("This discount code is not currently valid.")
-        # Since it's a field validator, it should be under 'code' or 'non_field_errors' depending on how it's called.
-        # But wait, validate_code is a field level validator for 'code'. So it should be in 'code'.
-        # However, the previous test expected "no longer active". The serializer says "is not currently valid".
-        # Let's just check status 400 first.
 
     def test_validate_non_existent_code(self):
         data = {
@@ -83,4 +75,3 @@ class TestValidateDiscountCodeView:
         response = self.client.post(self.url, data, format='json')
         
         assert response.status_code == 400
-        # The serializer error: "Discount codes are only available for new customers."

@@ -1,29 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
 import { CreditCard } from 'lucide-react';
-import { initiateStripeConnectOnboarding } from '@/api/partners';
-import { toast } from 'sonner';
 import type { StripeConnectBannerProps } from '@/types/StripeConnectBannerProps';
 
 const StripeConnectBanner: React.FC<StripeConnectBannerProps> = ({ onboardingComplete }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   if (onboardingComplete) return null;
-
-  const handleSetup = async () => {
-    setIsLoading(true);
-    try {
-      const { url } = await initiateStripeConnectOnboarding();
-      window.location.href = url;
-    } catch (err: any) {
-      toast.error('Failed to start onboarding', {
-        description: err.message || 'Please try again.',
-      });
-      setIsLoading(false);
-    }
-  };
 
   return (
     <Card className="border-amber-200 bg-amber-50">
@@ -35,8 +20,8 @@ const StripeConnectBanner: React.FC<StripeConnectBannerProps> = ({ onboardingCom
             <p className="text-sm text-amber-700">Connect your Stripe account to receive automatic payouts.</p>
           </div>
         </div>
-        <Button onClick={handleSetup} disabled={isLoading} size="sm">
-          {isLoading ? <Spinner className="h-4 w-4" /> : 'Set Up'}
+        <Button onClick={() => navigate('/partner/stripe-connect/onboarding')} size="sm">
+          Set Up
         </Button>
       </CardContent>
     </Card>

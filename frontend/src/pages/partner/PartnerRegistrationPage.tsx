@@ -9,6 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
+import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import BackButton from '@/components/BackButton';
 import ServiceAreaMap from '@/components/ServiceAreaMap';
 import { registerPartner } from '@/api/partners';
@@ -110,6 +111,7 @@ const PartnerRegistrationPage: React.FC = () => {
   return (
     <>
       <Seo title={`${isDelivery ? 'Delivery' : 'Referral'} Partner Registration | FutureFlower`} />
+      <StepProgressBar currentStep={2} totalSteps={3} planName="Partner Registration" />
       <div className="min-h-screen w-full py-0 md:py-12 px-0 md:px-4" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto max-w-4xl">
           <Card className="bg-white text-black border-none shadow-none md:shadow-xl md:shadow-black/5 rounded-none md:rounded-[2rem] overflow-hidden">
@@ -247,7 +249,7 @@ const PartnerRegistrationPage: React.FC = () => {
                 <BackButton to="/partner/register" />
                 <Button type="submit" size="lg" disabled={isSubmitting || !customerTermsAccepted || !partnerTermsAccepted}>
                   {isSubmitting && <Spinner className="mr-2 h-4 w-4" />}
-                  Register
+                  {isSubmitting ? 'Setting up…' : 'Next: Stripe Setup'}
                 </Button>
               </CardFooter>
             </form>

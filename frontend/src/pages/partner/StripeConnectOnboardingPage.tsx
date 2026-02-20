@@ -5,6 +5,7 @@ import { ConnectAccountOnboarding, ConnectComponentsProvider } from '@stripe/rea
 import { initiateStripeConnectOnboarding } from '@/api/partners';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
+import StepProgressBar from '@/components/form_flow/StepProgressBar';
 
 const StripeConnectOnboardingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -52,6 +53,7 @@ const StripeConnectOnboardingPage: React.FC = () => {
   return (
     <>
       <Seo title="Stripe Setup | FutureFlower" />
+      <StepProgressBar currentStep={3} totalSteps={3} planName="Partner Registration" />
       <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
         <div className="container mx-auto max-w-3xl">
           <div className="bg-white rounded-none md:rounded-[2rem] overflow-hidden shadow-none md:shadow-xl md:shadow-black/5">

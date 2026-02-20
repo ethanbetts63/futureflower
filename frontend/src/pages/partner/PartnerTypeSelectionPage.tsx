@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Gift, Truck } from 'lucide-react';
 import Seo from '@/components/Seo';
+import StepProgressBar from '@/components/form_flow/StepProgressBar';
 
 const PartnerTypeSelectionPage: React.FC = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const PartnerTypeSelectionPage: React.FC = () => {
   return (
     <>
       <Seo title="Become a Partner | FutureFlower" />
+      <StepProgressBar currentStep={1} totalSteps={3} planName="Partner Registration" />
       <div className="min-h-screen w-full py-0 md:py-12 px-0 md:px-4" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto max-w-4xl px-4 md:px-0">
           <div className="text-center mb-8">
