@@ -22,7 +22,7 @@ class TestCreateSubscriptionView:
         start_date = date.today() + timedelta(days=2) # Lead time doesn't matter for initial payment
         plan = SubscriptionPlanFactory(
             user=self.user, 
-            total_amount=Decimal('100.00'), 
+            subtotal=Decimal('100.00'), 
             start_date=start_date,
             frequency=frequency
         )
@@ -47,11 +47,11 @@ class TestCreateSubscriptionView:
         assert Payment.objects.filter(order=plan.orderbase_ptr, stripe_payment_intent_id='pi_123').exists()
 
     def test_create_subscription_invalid_plan_fails(self):
-        # Missing total_amount
-        plan = SubscriptionPlanFactory(user=self.user, total_amount=None)
+        # Missing total_amount (will default to 0 via OrderBase.save)
+        plan = SubscriptionPlanFactory(user=self.user, subtotal=0)
         
         data = {'subscription_plan_id': plan.id}
         response = self.client.post(self.url, data, format='json')
         
         assert response.status_code == 400
-        assert "missing price" in response.data['error'].lower()
+        assert "plan amount must be greater than zero" in response.data['error'].lower()

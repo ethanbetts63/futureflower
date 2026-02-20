@@ -13,7 +13,7 @@ class TestOrderModels:
         assert str(plan).startswith("Upfront Plan")
 
     def test_subscription_plan_creation(self):
-        plan = SubscriptionPlanFactory(budget=80, total_amount=95)
+        plan = SubscriptionPlanFactory(budget=80, subtotal=95)
         assert plan.status == 'pending_payment'
         assert plan.total_amount == 95
         assert str(plan).startswith("Subscription Plan")

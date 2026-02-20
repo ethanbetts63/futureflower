@@ -48,7 +48,7 @@ class TestUpfrontPlanSerializer:
 
     def test_update_inactive_plan_allowed(self):
         plan = UpfrontPlanFactory(status='pending_payment')
-        serializer = UpfrontPlanSerializer(instance=plan, data={'total_amount': 1000}, partial=True)
+        serializer = UpfrontPlanSerializer(instance=plan, data={'subtotal': 1000}, partial=True)
         assert serializer.is_valid()
         updated_plan = serializer.save()
         assert updated_plan.total_amount == 1000

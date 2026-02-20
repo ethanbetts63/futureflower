@@ -17,9 +17,10 @@ def test_user_profile_serializer():
         'email': user.email,
         'first_name': user.first_name,
         'last_name': user.last_name,
+        'is_staff': False,
+        'is_superuser': False,
         'is_partner': False,
-    }
-
+        }
     assert serializer.data == expected_data
 
 

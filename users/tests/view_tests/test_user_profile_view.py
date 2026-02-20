@@ -65,10 +65,11 @@ class TestUserProfileView:
         update_data = {'is_staff': True}
         
         response = self.client.patch(self.url, update_data, format='json')
-        
+
         # The serializer should ignore this field if it's not in fields.
         assert response.status_code == 200
-        assert 'is_staff' not in response.data
-        
+        assert response.data['is_staff'] is False
+        self.user.refresh_from_db()
+        assert self.user.is_staff is False        
         self.user.refresh_from_db()
         assert self.user.is_staff is False

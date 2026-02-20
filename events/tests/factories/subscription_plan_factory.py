@@ -13,7 +13,7 @@ class SubscriptionPlanFactory(DjangoModelFactory):
     budget = Faker('pydecimal', left_digits=2, right_digits=2, positive=True, min_value=50, max_value=99)
     frequency = Faker('random_element', elements=['weekly', 'fortnightly', 'monthly', 'quarterly', 'bi-annually', 'annually'])
     
-    total_amount = Faker('pydecimal', left_digits=3, right_digits=2, positive=True, min_value=60, max_value=120)
+    subtotal = Faker('pydecimal', left_digits=3, right_digits=2, positive=True, min_value=60, max_value=120)
     stripe_subscription_id = factory.Sequence(lambda n: f"sub_{n}")
     start_date = Faker('future_date')
     
