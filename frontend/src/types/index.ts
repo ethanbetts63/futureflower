@@ -95,6 +95,9 @@ export type {
 export type { DeliveryRequestDetail } from './DeliveryRequest';
 export type { Payout, PayoutDetail, PayoutLineItem } from './Payout';
 export type { AdminEvent } from './AdminEvent';
+export type { AdminUser } from './AdminUser';
+export type { AdminUserPlan } from './AdminUserPlan';
+export type { AdminUserDetail } from './AdminUserDetail';
 export type { AdminDashboard } from './AdminDashboard';
 export type { AdminPartner } from './AdminPartner';
 export type { AdminPlan } from './AdminPlan';

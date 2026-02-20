@@ -90,6 +90,8 @@ const AdminPlanListPage = lazy(() => import('./pages/admin/AdminPlanListPage'));
 const AdminPlanDetailPage = lazy(() => import('./pages/admin/AdminPlanDetailPage'));
 const MarkOrderedPage = lazy(() => import('./pages/admin/MarkOrderedPage'));
 const MarkDeliveredPage = lazy(() => import('./pages/admin/MarkDeliveredPage'));
+const AdminUserListPage = lazy(() => import('./pages/admin/AdminUserListPage'));
+const AdminUserDetailPage = lazy(() => import('./pages/admin/AdminUserDetailPage'));
 const AdminGuard = lazy(() => import('./components/AdminGuard'));
 
 const LoadingFallback = () => (
@@ -196,6 +198,8 @@ function App() {
                   <Route path="admin/plans" element={<AdminGuard><AdminPlanListPage /></AdminGuard>} />
                   <Route path="admin/plans/:planType/:planId" element={<AdminGuard><AdminPlanDetailPage /></AdminGuard>} />
                   <Route path="admin/partners/:partnerId" element={<AdminGuard><AdminPartnerDetailPage /></AdminGuard>} />
+                  <Route path="admin/users" element={<AdminGuard><AdminUserListPage /></AdminGuard>} />
+                  <Route path="admin/users/:userId" element={<AdminGuard><AdminUserDetailPage /></AdminGuard>} />
                 </Route>
 
               </Routes>

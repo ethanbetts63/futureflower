@@ -4,6 +4,8 @@ import type { AdminEvent } from '../types/AdminEvent';
 import type { AdminPartner } from '../types/AdminPartner';
 import type { AdminPlan } from '../types/AdminPlan';
 import type { AdminPlanDetail } from '../types/AdminPlanDetail';
+import type { AdminUser } from '../types/AdminUser';
+import type { AdminUserDetail } from '../types/AdminUserDetail';
 import type { MarkOrderedPayload } from '../types/MarkOrderedPayload';
 import type { MarkDeliveredPayload } from '../types/MarkDeliveredPayload';
 
@@ -77,6 +79,19 @@ export async function denyPartner(id: number): Promise<AdminPartner> {
 export async function getAdminPlanDetail(planType: string, planId: string | number): Promise<AdminPlanDetail> {
   const res = await authedFetch(`/api/data/admin/plans/${planType}/${planId}/`);
   if (!res.ok) throw new Error('Failed to fetch plan');
+  return res.json();
+}
+
+export async function getAdminUsers(search?: string): Promise<AdminUser[]> {
+  const qs = search ? `?search=${encodeURIComponent(search)}` : '';
+  const res = await authedFetch(`/api/data/admin/users/${qs}`);
+  if (!res.ok) throw new Error('Failed to fetch users');
+  return res.json();
+}
+
+export async function getAdminUser(id: number): Promise<AdminUserDetail> {
+  const res = await authedFetch(`/api/data/admin/users/${id}/`);
+  if (!res.ok) throw new Error('Failed to fetch user');
   return res.json();
 }
 

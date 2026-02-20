@@ -9,6 +9,8 @@ from .views.admin_mark_ordered_view import AdminMarkOrderedView
 from .views.admin_mark_delivered_view import AdminMarkDeliveredView
 from .views.admin_plan_list_view import AdminPlanListView
 from .views.admin_plan_detail_view import AdminPlanDetailView
+from .views.admin_user_list_view import AdminUserListView
+from .views.admin_user_detail_view import AdminUserDetailView
 
 app_name = 'data_management'
 
@@ -24,4 +26,6 @@ urlpatterns = [
     path('admin/events/<int:pk>/', AdminEventDetailView.as_view(), name='admin-event-detail'),
     path('admin/events/<int:pk>/mark-ordered/', AdminMarkOrderedView.as_view(), name='admin-mark-ordered'),
     path('admin/events/<int:pk>/mark-delivered/', AdminMarkDeliveredView.as_view(), name='admin-mark-delivered'),
+    path('admin/users/', AdminUserListView.as_view(), name='admin-user-list'),
+    path('admin/users/<int:pk>/', AdminUserDetailView.as_view(), name='admin-user-detail'),
 ]
