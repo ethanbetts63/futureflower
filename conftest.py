@@ -6,18 +6,22 @@ from rest_framework.test import APIRequestFactory
 from rest_framework.request import Request
 from unittest.mock import patch
 
+# Global patches that start before any tests run
+# This is an extra safety layer in case module-level imports capture the real functions
+patch('data_management.utils.send_notification.send_notification').start()
+patch('payments.utils.send_admin_payment_notification.send_admin_payment_notification').start()
+patch('payments.utils.send_admin_payment_notification.send_admin_cancellation_notification').start()
+# We don't mock send_customer_payment_notification globally because it has its own unit tests
+# that need to check if it's called. Instead, we mock it in specific integration tests.
+patch('twilio.rest.Client').start()
+
 @pytest.fixture(autouse=True)
-def mock_notifications():
+def mock_notifications_fixture():
     """
-    Globally mock all notification sending functions and the Twilio Client.
-    This ensures that no real emails or SMS messages are sent during tests.
+    Ensures notifications are mocked for every test.
+    The .start() above handles the global state, this fixture is for consistency.
     """
-    with patch('data_management.utils.send_notification.send_notification'), \
-         patch('payments.utils.send_admin_payment_notification.send_admin_payment_notification'), \
-         patch('payments.utils.send_admin_payment_notification.send_admin_cancellation_notification'), \
-         patch('payments.utils.send_customer_payment_notification.send_customer_payment_notification'), \
-         patch('twilio.rest.Client'):
-        yield
+    yield
 
 @pytest.fixture
 def api_rf():
@@ -33,27 +37,11 @@ def drf_request_factory(api_rf):
     def _make(method="post", path="/", data=None, user=None, format="json"):
         """
         Creates a DRF Request object.
-
-        Args:
-            method (str): The HTTP method to use (e.g., 'get', 'post').
-            path (str): The request path.
-            data (dict): The request data.
-            user (User): The user to associate with the request.
-            format (str): The request format.
-
-        Returns:
-            A DRF Request object.
         """
-        # Use the provided api_rf fixture to create a Django HttpRequest
         req = getattr(api_rf, method)(path, data or {}, format=format)
-        
-        # Wrap the Django HttpRequest in a DRF Request
         drf_req = Request(req)
-        
-        # If a user is provided, attach it to the DRF Request
         if user is not None:
             drf_req.user = user
-            
         return drf_req
         
     return _make

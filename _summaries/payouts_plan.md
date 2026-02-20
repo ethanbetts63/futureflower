@@ -3,129 +3,107 @@
 ## Overview
 
 Two types of partners receive payouts:
-- **Affiliates (referral partners)**: earn a commission when a customer they referred makes a payment.
-- **Florists (delivery partners)**: earn a payment when they deliver flowers for an event, or a commission if they choose to decline.
+- **Affiliates (referral partners)**: earn a commission whenever a customer they referred makes a payment.
+- **Florists (delivery partners)**: earn a commission whenever a customer they signed up declines a delivery request, or a delivery payment when they fulfil one.
 
 Both are paid via Stripe Connect. We collect all money into our platform balance first, then transfer out to each partner's connected Stripe account whenever we choose.
 
 ---
 
-## Phase 1: Stripe Connect Onboarding
+## Phase 1: Stripe Connect Onboarding ✅ COMPLETE
 
-Every partner needs a connected Stripe Express account before they can receive any money. This is a one-time setup per partner, completed immediately at registration — no waiting for admin approval.
+Every partner needs a connected Stripe Express account before they can receive any money. This is completed immediately at registration — no waiting for admin approval.
 
-### Step 1 — Partner registration form
+### What was built
 
-The partner fills in their details and submits the form. Our backend does two things in one go:
-1. Creates the `User` and `Partner` records in our database (status: `pending`, discount code: inactive).
-2. Calls the Stripe API to create a **Stripe Express account** linked to our platform. See the note below on how this linking works.
+1. **Registration (Step 1)**: Partner submits the registration form. Backend creates `User`, `Partner`, and `DiscountCode` records, then immediately calls `stripe.Account.create(type='express')` using our platform secret key. The returned `acct_123abc` ID is saved to `Partner.stripe_connect_account_id`. Partner is redirected to the Stripe setup page.
 
-Stripe returns an account ID (e.g. `acct_123abc`). We save this immediately to `Partner.stripe_account_id` in our database.
+2. **Stripe setup (Step 2)**: Backend calls `stripe.AccountSession.create()` for the partner's account and returns a short-lived `client_secret`. Frontend uses `@stripe/react-connect-js` to render the embedded Stripe onboarding form directly on our page — no redirect. Partner enters bank and identity details. On exit they land on their partner dashboard.
 
-The partner is then redirected to Step 2.
+3. **Webhook confirmation**: Stripe fires `account.updated` to our webhook. If `payouts_enabled` is `True`, we set `Partner.stripe_connect_onboarding_complete = True`.
 
----
+4. **Admin approval (separate step)**: Admin approves the partner via the admin dashboard. On approval the discount code is activated. No Stripe steps needed at this point.
 
-**How does Stripe know the Express account belongs to us?**
+5. **Dashboard banner**: If `stripe_connect_onboarding_complete` is `False`, a banner on the partner dashboard links them back to `/partner/stripe-connect/onboarding` to complete setup.
 
-When we call the Stripe API to create the Express account, we make that call using our platform's secret API key. This is what links it to us — Stripe sees that the request came from our platform account and registers the new Express account as a "connected account" sitting underneath us. We never share our secret key with the partner; we just use it server-side to create an account on their behalf. From Stripe's perspective, `acct_123abc` is a sub-account that we own and control. We can send money to it, check its status, and manage it — but the partner controls their own bank details and identity information within it.
-
----
-
-**What do we store in our database?**
-
-On the `Partner` model we store:
-- `stripe_account_id` — the `acct_123abc` ID returned by Stripe when we create the account. This is the only thing we need. Every future interaction (sending money, checking verification status) references this ID.
-- `stripe_onboarding_complete` (bool) — set to `True` when Stripe confirms via webhook that the partner has finished entering their details and `payouts_enabled` is `True` on their account.
-
-We do NOT store any bank account numbers, BSBs, or identity documents. Stripe handles all of that inside the Express account. We only ever hold the ID that points to it.
-
----
-
-### Step 2 — Stripe onboarding (embedded on our site)
-
-The partner lands on our Stripe setup page. Here is what happens behind the scenes:
-
-1. Our backend calls Stripe's **Account Sessions API**, passing in the `acct_123abc` we just created. Stripe returns a short-lived **client secret** (valid for a few minutes, single use).
-2. Our backend passes this client secret to the frontend.
-3. The frontend loads Stripe's JavaScript library and uses the client secret to render an embedded onboarding form directly inside our page — no redirect to stripe.com.
-4. The partner enters their bank account details (BSB, account number) and identity information (name, DOB, address) inside this form.
-5. When they click finish, Stripe receives and stores all of that information against `acct_123abc`. We never see it.
-
-The client secret is what tells Stripe's embedded component which Express account to collect information for. Without it, the component won't render. It expires quickly so it can't be reused or stolen.
-
-### Step 3 — Partner lands on their dashboard
-
-After completing the Stripe form, the partner is redirected to their partner dashboard. Their status is `pending` and their discount code is inactive — but Stripe setup is done.
-
-### Step 4 — Webhook confirms Stripe verification
-
-At some point after Step 2 (usually within minutes, sometimes longer if Stripe needs to manually review identity), Stripe fires an `account.updated` webhook to our server. We check:
-- `payouts_enabled` is `True` on the account object
-
-If yes, we set `Partner.stripe_onboarding_complete = True`. This is the flag we check before ever attempting a payout.
-
-### Step 5 — Admin approves the partner
-
-Admin reviews the application and approves them via the admin dashboard (already built). On approval, the discount code is activated. No Stripe steps are needed at this point — Stripe is already set up.
+### What is stored on the Partner model
+- `stripe_connect_account_id` — the `acct_123abc` pointer. All future Stripe interactions reference this.
+- `stripe_connect_onboarding_complete` (bool) — set `True` by the `account.updated` webhook when `payouts_enabled` is confirmed.
 
 ---
 
 ## Phase 2: Paying Partners Out
 
-Payouts are manual and admin-controlled. We decide when to pay, and how much. The money moves from our Stripe platform balance to the partner's connected Express account, and then Stripe automatically moves it from there to their bank account on its own schedule (typically 2 business days).
+Payouts are manual and admin-controlled, one at a time. Admin decides when to pay each commission or delivery. The money moves from our Stripe platform balance to the partner's Express account, and Stripe automatically moves it to their bank (typically 2 business days).
 
-### Affiliates (commission payments)
+### Commission Structure
 
-#### Step 1 — Commission is recorded on payment
-When a customer payment succeeds, our webhook handler checks whether the customer was referred by a partner. If so, we create a `Commission` record with the calculated amount and status `pending`. This already happens.
+Commission amounts are calculated at the moment an `Event` is created, using a central utility function `calculate_commission_amount(budget)`. The result is stored directly on the `Event` as `commission_amount` (a decimal field).
 
-#### Step 2 — Admin reviews pending commissions
-Admin visits the partner detail page and sees a list of pending commissions with their amounts and associated payments.
+The current tier table (defined in the utility):
 
-#### Step 3 — Admin initiates a payout
-Admin clicks "Pay Out" (for a specific commission, or a batch). Our backend sums the selected commissions and calls the Stripe Transfers API:
-- Amount: sum of selected commissions
-- Destination: `Partner.stripe_account_id`
-- Transfer group: the relevant payment or payout reference
+| Budget        | Commission per delivery |
+|---------------|------------------------|
+| < $100        | $5                     |
+| < $150        | $10                    |
+| < $200        | $15                    |
+| < $250        | $20                    |
+| >= $250       | $25                    |
 
-#### Step 4 — We record the payout
-We create a `Payout` record linked to the partner and the commissions paid. We mark those commissions as `paid`. The partner's Stripe Express account now holds the funds and Stripe will move it to their bank automatically.
+If the tier table changes in future, we update the utility and optionally run a migration to recalculate `commission_amount` on all undelivered events. Historical delivered events retain whatever amount was snapshotted at creation.
 
-#### Step 5 — Payout shown to partner
-The partner can see the payout in their dashboard (already partially built).
+### Who earns a commission
 
----
+- **Affiliates**: a `Commission` record is created for the referring partner every time a customer they referred successfully pays for a plan. The `commission_amount` is taken from the event.
+- **Florists**: a `Commission` record is created when a florist **declines** a delivery request for an event where the customer signed up via that florist's discount code. The florist still earns the commission even though they didn't fulfil the delivery.
 
-### Florists (delivery payments)
+Florist delivery payments (for fulfilled deliveries) are handled separately — see below.
 
-#### Step 1 — Event is marked as delivered
-Admin marks an event as delivered via the admin dashboard (already built). At this point a payment to the florist becomes due.
+### What needs to be built
 
-#### Step 2 — Delivery payment record is created
-When an event is marked delivered, our backend creates a `DeliveryPayment` record with the agreed amount and status `pending`. The amount is either a fixed rate, the event budget, or manually entered by admin — TBD.
+#### Commission model additions
+- Add `commission_amount` field to the `Event` model.
+- Add `calculate_commission_amount(budget)` utility in a new file `partners/utils/commission_calc.py`.
+- Wire the utility into event creation (webhook handler for new plans) so every event gets its `commission_amount` set on creation.
 
-#### Step 3 — Admin reviews pending delivery payments
-Admin visits the florist's detail page and sees all pending delivery payments with their amounts and associated events.
+#### Payout flow — Affiliates
 
-#### Step 4 — Admin initiates a payout
-Admin clicks "Pay Out". Our backend calls the Stripe Transfers API:
-- Amount: the delivery payment amount
-- Destination: `Partner.stripe_account_id`
-- Transfer group: the relevant event or order reference
+1. **Commission record created**: When a customer payment succeeds, the webhook checks if the customer was referred by a partner (via discount code used at checkout). If yes, create a `Commission` record: `partner`, `event`, `amount` (from `event.commission_amount`), `status='pending'`.
 
-#### Step 5 — We record the payout
-We create a `Payout` record linked to the florist and the delivery payment. We mark the delivery payment as `paid`.
+2. **Admin reviews**: Admin visits the partner detail page, sees a list of pending commissions.
 
-#### Step 6 — Payout shown to partner
-The florist can see the payout in their partner dashboard.
+3. **Admin pays one commission**: Admin clicks "Pay Out" on a single commission. Backend calls `stripe.Transfer.create()`:
+   - `amount`: the commission amount in cents
+   - `currency`: the plan currency
+   - `destination`: `Partner.stripe_connect_account_id`
+   - `transfer_group`: `f"commission_{commission.id}"`
+
+4. **Record the payout**: Create a `Payout` record. Mark the `Commission` as `paid`. Partner sees it in their dashboard.
+
+#### Payout flow — Florists (declined delivery commissions)
+
+Same flow as affiliates above, but the `Commission` record is created when a florist declines a delivery request (instead of at payment time).
+
+#### Payout flow — Florists (fulfilled delivery payments)
+
+1. **Event marked as delivered**: Admin marks an event as delivered via the admin dashboard. This triggers creation of a `DeliveryPayment` record: `partner` (whoever fulfilled it), `event`, `amount` (= `event.budget` — TBD confirm this), `status='pending'`.
+
+2. **Admin reviews**: Admin visits the florist's detail page, sees pending delivery payments.
+
+3. **Admin pays one delivery**: Admin clicks "Pay Out". Backend calls `stripe.Transfer.create()`:
+   - `amount`: the delivery payment amount in cents
+   - `currency`: the plan currency
+   - `destination`: `Partner.stripe_connect_account_id`
+   - `transfer_group`: `f"delivery_{delivery_payment.id}"`
+
+4. **Record the payout**: Create a `Payout` record. Mark the `DeliveryPayment` as `paid`. Partner sees it in their dashboard.
 
 ---
 
 ## Edge Cases to Handle
 
-- **Insufficient platform balance**: If our Stripe balance is too low to cover a transfer, the Stripe API will return an error. We surface this to admin and do not mark the commission/delivery payment as paid.
-- **Transfer failures**: We log all Stripe API errors against the payout attempt so admin can retry.
-- **Refunds**: If a customer is refunded, any associated pending commissions should be cancelled. If a commission was already paid out, a Transfer Reversal via the Stripe API may be needed.
-- **Partner not yet verified**: We block the "Pay Out" button if `stripe_onboarding_complete` is not `True` on the partner record.
-- **Onboarding abandoned**: If a partner completes Step 1 but never finishes the Stripe form, we still have the `stripe_account_id`. We can re-generate a new client secret and send them back to the form at any time.
+- **Insufficient platform balance**: Stripe Transfer will fail with an error. We surface this to admin and do not mark anything as paid.
+- **Transfer failures**: Log the Stripe error against the payout attempt so admin can retry.
+- **Refunds**: If a customer is refunded, cancel any `pending` commissions linked to that payment. If already `paid`, a Transfer Reversal may be needed.
+- **Partner not yet verified**: Block "Pay Out" if `stripe_connect_onboarding_complete` is `False`.
+- **Onboarding abandoned**: `stripe_connect_account_id` is still saved. Re-generate a client secret and send partner back to the onboarding page at any time via the dashboard banner.
