@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+
+function orderTypeToPlanSlug(orderType: string): string {
+  return orderType.toLowerCase().includes('subscription') ? 'subscription' : 'upfront';
+}
 import { getAdminEvent } from '@/api/admin';
 import type { AdminEvent } from '@/types/AdminEvent';
 import { Spinner } from '@/components/ui/spinner';
@@ -135,6 +139,14 @@ const AdminEventDetailPage: React.FC = () => {
               <Field label="Plan Type" value={event.order_type} />
               <Field label="Frequency" value={event.frequency} />
             </div>
+            <div className="mt-3">
+              <Link
+                to={`/dashboard/admin/plans/${orderTypeToPlanSlug(event.order_type)}/${event.order_id}`}
+                className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-black/70"
+              >
+                View Plan
+              </Link>
+            </div>
           </SummarySection>
 
           {/* Preferences */}
@@ -153,6 +165,14 @@ const AdminEventDetailPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label="Name" value={`${event.customer_first_name} ${event.customer_last_name}`} />
               <Field label="Email" value={event.customer_email} />
+            </div>
+            <div className="mt-3">
+              <Link
+                to={`/dashboard/admin/users/${event.customer_id}`}
+                className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-black/70"
+              >
+                View Profile
+              </Link>
             </div>
           </SummarySection>
 

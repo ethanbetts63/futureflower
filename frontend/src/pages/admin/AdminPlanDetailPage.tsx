@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { getAdminPlanDetail } from '@/api/admin';
 import type { AdminPlanDetail } from '@/types/AdminPlanDetail';
 import { Spinner } from '@/components/ui/spinner';
@@ -98,6 +98,14 @@ const AdminPlanDetailPage: React.FC = () => {
               <Field label="Name" value={`${plan.customer_first_name} ${plan.customer_last_name}`} />
               <Field label="Email" value={plan.customer_email} />
             </div>
+            <div className="mt-3">
+              <Link
+                to={`/dashboard/admin/users/${plan.customer_id}`}
+                className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-black/70"
+              >
+                View Profile
+              </Link>
+            </div>
           </SummarySection>
 
           {/* Plan Details */}
@@ -159,9 +167,17 @@ const AdminPlanDetailPage: React.FC = () => {
             <SummarySection label={`Deliveries (${plan.events.length})`}>
               <div className="divide-y divide-black/5">
                 {plan.events.map((event) => (
-                  <div key={event.id} className="flex items-center justify-between py-2">
+                  <div key={event.id} className="flex items-center justify-between py-2 gap-4">
                     <span className="text-sm text-black">{formatDate(event.delivery_date)}</span>
-                    <StatusBadge status={event.status} />
+                    <div className="flex items-center gap-3 flex-shrink-0">
+                      <StatusBadge status={event.status} />
+                      <Link
+                        to={`/dashboard/admin/events/${event.id}`}
+                        className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-black/70 whitespace-nowrap"
+                      >
+                        View
+                      </Link>
+                    </div>
                   </div>
                 ))}
               </div>

@@ -21,6 +21,7 @@ export interface AdminPlanDetail {
   preferred_delivery_time: string | null;
   preferred_flower_types: string[];
   flower_notes: string | null;
+  customer_id: number;
   customer_first_name: string;
   customer_last_name: string;
   customer_email: string;

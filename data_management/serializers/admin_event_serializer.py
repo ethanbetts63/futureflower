@@ -28,6 +28,7 @@ class AdminEventSerializer(serializers.ModelSerializer):
     preferred_flower_types = serializers.SerializerMethodField()
 
     # Customer fields
+    customer_id = serializers.IntegerField(source='order.user.id')
     customer_first_name = serializers.CharField(source='order.user.first_name')
     customer_last_name = serializers.CharField(source='order.user.last_name')
     customer_email = serializers.EmailField(source='order.user.email')
@@ -48,7 +49,7 @@ class AdminEventSerializer(serializers.ModelSerializer):
             # Preferences
             'flower_notes', 'preferred_flower_types',
             # Customer
-            'customer_first_name', 'customer_last_name', 'customer_email',
+            'customer_id', 'customer_first_name', 'customer_last_name', 'customer_email',
         ]
 
     def get_order_type(self, obj):

@@ -3,6 +3,7 @@ from events.models import OrderBase, SubscriptionPlan, UpfrontPlan
 
 
 class AdminPlanDetailSerializer(serializers.ModelSerializer):
+    customer_id = serializers.IntegerField(source='user.id', read_only=True)
     customer_first_name = serializers.CharField(source='user.first_name', read_only=True)
     customer_last_name = serializers.CharField(source='user.last_name', read_only=True)
     customer_email = serializers.EmailField(source='user.email', read_only=True)
@@ -22,7 +23,7 @@ class AdminPlanDetailSerializer(serializers.ModelSerializer):
             'recipient_state', 'recipient_postcode', 'recipient_country',
             'delivery_notes', 'preferred_delivery_time',
             'preferred_flower_types', 'flower_notes',
-            'customer_first_name', 'customer_last_name', 'customer_email',
+            'customer_id', 'customer_first_name', 'customer_last_name', 'customer_email',
             'years', 'subscription_message',
             'events',
         ]
