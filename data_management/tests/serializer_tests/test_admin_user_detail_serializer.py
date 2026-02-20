@@ -1,4 +1,5 @@
 import pytest
+from decimal import Decimal
 from data_management.serializers.admin_user_detail_serializer import AdminUserDetailSerializer
 from users.tests.factories.user_factory import UserFactory
 from partners.tests.factories.partner_factory import PartnerFactory
@@ -48,8 +49,8 @@ def test_admin_user_detail_serializer_plans():
     Test that plans (both upfront and subscription) are correctly serialized and included.
     """
     user = UserFactory()
-    plan1 = UpfrontPlanFactory(user=user, total_amount=100.00)
-    plan2 = SubscriptionPlanFactory(user=user, total_amount=50.00)
+    plan1 = UpfrontPlanFactory(user=user, subtotal=Decimal('100.00'), discount_amount=Decimal('0'), tax_amount=Decimal('0'))
+    plan2 = SubscriptionPlanFactory(user=user, subtotal=Decimal('50.00'), discount_amount=Decimal('0'), tax_amount=Decimal('0'))
     
     serializer = AdminUserDetailSerializer(user)
     data = serializer.data
