@@ -42,7 +42,7 @@ const ComparisonSection: React.FC = () => (
       {/* Right Column — Table */}
       <div className="flex flex-col items-center justify-center p-4 md:px-8 md:py-6 lg:px-20 bg-[var(--color4)]">
         <p className="mb-6 text-s font-bold tracking-[0.2em] text-black uppercase">
-          How Big Online Platforms Compare
+          How Big Online Platforms Treat Florists
         </p>
         <div className="w-full max-w-2xl bg-white rounded-2xl shadow-md border border-black/5 overflow-hidden">
           <div className="grid grid-cols-3 text-[10px] md:text-xs font-semibold uppercase tracking-wider border-b border-black/5">

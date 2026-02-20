@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getAdminDashboard } from '@/api/admin';
-import type { AdminDashboard } from '@/types/Admin';
+import { getAdminDashboard, getPendingPartners } from '@/api/admin';
+import type { AdminDashboard, AdminPartner } from '@/types/Admin';
 import { Loader2 } from 'lucide-react';
 import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
@@ -81,14 +81,38 @@ const QueueSection: React.FC<QueueSectionProps> = ({ title, events, section }) =
   </SummarySection>
 );
 
+const PartnerRequestRow: React.FC<{ partner: AdminPartner }> = ({ partner }) => (
+  <div className="flex justify-between items-center gap-4 py-3 border-b border-black/5 last:border-0">
+    <div className="flex-1 min-w-0">
+      <p className="font-semibold text-black truncate">{partner.business_name || `${partner.first_name} ${partner.last_name}`}</p>
+      <p className="text-sm text-black/60">
+        {partner.partner_type === 'delivery' ? 'Delivery (Florist)' : 'Referral'}
+        {' · '}
+        {partner.first_name} {partner.last_name}
+      </p>
+      <p className="text-sm text-black/40">{partner.email}</p>
+    </div>
+    <Link
+      to={`/dashboard/admin/partners/${partner.id}`}
+      className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-center text-black/70 flex-shrink-0"
+    >
+      View
+    </Link>
+  </div>
+);
+
 const AdminDashboardPage: React.FC = () => {
   const [dashboard, setDashboard] = useState<AdminDashboard | null>(null);
+  const [pendingPartners, setPendingPartners] = useState<AdminPartner[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getAdminDashboard()
-      .then(setDashboard)
+    Promise.all([getAdminDashboard(), getPendingPartners()])
+      .then(([dash, partners]) => {
+        setDashboard(dash);
+        setPendingPartners(partners);
+      })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   }, []);
@@ -110,6 +134,17 @@ const AdminDashboardPage: React.FC = () => {
             <div className="py-12 text-center text-red-600 text-sm">{error}</div>
           ) : dashboard ? (
             <>
+              <SummarySection label={`Partner Requests (${pendingPartners.length})`}>
+                {pendingPartners.length === 0 ? (
+                  <p className="text-sm text-black/40 italic">No pending partner requests.</p>
+                ) : (
+                  <div className="flex flex-col">
+                    {pendingPartners.map((partner) => (
+                      <PartnerRequestRow key={partner.id} partner={partner} />
+                    ))}
+                  </div>
+                )}
+              </SummarySection>
               <QueueSection title="To Order" events={dashboard.to_order} section="to_order" />
               <QueueSection title="Ordered" events={dashboard.ordered} section="ordered" />
               <QueueSection title="Delivered" events={dashboard.delivered} section="delivered" />

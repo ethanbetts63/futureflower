@@ -57,7 +57,7 @@ Recieve a text and email with an acceptance link. Accept and handle the delivery
 ### Then how do you make money?
 No catch, our business model is florist first. We charge a flat 15% per order. No hidden "marketing fees," no monthly subscriptions, and no penalties for saying no. We'd rather be a partner than a tax collector. Any lower and we couldn't offer rejection rewards and discount codes.
 
-### How Big Online Platforms Compare (Table)
+### How Big Online Platforms Treat Florists (Table)
 | Feature | Big Networks | FutureFlower |
 | :--- | :--- | :--- |
 | **Commission** | 20–40% per order | **15%** |

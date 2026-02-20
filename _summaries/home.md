@@ -61,7 +61,7 @@ A local florist creates something unique and beautiful. No catalog copies. No wa
 ### Then how do you make money?
 Where our competitors slip in a 20–40% commission, monthly fees, and delivery cuts, we charge a simple 15%. You get more, the florist gets more, and we get customers that keep coming back.
 
-### How Big Online Platforms Compare (Table)
+### How Big Online Platforms Treat Florists (Table)
 | Feature | Big Networks | FutureFlower |
 | :--- | :--- | :--- |
 | **Commission** | 20–40% per order | **15%** |

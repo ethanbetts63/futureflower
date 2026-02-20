@@ -57,7 +57,7 @@ When a follower uses your code, you get paid for their first order, their second
 ### Then how do you make money?
 Where our competitors slip in a 20–40% commission, monthly fees, and delivery cuts, we charge a simple 15%. You get more, the florist gets more, and we get customers that keep coming back.
 
-### How Big Online Platforms Compare (Table - Same as Home Page comparison)
+### How Big Online Platforms Treat Florists (Table - Same as Home Page comparison)
 | Feature | Big Networks | FutureFlower |
 | :--- | :--- | :--- |
 | **Commission** | 20–40% per order | **15%** |

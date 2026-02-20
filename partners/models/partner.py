@@ -11,6 +11,7 @@ class Partner(models.Model):
         ('pending', 'Pending'),
         ('active', 'Active'),
         ('suspended', 'Suspended'),
+        ('denied', 'Denied'),
     )
 
     user = models.OneToOneField(

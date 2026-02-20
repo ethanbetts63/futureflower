@@ -12,6 +12,9 @@ from partners.views import (
     StripeConnectStatusView,
     PayoutListView,
     PayoutDetailView,
+    AdminPendingPartnersView,
+    AdminApprovePartnerView,
+    AdminDenyPartnerView,
 )
 
 urlpatterns = [
@@ -26,6 +29,11 @@ urlpatterns = [
     path('delivery-requests/<str:token>/details/', DeliveryRequestDetailView.as_view(), name='delivery-request-detail'),
     path('delivery-requests/<str:token>/respond/', DeliveryRequestRespondView.as_view(), name='delivery-request-respond'),
     path('delivery-requests/<str:token>/mark-delivered/', DeliveryRequestMarkDeliveredView.as_view(), name='delivery-request-mark-delivered'),
+
+    # Admin
+    path('admin/pending/', AdminPendingPartnersView.as_view(), name='admin-pending-partners'),
+    path('admin/<int:pk>/approve/', AdminApprovePartnerView.as_view(), name='admin-approve-partner'),
+    path('admin/<int:pk>/deny/', AdminDenyPartnerView.as_view(), name='admin-deny-partner'),
 
     # Phase 3
     path('stripe-connect/onboard/', StripeConnectOnboardView.as_view(), name='stripe-connect-onboard'),
