@@ -26,5 +26,5 @@ class PartnerRegistrationView(APIView):
             }
         }, status=status.HTTP_201_CREATED)
 
-        _set_auth_cookies(response, refresh.access_token, refresh)
+        _set_auth_cookies(response, refresh.access_token, refresh, request=request)
         return response

@@ -10,30 +10,24 @@ type PasswordResetConfirmPayload = {
 }
 
 export async function loginUser(email: string, password: string): Promise<{ detail: string }> {
-  const response = await fetch('/api/token/', {
+  const response = await authedFetch('/api/token/', {
     method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: email, password }),
   });
   return handleResponse(response);
 }
 
 export async function registerUser(userData: ProfileCreationData): Promise<AuthResponse> {
-  const response = await fetch('/api/users/register/', {
+  const response = await authedFetch('/api/users/register/', {
     method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData),
   });
   return handleResponse(response);
 }
 
 export async function logoutUser(): Promise<void> {
-  await fetch('/api/token/logout/', {
+  await authedFetch('/api/token/logout/', {
     method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
   });
 }
 
@@ -46,18 +40,16 @@ export async function claimAccount(password: string): Promise<{ detail: string }
 }
 
 export async function confirmPasswordReset(uid: string, token: string, passwordData: PasswordResetConfirmPayload): Promise<{ detail: string }> {
-  const response = await fetch(`/api/users/password-reset/confirm/${uid}/${token}/`, {
+  const response = await authedFetch(`/api/users/password-reset/confirm/${uid}/${token}/`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(passwordData),
   });
   return handleResponse(response);
 }
 
 export async function requestPasswordReset(email: string): Promise<{ detail: string }> {
-  const response = await fetch('/api/users/password-reset/request/', {
+  const response = await authedFetch('/api/users/password-reset/request/', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
   });
   return handleResponse(response);

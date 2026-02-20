@@ -47,6 +47,11 @@ DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = ['ethanbetts.pythonanywhere.com', 'www.futureflower.app', '127.0.0.1', 'localhost']
 
+CSRF_TRUSTED_ORIGINS = ['https://www.futureflower.app']
+
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS.append('http://localhost:5173')
+
 # Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",

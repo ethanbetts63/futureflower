@@ -4,13 +4,17 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 from django.conf import settings
+from django.middleware.csrf import get_token
 
 
-def _set_auth_cookies(response, access_token, refresh_token=None):
+def _set_auth_cookies(response, access_token, refresh_token=None, request=None):
     """
     Attaches JWT tokens as HttpOnly cookies to the response.
     Secure flag is off in DEBUG mode to allow local development over HTTP.
     """
+    if request is not None:
+        get_token(request)  # ensures csrftoken cookie is issued with this response
+
     secure = not settings.DEBUG
     access_max_age = int(settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())
     refresh_max_age = int(settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds())
@@ -55,7 +59,7 @@ class CookieTokenObtainPairView(APIView):
         refresh_token = serializer.validated_data['refresh']
 
         response = Response({'detail': 'Login successful.'})
-        _set_auth_cookies(response, access_token, refresh_token)
+        _set_auth_cookies(response, access_token, refresh_token, request=request)
         return response
 
 

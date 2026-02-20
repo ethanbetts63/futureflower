@@ -12,9 +12,8 @@ import type {
 } from '@/types';
 
 export async function registerPartner(data: PartnerRegistrationData): Promise<AuthResponse> {
-  const response = await fetch('/api/partners/register/', {
+  const response = await authedFetch('/api/partners/register/', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
   return handleResponse(response);
@@ -51,18 +50,16 @@ export async function getDeliveryRequestByToken(token: string): Promise<Delivery
 }
 
 export async function respondToDeliveryRequest(token: string, action: 'accept' | 'decline'): Promise<{ status: string }> {
-  const response = await fetch(`/api/partners/delivery-requests/${token}/respond/`, {
+  const response = await authedFetch(`/api/partners/delivery-requests/${token}/respond/`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action }),
   });
   return handleResponse(response);
 }
 
 export async function markDeliveryComplete(token: string): Promise<{ status: string }> {
-  const response = await fetch(`/api/partners/delivery-requests/${token}/mark-delivered/`, {
+  const response = await authedFetch(`/api/partners/delivery-requests/${token}/mark-delivered/`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
   });
   return handleResponse(response);
 }
