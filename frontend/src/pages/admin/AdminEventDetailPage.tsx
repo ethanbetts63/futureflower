@@ -3,36 +3,41 @@ import { useParams, Link } from 'react-router-dom';
 import { getAdminEvent } from '@/api/admin';
 import type { AdminEvent } from '@/types/AdminEvent';
 import { Spinner } from '@/components/ui/spinner';
+import { Button } from '@/components/ui/button';
+import Seo from '@/components/Seo';
+import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
+import SummarySection from '@/components/SummarySection';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
 
 function formatDate(dateStr: string): string {
-  const date = new Date(dateStr + 'T00:00:00');
-  return date.toLocaleDateString('en-AU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-AU', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+  });
 }
 
 function formatDateTime(dtStr: string): string {
   return new Date(dtStr).toLocaleString('en-AU', { dateStyle: 'medium', timeStyle: 'short' });
 }
 
-const Field: React.FC<{ label: string; value: React.ReactNode }> = ({ label, value }) => (
-  <div>
-    <dt className="text-xs font-medium text-gray-500 uppercase tracking-wider">{label}</dt>
-    <dd className="mt-1 text-sm text-gray-900">{value || <span className="italic text-gray-400">—</span>}</dd>
-  </div>
+const STATUS_STYLES: Record<string, string> = {
+  scheduled: 'bg-yellow-100 text-yellow-800',
+  ordered: 'bg-blue-100 text-blue-800',
+  delivered: 'bg-green-100 text-green-800',
+  cancelled: 'bg-gray-100 text-gray-600',
+};
+
+const StatusBadge: React.FC<{ status: string }> = ({ status }) => (
+  <span className={`px-2 py-0.5 rounded-full text-xs font-semibold capitalize ${STATUS_STYLES[status] ?? 'bg-gray-100 text-gray-600'}`}>
+    {status}
+  </span>
 );
 
-const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
-  const colours: Record<string, string> = {
-    scheduled: 'bg-yellow-100 text-yellow-800',
-    ordered: 'bg-blue-100 text-blue-800',
-    delivered: 'bg-green-100 text-green-800',
-    cancelled: 'bg-gray-100 text-gray-600',
-  };
-  return (
-    <span className={`px-2.5 py-0.5 rounded-full text-sm font-semibold capitalize ${colours[status] ?? 'bg-gray-100 text-gray-600'}`}>
-      {status}
-    </span>
-  );
-};
+const Field: React.FC<{ label: string; value: React.ReactNode }> = ({ label, value }) => (
+  <div>
+    <p className="text-xs text-black/40 uppercase tracking-wider mb-0.5">{label}</p>
+    <p className="text-black">{value || '—'}</p>
+  </div>
+);
 
 const AdminEventDetailPage: React.FC = () => {
   const { eventId } = useParams<{ eventId: string }>();
@@ -50,14 +55,20 @@ const AdminEventDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen flex items-center justify-center">
         <Spinner className="h-10 w-10" />
       </div>
     );
   }
 
   if (error || !event) {
-    return <p className="p-8 text-red-600">Error: {error ?? 'Event not found.'}</p>;
+    return (
+      <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
+        <div className="container mx-auto max-w-4xl">
+          <p className="p-8 text-red-600">{error ?? 'Event not found.'}</p>
+        </div>
+      </div>
+    );
   }
 
   const fullAddress = [
@@ -70,95 +81,114 @@ const AdminEventDetailPage: React.FC = () => {
   ].filter(Boolean).join(', ');
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <Link to="/dashboard/admin" className="text-sm text-blue-600 hover:underline mb-6 inline-block">
-        ← Back to Task Queue
-      </Link>
+    <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
+      <Seo title={`Event #${event.id} | FutureFlower`} />
+      <div className="container mx-auto max-w-4xl">
+        <UnifiedSummaryCard
+          title={`Event #${event.id}`}
+          description={`${event.recipient_first_name} ${event.recipient_last_name} — ${formatDate(event.delivery_date)}`}
+          footer={
+            <div className="flex flex-row justify-between items-center w-full gap-4">
+              <FlowBackButton to="/dashboard/admin" />
+              {event.status === 'scheduled' && (
+                <Button asChild className="px-6 py-3 rounded-xl text-base font-normal bg-black text-white hover:bg-black/80">
+                  <Link to={`/dashboard/admin/events/${event.id}/mark-ordered`}>Place Order</Link>
+                </Button>
+              )}
+              {event.status === 'ordered' && (
+                <Button asChild className="px-6 py-3 rounded-xl text-base font-normal bg-green-600 text-white hover:bg-green-700">
+                  <Link to={`/dashboard/admin/events/${event.id}/mark-delivered`}>Confirm Delivery</Link>
+                </Button>
+              )}
+            </div>
+          }
+        >
+          {/* Delivery Details */}
+          <SummarySection label="Delivery">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="Recipient" value={`${event.recipient_first_name} ${event.recipient_last_name}`} />
+              <Field label="Delivery Date" value={formatDate(event.delivery_date)} />
+              {fullAddress && (
+                <div className="sm:col-span-2">
+                  <Field label="Address" value={fullAddress} />
+                </div>
+              )}
+              <Field label="Preferred Delivery Time" value={event.preferred_delivery_time} />
+              {event.delivery_notes && (
+                <div className="sm:col-span-2">
+                  <Field label="Delivery Notes" value={event.delivery_notes} />
+                </div>
+              )}
+              {event.message && (
+                <div className="sm:col-span-2">
+                  <Field label="Card Message" value={event.message} />
+                </div>
+              )}
+            </div>
+          </SummarySection>
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">
-        Event #{event.id} — {event.recipient_first_name} {event.recipient_last_name}
-      </h1>
-      <p className="text-gray-500 mb-8">{formatDate(event.delivery_date)}</p>
+          {/* Order */}
+          <SummarySection label="Order">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="Budget" value={`$${event.budget}`} />
+              <Field label="Total Amount" value={`$${event.total_amount}`} />
+              <Field label="Plan Type" value={event.order_type} />
+              <Field label="Frequency" value={event.frequency} />
+            </div>
+          </SummarySection>
 
-      {/* Section 1: Order Details */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6 mb-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-gray-800 mb-5">Order Details</h2>
-        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div className="sm:col-span-2">
-            <dt className="text-xs font-medium text-gray-500 uppercase tracking-wider">Delivery Address</dt>
-            <dd className="mt-1 text-sm text-gray-900 font-medium">{fullAddress || '—'}</dd>
-          </div>
-          <Field label="Recipient" value={`${event.recipient_first_name} ${event.recipient_last_name}`} />
-          <Field label="Preferred Delivery Time" value={event.preferred_delivery_time} />
-          <Field label="Delivery Notes" value={event.delivery_notes} />
-          <Field label="Delivery Date" value={formatDate(event.delivery_date)} />
-          <Field label="Budget" value={`$${event.budget}`} />
-          <Field label="Total Amount" value={`$${event.total_amount}`} />
-          <Field label="Plan Type" value={event.order_type} />
-          <Field label="Frequency" value={event.frequency} />
-          <Field
-            label="Flower Types"
-            value={event.preferred_flower_types.length > 0 ? event.preferred_flower_types.join(', ') : null}
-          />
-          <Field label="Flower Notes" value={event.flower_notes} />
-          <div className="sm:col-span-2">
-            <Field label="Card Message" value={event.message} />
-          </div>
-          <Field label="Customer Name" value={`${event.customer_first_name} ${event.customer_last_name}`} />
-          <Field label="Customer Email" value={event.customer_email} />
-        </dl>
-      </div>
+          {/* Preferences */}
+          <SummarySection label="Preferences">
+            <div className="grid grid-cols-1 gap-4">
+              <Field
+                label="Flower Types"
+                value={event.preferred_flower_types.length > 0 ? event.preferred_flower_types.join(', ') : null}
+              />
+              {event.flower_notes && <Field label="Flower Notes" value={event.flower_notes} />}
+            </div>
+          </SummarySection>
 
-      {/* Section 2: Status & Evidence */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-gray-800 mb-5">Status & Evidence</h2>
-        <div className="flex items-center gap-3 mb-5">
-          <span className="text-sm text-gray-500">Current status:</span>
-          <StatusBadge status={event.status} />
-        </div>
+          {/* Customer */}
+          <SummarySection label="Customer">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="Name" value={`${event.customer_first_name} ${event.customer_last_name}`} />
+              <Field label="Email" value={event.customer_email} />
+            </div>
+          </SummarySection>
 
-        {(event.status === 'ordered' || event.status === 'delivered') && event.ordered_at && (
-          <div className="mb-4">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Ordered At</p>
-            <p className="text-sm text-gray-900">{formatDateTime(event.ordered_at)}</p>
-            {event.ordering_evidence_text && (
-              <p className="mt-2 text-sm text-gray-700 whitespace-pre-wrap bg-gray-50 rounded p-3 border border-gray-200">
-                {event.ordering_evidence_text}
-              </p>
-            )}
-          </div>
-        )}
+          {/* Status & Evidence */}
+          <SummarySection label="Status">
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <StatusBadge status={event.status} />
+              </div>
 
-        {event.status === 'delivered' && event.delivered_at && (
-          <div className="mb-4">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Delivered At</p>
-            <p className="text-sm text-gray-900">{formatDateTime(event.delivered_at)}</p>
-            {event.delivery_evidence_text && (
-              <p className="mt-2 text-sm text-gray-700 whitespace-pre-wrap bg-gray-50 rounded p-3 border border-gray-200">
-                {event.delivery_evidence_text}
-              </p>
-            )}
-          </div>
-        )}
+              {(event.status === 'ordered' || event.status === 'delivered') && event.ordered_at && (
+                <div className="space-y-1">
+                  <p className="text-xs text-black/40 uppercase tracking-wider">Ordered At</p>
+                  <p className="text-sm text-black">{formatDateTime(event.ordered_at)}</p>
+                  {event.ordering_evidence_text && (
+                    <p className="text-sm text-black/70 whitespace-pre-wrap bg-black/5 rounded-xl p-4 mt-2">
+                      {event.ordering_evidence_text}
+                    </p>
+                  )}
+                </div>
+              )}
 
-        <div className="flex gap-3 mt-4">
-          {event.status === 'scheduled' && (
-            <Link
-              to={`/dashboard/admin/events/${event.id}/mark-ordered`}
-              className="px-4 py-2 rounded bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
-            >
-              Place Order
-            </Link>
-          )}
-          {event.status === 'ordered' && (
-            <Link
-              to={`/dashboard/admin/events/${event.id}/mark-delivered`}
-              className="px-4 py-2 rounded bg-green-600 text-white text-sm font-medium hover:bg-green-700"
-            >
-              Confirm Delivery
-            </Link>
-          )}
-        </div>
+              {event.status === 'delivered' && event.delivered_at && (
+                <div className="space-y-1">
+                  <p className="text-xs text-black/40 uppercase tracking-wider">Delivered At</p>
+                  <p className="text-sm text-black">{formatDateTime(event.delivered_at)}</p>
+                  {event.delivery_evidence_text && (
+                    <p className="text-sm text-black/70 whitespace-pre-wrap bg-black/5 rounded-xl p-4 mt-2">
+                      {event.delivery_evidence_text}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          </SummarySection>
+        </UnifiedSummaryCard>
       </div>
     </div>
   );

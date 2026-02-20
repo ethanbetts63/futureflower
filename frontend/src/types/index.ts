@@ -94,7 +94,14 @@ export type {
 } from './Partner';
 export type { DeliveryRequestDetail } from './DeliveryRequest';
 export type { Payout, PayoutDetail, PayoutLineItem } from './Payout';
-export type { AdminEvent, AdminDashboard, MarkOrderedPayload, MarkDeliveredPayload } from './Admin';
+export type { AdminEvent } from './AdminEvent';
+export type { AdminDashboard } from './AdminDashboard';
+export type { AdminPartner } from './AdminPartner';
+export type { AdminPlan } from './AdminPlan';
+export type { AdminPlanEvent } from './AdminPlanEvent';
+export type { AdminPlanDetail } from './AdminPlanDetail';
+export type { MarkOrderedPayload } from './MarkOrderedPayload';
+export type { MarkDeliveredPayload } from './MarkDeliveredPayload';
 export type { ImpactTier } from './ImpactTier';
 export type { ProjectedDelivery } from './ProjectedDelivery';
 export type { CalculatedPriceResponse } from './CalculatedPriceResponse';

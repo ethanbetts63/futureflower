@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getAdminEvent, markEventDelivered } from '@/api/admin';
 import type { AdminEvent } from '@/types/AdminEvent';
 import { Spinner } from '@/components/ui/spinner';
+import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import Seo from '@/components/Seo';
+import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
+import SummarySection from '@/components/SummarySection';
+import FlowBackButton from '@/components/form_flow/FlowBackButton';
 
 function toLocalDatetimeInputValue(date: Date): string {
   const pad = (n: number) => String(n).padStart(2, '0');
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+function formatDate(dtStr: string): string {
+  return new Date(dtStr + 'T00:00:00').toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 const MarkDeliveredPage: React.FC = () => {
@@ -46,62 +55,60 @@ const MarkDeliveredPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen flex items-center justify-center">
         <Spinner className="h-10 w-10" />
       </div>
     );
   }
 
+  const backPath = `/dashboard/admin/events/${eventId}`;
+  const description = event
+    ? `${event.recipient_first_name} ${event.recipient_last_name} — ${formatDate(event.delivery_date)}`
+    : '';
+
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <Link to={`/dashboard/admin/events/${eventId}`} className="text-sm text-blue-600 hover:underline mb-6 inline-block">
-        ← Back to event
-      </Link>
+    <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
+      <Seo title="Confirm Delivery | FutureFlower" />
+      <div className="container mx-auto max-w-4xl">
+        <form onSubmit={handleSubmit}>
+          <UnifiedSummaryCard
+            title="Confirm Delivery"
+            description={description}
+            footer={
+              <div className="flex flex-row justify-between items-center w-full gap-4">
+                <FlowBackButton to={backPath} />
+                <Button
+                  type="submit"
+                  disabled={submitting}
+                  className="px-6 py-3 rounded-xl text-base font-normal bg-green-600 text-white hover:bg-green-700"
+                >
+                  {submitting ? 'Saving…' : 'Confirm Delivery'}
+                </Button>
+              </div>
+            }
+          >
+            <SummarySection label="Delivered At">
+              <input
+                type="datetime-local"
+                className="w-full sm:max-w-sm px-3 py-2 text-sm border border-black/15 rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-black/20"
+                value={deliveredAt}
+                onChange={(e) => setDeliveredAt(e.target.value)}
+                required
+              />
+            </SummarySection>
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Confirm Delivery</h1>
-      {event && (
-        <p className="text-gray-500 mb-6">
-          {event.recipient_first_name} {event.recipient_last_name} — {event.delivery_date}
-        </p>
-      )}
-
-      <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm flex flex-col gap-5">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="delivered_at">
-            Delivered At
-          </label>
-          <input
-            id="delivered_at"
-            type="datetime-local"
-            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-            value={deliveredAt}
-            onChange={(e) => setDeliveredAt(e.target.value)}
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="evidence">
-            Delivery Evidence
-          </label>
-          <textarea
-            id="evidence"
-            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-            rows={5}
-            placeholder="Note any delivery confirmation details."
-            value={evidenceText}
-            onChange={(e) => setEvidenceText(e.target.value)}
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={submitting}
-          className="px-4 py-2 rounded bg-green-600 text-white text-sm font-medium hover:bg-green-700 disabled:opacity-50"
-        >
-          {submitting ? 'Saving…' : 'Confirm Delivery'}
-        </button>
-      </form>
+            <SummarySection label="Delivery Evidence">
+              <textarea
+                className="w-full px-3 py-2 text-sm border border-black/15 rounded-lg bg-white placeholder:text-black/30 focus:outline-none focus:ring-1 focus:ring-black/20 resize-none"
+                rows={5}
+                placeholder="Note any delivery confirmation details."
+                value={evidenceText}
+                onChange={(e) => setEvidenceText(e.target.value)}
+              />
+            </SummarySection>
+          </UnifiedSummaryCard>
+        </form>
+      </div>
     </div>
   );
 };

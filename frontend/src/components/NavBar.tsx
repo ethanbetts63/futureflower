@@ -105,7 +105,7 @@ const NavBar: React.FC = () => {
                     Admin Dashboard
                   </Link>
                   <Link to="/dashboard/admin/partners" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                    Partner List
+                    Admin Partner List
                   </Link>
                   <Link to="/dashboard/admin/plans" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                     Admin Plan List

@@ -1,4 +1,4 @@
-import type { AdminEvent } from './Admin';
+import type { AdminEvent } from './AdminEvent';
 
 export interface QueueSectionProps {
   title: string;

@@ -94,7 +94,11 @@ def handle_payment_intent_succeeded(payment_intent):
                         )
                         for d in projected
                     ]
-                    created_events = Event.objects.bulk_create(events_to_create)
+                    Event.objects.bulk_create(events_to_create)
+                    # Re-query to get DB-assigned PKs (bulk_create doesn't populate them on SQLite)
+                    created_events = list(
+                        Event.objects.filter(order=plan_to_activate.orderbase_ptr).order_by('delivery_date')
+                    )
                     print(f"Created {len(created_events)} Events for UpfrontPlan (PK: {plan_to_activate.pk}).")
                     for event in created_events:
                         create_admin_event_notifications(event)
