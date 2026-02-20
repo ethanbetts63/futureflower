@@ -7,12 +7,6 @@ import heroImage640 from '../../assets/hero2.webp';
 import heroImage768 from '../../assets/hero2.webp';
 import heroImage1024 from '../../assets/hero2.webp';
 import heroImage1280 from '../../assets/hero2.webp';
-import heroMobileImage from '../../assets/hero2.webp';
-import heroMobileImage320 from '../../assets/hero2.webp';
-import heroMobileImage640 from '../../assets/hero2.webp';
-import heroMobileImage768 from '../../assets/hero2.webp';
-import heroMobileImage1024 from '../../assets/hero2.webp';
-import heroMobileImage1280 from '../../assets/hero2.webp';
 import flowerIcon from '../../assets/flower_symbol.svg';
 import subscriptionIcon from '../../assets/subscription_symbol.svg';
 import deliveryIcon from '../../assets/delivery_symbol.svg';
@@ -33,14 +27,9 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
   return (
     <section className="relative h-screen w-full flex items-end md:items-center">
       <picture className="absolute inset-0 w-full h-full">
-        <source
-          media="(min-width: 768px)"
-          srcSet={`${heroImage320} 320w, ${heroImage640} 640w, ${heroImage768} 768w, ${heroImage1024} 1024w, ${heroImage1280} 1280w`}
-          sizes="100vw"
-        />
         <img
-          src={heroMobileImage}
-          srcSet={`${heroMobileImage320} 320w, ${heroMobileImage640} 640w, ${heroMobileImage768} 768w, ${heroMobileImage1024} 1024w, ${heroMobileImage1280} 1280w`}
+          src={heroImage1280}
+          srcSet={`${heroImage320} 320w, ${heroImage640} 640w, ${heroImage768} 768w, ${heroImage1024} 1024w, ${heroImage1280} 1280w`}
           sizes="100vw"
           alt="A woman holding a large bouquet of flowers."
           fetchPriority="high"
