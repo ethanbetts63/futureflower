@@ -71,7 +71,7 @@ git push
 
 python manage.py generate --terms
 python manage.py generate --flowers
-python manage.py generate --admin_user
+python manage.py generate --admin_user Biscuit69
 python manage.py fix_site_domains
 
 cd frontend
