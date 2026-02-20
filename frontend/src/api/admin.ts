@@ -9,6 +9,12 @@ import type { AdminUserDetail } from '../types/AdminUserDetail';
 import type { MarkOrderedPayload } from '../types/MarkOrderedPayload';
 import type { MarkDeliveredPayload } from '../types/MarkDeliveredPayload';
 
+export interface PayCommissionResult {
+  status: string;
+  stripe_transfer_id: string;
+  payout_id: number;
+}
+
 export async function getAdminDashboard(): Promise<AdminDashboard> {
   const res = await authedFetch('/api/data/admin/dashboard/');
   if (!res.ok) throw new Error('Failed to fetch admin dashboard');
@@ -92,6 +98,17 @@ export async function getAdminUsers(search?: string): Promise<AdminUser[]> {
 export async function getAdminUser(id: number): Promise<AdminUserDetail> {
   const res = await authedFetch(`/api/data/admin/users/${id}/`);
   if (!res.ok) throw new Error('Failed to fetch user');
+  return res.json();
+}
+
+export async function payCommission(partnerId: number, commissionId: number): Promise<PayCommissionResult> {
+  const res = await authedFetch(`/api/partners/admin/${partnerId}/commissions/${commissionId}/pay/`, {
+    method: 'POST',
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw Object.assign(new Error(data.detail || 'Failed to pay commission'), { data });
+  }
   return res.json();
 }
 

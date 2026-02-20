@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework import status
 from partners.models import Partner
 from partners.serializers.admin_partner_serializer import AdminPartnerSerializer
+from partners.serializers.admin_partner_detail_serializer import AdminPartnerDetailSerializer
 
 
 class AdminPendingPartnersView(APIView):
@@ -35,10 +36,15 @@ class AdminPartnerDetailView(APIView):
 
     def get(self, request, pk):
         try:
-            partner = Partner.objects.select_related('user').get(pk=pk)
+            partner = (
+                Partner.objects
+                .select_related('user')
+                .prefetch_related('commissions')
+                .get(pk=pk)
+            )
         except Partner.DoesNotExist:
             return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
-        return Response(AdminPartnerSerializer(partner).data)
+        return Response(AdminPartnerDetailSerializer(partner).data)
 
 
 class AdminApprovePartnerView(APIView):

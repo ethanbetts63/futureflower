@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from partners.models import Partner, DeliveryRequest, Commission
+from partners.utils.commission_utils import get_referral_commission_amount
 from decimal import Decimal
 
 
@@ -74,17 +75,19 @@ class DeliveryRequestRespondView(APIView):
         dr.status = 'declined'
         dr.save()
 
-        # If the user was referred by this partner, create 5% commission
+        # If the user was referred by this partner, create a commission
         order = dr.event.order
         user = order.user
         if hasattr(user, 'referred_by_partner') and user.referred_by_partner == dr.partner:
             budget = getattr(order, 'budget', None)
             if budget:
+                # Use snapshotted commission_amount from event if available, else calculate
+                commission_amount = dr.event.commission_amount or get_referral_commission_amount(budget)
                 Commission.objects.create(
                     partner=dr.partner,
                     event=dr.event,
                     commission_type='referral',
-                    amount=budget * Decimal('0.05'),
+                    amount=commission_amount,
                     status='pending',
                     note='Commission for declined delivery of referred customer',
                 )

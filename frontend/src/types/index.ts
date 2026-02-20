@@ -100,6 +100,7 @@ export type { AdminUserPlan } from './AdminUserPlan';
 export type { AdminUserDetail } from './AdminUserDetail';
 export type { AdminDashboard } from './AdminDashboard';
 export type { AdminPartner } from './AdminPartner';
+export type { AdminCommission } from './AdminCommission';
 export type { AdminPlan } from './AdminPlan';
 export type { AdminPlanEvent } from './AdminPlanEvent';
 export type { AdminPlanDetail } from './AdminPlanDetail';

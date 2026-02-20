@@ -80,6 +80,9 @@ def handle_payment_intent_succeeded(payment_intent):
 
                 # Create all delivery events for this plan
                 if not Event.objects.filter(order=plan_to_activate.orderbase_ptr).exists():
+                    from partners.utils.commission_utils import get_referral_commission_amount
+                    budget = getattr(plan_to_activate, 'budget', None)
+                    commission_amount = get_referral_commission_amount(budget) if budget else None
                     draft_messages = plan_to_activate.draft_card_messages or {}
                     projected = calculate_projected_delivery_dates(
                         plan_to_activate.start_date,
@@ -91,6 +94,7 @@ def handle_payment_intent_succeeded(payment_intent):
                             order=plan_to_activate.orderbase_ptr,
                             delivery_date=d["date"],
                             message=draft_messages.get(str(d["index"]), ''),
+                            commission_amount=commission_amount,
                         )
                         for d in projected
                     ]
@@ -115,10 +119,14 @@ def handle_payment_intent_succeeded(payment_intent):
 
                 # 1. Create the first delivery Event
                 if not Event.objects.filter(order=plan_to_activate.orderbase_ptr, delivery_date=plan_to_activate.start_date).exists():
+                    from partners.utils.commission_utils import get_referral_commission_amount
+                    sub_budget = getattr(plan_to_activate, 'budget', None)
+                    sub_commission_amount = get_referral_commission_amount(sub_budget) if sub_budget else None
                     first_event = Event.objects.create(
                         order=plan_to_activate.orderbase_ptr,
                         delivery_date=plan_to_activate.start_date,
-                        message=plan_to_activate.subscription_message
+                        message=plan_to_activate.subscription_message,
+                        commission_amount=sub_commission_amount,
                     )
                     create_admin_event_notifications(first_event)
                     create_customer_delivery_day_notification(first_event)
@@ -234,10 +242,14 @@ def handle_invoice_payment_succeeded(invoice):
 
             # Create a new Event for the delivery that was just paid for
             if not Event.objects.filter(order=subscription_plan.orderbase_ptr, delivery_date=delivery_date).exists():
+                from partners.utils.commission_utils import get_referral_commission_amount
+                rec_budget = getattr(subscription_plan, 'budget', None)
+                rec_commission_amount = get_referral_commission_amount(rec_budget) if rec_budget else None
                 new_event = Event.objects.create(
                     order=subscription_plan.orderbase_ptr,
                     delivery_date=delivery_date,
-                    message=subscription_plan.subscription_message
+                    message=subscription_plan.subscription_message,
+                    commission_amount=rec_commission_amount,
                 )
                 create_admin_event_notifications(new_event)
                 create_customer_delivery_day_notification(new_event)

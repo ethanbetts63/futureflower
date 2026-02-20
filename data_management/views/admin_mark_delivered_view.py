@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework import status
 from events.models import Event
 from data_management.serializers.admin_event_serializer import AdminEventSerializer
+from partners.models import Commission, DeliveryRequest
 
 
 class AdminMarkDeliveredView(APIView):
@@ -36,5 +37,22 @@ class AdminMarkDeliveredView(APIView):
         event.delivered_at = delivered_at
         event.delivery_evidence_text = delivery_evidence_text
         event.save()
+
+        # Create fulfillment commission for the partner who accepted the delivery
+        try:
+            accepted_dr = DeliveryRequest.objects.filter(event=event, status='accepted').first()
+            if accepted_dr and not Commission.objects.filter(event=event, commission_type='fulfillment').exists():
+                budget = getattr(event.order, 'budget', None)
+                if budget:
+                    Commission.objects.create(
+                        partner=accepted_dr.partner,
+                        event=event,
+                        commission_type='fulfillment',
+                        amount=budget,
+                        status='pending',
+                        note='Delivery payment for fulfilled delivery',
+                    )
+        except Exception as e:
+            print(f"Error creating fulfillment commission for event {event.pk}: {e}")
 
         return Response(AdminEventSerializer(event).data)

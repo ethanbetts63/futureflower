@@ -17,6 +17,7 @@ from partners.views import (
     AdminPartnerDetailView,
     AdminApprovePartnerView,
     AdminDenyPartnerView,
+    AdminPayCommissionView,
 )
 
 urlpatterns = [
@@ -38,6 +39,7 @@ urlpatterns = [
     path('admin/<int:pk>/', AdminPartnerDetailView.as_view(), name='admin-partner-detail'),
     path('admin/<int:pk>/approve/', AdminApprovePartnerView.as_view(), name='admin-approve-partner'),
     path('admin/<int:pk>/deny/', AdminDenyPartnerView.as_view(), name='admin-deny-partner'),
+    path('admin/<int:pk>/commissions/<int:commission_id>/pay/', AdminPayCommissionView.as_view(), name='admin-pay-commission'),
 
     # Phase 3
     path('stripe-connect/onboard/', StripeConnectOnboardView.as_view(), name='stripe-connect-onboard'),

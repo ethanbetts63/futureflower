@@ -18,3 +18,4 @@ from .admin_partner_views import (
     AdminApprovePartnerView,
     AdminDenyPartnerView,
 )
+from .admin_pay_commission_view import AdminPayCommissionView

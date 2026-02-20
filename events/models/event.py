@@ -33,6 +33,13 @@ class Event(models.Model):
     ordering_evidence_text = models.TextField(null=True, blank=True)
     delivered_at = models.DateTimeField(null=True, blank=True)
     delivery_evidence_text = models.TextField(null=True, blank=True)
+    commission_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Snapshotted commission amount for this delivery, set at creation."
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

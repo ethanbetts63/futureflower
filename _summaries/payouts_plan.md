@@ -55,7 +55,7 @@ If the tier table changes in future, we update the utility and optionally run a 
 ### Who earns a commission
 
 - **Affiliates**: a `Commission` record is created for the referring partner every time a customer they referred successfully pays for a plan. The `commission_amount` is taken from the event.
-- **Florists**: a `Commission` record is created when a florist **declines** a delivery request for an event where the customer signed up via that florist's discount code. The florist still earns the commission even though they didn't fulfil the delivery.
+- **Florists**: a `Commission` record is created when a florist **declines** a delivery request for an event where the customer signed up via that florist's discount code. The florist still earns the commission even though they didn't fulfil the delivery. (as we have not built a decline feature yet this is not relevant. )
 
 Florist delivery payments (for fulfilled deliveries) are handled separately — see below.
 

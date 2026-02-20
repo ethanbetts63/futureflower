@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getAdminPartner, approvePartner, denyPartner } from '@/api/admin';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { getAdminPartner, approvePartner, denyPartner, payCommission } from '@/api/admin';
 import type { AdminPartner } from '@/types/AdminPartner';
+import type { AdminCommission } from '@/types/AdminCommission';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
@@ -14,6 +15,10 @@ function formatDate(dtStr: string): string {
   return new Date(dtStr).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
+function formatAmount(amount: string): string {
+  return `$${parseFloat(amount).toFixed(2)}`;
+}
+
 const Field: React.FC<{ label: string; value: React.ReactNode }> = ({ label, value }) => (
   <div>
     <p className="text-xs text-black/40 uppercase tracking-wider mb-0.5">{label}</p>
@@ -21,12 +26,26 @@ const Field: React.FC<{ label: string; value: React.ReactNode }> = ({ label, val
   </div>
 );
 
+const StatusBadge: React.FC<{ status: AdminCommission['status'] }> = ({ status }) => {
+  const colours: Record<AdminCommission['status'], string> = {
+    pending: 'bg-amber-100 text-amber-800',
+    approved: 'bg-blue-100 text-blue-800',
+    paid: 'bg-green-100 text-green-800',
+  };
+  return (
+    <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${colours[status]}`}>
+      {status.charAt(0).toUpperCase() + status.slice(1)}
+    </span>
+  );
+};
+
 const AdminPartnerDetailPage: React.FC = () => {
   const { partnerId } = useParams<{ partnerId: string }>();
   const navigate = useNavigate();
   const [partner, setPartner] = useState<AdminPartner | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [payingId, setPayingId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -63,6 +82,22 @@ const AdminPartnerDetailPage: React.FC = () => {
     }
   }
 
+  async function handlePay(commission: AdminCommission) {
+    if (!partner) return;
+    setPayingId(commission.id);
+    try {
+      await payCommission(partner.id, commission.id);
+      toast.success(`Paid ${formatAmount(commission.amount)} to ${partner.business_name || partner.first_name}.`);
+      // Refresh partner data
+      const updated = await getAdminPartner(partner.id);
+      setPartner(updated);
+    } catch (e: any) {
+      toast.error(e.message || 'Failed to pay commission.');
+    } finally {
+      setPayingId(null);
+    }
+  }
+
   if (loading) {
     return (
       <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen flex items-center justify-center">
@@ -82,6 +117,8 @@ const AdminPartnerDetailPage: React.FC = () => {
   }
 
   const isDelivery = partner.partner_type === 'delivery';
+  const isPending = partner.status === 'pending';
+  const commissions = partner.commissions ?? [];
   const fullAddress = [
     partner.street_address,
     partner.suburb,
@@ -93,7 +130,7 @@ const AdminPartnerDetailPage: React.FC = () => {
 
   return (
     <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
-      <Seo title="Partner Application | FutureFlower" />
+      <Seo title="Partner Detail | FutureFlower" />
       <div className="container mx-auto max-w-4xl">
         <UnifiedSummaryCard
           title={partner.business_name || `${partner.first_name} ${partner.last_name}`}
@@ -101,23 +138,25 @@ const AdminPartnerDetailPage: React.FC = () => {
           footer={
             <div className="flex flex-row justify-between items-center w-full gap-4">
               <FlowBackButton to="/dashboard/admin" />
-              <div className="flex gap-3">
-                <Button
-                  onClick={handleDeny}
-                  disabled={submitting}
-                  variant="outline"
-                  className="px-6 py-3 rounded-xl text-base font-normal border-black/20 text-black/60 hover:bg-black/5 hover:text-black"
-                >
-                  Deny
-                </Button>
-                <Button
-                  onClick={handleApprove}
-                  disabled={submitting}
-                  className="px-6 py-3 rounded-xl text-base font-normal bg-green-600 text-white hover:bg-green-700"
-                >
-                  Approve
-                </Button>
-              </div>
+              {isPending && (
+                <div className="flex gap-3">
+                  <Button
+                    onClick={handleDeny}
+                    disabled={submitting}
+                    variant="outline"
+                    className="px-6 py-3 rounded-xl text-base font-normal border-black/20 text-black/60 hover:bg-black/5 hover:text-black"
+                  >
+                    Deny
+                  </Button>
+                  <Button
+                    onClick={handleApprove}
+                    disabled={submitting}
+                    className="px-6 py-3 rounded-xl text-base font-normal bg-green-600 text-white hover:bg-green-700"
+                  >
+                    Approve
+                  </Button>
+                </div>
+              )}
             </div>
           }
         >
@@ -129,6 +168,11 @@ const AdminPartnerDetailPage: React.FC = () => {
               <Field label="Last Name" value={partner.last_name} />
               <Field label="Email" value={partner.email} />
               <Field label="Phone" value={partner.phone} />
+              <Field label="Status" value={partner.status.charAt(0).toUpperCase() + partner.status.slice(1)} />
+              <Field
+                label="Stripe Onboarding"
+                value={partner.stripe_connect_onboarding_complete ? 'Complete' : 'Incomplete'}
+              />
             </div>
           </SummarySection>
 
@@ -145,6 +189,53 @@ const AdminPartnerDetailPage: React.FC = () => {
               </div>
             </SummarySection>
           )}
+
+          <SummarySection label="Commissions & Payouts">
+            {commissions.length === 0 ? (
+              <p className="text-sm text-black/40">No commissions yet.</p>
+            ) : (
+              <div className="space-y-2">
+                <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-4 gap-y-2 text-xs text-black/40 uppercase tracking-wider pb-1 border-b border-black/5">
+                  <span>Type</span>
+                  <span>Amount</span>
+                  <span>Status</span>
+                  <span></span>
+                </div>
+                {commissions.map((c) => (
+                  <div key={c.id} className="grid grid-cols-[1fr_auto_auto_auto] gap-x-4 items-center py-1.5 border-b border-black/5 last:border-0">
+                    <div>
+                      <p className="text-sm text-black">
+                        {c.commission_type === 'fulfillment' ? 'Delivery Payment' : 'Commission'}
+                      </p>
+                      <p className="text-xs text-black/40">{formatDate(c.created_at)}</p>
+                      {c.event && (
+                        <Link
+                          to={`/dashboard/admin/events/${c.event}`}
+                          className="text-xs text-black/40 underline hover:text-black"
+                        >
+                          View event
+                        </Link>
+                      )}
+                    </div>
+                    <span className="text-sm font-medium text-black">{formatAmount(c.amount)}</span>
+                    <StatusBadge status={c.status} />
+                    {c.status !== 'paid' ? (
+                      <Button
+                        size="sm"
+                        disabled={payingId === c.id || !partner.stripe_connect_onboarding_complete}
+                        onClick={() => handlePay(c)}
+                        title={!partner.stripe_connect_onboarding_complete ? 'Partner has not completed Stripe onboarding' : undefined}
+                      >
+                        {payingId === c.id ? <Spinner className="h-3 w-3" /> : 'Pay Out'}
+                      </Button>
+                    ) : (
+                      <span className="text-xs text-black/30">—</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </SummarySection>
         </UnifiedSummaryCard>
       </div>
     </div>
