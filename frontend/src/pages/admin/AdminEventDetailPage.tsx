@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getAdminEvent } from '@/api/admin';
-import type { AdminEvent } from '@/types/Admin';
+import type { AdminEvent } from '@/types/AdminEvent';
 import { Spinner } from '@/components/ui/spinner';
 
 function formatDate(dateStr: string): string {

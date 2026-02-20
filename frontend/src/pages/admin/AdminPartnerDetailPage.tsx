@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getAdminPartner, approvePartner, denyPartner } from '@/api/admin';
-import type { AdminPartner } from '@/types/Admin';
+import type { AdminPartner } from '@/types/AdminPartner';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';

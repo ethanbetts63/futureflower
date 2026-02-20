@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getAdminEvent, markEventDelivered } from '@/api/admin';
-import type { AdminEvent } from '@/types/Admin';
+import type { AdminEvent } from '@/types/AdminEvent';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 

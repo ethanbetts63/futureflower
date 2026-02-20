@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAdminPlans } from '@/api/admin';
-import type { AdminPlan } from '@/types/Admin';
+import type { AdminPlan } from '@/types/AdminPlan';
 import { Loader2, ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react';
 import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';

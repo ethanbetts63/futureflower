@@ -1,5 +1,11 @@
 import { authedFetch } from './apiClient';
-import type { AdminDashboard, AdminEvent, AdminPartner, AdminPlan, AdminPlanDetail, MarkOrderedPayload, MarkDeliveredPayload } from '../types/Admin';
+import type { AdminDashboard } from '../types/AdminDashboard';
+import type { AdminEvent } from '../types/AdminEvent';
+import type { AdminPartner } from '../types/AdminPartner';
+import type { AdminPlan } from '../types/AdminPlan';
+import type { AdminPlanDetail } from '../types/AdminPlanDetail';
+import type { MarkOrderedPayload } from '../types/MarkOrderedPayload';
+import type { MarkDeliveredPayload } from '../types/MarkDeliveredPayload';
 
 export async function getAdminDashboard(): Promise<AdminDashboard> {
   const res = await authedFetch('/api/data/admin/dashboard/');

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAdminPartners } from '@/api/admin';
-import type { AdminPartner } from '@/types/Admin';
+import type { AdminPartner } from '@/types/AdminPartner';
 import { Loader2 } from 'lucide-react';
 import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
