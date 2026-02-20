@@ -64,7 +64,7 @@ export async function markDeliveryComplete(token: string): Promise<{ status: str
   return handleResponse(response);
 }
 
-export async function initiateStripeConnectOnboarding(): Promise<{ url: string }> {
+export async function initiateStripeConnectOnboarding(): Promise<{ client_secret: string }> {
   const response = await authedFetch('/api/partners/stripe-connect/onboard/', {
     method: 'POST',
   });

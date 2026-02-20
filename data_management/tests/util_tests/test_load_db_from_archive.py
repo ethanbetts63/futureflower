@@ -44,8 +44,6 @@ class TestLoadDbFromArchive:
 
     def test_archive_dir_not_found(self, mock_isdir, mock_listdir, mock_exists, mock_command):
         """Test the case where the base archive directory does not exist."""
-        # Mock exists to return False for the base directory check
-        # The first call to exists is for base_archive_dir
         mock_exists.side_effect = [False]
         
         load_db_from_latest_archive(command=mock_command)

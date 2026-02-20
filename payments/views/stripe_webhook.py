@@ -12,6 +12,7 @@ from payments.utils.webhook_handlers import (
     handle_setup_intent_succeeded,
     handle_setup_intent_failed,
     handle_subscription_deleted,
+    handle_account_updated,
 )
 
 class StripeWebhookView(APIView):
@@ -55,6 +56,9 @@ class StripeWebhookView(APIView):
 
         elif event['type'] == 'customer.subscription.deleted':
             handle_subscription_deleted(event['data']['object'])
+
+        elif event['type'] == 'account.updated':
+            handle_account_updated(event['data']['object'])
 
         else:
             print(f"Unhandled event type {event['type']}")

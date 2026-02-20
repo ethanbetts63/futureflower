@@ -93,7 +93,7 @@ const PartnerRegistrationPage: React.FC = () => {
         acceptTerms('customer'),
         acceptTerms(isDelivery ? 'florist' : 'affiliate'),
       ]);
-      navigate('/dashboard/partner');
+      navigate('/partner/stripe-connect/onboarding');
     } catch (error: any) {
       const errorData = error.data || {};
       const description = Object.entries(errorData)

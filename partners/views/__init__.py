@@ -8,7 +8,8 @@ from .delivery_request_views import (
     DeliveryRequestListView,
     DeliveryRequestMarkDeliveredView,
 )
-from .stripe_connect_views import StripeConnectOnboardView, StripeConnectStatusView
+from .stripe_connect_onboard_view import StripeConnectOnboardView
+from .stripe_connect_status_view import StripeConnectStatusView
 from .payout_views import PayoutListView, PayoutDetailView
 from .admin_partner_views import (
     AdminPendingPartnersView,

@@ -27,10 +27,7 @@ class TestGenerationUtils:
         with open(flowers_file, 'w') as f:
             json.dump(flowers_data, f)
         
-        # Patch the file path within the class instance or init
-        # Since file_path is set in __init__, we need to patch it after instantiation or mock os.path.join
-        
-        # Easier: Instantiate then overwrite file_path
+        # Instantiate then overwrite file_path
         generator = FlowerGenerator(command=command)
         generator.file_path = str(flowers_file)
         
@@ -43,7 +40,6 @@ class TestGenerationUtils:
         command = MagicMock()
         
         # Create dummy terms file with correct naming convention
-        # Pattern: ^(florist|customer|affiliates)_terms(?:_v([\d\.]+))?\.html$
         data_dir = tmp_path / "data"
         data_dir.mkdir()
         terms_file = data_dir / "customer_terms_v1.0.html"

@@ -54,6 +54,7 @@ const PartnerRegistrationPage = lazy(() => import('./pages/partner/PartnerRegist
 const PartnerDashboardPage = lazy(() => import('./pages/partner/PartnerDashboardPage'));
 const DeliveryRequestPage = lazy(() => import('./pages/partner/DeliveryRequestPage'));
 const StripeConnectReturnPage = lazy(() => import('./pages/partner/StripeConnectReturnPage'));
+const StripeConnectOnboardingPage = lazy(() => import('./pages/partner/StripeConnectOnboardingPage'));
 const PayoutsPage = lazy(() => import('./pages/partner/PayoutsPage'));
 const PayoutDetailPage = lazy(() => import('./pages/partner/PayoutDetailPage'));
 const BusinessDetailsPage = lazy(() => import('./pages/partner/BusinessDetailsPage'));
@@ -161,6 +162,7 @@ function App() {
                 <Route path="/partner/dashboard" element={<Navigate to="/dashboard/partner" replace />} />
                 <Route path="/partner/delivery-request/:token" element={<DeliveryRequestPage />} />
                 <Route path="/partner/stripe-connect/return" element={<StripeConnectReturnPage />} />
+                <Route path="/partner/stripe-connect/onboarding" element={<StripeConnectOnboardingPage />} />
                 <Route path="/partner/payouts" element={<Navigate to="/dashboard/partner/payouts" replace />} />
                 <Route path="/partner/payouts/:payoutId" element={<Navigate to="/dashboard/partner/payouts" replace />} />
 

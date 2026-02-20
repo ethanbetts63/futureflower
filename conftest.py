@@ -4,6 +4,20 @@ pytest_plugins = ("pytest_django", )
 import pytest
 from rest_framework.test import APIRequestFactory
 from rest_framework.request import Request
+from unittest.mock import patch
+
+@pytest.fixture(autouse=True)
+def mock_notifications():
+    """
+    Globally mock all notification sending functions and the Twilio Client.
+    This ensures that no real emails or SMS messages are sent during tests.
+    """
+    with patch('data_management.utils.send_notification.send_notification'), \
+         patch('payments.utils.send_admin_payment_notification.send_admin_payment_notification'), \
+         patch('payments.utils.send_admin_payment_notification.send_admin_cancellation_notification'), \
+         patch('payments.utils.send_customer_payment_notification.send_customer_payment_notification'), \
+         patch('twilio.rest.Client'):
+        yield
 
 @pytest.fixture
 def api_rf():
