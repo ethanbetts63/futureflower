@@ -14,7 +14,7 @@ class TestWebhookCommissionAmount:
         """Events bulk-created for an upfront plan have commission_amount set from budget."""
         mocker.patch('payments.utils.webhook_handlers.send_customer_payment_notification')
 
-        # budget=150 → tier gives $10
+        # budget=150: not < 150, is < 200 → tier gives $15
         plan = UpfrontPlanFactory(status='pending_payment', budget=Decimal('150'), frequency='annually', years=1)
         payment = PaymentFactory(
             user=plan.user,
@@ -33,7 +33,7 @@ class TestWebhookCommissionAmount:
         events = Event.objects.filter(order=plan.orderbase_ptr)
         assert events.exists()
         for event in events:
-            assert event.commission_amount == Decimal('10')
+            assert event.commission_amount == Decimal('15')
 
     def test_upfront_plan_commission_amount_varies_with_budget(self, mocker):
         """Commission amount snapshot reflects the tier for the plan's budget."""
@@ -84,8 +84,8 @@ class TestWebhookCommissionAmount:
 
         event = Event.objects.filter(order=plan.orderbase_ptr).first()
         assert event is not None
-        # budget=200 → tier gives $15
-        assert event.commission_amount == Decimal('15')
+        # budget=200: not < 200, is < 250 → tier gives $20
+        assert event.commission_amount == Decimal('20')
 
     def test_recurring_subscription_event_gets_commission_amount(self, mocker):
         """Recurring subscription invoice creates an event with commission_amount."""

@@ -45,7 +45,7 @@ class Command(BaseCommand):
                     new_filename = f"{name}-{width}w.webp"
                     new_filepath = os.path.join(directory, new_filename)
                     
-                    resized_img.save(new_filepath, 'WEBP', quality=75)
+                    resized_img.save(new_filepath, 'WEBP', quality=100)
                     self.stdout.write(self.style.SUCCESS(f"Successfully created {new_filepath}"))
 
         except Exception as e:

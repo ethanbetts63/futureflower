@@ -93,10 +93,12 @@ class TestStripeConnectViews:
         partner.refresh_from_db()
         assert partner.stripe_connect_onboarding_complete is False
 
-    def test_status_view_no_stripe_account_returns_400(self):
+    def test_status_view_no_stripe_account_returns_not_complete(self):
         PartnerFactory(user=self.user, stripe_connect_account_id=None)
         response = self.client.get('/api/partners/stripe-connect/status/')
-        assert response.status_code == 400
+        assert response.status_code == 200
+        assert response.data['onboarding_complete'] is False
+        assert response.data['has_account'] is False
 
     def test_status_view_requires_auth(self):
         unauthenticated = APIClient()
