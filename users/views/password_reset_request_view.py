@@ -16,6 +16,7 @@ class PasswordResetRequestView(APIView):
     Allows a user to request a password reset email.
     This view is public and includes rate limiting.
     """
+    authentication_classes = []
     permission_classes = [AllowAny]
     serializer_class = EmailSerializer
 

@@ -13,6 +13,7 @@ class RegisterView(APIView):
     Accepts user profile data and a password, creates a new claimed user,
     and sets JWT tokens as HttpOnly cookies for immediate login.
     """
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):

@@ -13,6 +13,7 @@ class PasswordResetConfirmView(APIView):
     View to handle the actual password reset, after the user has clicked
     the link in their email.
     """
+    authentication_classes = []
     permission_classes = [AllowAny]
     serializer_class = PasswordResetConfirmSerializer
 

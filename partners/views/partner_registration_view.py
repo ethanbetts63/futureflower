@@ -8,6 +8,7 @@ from users.views.token_views import _set_auth_cookies
 
 
 class PartnerRegistrationView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request):

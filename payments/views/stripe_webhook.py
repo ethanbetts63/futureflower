@@ -18,6 +18,7 @@ class StripeWebhookView(APIView):
     """
     Listens for webhook events from Stripe and delegates them to appropriate handlers.
     """
+    authentication_classes = []
     permission_classes = [AllowAny]
     
     def post(self, request, *args, **kwargs):

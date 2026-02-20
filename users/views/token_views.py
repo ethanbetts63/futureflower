@@ -43,6 +43,7 @@ class CookieTokenObtainPairView(APIView):
     Accepts email/password credentials and, on success, sets JWT tokens as
     HttpOnly cookies rather than returning them in the response body.
     """
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
@@ -68,6 +69,7 @@ class CookieTokenRefreshView(APIView):
     Reads the refresh token from its HttpOnly cookie and, if valid, issues
     a new access token (and rotated refresh token) as HttpOnly cookies.
     """
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
@@ -99,6 +101,7 @@ class LogoutView(APIView):
     """
     Clears the JWT auth cookies, effectively logging the user out.
     """
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):

@@ -39,6 +39,7 @@ class DeliveryRequestDetailView(APIView):
 
 
 class DeliveryRequestRespondView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request, token):
@@ -126,6 +127,7 @@ class DeliveryRequestListView(APIView):
 
 
 class DeliveryRequestMarkDeliveredView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request, token):
