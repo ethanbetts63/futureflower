@@ -4,27 +4,27 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser
-from partners.models import Partner, Commission, Payout, PayoutLineItem
+from partners.models import Commission, Payout, PayoutLineItem
 
 
-class AdminPayCommissionView(APIView):
+class AdminApproveCommissionView(APIView):
     permission_classes = [IsAdminUser]
 
-    def post(self, request, pk, commission_id):
+    def post(self, request, pk):
         try:
-            partner = Partner.objects.get(pk=pk)
-        except Partner.DoesNotExist:
-            return Response({'detail': 'Partner not found.'}, status=status.HTTP_404_NOT_FOUND)
-
-        try:
-            commission = Commission.objects.select_related('event', 'event__order').get(
-                pk=commission_id, partner=partner
-            )
+            commission = Commission.objects.select_related(
+                'partner', 'event', 'event__order'
+            ).get(pk=pk)
         except Commission.DoesNotExist:
             return Response({'detail': 'Commission not found.'}, status=status.HTTP_404_NOT_FOUND)
 
         if commission.status in ('processing', 'paid', 'denied'):
-            return Response({'detail': 'Commission already paid or in progress.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {'detail': f'Commission cannot be approved (current status: {commission.status}).'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        partner = commission.partner
 
         if not partner.stripe_connect_onboarding_complete:
             return Response(
@@ -34,7 +34,6 @@ class AdminPayCommissionView(APIView):
 
         payout_type = 'fulfillment' if commission.commission_type == 'fulfillment' else 'commission'
 
-        # Get currency from the event's order if possible, default to aud
         currency = 'aud'
         if commission.event:
             raw = getattr(commission.event.order, 'currency', None)

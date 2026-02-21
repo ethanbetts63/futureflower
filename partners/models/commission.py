@@ -9,7 +9,9 @@ class Commission(models.Model):
     STATUS_CHOICES = (
         ('pending', 'Pending'),
         ('approved', 'Approved'),
+        ('processing', 'Processing'),
         ('paid', 'Paid'),
+        ('denied', 'Denied'),
     )
 
     partner = models.ForeignKey(

@@ -26,18 +26,19 @@ const Field: React.FC<{ label: string; value: React.ReactNode }> = ({ label, val
   </div>
 );
 
-const StatusBadge: React.FC<{ status: AdminCommission['status'] }> = ({ status }) => {
-  const colours: Record<AdminCommission['status'], string> = {
-    pending: 'bg-amber-100 text-amber-800',
-    approved: 'bg-blue-100 text-blue-800',
-    paid: 'bg-green-100 text-green-800',
-  };
-  return (
-    <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${colours[status]}`}>
-      {status.charAt(0).toUpperCase() + status.slice(1)}
-    </span>
-  );
+const STATUS_COLOURS: Record<AdminCommission['status'], string> = {
+  pending: 'bg-amber-100 text-amber-800',
+  approved: 'bg-blue-100 text-blue-800',
+  processing: 'bg-purple-100 text-purple-800',
+  paid: 'bg-green-100 text-green-800',
+  denied: 'bg-red-100 text-red-700',
 };
+
+const StatusBadge: React.FC<{ status: AdminCommission['status'] }> = ({ status }) => (
+  <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${STATUS_COLOURS[status] ?? 'bg-gray-100 text-gray-600'}`}>
+    {status.charAt(0).toUpperCase() + status.slice(1)}
+  </span>
+);
 
 const AdminPartnerDetailPage: React.FC = () => {
   const { partnerId } = useParams<{ partnerId: string }>();
@@ -219,7 +220,7 @@ const AdminPartnerDetailPage: React.FC = () => {
                     </div>
                     <span className="text-sm font-medium text-black">{formatAmount(c.amount)}</span>
                     <StatusBadge status={c.status} />
-                    {c.status !== 'paid' ? (
+                    {c.status === 'pending' || c.status === 'approved' ? (
                       <Button
                         size="sm"
                         disabled={payingId === c.id || !partner.stripe_connect_onboarding_complete}

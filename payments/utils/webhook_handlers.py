@@ -387,3 +387,41 @@ def handle_setup_intent_failed(setup_intent):
     error_message = last_error.get('message', 'No error message provided.')
     print(f"SetupIntent failed for customer {customer_id}. Reason: {error_message}")
 
+
+def handle_transfer_created(transfer):
+    """
+    Handles the transfer.created event from Stripe.
+    Marks the associated Payout as completed and the linked Commission as paid.
+    """
+    transfer_id = transfer.get('id')
+    if not transfer_id:
+        print("transfer.created event received without a transfer ID. Skipping.")
+        return
+
+    print(f"Processing transfer.created for transfer ID: {transfer_id}")
+
+    try:
+        from partners.models import Payout
+        payout = Payout.objects.get(stripe_transfer_id=transfer_id)
+
+        if payout.status == 'completed':
+            print(f"Payout (PK: {payout.pk}) already completed. Skipping.")
+            return
+
+        payout.status = 'completed'
+        payout.save()
+        print(f"Payout (PK: {payout.pk}) marked as completed.")
+
+        # Find and update the linked commission via PayoutLineItem
+        line_item = payout.line_items.filter(commission__isnull=False).first()
+        if line_item and line_item.commission:
+            commission = line_item.commission
+            commission.status = 'paid'
+            commission.save()
+            print(f"Commission (PK: {commission.pk}) marked as paid.")
+
+    except Payout.DoesNotExist:
+        print(f"No Payout found for transfer ID: {transfer_id}. Skipping.")
+    except Exception as e:
+        print(f"UNEXPECTED ERROR during transfer.created processing for {transfer_id}: {e}")
+

@@ -18,6 +18,10 @@ from partners.views import (
     AdminApprovePartnerView,
     AdminDenyPartnerView,
     AdminPayCommissionView,
+    AdminCommissionListView,
+    AdminCommissionDetailView,
+    AdminApproveCommissionView,
+    AdminDenyCommissionView,
 )
 
 urlpatterns = [
@@ -33,7 +37,13 @@ urlpatterns = [
     path('delivery-requests/<str:token>/respond/', DeliveryRequestRespondView.as_view(), name='delivery-request-respond'),
     path('delivery-requests/<str:token>/mark-delivered/', DeliveryRequestMarkDeliveredView.as_view(), name='delivery-request-mark-delivered'),
 
-    # Admin
+    # Admin — commissions
+    path('admin/commissions/', AdminCommissionListView.as_view(), name='admin-commission-list'),
+    path('admin/commissions/<int:pk>/', AdminCommissionDetailView.as_view(), name='admin-commission-detail'),
+    path('admin/commissions/<int:pk>/approve/', AdminApproveCommissionView.as_view(), name='admin-approve-commission'),
+    path('admin/commissions/<int:pk>/deny/', AdminDenyCommissionView.as_view(), name='admin-deny-commission'),
+
+    # Admin — partners
     path('admin/pending/', AdminPendingPartnersView.as_view(), name='admin-pending-partners'),
     path('admin/list/', AdminPartnerListView.as_view(), name='admin-partner-list'),
     path('admin/<int:pk>/', AdminPartnerDetailView.as_view(), name='admin-partner-detail'),

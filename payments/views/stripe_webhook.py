@@ -13,6 +13,7 @@ from payments.utils.webhook_handlers import (
     handle_setup_intent_failed,
     handle_subscription_deleted,
     handle_account_updated,
+    handle_transfer_created,
 )
 
 class StripeWebhookView(APIView):
@@ -59,6 +60,9 @@ class StripeWebhookView(APIView):
 
         elif event['type'] == 'account.updated':
             handle_account_updated(event['data']['object'])
+
+        elif event['type'] == 'transfer.created':
+            handle_transfer_created(event['data']['object'])
 
         else:
             print(f"Unhandled event type {event['type']}")

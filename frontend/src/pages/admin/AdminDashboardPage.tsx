@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getAdminDashboard, getPendingPartners } from '@/api/admin';
+import { getAdminDashboard, getPendingPartners, getAdminCommissions } from '@/api/admin';
 import type { AdminDashboard } from '@/types/AdminDashboard';
 import type { AdminPartner } from '@/types/AdminPartner';
+import type { AdminCommission } from '@/types/AdminCommission';
 import { Loader2 } from 'lucide-react';
 import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
@@ -102,17 +103,42 @@ const PartnerRequestRow: React.FC<{ partner: AdminPartner }> = ({ partner }) => 
   </div>
 );
 
+function formatAmount(amount: string): string {
+  return `$${parseFloat(amount).toFixed(2)}`;
+}
+
+const PendingPayoutRow: React.FC<{ commission: AdminCommission }> = ({ commission }) => (
+  <div className="flex justify-between items-center gap-4 py-3 border-b border-black/5 last:border-0">
+    <div className="flex-1 min-w-0">
+      <p className="font-semibold text-black truncate">{commission.partner_name}</p>
+      <p className="text-sm text-black/60">
+        {commission.commission_type === 'fulfillment' ? 'Fulfillment' : 'Referral'}
+        {' · '}
+        {formatAmount(commission.amount)}
+      </p>
+    </div>
+    <Link
+      to={`/dashboard/admin/payouts/${commission.id}`}
+      className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-center text-black/70 flex-shrink-0"
+    >
+      View
+    </Link>
+  </div>
+);
+
 const AdminDashboardPage: React.FC = () => {
   const [dashboard, setDashboard] = useState<AdminDashboard | null>(null);
   const [pendingPartners, setPendingPartners] = useState<AdminPartner[]>([]);
+  const [pendingPayouts, setPendingPayouts] = useState<AdminCommission[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    Promise.all([getAdminDashboard(), getPendingPartners()])
-      .then(([dash, partners]) => {
+    Promise.all([getAdminDashboard(), getPendingPartners(), getAdminCommissions({ status: 'pending' })])
+      .then(([dash, partners, payouts]) => {
         setDashboard(dash);
         setPendingPartners(partners);
+        setPendingPayouts(payouts);
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
@@ -135,6 +161,25 @@ const AdminDashboardPage: React.FC = () => {
             <div className="py-12 text-center text-red-600 text-sm">{error}</div>
           ) : dashboard ? (
             <>
+              <SummarySection label={`Pending Payouts (${pendingPayouts.length})`}>
+                {pendingPayouts.length === 0 ? (
+                  <p className="text-sm text-black/40 italic">No pending commissions.</p>
+                ) : (
+                  <div className="flex flex-col">
+                    {pendingPayouts.slice(0, 5).map((c) => (
+                      <PendingPayoutRow key={c.id} commission={c} />
+                    ))}
+                  </div>
+                )}
+                <div className="mt-3">
+                  <Link
+                    to="/dashboard/admin/payouts"
+                    className="text-xs font-semibold text-black/40 hover:text-black underline underline-offset-4 transition-colors"
+                  >
+                    See all payouts
+                  </Link>
+                </div>
+              </SummarySection>
               <SummarySection label={`Partner Requests (${pendingPartners.length})`}>
                 {pendingPartners.length === 0 ? (
                   <p className="text-sm text-black/40 italic">No pending partner requests.</p>

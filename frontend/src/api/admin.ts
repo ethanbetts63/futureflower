@@ -8,6 +8,7 @@ import type { AdminUser } from '../types/AdminUser';
 import type { AdminUserDetail } from '../types/AdminUserDetail';
 import type { MarkOrderedPayload } from '../types/MarkOrderedPayload';
 import type { MarkDeliveredPayload } from '../types/MarkDeliveredPayload';
+import type { AdminCommission } from '../types/AdminCommission';
 
 export interface PayCommissionResult {
   status: string;
@@ -108,6 +109,46 @@ export async function payCommission(partnerId: number, commissionId: number): Pr
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
     throw Object.assign(new Error(data.detail || 'Failed to pay commission'), { data });
+  }
+  return res.json();
+}
+
+export interface CommissionActionResult {
+  status: string;
+  stripe_transfer_id?: string;
+  payout_id?: number;
+}
+
+export async function getAdminCommissions(params: { status?: string; commission_type?: string } = {}): Promise<AdminCommission[]> {
+  const qs = new URLSearchParams();
+  if (params.status) qs.set('status', params.status);
+  if (params.commission_type) qs.set('commission_type', params.commission_type);
+  const query = qs.toString();
+  const res = await authedFetch(`/api/partners/admin/commissions/${query ? `?${query}` : ''}`);
+  if (!res.ok) throw new Error('Failed to fetch commissions');
+  return res.json();
+}
+
+export async function getAdminCommission(id: number): Promise<AdminCommission> {
+  const res = await authedFetch(`/api/partners/admin/commissions/${id}/`);
+  if (!res.ok) throw new Error('Failed to fetch commission');
+  return res.json();
+}
+
+export async function approveCommission(id: number): Promise<CommissionActionResult> {
+  const res = await authedFetch(`/api/partners/admin/commissions/${id}/approve/`, { method: 'POST' });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw Object.assign(new Error(data.detail || 'Failed to approve commission'), { data });
+  }
+  return res.json();
+}
+
+export async function denyCommission(id: number): Promise<CommissionActionResult> {
+  const res = await authedFetch(`/api/partners/admin/commissions/${id}/deny/`, { method: 'POST' });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw Object.assign(new Error(data.detail || 'Failed to deny commission'), { data });
   }
   return res.json();
 }

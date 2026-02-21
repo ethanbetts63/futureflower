@@ -93,6 +93,8 @@ const MarkOrderedPage = lazy(() => import('./pages/admin/MarkOrderedPage'));
 const MarkDeliveredPage = lazy(() => import('./pages/admin/MarkDeliveredPage'));
 const AdminUserListPage = lazy(() => import('./pages/admin/AdminUserListPage'));
 const AdminUserDetailPage = lazy(() => import('./pages/admin/AdminUserDetailPage'));
+const AdminPayoutListPage = lazy(() => import('./pages/admin/AdminPayoutListPage'));
+const AdminPayoutDetailPage = lazy(() => import('./pages/admin/AdminPayoutDetailPage'));
 const AdminGuard = lazy(() => import('./components/AdminGuard'));
 
 const LoadingFallback = () => (
@@ -202,6 +204,8 @@ function App() {
                   <Route path="admin/partners/:partnerId" element={<AdminGuard><AdminPartnerDetailPage /></AdminGuard>} />
                   <Route path="admin/users" element={<AdminGuard><AdminUserListPage /></AdminGuard>} />
                   <Route path="admin/users/:userId" element={<AdminGuard><AdminUserDetailPage /></AdminGuard>} />
+                  <Route path="admin/payouts" element={<AdminGuard><AdminPayoutListPage /></AdminGuard>} />
+                  <Route path="admin/payouts/:commissionId" element={<AdminGuard><AdminPayoutDetailPage /></AdminGuard>} />
                 </Route>
 
               </Routes>
