@@ -33,11 +33,11 @@ class TestAdminPayCommissionView:
         response = self.client.post(self._url(partner.id, commission.id))
 
         assert response.status_code == 200
-        assert response.data['status'] == 'paid'
+        assert response.data['status'] == 'processing'
         assert response.data['stripe_transfer_id'] == 'tr_abc123'
 
         commission.refresh_from_db()
-        assert commission.status == 'paid'
+        assert commission.status == 'processing'
 
     def test_pay_commission_creates_payout_record(self, mocker):
         partner = self._onboarded_partner()
@@ -50,7 +50,7 @@ class TestAdminPayCommissionView:
         assert payout.partner == partner
         assert payout.amount == Decimal('10')
         assert payout.payout_type == 'commission'
-        assert payout.status == 'completed'
+        assert payout.status == 'processing'
 
     def test_pay_commission_creates_payout_line_item(self, mocker):
         partner = self._onboarded_partner()
@@ -77,9 +77,10 @@ class TestAdminPayCommissionView:
         payout = Payout.objects.get(stripe_transfer_id='tr_fulfillment')
         assert payout.payout_type == 'fulfillment'
 
-    def test_pay_commission_already_paid_returns_400(self, mocker):
+    @pytest.mark.parametrize('blocked_status', ['paid', 'processing', 'denied'])
+    def test_pay_commission_blocked_status_returns_400(self, mocker, blocked_status):
         partner = self._onboarded_partner()
-        commission = CommissionFactory(partner=partner, status='paid')
+        commission = CommissionFactory(partner=partner, status=blocked_status)
         mock_transfer = mocker.patch('stripe.Transfer.create')
 
         response = self.client.post(self._url(partner.id, commission.id))
