@@ -112,7 +112,7 @@ class TestAdminCommissionDetailSerializer:
 
     def test_stripe_account_id_null_when_not_set(self):
         partner = PartnerFactory(stripe_connect_account_id=None)
-        commission = CommissionFactory(partner=partner)
+        commission = CommissionFactory(partner=partner, payment=None)
 
         data = AdminCommissionDetailSerializer(commission).data
 
