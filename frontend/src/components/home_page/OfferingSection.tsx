@@ -2,6 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import placeholderImg from '../../assets/florist_packing.webp';
+import placeholderImg320 from '../../assets/florist_packing-320w.webp';
+import placeholderImg640 from '../../assets/florist_packing-640w.webp';
+import placeholderImg768 from '../../assets/florist_packing-768w.webp';
+import placeholderImg1024 from '../../assets/florist_packing-1024w.webp';
+import placeholderImg1280 from '../../assets/florist_packing-1280w.webp';
 import flowerIcon from '../../assets/flower_symbol.svg';
 import subscriptionIconWhite from '../../assets/subscription_symbol_white.svg';
 import deliveryIcon from '../../assets/delivery_symbol.svg';
@@ -43,6 +48,8 @@ const OfferingSection: React.FC = () => {
 
               <img
                 src={placeholderImg}
+                srcSet={`${placeholderImg320} 320w, ${placeholderImg640} 640w, ${placeholderImg768} 768w, ${placeholderImg1024} 1024w, ${placeholderImg1280} 1280w`}
+                sizes="(max-width: 1023px) 100vw, 50vw"
                 alt="A florist carefully preparing a bouquet"
                 className="w-full h-[400px] md:h-[540px] object-cover"
                 loading="lazy"

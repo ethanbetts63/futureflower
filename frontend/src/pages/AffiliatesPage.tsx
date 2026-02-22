@@ -43,7 +43,7 @@ const AffiliatesPage = () => {
       image: {
         src: petalImage1280,
         srcSet: `${petalImage320} 320w, ${petalImage640} 640w, ${petalImage768} 768w, ${petalImage1024} 1024w, ${petalImage1280} 1280w`,
-        sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
+        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Petal image for grabbing your code',
       },
     },
@@ -55,7 +55,7 @@ const AffiliatesPage = () => {
       image: {
         src: floristImage1280,
         srcSet: `${floristImage320} 320w, ${floristImage640} 640w, ${floristImage768} 768w, ${floristImage1024} 1024w, ${floristImage1280} 1280w`,
-        sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
+        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Florist image for sharing the smarter way to buy flowers',
       },
     },
@@ -67,7 +67,7 @@ const AffiliatesPage = () => {
       image: {
         src: deliveryImage1280,
         srcSet: `${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`,
-        sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
+        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Delivery image for triple dipping earnings',
       },
     },

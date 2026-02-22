@@ -48,7 +48,7 @@ const FloristsPage = () => {
       image: {
         src: floristPackingImage,
         srcSet: `${floristPackingImage320} 320w, ${floristPackingImage640} 640w, ${floristPackingImage768} 768w, ${floristPackingImage1024} 1024w, ${floristPackingImage1280} 1280w`,
-        sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
+        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Florist packing image for setting up link/QR code',
       },
     },
@@ -60,7 +60,7 @@ const FloristsPage = () => {
       image: {
         src: petalImage1280,
         srcSet: `${petalImage320} 320w, ${petalImage640} 640w, ${petalImage768} 768w, ${petalImage1024} 1024w, ${petalImage1280} 1280w`,
-        sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
+        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Petal image for customer making their order',
       },
     },
@@ -72,7 +72,7 @@ const FloristsPage = () => {
       image: {
         src: deliveryImage,
         srcSet: `${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`,
-        sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
+        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Delivery image for accepting or rejecting orders',
       },
     },

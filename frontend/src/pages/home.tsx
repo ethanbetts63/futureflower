@@ -51,7 +51,7 @@ const HomePage = () => {
       image: {
         src: petalImage1280,
         srcSet: `${petalImage320} 320w, ${petalImage640} 640w, ${petalImage768} 768w, ${petalImage1024} 1024w, ${petalImage1280} 1280w`,
-        sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
+        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Petal image for choosing the vibe',
       },
     },
@@ -63,7 +63,7 @@ const HomePage = () => {
       image: {
         src: floristMakingFlowersImage1280,
         srcSet: `${floristMakingFlowersImage320} 320w, ${floristMakingFlowersImage640} 640w, ${floristMakingFlowersImage768} 768w, ${floristMakingFlowersImage1024} 1024w, ${floristMakingFlowersImage1280} 1280w`,
-        sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
+        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Florist making flowers image for choosing the impact',
       },
     },
@@ -75,7 +75,7 @@ const HomePage = () => {
       image: {
         src: deliveryImage1280,
         srcSet: `${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`,
-        sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
+        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Delivery image for handling the rest',
       },
     },

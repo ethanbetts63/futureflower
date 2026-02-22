@@ -13,10 +13,17 @@ class Command(BaseCommand):
             help='A comma-separated list of widths to resize the image to (e.g., "320,640,1024").',
             default='320,640,768,1024,1280'
         )
+        parser.add_argument(
+            '--quality',
+            type=int,
+            help='WebP compression quality (1-100). Lower means smaller files. Default is 85.',
+            default=85
+        )
 
     def handle(self, *args, **options):
         image_path = options['image_path']
-        
+        quality = options['quality']
+
         try:
             width_strs = options['widths'].split(',')
             widths = [int(w) for w in width_strs]
@@ -45,7 +52,7 @@ class Command(BaseCommand):
                     new_filename = f"{name}-{width}w.webp"
                     new_filepath = os.path.join(directory, new_filename)
                     
-                    resized_img.save(new_filepath, 'WEBP', quality=100)
+                    resized_img.save(new_filepath, 'WEBP', quality=quality)
                     self.stdout.write(self.style.SUCCESS(f"Successfully created {new_filepath}"))
 
         except Exception as e:
