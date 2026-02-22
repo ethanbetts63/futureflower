@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       // Only clear the user on authentication errors — don't log out on network blips
       const status = error.data?.status || error.response?.status;
       if (status === 401 || status === 403) {
+        localStorage.removeItem('hasSession');
         setUser(null);
       } else {
         console.warn("Failed to fetch user profile due to network/server error. Retaining session.", error);
@@ -29,8 +30,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    // On initial load, try to restore session by fetching the user profile.
-    // The access cookie (if present) will be sent automatically by the browser.
+    // On initial load, only attempt to restore the session if we have a stored
+    // indicator that a session was previously established. This avoids firing
+    // guaranteed-to-fail 401 requests for unauthenticated visitors.
+    if (!localStorage.getItem('hasSession')) {
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
     loadUserProfile();
   }, [loadUserProfile]);
@@ -54,6 +60,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    * need to load the user profile to populate the context.
    */
   const handleLoginSuccess = async () => {
+    localStorage.setItem('hasSession', '1');
     setIsLoading(true);
     await loadUserProfile();
   };
@@ -74,6 +81,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    * Calls the server logout endpoint to clear HttpOnly cookies, then clears local state.
    */
   const logout = async (onLogoutSuccess?: () => void) => {
+    localStorage.removeItem('hasSession');
     try {
       await api.logoutUser();
     } catch {

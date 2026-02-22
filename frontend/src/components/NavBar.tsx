@@ -30,7 +30,7 @@ const NavBar: React.FC = () => {
         <div className="flex h-16 items-center justify-between">
 
           {/* Logo + brand */}
-          <Link to="/" onClick={close} className="flex items-center gap-3 flex-shrink-0">
+          <Link to="/" onClick={close} aria-label="FutureFlower company logo" className="flex items-center gap-3 flex-shrink-0">
             <img
               src={logo}
               srcSet={`${logo128} 128w, ${logo192} 192w, ${logo256} 256w`}
