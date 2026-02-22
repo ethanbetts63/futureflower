@@ -2,11 +2,14 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import type { HeroV2Props } from '../../types/HeroV2Props';
-import heroImage320 from '../../assets/hero2.webp';
-import heroImage640 from '../../assets/hero2.webp';
-import heroImage768 from '../../assets/hero2.webp';
-import heroImage1024 from '../../assets/hero2.webp';
-import heroImage1280 from '../../assets/hero2.webp';
+import heroImage320 from '../../assets/hero2-320w.webp';
+import heroImage640 from '../../assets/hero2-640w.webp';
+import heroImage768 from '../../assets/hero2-768w.webp';
+import heroImage1024 from '../../assets/hero2-1024w.webp';
+import heroImage1280 from '../../assets/hero2-1280w.webp';
+import heroMobileImage320 from '../../assets/hero2_mobile-320w.webp';
+import heroMobileImage640 from '../../assets/hero2_mobile-640w.webp';
+import heroMobileImage768 from '../../assets/hero2_mobile-768w.webp';
 import flowerIcon from '../../assets/flower_symbol.svg';
 import subscriptionIcon from '../../assets/subscription_symbol.svg';
 import deliveryIcon from '../../assets/delivery_symbol.svg';
@@ -27,6 +30,11 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
   return (
     <section className="relative h-screen w-full flex items-end md:items-center">
       <picture className="absolute inset-0 w-full h-full">
+        <source
+          media="(max-width: 767px)"
+          srcSet={`${heroMobileImage320} 320w, ${heroMobileImage640} 640w, ${heroMobileImage768} 768w`}
+          sizes="100vw"
+        />
         <img
           src={heroImage1280}
           srcSet={`${heroImage320} 320w, ${heroImage640} 640w, ${heroImage768} 768w, ${heroImage1024} 1024w, ${heroImage1280} 1280w`}

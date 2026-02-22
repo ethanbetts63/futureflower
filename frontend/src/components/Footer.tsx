@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
             <p className="text-sm opacity-80">&copy; {currentYear} FutureFlower. All rights reserved.</p>
             <div className="flex items-center gap-1 mt-1">
               <span className="text-xs opacity-60">Powered by</span>
-              <img src={stripeLogo} alt="Stripe" className="h-5" loading="lazy" />
+              <img src={stripeLogo} alt="Stripe" className="h-5" width="120" height="60" loading="lazy" />
             </div>
           </div>
 
