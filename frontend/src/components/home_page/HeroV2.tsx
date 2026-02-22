@@ -8,6 +8,7 @@ import heroImage768 from '../../assets/hero2-768w.webp';
 import heroImage1024 from '../../assets/hero2-1024w.webp';
 import heroImage1280 from '../../assets/hero2-1280w.webp';
 import heroMobileImage320 from '../../assets/hero2_mobile2-320w.webp';
+import heroMobileImage412 from '../../assets/hero2_mobile2-412w.webp';
 import heroMobileImage640 from '../../assets/hero2_mobile2-640w.webp';
 import heroMobileImage768 from '../../assets/hero2_mobile2-768w.webp';
 import flowerIcon from '../../assets/flower_symbol.svg';
@@ -35,7 +36,7 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
         <picture className="block w-full h-full">
           <source
             media="(max-width: 767px)"
-            srcSet={`${heroMobileImage320} 320w, ${heroMobileImage640} 640w, ${heroMobileImage768} 768w`}
+            srcSet={`${heroMobileImage320} 320w, ${heroMobileImage412} 412w, ${heroMobileImage640} 640w, ${heroMobileImage768} 768w`}
             sizes="100vw"
           />
           <img
