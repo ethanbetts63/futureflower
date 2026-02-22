@@ -52,7 +52,9 @@ def send_password_reset_email(user: User):
                   "to": [user.email],
                   "subject": subject,
                   "text": text_content,
-                  "html": html_content})
+                  "html": html_content},
+            timeout=10
+        )
 
         if response.status_code == 200:
             return True

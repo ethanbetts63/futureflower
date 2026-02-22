@@ -1,36 +1,10 @@
-# Simplification Recommendations
-
-Ideas for reducing complexity across the project, organized by scope.
-
----
 
 ## Project-Level
-
-### 1. Consolidate `send_admin_payment_notification`
-`payments/utils/send_admin_payment_notification.py` is fully implemented but never called from any webhook handler or view. Either wire it into `handle_payment_intent_succeeded()` or delete it.
-
 ### 2. Root-level `package.json` is nearly empty
 `package.json` at root only has `date-fns`. All real frontend deps are in `frontend/package.json`. Consider removing the root `package.json` and `node_modules/` if they aren't serving a purpose, or set up npm workspaces properly.
 
-### 3. `send_test_email` command references non-existent code
-`data_management/management/commands/send_test_email.py` imports `events.utils.send_reminder_email` (doesn't exist) and uses a `Notification` class (doesn't exist). The `--reminder_test` flag will crash on use.
-
----
-
-## Events App
-
-### 4. Hash fields on OrderBase are never populated
-`events/models/order_base.py` has `hash_recipient_first_name`, `hash_recipient_last_name`, `hash_recipient_street_address` but no code populates them. Only `anonymize_user()` in the users app touches them. If they're only for anonymization, that's fine, but document this clearly or add a `pre_save` signal.
-
 ### 5. Event reminder template references wrong fields
 `events/templates/notifications/emails/event_reminder.html` uses `{{ event.name }}` and `{{ event.event_date }}` but the Event model has `delivery_date` and no `name` field. This template will render blank values.
-
----
-
-## Users App
-
-### 6. No timeout on Mailgun requests
-`users/utils/send_password_reset_email.py` calls `requests.post()` without a `timeout` parameter. Could hang indefinitely on network issues.
 
 ---
 
@@ -52,16 +26,8 @@ Every page re-fetches data on navigation. Plan details, flower types, and user p
 ### 10. No error boundaries
 No React Error Boundary components. A crash in any component takes down the entire app. Add error boundaries around major route sections.
 
-### 12. Move to HttpOnly Cookies for Authentication
-The current JWT implementation stores tokens in `localStorage`, which is vulnerable to XSS. Moving to `HttpOnly` cookies would improve security by making tokens inaccessible to JavaScript. This requires updating the Django backend to set cookies and the frontend to include credentials in requests, as well as handling CSRF protection more explicitly.
-
 ### 16. The "Active vs. Inactive" State Confusion
 Users with unpaid plans are often forced back through the configuration flow to find a payment button. The dashboard and plan overview pages should provide a direct "Complete Payment" or "Activate" button to streamline the path to revenue for existing pending plans.
-
-
-### 18. Active Upfront Plan Modification: Schedule Desync
-When an active Upfront plan is modified (budget, years, or frequency), the system successfully calculates the price difference and updates the plan metadata via the `UPFRONT_PLAN_MODIFY` webhook handler. However, it does **not** update or re-generate the existing `DeliveryEvent` objects. This results in a "Stale Schedule" where the user has paid for a new structure, but the system still tracks deliveries based on the old one.
-
 
 ### 21. Event Evidence Images
 Add image upload fields to the `Event` model for admin documentation purposes:
@@ -69,7 +35,6 @@ Add image upload fields to the `Event` model for admin documentation purposes:
 - `delivery_evidence_image` — photo confirmation of delivery
 
 Deferred because media storage infrastructure (S3 or equivalent) adds complexity that isn't justified yet. The text evidence fields (`ordering_evidence_text`, `delivery_evidence_text`) cover the immediate need. Revisit once media uploads are needed elsewhere in the app.
-
 ---
 
 ### 23. Terms Acceptance Versioning
