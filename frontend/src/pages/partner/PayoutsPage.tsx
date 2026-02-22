@@ -62,13 +62,15 @@ const PayoutsPage: React.FC = () => {
                     >
                       <div>
                         <p className="font-medium capitalize text-black">{p.payout_type} Payout</p>
-                        <p className="text-sm text-black/40">
-                          {p.period_start} — {p.period_end}
-                        </p>
+                        {p.payout_type === 'fulfillment' && (
+                          <p className="text-sm text-black/40">
+                            {p.period_start} — {p.period_end}
+                          </p>
+                        )}
                       </div>
                       <div className="text-right">
                         <p className="font-bold text-black">${Number(p.amount).toFixed(2)} {p.currency}</p>
-                        <Badge variant="outline">{p.status}</Badge>
+                        <Badge variant="outline" className={p.status === 'completed' ? 'bg-green-500 text-black' : ''}>{p.status}</Badge>
                       </div>
                     </div>
                   ))}

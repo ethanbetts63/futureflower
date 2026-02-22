@@ -62,7 +62,7 @@ const PayoutDetailPage: React.FC = () => {
           >
             <SummarySection label="Details">
               <div className="flex items-center gap-3 mb-4">
-                <Badge variant="outline">{payout.status}</Badge>
+                <Badge variant="outline" className={payout.status === 'completed' ? 'bg-green-500 text-black' : ''}>{payout.status}</Badge>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 normal-case">
                 <div>
@@ -71,7 +71,11 @@ const PayoutDetailPage: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-sm text-black/40">Period</p>
-                  <p className="font-medium text-black">{payout.period_start} — {payout.period_end}</p>
+                  {payout.period_start && payout.period_end ? (
+                    <p className="font-medium text-black">{payout.period_start} — {payout.period_end}</p>
+                  ) : (
+                    <p className="font-medium text-black">Not Applicable</p>
+                  )}
                 </div>
               </div>
               {payout.note && (
@@ -89,7 +93,11 @@ const PayoutDetailPage: React.FC = () => {
                 <div className="space-y-2 normal-case">
                   {payout.line_items.map((li) => (
                     <div key={li.id} className="flex items-center justify-between border-b border-black/5 pb-2 last:border-0">
-                      <p className="text-sm text-black">{li.description}</p>
+                      <p className="text-sm text-black">
+                        {li.description.includes('for event None')
+                          ? li.description.replace('for event None', 'for general commission')
+                          : li.description}
+                      </p>
                       <p className="font-medium text-black">${Number(li.amount).toFixed(2)}</p>
                     </div>
                   ))}

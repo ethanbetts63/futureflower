@@ -109,3 +109,5 @@ Deferred because terms are not expected to change frequently and the infrastruct
 
 ### 23. skip a delivery 
 long term it would be good to be able to offer the user when they go to cancel their cubscription something like "going on holiday? why not just put your subscription on hold"
+
+### 24. need to add logic for paying florists a delivery fee. 

@@ -131,27 +131,27 @@ const PartnerRegistrationPage: React.FC = () => {
                 {/* Account Details */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="first_name">First Name *</Label>
+                    <Label htmlFor="first_name">First Name <span className="text-red-500">*</span></Label>
                     <Input id="first_name" name="first_name" value={form.first_name} onChange={handleChange} required />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="last_name">Last Name *</Label>
+                    <Label htmlFor="last_name">Last Name <span className="text-red-500">*</span></Label>
                     <Input id="last_name" name="last_name" value={form.last_name} onChange={handleChange} required />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email *</Label>
+                  <Label htmlFor="email">Email <span className="text-red-500">*</span></Label>
                   <Input id="email" name="email" type="email" value={form.email} onChange={handleChange} required />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="password">Password *</Label>
+                    <Label htmlFor="password">Password <span className="text-red-500">*</span></Label>
                     <Input id="password" name="password" type="password" value={form.password} onChange={handleChange} required />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="confirm_password">Confirm Password *</Label>
+                    <Label htmlFor="confirm_password">Confirm Password <span className="text-red-500">*</span></Label>
                     <Input id="confirm_password" name="confirm_password" type="password" value={form.confirm_password} onChange={handleChange} required />
                   </div>
                 </div>
