@@ -29,6 +29,7 @@ const ImpactSummary: React.FC<ImpactSummaryProps> = ({ price, editUrl }) => {
               src={tier.image}
               alt={tier.name}
               className="w-full h-full object-cover"
+              loading="lazy"
             />
           ) : (
             <div className="w-full h-full bg-[var(--color4)] flex items-center justify-center">

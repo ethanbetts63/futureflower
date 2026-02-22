@@ -35,7 +35,7 @@ const NavBar: React.FC = () => {
               src={logo}
               srcSet={`${logo128} 128w, ${logo192} 192w, ${logo256} 256w`}
               sizes="40px"
-              alt="FutureFlower"
+              alt=""
               width="367"
               height="367"
               className="h-10 w-auto brightness-0"

@@ -120,12 +120,13 @@ export const ArticleCarousel: React.FC<ArticleCarouselProps> = ({ exclude, showA
               <div 
                 className="relative w-full h-full bg-cover bg-center rounded-xl shadow-md overflow-hidden transform transition-transform hover:-translate-y-1"
               >
-                <img 
-                  src={article.imageSrc} 
+                <img
+                  src={article.imageSrc}
                   srcSet={article.srcSet}
                   alt={article.alt}
                   className="absolute inset-0 w-full h-full object-cover"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33.3vw"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors"></div>
                 <div className="relative z-10 flex items-center justify-center h-full p-6">

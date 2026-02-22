@@ -26,7 +26,7 @@ export const ComparisonBarChart: React.FC<ComparisonBarChartProps> = ({ heading,
                 style={{ width: `${seg.widthPercent}%`, backgroundColor: seg.color }}
                 title={seg.title}
               >
-                <img src={seg.icon} alt={seg.iconAlt} className="h-5 w-5 opacity-80 invert brightness-0" />
+                <img src={seg.icon} alt={seg.iconAlt} className="h-5 w-5 opacity-80 invert brightness-0" loading="lazy" />
               </div>
             ))}
           </div>

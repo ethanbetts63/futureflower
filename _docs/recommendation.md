@@ -3,11 +3,6 @@
 ### 2. Root-level `package.json` is nearly empty
 `package.json` at root only has `date-fns`. All real frontend deps are in `frontend/package.json`. Consider removing the root `package.json` and `node_modules/` if they aren't serving a purpose, or set up npm workspaces properly.
 
-### 5. Event reminder template references wrong fields
-`events/templates/notifications/emails/event_reminder.html` uses `{{ event.name }}` and `{{ event.event_date }}` but the Event model has `delivery_date` and no `name` field. This template will render blank values.
-
----
-
 ## Payments App
 
 ### 7. Webhook handlers should be more explicitly idempotent

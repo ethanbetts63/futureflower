@@ -45,6 +45,7 @@ const OfferingSection: React.FC = () => {
                 src={placeholderImg}
                 alt="A florist carefully preparing a bouquet"
                 className="w-full h-[400px] md:h-[540px] object-cover"
+                loading="lazy"
               />
             </div>
 

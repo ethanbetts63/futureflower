@@ -20,7 +20,7 @@ const OtherSites: React.FC<OtherSitesProps> = ({ sites }) => {
                             <CardContent className="p-6 flex flex-col h-full">
                                 <div className="flex items-center mb-4">
                                     <div className="flex-shrink-0 w-16 h-16 mr-4">
-                                        <img src={site.logoSrc} alt={`${site.name} Logo`} className="w-full h-full object-contain" />
+                                        <img src={site.logoSrc} alt={`${site.name} Logo`} className="w-full h-full object-contain" loading="lazy" />
                                     </div>
                                     <div className="flex-grow text-black">
                                         <CardTitle className="text-xl font-bold">{site.name}</CardTitle>

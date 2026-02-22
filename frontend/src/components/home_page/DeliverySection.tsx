@@ -20,12 +20,13 @@ export const DeliverySection: React.FC = () => {
         
         {/* Image Column */}
         <div className="h-full">
-          <img 
+          <img
             src={deliveryImage}
             srcSet={`${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`}
             sizes="(max-width: 768px) 100vw, 50vw"
-            alt="Florist delivering a bouquet of flowers" 
+            alt="Florist delivering a bouquet of flowers"
             className="w-full h-full object-cover"
+            loading="lazy"
           />
         </div>
 

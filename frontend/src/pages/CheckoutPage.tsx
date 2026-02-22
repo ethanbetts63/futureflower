@@ -145,7 +145,7 @@ const CheckoutPage: React.FC = () => {
                             <div className="flex items-center gap-4">
                                 <div className="w-16 h-16 rounded-xl overflow-hidden shadow-sm border border-black/5 bg-[var(--color4)] flex-shrink-0">
                                     {tier?.image ? (
-                                        <img src={tier.image} alt={tier.name} className="w-full h-full object-cover" />
+                                        <img src={tier.image} alt={tier.name} className="w-full h-full object-cover" loading="lazy" />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center">
                                             <img src={flowerIcon} alt="" className="h-6 w-6 opacity-20" />

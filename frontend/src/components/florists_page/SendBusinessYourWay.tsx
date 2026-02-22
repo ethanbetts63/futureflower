@@ -27,6 +27,7 @@ export const SendBusinessYourWay: React.FC = () => {
             sizes="(max-width: 768px) 100vw, 50vw"
             alt="A florist preparing a bouquet in their shop."
             className="w-full h-full object-cover"
+            loading="lazy"
           />
         </div>
 

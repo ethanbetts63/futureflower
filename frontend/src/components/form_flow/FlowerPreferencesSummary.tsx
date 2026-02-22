@@ -25,6 +25,7 @@ const FlowerPreferencesSummary: React.FC<FlowerPreferencesSummaryProps> = ({ pre
               src={OCCASION_IMAGES[preferredTypes[0].name] || DEFAULT_FLOWER_IMAGE}
               alt={preferredTypes[0].name}
               className="w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
           <div>

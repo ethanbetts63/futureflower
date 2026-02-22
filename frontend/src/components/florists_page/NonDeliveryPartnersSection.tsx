@@ -23,12 +23,13 @@ export const NonDeliveryPartnersSection: React.FC = () => {
 
         {/* Image Column */}
         <div className="h-full order-1 md:order-2">
-          <img 
-            src={kitchenImage} 
+          <img
+            src={kitchenImage}
             srcSet={`${kitchenImage320} 320w, ${kitchenImage640} 640w, ${kitchenImage768} 768w, ${kitchenImage1024} 1024w, ${kitchenImage1280} 1280w`}
             sizes="(max-width: 768px) 100vw, 50vw"
-            alt="A beautiful bouquet of flowers on a kitchen table." 
+            alt="A beautiful bouquet of flowers on a kitchen table."
             className="w-full h-full object-cover"
+            loading="lazy"
           />
         </div>
 

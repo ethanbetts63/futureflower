@@ -36,7 +36,7 @@ const BlogExplorePage = () => {
             <Link to={prominentArticle.link} className="group">
               <div className="md:flex md:space-x-6">
                 <div className="md:w-1/2">
-                  <img src={prominentArticle.imageSrc} alt={prominentArticle.alt} className="w-full h-auto rounded-xl shadow-md transform transition-transform group-hover:scale-105" />
+                  <img src={prominentArticle.imageSrc} alt={prominentArticle.alt} className="w-full h-auto rounded-xl shadow-md transform transition-transform group-hover:scale-105" loading="lazy" />
                 </div>
                 <div className="md:w-1/2 mt-4 md:mt-0 flex flex-col justify-center">
                   <h3 className="text-2xl font-bold group-hover:text-secondary transition-colors">{prominentArticle.title}</h3>

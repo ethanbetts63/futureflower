@@ -45,11 +45,12 @@ const Footer: React.FC = () => {
               srcSet={`${logo128} 128w, ${logo192} 192w, ${logo256} 256w`}
               sizes="64px"
               alt="FutureFlower Logo"
+              loading="lazy"
             />
             <p className="text-sm opacity-80">&copy; {currentYear} FutureFlower. All rights reserved.</p>
             <div className="flex items-center gap-1 mt-1">
               <span className="text-xs opacity-60">Powered by</span>
-              <img src={stripeLogo} alt="Stripe" className="h-5" />
+              <img src={stripeLogo} alt="Stripe" className="h-5" loading="lazy" />
             </div>
           </div>
 
