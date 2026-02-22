@@ -7,9 +7,9 @@ import heroImage640 from '../../assets/hero2-640w.webp';
 import heroImage768 from '../../assets/hero2-768w.webp';
 import heroImage1024 from '../../assets/hero2-1024w.webp';
 import heroImage1280 from '../../assets/hero2-1280w.webp';
-import heroMobileImage320 from '../../assets/hero2_mobile-320w.webp';
-import heroMobileImage640 from '../../assets/hero2_mobile-640w.webp';
-import heroMobileImage768 from '../../assets/hero2_mobile-768w.webp';
+import heroMobileImage320 from '../../assets/hero2_mobile2-320w.webp';
+import heroMobileImage640 from '../../assets/hero2_mobile2-640w.webp';
+import heroMobileImage768 from '../../assets/hero2_mobile2-768w.webp';
 import flowerIcon from '../../assets/flower_symbol.svg';
 import subscriptionIcon from '../../assets/subscription_symbol.svg';
 import deliveryIcon from '../../assets/delivery_symbol.svg';
@@ -28,22 +28,28 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
   };
 
   return (
-    <section className="relative h-screen w-full flex items-end md:items-center">
-      <picture className="absolute inset-0 w-full h-full">
-        <source
-          media="(max-width: 767px)"
-          srcSet={`${heroMobileImage320} 320w, ${heroMobileImage640} 640w, ${heroMobileImage768} 768w`}
-          sizes="100vw"
-        />
-        <img
-          src={heroImage1280}
-          srcSet={`${heroImage320} 320w, ${heroImage640} 640w, ${heroImage768} 768w, ${heroImage1024} 1024w, ${heroImage1280} 1280w`}
-          sizes="100vw"
-          alt="A woman holding a large bouquet of flowers."
-          fetchPriority="high"
-          className="w-full h-full object-cover"
-        />
-      </picture>
+    <section className="w-full md:relative md:h-screen md:flex md:items-center">
+
+      {/* Image — in normal flow on mobile, fills section absolutely on desktop */}
+      <div className="w-full md:absolute md:inset-0">
+        <picture className="block w-full h-full">
+          <source
+            media="(max-width: 767px)"
+            srcSet={`${heroMobileImage320} 320w, ${heroMobileImage640} 640w, ${heroMobileImage768} 768w`}
+            sizes="100vw"
+          />
+          <img
+            src={heroImage1280}
+            srcSet={`${heroImage320} 320w, ${heroImage640} 640w, ${heroImage768} 768w, ${heroImage1024} 1024w, ${heroImage1280} 1280w`}
+            sizes="100vw"
+            alt="A woman holding a large bouquet of flowers."
+            fetchPriority="high"
+            className="w-full h-80 sm:h-96 object-cover md:h-full"
+          />
+        </picture>
+      </div>
+
+      {/* Badge — only visible on desktop where it overlays the image */}
       <Badge
         title="Free Delivery"
         subtext="Included on all products"
@@ -55,17 +61,15 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
             style={{ animationDuration: '2s' }}
           />
         }
-        className="absolute top-8 right-6 sm:top-12 sm:right-12"
+        className="hidden md:block absolute top-12 right-12"
       />
 
-
-
-      {/* Overlay Content */}
-      <div className="relative ml-0 sm:ml-12 md:ml-24 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-black/70 p-8 sm:p-12 rounded-none sm:rounded-lg text-white">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
+      {/* Content — below image on mobile, overlaid on desktop */}
+      <div className="relative w-full md:ml-24 md:w-1/2 lg:w-1/3 bg-[var(--color4)] md:bg-black/70 p-8 sm:p-12 md:rounded-lg">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-black md:text-white">
           {title}
         </h1>
-        <p className="mt-4 text-base sm:text-lg text-white">
+        <p className="mt-4 text-base sm:text-lg text-black md:text-white">
           Pick a date. Pick a budget. We handle the rest. More flowers, less hassle.
         </p>
 
