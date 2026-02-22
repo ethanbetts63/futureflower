@@ -18,6 +18,7 @@ import petalImage1280 from '../assets/petal-1280w.webp';
 
 import deliveryImage from '../assets/delivery.webp';
 import deliveryImage320 from '../assets/delivery-320w.webp';
+import deliveryImage360 from '../assets/delivery-360w.webp';
 import deliveryImage640 from '../assets/delivery-640w.webp';
 import deliveryImage768 from '../assets/delivery-768w.webp';
 import deliveryImage1024 from '../assets/delivery-1024w.webp';
@@ -71,7 +72,7 @@ const FloristsPage = () => {
         'Recieve a text and email with an acceptance link. Accept and handle the delivery yourself, or reject for a tiered reward ($5–$25) depending on the bouquet value.',
       image: {
         src: deliveryImage,
-        srcSet: `${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`,
+        srcSet: `${deliveryImage320} 320w, ${deliveryImage360} 360w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`,
         sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Delivery image for accepting or rejecting orders',
       },
