@@ -142,7 +142,7 @@ const PartnerDashboardPage: React.FC = () => {
                       </div>
                       <div className="text-right">
                         <p className="font-bold text-black">${Number(c.amount).toFixed(2)}</p>
-                        <Badge variant="outline" className="text-xs">{c.status}</Badge>
+                        <Badge variant="outline" className="text-xs text-black bg-green-400">{c.status}</Badge>
                       </div>
                     </div>
                   ))}

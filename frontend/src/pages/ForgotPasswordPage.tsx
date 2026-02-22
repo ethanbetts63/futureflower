@@ -1,10 +1,12 @@
 // frontend/src/pages/ForgotPasswordPage.tsx
 import React from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Card, CardContent } from '@/components/ui/card'; // Added import
+import { Card, CardContent } from '@/components/ui/card';
+import { Spinner } from '@/components/ui/spinner';
 import { toast } from "sonner";
 import Seo from '@/components/Seo';
 import { requestPasswordReset } from '@/api';
@@ -40,21 +42,27 @@ const ForgotPasswordPage: React.FC = () => {
         description="Reset your password for your FutureFlower account. Enter your email to receive a password reset link."
         canonicalPath="/forgot-password"
       />
-      <div className="w-full max-w-sm md:max-w-md">
+      <div className="flex flex-col gap-6 w-full max-w-sm md:max-w-md">
         <Card className="overflow-hidden p-0 bg-white text-black shadow-md border-none">
           <CardContent className="p-0">
-            <div className="p-6 md:p-8"> {/* This div for padding */}
-              <h1 className="text-2xl font-bold mb-6">Forgot Your Password?</h1>
-              <p className="mb-6">
-                Enter your email address below and we'll send you a link to reset your password.
-              </p>
+            <div className="p-6 md:p-8">
               <Form {...form}>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <h1 className="text-2xl font-bold">Forgot Your Password?</h1>
+                    <p className="text-muted-foreground text-balance text-sm">
+                      Enter your email and we'll send you a reset link.
+                    </p>
+                  </div>
+
                   <FormItem>
-                    <FormLabel>Email Address</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
+                        placeholder="m@example.com"
+                        disabled={isSubmitting}
                         {...register('email', { required: 'Email address is required' })}
                       />
                     </FormControl>
@@ -62,8 +70,23 @@ const ForgotPasswordPage: React.FC = () => {
                   </FormItem>
 
                   <Button type="submit" disabled={isSubmitting} className="w-full">
-                    {isSubmitting ? 'Sending...' : 'Send Reset Link'}
+                    {isSubmitting ? (
+                      <div className="flex items-center">
+                        <Spinner className="mr-2 h-4 w-4" />
+                        <span>Sending...</span>
+                      </div>
+                    ) : (
+                      'Send Reset Link'
+                    )}
                   </Button>
+
+                  <div className="text-center text-sm text-black">
+                    Remember your password?{" "}
+                    <Link to="/login" className="underline underline-offset-2 hover:underline hover:text-primary">
+                      Back to login
+                    </Link>
+                  </div>
+
                 </form>
               </Form>
             </div>
