@@ -1,0 +1,28 @@
+{% extends "notifications/emails/base.html" %}
+
+{% block title %}Your FutureFlower delivery is today{% endblock %}
+
+{% block preheader %}Flowers are on their way to {{ recipient_name }} today!{% endblock %}
+
+{% block content %}
+<h1 style="font-family: Georgia, 'Times New Roman', serif; font-size: 22px; font-weight: bold; color: #1a1a1a; margin: 0 0 16px 0;">Hi {{ first_name }},</h1>
+
+<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #333333; margin: 0 0 24px 0; line-height: 26px;">
+    Your FutureFlower delivery is today! Flowers should be arriving for <strong>{{ recipient_name }}</strong>.
+</p>
+
+{% if next_delivery_date %}
+<!-- Next delivery callout -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f0f7f1; border-radius: 6px; margin-bottom: 28px;">
+    <tr>
+        <td style="padding: 16px 24px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #4a7a5a; line-height: 24px;">
+            Your next delivery is scheduled for <strong>{{ next_delivery_date }}</strong>.
+        </td>
+    </tr>
+</table>
+{% endif %}
+
+<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #333333; margin: 0; line-height: 26px;">
+    Thank you for choosing FutureFlower.
+</p>
+{% endblock %}

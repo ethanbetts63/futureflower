@@ -1,0 +1,5 @@
+{% extends "notifications/emails/base.txt" %}
+
+{% block content %}{{ subject }}
+
+{{ body }}{% endblock %}

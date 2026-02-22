@@ -1,0 +1,11 @@
+{% extends "notifications/emails/base.html" %}
+
+{% block title %}FutureFlower Plan Cancelled — Action May Be Required{% endblock %}
+
+{% block preheader %}A customer has cancelled their plan. Some ordered events may need attention.{% endblock %}
+
+{% block content %}
+<h1 style="font-family: Georgia, 'Times New Roman', serif; font-size: 22px; font-weight: bold; color: #1a1a1a; margin: 0 0 16px 0;">Plan Cancelled — Action May Be Required</h1>
+
+<div style="background-color: #fff5f5; border-left: 4px solid #c0392b; border-radius: 0 4px 4px 0; padding: 16px 20px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #333333; line-height: 22px; white-space: pre-line; margin-bottom: 0;">{{ message }}</div>
+{% endblock %}

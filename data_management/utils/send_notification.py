@@ -3,6 +3,7 @@ from datetime import timezone
 
 import requests
 from django.conf import settings
+from django.template.loader import render_to_string
 from django.utils import timezone as django_timezone
 
 logger = logging.getLogger(__name__)
@@ -45,6 +46,9 @@ def send_notification(notification):
         if notification.channel == 'email':
             if not email:
                 raise ValueError(f"No email address for notification {notification.pk}")
+            context = {'subject': notification.subject, 'body': notification.body}
+            html_body = render_to_string('notifications/emails/admin_notification.html', context)
+            text_body = render_to_string('notifications/emails/admin_notification.txt', context)
             response = requests.post(
                 f"https://api.mailgun.net/v3/{settings.MAILGUN_DOMAIN}/messages",
                 auth=("api", settings.MAILGUN_API_KEY),
@@ -52,7 +56,8 @@ def send_notification(notification):
                     "from": settings.DEFAULT_FROM_EMAIL,
                     "to": [email],
                     "subject": notification.subject or "FutureFlower Notification",
-                    "text": notification.body,
+                    "text": text_body,
+                    "html": html_body,
                 },
                 timeout=10,
             )

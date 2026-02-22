@@ -58,7 +58,7 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
           {title}
         </h1>
         <p className="mt-4 text-base sm:text-lg text-white">
-          Pick a date. Pick a budget. We handle the rest.
+          Pick a date. Pick a budget. We handle the rest. More flowers, less hassle.
         </p>
 
         {/* Two primary CTAs */}

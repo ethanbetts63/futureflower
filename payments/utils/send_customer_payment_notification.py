@@ -1,6 +1,7 @@
 import logging
 import requests
 from django.conf import settings
+from django.template.loader import render_to_string
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +17,14 @@ def send_customer_payment_notification(user, order):
     first_name = user.first_name or user.username
     recipient_name = f"{order.recipient_first_name} {order.recipient_last_name}".strip()
 
-    body = (
+    context = {
+        'first_name': first_name,
+        'recipient_name': recipient_name,
+        'start_date': order.start_date,
+        'budget': order.budget,
+    }
+    html_body = render_to_string('notifications/emails/customer_payment_confirmation.html', context)
+    text_body = (
         f"Hi {first_name},\n\n"
         f"Your FutureFlower order has been confirmed!\n\n"
         f"Recipient: {recipient_name}\n"
@@ -33,7 +41,8 @@ def send_customer_payment_notification(user, order):
                 "from": settings.DEFAULT_FROM_EMAIL,
                 "to": [user.email],
                 "subject": "Your FutureFlower order is confirmed",
-                "text": body,
+                "text": text_body,
+                "html": html_body,
             },
             timeout=10,
         )

@@ -1,0 +1,27 @@
+{% extends "notifications/emails/base.html" %}
+
+{% block title %}New FutureFlower Order Received{% endblock %}
+
+{% block preheader %}New order received{% if order %} — {{ order.recipient_first_name }} {{ order.recipient_last_name }}, delivery {{ order.start_date }}{% endif %}.{% endblock %}
+
+{% block content %}
+<h1 style="font-family: Georgia, 'Times New Roman', serif; font-size: 22px; font-weight: bold; color: #1a1a1a; margin: 0 0 16px 0;">New Order Received</h1>
+
+{% if order %}
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f6f1; border-radius: 6px; margin-bottom: 28px;">
+    <tr>
+        <td style="padding: 20px 24px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #333333; line-height: 26px;">
+            <p style="margin: 0 0 8px 0;"><strong>Recipient:</strong> {{ order.recipient_first_name }} {{ order.recipient_last_name }}</p>
+            <p style="margin: 0 0 8px 0;"><strong>Delivery date:</strong> {{ order.start_date }}</p>
+            <p style="margin: 0 0 8px 0;"><strong>Budget:</strong> ${{ order.budget }}</p>
+            <p style="margin: 0;"><strong>Payment ID:</strong> {{ payment_id }}</p>
+        </td>
+    </tr>
+</table>
+{% else %}
+<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #333333; margin: 0 0 24px 0; line-height: 26px;">
+    New FutureFlower payment received.<br>
+    <strong>Payment ID:</strong> {{ payment_id }}
+</p>
+{% endif %}
+{% endblock %}

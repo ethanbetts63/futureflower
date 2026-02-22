@@ -1,0 +1,28 @@
+{% extends "notifications/emails/base.html" %}
+
+{% block title %}Your FutureFlower order is confirmed{% endblock %}
+
+{% block preheader %}Your order for {{ recipient_name }} is confirmed — first delivery {{ start_date }}.{% endblock %}
+
+{% block content %}
+<h1 style="font-family: Georgia, 'Times New Roman', serif; font-size: 22px; font-weight: bold; color: #1a1a1a; margin: 0 0 16px 0;">Hi {{ first_name }},</h1>
+
+<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #333333; margin: 0 0 24px 0; line-height: 26px;">
+    Your FutureFlower order has been confirmed. Here's a summary:
+</p>
+
+<!-- Order details card -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f6f1; border-radius: 6px; margin-bottom: 28px;">
+    <tr>
+        <td style="padding: 20px 24px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #333333; line-height: 26px;">
+            <p style="margin: 0 0 8px 0;"><strong>Recipient:</strong> {{ recipient_name }}</p>
+            <p style="margin: 0 0 8px 0;"><strong>First delivery:</strong> {{ start_date }}</p>
+            <p style="margin: 0;"><strong>Budget per bouquet:</strong> ${{ budget }}</p>
+        </td>
+    </tr>
+</table>
+
+<p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #333333; margin: 0; line-height: 26px;">
+    Thank you for choosing FutureFlower. We'll take care of the rest.
+</p>
+{% endblock %}

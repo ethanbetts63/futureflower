@@ -1,7 +1,10 @@
 import logging
 import requests
 from django.conf import settings
+from django.template.loader import render_to_string
 from twilio.rest import Client
+
+from data_management.utils import sms_messages
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +24,7 @@ def send_admin_cancellation_notification(message: str):
         return
 
     try:
+        html_body = render_to_string('notifications/emails/admin_cancellation.html', {'message': message})
         response = requests.post(
             f"https://api.mailgun.net/v3/{settings.MAILGUN_DOMAIN}/messages",
             auth=("api", settings.MAILGUN_API_KEY),
@@ -29,14 +33,16 @@ def send_admin_cancellation_notification(message: str):
                 "to": [admin_email],
                 "subject": subject,
                 "text": message,
+                "html": html_body,
             },
             timeout=10,
         )
         response.raise_for_status()
 
+        sms_body = sms_messages.admin_cancellation(message)
         client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
         client.messages.create(
-            body=message,
+            body=sms_body,
             messaging_service_sid=settings.TWILIO_MESSAGING_SERVICE_SID,
             to=admin_number,
         )
@@ -56,18 +62,6 @@ def send_admin_payment_notification(payment_id: str, order=None):
         order: The OrderBase instance associated with the payment (optional, for order context).
     """
     subject = "New FutureFlower Order Received"
-
-    if order:
-        message = (
-            f"New order received!\n\n"
-            f"Recipient: {order.recipient_first_name} {order.recipient_last_name}\n"
-            f"Delivery Date: {order.start_date}\n"
-            f"Budget: ${order.budget}\n"
-            f"Payment ID: {payment_id}"
-        )
-    else:
-        message = f"New FutureFlower payment received. Payment ID: {payment_id}"
-
     admin_email = settings.ADMIN_EMAIL
     admin_number = settings.ADMIN_NUMBER
 
@@ -78,7 +72,13 @@ def send_admin_payment_notification(payment_id: str, order=None):
         )
         return
 
+    text_body = sms_messages.admin_payment_received(order, payment_id)
+
     try:
+        html_body = render_to_string('notifications/emails/admin_payment_received.html', {
+            'payment_id': payment_id,
+            'order': order,
+        })
         response = requests.post(
             f"https://api.mailgun.net/v3/{settings.MAILGUN_DOMAIN}/messages",
             auth=("api", settings.MAILGUN_API_KEY),
@@ -86,7 +86,8 @@ def send_admin_payment_notification(payment_id: str, order=None):
                 "from": settings.DEFAULT_FROM_EMAIL,
                 "to": [admin_email],
                 "subject": subject,
-                "text": message,
+                "text": text_body,
+                "html": html_body,
             },
             timeout=10,
         )
@@ -94,7 +95,7 @@ def send_admin_payment_notification(payment_id: str, order=None):
 
         client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
         client.messages.create(
-            body=message,
+            body=text_body,
             messaging_service_sid=settings.TWILIO_MESSAGING_SERVICE_SID,
             to=admin_number,
         )

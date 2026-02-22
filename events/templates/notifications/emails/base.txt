@@ -1,13 +1,4 @@
-{% block content_text %}
-This is the default text content. Please override this block in your child template.
-{% endblock %}
-
+{% block content %}{% endblock %}
 
 ---
-You received this email because you set a reminder on FutureFlower.app.
-
-{% if unsubscribe_url %}
-If you did not set this reminder, we sincerely apologize. You can block us from ever contacting this email again by visiting: {{ unsubscribe_url }}
-{% endif %}
-
-FutureFlower | Never miss what matters.
+FutureFlower — https://www.futureflower.app

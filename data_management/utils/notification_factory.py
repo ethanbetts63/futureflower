@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 from data_management.models import Notification
+from data_management.utils import sms_messages
 
 
 def _build_event_body(event):
@@ -33,6 +34,9 @@ def create_admin_event_notifications(event):
     schedule_offsets = [7, 3]
     channels = ['email', 'sms']
 
+    email_body = body
+    sms_body = sms_messages.admin_event_reminder(event)
+
     notifications_to_create = []
     for days_before in schedule_offsets:
         scheduled_for = event.delivery_date - timedelta(days=days_before)
@@ -44,7 +48,7 @@ def create_admin_event_notifications(event):
                     recipient_type='admin',
                     channel=channel,
                     subject=f"Action Required: Order flowers for delivery on {event.delivery_date}",
-                    body=body,
+                    body=email_body if channel == 'email' else sms_body,
                     scheduled_for=scheduled_for,
                     related_event=event,
                 )
@@ -109,7 +113,7 @@ def create_admin_delivery_day_notifications(event):
     "Delivery day today — please confirm once delivered."
     """
     order = event.order
-    body = (
+    email_body = (
         f"Delivery day today — please confirm once delivered.\n\n"
         f"Recipient: {order.recipient_first_name} {order.recipient_last_name}\n"
         f"Address: {order.recipient_street_address}, {order.recipient_suburb}, "
@@ -117,20 +121,21 @@ def create_admin_delivery_day_notifications(event):
         f"{order.recipient_country}\n"
         f"Delivery Date: {event.delivery_date}\n"
     )
+    sms_body = sms_messages.admin_delivery_day(event)
 
     notifications = [
         Notification(
             recipient_type='admin',
             channel='email',
             subject=f"Delivery Day: {order.recipient_first_name} {order.recipient_last_name} on {event.delivery_date}",
-            body=body,
+            body=email_body,
             scheduled_for=event.delivery_date,
             related_event=event,
         ),
         Notification(
             recipient_type='admin',
             channel='sms',
-            body=body,
+            body=sms_body,
             scheduled_for=event.delivery_date,
             related_event=event,
         ),
