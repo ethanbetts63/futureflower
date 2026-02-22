@@ -70,6 +70,10 @@ const PayoutDetailPage: React.FC = () => {
                   <p className="text-xl font-bold text-black">${Number(payout.amount).toFixed(2)} {payout.currency}</p>
                 </div>
                 <div>
+                  <p className="text-sm text-black/40">Payout Date</p>
+                  <p className="font-medium text-black">{new Date(payout.created_at).toLocaleDateString()}</p>
+                </div>
+                <div>
                   <p className="text-sm text-black/40">Period</p>
                   {payout.period_start && payout.period_end ? (
                     <p className="font-medium text-black">{payout.period_start} — {payout.period_end}</p>

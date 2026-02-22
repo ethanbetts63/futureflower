@@ -62,6 +62,7 @@ const PayoutsPage: React.FC = () => {
                     >
                       <div>
                         <p className="font-medium capitalize text-black">{p.payout_type} Payout</p>
+                        <p className="text-sm text-black/40">Payout Date: {new Date(p.created_at).toLocaleDateString()}</p>
                         {p.payout_type === 'fulfillment' && (
                           <p className="text-sm text-black/40">
                             {p.period_start} — {p.period_end}
