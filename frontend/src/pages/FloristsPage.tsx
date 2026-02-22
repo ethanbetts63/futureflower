@@ -10,19 +10,18 @@ import floristPackingImage768 from '../assets/florist_packing-768w.webp';
 import floristPackingImage1024 from '../assets/florist_packing-1024w.webp';
 import floristPackingImage1280 from '../assets/florist_packing-1280w.webp';
 
-import petalImage from '../assets/petal.png';
 import petalImage320 from '../assets/petal-320w.webp';
 import petalImage640 from '../assets/petal-640w.webp';
 import petalImage768 from '../assets/petal-768w.webp';
 import petalImage1024 from '../assets/petal-1024w.webp';
 import petalImage1280 from '../assets/petal-1280w.webp';
 
-import deliveryHighImage from '../assets/delivery_high.png';
-import deliveryHighImage320 from '../assets/delivery_high-320w.webp';
-import deliveryHighImage640 from '../assets/delivery_high-640w.webp';
-import deliveryHighImage768 from '../assets/delivery_high-768w.webp';
-import deliveryHighImage1024 from '../assets/delivery_high-1024w.webp';
-import deliveryHighImage1280 from '../assets/delivery_high-1280w.webp';
+import deliveryImage from '../assets/delivery.webp';
+import deliveryImage320 from '../assets/delivery-320w.webp';
+import deliveryImage640 from '../assets/delivery-640w.webp';
+import deliveryImage768 from '../assets/delivery-768w.webp';
+import deliveryImage1024 from '../assets/delivery-1024w.webp';
+import deliveryImage1280 from '../assets/delivery-1280w.webp';
 import { SendBusinessYourWay } from '../components/florists_page/SendBusinessYourWay';
 import { ValuePropsA } from '../components/florists_page/ValuePropsA';
 import type { FaqItem } from '@/types/FaqItem';
@@ -59,7 +58,7 @@ const FloristsPage = () => {
       description:
         'Customers selects budget, preferences, and delivery details. These will all be provided to you.',
       image: {
-        src: petalImage,
+        src: petalImage1280,
         srcSet: `${petalImage320} 320w, ${petalImage640} 640w, ${petalImage768} 768w, ${petalImage1024} 1024w, ${petalImage1280} 1280w`,
         sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
         alt: 'Petal image for customer making their order',
@@ -71,8 +70,8 @@ const FloristsPage = () => {
       description:
         'Recieve a text and email with an acceptance link. Accept and handle the delivery yourself, or reject for a tiered reward ($5–$25) depending on the bouquet value.',
       image: {
-        src: deliveryHighImage,
-        srcSet: `${deliveryHighImage320} 320w, ${deliveryHighImage640} 640w, ${deliveryHighImage768} 768w, ${deliveryHighImage1024} 1024w, ${deliveryHighImage1280} 1280w`,
+        src: deliveryImage,
+        srcSet: `${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`,
         sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
         alt: 'Delivery image for accepting or rejecting orders',
       },
