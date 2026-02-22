@@ -17,7 +17,7 @@ export const ComparisonBarChart: React.FC<ComparisonBarChartProps> = ({ heading,
     <div className="flex flex-col gap-6">
       {bars.map((bar) => (
         <div key={bar.label} className="flex flex-col gap-2">
-          <span className="text-xs font-semibold text-black/50 uppercase tracking-wider">{bar.label}</span>
+          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{bar.label}</span>
           <div className="flex h-12 w-full rounded-full overflow-hidden shadow-sm">
             {bar.segments.map((seg, i) => (
               <div

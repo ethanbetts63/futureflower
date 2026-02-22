@@ -53,7 +53,7 @@ const OfferingSection: React.FC = () => {
 
               {/* Subscription Card */}
               <div className="bg-white rounded-2xl p-8 md:p-10 shadow-sm">
-                <p className="text-xs font-semibold tracking-[0.2em] text-black/50 uppercase">Annual Subscription</p>
+                <p className="text-xs font-semibold tracking-[0.2em] text-gray-500 uppercase">Annual Subscription</p>
                 <h2 className="mt-3 text-3xl md:text-4xl font-bold text-black font-['Playfair_Display',_serif]">
                   THE PERSON WHO NEVERS FORGETS
                 </h2>
@@ -68,7 +68,7 @@ const OfferingSection: React.FC = () => {
                     </svg>
                     <div>
                       <p className="text-sm font-semibold text-black">Dates, budget, done</p>
-                      <p className="text-sm text-black/50">Set it up once, we handle the rest.</p>
+                      <p className="text-sm text-gray-500">Set it up once, we handle the rest.</p>
                     </div>
                   </div>
 
@@ -78,7 +78,7 @@ const OfferingSection: React.FC = () => {
                     </svg>
                     <div>
                       <p className="text-sm font-semibold text-black">Milestones first, flexibility second</p>
-                      <p className="text-sm text-black/50">Annual moments by default — weekly or monthly if you want more.</p>
+                      <p className="text-sm text-gray-500">Annual moments by default — weekly or monthly if you want more.</p>
                     </div>
                   </div>
 
@@ -88,7 +88,7 @@ const OfferingSection: React.FC = () => {
                     </svg>
                     <div>
                       <p className="text-sm font-semibold text-black">Thoughtful by design</p>
-                      <p className="text-sm text-black/50">Customize messages and bouquet preferences.</p>
+                      <p className="text-sm text-gray-500">Customize messages and bouquet preferences.</p>
                     </div>
                   </div>
                 </div>
@@ -110,7 +110,7 @@ const OfferingSection: React.FC = () => {
                 <div className="flex items-center justify-between gap-4">
                   <div>
                     <h3 className="text-xl font-bold text-black font-['Playfair_Display',_serif]">The One-Off Delivery</h3>
-                    <p className="mt-1 text-sm text-black/50">No subscription required. Just a single, beautiful gesture for a specific date.</p>
+                    <p className="mt-1 text-sm text-gray-500">No subscription required. Just a single, beautiful gesture for a specific date.</p>
                   </div>
                   <button
                     onClick={() => handleNav('/event-gate/single-delivery')}

@@ -46,8 +46,8 @@ const ComparisonSection: React.FC = () => (
         </p>
         <div className="w-full max-w-2xl bg-white rounded-2xl shadow-md border border-black/5 overflow-hidden">
           <div className="grid grid-cols-3 text-[10px] md:text-xs font-semibold uppercase tracking-wider border-b border-black/5">
-            <div className="px-4 md:px-8 py-4 text-black/40">Feature</div>
-            <div className="px-2 md:px-6 py-4 text-center text-black/40">Big Networks</div>
+            <div className="px-4 md:px-8 py-4 text-gray-500">Feature</div>
+            <div className="px-2 md:px-6 py-4 text-center text-gray-500">Big Networks</div>
             <div className="px-2 md:px-6 py-4 text-center text-black font-bold bg-[var(--colorgreen)]/[0.06]">FutureFlower</div>
           </div>
           {rows.map((row, i) => (
@@ -60,7 +60,7 @@ const ComparisonSection: React.FC = () => (
               <div className="flex items-center px-4 md:px-8 py-4 md:py-5 font-medium text-black">
                 {row.feature}
               </div>
-              <div className="flex items-center justify-center px-2 md:px-6 py-4 md:py-5 text-center text-black/50">
+              <div className="flex items-center justify-center px-2 md:px-6 py-4 md:py-5 text-center text-gray-500">
                 {row.them}
               </div>
               <div className="flex items-center justify-center px-2 md:px-6 py-4 md:py-5 text-center font-semibold text-black bg-[var(--colorgreen)]/[0.06]">
