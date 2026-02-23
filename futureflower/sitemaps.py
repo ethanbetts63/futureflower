@@ -14,6 +14,7 @@ class StaticViewSitemap(Sitemap):
             '/order',
             '/florists',
             '/affiliates',
+            '/pricing',
             '/articles',
             '/articles/best-flower-subscription-services-us',
             '/articles/best-flower-subscription-services-au',

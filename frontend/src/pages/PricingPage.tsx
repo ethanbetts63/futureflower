@@ -1,6 +1,10 @@
 import React from 'react';
 import Seo from '@/components/Seo';
 import { HeroV2 } from '../components/home_page/HeroV2';
+import PricingFloristAdvantage from '../components/pricing_page/PricingFloristAdvantage';
+import PricingTiers from '../components/pricing_page/PricingTiers';
+import ComparisonSection from '../components/home_page/ComparisonSectionHome';
+import PricingFaq from '../components/pricing_page/PricingFaq';
 
 const PricingPage: React.FC = () => {
     return (
@@ -13,6 +17,10 @@ const PricingPage: React.FC = () => {
             <HeroV2
                 title={<>Simple, honest <span className="italic">pricing.</span></>}
             />
+            <PricingFloristAdvantage />
+            <PricingTiers />
+            <ComparisonSection />
+            <PricingFaq />
         </main>
     );
 };
