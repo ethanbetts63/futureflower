@@ -1,9 +1,4 @@
 
-## Project-Level
-### 2. Root-level `package.json` is nearly empty
-`package.json` at root only has `date-fns`. All real frontend deps are in `frontend/package.json`. Consider removing the root `package.json` and `node_modules/` if they aren't serving a purpose, or set up npm workspaces properly.
-
-## Payments App
 
 ### 7. Webhook handlers should be more explicitly idempotent
 `handle_payment_intent_succeeded()` does check if payment status is already `succeeded`, which is good. But `handle_invoice_payment_succeeded()` relies on `get_or_create` for the Payment record. Document the idempotency guarantees or add explicit checks throughout.
