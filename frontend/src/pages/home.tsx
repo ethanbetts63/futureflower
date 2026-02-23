@@ -108,6 +108,7 @@ const HomePage = () => {
       />
       <HeroV2
         title={<>The gift that <span className='italic'>keeps</span> on giving.</>}
+        subtext="Pick a date. Pick a budget. We handle the rest. More flowers, less hassle."
       />
       <AnnouncementBar />
 

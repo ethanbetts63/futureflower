@@ -24,24 +24,32 @@ const PricingFloristAdvantage: React.FC = () => (
                     </p>
 
                     <div className="mt-8 pt-8 border-t border-black/10">
-                        <p className="text-sm font-semibold tracking-[0.15em] text-black uppercase mb-4">
-                            The benefit
+                        <p className="text-sm font-semibold tracking-[0.15em] text-black uppercase mb-6">
+                            How FutureFlower works instead
                         </p>
-                        <p className="text-base md:text-lg text-black/60 leading-relaxed">
-                            By giving your florist a budget and an occasion—instead of a picture to copy—we turn them back into artists. They use the absolute best, freshest flowers they have on hand that day, giving you a custom arrangement you couldn't get from a warehouse.
-                        </p>
-                    </div>
-
-                    {/* Two-column pill stats */}
-                    <div className="mt-8 grid grid-cols-2 gap-4">
-                        <div className="bg-[var(--color4)] rounded-xl p-5">
-                            <p className="text-2xl font-bold text-black">Recipe</p>
-                            <p className="mt-1 text-sm text-black/50">Rigid. Predictable. Warehouse stock.</p>
-                        </div>
-                        <div className="bg-[var(--colorgreen)] rounded-xl p-5">
-                            <p className="text-2xl font-bold text-black">Artist</p>
-                            <p className="mt-1 text-sm text-black/60">Fresh. Seasonal. One of a kind.</p>
-                        </div>
+                        <ol className="flex flex-col gap-5">
+                            <li className="flex items-start gap-4">
+                                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--colorgreen)] text-black text-sm font-bold flex items-center justify-center">1</span>
+                                <div>
+                                    <p className="font-semibold text-black">Choose the occasion</p>
+                                    <p className="mt-0.5 text-sm text-black/60">Let the florist know the vibe — Romantic, Sympathy, Birthday, and more.</p>
+                                </div>
+                            </li>
+                            <li className="flex items-start gap-4">
+                                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--colorgreen)] text-black text-sm font-bold flex items-center justify-center">2</span>
+                                <div>
+                                    <p className="font-semibold text-black">Add your preferences</p>
+                                    <p className="mt-0.5 text-sm text-black/60">Leave specific notes if you want — "She loves peonies," or "Please no lilies."</p>
+                                </div>
+                            </li>
+                            <li className="flex items-start gap-4">
+                                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--colorgreen)] text-black text-sm font-bold flex items-center justify-center">3</span>
+                                <div>
+                                    <p className="font-semibold text-black">Set your exact budget</p>
+                                    <p className="mt-0.5 text-sm text-black/60">Select your pricing tier or enter a custom amount.</p>
+                                </div>
+                            </li>
+                        </ol>
                     </div>
                 </div>
 

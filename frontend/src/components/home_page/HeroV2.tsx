@@ -16,7 +16,7 @@ import subscriptionIcon from '../../assets/subscription_symbol.svg';
 import deliveryIcon from '../../assets/delivery_symbol.svg';
 import Badge from '../Badge';
 
-export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
+export const HeroV2: React.FC<HeroV2Props> = ({ title, subtext }) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
@@ -71,7 +71,7 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title }) => {
           {title}
         </h1>
         <p className="mt-4 text-base sm:text-lg text-black md:text-white">
-          Pick a date. Pick a budget. We handle the rest. More flowers, less hassle.
+          {subtext}
         </p>
 
         {/* Two primary CTAs */}

@@ -15,7 +15,8 @@ const PricingPage: React.FC = () => {
                 canonicalPath="/pricing"
             />
             <HeroV2
-                title={<>Simple, honest <span className="italic">pricing.</span></>}
+                title={<>More flowers. Fewer fees.</>}
+                subtext="Simple, transparent pricing with free delivery built in. You set the budget — we handle the rest."
             />
             <PricingFloristAdvantage />
             <PricingTiers />
