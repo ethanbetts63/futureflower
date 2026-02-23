@@ -39,7 +39,7 @@ const PricingTiers: React.FC = () => {
                         How much does it cost?
                     </h2>
                     <p className="mt-4 text-base md:text-lg text-black/60 max-w-2xl mx-auto">
-                        As much as you want it to. Just give us a budget and we\'ll do the rest. 
+                        As much as you want it to. Just give us a budget and we'll do the rest. 
                     </p>
                 </div>
 
