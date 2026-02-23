@@ -55,17 +55,6 @@ export const CtaCard: React.FC = () => {
       },
       onGetStarted: () => handleNavigation('/event-gate/subscription'),
     },
-    prepaid: {
-      content: {
-        subtitle: 'Prepaid Flowers',
-        paragraph: 'From annual milestones to regular deliveries, flowers arrive exactly when you want.',
-        features: [
-          { heading: 'Future-proofed', subtext: 'No renewals, no reminders, no risk of forgetting.' },
-          { heading: 'The kind of gift people remember', subtext: 'Shows thoughtfulness far beyond the day it’s given.' },
-        ],
-      },
-      onGetStarted: () => handleNavigation('/event-gate'),
-    },
     'single-delivery': {
       content: {
         subtitle: 'One-time Bouquet Delivery',
@@ -89,7 +78,6 @@ export const CtaCard: React.FC = () => {
           Our Services
         </h2>
         <div className="flex justify-center bg-white p-1 rounded-md">
-          <button onClick={() => setView('prepaid')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded transition-colors ${view === 'prepaid' ? 'bg-[var(--colorgreen)] text-black' : 'text-black hover:bg-gray-100'}`}>Prepaid</button>
           <button onClick={() => setView('subscription')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded transition-colors ${view === 'subscription' ? 'bg-[var(--colorgreen)] text-black' : 'text-black hover:bg-gray-100'}`}>Subscription</button>
           <button onClick={() => setView('single-delivery')} className={`w-1/3 px-2 py-2 text-sm font-bold rounded transition-colors ${view === 'single-delivery' ? 'bg-[var(--colorgreen)] text-black' : 'text-black hover:bg-gray-100'}`}>Single-Delivery</button>
         </div>

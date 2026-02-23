@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, RefreshCw, CreditCard } from 'lucide-react';
+import { Calendar, RefreshCw } from 'lucide-react';
 
 const services = [
   {
@@ -20,16 +20,6 @@ const services = [
       'We specialise in annual subscriptions for significant dates (e.g. birthdays) but we also offer weekly, fortnightly, monthly and bi-annual schedules.',
       'We manage reminders, payments, scheduling, and changes.',
       'Customers love "this is handled forever" — you benefit from predictable, repeat revenue.',
-    ],
-  },
-  {
-    icon: CreditCard,
-    title: 'Prepaid Plans',
-    tagline: 'Upfront commitment for customers. Guaranteed future revenue for florists.',
-    points: [
-      'Customers prepay for multiple deliveries.',
-      'No missed payments, cancellations, or admin overhead for you.',
-      'We manage the capital risk, schedule, and customer communication.',
     ],
   }
 ];

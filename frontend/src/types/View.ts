@@ -1,1 +1,1 @@
-export type View = 'prepaid' | 'subscription' | 'single-delivery';
+export type View = 'subscription' | 'single-delivery';

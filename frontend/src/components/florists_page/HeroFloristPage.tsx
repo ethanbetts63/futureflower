@@ -51,7 +51,7 @@ export const HeroFloristPage: React.FC<HeroFloristPageProps> = ({ scrollToConten
           Turn one sale into <span className="italic">many</span>.
         </h1>
         <p className="mt-6 text-lg sm:text-xl leading-8">
-          Extend your service beyond today's purchase. Offer scheduled deliveries, subscriptions, and prepaid plans — completely free, with zero admin.
+          Extend your service beyond today's purchase. Offer scheduled deliveries, and subscriptions — completely free, with zero admin.
         </p>
         <div className="mt-8 flex items-center gap-8">
           <button

@@ -1,11 +1,10 @@
 import React from 'react';
-import heroImage from '../assets/hero2.png';
-import { Hero } from '../components/Hero';
-import OtherSites from '../components/OtherSites';
-import { Letter } from '../components/Letter';
-import { CtaCard } from '../components/CtaCard';
+import { ContactHero } from '../components/contact_page/ContactHero';
+import OtherSites from '../components/contact_page/OtherSites';
+import { Letter } from '../components/contact_page/Letter';
+import { CtaCard } from '../components/contact_page/CtaCard';
 import Seo from '@/components/Seo';
-import allbikesLogo from '@/assets/allbikes_logo.webp'; 
+import allbikesLogo from '@/assets/allbikes_logo.webp';
 import splitcartLogo from '@/assets/splitcart_logo.png';
 import futureReminderLogo from '@/assets/futurereminder_logo.png';
 
@@ -60,12 +59,7 @@ const ContactPage: React.FC = () => {
                 canonicalPath="/contact"
                 structuredData={contactPageSchema}
             />
-            <Hero
-                title="Contact Us"
-                subtitle={description}
-                imageSrc={heroImage}
-                imageAlt="A pin up board of postnotes with various reminder icons"
-            />
+            <ContactHero />
                   {/* --- Main Content & Sticky Sidebar --- */}
                   <div className="bg-[var(--color4)] py-8">
                     <div className="container mx-auto px-0 sm:px-4 lg:grid lg:grid-cols-3 lg:gap-8">

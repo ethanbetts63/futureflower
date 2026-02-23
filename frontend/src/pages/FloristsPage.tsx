@@ -106,7 +106,7 @@ const FloristsPage = () => {
     <main>
       <Seo
         title="FutureFlower for Florists | Grow Your Revenue"
-        description="Extend your service beyond today's purchase. Offer scheduled deliveries, subscriptions, and prepaid plans — all without adding admin, complexity, or cost."
+        description="Extend your service beyond today's purchase. Offer scheduled deliveries and subscriptions — all without adding admin, complexity, or cost."
         canonicalPath="/florists"
         ogImage="/og-images/og-homepage.webp"
       />
