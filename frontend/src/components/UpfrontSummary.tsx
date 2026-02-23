@@ -64,9 +64,7 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
 
   // Base paths for editing
   const editBasePath = isOrdering
-    ? (isSingleDelivery
-        ? `/single-delivery-flow/plan/${planId}`
-        : `/upfront-flow/upfront-plan/${planId}`)
+    ? `/single-delivery-flow/plan/${planId}`
     : `/dashboard/upfront-plans/${planId}`;
 
   const preferredTypes = plan.preferred_flower_types
@@ -85,9 +83,9 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
     <div className="space-y-8">
       {isOrdering ? (
         <StepProgressBar
-          planName={isSingleDelivery ? "Single Delivery" : "Upfront Plan"}
-          currentStep={isSingleDelivery ? 4 : 5}
-          totalSteps={isSingleDelivery ? 4 : 5}
+          planName="Single Delivery"
+          currentStep={4}
+          totalSteps={4}
           isReview={true}
         />
       ) : (
@@ -95,11 +93,9 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
       )}
 
       <UnifiedSummaryCard
-        title={isOrdering ? (isSingleDelivery ? "Confirm Your Delivery" : "Review Your Flower Plan") : "Plan Overview"}
+        title={isOrdering ? "Confirm Your Delivery" : "Plan Overview"}
         description={isOrdering
-          ? (isSingleDelivery
-              ? "Please review the details of your order before proceeding to payment."
-              : "This is the final step before activating your flower plan. Please ensure everything is correct.")
+          ? "Please review the details of your order before proceeding to payment."
           : "Review and manage the details of your scheduled flower plan."
         }
         footer={
@@ -160,7 +156,6 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
           /* Standard Upfront Plan Schedule */
           <SummarySection
             label="Plan Schedule"
-            editUrl={`${editBasePath}/edit-structure`}
           >
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
@@ -218,7 +213,7 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
 
         <ImpactSummary
           price={Number(plan.budget)}
-          editUrl={`${editBasePath}/edit-structure`}
+          editUrl={isOrdering ? `${editBasePath}/structure` : undefined}
         />
 
         {isOrdering && (

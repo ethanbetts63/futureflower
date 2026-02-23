@@ -24,7 +24,7 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title, subtext }) => {
     if (isAuthenticated) {
       navigate(path);
     } else {
-      navigate(`/upfront-flow/create-account?next=${path}`);
+      navigate(`/create-account?next=${path}`);
     }
   };
 

@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import Seo from '../Seo';
-import { getOrCreatePendingUpfrontPlan } from '@/api/upfrontPlans';
 import { getOrCreatePendingSubscriptionPlan } from '@/api/subscriptionPlans';
 import { getOrCreatePendingSingleDeliveryTypeUpfrontPlan } from '@/api/singleDeliveryPlans';
 import { toast } from 'sonner';
@@ -33,8 +32,7 @@ const EventGate: React.FC = () => {
                         const plan = await getOrCreatePendingSingleDeliveryTypeUpfrontPlan();
                         navigate(`/single-delivery-flow/plan/${plan.id}/recipient`, { replace: true });
                     } else {
-                        const plan = await getOrCreatePendingUpfrontPlan();
-                        navigate(`/upfront-flow/upfront-plan/${plan.id}/recipient`, { replace: true });
+                        navigate('/order', { replace: true });
                     }
                 } catch (error: any) {
                     toast.error("Could not prepare your plan", {
@@ -46,7 +44,7 @@ const EventGate: React.FC = () => {
             findOrCreatePlan();
         } else {
             const nextUrl = flowType ? `?next=/event-gate/${flowType}` : '';
-            navigate(`/upfront-flow/create-account${nextUrl}`, { replace: true });
+            navigate(`/create-account${nextUrl}`, { replace: true });
         }
     }, [isAuthenticated, isLoading, navigate, isSubscriptionFlow, isSingleDeliveryFlow, flowType]);
 

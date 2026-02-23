@@ -13,7 +13,6 @@ export type { SubscriptionPlanTableProps } from './SubscriptionPlanTableProps';
 export type { SubscriptionStructureEditorProps } from './SubscriptionStructureEditorProps';
 export type { BannerProps } from './BannerProps';
 export type { UpfrontPlanTableProps } from './UpfrontPlanTableProps';
-export type { UpfrontPlanSummaryProps } from './UpfrontPlanSummaryProps';
 export type { SubscriptionStructureCardProps } from './SubscriptionStructureCardProps';
 export type { SubscriptionPlanSummaryProps } from './SubscriptionPlanSummaryProps';
 export type { SelectableTagProps } from './SelectableTagProps';
@@ -24,7 +23,7 @@ export type { PlanDisplayProps } from './PlanDisplayProps';
 export type { PlanStructureCardProps } from './PlanStructureCardProps';
 export type { PlanActivationBannerProps } from './PlanActivationBannerProps';
 export type { PaymentProcessorProps } from './PaymentProcessorProps';
-export type { MessagesEditorProps } from './MessagesEditorProps';
+
 export type { FaqProps } from './FaqProps';
 export type { PreferencesCardProps } from './PreferencesCardProps';
 export type { UserDetailsSummaryProps } from './UserDetailsSummaryProps';

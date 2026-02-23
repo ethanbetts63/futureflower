@@ -15,9 +15,7 @@ const AccountManagementPage = lazy(() => import('./pages/user_dashboard/AccountM
 const UpfrontPlanListPage = lazy(() => import('./pages/user_dashboard/PlanListPage'));
 const PlanOverviewPage = lazy(() => import('./pages/user_dashboard/upfront_management/PlanOverviewPage'));
 const EditRecipientPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditRecipientPage'));
-const EditStructurePage = lazy(() => import('./pages/user_dashboard/upfront_management/EditStructurePage'));
 const EditPreferencesPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditPreferencesPage'));
-const EditMessagesPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditMessagesPage'));
 const SubscriptionPlanOverviewPage = lazy(() => import('./pages/user_dashboard/subscription_management/SubscriptionPlanOverviewPage'));
 const SubscriptionEditRecipientPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditRecipientPage'));
 const SubscriptionEditPreferencesPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditPreferencesPage'));
@@ -27,13 +25,6 @@ const RefundRequestPage = lazy(() => import('./pages/user_dashboard/RefundReques
 
 const EventGate = lazy(() => import('@/components/form_flow/EventGate'));
 const Step1CreateAccountPage = lazy(() => import('./pages/Step1CreateAccountPage'));
-
-// Upfront Flow Pages
-const Step2RecipientPage = lazy(() => import('./pages/upfront_flow/Step2RecipientPage'));
-const Step3PreferenceSelectionPage = lazy(() => import('./pages/upfront_flow/Step3PreferenceSelectionPage'));
-const Step4CustomMessagePage = lazy(() => import('./pages/upfront_flow/Step4CustomMessagePage'));
-const Step5StructurePage = lazy(() => import('./pages/upfront_flow/Step5StructurePage'));
-const Step6BookingConfirmationPage = lazy(() => import('./pages/upfront_flow/Step6BookingConfirmationPage'));
 
 // Subscription Flow Pages
 const SubscriptionStep2RecipientPage = lazy(() => import('./pages/subscription_flow/Step2RecipientPage'));
@@ -137,14 +128,7 @@ function App() {
                 {/* Event Creation Flow */}
                 <Route path="/order" element={<ProductSelectionPage />} />
                 <Route path="/event-gate/:flowType?" element={<EventGate />} />
-                <Route path="/upfront-flow/create-account" element={<Step1CreateAccountPage />} />
-
-                {/* Event Creation Flow - Post Gate */}
-                <Route path="/upfront-flow/upfront-plan/:planId/recipient" element={<ProtectedRoute><Step2RecipientPage /></ProtectedRoute>} />
-                <Route path="/upfront-flow/upfront-plan/:planId/structure" element={<ProtectedRoute><Step5StructurePage /></ProtectedRoute>} />
-                <Route path="/upfront-flow/upfront-plan/:planId/preferences" element={<ProtectedRoute><Step3PreferenceSelectionPage /></ProtectedRoute>} />
-                <Route path="/upfront-flow/upfront-plan/:planId/add-message" element={<ProtectedRoute><Step4CustomMessagePage /></ProtectedRoute>} />
-                <Route path="/upfront-flow/upfront-plan/:planId/confirmation" element={<ProtectedRoute><Step6BookingConfirmationPage /></ProtectedRoute>} />
+                <Route path="/create-account" element={<Step1CreateAccountPage />} />
                 
                 {/* Subscription Plan Flow - Post Gate */}
                 <Route path="/subscribe-flow/subscription-plan/:planId/recipient" element={<ProtectedRoute><SubscriptionStep2RecipientPage /></ProtectedRoute>} />
@@ -181,9 +165,7 @@ function App() {
                   <Route path="plans" element={<UpfrontPlanListPage />} />
                   <Route path="upfront-plans/:planId/overview" element={<PlanOverviewPage />} />
                   <Route path="upfront-plans/:planId/edit-recipient" element={<EditRecipientPage />} />
-                  <Route path="upfront-plans/:planId/edit-structure" element={<EditStructurePage />} />
                   <Route path="upfront-plans/:planId/edit-preferences" element={<EditPreferencesPage />} />
-                  <Route path="upfront-plans/:planId/edit-messages" element={<EditMessagesPage />} />
                   <Route path="subscription-plans/:planId/overview" element={<SubscriptionPlanOverviewPage />} />
                   <Route path="subscription-plans/:planId/edit-recipient" element={<SubscriptionEditRecipientPage />} />
                   <Route path="subscription-plans/:planId/edit-preferences" element={<SubscriptionEditPreferencesPage />} />

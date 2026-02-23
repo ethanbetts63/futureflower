@@ -38,7 +38,7 @@ export const CtaCard: React.FC = () => {
     if (isAuthenticated) {
       navigate(path);
     } else {
-      navigate(`/upfront-flow/create-account?next=${path}`);
+      navigate(`/create-account?next=${path}`);
     }
   };
 

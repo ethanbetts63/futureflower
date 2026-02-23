@@ -16,7 +16,7 @@ const FLOW_CONFIG: Record<string, { planName: string; totalSteps: number }> = {
     'subscription': { planName: 'Subscription Plan', totalSteps: 4 },
     'single-delivery': { planName: 'Single Delivery Plan', totalSteps: 4 },
 };
-const DEFAULT_FLOW = { planName: 'Upfront Plan', totalSteps: 5 };
+const DEFAULT_FLOW = { planName: 'Single Delivery Plan', totalSteps: 4 };
 
 const CreateAccountPage: React.FC = () => {
     const navigate = useNavigate();
