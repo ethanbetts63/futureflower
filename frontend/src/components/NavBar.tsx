@@ -72,6 +72,9 @@ const NavBar: React.FC = () => {
       {/* Dropdown menu */}
       <div className={`overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-screen' : 'max-h-0'}`}>
         <nav className="bg-white border-t border-black/10 px-6 py-3 flex flex-col">
+          <Link to="/pricing" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+            Pricing
+          </Link>
           {isAuthenticated ? (
             <>
               <Link to="/dashboard" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">

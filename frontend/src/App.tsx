@@ -71,6 +71,7 @@ const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
 const ResetPasswordConfirmPage = lazy(() => import('./pages/ResetPasswordConfirmPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const FloristsPage = lazy(() => import('./pages/FloristsPage'));
+const PricingPage = lazy(() => import('./pages/PricingPage'));
 
 // --- Blog Pages ---
 const BlogExplorePage = lazy(() => import('./pages/BlogExplorePage'));
@@ -121,6 +122,7 @@ function App() {
                 <Route path="/terms-and-conditions/:type" element={<TermsAndConditionsPage />} />
                 <Route path="/terms-and-conditions" element={<Navigate to="/terms-and-conditions/customer" replace />} />
                 <Route path="/florists" element={<FloristsPage />} />
+                <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/affiliates" element={<AffiliatesPage />} />
                 <Route path="/blocklist-success" element={<BlocklistSuccessPage />} />
                 <Route path="/articles" element={<BlogExplorePage />} />
