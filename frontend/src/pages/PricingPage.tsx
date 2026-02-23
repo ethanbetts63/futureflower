@@ -11,12 +11,12 @@ const PricingPage: React.FC = () => {
         <main>
             <Seo
                 title="Pricing | FutureFlower"
-                description="Simple, transparent pricing for flower deliveries and subscriptions. Pick a budget and we handle the rest."
+                description="Give florists a budget and preferences. No catalogs, just the freshest, seasonal flowers."
                 canonicalPath="/pricing"
             />
             <HeroV2
                 title={<>More flowers. Fewer fees.</>}
-                subtext="Simple, transparent pricing with free delivery built in. You set the budget — we handle the rest."
+                subtext="Give florists a budget and preferences. No catalogs, just the freshest, seasonal flowers."
             />
             <PricingFloristAdvantage />
             <PricingTiers />

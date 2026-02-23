@@ -6,7 +6,7 @@ import floristImage768 from '../../assets/florist_making_flowers-768w.webp';
 import floristImage1024 from '../../assets/florist_making_flowers-1024w.webp';
 
 const PricingFloristAdvantage: React.FC = () => (
-    <section className="bg-white py-16 md:py-24">
+    <section className="bg-white py-12">
         <div className="container mx-auto px-4 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
