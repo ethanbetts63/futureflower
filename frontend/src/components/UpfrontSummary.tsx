@@ -186,12 +186,6 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
                           <span className="text-sm font-medium">{formatDate(event.delivery_date)}</span>
                         </div>
                         <div className="flex items-center gap-3">
-                          {messages[idx] && (
-                            <div className="flex items-center gap-2 text-[var(--colorgreen)]">
-                              <MessageSquare className="h-3.5 w-3.5" />
-                              <span className="text-xs font-semibold uppercase tracking-tighter">Message Saved</span>
-                            </div>
-                          )}
                           {showEditControl && (
                             <EditControl
                               editUrl={`/dashboard/upfront-plans/${planId}/edit-structure`}
@@ -208,11 +202,11 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
           </SummarySection>
         )}
 
-        {(isSingleDelivery && isOrdering && mainMessage) && (
-          /* Single Delivery Highlights the Message as a Top-Level section in ordering */
+        {mainMessage && (
           <SummarySection
             label="Card Message"
-            editUrl={`${editBasePath}/structure`}
+            editUrl={isOrdering ? `${editBasePath}/structure` : `${editBasePath}/edit-structure`}
+            locked={isSectionEditLocked}
           >
             <div className="flex items-start bg-[var(--colorgreen)]/10 rounded-2xl border border-[var(--colorgreen)]/20 p-4">
               <MessageSquare className="h-5 w-5 text-[var(--colorgreen)] mt-1 flex-shrink-0 mr-4" />
