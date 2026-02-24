@@ -158,13 +158,6 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
             label="Plan Schedule"
           >
             <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-3">
-                <Clock className="h-5 w-5 text-black/20 flex-shrink-0" />
-                <span className="font-bold font-['Playfair_Display',_serif] text-lg capitalize">
-                  {plan.frequency} Plan — {plan.years} {plan.years === 1 ? 'Year' : 'Years'}
-                </span>
-              </div>
-
               <div className="bg-black/5 rounded-2xl p-6">
                 <h5 className="text-xs font-bold tracking-widest uppercase text-black mb-4">
                   {isOrdering ? 'Planned Deliveries' : 'Upcoming Deliveries'}

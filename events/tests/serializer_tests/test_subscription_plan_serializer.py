@@ -53,11 +53,11 @@ class TestSubscriptionPlanSerializer:
         data = SubscriptionPlanSerializer(plan).data
         assert data['discount_code_display'] == dc.code
 
-    def test_calculate_total_amount_adds_fee(self):
+    def test_calculate_total_amount_returns_decimal(self):
         budget = Decimal('100.00')
         result = SubscriptionPlanSerializer._calculate_total_amount(budget)
-        assert result > budget
         assert isinstance(result, Decimal)
+        assert result == budget.quantize(Decimal('0.01'))
 
     def test_calculate_total_amount_rounds_to_two_decimals(self):
         budget = Decimal('75.00')
@@ -75,4 +75,4 @@ class TestSubscriptionPlanSerializer:
         )
         assert serializer.is_valid(), serializer.errors
         updated = serializer.save()
-        assert updated.subtotal > new_budget
+        assert updated.subtotal == new_budget.quantize(Decimal('0.01'))

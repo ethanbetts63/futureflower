@@ -26,8 +26,8 @@ def _valid_data(**overrides):
 class TestPartnerRegistrationSerializer:
 
     def test_valid_non_delivery_data_is_valid(self):
-        with patch('partners.serializers.partner_registration_serializer.stripe') as mock_stripe:
-            mock_stripe.Account.create.return_value = MagicMock(id='acct_test')
+        with patch('stripe.Account.create') as mock_stripe:
+            mock_stripe.return_value = MagicMock(id='acct_test')
             serializer = PartnerRegistrationSerializer(data=_valid_data())
             assert serializer.is_valid(), serializer.errors
 
@@ -54,15 +54,15 @@ class TestPartnerRegistrationSerializer:
 
     def test_delivery_partner_with_lat_lng_is_valid(self):
         data = _valid_data(partner_type='delivery', latitude=40.7128, longitude=-74.0060)
-        with patch('partners.serializers.partner_registration_serializer.stripe') as mock_stripe:
-            mock_stripe.Account.create.return_value = MagicMock(id='acct_test')
+        with patch('stripe.Account.create') as mock_stripe:
+            mock_stripe.return_value = MagicMock(id='acct_test')
             serializer = PartnerRegistrationSerializer(data=data)
             assert serializer.is_valid(), serializer.errors
 
     def test_create_creates_user_and_partner(self):
         data = _valid_data()
-        with patch('partners.serializers.partner_registration_serializer.stripe') as mock_stripe:
-            mock_stripe.Account.create.return_value = MagicMock(id='acct_test')
+        with patch('stripe.Account.create') as mock_stripe:
+            mock_stripe.return_value = MagicMock(id='acct_test')
             serializer = PartnerRegistrationSerializer(data=data)
             assert serializer.is_valid()
             user = serializer.save()
@@ -72,8 +72,8 @@ class TestPartnerRegistrationSerializer:
 
     def test_create_generates_discount_code(self):
         data = _valid_data(business_name='Code Test Shop')
-        with patch('partners.serializers.partner_registration_serializer.stripe') as mock_stripe:
-            mock_stripe.Account.create.return_value = MagicMock(id='acct_test')
+        with patch('stripe.Account.create') as mock_stripe:
+            mock_stripe.return_value = MagicMock(id='acct_test')
             serializer = PartnerRegistrationSerializer(data=data)
             assert serializer.is_valid()
             user = serializer.save()
@@ -83,8 +83,8 @@ class TestPartnerRegistrationSerializer:
 
     def test_create_normalizes_email_to_lowercase(self):
         data = _valid_data(email='TestEmail@Example.COM')
-        with patch('partners.serializers.partner_registration_serializer.stripe') as mock_stripe:
-            mock_stripe.Account.create.return_value = MagicMock(id='acct_test')
+        with patch('stripe.Account.create') as mock_stripe:
+            mock_stripe.return_value = MagicMock(id='acct_test')
             serializer = PartnerRegistrationSerializer(data=data)
             assert serializer.is_valid()
             user = serializer.save()
@@ -93,8 +93,8 @@ class TestPartnerRegistrationSerializer:
 
     def test_create_stripe_failure_does_not_raise(self):
         data = _valid_data()
-        with patch('partners.serializers.partner_registration_serializer.stripe') as mock_stripe:
-            mock_stripe.Account.create.side_effect = Exception('Stripe error')
+        with patch('stripe.Account.create') as mock_stripe:
+            mock_stripe.side_effect = Exception('Stripe error')
             serializer = PartnerRegistrationSerializer(data=data)
             assert serializer.is_valid()
             user = serializer.save()  # Should not raise

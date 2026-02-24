@@ -9,8 +9,8 @@ const EditRecipientPage: React.FC = () => {
             mode="edit"
             title="Edit Recipient Details"
             saveButtonText="Save Changes"
-            onSaveNavigateTo="/dashboard/plans/{planId}/overview"
-            onCancelNavigateTo="/dashboard/plans/{planId}/overview"
+            onSaveNavigateTo="/dashboard/upfront-plans/{planId}/overview"
+            onCancelNavigateTo="/dashboard/upfront-plans/{planId}/overview"
             getPlan={getUpfrontPlan}
             updatePlan={updateUpfrontPlan}
         />

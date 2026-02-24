@@ -11,8 +11,8 @@ const EditPreferencesPage: React.FC = () => {
         <PreferencesEditor
             mode="edit"
             saveButtonText="Save Changes"
-            onSaveNavigateTo={`/dashboard/plans/${planId}/overview`}
-            backPath={`/dashboard/plans/${planId}/overview`}
+            onSaveNavigateTo={`/dashboard/upfront-plans/${planId}/overview`}
+            backPath={`/dashboard/upfront-plans/${planId}/overview`}
             getPlan={getUpfrontPlan}
             updatePlan={updateUpfrontPlan}
         />

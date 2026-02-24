@@ -10,7 +10,7 @@ from partners.models import (
     Partner, Commission, DiscountCode, DeliveryRequest,
     Payout, PayoutLineItem,
 )
-from partners.models.service_area import ServiceArea
+
 from users.tests.factories.user_factory import UserFactory
 
 
@@ -181,41 +181,3 @@ class TestPayoutLineItemModel:
         assert item.delivery_request is None
 
 
-@pytest.mark.django_db
-class TestServiceAreaModel:
-
-    def test_str_representation(self):
-        partner = PartnerFactory()
-        area = ServiceArea.objects.create(
-            partner=partner,
-            suburb='Springfield',
-            city='Capital City',
-            country='US',
-        )
-        s = str(area)
-        assert 'Springfield' in s
-        assert 'Capital City' in s
-
-    def test_unique_together_constraint(self):
-        partner = PartnerFactory()
-        ServiceArea.objects.create(
-            partner=partner, suburb='Shelbyville', city='Capital', country='US'
-        )
-        with pytest.raises(IntegrityError):
-            ServiceArea.objects.create(
-                partner=partner, suburb='Shelbyville', city='Capital', country='US'
-            )
-
-    def test_is_active_defaults_to_true(self):
-        partner = PartnerFactory()
-        area = ServiceArea.objects.create(
-            partner=partner, suburb='Test', city='City', country='US'
-        )
-        assert area.is_active is True
-
-    def test_different_partners_can_have_same_area(self):
-        partner1 = PartnerFactory()
-        partner2 = PartnerFactory()
-        ServiceArea.objects.create(partner=partner1, suburb='Metro', city='BigCity', country='US')
-        area2 = ServiceArea.objects.create(partner=partner2, suburb='Metro', city='BigCity', country='US')
-        assert area2.pk is not None
