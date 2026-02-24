@@ -25,6 +25,7 @@ const getMinDateString = (isEdit: boolean) => {
 
 const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps> = ({
     mode,
+    isPaid = false,
     title = "Delivery Details",
     saveButtonText,
     onSaveNavigateTo,
@@ -84,13 +85,18 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
 
         setIsSaving(true);
         try {
-            const payload: PartialUpfrontPlan = {
-                budget: formData.budget,
-                start_date: formData.start_date,
-                frequency: 'annually',
-                years: 1,
-                draft_card_messages: { '0': formData.card_message },
-            };
+            const payload: PartialUpfrontPlan = isPaid
+                ? {
+                    start_date: formData.start_date,
+                    draft_card_messages: { '0': formData.card_message },
+                }
+                : {
+                    budget: formData.budget,
+                    start_date: formData.start_date,
+                    frequency: 'annually',
+                    years: 1,
+                    draft_card_messages: { '0': formData.card_message },
+                };
             await updateUpfrontPlanAsSingleDelivery(planId, payload);
             
             if (mode === 'edit') {
@@ -122,6 +128,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                             onFormChange={handleFormChange}
                             setIsDebouncePending={() => {}}
                             isEdit={isEditMode}
+                            isPaid={isPaid}
                         />
                     </CardContent>
                     <CardFooter className="flex flex-row justify-between items-center gap-4 py-2 px-4 md:px-8 border-t border-black/5">

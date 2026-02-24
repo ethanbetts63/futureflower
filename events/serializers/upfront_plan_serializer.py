@@ -86,18 +86,18 @@ class UpfrontPlanSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
-        # Prevent direct updates to total_amount/currency if the plan is active
+        # Prevent updates to payment-critical fields if the plan is active
         if instance.status == 'active':
-            if 'total_amount' in validated_data:
-                raise serializers.ValidationError(
-                    "Cannot directly update 'total_amount' for an active plan. "
-                    "This field is managed via payment webhooks."
-                )
-            if 'currency' in validated_data:
-                raise serializers.ValidationError(
-                    "Cannot directly update 'currency' for an active plan. "
-                    "This field is managed via payment webhooks."
-                )
+            locked_fields = {
+                'budget': "Cannot update 'budget' for an active plan. The amount has already been charged.",
+                'frequency': "Cannot update 'frequency' for an active plan. The amount has already been charged.",
+                'years': "Cannot update 'years' for an active plan. The amount has already been charged.",
+                'total_amount': "Cannot directly update 'total_amount' for an active plan. This field is managed via payment webhooks.",
+                'currency': "Cannot directly update 'currency' for an active plan. This field is managed via payment webhooks.",
+            }
+            for field, message in locked_fields.items():
+                if field in validated_data:
+                    raise serializers.ValidationError(message)
 
         # Recalculate total_amount if any structural fields change
         budget = validated_data.get('budget')

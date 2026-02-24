@@ -6,4 +6,5 @@ export interface SingleDeliveryStructureFormProps {
     onFormChange: (field: keyof SingleDeliveryStructureData, value: string | number) => void;
     setIsDebouncePending?: (isDebouncing: boolean) => void;
     isEdit?: boolean;
+    isPaid?: boolean;
 }

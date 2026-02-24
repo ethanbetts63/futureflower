@@ -18,7 +18,8 @@ const SingleDeliveryStructureForm: React.FC<SingleDeliveryStructureFormProps> = 
     formData,
     onFormChange,
     setIsDebouncePending,
-    isEdit = false
+    isEdit = false,
+    isPaid = false,
 }) => {
     const handleBudgetChange = (budget: number) => {
         if (setIsDebouncePending) setIsDebouncePending(true);
@@ -29,7 +30,7 @@ const SingleDeliveryStructureForm: React.FC<SingleDeliveryStructureFormProps> = 
 
     return (
         <div className="space-y-6">
-            <ImpactTierSelector value={formData.budget} onChange={handleBudgetChange} />
+            {!isPaid && <ImpactTierSelector value={formData.budget} onChange={handleBudgetChange} />}
 
             <div className="grid gap-2">
                 <Label htmlFor="start-date">Delivery Date</Label>

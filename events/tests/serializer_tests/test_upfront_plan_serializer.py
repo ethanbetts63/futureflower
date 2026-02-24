@@ -39,12 +39,27 @@ class TestUpfrontPlanSerializer:
     def test_update_active_plan_restrictions(self):
         plan = UpfrontPlanFactory(status='active')
         serializer = UpfrontPlanSerializer(instance=plan, data={'total_amount': 1000}, partial=True)
-        
+
         assert serializer.is_valid()
-        
+
         with pytest.raises(ValidationError) as excinfo:
             serializer.save()
         assert "Cannot directly update 'total_amount' for an active plan" in str(excinfo.value)
+
+    @pytest.mark.parametrize("field,value", [
+        ("budget", "50.00"),
+        ("frequency", "monthly"),
+        ("years", 2),
+    ])
+    def test_update_active_plan_pricing_fields_locked(self, field, value):
+        plan = UpfrontPlanFactory(status='active')
+        serializer = UpfrontPlanSerializer(instance=plan, data={field: value}, partial=True)
+
+        assert serializer.is_valid()
+
+        with pytest.raises(ValidationError) as excinfo:
+            serializer.save()
+        assert f"Cannot update '{field}' for an active plan" in str(excinfo.value)
 
     def test_update_inactive_plan_allowed(self):
         plan = UpfrontPlanFactory(status='pending_payment')

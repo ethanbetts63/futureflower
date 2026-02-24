@@ -2,6 +2,7 @@
 
 export interface SingleDeliveryStructureEditorProps {
     mode: 'create' | 'edit';
+    isPaid?: boolean;
     title?: string;
     description?: string;
     saveButtonText: string;

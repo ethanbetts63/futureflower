@@ -4,7 +4,6 @@ import { getUpfrontPlans, getUserProfile } from '@/api';
 import { type UserProfile } from '@/types/UserProfile';
 import { type UpfrontPlan } from '@/types/UpfrontPlan';
 import { type DeliveryEvent } from '@/types/DeliveryEvent';
-
 import NextDeliveryCard from '@/components/NextDeliveryCard';
 import type { NextDeliveryInfo } from '../../types/NextDeliveryInfo';
 import UnifiedPlanTable from '@/components/UnifiedPlanTable';
