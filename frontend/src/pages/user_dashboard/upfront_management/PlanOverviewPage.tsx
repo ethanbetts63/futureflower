@@ -15,7 +15,7 @@ const PlanOverviewPage = () => {
       <Seo title="Plan Overview | FutureFlower" />
       <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-0 md:px-4 max-w-4xl">
-          <PlanDisplay getPlan={getUpfrontPlan} fallbackNavigationPath="/dashboard/plans">
+          <PlanDisplay getPlan={getUpfrontPlan} fallbackNavigationPath="/dashboard">
             {({ plan, flowerTypeMap }: { plan: UpfrontPlan; flowerTypeMap: Map<number, FlowerType> }) => {
               return (
                 <UpfrontSummary

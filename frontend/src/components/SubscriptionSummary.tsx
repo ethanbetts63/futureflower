@@ -71,7 +71,7 @@ const SubscriptionSummary: React.FC<SubscriptionSummaryProps> = ({
             </div>
           ) : (
             <div className="flex justify-start items-center w-full">
-              <FlowBackButton to="/dashboard/plans" />
+              <FlowBackButton to="/dashboard" />
             </div>
           )
         }

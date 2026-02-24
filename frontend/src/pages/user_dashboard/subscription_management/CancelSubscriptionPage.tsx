@@ -43,7 +43,7 @@ const CancelSubscriptionPageInner: React.FC<{ plan: SubscriptionPlan; planId: st
       await cancelSubscription(planId, cancelType);
       setDialogOpen(false);
       toast.success('Your subscription has been cancelled.');
-      navigate('/dashboard/plans');
+      navigate('/dashboard');
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -177,7 +177,7 @@ const CancelSubscriptionPage: React.FC = () => {
       <Seo title="Cancel Subscription | FutureFlower" />
       <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-0 md:px-4 max-w-4xl">
-          <PlanDisplay getPlan={getSubscriptionPlan} fallbackNavigationPath="/dashboard/plans">
+          <PlanDisplay getPlan={getSubscriptionPlan} fallbackNavigationPath="/dashboard">
             {({ plan }: { plan: Plan; flowerTypeMap: Map<number, FlowerType> }) => {
               if (!isSubscriptionPlan(plan)) return null;
               return (

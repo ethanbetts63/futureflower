@@ -16,7 +16,7 @@ const RefundRequestPage: React.FC = () => {
             description="We handle refund requests manually to make sure every case is treated fairly."
             footer={
               <div className="flex justify-start items-center w-full">
-                <FlowBackButton to="/dashboard/plans" />
+                <FlowBackButton to="/dashboard" />
               </div>
             }
           >

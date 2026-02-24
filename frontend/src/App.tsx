@@ -12,10 +12,10 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const UserDashboardLayout = lazy(() => import('./pages/user_dashboard/UserDashboardLayout'));
 const UserDashboardPage = lazy(() => import('./pages/user_dashboard/UserDashboardPage'));
 const AccountManagementPage = lazy(() => import('./pages/user_dashboard/AccountManagementPage'));
-const UpfrontPlanListPage = lazy(() => import('./pages/user_dashboard/PlanListPage'));
 const PlanOverviewPage = lazy(() => import('./pages/user_dashboard/upfront_management/PlanOverviewPage'));
 const EditRecipientPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditRecipientPage'));
 const EditPreferencesPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditPreferencesPage'));
+const EditStructurePage = lazy(() => import('./pages/user_dashboard/upfront_management/EditStructurePage'));
 const SubscriptionPlanOverviewPage = lazy(() => import('./pages/user_dashboard/subscription_management/SubscriptionPlanOverviewPage'));
 const SubscriptionEditRecipientPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditRecipientPage'));
 const SubscriptionEditPreferencesPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditPreferencesPage'));
@@ -162,10 +162,10 @@ function App() {
                 <Route path="/dashboard" element={<ProtectedRoute><UserDashboardLayout /></ProtectedRoute>}>
                   <Route index element={<UserDashboardPage />} />
                   <Route path="account" element={<AccountManagementPage />} />
-                  <Route path="plans" element={<UpfrontPlanListPage />} />
                   <Route path="upfront-plans/:planId/overview" element={<PlanOverviewPage />} />
                   <Route path="upfront-plans/:planId/edit-recipient" element={<EditRecipientPage />} />
                   <Route path="upfront-plans/:planId/edit-preferences" element={<EditPreferencesPage />} />
+                  <Route path="upfront-plans/:planId/edit-structure" element={<EditStructurePage />} />
                   <Route path="subscription-plans/:planId/overview" element={<SubscriptionPlanOverviewPage />} />
                   <Route path="subscription-plans/:planId/edit-recipient" element={<SubscriptionEditRecipientPage />} />
                   <Route path="subscription-plans/:planId/edit-preferences" element={<SubscriptionEditPreferencesPage />} />

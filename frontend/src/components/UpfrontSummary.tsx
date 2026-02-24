@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Calendar, MessageSquare, Tag, Clock, StickyNote } from 'lucide-react';
+import { Calendar, MessageSquare, Tag, StickyNote, Lock } from 'lucide-react';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import PlanActivationBanner from '@/components/PlanActivationBanner';
@@ -51,7 +51,7 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
       await cancelUpfrontPlan(planId);
       setCancelDialogOpen(false);
       toast.success('Your plan has been cancelled. To request a refund for remaining deliveries, email ethanbetts63@gmail.com.');
-      navigate('/dashboard/plans');
+      navigate('/dashboard');
     } catch {
       setCancelError('Something went wrong. Please try again.');
     } finally {
@@ -115,7 +115,7 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
             </div>
           ) : (
             <div className="flex justify-start items-center w-full">
-              <FlowBackButton to="/dashboard/plans" />
+              <FlowBackButton to="/dashboard" />
             </div>
           )
         }
@@ -163,20 +163,48 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
                   {isOrdering ? 'Planned Deliveries' : 'Upcoming Deliveries'}
                 </h5>
                 <div className="space-y-4">
-                  {events.map((event, idx) => (
-                    <div key={idx} className="flex items-center justify-between border-b border-black/5 last:border-0 pb-3 last:pb-0">
-                      <div className="flex items-center gap-3">
-                        <Calendar className="h-4 w-4 text-black/30" />
-                        <span className="text-sm font-medium">{formatDate(event.delivery_date)}</span>
-                      </div>
-                      {messages[idx] && (
-                        <div className="flex items-center gap-2 text-[var(--colorgreen)]">
-                          <MessageSquare className="h-3.5 w-3.5" />
-                          <span className="text-xs font-semibold uppercase tracking-tighter">Message Saved</span>
+                  {events.map((event, idx) => {
+                    const daysUntilDelivery = event.delivery_date
+                      ? Math.floor((new Date(event.delivery_date).getTime() - Date.now()) / 86400000)
+                      : 0;
+                    const canEdit = !isOrdering && daysUntilDelivery > 14;
+                    const isLocked = !isOrdering && daysUntilDelivery > 0 && daysUntilDelivery <= 14;
+                    return (
+                      <div key={idx} className="flex items-center justify-between border-b border-black/5 last:border-0 pb-3 last:pb-0">
+                        <div className="flex items-center gap-3">
+                          <Calendar className="h-4 w-4 text-black/30" />
+                          <span className="text-sm font-medium">{formatDate(event.delivery_date)}</span>
                         </div>
-                      )}
-                    </div>
-                  ))}
+                        <div className="flex items-center gap-3">
+                          {messages[idx] && (
+                            <div className="flex items-center gap-2 text-[var(--colorgreen)]">
+                              <MessageSquare className="h-3.5 w-3.5" />
+                              <span className="text-xs font-semibold uppercase tracking-tighter">Message Saved</span>
+                            </div>
+                          )}
+                          {canEdit && (
+                            <Link
+                              to={`/dashboard/upfront-plans/${planId}/edit-structure`}
+                              className="text-xs font-semibold underline text-black/50 hover:text-black transition-colors"
+                            >
+                              Edit
+                            </Link>
+                          )}
+                          {isLocked && (
+                            <div className="flex items-center gap-1.5 text-black/30">
+                              <Lock className="h-3 w-3" />
+                              <span className="text-xs">
+                                Editing closed —{' '}
+                                <Link to="/contact" className="underline hover:text-black/50 transition-colors">
+                                  contact us
+                                </Link>
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

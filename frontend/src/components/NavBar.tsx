@@ -87,7 +87,7 @@ const NavBar: React.FC = () => {
               <Link to="/dashboard/account" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                 Account Management
               </Link>
-              <Link to="/dashboard/plans" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+              <Link to="/dashboard" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                 Flower Plan Management
               </Link>
               <Link to="/dashboard/refunds" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
