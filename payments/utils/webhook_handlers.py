@@ -153,13 +153,15 @@ def handle_payment_intent_succeeded(payment_intent):
                     # Use the payment method from the successful PaymentIntent
                     payment_method_id = payment_intent.get('payment_method')
 
+                    product = stripe.Product.create(name="FutureFlower Subscription")
+
                     subscription = stripe.Subscription.create(
                         customer=plan_to_activate.user.stripe_customer_id,
                         items=[{
                             "price_data": {
                                 "currency": plan_to_activate.currency.lower(),
                                 "unit_amount": int(plan_to_activate.total_amount * 100),
-                                "product": settings.STRIPE_SUBSCRIPTION_PRODUCT_ID,
+                                "product": product.id,
                                 "recurring": get_recurring_options(plan_to_activate.frequency),
                             }
                         }],

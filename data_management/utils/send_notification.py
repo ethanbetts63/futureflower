@@ -64,6 +64,13 @@ def send_notification(notification):
             response.raise_for_status()
 
         elif notification.channel == 'sms':
+            if settings.DEBUG:
+                logger.info("DEBUG mode: skipping SMS for notification %s", notification.pk)
+                notification.status = 'sent'
+                notification.sent_at = django_timezone.now()
+                notification.error_message = None
+                notification.save()
+                return
             if not phone:
                 raise ValueError(f"No phone number for notification {notification.pk}")
             from twilio.rest import Client

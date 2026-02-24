@@ -39,13 +39,14 @@ def send_admin_cancellation_notification(message: str):
         )
         response.raise_for_status()
 
-        sms_body = sms_messages.admin_cancellation(message)
-        client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-        client.messages.create(
-            body=sms_body,
-            messaging_service_sid=settings.TWILIO_MESSAGING_SERVICE_SID,
-            to=admin_number,
-        )
+        if not settings.DEBUG:
+            sms_body = sms_messages.admin_cancellation(message)
+            client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+            client.messages.create(
+                body=sms_body,
+                messaging_service_sid=settings.TWILIO_MESSAGING_SERVICE_SID,
+                to=admin_number,
+            )
 
     except Exception as e:
         logger.error(
@@ -93,12 +94,13 @@ def send_admin_payment_notification(payment_id: str, order=None):
         )
         response.raise_for_status()
 
-        client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-        client.messages.create(
-            body=text_body,
-            messaging_service_sid=settings.TWILIO_MESSAGING_SERVICE_SID,
-            to=admin_number,
-        )
+        if not settings.DEBUG:
+            client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+            client.messages.create(
+                body=text_body,
+                messaging_service_sid=settings.TWILIO_MESSAGING_SERVICE_SID,
+                to=admin_number,
+            )
 
     except Exception as e:
         logger.error(

@@ -25,7 +25,6 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY", "")
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
-STRIPE_SUBSCRIPTION_PRODUCT_ID = os.environ.get("STRIPE_SUBSCRIPTION_PRODUCT_ID", "")
 
 # Custom Application Settings
 SITE_URL = os.environ.get("SITE_URL")
