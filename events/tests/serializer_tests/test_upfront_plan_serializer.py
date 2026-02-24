@@ -61,6 +61,16 @@ class TestUpfrontPlanSerializer:
             serializer.save()
         assert f"Cannot update '{field}' for an active plan" in str(excinfo.value)
 
+    def test_validate_budget_below_minimum_raises(self):
+        serializer = UpfrontPlanSerializer()
+        with pytest.raises(ValidationError):
+            serializer.validate_budget(settings.MIN_BUDGET - 1)
+
+    def test_validate_budget_at_minimum_passes(self):
+        serializer = UpfrontPlanSerializer()
+        result = serializer.validate_budget(settings.MIN_BUDGET)
+        assert result == settings.MIN_BUDGET
+
     def test_update_inactive_plan_allowed(self):
         plan = UpfrontPlanFactory(status='pending_payment')
         serializer = UpfrontPlanSerializer(instance=plan, data={'subtotal': 1000}, partial=True)

@@ -37,6 +37,13 @@ class UpfrontPlanSerializer(serializers.ModelSerializer):
     def get_discount_code_display(self, obj):
         return obj.discount_code.code if obj.discount_code else None
 
+    def validate_budget(self, value):
+        if value is not None and value < settings.MIN_BUDGET:
+            raise serializers.ValidationError(
+                f"Budget must be at least ${settings.MIN_BUDGET}."
+            )
+        return value
+
     def validate_start_date(self, value):
         """
         Check that the start date is not in the past and is at least

@@ -14,11 +14,11 @@ COMMISSION_RATE = 0.05          # 5% of bouquet budget
 TIERED_REWARD_LOW = 5.00         # Under $100
 TIERED_REWARD_MID = 10.00        # $100 - $150
 TIERED_REWARD_HIGH = 15.00       # Over $150
-DISCOUNT_AMOUNT = 10.00          # $5 off first bouquet (non-delivery partners)
+DISCOUNT_AMOUNT = 5.00          # $5 off first bouquet (non-delivery partners)
 INTEREST_RATE = 0.045           # 4.5% annual on float
 
-BOUQUET_BUDGETS = [75, 100, 150, 200, 300, 500]
-DEFAULT_BUDGET = 100
+BOUQUET_BUDGETS = [50, 75, 100, 150, 200, 300, 500]
+DEFAULT_BUDGET = 50
 
 # Hold times to show in sensitivity analysis (in months)
 HOLD_TIMES_MONTHS = [0.5, 1, 2, 3, 6, 9, 12, 18, 24, 36]

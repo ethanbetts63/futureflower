@@ -65,6 +65,16 @@ class TestSubscriptionPlanSerializer:
         # Ensure it's properly quantized
         assert result == result.quantize(Decimal('0.01'))
 
+    def test_validate_budget_below_minimum_raises(self):
+        serializer = SubscriptionPlanSerializer()
+        with pytest.raises(ValidationError):
+            serializer.validate_budget(settings.MIN_BUDGET - 1)
+
+    def test_validate_budget_at_minimum_passes(self):
+        serializer = SubscriptionPlanSerializer()
+        result = serializer.validate_budget(settings.MIN_BUDGET)
+        assert result == settings.MIN_BUDGET
+
     def test_update_recalculates_subtotal_when_budget_changes(self):
         plan = SubscriptionPlanFactory(status='pending_payment')
         new_budget = Decimal('80.00')

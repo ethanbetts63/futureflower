@@ -34,6 +34,7 @@ ADMIN_NUMBER = os.environ.get("ADMIN_NUMBER")
 MIN_DAYS_BEFORE_CREATE = 3
 MIN_DAYS_BEFORE_EDIT = 7
 SUBSCRIPTION_CHARGE_LEAD_DAYS = 7
+MIN_BUDGET = 50
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'
