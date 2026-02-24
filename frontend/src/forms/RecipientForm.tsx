@@ -46,7 +46,7 @@ const RecipientForm: React.FC<RecipientFormProps> = ({
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="recipient_state">State / Province<span className="text-red-500">*</span></Label>
+            <Label htmlFor="recipient_state">State / Province</Label>
             <Input id="recipient_state" value={formData.recipient_state} onChange={handleChange('recipient_state')} placeholder="CA" />
           </div>
           <div className="grid gap-2">

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Calendar, MessageSquare, Tag, StickyNote, Lock } from 'lucide-react';
+import { Calendar, MessageSquare, Tag, StickyNote } from 'lucide-react';
+import EditControl from '@/components/EditControl';
+import { MIN_DAYS_BEFORE_EDIT, MS_PER_DAY } from '@/utils/systemConstants';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import PlanActivationBanner from '@/components/PlanActivationBanner';
@@ -74,6 +76,13 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
   const messages = plan.draft_card_messages || {};
   const events = plan.events || [];
 
+  // Lock all edits if the nearest upcoming delivery is within the edit lead time
+  const nearestUpcomingDays = events
+    .map(e => Math.floor((new Date(e.delivery_date).getTime() - Date.now()) / MS_PER_DAY))
+    .filter(d => d > 0)
+    .sort((a, b) => a - b)[0];
+  const isSectionEditLocked = !isOrdering && nearestUpcomingDays !== undefined && nearestUpcomingDays <= MIN_DAYS_BEFORE_EDIT;
+
   // For Single Delivery or context where we want to highlight the main message
   const firstDraftMessage = messages['0'] || '';
   const firstEventMessage = events[0]?.message || '';
@@ -129,6 +138,7 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
         <RecipientSummary
           plan={plan}
           editUrl={`${editBasePath}/edit-recipient`}
+          locked={isSectionEditLocked}
         />
 
         {isSingleDelivery && isOrdering ? (
@@ -165,10 +175,10 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
                 <div className="space-y-4">
                   {events.map((event, idx) => {
                     const daysUntilDelivery = event.delivery_date
-                      ? Math.floor((new Date(event.delivery_date).getTime() - Date.now()) / 86400000)
+                      ? Math.floor((new Date(event.delivery_date).getTime() - Date.now()) / MS_PER_DAY)
                       : 0;
-                    const canEdit = !isOrdering && daysUntilDelivery > 14;
-                    const isLocked = !isOrdering && daysUntilDelivery > 0 && daysUntilDelivery <= 14;
+                    const showEditControl = !isOrdering && daysUntilDelivery > 0;
+                    const isRowLocked = daysUntilDelivery <= MIN_DAYS_BEFORE_EDIT;
                     return (
                       <div key={idx} className="flex items-center justify-between border-b border-black/5 last:border-0 pb-3 last:pb-0">
                         <div className="flex items-center gap-3">
@@ -182,24 +192,11 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
                               <span className="text-xs font-semibold uppercase tracking-tighter">Message Saved</span>
                             </div>
                           )}
-                          {canEdit && (
-                            <Link
-                              to={`/dashboard/upfront-plans/${planId}/edit-structure`}
-                              className="text-xs font-semibold underline text-black/50 hover:text-black transition-colors"
-                            >
-                              Edit
-                            </Link>
-                          )}
-                          {isLocked && (
-                            <div className="flex items-center gap-1.5 text-black/30">
-                              <Lock className="h-3 w-3" />
-                              <span className="text-xs">
-                                Editing closed —{' '}
-                                <Link to="/contact" className="underline hover:text-black/50 transition-colors">
-                                  contact us
-                                </Link>
-                              </span>
-                            </div>
+                          {showEditControl && (
+                            <EditControl
+                              editUrl={`/dashboard/upfront-plans/${planId}/edit-structure`}
+                              locked={isRowLocked}
+                            />
                           )}
                         </div>
                       </div>
@@ -230,6 +227,7 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
           preferredTypes={preferredTypes}
           flowerNotes={plan.flower_notes}
           editUrl={`${editBasePath}/edit-preferences`}
+          locked={isSectionEditLocked}
         />
 
         <ImpactSummary

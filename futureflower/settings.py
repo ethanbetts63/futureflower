@@ -12,18 +12,13 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+from datetime import timedelta
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # Stripe API Keys
@@ -33,7 +28,6 @@ STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
 STRIPE_SUBSCRIPTION_PRODUCT_ID = os.environ.get("STRIPE_SUBSCRIPTION_PRODUCT_ID", "")
 
 # Custom Application Settings
-EVENT_PRICE = 10.00
 SITE_URL = os.environ.get("SITE_URL")
 HASHING_SALT = os.environ.get("HASHING_SALT")
 ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
@@ -102,10 +96,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "futureflower.wsgi.application"
 
-
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -117,18 +107,12 @@ DATABASES = {
     }
 }
 
-# Caching
-# https://docs.djangoproject.com/en/5.2/topics/cache/
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(BASE_DIR, 'django_cache'),
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -145,10 +129,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -157,18 +137,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
 STATIC_URL = "static/"
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend', 'dist'),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -178,11 +153,9 @@ AUTH_USER_MODEL = "users.User"
 AUTH_COOKIE = 'access_token'
 AUTH_COOKIE_REFRESH = 'refresh_token'
 
-# Django Rest Framework Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'users.authentication.CookieJWTAuthentication',
-        # SessionAuth is still useful for browsing the Django admin
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
@@ -198,7 +171,6 @@ REST_FRAMEWORK = {
     }
 }
 
-from datetime import timedelta
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=90),

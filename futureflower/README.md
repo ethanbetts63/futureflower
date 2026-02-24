@@ -18,7 +18,6 @@ Central configuration for the Django project.
 - **External services:** Stripe, Mailgun, Twilio (all configured via env vars)
 
 **Business rule settings:**
-- `EVENT_PRICE = 10.00` - Base service fee
 - `MIN_DAYS_BEFORE_CREATE = 3` - Lead time for new orders
 - `MIN_DAYS_BEFORE_EDIT = 7` - Lead time for modifying active orders
 - `SUBSCRIPTION_CHARGE_LEAD_DAYS = 6` - Days before delivery to charge subscription

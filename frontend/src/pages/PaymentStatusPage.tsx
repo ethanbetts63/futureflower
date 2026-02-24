@@ -1,5 +1,5 @@
 // futureflower/frontend/src/pages/PaymentStatusPage.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useStripe } from '@stripe/react-stripe-js';
 import type { PaymentIntentResult } from '@stripe/stripe-js';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -7,6 +7,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
+import { getUpfrontPlan } from '@/api/upfrontPlans';
+import { getSubscriptionPlan } from '@/api/subscriptionPlans';
+
+const POLL_INTERVAL_MS = 2000;
+const MAX_POLL_ATTEMPTS = 15; // 30 seconds max
 
 const UniversalPaymentStatusPage: React.FC = () => {
     const stripe = useStripe();
@@ -18,10 +23,52 @@ const UniversalPaymentStatusPage: React.FC = () => {
     const [paymentSucceeded, setPaymentSucceeded] = useState(false);
     const [tryAgainPath, setTryAgainPath] = useState('/dashboard');
 
+    const pollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+    // Clean up polling on unmount
     useEffect(() => {
-        if (!stripe) {
-            return;
-        }
+        return () => {
+            if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
+        };
+    }, []);
+
+    const pollUntilActive = (
+        planId: string,
+        targetPath: string,
+        itemType: string | null,
+    ) => {
+        let attempts = 0;
+
+        const getPlan = (itemType === 'SUBSCRIPTION_PLAN_NEW')
+            ? () => getSubscriptionPlan(planId)
+            : () => getUpfrontPlan(planId);
+
+        pollIntervalRef.current = setInterval(async () => {
+            attempts++;
+            try {
+                const plan = await getPlan();
+                if (plan.status === 'active') {
+                    clearInterval(pollIntervalRef.current!);
+                    navigate(targetPath);
+                    return;
+                }
+            } catch {
+                // Network error — keep trying until max attempts
+            }
+
+            if (attempts >= MAX_POLL_ATTEMPTS) {
+                clearInterval(pollIntervalRef.current!);
+                setMessage(
+                    'Your payment was received but activation is taking a little longer than expected. ' +
+                    'Redirecting you now — your plan may take a moment to show as active.'
+                );
+                setTimeout(() => navigate(targetPath), 3000);
+            }
+        }, POLL_INTERVAL_MS);
+    };
+
+    useEffect(() => {
+        if (!stripe) return;
 
         const piClientSecret = searchParams.get('payment_intent_client_secret');
         const siClientSecret = searchParams.get('setup_intent_client_secret');
@@ -29,14 +76,13 @@ const UniversalPaymentStatusPage: React.FC = () => {
 
         const planId = searchParams.get('plan_id');
         const source = searchParams.get('source');
-        const itemType = searchParams.get('itemType'); // ADDED
+        const itemType = searchParams.get('itemType');
 
         if (planId) {
-            let path = '/dashboard'; // Default
-            if (source === 'checkout') { // Source is now just 'checkout'
-                // We could add more specific logic here if needed, but for now, back to the plan.
-                const planType = itemType === 'SUBSCRIPTION_PLAN_NEW' ? 'subscription-plan' : 'upfront-plan'; // Using itemType
-                path = `/subscribe-flow/${planType}/${planId}/payment`; // A guess, might need refinement
+            let path = '/dashboard';
+            if (source === 'checkout') {
+                const planType = itemType === 'SUBSCRIPTION_PLAN_NEW' ? 'subscription-plan' : 'upfront-plan';
+                path = `/subscribe-flow/${planType}/${planId}/payment`;
             }
             setTryAgainPath(path);
         }
@@ -54,13 +100,13 @@ const UniversalPaymentStatusPage: React.FC = () => {
                 switch (setupIntent?.status) {
                     case 'succeeded':
                         setPaymentSucceeded(true);
-                        setMessage('Success! Your payment method has been saved. Your subscription is being activated.');
-                        // In a real app, you'd poll your backend here to confirm subscription is 'active'
-                        // before redirecting. For now, a simple redirect will do.
-                        setTimeout(() => {
-                            const targetPath = (planId && planId !== "N/A") ? `/dashboard/subscription-plans/${planId}/overview` : '/dashboard';
-                            navigate(targetPath);
-                        }, 3000);
+                        setMessage('Payment confirmed! Your subscription is being activated...');
+                        if (planId && planId !== "N/A") {
+                            const targetPath = `/dashboard/subscription-plans/${planId}/overview`;
+                            pollUntilActive(planId, targetPath, 'SUBSCRIPTION_PLAN_NEW');
+                        } else {
+                            setTimeout(() => navigate('/dashboard'), 3000);
+                        }
                         break;
                     case 'processing':
                         setMessage("Processing setup. We'll update you when your payment method is saved.");
@@ -75,7 +121,7 @@ const UniversalPaymentStatusPage: React.FC = () => {
                         break;
                 }
             });
-        } 
+        }
         // Handle PaymentIntent
         else if (clientSecret.startsWith('pi_')) {
             stripe.retrievePaymentIntent(clientSecret).then((result: PaymentIntentResult) => {
@@ -93,25 +139,21 @@ const UniversalPaymentStatusPage: React.FC = () => {
                     case 'succeeded':
                         setPaymentSucceeded(true);
                         const successMessage = source === 'upfront-management'
-                            ? 'Success! Your plan has been updated.'
-                            : 'Success! Your payment was received.';
-                        
-                        setMessage(`${successMessage} Redirecting to your plan overview...`);
-                        
-                        setTimeout(() => {
+                            ? 'Payment confirmed! Your plan is being updated...'
+                            : 'Payment confirmed! Your plan is being activated...';
+                        setMessage(successMessage);
+
+                        if (planId && planId !== "N/A") {
                             let targetPath = '/dashboard';
-                            if (planId && planId !== "N/A") {
-                                // Redirection logic based on itemType
-                                if (itemType && (itemType.startsWith('UPFRONT_PLAN') || itemType === 'SINGLE_DELIVERY_PLAN_NEW')) {
-                                    targetPath = `/dashboard/upfront-plans/${planId}/overview`;
-                                } else if (itemType === 'SUBSCRIPTION_PLAN_NEW') {
-                                    targetPath = `/dashboard/subscription-plans/${planId}/overview`;
-                                } else {
-                                    targetPath = '/dashboard'; // Default fallback
-                                }
+                            if (itemType && (itemType.startsWith('UPFRONT_PLAN') || itemType === 'SINGLE_DELIVERY_PLAN_NEW')) {
+                                targetPath = `/dashboard/upfront-plans/${planId}/overview`;
+                            } else if (itemType === 'SUBSCRIPTION_PLAN_NEW') {
+                                targetPath = `/dashboard/subscription-plans/${planId}/overview`;
                             }
-                            navigate(targetPath);
-                        }, 3000);
+                            pollUntilActive(planId, targetPath, itemType);
+                        } else {
+                            setTimeout(() => navigate('/dashboard'), 3000);
+                        }
                         break;
                     case 'processing':
                         setMessage("Payment processing. We'll update you when payment is received.");
@@ -149,11 +191,18 @@ const UniversalPaymentStatusPage: React.FC = () => {
                             </div>
                         ) : (
                             <>
-                                <p className="text-lg mb-6">{message}</p>
-                                {!paymentSucceeded && (
-                                    <Button asChild>
-                                        <Link to={tryAgainPath}>Try Again</Link>
-                                    </Button>
+                                {paymentSucceeded ? (
+                                    <div className="flex flex-col items-center gap-4">
+                                        <Spinner className="h-10 w-10" />
+                                        <p className="text-lg">{message}</p>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <p className="text-lg mb-6">{message}</p>
+                                        <Button asChild>
+                                            <Link to={tryAgainPath}>Try Again</Link>
+                                        </Button>
+                                    </>
                                 )}
                             </>
                         )}
@@ -164,7 +213,6 @@ const UniversalPaymentStatusPage: React.FC = () => {
     );
 };
 
-// The page needs to be wrapped in the Elements provider to use the `useStripe` hook.
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 

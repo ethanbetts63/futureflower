@@ -1,22 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Sprout } from 'lucide-react';
 import { OCCASION_IMAGES, DEFAULT_FLOWER_IMAGE } from '@/utils/flowerTypeImages';
 import type { FlowerPreferencesSummaryProps } from '@/types/FlowerPreferencesSummaryProps';
+import EditControl from '@/components/EditControl';
 
-const FlowerPreferencesSummary: React.FC<FlowerPreferencesSummaryProps> = ({ preferredTypes, flowerNotes, editUrl }) => {
+const FlowerPreferencesSummary: React.FC<FlowerPreferencesSummaryProps> = ({ preferredTypes, flowerNotes, editUrl, locked }) => {
   return (
     <div className="py-6 border-b border-black/5 last:border-0">
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs font-bold tracking-[0.2em] text-black uppercase">
           Flower Preferences
         </span>
-        <Link
-          to={editUrl}
-          className="text-xs font-semibold text-black/40 hover:text-black underline underline-offset-4 transition-colors"
-        >
-          Edit
-        </Link>
+        <EditControl editUrl={editUrl} locked={locked} />
       </div>
       {preferredTypes.length > 0 ? (
         <div className="flex items-start gap-5">

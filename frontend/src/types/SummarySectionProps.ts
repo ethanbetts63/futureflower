@@ -4,4 +4,5 @@ export interface SummarySectionProps {
   label: string;
   children: ReactNode;
   editUrl?: string;
+  locked?: boolean;
 }

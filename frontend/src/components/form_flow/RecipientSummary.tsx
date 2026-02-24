@@ -3,7 +3,7 @@ import { MapPin } from 'lucide-react';
 import SummarySection from '../SummarySection';
 import type { RecipientSummaryProps } from '@/types/RecipientSummaryProps';
 
-const RecipientSummary: React.FC<RecipientSummaryProps> = ({ plan, editUrl }) => {
+const RecipientSummary: React.FC<RecipientSummaryProps> = ({ plan, editUrl, locked }) => {
   const fullAddress = [
     plan.recipient_street_address,
     plan.recipient_suburb,
@@ -14,7 +14,7 @@ const RecipientSummary: React.FC<RecipientSummaryProps> = ({ plan, editUrl }) =>
   ].filter(Boolean).join(', ');
 
   return (
-    <SummarySection label="Recipient" editUrl={editUrl}>
+    <SummarySection label="Recipient" editUrl={editUrl} locked={locked}>
       <div className="flex items-start gap-3">
         <MapPin className="h-5 w-5 text-black/20 mt-0.5 flex-shrink-0" />
         <div>
