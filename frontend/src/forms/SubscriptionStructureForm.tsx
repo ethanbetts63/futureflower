@@ -19,7 +19,8 @@ const SubscriptionStructureForm: React.FC<SubscriptionStructureFormProps> = ({
     formData,
     onFormChange,
     setIsDebouncePending,
-    isEdit = false
+    isEdit = false,
+    isActivePlan = false,
 }) => {
     const handleBudgetChange = (budget: number) => {
         if (setIsDebouncePending) setIsDebouncePending(true);
@@ -30,41 +31,47 @@ const SubscriptionStructureForm: React.FC<SubscriptionStructureFormProps> = ({
 
     return (
         <div className="space-y-6">
-            <ImpactTierSelector value={formData.budget} onChange={handleBudgetChange} />
+            {!isActivePlan && (
+                <ImpactTierSelector value={formData.budget} onChange={handleBudgetChange} />
+            )}
 
-            <div className="grid gap-2">
-                <Label htmlFor="frequency-select">Delivery Frequency</Label>
-                <Select
-                    value={formData.frequency}
-                    onValueChange={(value: string) => onFormChange('frequency', value)}
-                >
-                    <SelectTrigger id="frequency-select">
-                        <SelectValue placeholder="Select frequency" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white">
-                        <SelectItem value="weekly">Weekly</SelectItem>
-                        <SelectItem value="fortnightly">Fortnightly (every 2 weeks)</SelectItem>
-                        <SelectItem value="monthly">Monthly</SelectItem>
-                        <SelectItem value="quarterly">Quarterly (every 3 months)</SelectItem>
-                        <SelectItem value="bi-annually">Bi-Annually (every 6 months)</SelectItem>
-                        <SelectItem value="annually">Annually</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
+            {!isActivePlan && (
+                <div className="grid gap-2">
+                    <Label htmlFor="frequency-select">Delivery Frequency</Label>
+                    <Select
+                        value={formData.frequency}
+                        onValueChange={(value: string) => onFormChange('frequency', value)}
+                    >
+                        <SelectTrigger id="frequency-select">
+                            <SelectValue placeholder="Select frequency" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white">
+                            <SelectItem value="weekly">Weekly</SelectItem>
+                            <SelectItem value="fortnightly">Fortnightly (every 2 weeks)</SelectItem>
+                            <SelectItem value="monthly">Monthly</SelectItem>
+                            <SelectItem value="quarterly">Quarterly (every 3 months)</SelectItem>
+                            <SelectItem value="bi-annually">Bi-Annually (every 6 months)</SelectItem>
+                            <SelectItem value="annually">Annually</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+            )}
 
-            <div className="grid gap-2">
-                <Label htmlFor="start-date">Next Delivery Date</Label>
-                <Input
-                    id="start-date"
-                    type="date"
-                    min={getMinDateString(isEdit)}
-                    value={formData.start_date}
-                    onChange={(e) => onFormChange('start_date', e.target.value)}
-                />
-                <p className="text-sm text-gray-500 mt-1">
-                  Must be at least {leadTime} days from today.
-                </p>
-            </div>
+            {!isActivePlan && (
+                <div className="grid gap-2">
+                    <Label htmlFor="start-date">Next Delivery Date</Label>
+                    <Input
+                        id="start-date"
+                        type="date"
+                        min={getMinDateString(isEdit)}
+                        value={formData.start_date}
+                        onChange={(e) => onFormChange('start_date', e.target.value)}
+                    />
+                    <p className="text-sm text-gray-500 mt-1">
+                      Must be at least {leadTime} days from today.
+                    </p>
+                </div>
+            )}
 
             <div className="grid gap-2">
                 <Label htmlFor="subscription-message">Message (Optional)</Label>

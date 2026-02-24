@@ -24,19 +24,20 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
         """
         Check that the start date is not in the past and is at least
         the minimum number of days away.
+        Active plans have start_date locked in update(), so skip validation there.
         """
         if value:
             instance = getattr(self, 'instance', None)
             is_active = instance and instance.status == 'active'
-            
-            min_days = settings.MIN_DAYS_BEFORE_EDIT if is_active else settings.MIN_DAYS_BEFORE_CREATE
-            earliest_date = date.today() + timedelta(days=min_days)
-            
+
+            if is_active:
+                return value
+
+            earliest_date = date.today() + timedelta(days=settings.MIN_DAYS_BEFORE_CREATE)
             if value < earliest_date:
-                action_text = "modified" if is_active else "confirmed"
                 raise serializers.ValidationError(
-                    f"The next delivery must be at least {min_days} days from now so our florist has enough time to prepare. "
-                    f"Your request cannot be {action_text} for this date."
+                    f"The next delivery must be at least {settings.MIN_DAYS_BEFORE_CREATE} days from now so our florist has enough time to prepare. "
+                    f"Your request cannot be confirmed for this date."
                 )
         return value
 
@@ -78,9 +79,19 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
         return (budget + fee).quantize(Decimal('0.01'))
 
     def update(self, instance, validated_data):
+        if instance.status == 'active':
+            locked_fields = {
+                'budget': "Cannot update 'budget' for an active subscription plan. Cancel and create a new plan to change the price.",
+                'frequency': "Cannot update 'frequency' for an active subscription plan.",
+                'start_date': "Cannot update 'start_date' for an active subscription plan.",
+            }
+            for field, message in locked_fields.items():
+                if field in validated_data:
+                    raise serializers.ValidationError({field: message})
+
         budget = validated_data.get('budget')
-        
-        # If budget or frequency is updated, recalculate the total_amount
+
+        # If budget or frequency is updated, recalculate the subtotal
         if budget is not None or 'frequency' in validated_data:
             effective_budget = budget if budget is not None else instance.budget
             if effective_budget:

@@ -41,6 +41,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
         start_date: getMinDateString(isEditMode),
         subscription_message: '',
     });
+    const [isActivePlan, setIsActivePlan] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
 
@@ -54,10 +55,13 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
         setIsLoading(true);
         getSubscriptionPlan(planId)
             .then((plan: SubscriptionPlan) => {
+                const active = plan.status === 'active';
+                setIsActivePlan(active);
+
                 let startDate = plan.start_date || getMinDateString(isEditMode);
-                
+
                 // Auto-correct if date is too soon and plan is not yet active
-                if (plan.status !== 'active') {
+                if (!active) {
                     const minDateStr = getMinDateString(isEditMode);
                     if (startDate < minDateStr) {
                         startDate = minDateStr;
@@ -87,10 +91,9 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
 
         setIsSaving(true);
         try {
-            const payload: PartialSubscriptionPlan = {
-                ...formData,
-                budget: formData.budget,
-            };
+            const payload: PartialSubscriptionPlan = isActivePlan
+                ? { subscription_message: formData.subscription_message }
+                : { ...formData, budget: formData.budget };
             await updateSubscriptionPlan(planId, payload);
             
             if (mode === 'edit') {
@@ -122,6 +125,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
                             onFormChange={handleFormChange}
                             setIsDebouncePending={() => {}}
                             isEdit={isEditMode}
+                            isActivePlan={isActivePlan}
                         />
                     </CardContent>
                     <CardFooter className="flex flex-row justify-between items-center gap-4 py-2 px-4 md:px-8 border-t border-black/5">

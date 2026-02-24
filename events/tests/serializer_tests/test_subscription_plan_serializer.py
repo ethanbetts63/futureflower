@@ -30,13 +30,13 @@ class TestSubscriptionPlanSerializer:
         result = serializer.validate_start_date(None)
         assert result is None
 
-    def test_validate_start_date_active_plan_uses_edit_threshold(self):
+    def test_validate_start_date_active_plan_skips_validation(self):
+        # Active plans lock start_date in update(), so validate_start_date returns it as-is.
         plan = SubscriptionPlanFactory(status='active')
-        min_days_edit = settings.MIN_DAYS_BEFORE_EDIT
-        too_soon = date.today() + timedelta(days=min_days_edit - 1)
+        too_soon = date.today() + timedelta(days=1)
         serializer = SubscriptionPlanSerializer(instance=plan)
-        with pytest.raises(ValidationError):
-            serializer.validate_start_date(too_soon)
+        result = serializer.validate_start_date(too_soon)
+        assert result == too_soon
 
     def test_discount_code_display_none_when_no_discount(self):
         plan = SubscriptionPlanFactory()
@@ -76,3 +76,30 @@ class TestSubscriptionPlanSerializer:
         assert serializer.is_valid(), serializer.errors
         updated = serializer.save()
         assert updated.subtotal == new_budget.quantize(Decimal('0.01'))
+
+    @pytest.mark.parametrize('field,value', [
+        ('budget', '200.00'),
+        ('frequency', 'monthly'),
+        ('start_date', (date.today() + timedelta(days=30)).isoformat()),
+    ])
+    def test_update_active_plan_locked_fields_raises(self, field, value):
+        plan = SubscriptionPlanFactory(status='active')
+        serializer = SubscriptionPlanSerializer(
+            instance=plan,
+            data={field: value},
+            partial=True,
+        )
+        assert serializer.is_valid(), serializer.errors
+        with pytest.raises(ValidationError):
+            serializer.save()
+
+    def test_update_active_plan_message_allowed(self):
+        plan = SubscriptionPlanFactory(status='active')
+        serializer = SubscriptionPlanSerializer(
+            instance=plan,
+            data={'subscription_message': 'Updated message'},
+            partial=True,
+        )
+        assert serializer.is_valid(), serializer.errors
+        updated = serializer.save()
+        assert updated.subscription_message == 'Updated message'
