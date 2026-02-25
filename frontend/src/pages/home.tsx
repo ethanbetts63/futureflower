@@ -36,7 +36,21 @@ const HomePage = () => {
     "@type": "Organization",
     "name": "FutureFlower",
     "url": "https://www.futureflower.app",
-    "logo": "https://www.futureflower.app/favicon.ico",
+    "logo": "https://www.futureflower.app/favicon-192x192.png",
+    "description": "Online flower delivery and subscription service connecting customers with local florists across Australia, the UK, the US, New Zealand, and Europe.",
+    "areaServed": [
+      { "@type": "Country", "name": "Australia" },
+      { "@type": "Country", "name": "United Kingdom" },
+      { "@type": "Country", "name": "United States" },
+      { "@type": "Country", "name": "New Zealand" },
+      { "@type": "Continent", "name": "Europe" }
+    ],
+    "sameAs": [
+      "https://www.instagram.com/futureflowerapp/"
+      // Add Facebook page URL here once created
+      // Add X (Twitter) profile URL here once created
+      // Add LinkedIn company page URL here once created
+    ],
     "founder": {
       "@type": "Person",
       "name": "Ethan Betts"
