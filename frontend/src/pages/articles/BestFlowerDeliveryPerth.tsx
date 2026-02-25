@@ -13,7 +13,7 @@ const BestFlowerDeliveryPerth = () => {
     publisherName: "FutureFlower",
     publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
-    dateModified: "2026-01-19T00:00:00Z",
+    dateModified: "2026-02-25T00:00:00Z",
   };
 
   const structuredData = {
@@ -107,6 +107,7 @@ const BestFlowerDeliveryPerth = () => {
             <li>Easy Flowers is the most affordable option for simple deliveries.</li>
           </ul>
           <p>Which service is best depends on whether you value design, speed, or price, but for most occasions, one of these three will cover your needs.</p>
+          <p>Those who plan flower deliveries for specific recurring occasions each year may also want to consider a <a href="/" className="underline hover:opacity-70">date-based flower subscription</a> as an alternative to reordering separately each time.</p>
 
           <h2 className="text-3xl font-bold tracking-tight">Thinking Beyond the Next Occasion</h2>
           <p>Most flower gifts are tied to the next date on the calendar — the next birthday, the next anniversary, the next celebration.</p>

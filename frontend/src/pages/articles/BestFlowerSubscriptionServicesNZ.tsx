@@ -13,7 +13,7 @@ const BestFlowerSubscriptionServicesNZ = () => {
     publisherName: "FutureFlower",
     publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
-    dateModified: "2026-01-19T00:00:00Z",
+    dateModified: "2026-02-25T00:00:00Z",
   };
 
   const structuredData = {
@@ -94,6 +94,7 @@ const BestFlowerSubscriptionServicesNZ = () => {
             <li>Local florists offering repeat delivery (e.g., Greenpoint Flowers or Teleflora partners), where arrangements are crafted locally and delivered by courier or florist service.</li>
           </ul>
           <p>Delivery availability and cut-off times vary by city and postcode, especially outside larger centres.</p>
+          <p>Another approach is an <a href="/" className="underline hover:opacity-70">occasion-based flower subscription</a>, where deliveries are planned around specific annual dates rather than a recurring weekly or monthly schedule.</p>
 
           <h2 className="text-3xl font-bold tracking-tight">Final Thoughts</h2>
           <p>While New Zealand’s flower subscription market isn’t huge, there are reliable ways to enjoy fresh blooms regularly:</p>

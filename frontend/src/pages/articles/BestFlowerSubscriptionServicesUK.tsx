@@ -13,7 +13,7 @@ const BestFlowerSubscriptionServicesUK = () => {
     publisherName: "FutureFlower",
     publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
-    dateModified: "2026-01-19T00:00:00Z",
+    dateModified: "2026-02-25T00:00:00Z",
   };
 
   const structuredData = {
@@ -96,6 +96,7 @@ const BestFlowerSubscriptionServicesUK = () => {
             <li>Flowers arrive on your chosen schedule.</li>
           </ul>
           <p>Bouquets often ship directly from growers or partners and are selected based on seasonal availability for the freshest stems. Many subscriptions offer flexible management — you can pause, skip, or cancel as needed.</p>
+          <p>Some people also choose a <a href="/" className="underline hover:opacity-70">date-specific flower subscription</a> that schedules deliveries around particular occasions — like birthdays, anniversaries, or Mother's Day — rather than on a fixed weekly or monthly cadence.</p>
 
           <h2 className="text-3xl font-bold tracking-tight">Final Thoughts</h2>
           <p>Flower subscriptions in the UK vary widely in style and focus:</p>

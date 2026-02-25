@@ -13,7 +13,7 @@ const BestFlowerDeliverySydney = () => {
     publisherName: "FutureFlower",
     publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
-    dateModified: "2026-01-19T00:00:00Z",
+    dateModified: "2026-02-25T00:00:00Z",
   };
 
   const structuredData = {
@@ -104,6 +104,7 @@ const BestFlowerDeliverySydney = () => {
             <li>Easy Flowers offers the most affordable bouquets with reasonable delivery times.</li>
           </ul>
           <p>Whether you’re surprising someone at the last minute, celebrating a milestone, or just brightening someone’s day, one of these services will likely suit your needs.</p>
+          <p>For annual occasions — birthdays, anniversaries, and celebrations that come back every year — some people prefer a <a href="/" className="underline hover:opacity-70">recurring flower delivery subscription</a> to avoid placing separate orders each time.</p>
 
           <h2 className="text-3xl font-bold tracking-tight">A Different Way to Think About Gifting Flowers</h2>
           <p>Most people use flower delivery for one-off moments — birthdays, anniversaries, Mother’s Day, apologies, celebrations. That’s usually where the story ends.</p>

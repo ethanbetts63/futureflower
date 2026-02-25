@@ -13,7 +13,7 @@ const BestFlowerSubscriptionServicesAU = () => {
     publisherName: "FutureFlower",
     publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
-    dateModified: "2026-01-19T00:00:00Z",
+    dateModified: "2026-02-25T00:00:00Z",
   };
 
   const structuredData = {
@@ -115,6 +115,7 @@ const BestFlowerSubscriptionServicesAU = () => {
           <p>Floraly offers the best all-around experience across cities.</p>
           <p>Little Flowers is the most affordable way to get blooms on repeat.</p>
           <p>East End Flower Market delivers larger, florist-level quality arrangements.</p>
+          <p>There are also <a href="/" className="underline hover:opacity-70">occasion-based flower subscription services</a> designed around specific annual dates — like birthdays and anniversaries — rather than a regular weekly or monthly cadence.</p>
         </div>
       </ArticleLayout>
       <section>

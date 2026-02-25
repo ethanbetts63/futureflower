@@ -100,8 +100,8 @@ const HomePage = () => {
   return (
     <main>
       <Seo
-        title="FutureFlower | Flower Subscription Service"
-        description="Pick a date. Pick a budget. We handle the rest. More flowers, less hassle."
+        title="FutureFlower | Flower Delivery & Subscriptions"
+        description="Personalized, fresh flowers. Get free delivery, and support local florists. Pick a date, pick a budget, and we handle the rest. More flowers, less hassle."
         canonicalPath="/"
         ogImage="/og-images/og-homepage.webp"
         structuredData={organizationSchema}

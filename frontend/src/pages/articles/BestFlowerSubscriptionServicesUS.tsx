@@ -13,7 +13,7 @@ const BestFlowerSubscriptionServicesUS = () => {
     publisherName: "FutureFlower",
     publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
-    dateModified: "2026-01-19T00:00:00Z",
+    dateModified: "2026-02-25T00:00:00Z",
   };
 
   const structuredData = {
@@ -97,6 +97,8 @@ const BestFlowerSubscriptionServicesUS = () => {
           <p><strong>Best for:</strong> People who prioritize freshness, longevity, and flower quality above all else.</p>
 
           <hr className="my-8 border-gray-600" />
+
+          <p>Each of these services delivers flowers on a regular cadence. If you'd prefer a <a href="/" className="underline hover:opacity-70">flower subscription</a> designed around specific annual dates — birthdays, anniversaries, and occasions that matter — rather than a fixed weekly or monthly schedule, a different approach may suit you better.</p>
 
           <h2 className="text-3xl font-bold tracking-tight">For People Who Prefer to Set Things Up Once</h2>
           <p>Buying flowers is usually a repeat task. You remember the date, place the order, choose a bouquet, and do it all again next year.</p>

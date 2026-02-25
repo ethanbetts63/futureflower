@@ -13,7 +13,7 @@ const BestFlowerDeliveryMelbourne = () => {
     publisherName: "FutureFlower",
     publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-21T00:00:00Z", // Today's date
-    dateModified: "2026-01-21T00:00:00Z", // Today's date
+    dateModified: "2026-02-25T00:00:00Z",
   };
 
   const structuredData = {
@@ -109,6 +109,7 @@ const BestFlowerDeliveryMelbourne = () => {
             <li>Easy Flowers is the most affordable option for simple and quick deliveries.</li>
           </ul>
           <p>Whether you’re celebrating a milestone, sending a heartfelt message, or ordering flowers for the first time, one of these services will fit your needs.</p>
+          <p>For occasions that repeat every year — birthdays, anniversaries, and annual milestones — a <a href="/" className="underline hover:opacity-70">flower delivery subscription</a> is worth exploring if you’d rather plan ahead than reorder each occasion separately.</p>
         </div>
       </ArticleLayout>
       <section>
