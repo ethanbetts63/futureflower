@@ -122,7 +122,7 @@ const HomePage = () => {
       />
       <HeroV2
         title="Better flowers. Local Florists."
-        subtext="Pick a date. Pick a budget. We handle the rest. More flowers, less hassle."
+        subtext="Pick a date. Pick a budget. We handle the rest. Flower Delivery and Subscriptions the right way."
       />
       <AnnouncementBar />
 

@@ -70,9 +70,9 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title, subtext }) => {
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-black md:text-white">
           {title}
         </h1>
-        <p className="mt-4 text-base sm:text-lg text-black md:text-white">
+        <h2 className="mt-4 text-base sm:text-lg text-black md:text-white">
           {subtext}
-        </p>
+        </h2>
 
         {/* Two primary CTAs */}
         <div className="mt-4 flex flex-col gap-3">
