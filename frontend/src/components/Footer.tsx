@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto py-10 px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
           {/* Site Links */}
           <div className="flex flex-col gap-2">
@@ -25,6 +25,12 @@ const Footer: React.FC = () => {
             {(user?.is_staff || user?.is_superuser) && (
               <Link to="/admin-dashboard" className="text-sm hover:underline">Admin Dashboard</Link>
             )}
+          </div>
+
+          {/* Occasions */}
+          <div className="flex flex-col gap-2">
+            <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Occasions</p>
+            <Link to="/birthday-flower-delivery" className="text-sm hover:underline">Birthday Flower Delivery</Link>
           </div>
 
           {/* Legal Links */}

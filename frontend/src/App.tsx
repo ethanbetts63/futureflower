@@ -63,6 +63,7 @@ const ResetPasswordConfirmPage = lazy(() => import('./pages/ResetPasswordConfirm
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const FloristsPage = lazy(() => import('./pages/FloristsPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
+const BirthdayFlowerDelivery = lazy(() => import('./pages/BirthdayFlowerDelivery'));
 
 // --- Blog Pages ---
 const BlogExplorePage = lazy(() => import('./pages/BlogExplorePage'));
@@ -115,6 +116,7 @@ function App() {
                 <Route path="/florists" element={<FloristsPage />} />
                 <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/affiliates" element={<AffiliatesPage />} />
+                <Route path="/birthday-flower-delivery" element={<BirthdayFlowerDelivery />} />
                 <Route path="/blocklist-success" element={<BlocklistSuccessPage />} />
                 <Route path="/articles" element={<BlogExplorePage />} />
                 <Route path="/articles/best-flower-subscription-services-us" element={<BestFlowerSubscriptionServicesUS />} />
