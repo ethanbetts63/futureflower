@@ -27,10 +27,13 @@ const Footer: React.FC = () => {
             )}
           </div>
 
-          {/* Occasions */}
+          {/* Flower Delivery */}
           <div className="flex flex-col gap-2">
-            <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Occasions</p>
-            <Link to="/birthday-flower-delivery" className="text-sm hover:underline">Birthday Flower Delivery</Link>
+            <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Flower Delivery</p>
+            <Link to="/birthday-flower-delivery" className="text-sm hover:underline">Birthday Flowers</Link>
+            <Link to="/valentines-day-flower-delivery" className="text-sm hover:underline">Valentine's Day Flowers</Link>
+            <Link to="/mothers-day-flower-delivery" className="text-sm hover:underline">Mother's Day Flowers</Link>
+            <Link to="/flower-delivery-perth" className="text-sm hover:underline">Flower Delivery Perth</Link>
           </div>
 
           {/* Legal Links */}

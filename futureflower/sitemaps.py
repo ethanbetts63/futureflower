@@ -26,6 +26,10 @@ class StaticViewSitemap(Sitemap):
             '/articles/best-flower-delivery-adelaide',
             '/articles/best-flower-delivery-darwin',
             '/articles/best-flower-delivery-melbourne',
+            '/birthday-flower-delivery',
+            '/valentines-day-flower-delivery',
+            '/mothers-day-flower-delivery',
+            '/flower-delivery-perth',
         ]
 
     def location(self, item):
@@ -39,6 +43,7 @@ class StaticViewSitemap(Sitemap):
     def priority(self, item):
         if item == '/':
             return 1.0
-        if item == '/articles':
+        if item in ('/articles', '/birthday-flower-delivery', '/valentines-day-flower-delivery',
+                    '/mothers-day-flower-delivery', '/flower-delivery-perth'):
             return 0.8
         return 0.7

@@ -64,6 +64,9 @@ const ContactPage = lazy(() => import('./pages/ContactPage'));
 const FloristsPage = lazy(() => import('./pages/FloristsPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
 const BirthdayFlowerDelivery = lazy(() => import('./pages/BirthdayFlowerDelivery'));
+const ValentinesDayFlowerDelivery = lazy(() => import('./pages/ValentinesDayFlowerDelivery'));
+const MothersDayFlowerDelivery = lazy(() => import('./pages/MothersDayFlowerDelivery'));
+const FlowerDeliveryPerth = lazy(() => import('./pages/FlowerDeliveryPerth'));
 
 // --- Blog Pages ---
 const BlogExplorePage = lazy(() => import('./pages/BlogExplorePage'));
@@ -117,6 +120,9 @@ function App() {
                 <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/affiliates" element={<AffiliatesPage />} />
                 <Route path="/birthday-flower-delivery" element={<BirthdayFlowerDelivery />} />
+                <Route path="/valentines-day-flower-delivery" element={<ValentinesDayFlowerDelivery />} />
+                <Route path="/mothers-day-flower-delivery" element={<MothersDayFlowerDelivery />} />
+                <Route path="/flower-delivery-perth" element={<FlowerDeliveryPerth />} />
                 <Route path="/blocklist-success" element={<BlocklistSuccessPage />} />
                 <Route path="/articles" element={<BlogExplorePage />} />
                 <Route path="/articles/best-flower-subscription-services-us" element={<BestFlowerSubscriptionServicesUS />} />
@@ -143,7 +149,6 @@ function App() {
                 <Route path="/single-delivery-flow/plan/:planId/preferences" element={<ProtectedRoute><SingleDeliveryStep3PreferencesPage /></ProtectedRoute>} />
                 <Route path="/single-delivery-flow/plan/:planId/structure" element={<ProtectedRoute><SingleDeliveryStep4StructurePage /></ProtectedRoute>} />
                 <Route path="/single-delivery-flow/plan/:planId/confirmation" element={<ProtectedRoute><SingleDeliveryStep5ConfirmationPage /></ProtectedRoute>} />
-
 
 
                 {/* Partner Routes */}
