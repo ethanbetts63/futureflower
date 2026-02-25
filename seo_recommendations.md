@@ -4,26 +4,7 @@
 
 ---
 
-## 1. Technical: Client-Side Rendering (Critical)
 
-**Issue:** This is a pure CSR React app. All meta tags (`<title>`, `<meta>`, structured data) are injected by `react-helmet-async` after JS executes. Google crawls in two waves — a fast first pass (sees bare HTML shell) and a delayed second render pass. For a new/low-authority site, the second pass may be slow or missed entirely.
-
-**Impact:** Article pages are the primary organic traffic play. Slow rendering means delayed indexing and potentially missed crawls. Worth verifying articles are indexed correctly in Google Search Console.
-
-**Options (best to minimal):**
-- **Best:** Migrate article pages to a framework that supports SSG (Next.js static export, Astro). Articles are purely static content — ideal SSG candidates.
-- **Alternative:** Add a pre-rendering layer (Prerender.io, Netlify pre-rendering) that caches rendered HTML for bots.
-- **Minimal:** Monitor Google Search Console → URL Inspection tool to confirm structured data is being detected on article pages.
-
----
-
-## 2. Sitemap
-
-**Status: ✅ Working** (`sitemaps.py` confirmed, robots.txt references `https://www.futureflower.app/sitemap.xml` correctly).
-
-**To do:** Verify the sitemap includes all 10 article URLs and is submitted and accepted in Google Search Console.
-
----
 
 ## 3. Homepage Title & Meta Description
 
@@ -78,71 +59,6 @@ to:
 ```js
 author: { '@type': 'Organization', name: articleDetails.publisherName }
 ```
-
----
-
-## 7. Article `dateModified` — ✅ Fixed
-
-All 10 articles updated to `2026-02-25T00:00:00Z`. Should be updated whenever content is meaningfully changed.
-
----
-
-## 8. Internal Links from Articles to Homepage — ✅ Done
-
-1–2 natural internal links added to each article using keyword-rich anchor text (e.g., "flower delivery subscription", "recurring flower delivery", "date-based flower subscription", "occasion-based flower subscription") linking to `/`. No brand name in the link text.
-
----
-
-## 9. LocalBusiness Schema — Not Recommended for Online-Only
-
-**Decision:** `LocalBusiness` schema is intended for businesses with a physical location and primarily feeds Google My Business / local pack results. Since FutureFlower is entirely online, using it would be technically incorrect and could trigger Google validation warnings.
-
-**Instead — enrich the existing Organization schema on the homepage:**
-```json
-{
-  "@type": "Organization",
-  "name": "FutureFlower",
-  "url": "https://www.futureflower.app",
-  "logo": "https://www.futureflower.app/static/logo_128_black.png",
-  "areaServed": ["Australia", "United Kingdom", "United States", "Canada", "New Zealand", "Europe"],
-  "serviceType": ["Flower Delivery", "Flower Subscription Service"],
-  "sameAs": [
-    "https://www.instagram.com/futureflower_app",
-    "https://www.facebook.com/futureflower"
-  ],
-  "founder": {
-    "@type": "Person",
-    "name": "Ethan Betts"
-  }
-}
-```
-
-`areaServed` and `serviceType` tell Google exactly what you do and where without claiming a physical presence you don't have. `sameAs` is an important E-E-A-T signal.
-
----
-
-## 10. Organization Schema Logo (Minor, Not Yet Done)
-
-**Current:** `"logo": "https://www.futureflower.app/favicon.ico"` (16–32px image)
-
-**Impact on ranking:** None directly. But Google's Knowledge Panel requires a logo of at least 112×112px. A favicon is too small.
-
-**Fix:** Change the logo URL in the homepage `organizationSchema` to:
-```
-"https://www.futureflower.app/static/logo_128_black.png"
-```
-This is already used in every article's publisher schema — just needs to be consistent on the homepage.
-
----
-
-## 11. OG Images — Verify They Exist
-
-Several article files have comments like `// Assuming this will be created later`. Confirm these files exist in production:
-- `/static/og-images/og-flower-delivery-melbourne.webp`
-- `/static/og-images/og-flower-delivery-adelaide.webp`
-- `/static/og-images/og-flower-delivery-darwin.webp`
-
-If missing, all social shares and Google Discover cards fall back to the generic fallback image.
 
 ---
 

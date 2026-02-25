@@ -12,8 +12,8 @@ const pricingFaqs: FaqItem[] = [
         answer: 'Yes. The budget you type is the exact amount charged to your card. There is no delivery fee added at checkout — it is built into the budget from the start.',
     },
     {
-        question: 'Can I change my budget later?',
-        answer: 'Yes. You can adjust the budget for any upcoming scheduled delivery up to 14 days before the delivery date. Simply log in to your dashboard, open the plan, and update the budget. Changes apply to that delivery and all future ones on that plan.',
+        question: 'Can I change my order details later?',
+        answer: 'Yes. You can adjust the most of the details for any upcoming scheduled delivery up to 14 days before the delivery date. Simply log in to your dashboard, open the plan, and update the budget. Changes apply to that delivery and all future ones on that plan.',
     },
 ];
 
