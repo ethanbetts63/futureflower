@@ -2,7 +2,7 @@ import React from 'react';
 import { ComparisonBarChart, defaultComparisonBars, defaultComparisonLegend } from '../ComparisonBarChart';
 
 const rows = [
-  { feature: 'Commission',       them: '20–40% per order',              us: '15%' },
+  { feature: 'Commission',       them: '25-50% per order',              us: '15%' },
   { feature: 'Monthly Fees',     them: 'Often $100–$200+ monthly',      us: '$0' },
   { feature: 'Order Rejection',  them: '$5–25 penalty for rejecting', us: '$5-25 reward for rejecting**' },
   { feature: 'Delivery Fee',     them: 'Often retain delivery margin',  us: 'Fully Paid' },

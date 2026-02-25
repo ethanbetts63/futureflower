@@ -60,7 +60,7 @@ No catch, our business model is florist first. We charge a flat 15% per order. N
 ### How Big Online Platforms Treat Florists (Table)
 | Feature | Big Networks | FutureFlower |
 | :--- | :--- | :--- |
-| **Commission** | 20–40% per order | **15%** |
+| **Commission** | 25-50% per order | **15%** |
 | **Monthly Fees** | Often $100–$200+ monthly | **$0** |
 | **Order Rejection** | $5–25 penalty for rejecting | **$5-25 reward for rejecting** |
 | **Delivery Fee** | Often retain delivery margin | **Fully Paid** |

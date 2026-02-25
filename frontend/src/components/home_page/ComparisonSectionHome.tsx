@@ -2,7 +2,7 @@ import React from 'react';
 import { ComparisonBarChart, defaultComparisonBars, defaultComparisonLegend } from '../ComparisonBarChart';
 
 const rows = [
-  { feature: 'Commission',       them: '20–40% per order',              us: '15%' },
+  { feature: 'Commission',       them: '25-50% per order',              us: '15%' },
   { feature: 'Monthly Fees',     them: 'Often $100–$200+ monthly',      us: '$0' },
   { feature: 'Order Rejection',  them: '$10–$25 penalty for rejecting', us: '$0' },
   { feature: 'Delivery Fee',     them: 'Often retain delivery margin',  us: 'Fully Paid' },
@@ -33,7 +33,7 @@ const ComparisonSection: React.FC = () => (
           <div className="mt-6 pt-2 border-t border-black/10">
             <p className="text-sm font-semibold text-black/80 italic">Then how do you make money?</p>
             <p className="mt-2 text-sm text-black/70 leading-relaxed">
-              Where our competitors slip in a 20–40% commission, monthly fees, and delivery cuts, we charge a simple 15%. You get more, the florist gets more, and we get customers that keep coming back.
+              Where our competitors slip in a 25-50% commission, monthly fees, and delivery cuts, we charge a simple 15%. You get more, the florist gets more, and we get customers that keep coming back.
             </p>
           </div>
         </div>

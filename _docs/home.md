@@ -59,12 +59,12 @@ A local florist creates something unique and beautiful. No catalog copies. No wa
 (Bar Chart Visual)
 
 ### Then how do you make money?
-Where our competitors slip in a 20–40% commission, monthly fees, and delivery cuts, we charge a simple 15%. You get more, the florist gets more, and we get customers that keep coming back.
+Where our competitors slip in a 25-50% commission, monthly fees, and delivery cuts, we charge a simple 15%. You get more, the florist gets more, and we get customers that keep coming back.
 
 ### How Big Online Platforms Treat Florists (Table)
 | Feature | Big Networks | FutureFlower |
 | :--- | :--- | :--- |
-| **Commission** | 20–40% per order | **15%** |
+| **Commission** | 25-50% per order | **15%** |
 | **Monthly Fees** | Often $100–$200+ monthly | **$0** |
 | **Order Rejection** | $10–$25 penalty for rejecting | **$0** |
 | **Delivery Fee** | Often retain delivery margin | **Fully Paid** |
