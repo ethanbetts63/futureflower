@@ -115,13 +115,13 @@ const HomePage = () => {
     <main>
       <Seo
         title="FutureFlower | Flower Delivery & Subscriptions"
-        description="Personalized, fresh flowers. Get free delivery, and support local florists. Pick a date, pick a budget, and we handle the rest. More flowers, less hassle."
+        description="Free delivery from local florists. Pick a date, set a budget, and we handle the rest — across Australia, the UK, the US, and more."
         canonicalPath="/"
         ogImage="/og-images/og-homepage.webp"
         structuredData={organizationSchema}
       />
       <HeroV2
-        title={<>The gift that <span className='italic'>keeps</span> on giving.</>}
+        title="Better flowers. Local Florists."
         subtext="Pick a date. Pick a budget. We handle the rest. More flowers, less hassle."
       />
       <AnnouncementBar />
