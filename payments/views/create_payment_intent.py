@@ -84,6 +84,10 @@ class CreatePaymentIntentView(APIView):
 
             final_amount = Decimal(final_amount)
 
+            # Staff/superuser override: always charge $1 for testing
+            if user.is_staff or user.is_superuser:
+                final_amount = Decimal('1.00')
+
             # Floor at $0.50 for Stripe minimum
             if final_amount < Decimal('0.50'):
                 final_amount = Decimal('0.50')

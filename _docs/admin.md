@@ -112,6 +112,12 @@ Separate from the cron system, `send_admin_payment_notification()` is called dir
 
 ---
 
+## Staff Payment Override
+
+Any user with `is_staff=True` or `is_superuser=True` is always charged **$1.00** when placing an order, regardless of plan size. This applies to both upfront and subscription plans. It is implemented in the two payment views (`payments/views/create_payment_intent.py` and `payments/views/create_subscription_view.py`) — no discount codes or frontend changes required. Useful for testing payment flows or setting up live plans without cost.
+
+---
+
 ## File Map
 
 | File | Purpose |

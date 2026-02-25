@@ -46,7 +46,11 @@ class CreateSubscriptionView(APIView):
                 user.save()
 
             amount_in_cents = int(plan.total_amount * 100)
-            
+
+            # Staff/superuser override: always charge $1 for testing
+            if user.is_staff or user.is_superuser:
+                amount_in_cents = 100
+
             # Check for an existing pending payment to avoid duplicates
             from payments.models import Payment
             existing_payment = Payment.objects.filter(order=plan.orderbase_ptr, status='pending').first()

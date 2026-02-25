@@ -37,7 +37,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
     const isEditMode = mode === 'edit';
 
     const [formData, setFormData] = useState<SingleDeliveryStructureData>({
-        budget: 150,
+        budget: 125,
         start_date: getMinDateString(isEditMode),
         card_message: '',
     });
@@ -64,7 +64,7 @@ const SingleDeliveryStructureEditor: React.FC<SingleDeliveryStructureEditorProps
                 }
 
                 setFormData({
-                    budget: Number(plan.budget) || 150,
+                    budget: Number(plan.budget) || 125,
                     start_date: startDate,
                     card_message: plan.draft_card_messages?.['0'] || '',
                 });

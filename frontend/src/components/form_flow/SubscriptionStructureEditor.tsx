@@ -36,7 +36,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
     const isEditMode = mode === 'edit';
 
     const [formData, setFormData] = useState<SubscriptionStructureData>({
-        budget: 150,
+        budget: 125,
         frequency: 'annually',
         start_date: getMinDateString(isEditMode),
         subscription_message: '',
@@ -69,7 +69,7 @@ const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = 
                 }
 
                 setFormData({
-                    budget: Number(plan.budget) || 150,
+                    budget: Number(plan.budget) || 125,
                     frequency: plan.frequency || 'annually',
                     start_date: startDate,
                     subscription_message: plan.subscription_message || '',

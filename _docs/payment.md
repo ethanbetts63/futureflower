@@ -66,6 +66,12 @@ Returns `get_next_payment_date(plan) + SUBSCRIPTION_CHARGE_LEAD_DAYS`.
 
 **Known limitation:** This always returns the next *subscription-cycle* delivery date. For a newly activated plan, the first delivery (`start_date`) is already paid directly and is not reflected by this function. The displayed "Next Delivery Date" will therefore skip the first delivery and show the second one.
 
+## Staff Payment Override
+
+Any user with `is_staff=True` or `is_superuser=True` is always charged **$1.00** regardless of plan size. This is applied in both payment views (`create_payment_intent.py` and `create_subscription_view.py`) right before the Stripe API call, so no discount codes, model changes, or frontend changes are needed. The plan's `total_amount` in the database retains the real price — only the Stripe charge is overridden.
+
+---
+
 ## Key Constants
 - **Lead Time:** The system uses a 7-day lead time (`SUBSCRIPTION_CHARGE_LEAD_DAYS`) for all recurring billing calculations.
 - **SMS in production only:** Twilio SMS notifications (`send_admin_payment_notification`, `send_admin_cancellation_notification`, `send_notification`) are guarded by `if not settings.DEBUG:` to suppress SMS during local development. Emails are sent regardless.
