@@ -66,7 +66,7 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title, subtext }) => {
       />
 
       {/* Content — below image on mobile, overlaid on desktop */}
-      <div className="relative w-full md:ml-24 md:w-1/2 lg:w-1/3 bg-[var(--color4)] md:bg-black/70 p-8 sm:p-12 md:rounded-lg">
+      <div className="relative w-full md:ml-24 md:w-3/7 lg:w-2/5 bg-[var(--color4)] md:bg-black/70 p-8 sm:p-12 md:rounded-lg">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-black md:text-white">
           {title}
         </h1>
