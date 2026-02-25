@@ -27,8 +27,8 @@ const BestFlowerDeliveryAdelaide = () => {
     description: articleDetails.description,
     image: `https://www.futureflower.app${articleDetails.ogImage}`,
     author: {
-      '@type': 'Person',
-      name: articleDetails.authorName,
+      '@type': 'Organization',
+      name: articleDetails.publisherName,
     },
     publisher: {
       '@type': 'Organization',

@@ -32,36 +32,6 @@ This avoids disrupting the brand voice while still giving Google a topic signal.
 The H2 approach is lower risk and probably cleaner for the existing hero design.
 
 ---
-
-## 5. Pricing Page (High Priority — Not Yet Done)
-
-**Current:**
-- Title: `"Pricing | FutureFlower"` — very weak
-- Description: `"Give florists a budget and preferences. No catalogs, just the freshest, seasonal flowers."` — no pricing keywords
-
-**Recommended:**
-- Title: `"Flower Subscription Pricing Plans | FutureFlower"`
-- Description: `"Simple, transparent pricing for flower delivery and subscriptions. Set your budget, choose your dates, and local florists handle the rest."`
-
-**Structured data missing:** The pricing page has no schema at all. Adding a `Service` schema with an `offers` property listing subscription tiers would help eligibility for pricing-related rich results.
-
----
-
-## 6. Article Author Schema Fix (Not Yet Done)
-
-**Issue:** All 10 articles use `"@type": "Person"` for `"The FutureFlower Team"` — a team is not a person. Google validates this.
-
-**Fix:** In every article's `structuredData` object, change:
-```js
-author: { '@type': 'Person', name: articleDetails.authorName }
-```
-to:
-```js
-author: { '@type': 'Organization', name: articleDetails.publisherName }
-```
-
----
-
 ## 12. Occasion-Specific Landing Pages (Long-Term, High Value)
 
 High search-volume keywords with clear purchase intent that currently have no matching page:
@@ -106,8 +76,8 @@ The homepage currently has 3 generic FAQs (reminders, refunds, countries). These
 | 2 | Sitemap verified in Search Console | High | ✅ Exists |
 | 3 | Homepage title + meta | High | ✅ Done |
 | 4 | Homepage H1 keyword addition | High | Not done |
-| 5 | Pricing page title + meta + schema | High | Not done |
-| 6 | Article author schema type fix | Medium | Not done |
+| 5 | Pricing page title + meta + schema | High | ✅ Done |
+| 6 | Article author schema type fix | Medium | ✅ Done |
 | 7 | Article dateModified | Medium | ✅ Done |
 | 8 | Internal links in articles | Medium | ✅ Done |
 | 9 | LocalBusiness schema | N/A | Not applicable |
