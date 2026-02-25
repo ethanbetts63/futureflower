@@ -2,7 +2,7 @@
 
 ## SEO Information
 *   **Title:** FutureFlower | Flower Delivery & Subscriptions
-*   **Description:** The most romantic gestures are those that plan for a future together. Choose the dates, set the budget, and we organize flower deliveries, time after time - turning one decision into a lifetime of meaningful moments.
+*   **Description:** Free delivery from local florists. Pick a date, set a budget, and we handle the rest — across Australia, the UK, the US, and more.
 *   **Canonical Path:** /
 *   **OG Image:** /og-images/og-homepage.webp
 *   **Organization Schema:**
@@ -11,8 +11,8 @@
     *   Founder: Ethan Betts
 
 ## Hero Section (HeroV2)
-*   **Title:** The gift that *keeps* on giving.
-*   **Subtitle:** Pick a date. Pick a budget. We handle the rest.
+*   **Title:** Better flowers. Local Florists.
+*   **Subtitle:** Pick a date. Pick a budget. We handle the rest. Flower Delivery and Subscriptions the right way.
 *   **Badge:** FREE DELIVERY (Included on all products)
 *   **Action Buttons:**
     *   **Send Flowers:** One-time delivery for a specific date
@@ -92,7 +92,7 @@ Where our competitors slip in a 20–40% commission, monthly fees, and delivery 
 You will receive a reminder email 1 week and 1 day before the delivery date. They are not confirmation emails so you do not need to respond. They are simply to remind you.
 
 ### What is your refund policy?
-We can’t unsend flowers. But everything up until that point is fair game.
+All orders are 100% refundable up to 14 days before your delivery date, after that point we can not guarantee a refund but we will try our utmost. If your flowers arrive with a major issue (e.g. damaged, dead) this is of course enough reason for a refund. For more information please read the customer terms and conditions.
 
 ### What countries do you operate in?
 Currently we operate in the EU (Europe), United Kingdom, North America (USA & Canada), Australia and New Zealand.
