@@ -116,9 +116,15 @@ How Referral Commissions Work
 Partners must complete Stripe Connect onboarding to receive payouts.
 
 1. Partner initiates via dashboard → `POST /api/partners/stripe-connect/onboard/`
-2. Backend creates a Stripe Express Account and returns an onboarding URL.
-3. After completion, `stripe_connect_onboarding_complete` is set to `True`.
-4. `process_payouts` command creates `stripe.Transfer` to the partner's connected account.
+2. Backend creates a Stripe Express Account (if not already created) and returns an `AccountSession` client secret for the embedded onboarding component.
+3. Partner completes the embedded `ConnectAccountOnboarding` component on `/partner/stripe-connect/onboarding`.
+4. On exit, the partner is redirected to `/partner/stripe-connect/return`, which calls `GET /api/partners/stripe-connect/status/` for an immediate UI refresh.
+5. `stripe_connect_onboarding_complete` is set to `True` via two paths:
+   - **Webhook (primary):** Stripe fires `account.updated` when `payouts_enabled` becomes true on the connected account. `handle_account_updated` in `webhook_handlers.py` updates the flag automatically — works even if the partner abandons mid-flow and is approved later.
+   - **Status poll (fallback/UI refresh):** `StripeConnectStatusView` checks `charges_enabled` + `payouts_enabled` live from Stripe and syncs the flag on demand.
+6. `process_payouts` command creates `stripe.Transfer` to the partner's connected account.
+
+**Note:** Stripe Connect must be enabled on the platform Stripe account before Express accounts can be created. Enable it at dashboard.stripe.com/connect — this must be done separately for test and live modes.
 
 ## Partner Dashboard
 

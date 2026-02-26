@@ -68,7 +68,7 @@ const StripeConnectOnboardingPage: React.FC = () => {
             <div className="px-4 md:px-8 pb-8">
               <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
                 <ConnectAccountOnboarding
-                  onExit={() => navigate('/dashboard/partner')}
+                  onExit={() => navigate('/partner/stripe-connect/return')}
                 />
               </ConnectComponentsProvider>
             </div>
