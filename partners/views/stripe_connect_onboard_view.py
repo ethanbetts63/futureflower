@@ -18,20 +18,21 @@ class StripeConnectOnboardView(APIView):
         except Partner.DoesNotExist:
             return Response({"error": "Not a partner."}, status=status.HTTP_404_NOT_FOUND)
 
-        # Fallback: create account if registration didn't create it (e.g. Stripe was down)
         if not partner.stripe_connect_account_id:
             account = stripe.Account.create(
                 type='express',
                 email=request.user.email,
+                country=partner.country or None,
                 metadata={'partner_id': partner.id},
             )
             partner.stripe_connect_account_id = account.id
             partner.save()
 
-        # Create an AccountSession for the embedded onboarding component
-        session = stripe.AccountSession.create(
+        account_link = stripe.AccountLink.create(
             account=partner.stripe_connect_account_id,
-            components={"account_onboarding": {"enabled": True}},
+            return_url=f"{settings.SITE_URL}/partner/stripe-connect/return",
+            refresh_url=f"{settings.SITE_URL}/partner/stripe-connect/onboarding",
+            type="account_onboarding",
         )
 
-        return Response({'client_secret': session.client_secret})
+        return Response({'url': account_link.url})

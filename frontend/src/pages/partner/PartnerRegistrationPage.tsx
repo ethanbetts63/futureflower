@@ -12,6 +12,8 @@ import Seo from '@/components/Seo';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import BackButton from '@/components/BackButton';
 import ServiceAreaMap from '@/components/ServiceAreaMap';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { COUNTRIES } from '@/data/countries';
 import { registerPartner } from '@/api/partners';
 import { acceptTerms } from '@/api';
 import type { PartnerRegistrationData } from '@/types';
@@ -64,6 +66,11 @@ const PartnerRegistrationPage: React.FC = () => {
       return;
     }
 
+    if (!form.country) {
+      toast.error('Please select your country.');
+      return;
+    }
+
     if (isDelivery && (latitude === null || longitude === null)) {
       toast.error('Please set your delivery location on the map.');
       return;
@@ -94,7 +101,7 @@ const PartnerRegistrationPage: React.FC = () => {
         acceptTerms('customer'),
         acceptTerms(isDelivery ? 'florist' : 'affiliate'),
       ]);
-      navigate('/partner/stripe-connect/onboarding');
+      navigate('/dashboard/partner');
     } catch (error: any) {
       const errorData = error.data || {};
       const description = Object.entries(errorData)
@@ -111,7 +118,7 @@ const PartnerRegistrationPage: React.FC = () => {
   return (
     <>
       <Seo title={`${isDelivery ? 'Delivery' : 'Referral'} Partner Registration | FutureFlower`} />
-      <StepProgressBar currentStep={2} totalSteps={3} planName="Partner Registration" />
+      <StepProgressBar currentStep={2} totalSteps={2} planName="Partner Registration" />
       <div className="min-h-screen w-full py-0 md:py-12 px-0 md:px-4" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto max-w-4xl">
           <Card className="bg-white text-black border-none shadow-none md:shadow-xl md:shadow-black/5 rounded-none md:rounded-[2rem] overflow-hidden">
@@ -167,6 +174,24 @@ const PartnerRegistrationPage: React.FC = () => {
                   </div>
                 </div>
 
+                <div className="space-y-2">
+                  <Label htmlFor="country">Country <span className="text-red-500">*</span></Label>
+                  <Select
+                    value={form.country}
+                    onValueChange={(value) => setForm({ ...form, country: value })}
+                    required
+                  >
+                    <SelectTrigger id="country" className="w-full">
+                      <SelectValue placeholder="Select your country" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white">
+                      {COUNTRIES.map((c) => (
+                        <SelectItem key={c.code} value={c.code}>{c.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 {/* Delivery Partner Fields */}
                 {isDelivery && (
                   <div className="border-t pt-6 space-y-4">
@@ -188,7 +213,7 @@ const PartnerRegistrationPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="state">State</Label>
                         <Input id="state" name="state" value={form.state} onChange={handleChange} />
@@ -196,10 +221,6 @@ const PartnerRegistrationPage: React.FC = () => {
                       <div className="space-y-2">
                         <Label htmlFor="postcode">Postcode</Label>
                         <Input id="postcode" name="postcode" value={form.postcode} onChange={handleChange} />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="country">Country</Label>
-                        <Input id="country" name="country" value={form.country} onChange={handleChange} />
                       </div>
                     </div>
 

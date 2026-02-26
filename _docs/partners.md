@@ -10,14 +10,14 @@ Both types get a discount code at registration. Both types require admin approva
 ## Registration Flow
 
 1. User visits `/partner/register` and selects partner type (referral or delivery).
-2. Fills in account details: email, password, first name, last name, business name, phone.
+2. Fills in account details: email, password, first name, last name, business name, phone, and country (ISO 2-letter code, used to set the Stripe Express account's country).
 3. Delivery partners additionally set their location on an interactive map (lat/lng) and configure a service radius (default 10km).
 4. On submit, backend creates:
    - A User account
    - A Partner profile (status: `pending`)
    - A DiscountCode (auto-generated, `is_active=True`)
 5. Returns JWT tokens — user is logged in immediately.
-6. Redirects to `/dashboard/partner`.
+6. Redirects to `/dashboard/partner`. Stripe Connect setup is decoupled from registration — the partner initiates it from the dashboard when ready.
 
 **Auto-generated code format:** `{slugified-business-name}-{discount_amount}` (e.g. `flower-shop-5`). If that's taken among active codes, appends `-2`, `-3`, etc.
 
@@ -115,16 +115,19 @@ How Referral Commissions Work
 
 Partners must complete Stripe Connect onboarding to receive payouts.
 
-1. Partner initiates via dashboard → `POST /api/partners/stripe-connect/onboard/`
-2. Backend creates a Stripe Express Account (if not already created) and returns an `AccountSession` client secret for the embedded onboarding component.
-3. Partner completes the embedded `ConnectAccountOnboarding` component on `/partner/stripe-connect/onboarding`.
-4. On exit, the partner is redirected to `/partner/stripe-connect/return`, which calls `GET /api/partners/stripe-connect/status/` for an immediate UI refresh.
-5. `stripe_connect_onboarding_complete` is set to `True` via two paths:
+1. Partner clicks "Set Up" in the dashboard banner → `POST /api/partners/stripe-connect/onboard/`
+2. Backend creates a Stripe Express Account using `partner.country` (set at registration), then creates a Stripe `AccountLink` and returns the hosted onboarding URL.
+3. Frontend redirects the partner to Stripe's hosted onboarding pages (`connect.stripe.com/...`). Stripe handles the entire onboarding UX including country selection, identity verification, and bank details.
+4. On completion Stripe redirects the partner back to `/partner/stripe-connect/return`, which calls `GET /api/partners/stripe-connect/status/` for an immediate UI refresh.
+5. If the AccountLink expires, Stripe redirects to `/partner/stripe-connect/onboarding` which generates a fresh link automatically.
+6. `stripe_connect_onboarding_complete` is set to `True` via two paths:
    - **Webhook (primary):** Stripe fires `account.updated` when `payouts_enabled` becomes true on the connected account. `handle_account_updated` in `webhook_handlers.py` updates the flag automatically — works even if the partner abandons mid-flow and is approved later.
    - **Status poll (fallback/UI refresh):** `StripeConnectStatusView` checks `charges_enabled` + `payouts_enabled` live from Stripe and syncs the flag on demand.
-6. `process_payouts` command creates `stripe.Transfer` to the partner's connected account.
+7. `process_payouts` command creates `stripe.Transfer` to the partner's connected account.
 
 **Note:** Stripe Connect must be enabled on the platform Stripe account before Express accounts can be created. Enable it at dashboard.stripe.com/connect — this must be done separately for test and live modes.
+
+**Country:** The partner's country (ISO 2-letter code e.g. `AU`, `GB`, `US`) is collected at registration and passed to `stripe.Account.create(country=...)`. This determines which country's Stripe onboarding requirements the partner sees. Stripe Connect does not support every country — if an unsupported country is selected, account creation is silently skipped and the onboard view's fallback will retry when the partner initiates onboarding.
 
 ## Partner Dashboard
 
