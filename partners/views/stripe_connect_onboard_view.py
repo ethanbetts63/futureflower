@@ -19,12 +19,24 @@ class StripeConnectOnboardView(APIView):
             return Response({"error": "Not a partner."}, status=status.HTTP_404_NOT_FOUND)
 
         if not partner.stripe_connect_account_id:
-            account = stripe.Account.create(
-                type='express',
-                email=request.user.email,
-                country=partner.country or None,
-                metadata={'partner_id': partner.id},
-            )
+            account_kwargs = {
+                'type': 'express',
+                'email': request.user.email,
+                'country': partner.country or None,
+                'metadata': {'partner_id': partner.id},
+            }
+
+            if partner.partner_type == 'non_delivery':
+                account_kwargs['business_profile'] = {
+                    'url': settings.SITE_URL,
+                    'product_description': (
+                        'Referral affiliate earning commissions for referring customers to '
+                        'FutureFlower, an online flower subscription and delivery service.'
+                    ),
+                    'mcc': '7311',  # Advertising services
+                }
+
+            account = stripe.Account.create(**account_kwargs)
             partner.stripe_connect_account_id = account.id
             partner.save()
 

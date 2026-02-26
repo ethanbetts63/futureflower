@@ -270,7 +270,7 @@ const PartnerRegistrationPage: React.FC = () => {
                 <BackButton to="/partner/register" />
                 <Button type="submit" size="lg" disabled={isSubmitting || !customerTermsAccepted || !partnerTermsAccepted}>
                   {isSubmitting && <Spinner className="mr-2 h-4 w-4" />}
-                  {isSubmitting ? 'Setting up…' : 'Next: Stripe Setup'}
+                  {isSubmitting ? 'Setting up…' : 'Submit'}
                 </Button>
               </CardFooter>
             </form>

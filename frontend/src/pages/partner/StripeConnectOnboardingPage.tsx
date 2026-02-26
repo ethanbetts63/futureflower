@@ -18,8 +18,16 @@ const StripeConnectOnboardingPage: React.FC = () => {
   return (
     <>
       <Seo title="Stripe Setup | FutureFlower" />
-      <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen flex items-center justify-center">
-        <Spinner className="h-10 w-10" />
+      <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen flex items-center justify-center px-4">
+        <div className="bg-white rounded-[2rem] shadow-md px-10 py-12 flex flex-col items-center gap-5 max-w-sm w-full text-center">
+          <h1 className="text-2xl font-bold font-['Playfair_Display',_serif] text-black">
+            Connecting you to Stripe
+          </h1>
+          <Spinner className="h-8 w-8" />
+          <p className="text-sm text-black/50">
+            You'll be redirected to Stripe to securely set up your payout account. This only takes a moment.
+          </p>
+        </div>
       </div>
     </>
   );
