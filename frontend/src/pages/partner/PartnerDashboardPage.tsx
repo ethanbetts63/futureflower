@@ -60,11 +60,12 @@ const PartnerDashboardPage: React.FC = () => {
             title={partner.business_name || 'Partner Dashboard'}
             description={partner.partner_type === 'delivery' ? 'Delivery Partner' : 'Referral Partner'}
           >
-            <SummarySection label="Status">
+            <StripeConnectBanner onboardingComplete={partner.stripe_connect_onboarding_complete} />
+
+            <SummarySection label="Account Status">
               <div className="flex items-center gap-3">
                 <Badge className={statusColor}>{partner.status}</Badge>
               </div>
-              <StripeConnectBanner onboardingComplete={partner.stripe_connect_onboarding_complete} />
             </SummarySection>
 
             {/* Discount Code */}
