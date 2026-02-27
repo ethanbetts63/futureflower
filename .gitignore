@@ -33,3 +33,4 @@ django_cache/
 
 # Marketing scraper output
 marketing/podcasts.jsonl
+marketing/contacted_podcasts.jsonl
