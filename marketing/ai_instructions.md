@@ -24,9 +24,13 @@ okay so then there is the intro paragraph. its going to be bit formulaic. You st
 - etc
 
 then as for the actual paragraph part this is where you need to use the context of the episode description and the title. For example: 
-- I listened to the chris barnes episode. Definitely learnt a lot. I thinking I’m going to get my sauna pass back. 
+- I listened to the chris barnes episode. Definitely learnt a lot. I thinking I’m going to get my sauna pass back. Great stuff. 
 - I listened to ep 28. Great ep. I’m with you guys I always want the weird thing on the menu.
 - I listened to the Muscat Grape Love Episode. I never knew that you could use grapes for making beer. Super interesting. 
 - etc 
 
 when you go to fill in the intro field always start with "I just listened to..." then go from there. 
+
+Make sure to keep it short. you'll notice that mine only ever hit one thing from the description. You aren't re writing the description. 
+
+do not write it progromatically. write to the file one entry at a time and do it manually. 
