@@ -1,9 +1,9 @@
 
 Subject line: ________________
 
-Hi there,
+Hi {there},
 
-I’ll paste my generic pitch below but just quickly — I always listen to an episode before reaching out to podcasts, __________________________________________
+I’ll paste my generic pitch below but just quickly — I always listen to an episode before reaching out to podcasts, I just listened to {episode}. __________________________________________
 
 But anyway, here's the quick pitch: 
 
@@ -22,3 +22,4 @@ Website: https://futureflower.app
 Affiliate info: https://futureflower.app/affiliate
 
 Best Regards,
+Ethan Betts.

@@ -1,4 +1,5 @@
 SEARCHED_TERMS = [
   "aa",
-  "ab"
+  "ab",
+  "ac"
 ]
