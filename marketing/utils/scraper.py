@@ -221,12 +221,11 @@ def scrape_term(term, searched_feeds, stdout_write, limit=None):
             continue
 
         entry = {
-            "contacted":                  False,
             "subject":                    "",
             "custom_intro":               "",
+            "email":                      rss["email"],
             "podcast_name":               result.get("collectionName", "").strip(),
             "host_name":                  rss["host_name"],
-            "email":                      rss["email"],
             "website":                    rss["website"],
             "episode_count":              result.get("trackCount", 0),
             "latest_episode_title":       rss["latest_episode_title"],
