@@ -30,3 +30,6 @@ __pycache__
 *.pyc
 staticfiles/
 django_cache/
+
+# Marketing scraper output
+marketing/podcasts.jsonl

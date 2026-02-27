@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "payments",
     "data_management",
     "partners",
+    "marketing",
 ]
 
 SITE_ID = 1

@@ -117,7 +117,7 @@ Partners must complete Stripe Connect onboarding to receive payouts.
 
 1. Partner clicks "Set Up" in the dashboard banner → `POST /api/partners/stripe-connect/onboard/`
 2. Backend creates a Stripe Express Account using `partner.country` (set at registration), then creates a Stripe `AccountLink` and returns the hosted onboarding URL.
-3. Frontend redirects the partner to Stripe's hosted onboarding pages (`connect.stripe.com/...`). Stripe handles the entire onboarding UX including country selection, identity verification, and bank details.
+3. Frontend redirects the partner to Stripe's hosted onboarding pages (`connect.stripe.com/...`). Stripe handles the entire onboarding UX — identity verification, bank details, etc. Country is pre-set from `partner.country` so the partner is not asked to select it again. For referral partners, `business_profile` (industry MCC `7311`, product description, URL) is also pre-filled so they skip those business detail questions entirely.
 4. On completion Stripe redirects the partner back to `/partner/stripe-connect/return`, which calls `GET /api/partners/stripe-connect/status/` for an immediate UI refresh.
 5. If the AccountLink expires, Stripe redirects to `/partner/stripe-connect/onboarding` which generates a fresh link automatically.
 6. `stripe_connect_onboarding_complete` is set to `True` via two paths:
