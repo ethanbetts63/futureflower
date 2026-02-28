@@ -98,7 +98,7 @@ def is_recent(date_str, days=30):
 
 def passes_itunes_filters(result):
     return (
-        result.get("trackCount", 0) >= 50
+        result.get("trackCount", 0) <= 50
         and is_recent(result.get("releaseDate", ""))
         and bool(result.get("feedUrl"))
     )

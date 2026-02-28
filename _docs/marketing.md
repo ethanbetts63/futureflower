@@ -12,7 +12,7 @@ Podcast outreach tool. Scrapes iTunes for podcast leads, stores them in a JSONL 
 
 ```bash
 # Scrape the next N qualifying podcasts into podcasts.jsonl
-python manage.py scrape_podcasts --batch 20
+python manage.py scrape_podcasts --batch 10
 
 # Send a one-off test email
 python manage.py send_email --to you@example.com --subject "Test" --body "Hello."
