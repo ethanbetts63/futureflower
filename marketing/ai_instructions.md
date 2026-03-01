@@ -33,4 +33,4 @@ when you go to fill in the intro field always start with "I just listened to..."
 
 Make sure to keep it short. you'll notice that mine only ever hit one thing from the description. You aren't re writing the description. 
 
-do not write it progromatically. write to the file one entry at a time and do it manually. 
+do not write it progromatically. write to the file one entry at a time and do it manually.  Try to make your language quite natural and casual. 
