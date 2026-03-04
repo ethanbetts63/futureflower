@@ -13,8 +13,8 @@ class Command(BaseCommand):
         parser.add_argument(
             '--batch',
             type=int,
-            default=1,
-            help='Number of search terms to process in one run (default: 1).',
+            default=10,
+            help='Number of entries to write per run (default: 10).',
         )
 
     def handle(self, *args, **options):

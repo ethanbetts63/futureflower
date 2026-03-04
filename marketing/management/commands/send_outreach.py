@@ -1,4 +1,5 @@
 import json
+import time
 from pathlib import Path
 from django.core.management.base import BaseCommand
 from marketing.utils.emailer import send_email
@@ -71,6 +72,8 @@ class Command(BaseCommand):
 
                 sent += 1
                 self.stdout.write(self.style.SUCCESS(f"  Sent → {to}  ({podcast_name})"))
+                self.stdout.write("  Waiting 30s...")
+                time.sleep(30)
 
             except Exception as e:
                 failed += 1
