@@ -28,6 +28,7 @@ class Command(BaseCommand):
         target = options['batch']
         total_written = 0
         total_skipped = 0
+        consecutive_empty = 0
 
         while total_written < target:
             upcoming = next_terms(searched_terms, 1)
@@ -44,6 +45,14 @@ class Command(BaseCommand):
             searched_terms.append(term)
             total_written += written
             total_skipped += skipped
+
+            if written == 0 and skipped == 0:
+                consecutive_empty += 1
+                if consecutive_empty >= 5:
+                    self.stdout.write(self.style.WARNING('5 consecutive terms returned nothing. Stopping early.'))
+                    break
+            else:
+                consecutive_empty = 0
 
             # Save after each term so a crash loses nothing
             save_searched_terms(searched_terms)
