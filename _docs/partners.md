@@ -19,7 +19,7 @@ Both types get a discount code at registration. Both types require admin approva
 5. Returns JWT tokens — user is logged in immediately.
 6. Redirects to `/dashboard/partner`. Stripe Connect setup is decoupled from registration — the partner initiates it from the dashboard when ready.
 
-**Auto-generated code format:** `{slugified-business-name}-{discount_amount}` (e.g. `flower-shop-5`). If that's taken among active codes, appends `-2`, `-3`, etc.
+**Auto-generated code format:** `{slugified-business-name}-{discount_amount}` (e.g. `flower-shop-5`). If no business name is provided, falls back to `partner`. If the generated code is taken among active codes, appends `-2`, `-3`, etc. Partners can rename codes to any slug-safe string (max 30 chars) via the dashboard, as long as it's unique among active codes.
 
 ## Partner Status Lifecycle
 
@@ -31,7 +31,7 @@ Both types get a discount code at registration. Both types require admin approva
 
 ## Discount Codes
 
-Each partner has exactly one discount code (OneToOne). The code has a fixed dollar amount (default $5).
+Each partner can have multiple discount codes. One is auto-generated at registration. Partners can create additional codes and rename any of their codes from the dashboard. Codes cannot be deleted (only deactivated on partner deletion). Each code has a fixed dollar amount (default $5).
 
 ### Validation Rules (when a customer tries to use a code)
 
@@ -134,16 +134,20 @@ Partners must complete Stripe Connect onboarding to receive payouts.
 `GET /api/partners/dashboard/` returns:
 
 - Partner status and details
-- Discount code info (code string, amount, times used, total discounted)
+- `discount_codes` — list of all codes (each with id, code string, amount, is_active, total_uses, created_at)
 - Earnings summary (total earned, pending, approved, paid)
 - Recent commissions (last 20)
 - Payout summary (total paid, total pending)
 - Delivery requests (delivery partners only)
 
+`POST /api/partners/discount-codes/` — create a new discount code. Optional `name` field used to generate the code slug (falls back to business name).
+
+`PATCH /api/partners/discount-codes/{id}/` — rename a discount code. `code` field is slugified server-side and checked for uniqueness among active codes.
+
 ## Key Business Rules
 
 1. Discount codes are for new customers only (no previous succeeded payments)
-2. One discount code per partner
+2. Partners can have multiple discount codes; one is created at registration
 3. Code only works if partner status is `active`
 4. Partners cannot use their own code
 5. `user.referred_by_partner` is set once on first code application and never changes
@@ -160,6 +164,7 @@ Partners must complete Stripe Connect onboarding to receive payouts.
 - `partners/models/discount_usage.py` — DiscountUsage tracking
 - `partners/models/commission.py` — Commission model
 - `partners/serializers/partner_registration_serializer.py` — Registration logic
+- `partners/views/discount_code_views.py` — Create and rename discount codes
 - `partners/serializers/validate_discount_code_serializer.py` — Code validation + plan persistence
 - `partners/utils/commission_utils.py` — Tiered commission calculation
 - `partners/signals.py` — Soft-delete signal for discount codes

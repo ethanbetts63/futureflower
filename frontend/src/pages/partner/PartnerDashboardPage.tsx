@@ -5,8 +5,8 @@ import Seo from '@/components/Seo';
 import StripeConnectBanner from '@/components/StripeConnectBanner';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
-import { getPartnerDashboard } from '@/api/partners';
-import type { Partner } from '@/types';
+import { getPartnerDashboard, createDiscountCode, renameDiscountCode } from '@/api/partners';
+import type { Partner, DiscountCode } from '@/types';
 import { useNavigate } from 'react-router-dom';
 
 const PartnerDashboardPage: React.FC = () => {
@@ -68,28 +68,11 @@ const PartnerDashboardPage: React.FC = () => {
               </div>
             </SummarySection>
 
-            {/* Discount Code */}
-            {partner.discount_code && (
-              <SummarySection label="Your Discount Code">
-                <div className="text-3xl font-mono font-bold tracking-wider text-black">
-                  {partner.discount_code.code}
-                </div>
-                <div className="grid grid-cols-3 gap-4 text-sm mt-3">
-                  <div>
-                    <p className="text-black/40">Discount</p>
-                    <p className="font-semibold text-black">${Number(partner.discount_code.discount_amount).toFixed(2)}</p>
-                  </div>
-                  <div>
-                    <p className="text-black/40">Times Used</p>
-                    <p className="font-semibold text-black">{partner.discount_code.total_uses}</p>
-                  </div>
-                  <div>
-                    <p className="text-black/40">Total Discounted</p>
-                    <p className="font-semibold text-black">${(partner.discount_code.total_uses * Number(partner.discount_code.discount_amount)).toFixed(2)}</p>
-                  </div>
-                </div>
-              </SummarySection>
-            )}
+            {/* Discount Codes */}
+            <DiscountCodesSection
+              codes={partner.discount_codes}
+              onCodesChange={(codes) => setPartner({ ...partner, discount_codes: codes })}
+            />
 
             {/* Earnings Summary */}
             <SummarySection label="Earnings Summary">
@@ -181,6 +164,191 @@ const PartnerDashboardPage: React.FC = () => {
         </div>
       </div>
     </>
+  );
+};
+
+// ─── Discount Codes Section ───────────────────────────────────────────────────
+
+interface DiscountCodesSectionProps {
+  codes: DiscountCode[];
+  onCodesChange: (codes: DiscountCode[]) => void;
+}
+
+const DiscountCodesSection: React.FC<DiscountCodesSectionProps> = ({ codes, onCodesChange }) => {
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editValue, setEditValue] = useState('');
+  const [editError, setEditError] = useState('');
+  const [editSaving, setEditSaving] = useState(false);
+
+  const [creating, setCreating] = useState(false);
+  const [newCodeName, setNewCodeName] = useState('');
+  const [createError, setCreateError] = useState('');
+  const [createSaving, setCreateSaving] = useState(false);
+
+  const startEdit = (dc: DiscountCode) => {
+    setEditingId(dc.id);
+    setEditValue(dc.code);
+    setEditError('');
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditValue('');
+    setEditError('');
+  };
+
+  const saveEdit = async (id: number) => {
+    setEditSaving(true);
+    setEditError('');
+    try {
+      const updated = await renameDiscountCode(id, editValue);
+      onCodesChange(codes.map((c) => (c.id === id ? updated : c)));
+      setEditingId(null);
+    } catch (err: any) {
+      setEditError(err.message || 'Failed to save.');
+    } finally {
+      setEditSaving(false);
+    }
+  };
+
+  const handleCreate = async () => {
+    setCreateSaving(true);
+    setCreateError('');
+    try {
+      const newCode = await createDiscountCode(newCodeName.trim() || undefined);
+      onCodesChange([...codes, newCode]);
+      setCreating(false);
+      setNewCodeName('');
+    } catch (err: any) {
+      setCreateError(err.message || 'Failed to create code.');
+    } finally {
+      setCreateSaving(false);
+    }
+  };
+
+  return (
+    <SummarySection label="Your Discount Codes">
+      {codes.length === 0 && (
+        <p className="text-black/40 mb-4">No discount codes yet.</p>
+      )}
+
+      <div className="space-y-5">
+        {codes.map((dc) => (
+          <div key={dc.id} className="border border-black/10 rounded-lg p-4">
+            {/* Code row */}
+            <div className="flex items-center gap-3 mb-3">
+              {editingId === dc.id ? (
+                <div className="flex-1 flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <input
+                      className="font-mono font-bold text-xl border border-black/20 rounded px-2 py-1 flex-1 focus:outline-none focus:ring-2 focus:ring-black/20"
+                      value={editValue}
+                      onChange={(e) => setEditValue(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') saveEdit(dc.id);
+                        if (e.key === 'Escape') cancelEdit();
+                      }}
+                      autoFocus
+                    />
+                    <button
+                      onClick={() => saveEdit(dc.id)}
+                      disabled={editSaving}
+                      className="text-sm font-medium text-white bg-black rounded px-3 py-1 disabled:opacity-50"
+                    >
+                      {editSaving ? 'Saving…' : 'Save'}
+                    </button>
+                    <button
+                      onClick={cancelEdit}
+                      className="text-sm text-black/50 hover:text-black"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  {editError && <p className="text-red-500 text-xs">{editError}</p>}
+                </div>
+              ) : (
+                <>
+                  <span className="text-2xl font-mono font-bold tracking-wider text-black flex-1">
+                    {dc.code}
+                  </span>
+                  {!dc.is_active && (
+                    <Badge className="bg-gray-100 text-gray-500">inactive</Badge>
+                  )}
+                  <button
+                    onClick={() => startEdit(dc)}
+                    className="text-xs text-black/40 hover:text-black underline underline-offset-2"
+                  >
+                    Edit
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Stats row */}
+            <div className="grid grid-cols-3 gap-4 text-sm">
+              <div>
+                <p className="text-black/40">Discount</p>
+                <p className="font-semibold text-black">${Number(dc.discount_amount).toFixed(2)}</p>
+              </div>
+              <div>
+                <p className="text-black/40">Times Used</p>
+                <p className="font-semibold text-black">{dc.total_uses}</p>
+              </div>
+              <div>
+                <p className="text-black/40">Total Discounted</p>
+                <p className="font-semibold text-black">${(dc.total_uses * Number(dc.discount_amount)).toFixed(2)}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Create new code */}
+      <div className="mt-4">
+        {creating ? (
+          <div className="border border-black/10 rounded-lg p-4">
+            <p className="text-xs font-bold tracking-widest uppercase text-black/40 mb-2">New Code</p>
+            <p className="text-xs text-black/50 mb-3">
+              Enter a name and we'll generate a code from it, or leave blank to use your business name.
+            </p>
+            <div className="flex items-center gap-2">
+              <input
+                className="font-mono border border-black/20 rounded px-2 py-1 flex-1 focus:outline-none focus:ring-2 focus:ring-black/20 text-sm"
+                placeholder="e.g. podcast, summer, vip"
+                value={newCodeName}
+                onChange={(e) => setNewCodeName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleCreate();
+                  if (e.key === 'Escape') { setCreating(false); setNewCodeName(''); setCreateError(''); }
+                }}
+                autoFocus
+              />
+              <button
+                onClick={handleCreate}
+                disabled={createSaving}
+                className="text-sm font-medium text-white bg-black rounded px-3 py-1 disabled:opacity-50"
+              >
+                {createSaving ? 'Creating…' : 'Create'}
+              </button>
+              <button
+                onClick={() => { setCreating(false); setNewCodeName(''); setCreateError(''); }}
+                className="text-sm text-black/50 hover:text-black"
+              >
+                Cancel
+              </button>
+            </div>
+            {createError && <p className="text-red-500 text-xs mt-2">{createError}</p>}
+          </div>
+        ) : (
+          <button
+            onClick={() => setCreating(true)}
+            className="text-sm font-medium text-black/50 hover:text-black underline underline-offset-2 mt-2"
+          >
+            + Add new code
+          </button>
+        )}
+      </div>
+    </SummarySection>
   );
 };
 

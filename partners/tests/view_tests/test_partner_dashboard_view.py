@@ -22,7 +22,7 @@ class TestPartnerDashboardView:
         response = self.client.get(self.url)
         assert response.status_code == 200
         assert response.data['business_name'] == "My Flower Shop"
-        assert response.data['discount_code']['code'] == "MYSHOP5"
+        assert response.data['discount_codes'][0]['code'] == "MYSHOP5"
         assert Decimal(response.data['commission_summary']['total_earned']) == Decimal('30.00')
 
     def test_dashboard_not_partner_fails(self):

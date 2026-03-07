@@ -22,6 +22,8 @@ from partners.views import (
     AdminCommissionDetailView,
     AdminApproveCommissionView,
     AdminDenyCommissionView,
+    DiscountCodeCreateView,
+    DiscountCodeRenameView,
 )
 
 urlpatterns = [
@@ -30,6 +32,8 @@ urlpatterns = [
     path('dashboard/', PartnerDashboardView.as_view(), name='partner-dashboard'),
     path('update/', PartnerUpdateView.as_view(), name='partner-update'),
     path('validate-discount-code/', ValidateDiscountCodeView.as_view(), name='validate-discount-code'),
+    path('discount-codes/', DiscountCodeCreateView.as_view(), name='discount-code-create'),
+    path('discount-codes/<int:pk>/', DiscountCodeRenameView.as_view(), name='discount-code-rename'),
 
     # Phase 2
     path('delivery-requests/', DeliveryRequestListView.as_view(), name='delivery-request-list'),

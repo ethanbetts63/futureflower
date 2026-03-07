@@ -10,7 +10,7 @@ export interface Partner {
   state: string;
   postcode: string;
   country: string;
-  discount_code: DiscountCode | null;
+  discount_codes: DiscountCode[];
   commission_summary: CommissionSummary;
   recent_commissions: Commission[];
   delivery_requests: DeliveryRequestSummary[];
@@ -23,6 +23,7 @@ export interface Partner {
 }
 
 export interface DiscountCode {
+  id: number;
   code: string;
   discount_amount: string;
   is_active: boolean;

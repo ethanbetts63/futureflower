@@ -8,7 +8,7 @@ class DiscountCodeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DiscountCode
-        fields = ['code', 'discount_amount', 'is_active', 'total_uses', 'created_at']
+        fields = ['id', 'code', 'discount_amount', 'is_active', 'total_uses', 'created_at']
 
     def get_total_uses(self, obj):
         return obj.usages.count()
@@ -42,7 +42,7 @@ class DeliveryRequestDashboardSerializer(serializers.ModelSerializer):
 
 
 class PartnerDashboardSerializer(serializers.ModelSerializer):
-    discount_code = DiscountCodeSerializer(read_only=True)
+    discount_codes = DiscountCodeSerializer(many=True, read_only=True)
     commission_summary = serializers.SerializerMethodField()
     recent_commissions = serializers.SerializerMethodField()
     delivery_requests = serializers.SerializerMethodField()
@@ -53,7 +53,7 @@ class PartnerDashboardSerializer(serializers.ModelSerializer):
         model = Partner
         fields = [
             'id', 'partner_type', 'status', 'business_name', 'phone',
-            'discount_code', 'commission_summary',
+            'discount_codes', 'commission_summary',
             'recent_commissions', 'delivery_requests',
             'street_address', 'suburb', 'city', 'state', 'postcode', 'country',
             'latitude', 'longitude', 'service_radius_km',

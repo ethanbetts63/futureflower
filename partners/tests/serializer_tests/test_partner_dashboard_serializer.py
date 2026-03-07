@@ -47,13 +47,26 @@ class TestPartnerDashboardSerializer:
         data = PartnerDashboardSerializer(partner).data
         assert len(data['delivery_requests']) == 1
 
-    def test_discount_code_included_when_exists(self):
+    def test_discount_codes_included_when_exist(self):
         partner = PartnerFactory()
         dc = DiscountCodeFactory(partner=partner)
         partner = Partner.objects.get(pk=partner.pk)
         data = PartnerDashboardSerializer(partner).data
-        assert data['discount_code'] is not None
-        assert data['discount_code']['code'] == dc.code
+        assert len(data['discount_codes']) == 1
+        assert data['discount_codes'][0]['code'] == dc.code
+
+    def test_discount_codes_empty_when_none_exist(self):
+        partner = PartnerFactory()
+        data = PartnerDashboardSerializer(partner).data
+        assert data['discount_codes'] == []
+
+    def test_discount_codes_multiple(self):
+        partner = PartnerFactory()
+        DiscountCodeFactory(partner=partner, code='code-one-5')
+        DiscountCodeFactory(partner=partner, code='code-two-5')
+        partner = Partner.objects.get(pk=partner.pk)
+        data = PartnerDashboardSerializer(partner).data
+        assert len(data['discount_codes']) == 2
 
     def test_payout_summary_zeros_for_new_partner(self):
         partner = PartnerFactory()

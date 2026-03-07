@@ -3,6 +3,7 @@ import { handleResponse } from './helpers';
 import type {
   AuthResponse,
   Partner,
+  DiscountCode,
   DiscountValidationResult,
   PartnerRegistrationData,
   PartnerUpdateData,
@@ -88,5 +89,21 @@ export async function getPayouts(): Promise<Payout[]> {
 
 export async function getPayoutDetail(payoutId: number): Promise<PayoutDetail> {
   const response = await authedFetch(`/api/partners/payouts/${payoutId}/`);
+  return handleResponse(response);
+}
+
+export async function createDiscountCode(name?: string): Promise<DiscountCode> {
+  const response = await authedFetch('/api/partners/discount-codes/', {
+    method: 'POST',
+    body: JSON.stringify({ name: name ?? '' }),
+  });
+  return handleResponse(response);
+}
+
+export async function renameDiscountCode(id: number, code: string): Promise<DiscountCode> {
+  const response = await authedFetch(`/api/partners/discount-codes/${id}/`, {
+    method: 'PATCH',
+    body: JSON.stringify({ code }),
+  });
   return handleResponse(response);
 }

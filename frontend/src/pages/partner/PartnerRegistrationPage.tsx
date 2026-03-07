@@ -165,7 +165,7 @@ const PartnerRegistrationPage: React.FC = () => {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="business_name">Business Name</Label>
+                    <Label htmlFor="business_name">Business/Podcast/Social Name</Label>
                     <Input id="business_name" name="business_name" value={form.business_name} onChange={handleChange} />
                   </div>
                   <div className="space-y-2">

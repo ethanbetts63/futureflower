@@ -3,12 +3,12 @@ from django.utils.text import slugify
 
 
 class DiscountCode(models.Model):
-    partner = models.OneToOneField(
+    partner = models.ForeignKey(
         'partners.Partner',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='discount_code'
+        related_name='discount_codes'
     )
     code = models.CharField(max_length=30, db_index=True)
     discount_amount = models.DecimalField(max_digits=10, decimal_places=2, default=5.00)
