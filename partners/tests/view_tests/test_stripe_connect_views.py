@@ -19,12 +19,12 @@ class TestStripeConnectViews:
         mock_acc = mocker.patch('stripe.Account.create')
         mock_acc.return_value = mocker.MagicMock(id='acct_123')
 
-        mock_session = mocker.patch('stripe.AccountSession.create')
-        mock_session.return_value = mocker.MagicMock(client_secret='secret_123')
+        mock_link = mocker.patch('stripe.AccountLink.create')
+        mock_link.return_value = mocker.MagicMock(url='https://connect.stripe.com/onboard/acct_123')
 
         response = self.client.post('/api/partners/stripe-connect/onboard/')
         assert response.status_code == 200
-        assert response.data['client_secret'] == 'secret_123'
+        assert response.data['url'] == 'https://connect.stripe.com/onboard/acct_123'
 
         partner.refresh_from_db()
         assert partner.stripe_connect_account_id == 'acct_123'
@@ -33,12 +33,12 @@ class TestStripeConnectViews:
         """If partner already has a stripe_connect_account_id, no new account is created."""
         partner = PartnerFactory(user=self.user, stripe_connect_account_id='acct_existing')
         mock_acc = mocker.patch('stripe.Account.create')
-        mock_session = mocker.patch('stripe.AccountSession.create')
-        mock_session.return_value = mocker.MagicMock(client_secret='secret_xyz')
+        mock_link = mocker.patch('stripe.AccountLink.create')
+        mock_link.return_value = mocker.MagicMock(url='https://connect.stripe.com/onboard/acct_existing')
 
         response = self.client.post('/api/partners/stripe-connect/onboard/')
         assert response.status_code == 200
-        assert response.data['client_secret'] == 'secret_xyz'
+        assert response.data['url'] == 'https://connect.stripe.com/onboard/acct_existing'
         mock_acc.assert_not_called()
 
         partner.refresh_from_db()
