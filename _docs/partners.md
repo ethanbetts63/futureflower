@@ -19,7 +19,7 @@ Both types get a discount code at registration. Both types require admin approva
 5. Returns JWT tokens — user is logged in immediately.
 6. Redirects to `/dashboard/partner`. Stripe Connect setup is decoupled from registration — the partner initiates it from the dashboard when ready.
 
-**Auto-generated code format:** `{slugified-business-name}-{discount_amount}` (e.g. `flower-shop-5`). If no business name is provided, falls back to `partner`. If the generated code is taken among active codes, appends `-2`, `-3`, etc. Partners can rename codes to any slug-safe string (max 30 chars) via the dashboard, as long as it's unique among active codes.
+**Auto-generated code format:** `{slugified-business-name}-{discount_amount}` (e.g. `flower-shop-5`). If no business name is provided, falls back to `partner`. If the generated code is taken among active codes, appends `-2`, `-3`, etc.
 
 ## Partner Status Lifecycle
 
@@ -31,7 +31,7 @@ Both types get a discount code at registration. Both types require admin approva
 
 ## Discount Codes
 
-Each partner can have multiple discount codes. One is auto-generated at registration. Partners can create additional codes and rename any of their codes from the dashboard. Codes cannot be deleted (only deactivated on partner deletion). Each code has a fixed dollar amount (default $5).
+Each partner can have multiple discount codes. One is auto-generated at registration. Partners can create additional codes from the dashboard but cannot edit or delete existing ones (codes are only deactivated on partner deletion). Each code has a fixed dollar amount (default $5).
 
 ### Validation Rules (when a customer tries to use a code)
 
@@ -142,7 +142,6 @@ Partners must complete Stripe Connect onboarding to receive payouts.
 
 `POST /api/partners/discount-codes/` — create a new discount code. Optional `name` field used to generate the code slug (falls back to business name).
 
-`PATCH /api/partners/discount-codes/{id}/` — rename a discount code. `code` field is slugified server-side and checked for uniqueness among active codes.
 
 ## Key Business Rules
 

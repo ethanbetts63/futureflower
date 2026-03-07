@@ -21,7 +21,7 @@ class DiscountCode(models.Model):
     @staticmethod
     def generate_code(business_name, discount_amount=5):
         base = slugify(business_name)[:20] if business_name else 'partner'
-        code = f"{base}-{int(discount_amount)}"
+        code = f"{base}{int(discount_amount)}"
         if not DiscountCode.objects.filter(code=code, is_active=True).exists():
             return code
         counter = 2

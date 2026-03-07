@@ -48,64 +48,7 @@ class TestDiscountCodeCreateView:
         response = self.client.post(self.url, {}, format='json')
         assert response.status_code == 404
 
-    def test_new_code_has_collision_suffix(self):
-        # First code uses business name slug
+    def test_collision_gets_counter_suffix(self):
         first = self.client.post(self.url, {'name': 'vip'}, format='json')
-        # Second with same name should get a counter suffix
         second = self.client.post(self.url, {'name': 'vip'}, format='json')
         assert first.data['code'] != second.data['code']
-
-
-@pytest.mark.django_db
-class TestDiscountCodeRenameView:
-    def setup_method(self):
-        self.client = APIClient()
-        self.user = UserFactory()
-        self.client.force_authenticate(user=self.user)
-        self.partner = PartnerFactory(user=self.user)
-        self.dc = DiscountCodeFactory(partner=self.partner, code='original-5')
-
-    def url(self, pk=None):
-        return f'/api/partners/discount-codes/{pk or self.dc.pk}/'
-
-    def test_rename_success(self):
-        response = self.client.patch(self.url(), {'code': 'my-podcast-5'}, format='json')
-        assert response.status_code == 200
-        assert response.data['code'] == 'my-podcast-5'
-        self.dc.refresh_from_db()
-        assert self.dc.code == 'my-podcast-5'
-
-    def test_rename_slugifies_input(self):
-        response = self.client.patch(self.url(), {'code': 'My Podcast'}, format='json')
-        assert response.status_code == 200
-        assert response.data['code'] == 'my-podcast'
-
-    def test_rename_empty_code_rejected(self):
-        response = self.client.patch(self.url(), {'code': ''}, format='json')
-        assert response.status_code == 400
-
-    def test_rename_code_too_long_rejected(self):
-        response = self.client.patch(self.url(), {'code': 'a' * 31}, format='json')
-        assert response.status_code == 400
-
-    def test_rename_collision_rejected(self):
-        other = DiscountCodeFactory(partner=self.partner, code='taken-5')
-        response = self.client.patch(self.url(), {'code': 'taken-5'}, format='json')
-        assert response.status_code == 400
-        assert 'taken' in response.data['error'].lower()
-
-    def test_rename_to_own_code_is_ok(self):
-        # Renaming to the same code the code already has should not collide with itself
-        response = self.client.patch(self.url(), {'code': 'original-5'}, format='json')
-        assert response.status_code == 200
-
-    def test_rename_requires_authentication(self):
-        self.client.logout()
-        response = self.client.patch(self.url(), {'code': 'newname'}, format='json')
-        assert response.status_code == 401
-
-    def test_rename_cannot_edit_another_partners_code(self):
-        other_partner = PartnerFactory()
-        other_dc = DiscountCodeFactory(partner=other_partner, code='theirs-5')
-        response = self.client.patch(self.url(other_dc.pk), {'code': 'stolen'}, format='json')
-        assert response.status_code == 404

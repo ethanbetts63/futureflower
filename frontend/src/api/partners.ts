@@ -100,10 +100,3 @@ export async function createDiscountCode(name?: string): Promise<DiscountCode> {
   return handleResponse(response);
 }
 
-export async function renameDiscountCode(id: number, code: string): Promise<DiscountCode> {
-  const response = await authedFetch(`/api/partners/discount-codes/${id}/`, {
-    method: 'PATCH',
-    body: JSON.stringify({ code }),
-  });
-  return handleResponse(response);
-}

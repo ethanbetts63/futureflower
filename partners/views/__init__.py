@@ -23,4 +23,4 @@ from .admin_commission_list_view import AdminCommissionListView
 from .admin_commission_detail_view import AdminCommissionDetailView
 from .admin_approve_commission_view import AdminApproveCommissionView
 from .admin_deny_commission_view import AdminDenyCommissionView
-from .discount_code_views import DiscountCodeCreateView, DiscountCodeRenameView
+from .discount_code_views import DiscountCodeCreateView
