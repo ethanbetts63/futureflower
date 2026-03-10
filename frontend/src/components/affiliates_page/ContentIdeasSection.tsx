@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
+import { BecomePartnerButton } from '../florists_page/BecomePartnerButton';
 import floristMakingImage320 from '../../assets/florist_making_flowers-320w.webp';
 import floristMakingImage640 from '../../assets/florist_making_flowers-640w.webp';
 import floristMakingImage768 from '../../assets/florist_making_flowers-768w.webp';
@@ -41,7 +42,7 @@ export const ContentIdeasSection: React.FC = () => {
               How to share FutureFlower
             </h2>
 
-            <ul className="space-y-5">
+            <ul className="space-y-5 mb-8">
               {angles.map((angle, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <ChevronRight className="h-5 w-5 text-green-500 flex-shrink-0 mt-1" />
@@ -52,6 +53,10 @@ export const ContentIdeasSection: React.FC = () => {
                 </li>
               ))}
             </ul>
+
+            <div className="flex justify-center">
+              <BecomePartnerButton />
+            </div>
           </div>
         </div>
 

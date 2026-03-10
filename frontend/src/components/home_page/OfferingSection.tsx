@@ -32,7 +32,7 @@ const OfferingSection: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
 
             {/* Left — Image */}
-            <div className="relative rounded-xl overflow-hidden">
+            <div className="relative md:rounded-xl overflow-hidden">
               <Badge
                 title="Free Delivery"
                 subtext="Included on all products"
@@ -116,14 +116,14 @@ const OfferingSection: React.FC = () => {
 
               {/* One-Off Card */}
               <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
-                <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
                     <h3 className="text-xl font-bold text-black font-['Playfair_Display',_serif]">The One-Off Delivery</h3>
                     <p className="mt-1 text-sm text-gray-500">No subscription required. Just a single, beautiful gesture for a specific date.</p>
                   </div>
                   <button
                     onClick={() => handleNav('/event-gate/single-delivery')}
-                    className="flex-shrink-0 flex items-center gap-2 bg-[var(--colorgreen)] text-black font-semibold px-5 py-3 rounded-lg hover:brightness-110 transition-all cursor-pointer text-sm group"
+                    className="flex-shrink-0 flex items-center gap-2 bg-[var(--colorgreen)] text-black font-semibold px-5 py-3 rounded-lg hover:brightness-110 transition-all cursor-pointer text-sm group self-start md:self-auto"
                   >
                     <img src={flowerIcon} alt="" className="h-5 w-5" />
                     <span>Send Flowers</span>

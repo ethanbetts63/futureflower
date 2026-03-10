@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
+import { BecomePartnerButton } from '../florists_page/BecomePartnerButton';
 
 const customerBenefits = [
   'More of their money goes into actual flowers.',
@@ -37,9 +38,13 @@ export const WhyFutureFlowerAffiliatesSection: React.FC = () => {
             </div>
           </div>
 
-          <p className="text-lg text-gray-700 leading-relaxed">
+          <p className="text-lg text-gray-700 leading-relaxed mb-8">
             You're not promoting another impulse purchase. You're sharing a better way to buy something that people are already buying.
           </p>
+
+          <div className="flex justify-center">
+            <BecomePartnerButton />
+          </div>
         </div>
       </div>
     </section>
