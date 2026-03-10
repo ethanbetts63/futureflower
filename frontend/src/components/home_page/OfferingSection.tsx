@@ -32,7 +32,7 @@ const OfferingSection: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
 
             {/* Left — Image */}
-            <div className="relative md:rounded-xl overflow-hidden">
+            <div className="relative -mx-6 -mt-6 md:mx-0 md:mt-0 md:rounded-xl overflow-hidden">
               <Badge
                 title="Free Delivery"
                 subtext="Included on all products"
