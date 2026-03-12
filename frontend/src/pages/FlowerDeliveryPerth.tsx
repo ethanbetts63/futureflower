@@ -139,7 +139,7 @@ const FlowerDeliveryPerth = () => {
           src: heroImage1280,
           srcSet: `${heroImage320} 320w, ${heroImage640} 640w, ${heroImage768} 768w, ${heroImage1024} 1024w, ${heroImage1280} 1280w`,
           mobileSrcSet: `${heroMobileImage320} 320w, ${heroMobileImage412} 412w, ${heroMobileImage640} 640w, ${heroMobileImage768} 768w`,
-          alt: "A woman holding a large bouquet of flowers.",
+          alt: "Fresh flowers arranged by a local Perth florist, ready for delivery.",
         }}
       />
       <AnnouncementBar />
