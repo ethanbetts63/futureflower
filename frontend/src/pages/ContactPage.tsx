@@ -31,7 +31,7 @@ const otherSitesData = [
 
 const ContactPage: React.FC = () => {
     const description = "Have a question, suggestion, or need support? Get in touch with the FutureFlower team — we'd love to hear from you.";
-    const email = "ethanbetts63@gmail.com";
+    const email = "ethan.betts.dev@gmail.com";
 
     const contactPageSchema = {
         "@context": "https://schema.org",

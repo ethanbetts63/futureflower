@@ -41,13 +41,13 @@ export const ContactHero: React.FC = () => {
           Have questions, suggestions, or feedback? I'd love to hear from you.
         </p>
         <a
-          href="mailto:ethanbetts63@gmail.com"
+          href="mailto:ethan.betts.dev@gmail.com"
           className="mt-6 inline-flex items-center gap-3 bg-[var(--colorgreen)] text-black font-semibold px-6 py-4 rounded-lg hover:brightness-110 transition-all shadow-lg"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
-          ethanbetts63@gmail.com
+          ethan.betts.dev@gmail.com
         </a>
       </div>
     </section>

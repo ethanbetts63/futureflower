@@ -52,7 +52,7 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
     try {
       await cancelUpfrontPlan(planId);
       setCancelDialogOpen(false);
-      toast.success('Your plan has been cancelled. To request a refund for remaining deliveries, email ethanbetts63@gmail.com.');
+      toast.success('Your plan has been cancelled. To request a refund for remaining deliveries, email ethan.betts.dev@gmail.com.');
       navigate('/dashboard');
     } catch {
       setCancelError('Something went wrong. Please try again.');
@@ -295,7 +295,7 @@ const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
             <AlertDialogTitle>Cancel this plan?</AlertDialogTitle>
             <AlertDialogDescription>
               All upcoming scheduled deliveries will be cancelled. This cannot be undone.
-              To request a refund for remaining deliveries, email ethanbetts63@gmail.com.
+              To request a refund for remaining deliveries, email ethan.betts.dev@gmail.com.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
