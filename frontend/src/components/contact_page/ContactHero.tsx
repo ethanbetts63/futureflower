@@ -38,7 +38,7 @@ export const ContactHero: React.FC = () => {
           Contact Us
         </h1>
         <p className="mt-4 text-base sm:text-lg text-black md:text-white">
-          Have questions, suggestions, or feedback? I'd love to hear from you.
+          Have questions, suggestions, or feedback? we'd love to hear from you. Contact our admin at the following email address, and we'll get back to you as soon as possible! Whether it's about our plans, delivery, or anything else, we're here to help.
         </p>
         <a
           href="mailto:ethan.betts.dev@gmail.com"

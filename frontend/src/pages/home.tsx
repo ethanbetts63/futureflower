@@ -19,6 +19,15 @@ import deliveryImage640 from '../assets/delivery-640w.webp';
 import deliveryImage768 from '../assets/delivery-768w.webp';
 import deliveryImage1024 from '../assets/delivery-1024w.webp';
 import deliveryImage1280 from '../assets/delivery-1280w.webp';
+import heroImage320 from '../assets/hero2-320w.webp';
+import heroImage640 from '../assets/hero2-640w.webp';
+import heroImage768 from '../assets/hero2-768w.webp';
+import heroImage1024 from '../assets/hero2-1024w.webp';
+import heroImage1280 from '../assets/hero2-1280w.webp';
+import heroMobileImage320 from '../assets/hero2_mobile2-320w.webp';
+import heroMobileImage412 from '../assets/hero2_mobile2-412w.webp';
+import heroMobileImage640 from '../assets/hero2_mobile2-640w.webp';
+import heroMobileImage768 from '../assets/hero2_mobile2-768w.webp';
 import { FaqV2 } from '../components/FaqV2';
 import { HeroV2 } from '../components/home_page/HeroV2';
 import { DeliverySection } from '../components/home_page/DeliverySection';
@@ -123,6 +132,12 @@ const HomePage = () => {
       <HeroV2
         title="Better flowers. Local Florists."
         subtext="Pick a date. Pick a budget. We handle the rest. Flower Delivery and Subscriptions the right way."
+        image={{
+          src: heroImage1280,
+          srcSet: `${heroImage320} 320w, ${heroImage640} 640w, ${heroImage768} 768w, ${heroImage1024} 1024w, ${heroImage1280} 1280w`,
+          mobileSrcSet: `${heroMobileImage320} 320w, ${heroMobileImage412} 412w, ${heroMobileImage640} 640w, ${heroMobileImage768} 768w`,
+          alt: "A woman holding a large bouquet of flowers.",
+        }}
       />
       <AnnouncementBar />
 

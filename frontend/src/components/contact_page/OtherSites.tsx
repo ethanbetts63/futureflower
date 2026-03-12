@@ -11,7 +11,7 @@ const OtherSites: React.FC<OtherSitesProps> = ({ sites }) => {
     return (
         <div className="container mx-auto py-6">
             <h2 className="text-3xl font-bold text-center text-black mb-8">
-                Liked this site? Check out some of my others!
+                Liked this site? Check out some of our others!
             </h2>
             <div className="flex justify-center">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">

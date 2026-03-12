@@ -2,21 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import type { HeroV2Props } from '../../types/HeroV2Props';
-import heroImage320 from '../../assets/hero2-320w.webp';
-import heroImage640 from '../../assets/hero2-640w.webp';
-import heroImage768 from '../../assets/hero2-768w.webp';
-import heroImage1024 from '../../assets/hero2-1024w.webp';
-import heroImage1280 from '../../assets/hero2-1280w.webp';
-import heroMobileImage320 from '../../assets/hero2_mobile2-320w.webp';
-import heroMobileImage412 from '../../assets/hero2_mobile2-412w.webp';
-import heroMobileImage640 from '../../assets/hero2_mobile2-640w.webp';
-import heroMobileImage768 from '../../assets/hero2_mobile2-768w.webp';
 import flowerIcon from '../../assets/flower_symbol.svg';
 import subscriptionIcon from '../../assets/subscription_symbol.svg';
 import deliveryIcon from '../../assets/delivery_symbol.svg';
 import Badge from '../Badge';
 
-export const HeroV2: React.FC<HeroV2Props> = ({ title, subtext }) => {
+export const HeroV2: React.FC<HeroV2Props> = ({ title, subtext, image }) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
@@ -34,16 +25,18 @@ export const HeroV2: React.FC<HeroV2Props> = ({ title, subtext }) => {
       {/* Image — in normal flow on mobile, fills section absolutely on desktop */}
       <div className="w-full md:absolute md:inset-0">
         <picture className="block w-full h-full">
-          <source
-            media="(max-width: 767px)"
-            srcSet={`${heroMobileImage320} 320w, ${heroMobileImage412} 412w, ${heroMobileImage640} 640w, ${heroMobileImage768} 768w`}
-            sizes="100vw"
-          />
+          {image.mobileSrcSet && (
+            <source
+              media="(max-width: 767px)"
+              srcSet={image.mobileSrcSet}
+              sizes="100vw"
+            />
+          )}
           <img
-            src={heroImage1280}
-            srcSet={`${heroImage320} 320w, ${heroImage640} 640w, ${heroImage768} 768w, ${heroImage1024} 1024w, ${heroImage1280} 1280w`}
+            src={image.src}
+            srcSet={image.srcSet}
             sizes="100vw"
-            alt="A woman holding a large bouquet of flowers."
+            alt={image.alt}
             fetchPriority="high"
             className="w-full h-80 sm:h-96 object-cover md:h-full"
           />
