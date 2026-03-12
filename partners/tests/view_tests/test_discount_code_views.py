@@ -18,13 +18,13 @@ class TestDiscountCodeCreateView:
     def test_create_generates_code_from_business_name(self):
         response = self.client.post(self.url, {}, format='json')
         assert response.status_code == 201
-        assert 'bloom-studio' in response.data['code']
+        assert 'BLOOMSTUDIO' in response.data['code']
         assert DiscountCode.objects.filter(partner=self.partner).count() == 1
 
     def test_create_with_custom_name(self):
         response = self.client.post(self.url, {'name': 'podcast'}, format='json')
         assert response.status_code == 201
-        assert 'podcast' in response.data['code']
+        assert 'PODCAST' in response.data['code']
 
     def test_create_multiple_codes_allowed(self):
         self.client.post(self.url, {'name': 'spring'}, format='json')

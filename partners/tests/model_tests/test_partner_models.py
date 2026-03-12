@@ -118,7 +118,7 @@ class TestDiscountCodeModel:
     def test_generate_code_creates_slug_based_code(self):
         code = DiscountCode.generate_code('Test Business')
         assert code
-        assert 'test-business' in code
+        assert 'TESTBUSINESS' in code
 
     def test_generate_code_handles_collision(self):
         base_code = DiscountCode.generate_code('Collision Biz')
@@ -130,7 +130,7 @@ class TestDiscountCodeModel:
     def test_generate_code_with_empty_business_name_uses_partner(self):
         code = DiscountCode.generate_code('')
         assert code
-        assert 'partner' in code
+        assert 'PARTNER' in code
 
     def test_generate_code_ignores_inactive_codes(self):
         base_code = DiscountCode.generate_code('Same Name')
