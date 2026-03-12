@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
@@ -7,12 +7,12 @@ import { validateDiscountCode } from '@/api/partners';
 import type { DiscountValidationResult } from '@/types';
 import type { DiscountCodeInputProps } from '@/types/DiscountCodeInputProps';
 
-const DiscountCodeInput: React.FC<DiscountCodeInputProps> = ({
+const DiscountCodeInput = ({
   planId,
   planType,
   existingCode,
   onDiscountApplied,
-}) => {
+}: DiscountCodeInputProps) => {
   // Initialize from existingCode on first render only
   const initialized = useRef(false);
   const [code, setCode] = useState(() => existingCode || '');

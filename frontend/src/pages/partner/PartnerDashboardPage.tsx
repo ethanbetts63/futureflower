@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { Badge } from '@/components/ui/badge';
 import Seo from '@/components/Seo';
@@ -10,7 +10,7 @@ import type { Partner } from '@/types';
 import type { DiscountCodesSectionProps } from '@/types/DiscountCodesSectionProps';
 import { useNavigate } from 'react-router-dom';
 
-const PartnerDashboardPage: React.FC = () => {
+const PartnerDashboardPage = () => {
   const [partner, setPartner] = useState<Partner | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -170,7 +170,7 @@ const PartnerDashboardPage: React.FC = () => {
 
 // ─── Discount Codes Section ───────────────────────────────────────────────────
 
-const DiscountCodesSection: React.FC<DiscountCodesSectionProps> = ({ codes, onCodesChange }) => {
+const DiscountCodesSection = ({ codes, onCodesChange }: DiscountCodesSectionProps) => {
   const [creating, setCreating] = useState(false);
   const [newCodeName, setNewCodeName] = useState('');
   const [createError, setCreateError] = useState('');

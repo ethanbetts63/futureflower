@@ -1,10 +1,9 @@
 // frontend/src/components/EditControl.tsx
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Lock } from 'lucide-react';
 import type { EditControlProps } from '../types/EditControlProps';
 
-const EditControl: React.FC<EditControlProps> = ({ editUrl, locked = false }) => {
+const EditControl = ({ editUrl, locked = false }: EditControlProps) => {
   if (locked) {
     return (
       <div className="flex items-center gap-1.5 text-black/30">

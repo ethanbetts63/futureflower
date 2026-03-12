@@ -1,5 +1,5 @@
 // futureflower/frontend/src/components/OrderSummaryCard.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { getSubscriptionPlan } from '@/api/subscriptionPlans';
@@ -11,7 +11,7 @@ import { Flower, Calendar, Repeat, DollarSign } from 'lucide-react';
 import type { OrderSummaryCardProps } from '@/types/OrderSummaryCardProps';
 
 type Plan = SubscriptionPlan | UpfrontPlan; 
-const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({ planId, itemType }) => {
+const OrderSummaryCard = ({ planId, itemType }: OrderSummaryCardProps) => {
     const [plan, setPlan] = useState<Plan | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

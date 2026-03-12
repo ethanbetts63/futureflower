@@ -1,7 +1,7 @@
-import React from 'react';
+
 import { ChevronRight } from 'lucide-react';
 
-export const SoWhatsTheCatchSection: React.FC = () => {
+export const SoWhatsTheCatchSection = () => {
   return (
     <section className="bg-[var(--color4)] py-10 md:py-14">
       <div className="container mx-auto px-4">

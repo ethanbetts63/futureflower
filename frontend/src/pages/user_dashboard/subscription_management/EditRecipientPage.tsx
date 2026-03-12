@@ -1,9 +1,8 @@
 // futureflower/frontend/src/pages/user_dashboard/subscription_management/EditRecipientPage.tsx
-import React from 'react';
 import RecipientEditor from '@/components/form_flow/RecipientEditor';
 import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
 
-const EditRecipientPage: React.FC = () => {
+const EditRecipientPage = () => {
     return (
         <RecipientEditor
             mode="edit"

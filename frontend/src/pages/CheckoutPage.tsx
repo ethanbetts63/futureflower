@@ -1,5 +1,5 @@
 // futureflower/frontend/src/pages/CheckoutPage.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import type { StripeElementsOptions, Appearance } from '@stripe/stripe-js';
@@ -23,7 +23,7 @@ import flowerIcon from '@/assets/flower_symbol.svg';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-const CheckoutPage: React.FC = () => {
+const CheckoutPage = () => {
     const location = useLocation();
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const [planId, setPlanId] = useState<string | null>(null);

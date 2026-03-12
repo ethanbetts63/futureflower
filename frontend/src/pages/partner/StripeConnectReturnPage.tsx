@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import Seo from '@/components/Seo';
 import { getStripeConnectStatus } from '@/api/partners';
 
-const StripeConnectReturnPage: React.FC = () => {
+const StripeConnectReturnPage = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [isComplete, setIsComplete] = useState(false);

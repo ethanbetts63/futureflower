@@ -1,7 +1,7 @@
-import React from 'react';
+
 import type { StepProgressBarProps } from '@/types/StepProgressBarProps';
 
-const StepProgressBar: React.FC<StepProgressBarProps> = ({ currentStep, totalSteps, planName, isReview, customLabel }) => {
+const StepProgressBar = ({ currentStep, totalSteps, planName, isReview, customLabel }: StepProgressBarProps) => {
     const progressPercent = isReview ? 100 : (currentStep / totalSteps) * 100;
 
     const displayLabel = customLabel || (isReview ? "Final Review" : `Step ${currentStep} of ${totalSteps}`);

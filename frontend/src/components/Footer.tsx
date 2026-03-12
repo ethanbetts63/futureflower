@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.webp';
 import logo128 from '../assets/logo-128w.webp';
@@ -7,7 +7,7 @@ import logo256 from '../assets/logo-256w.webp';
 import stripeLogo from '../assets/stripe-ar21.svg';
 import { useAuth } from '@/context/AuthContext';
 
-const Footer: React.FC = () => {
+const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { user } = useAuth();
 

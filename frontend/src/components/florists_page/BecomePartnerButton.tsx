@@ -1,8 +1,8 @@
-import React from 'react';
+
 import { Link } from 'react-router-dom';
 import type { BecomePartnerButtonProps } from '@/types/BecomePartnerButtonProps';
 
-export const BecomePartnerButton: React.FC<BecomePartnerButtonProps> = ({ className = '' }) => {
+export const BecomePartnerButton = ({ className = '' }: BecomePartnerButtonProps) => {
   return (
     <Link
       to="/partner/register"

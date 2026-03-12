@@ -1,4 +1,4 @@
-import React from 'react';
+
 import floristImage from '../../assets/florist.webp';
 import floristImage320 from '../../assets/florist-320w.webp';
 import floristImage640 from '../../assets/florist-640w.webp';
@@ -14,7 +14,7 @@ const benefits = [
   'Zero marketing spend to acquire these customers',
 ];
 
-export const SendBusinessYourWay: React.FC = () => {
+export const SendBusinessYourWay = () => {
   return (
     <section className="bg-white">
       <div className="grid grid-cols-1 md:grid-cols-2">

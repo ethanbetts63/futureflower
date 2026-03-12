@@ -1,8 +1,8 @@
-import React from 'react';
+
 import type { SummarySectionProps } from '@/types/SummarySectionProps';
 import EditControl from '@/components/EditControl';
 
-const SummarySection: React.FC<SummarySectionProps> = ({ label, children, editUrl, locked }) => {
+const SummarySection = ({ label, children, editUrl, locked }: SummarySectionProps) => {
   return (
     <div className="py-6 border-b border-black/5 last:border-0">
       <div className="flex items-center justify-between mb-2">

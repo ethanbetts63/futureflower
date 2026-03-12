@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAdminDashboard, getPendingPartners, getAdminCommissions } from '@/api/admin';
 import type { AdminDashboard } from '@/types/AdminDashboard';
@@ -23,7 +23,7 @@ function daysUntil(dateStr: string): number {
   return Math.ceil((target.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 }
 
-const EventCard: React.FC<EventCardProps> = ({ event, section }) => {
+const EventCard = ({ event, section }: EventCardProps) => {
   const days = daysUntil(event.delivery_date);
   const recipientName = `${event.recipient_first_name} ${event.recipient_last_name}`;
   const location = [event.recipient_suburb, event.recipient_city].filter(Boolean).join(', ');
@@ -69,7 +69,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, section }) => {
   );
 };
 
-const QueueSection: React.FC<QueueSectionProps> = ({ title, events, section }) => (
+const QueueSection = ({ title, events, section }: QueueSectionProps) => (
   <SummarySection label={`${title} (${events.length})`}>
     {events.length === 0 ? (
       <p className="text-sm text-black/40 italic">No events currently in this queue.</p>
@@ -83,7 +83,7 @@ const QueueSection: React.FC<QueueSectionProps> = ({ title, events, section }) =
   </SummarySection>
 );
 
-const PartnerRequestRow: React.FC<{ partner: AdminPartner }> = ({ partner }) => (
+const PartnerRequestRow = ({ partner }: { partner: AdminPartner }) => (
   <div className="flex justify-between items-center gap-4 py-3 border-b border-black/5 last:border-0">
     <div className="flex-1 min-w-0">
       <p className="font-semibold text-black truncate">{partner.business_name || `${partner.first_name} ${partner.last_name}`}</p>
@@ -107,7 +107,7 @@ function formatAmount(amount: string): string {
   return `$${parseFloat(amount).toFixed(2)}`;
 }
 
-const PendingPayoutRow: React.FC<{ commission: AdminCommission }> = ({ commission }) => (
+const PendingPayoutRow = ({ commission }: { commission: AdminCommission }) => (
   <div className="flex justify-between items-center gap-4 py-3 border-b border-black/5 last:border-0">
     <div className="flex-1 min-w-0">
       <p className="font-semibold text-black truncate">{commission.partner_name}</p>
@@ -126,7 +126,7 @@ const PendingPayoutRow: React.FC<{ commission: AdminCommission }> = ({ commissio
   </div>
 );
 
-const AdminDashboardPage: React.FC = () => {
+const AdminDashboardPage = () => {
   const [dashboard, setDashboard] = useState<AdminDashboard | null>(null);
   const [pendingPartners, setPendingPartners] = useState<AdminPartner[]>([]);
   const [pendingPayouts, setPendingPayouts] = useState<AdminCommission[]>([]);

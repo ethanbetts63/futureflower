@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { ContactHero } from '../components/contact_page/ContactHero';
 import OtherSites from '../components/contact_page/OtherSites';
 import { Letter } from '../components/contact_page/Letter';
@@ -29,7 +29,7 @@ const otherSitesData = [
     },
 ];
 
-const ContactPage: React.FC = () => {
+const ContactPage = () => {
     const description = "Have a question, suggestion, or need support? Get in touch with the FutureFlower team — we'd love to hear from you.";
     const email = "ethan.betts.dev@gmail.com";
 

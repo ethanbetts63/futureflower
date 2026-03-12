@@ -1,4 +1,3 @@
-import React from 'react';
 import floristPackingImage from '../../assets/florist_packing.webp'; // TODO: replace with commission-themed image
 
 const rows = [
@@ -9,7 +8,7 @@ const rows = [
   { budget: '>= $250', commission: '$25', total: '$75' },
 ];
 
-export const CommissionStructureSection: React.FC = () => {
+export const CommissionStructureSection = () => {
   return (
     <section className="bg-white">
       <div className="grid grid-cols-1 md:grid-cols-2">

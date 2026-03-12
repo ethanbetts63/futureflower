@@ -1,11 +1,11 @@
-import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CreditCard } from 'lucide-react';
 import type { StripeConnectBannerProps } from '@/types/StripeConnectBannerProps';
 
-const StripeConnectBanner: React.FC<StripeConnectBannerProps> = ({ onboardingComplete }) => {
+const StripeConnectBanner = ({ onboardingComplete }: StripeConnectBannerProps) => {
   const navigate = useNavigate();
 
   if (onboardingComplete) return null;

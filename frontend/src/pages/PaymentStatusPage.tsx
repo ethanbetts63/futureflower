@@ -1,5 +1,5 @@
 // futureflower/frontend/src/pages/PaymentStatusPage.tsx
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useStripe } from '@stripe/react-stripe-js';
 import type { PaymentIntentResult } from '@stripe/stripe-js';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -13,7 +13,7 @@ import { getSubscriptionPlan } from '@/api/subscriptionPlans';
 const POLL_INTERVAL_MS = 2000;
 const MAX_POLL_ATTEMPTS = 15; // 30 seconds max
 
-const UniversalPaymentStatusPage: React.FC = () => {
+const UniversalPaymentStatusPage = () => {
     const stripe = useStripe();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();

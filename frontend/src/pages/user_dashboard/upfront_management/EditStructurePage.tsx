@@ -1,8 +1,7 @@
 // futureflower/frontend/src/pages/user_dashboard/upfront_management/EditStructurePage.tsx
-import React from 'react';
 import SingleDeliveryStructureEditor from '@/components/form_flow/SingleDeliveryStructureEditor';
 
-const EditStructurePage: React.FC = () => {
+const EditStructurePage = () => {
     return (
         <SingleDeliveryStructureEditor
             mode="edit"

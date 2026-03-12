@@ -1,4 +1,3 @@
-import React from 'react';
 import { ChevronRight } from 'lucide-react';
 import { BecomePartnerButton } from '../florists_page/BecomePartnerButton';
 
@@ -9,7 +8,7 @@ const customerBenefits = [
   'Pure floristry from local florists.',
 ];
 
-export const WhyFutureFlowerAffiliatesSection: React.FC = () => {
+export const WhyFutureFlowerAffiliatesSection = () => {
   return (
     <section className="bg-[var(--color4)] py-10 md:py-14">
       <div className="container mx-auto px-4">

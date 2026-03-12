@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAdminCommissions } from '@/api/admin';
 import type { AdminCommission } from '@/types/AdminCommission';
@@ -33,7 +33,7 @@ const STATUS_STYLES: Record<string, string> = {
   denied: 'bg-red-100 text-red-700',
 };
 
-const StatusBadge: React.FC<{ status: string }> = ({ status }) => (
+const StatusBadge = ({ status }: { status: string }) => (
   <span className={`px-2 py-0.5 rounded-full text-xs font-semibold capitalize ${STATUS_STYLES[status] ?? 'bg-gray-100 text-gray-600'}`}>
     {status}
   </span>
@@ -47,7 +47,7 @@ function formatAmount(amount: string): string {
   return `$${parseFloat(amount).toFixed(2)}`;
 }
 
-const CommissionRow: React.FC<{ commission: AdminCommission }> = ({ commission }) => (
+const CommissionRow = ({ commission }: { commission: AdminCommission }) => (
   <div className="flex justify-between items-center gap-4 py-3 border-b border-black/5 last:border-0">
     <div className="flex-1 min-w-0">
       <div className="flex items-center gap-2 flex-wrap">
@@ -71,7 +71,7 @@ const CommissionRow: React.FC<{ commission: AdminCommission }> = ({ commission }
   </div>
 );
 
-const AdminPayoutListPage: React.FC = () => {
+const AdminPayoutListPage = () => {
   const [commissions, setCommissions] = useState<AdminCommission[]>([]);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
   const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');

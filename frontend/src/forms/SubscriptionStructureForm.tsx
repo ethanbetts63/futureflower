@@ -1,5 +1,5 @@
 // futureflower/frontend/src/forms/SubscriptionStructureForm.tsx
-import React from 'react';
+
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -15,13 +15,13 @@ const getMinDateString = (isEdit: boolean) => {
     return minDate.toISOString().split('T')[0];
 };
 
-const SubscriptionStructureForm: React.FC<SubscriptionStructureFormProps> = ({
+const SubscriptionStructureForm = ({
     formData,
     onFormChange,
     setIsDebouncePending,
     isEdit = false,
     isActivePlan = false,
-}) => {
+}: SubscriptionStructureFormProps) => {
     const handleBudgetChange = (budget: number) => {
         if (setIsDebouncePending) setIsDebouncePending(true);
         onFormChange('budget', budget);

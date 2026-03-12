@@ -1,4 +1,3 @@
-import React from 'react';
 import { ChevronRight } from 'lucide-react';
 import { BecomePartnerButton } from '../florists_page/BecomePartnerButton';
 import floristMakingImage320 from '../../assets/florist_making_flowers-320w.webp';
@@ -30,7 +29,7 @@ const angles = [
   },
 ];
 
-export const ContentIdeasSection: React.FC = () => {
+export const ContentIdeasSection = () => {
   return (
     <section className="bg-white">
       <div className="grid grid-cols-1 md:grid-cols-2">

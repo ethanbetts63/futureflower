@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,7 @@ import Seo from '@/components/Seo';
 import { getDeliveryRequestByToken, respondToDeliveryRequest, markDeliveryComplete } from '@/api/partners';
 import type { DeliveryRequestDetail } from '@/types';
 
-const DeliveryRequestPage: React.FC = () => {
+const DeliveryRequestPage = () => {
   const { token } = useParams<{ token: string }>();
   const [request, setRequest] = useState<DeliveryRequestDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);

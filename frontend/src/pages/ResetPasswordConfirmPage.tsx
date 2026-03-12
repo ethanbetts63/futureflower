@@ -1,5 +1,5 @@
 // frontend/src/pages/ResetPasswordConfirmPage.tsx
-import React from 'react';
+
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -16,7 +16,7 @@ type PasswordResetFormData = {
   password_confirm: string;
 };
 
-const ResetPasswordConfirmPage: React.FC = () => {
+const ResetPasswordConfirmPage = () => {
   const { uid, token } = useParams<{ uid: string; token: string }>();
   const navigate = useNavigate();
 

@@ -1,12 +1,11 @@
 // src/pages/VerificationFailedPage.tsx
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { XCircleIcon } from 'lucide-react'; // Using XCircleIcon for failure
 import Seo from '@/components/Seo';
 
-const VerificationFailedPage: React.FC = () => {
+const VerificationFailedPage = () => {
   return (
     <div className="container mx-auto max-w-2xl py-12">
       <Seo title="Verification Failed | FutureFlower" />

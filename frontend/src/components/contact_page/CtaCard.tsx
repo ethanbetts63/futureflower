@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 import type { View, DetailedProductInfoProps, ProductData } from '@/types';
 
-const DetailedProductInfo: React.FC<DetailedProductInfoProps> = ({ subtitle, paragraph, features, onGetStarted, buttonText = "Get Started" }) => {
+const DetailedProductInfo = ({ subtitle, paragraph, features, onGetStarted, buttonText = "Get Started" }: DetailedProductInfoProps) => {
   return (
     <div className="text-left">
       <h3 className="text-xl font-bold font-['Playfair_Display',_serif] text-center mb-3">{subtitle}</h3>
@@ -29,7 +29,7 @@ const DetailedProductInfo: React.FC<DetailedProductInfoProps> = ({ subtitle, par
 
 
 
-export const CtaCard: React.FC = () => {
+export const CtaCard = () => {
   const [view, setView] = useState<View>('subscription');
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();

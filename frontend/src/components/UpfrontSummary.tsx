@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Calendar, MessageSquare, Tag, StickyNote } from 'lucide-react';
 import EditControl from '@/components/EditControl';
@@ -32,13 +32,13 @@ import {
 import type { UpfrontSummaryProps } from '@/types/UpfrontSummaryProps';
 import type { FlowerType } from '@/types/FlowerType';
 
-const UpfrontSummary: React.FC<UpfrontSummaryProps> = ({
+const UpfrontSummary = ({
   plan,
   flowerTypeMap,
   context,
   planId,
   onRefreshPlan,
-}) => {
+}: UpfrontSummaryProps) => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);

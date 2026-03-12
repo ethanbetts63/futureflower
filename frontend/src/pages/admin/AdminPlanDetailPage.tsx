@@ -27,20 +27,20 @@ const STATUS_STYLES: Record<string, string> = {
   delivered: 'bg-green-100 text-green-800',
 };
 
-const Field: React.FC<{ label: string; value: React.ReactNode }> = ({ label, value }) => (
+const Field = ({ label, value }: { label: string; value: React.ReactNode }) => (
   <div>
     <p className="text-xs text-black/40 uppercase tracking-wider mb-0.5">{label}</p>
     <p className="text-black">{value || '—'}</p>
   </div>
 );
 
-const StatusBadge: React.FC<{ status: string }> = ({ status }) => (
+const StatusBadge = ({ status }: { status: string }) => (
   <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${STATUS_STYLES[status] ?? 'bg-gray-100 text-gray-600'}`}>
     {capitalize(status)}
   </span>
 );
 
-const AdminPlanDetailPage: React.FC = () => {
+const AdminPlanDetailPage = () => {
   const { planType, planId } = useParams<{ planType: string; planId: string }>();
   const [plan, setPlan] = useState<AdminPlanDetail | null>(null);
   const [loading, setLoading] = useState(true);

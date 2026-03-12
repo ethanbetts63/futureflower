@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.webp';
 import logo128 from '../assets/logo-128w.webp';
@@ -6,7 +6,7 @@ import logo192 from '../assets/logo-192w.webp';
 import logo256 from '../assets/logo-256w.webp';
 import { useAuth } from '@/context/AuthContext';
 
-const NavBar: React.FC = () => {
+const NavBar = () => {
   const { isAuthenticated, logout, user } = useAuth();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);

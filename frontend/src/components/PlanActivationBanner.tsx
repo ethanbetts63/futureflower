@@ -1,11 +1,10 @@
 // src/components/PlanActivationBanner.tsx
-import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import type { PlanActivationBannerProps } from '../types/PlanActivationBannerProps';
 
-const PlanActivationBanner: React.FC<PlanActivationBannerProps> = ({ planId }) => {
+const PlanActivationBanner = ({ planId }: PlanActivationBannerProps) => {
   const navigate = useNavigate();
 
   const handleActivate = () => {

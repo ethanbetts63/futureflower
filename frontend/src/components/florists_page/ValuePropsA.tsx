@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Check } from 'lucide-react';
 import type { ValuePropsAProps } from '@/types/ValuePropsAProps';
 
@@ -9,7 +9,7 @@ const points = [
   'We absorb bad review risk.',
 ];
 
-export const ValuePropsA: React.FC<ValuePropsAProps> = ({ contentRef }) => {
+export const ValuePropsA = ({ contentRef }: ValuePropsAProps) => {
   return (
     <section ref={contentRef} className="bg-[var(--color4)] pt-10 scroll-mt-10">
       <div className="container mx-auto px-4 max-w-4xl">

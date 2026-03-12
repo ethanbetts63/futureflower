@@ -1,5 +1,5 @@
 // futureflower/frontend/src/components/SingleDeliveryPlanTable.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -11,7 +11,7 @@ import { getSingleDeliveryTypeUpfrontPlans } from '@/api/singleDeliveryPlans';
 import { type UpfrontPlan } from '../types/UpfrontPlan';
 import type { UpfrontPlanTableProps } from '../types/UpfrontPlanTableProps';
 
-const SingleDeliveryPlanTable: React.FC<UpfrontPlanTableProps> = ({ showTitle = true }) => {
+const SingleDeliveryPlanTable = ({ showTitle = true }: UpfrontPlanTableProps) => {
   const [plans, setPlans] = useState<UpfrontPlan[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

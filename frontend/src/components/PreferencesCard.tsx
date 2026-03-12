@@ -8,7 +8,7 @@ import type { FlowerType } from '../types/FlowerType';
 import type { PreferencesCardProps } from '../types/PreferencesCardProps';
 
 // Helper component for displaying a list of vibes/occasions
-const FlowerTypePreferenceList: React.FC<{ title: string; typeIds: number[]; typeMap: Map<number, FlowerType>; icon: React.ElementType; }> = ({ title, typeIds, typeMap, icon: Icon }) => {
+const FlowerTypePreferenceList = ({ title, typeIds, typeMap, icon: Icon }: { title: string; typeIds: number[]; typeMap: Map<number, FlowerType>; icon: React.ElementType; }) => {
     const types = useMemo(() =>
         typeIds.map(id => typeMap.get(Number(id))).filter((ft): ft is FlowerType => !!ft),
         [typeIds, typeMap]);
@@ -28,7 +28,7 @@ const FlowerTypePreferenceList: React.FC<{ title: string; typeIds: number[]; typ
 };
 
 
-const PreferencesCard: React.FC<PreferencesCardProps> = ({ plan, flowerTypeMap, editUrl }) => {
+const PreferencesCard = ({ plan, flowerTypeMap, editUrl }: PreferencesCardProps) => {
     return (
         <Card className="bg-white shadow-md border-none text-black">
             <CardHeader className="flex flex-row justify-between items-center">

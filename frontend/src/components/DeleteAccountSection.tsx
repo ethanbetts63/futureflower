@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { deleteAccount } from '@/api';
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -15,7 +15,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-const DeleteAccountSection: React.FC = () => {
+const DeleteAccountSection = () => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteError, setDeleteError] = useState<string | null>(null);
 

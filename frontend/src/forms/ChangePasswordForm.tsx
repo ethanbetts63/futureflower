@@ -1,5 +1,5 @@
 // frontend/src/forms/ChangePasswordForm.tsx
-import React from 'react';
+
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { changePassword } from '@/api';
 import { Button } from '@/components/ui/button';
@@ -14,7 +14,7 @@ type PasswordFormData = {
   new_password_confirm: string;
 };
 
-export const ChangePasswordForm: React.FC = () => {
+export const ChangePasswordForm = () => {
   const form = useForm<PasswordFormData>({
     defaultValues: {
       old_password: '',

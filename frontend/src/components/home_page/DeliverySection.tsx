@@ -1,4 +1,3 @@
-import React from 'react';
 import deliveryImage from '../../assets/delivery.webp';
 import deliveryImage320 from '../../assets/delivery-320w.webp';
 import deliveryImage640 from '../../assets/delivery-640w.webp';
@@ -13,7 +12,7 @@ const features = [
   "Each bouquet can include a personalised message, written once and updated whenever you like. Bouquet preferences are completely within your control."
 ];
 
-export const DeliverySection: React.FC = () => {
+export const DeliverySection = () => {
   return (
     <section className="bg-white">
       <div className="grid grid-cols-1 md:grid-cols-2">

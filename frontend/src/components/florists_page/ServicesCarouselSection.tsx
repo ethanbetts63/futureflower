@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Calendar, RefreshCw } from 'lucide-react';
 
 const services = [
@@ -24,7 +24,7 @@ const services = [
   }
 ];
 
-export const ServicesCarouselSection: React.FC = () => {
+export const ServicesCarouselSection = () => {
   return (
     <section className="bg-primary py-6">
       <div className="container mx-auto px-4">

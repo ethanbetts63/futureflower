@@ -1,7 +1,7 @@
-import React from 'react';
+
 import type { BadgeProps } from '@/types/BadgeProps';
 
-const Badge: React.FC<BadgeProps> = ({ title, subtext, symbol, className = "" }) => {
+const Badge = ({ title, subtext, symbol, className = "" }: BadgeProps) => {
   return (
     <div className={`z-10 ${className}`}>
       <div className="bg-white/95 backdrop-blur-md rounded-2xl px-4 py-3 md:px-6 md:py-5 shadow-xl flex items-center gap-2 md:gap-4">

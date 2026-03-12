@@ -1,5 +1,5 @@
 // futureflower/frontend/src/components/SubscriptionStructureEditor.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,13 +23,13 @@ const getMinDateString = (isEdit: boolean) => {
     return minDate.toISOString().split('T')[0];
 };
 
-const SubscriptionStructureEditor: React.FC<SubscriptionStructureEditorProps> = ({
+const SubscriptionStructureEditor = ({
     mode,
     title = "Define Your Subscription",
     saveButtonText,
     onSaveNavigateTo,
     backPath,
-}) => {
+}: SubscriptionStructureEditorProps) => {
     const { planId } = useParams<{ planId: string }>();
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();

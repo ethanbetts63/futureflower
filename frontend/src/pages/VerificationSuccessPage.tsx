@@ -1,12 +1,12 @@
 // src/pages/flow/VerificationSuccessPage.tsx
-import React from 'react';
+
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircleIcon } from 'lucide-react';
 import Seo from '@/components/Seo';
 
-const VerificationSuccessPage: React.FC = () => {
+const VerificationSuccessPage = () => {
   return (
     <div className="container mx-auto max-w-2xl py-12">
       <Seo title="Verification Successful | FutureFlower" />

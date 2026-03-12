@@ -1,5 +1,5 @@
 // futureflower/frontend/src/pages/user_dashboard/subscription_management/SubscriptionPlanOverviewPage.tsx
-import React from 'react';
+
 import { useParams } from 'react-router-dom';
 import Seo from '@/components/Seo';
 import PlanDisplay from '@/components/PlanDisplay';
@@ -9,7 +9,7 @@ import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
 import type { Plan } from '../../../types/Plan';
 import type { FlowerType } from '../../../types/FlowerType';
 
-const SubscriptionPlanOverviewPage: React.FC = () => {
+const SubscriptionPlanOverviewPage = () => {
   const { planId } = useParams<{ planId: string }>();
 
   const isSubscriptionPlan = (plan: any): plan is SubscriptionPlan => {

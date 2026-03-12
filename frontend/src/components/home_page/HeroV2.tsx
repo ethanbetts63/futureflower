@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import type { HeroV2Props } from '../../types/HeroV2Props';
@@ -7,7 +7,7 @@ import subscriptionIcon from '../../assets/subscription_symbol.svg';
 import deliveryIcon from '../../assets/delivery_symbol.svg';
 import Badge from '../Badge';
 
-export const HeroV2: React.FC<HeroV2Props> = ({ title, subtext, image }) => {
+export const HeroV2 = ({ title, subtext, image }: HeroV2Props) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 

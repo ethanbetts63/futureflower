@@ -1,8 +1,8 @@
-import React from 'react';
+
 import { Helmet } from 'react-helmet-async';
 import type { SeoProps } from '../types/SeoProps';
 
-const Seo: React.FC<SeoProps> = ({ title, description, canonicalPath, ogType = 'website', ogImage, noindex, structuredData }) => {
+const Seo = ({ title, description, canonicalPath, ogType = 'website', ogImage, noindex, structuredData }: SeoProps) => {
   const siteUrl = 'https://www.futureflower.app'; // This should ideally come from an environment variable
   const canonicalUrl = canonicalPath ? `${siteUrl}${canonicalPath}` : undefined;
   const imageUrl = ogImage ? `${siteUrl}${ogImage}` : `${siteUrl}/static/square-image.jpg`; // Fallback image

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { getUpfrontPlans, getUserProfile } from '@/api';
 import { type UserProfile } from '@/types/UserProfile';
 import { type UpfrontPlan } from '@/types/UpfrontPlan';
@@ -14,7 +14,7 @@ import { Loader2 } from 'lucide-react';
 import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 
-const UserDashboardPage: React.FC = () => {
+const UserDashboardPage = () => {
   const [plans, setPlans] = useState<UpfrontPlan[]>([]);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);

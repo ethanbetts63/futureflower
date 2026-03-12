@@ -98,7 +98,7 @@ const articles = [
 
 
 
-export const ArticleCarousel: React.FC<ArticleCarouselProps> = ({ exclude, showAll = false }) => {
+export const ArticleCarousel = ({ exclude, showAll = false }: ArticleCarouselProps) => {
   let filteredArticles = articles.filter(article => article.link !== exclude);
 
   const articlesToShow = showAll ? filteredArticles : filteredArticles.slice(0, 3);

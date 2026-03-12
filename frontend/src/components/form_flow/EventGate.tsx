@@ -1,5 +1,5 @@
 // frontend/src/components/EventGate.tsx
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import Seo from '../Seo';
@@ -7,7 +7,7 @@ import { getOrCreatePendingSubscriptionPlan } from '@/api/subscriptionPlans';
 import { getOrCreatePendingSingleDeliveryTypeUpfrontPlan } from '@/api/singleDeliveryPlans';
 import { toast } from 'sonner';
 
-const EventGate: React.FC = () => {
+const EventGate = () => {
     const { isAuthenticated, isLoading } = useAuth();
     const navigate = useNavigate();
     const { flowType } = useParams<{ flowType?: string }>();

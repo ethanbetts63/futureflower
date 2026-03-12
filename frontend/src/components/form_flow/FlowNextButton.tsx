@@ -1,11 +1,11 @@
-import React from 'react';
+
 import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 import { cn } from '@/utils/utils';
 import { Spinner } from '@/components/ui/spinner';
 import type { FlowNextButtonProps } from '@/types/FlowNextButtonProps';
 
-const FlowNextButton: React.FC<FlowNextButtonProps> = ({ 
+const FlowNextButton = ({ 
   label, 
   isLoading, 
   className, 
@@ -13,7 +13,7 @@ const FlowNextButton: React.FC<FlowNextButtonProps> = ({
   children,
   asChild,
   ...props 
-}) => {
+}: FlowNextButtonProps) => {
   return (
     <Button
       asChild={asChild}

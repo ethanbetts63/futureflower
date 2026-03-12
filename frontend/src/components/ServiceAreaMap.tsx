@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Circle, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -13,10 +13,10 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-const DraggableMarker: React.FC<{
+const DraggableMarker = ({ position, onDragEnd }: {
   position: [number, number];
   onDragEnd: (lat: number, lng: number) => void;
-}> = ({ position, onDragEnd }) => {
+}) => {
   const markerRef = useRef<L.Marker>(null);
 
   return (
@@ -37,9 +37,9 @@ const DraggableMarker: React.FC<{
   );
 };
 
-const MapClickHandler: React.FC<{
+const MapClickHandler = ({ onClick }: {
   onClick: (lat: number, lng: number) => void;
-}> = ({ onClick }) => {
+}) => {
   useMapEvents({
     click: (e) => {
       onClick(e.latlng.lat, e.latlng.lng);
@@ -48,7 +48,7 @@ const MapClickHandler: React.FC<{
   return null;
 };
 
-const PanToCenter: React.FC<{ center: [number, number] }> = ({ center }) => {
+const PanToCenter = ({ center }: { center: [number, number] }) => {
   const map = useMap();
   useEffect(() => {
     map.panTo(center);
@@ -56,13 +56,13 @@ const PanToCenter: React.FC<{ center: [number, number] }> = ({ center }) => {
   return null;
 };
 
-const ServiceAreaMap: React.FC<ServiceAreaMapProps> = ({
+const ServiceAreaMap = ({
   latitude,
   longitude,
   radiusKm,
   onLocationChange,
   onRadiusChange,
-}) => {
+}: ServiceAreaMapProps) => {
   const hasPin = latitude !== null && longitude !== null;
 
   return (

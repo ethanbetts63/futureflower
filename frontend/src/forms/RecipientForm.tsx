@@ -7,11 +7,11 @@ import { Input } from '@/components/ui/input';
 import type { RecipientData } from '../types/RecipientData';
 import type { RecipientFormProps } from '../types/RecipientFormProps';
 
-const RecipientForm: React.FC<RecipientFormProps> = ({
+const RecipientForm = ({
   formData,
   onFormChange,
   title = "Recipient Details"
-}) => {
+}: RecipientFormProps) => {
   const handleChange = (field: keyof RecipientData) => (e: React.ChangeEvent<HTMLInputElement>) => {
     onFormChange(field, e.target.value);
   };

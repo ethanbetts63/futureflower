@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useForm } from 'react-hook-form';
 import type { UserProfile } from '../types/UserProfile';
 import { updateUserProfile } from '@/api';
@@ -11,7 +11,7 @@ import type { ProfileFormProps } from '../types/ProfileFormProps';
 
 type ProfileFormData = Omit<UserProfile, 'id' | 'username'>;
 
-export const ProfileForm: React.FC<ProfileFormProps> = ({ profile, onProfileUpdate, isEditing }) => {
+export const ProfileForm = ({ profile, onProfileUpdate, isEditing }: ProfileFormProps) => {
     const form = useForm<ProfileFormData>({
         defaultValues: {
             first_name: profile.first_name || '',

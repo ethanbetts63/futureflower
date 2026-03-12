@@ -1,9 +1,8 @@
-import React from 'react';
 import RecipientEditor from '@/components/form_flow/RecipientEditor';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
 
-const Step2RecipientPage: React.FC = () => {
+const Step2RecipientPage = () => {
     return (
         <>
         <StepProgressBar currentStep={2} totalSteps={4} planName="Subscription Plan" />

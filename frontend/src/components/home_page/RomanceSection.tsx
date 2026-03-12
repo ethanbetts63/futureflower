@@ -1,4 +1,3 @@
-import React from 'react';
 import kitchenImage from '../../assets/kitchen.webp';
 import kitchenImage320 from '../../assets/kitchen-320w.webp';
 import kitchenImage640 from '../../assets/kitchen-640w.webp';
@@ -13,7 +12,7 @@ const features = [
   "Set it up once. We handle the coordination and logistics from there."
 ];
 
-export const RomanceSection: React.FC = () => {
+export const RomanceSection = () => {
   return (
     <section className="bg-white">
       <div className="grid grid-cols-1 md:grid-cols-2">

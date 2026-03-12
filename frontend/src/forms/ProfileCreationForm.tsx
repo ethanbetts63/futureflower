@@ -1,5 +1,5 @@
 // frontend/src/components/flow/ProfileCreationForm.tsx
-import React from 'react';
+
 import { useForm } from 'react-hook-form';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,7 +47,7 @@ const profileFormResolver: Resolver<ProfileCreationData> = async (data) => {
     };
 };
 
-export const ProfileCreationForm: React.FC<ProfileCreationFormProps> = ({ initialData, onSubmit }) => {
+export const ProfileCreationForm = ({ initialData, onSubmit }: ProfileCreationFormProps) => {
     const form = useForm<ProfileCreationData>({
         defaultValues: initialData,
         resolver: profileFormResolver,

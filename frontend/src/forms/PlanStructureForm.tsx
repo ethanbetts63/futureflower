@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
@@ -8,13 +8,13 @@ import { MIN_DAYS_BEFORE_CREATE, MIN_DAYS_BEFORE_EDIT } from '@/utils/systemCons
 
 import type { PlanStructureFormProps } from '../types/PlanStructureFormProps';
 
-const PlanStructureForm: React.FC<PlanStructureFormProps> = ({
+const PlanStructureForm = ({
   formData,
   onFormChange,
   setIsDebouncePending,
   title = "Plan Structure",
   isEdit = false
-}) => {
+}: PlanStructureFormProps) => {
 
   const handleBudgetChange = (budget: number) => {
     if (setIsDebouncePending) {

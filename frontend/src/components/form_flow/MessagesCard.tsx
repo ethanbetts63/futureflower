@@ -1,5 +1,5 @@
 // src/components/MessagesCard.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageSquareText, Repeat } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
@@ -9,7 +9,7 @@ import type { ProjectedDelivery } from '@/api/upfrontPlans';
 import type { DeliveryEvent } from '../../types/DeliveryEvent';
 import type { MessagesCardProps } from '../../types/MessagesCardProps';
 
-const MessagesCard: React.FC<MessagesCardProps> = ({ plan, editUrl }) => {
+const MessagesCard = ({ plan, editUrl }: MessagesCardProps) => {
     const hasEvents = (plan.events?.length ?? 0) > 0;
     const [projectedDeliveries, setProjectedDeliveries] = useState<ProjectedDelivery[]>([]);
     const [isLoading, setIsLoading] = useState(false);

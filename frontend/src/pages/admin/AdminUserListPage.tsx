@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAdminUsers } from '@/api/admin';
 import type { AdminUser } from '@/types/AdminUser';
@@ -43,14 +43,14 @@ function sortUsers(users: AdminUser[], key: SortKey, dir: SortDir): AdminUser[] 
   });
 }
 
-const SortIcon: React.FC<{ col: SortKey; sortKey: SortKey; sortDir: SortDir }> = ({ col, sortKey, sortDir }) => {
+const SortIcon = ({ col, sortKey, sortDir }: { col: SortKey; sortKey: SortKey; sortDir: SortDir }) => {
   if (col !== sortKey) return <ChevronsUpDown className="inline h-3 w-3 ml-1 text-black/20" />;
   return sortDir === 'asc'
     ? <ChevronUp className="inline h-3 w-3 ml-1" />
     : <ChevronDown className="inline h-3 w-3 ml-1" />;
 };
 
-const AdminUserListPage: React.FC = () => {
+const AdminUserListPage = () => {
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [searchInput, setSearchInput] = useState('');
   const [activeSearch, setActiveSearch] = useState('');

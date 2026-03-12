@@ -19,7 +19,7 @@ function formatAmount(amount: string): string {
   return `$${parseFloat(amount).toFixed(2)}`;
 }
 
-const Field: React.FC<{ label: string; value: React.ReactNode }> = ({ label, value }) => (
+const Field = ({ label, value }: { label: string; value: React.ReactNode }) => (
   <div>
     <p className="text-xs text-black/40 uppercase tracking-wider mb-0.5">{label}</p>
     <p className="text-black">{value || '—'}</p>
@@ -34,13 +34,13 @@ const STATUS_COLOURS: Record<AdminCommission['status'], string> = {
   denied: 'bg-red-100 text-red-700',
 };
 
-const StatusBadge: React.FC<{ status: AdminCommission['status'] }> = ({ status }) => (
+const StatusBadge = ({ status }: { status: AdminCommission['status'] }) => (
   <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${STATUS_COLOURS[status] ?? 'bg-gray-100 text-gray-600'}`}>
     {status.charAt(0).toUpperCase() + status.slice(1)}
   </span>
 );
 
-const AdminPartnerDetailPage: React.FC = () => {
+const AdminPartnerDetailPage = () => {
   const { partnerId } = useParams<{ partnerId: string }>();
   const navigate = useNavigate();
   const [partner, setPartner] = useState<AdminPartner | null>(null);

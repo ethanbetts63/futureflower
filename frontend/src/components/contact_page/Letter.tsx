@@ -1,6 +1,6 @@
-import React from 'react';
 
-export const Letter: React.FC = () => {
+
+export const Letter = () => {
   return (
     <section className="px-4 sm:px-0 pb-4 sm:pb-0">
       <div className="">

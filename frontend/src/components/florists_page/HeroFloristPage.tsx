@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { ArrowDown } from 'lucide-react';
 import { BecomePartnerButton } from './BecomePartnerButton';
 import moneyBagIcon from '../../assets/money_bag.svg';
@@ -12,7 +12,7 @@ import deliveryImage768 from '../../assets/delivery-768w.webp';
 import deliveryImage1024 from '../../assets/delivery-1024w.webp';
 import deliveryImage1280 from '../../assets/delivery-1280w.webp';
 
-export const HeroFloristPage: React.FC<HeroFloristPageProps> = ({ scrollToContent }) => {
+export const HeroFloristPage = ({ scrollToContent }: HeroFloristPageProps) => {
   return (
     <section className="relative h-screen w-full flex items-end md:items-center">
       <picture className="absolute inset-0 w-full h-full">

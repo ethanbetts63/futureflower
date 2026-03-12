@@ -1,5 +1,5 @@
 // futureflower/frontend/src/components/SubscriptionPlanTable.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -11,7 +11,7 @@ import { getSubscriptionPlans } from '@/api'; // We will need to create this API
 import { type SubscriptionPlan } from '../types/SubscriptionPlan';
 import type { SubscriptionPlanTableProps } from '../types/SubscriptionPlanTableProps';
 
-const SubscriptionPlanTable: React.FC<SubscriptionPlanTableProps> = ({ showTitle = true }) => {
+const SubscriptionPlanTable = ({ showTitle = true }: SubscriptionPlanTableProps) => {
   const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

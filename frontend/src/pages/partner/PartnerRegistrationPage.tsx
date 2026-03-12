@@ -18,7 +18,7 @@ import { registerPartner } from '@/api/partners';
 import { acceptTerms } from '@/api';
 import type { PartnerRegistrationData } from '@/types';
 
-const PartnerRegistrationPage: React.FC = () => {
+const PartnerRegistrationPage = () => {
   const { partnerType } = useParams<{ partnerType: string }>();
   const navigate = useNavigate();
   const { handleLoginSuccess } = useAuth();

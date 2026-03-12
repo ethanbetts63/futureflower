@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Calendar, RefreshCw, Tag, MessageSquare } from 'lucide-react';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
@@ -18,13 +18,13 @@ import { formatDate } from '@/utils/utils';
 import type { SubscriptionSummaryProps } from '@/types/SubscriptionSummaryProps';
 import type { FlowerType } from '@/types/FlowerType';
 
-const SubscriptionSummary: React.FC<SubscriptionSummaryProps> = ({
+const SubscriptionSummary = ({
   plan,
   flowerTypeMap,
   context,
   planId,
   onRefreshPlan,
-}) => {
+}: SubscriptionSummaryProps) => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import type { UserProfile } from '@/types/UserProfile';
 import { getUserProfile } from '@/api';
 import { Skeleton } from "@/components/ui/skeleton";
@@ -12,7 +12,7 @@ import DeleteAccountSection from '@/components/DeleteAccountSection';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 
-const AccountManagementPage: React.FC = () => {
+const AccountManagementPage = () => {
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

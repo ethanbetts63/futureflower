@@ -1,11 +1,11 @@
-import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Calendar, RefreshCw } from 'lucide-react';
 import Seo from '@/components/Seo';
 
-const ProductSelectionPage: React.FC = () => {
+const ProductSelectionPage = () => {
   const navigate = useNavigate();
 
   return (

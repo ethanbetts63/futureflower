@@ -1,9 +1,9 @@
-import React from 'react';
+
 import { MapPin } from 'lucide-react';
 import SummarySection from '../SummarySection';
 import type { RecipientSummaryProps } from '@/types/RecipientSummaryProps';
 
-const RecipientSummary: React.FC<RecipientSummaryProps> = ({ plan, editUrl, locked }) => {
+const RecipientSummary = ({ plan, editUrl, locked }: RecipientSummaryProps) => {
   const fullAddress = [
     plan.recipient_street_address,
     plan.recipient_suburb,

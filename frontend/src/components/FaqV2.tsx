@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Card, CardContent } from "./ui/card";
 
 import type { FaqV2Props } from '../types/FaqV2Props';
@@ -7,7 +7,7 @@ import { ChevronDown } from 'lucide-react';
 
 
 
-export const FaqV2: React.FC<FaqV2Props> = ({ title, faqs }) => {
+export const FaqV2 = ({ title, faqs }: FaqV2Props) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleFaq = (index: number) => {

@@ -19,7 +19,7 @@ function formatDate(dtStr: string): string {
   return new Date(dtStr + 'T00:00:00').toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-const MarkDeliveredPage: React.FC = () => {
+const MarkDeliveredPage = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const navigate = useNavigate();
   const [event, setEvent] = useState<AdminEvent | null>(null);

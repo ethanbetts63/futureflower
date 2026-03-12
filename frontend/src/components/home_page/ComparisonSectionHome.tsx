@@ -1,4 +1,3 @@
-import React from 'react';
 import { ComparisonBarChart, defaultComparisonBars, defaultComparisonLegend } from '../ComparisonBarChart';
 
 const rows = [
@@ -10,7 +9,7 @@ const rows = [
   { feature: 'Branding',         them: 'Network branding required',     us: 'Florist branding encouraged' },
 ];
 
-const ComparisonSection: React.FC = () => (
+const ComparisonSection = () => (
   <section className="bg-[var(--color4)] border-t border-black/5">
     <div className="grid grid-cols-1 lg:grid-cols-2">
 

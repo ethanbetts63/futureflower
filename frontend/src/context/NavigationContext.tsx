@@ -1,11 +1,11 @@
-import React, { createContext, useState, useContext, type ReactNode } from 'react';
+import { createContext, useState, useContext, type ReactNode } from 'react';
 
 import type { NavItem } from '../types/NavItem';
 import type { NavigationContextType } from '../types/NavigationContextType';
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
-export const NavigationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const NavigationProvider = ({ children }: { children: ReactNode }) => {
     const [dashboardNavItems, setDashboardNavItems] = useState<NavItem[]>([]);
 
     return (

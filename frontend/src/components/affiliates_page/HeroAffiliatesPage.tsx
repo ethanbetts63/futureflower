@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { ArrowDown } from 'lucide-react';
 import { BecomePartnerButton } from '../florists_page/BecomePartnerButton'; // Reusing the button component
 import type { HeroAffiliatesPageProps } from '@/types/HeroAffiliatesPageProps';
@@ -10,7 +10,7 @@ import deliveryImage768 from '../../assets/delivery-768w.webp';
 import deliveryImage1024 from '../../assets/delivery-1024w.webp';
 import deliveryImage1280 from '../../assets/delivery-1280w.webp';
 
-export const HeroAffiliatesPage: React.FC<HeroAffiliatesPageProps> = ({ scrollToContent }) => {
+export const HeroAffiliatesPage = ({ scrollToContent }: HeroAffiliatesPageProps) => {
   return (
     <section className="relative h-screen w-full flex items-end md:items-center">
       <picture className="absolute inset-0 w-full h-full">

@@ -5,13 +5,13 @@ import { ChevronLeft } from 'lucide-react';
 import { cn } from '@/utils/utils';
 import type { FlowBackButtonProps } from '@/types/FlowBackButtonProps';
 
-const FlowBackButton: React.FC<FlowBackButtonProps> = ({ 
+const FlowBackButton = ({ 
   to, 
   label = "Back", 
   className, 
   onClick,
   ...props 
-}) => {
+}: FlowBackButtonProps) => {
   const navigate = useNavigate();
 
   const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {

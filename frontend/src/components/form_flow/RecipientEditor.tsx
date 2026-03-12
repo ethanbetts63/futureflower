@@ -1,5 +1,5 @@
 // futureflower/frontend/src/components/RecipientEditor.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
@@ -20,7 +20,7 @@ import type { RecipientEditorProps } from '../../types/RecipientEditorProps';
 
 type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
 
-const RecipientEditor: React.FC<RecipientEditorProps> = ({
+const RecipientEditor = ({
     mode,
     title,
     saveButtonText,
@@ -28,7 +28,7 @@ const RecipientEditor: React.FC<RecipientEditorProps> = ({
     onCancelNavigateTo,
     getPlan,
     updatePlan,
-}) => {
+}: RecipientEditorProps) => {
     const { planId } = useParams<{ planId: string }>();
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,7 +5,7 @@ import { Gift, Truck } from 'lucide-react';
 import Seo from '@/components/Seo';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 
-const PartnerTypeSelectionPage: React.FC = () => {
+const PartnerTypeSelectionPage = () => {
   const navigate = useNavigate();
 
   return (

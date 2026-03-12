@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Spinner } from '@/components/ui/spinner';
@@ -8,7 +8,7 @@ import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import { getPayouts } from '@/api/partners';
 import type { Payout } from '@/types';
 
-const PayoutsPage: React.FC = () => {
+const PayoutsPage = () => {
   const [payouts, setPayouts] = useState<Payout[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();

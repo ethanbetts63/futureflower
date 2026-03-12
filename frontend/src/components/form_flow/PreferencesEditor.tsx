@@ -1,5 +1,5 @@
 // futureflower/frontend/src/components/PreferencesEditor.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
@@ -15,7 +15,7 @@ import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import FlowNextButton from '@/components/form_flow/FlowNextButton';
 import type { PreferencesEditorProps } from '../../types/PreferencesEditorProps';
 
-const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
+const PreferencesEditor = ({
     mode,
     title = "The Florist's Brief",
     saveButtonText,
@@ -23,7 +23,7 @@ const PreferencesEditor: React.FC<PreferencesEditorProps> = ({
     backPath,
     getPlan,
     updatePlan,
-}) => {
+}: PreferencesEditorProps) => {
     const { planId } = useParams<{ planId: string }>();
     const navigate = useNavigate();
 

@@ -18,7 +18,7 @@ function formatAmount(amount: string): string {
   return `$${parseFloat(amount).toFixed(2)}`;
 }
 
-const Field: React.FC<{ label: string; value: React.ReactNode }> = ({ label, value }) => (
+const Field = ({ label, value }: { label: string; value: React.ReactNode }) => (
   <div>
     <p className="text-xs text-black/40 uppercase tracking-wider mb-0.5">{label}</p>
     <p className="text-black">{value || '—'}</p>
@@ -33,13 +33,13 @@ const STATUS_STYLES: Record<string, string> = {
   denied: 'bg-red-100 text-red-700',
 };
 
-const StatusBadge: React.FC<{ status: string }> = ({ status }) => (
+const StatusBadge = ({ status }: { status: string }) => (
   <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium capitalize ${STATUS_STYLES[status] ?? 'bg-gray-100 text-gray-600'}`}>
     {status}
   </span>
 );
 
-const AdminPayoutDetailPage: React.FC = () => {
+const AdminPayoutDetailPage = () => {
   const { commissionId } = useParams<{ commissionId: string }>();
   const [commission, setCommission] = useState<AdminCommission | null>(null);
   const [loading, setLoading] = useState(true);

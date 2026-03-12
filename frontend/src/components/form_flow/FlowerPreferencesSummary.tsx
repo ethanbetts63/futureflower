@@ -1,10 +1,10 @@
-import React from 'react';
+
 import { Sprout } from 'lucide-react';
 import { OCCASION_IMAGES, DEFAULT_FLOWER_IMAGE } from '@/utils/flowerTypeImages';
 import type { FlowerPreferencesSummaryProps } from '@/types/FlowerPreferencesSummaryProps';
 import EditControl from '@/components/EditControl';
 
-const FlowerPreferencesSummary: React.FC<FlowerPreferencesSummaryProps> = ({ preferredTypes, flowerNotes, editUrl, locked }) => {
+const FlowerPreferencesSummary = ({ preferredTypes, flowerNotes, editUrl, locked }: FlowerPreferencesSummaryProps) => {
   return (
     <div className="py-6 border-b border-black/5 last:border-0">
       <div className="flex items-center justify-between mb-2">

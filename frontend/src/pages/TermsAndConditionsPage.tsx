@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { getTermsByType } from '@/api';
 import type { TermsAndConditions } from '@/types/TermsAndConditions';
@@ -16,7 +16,7 @@ const TYPE_LABELS: Record<TermsType, string> = {
     affiliate: 'Affiliate',
 };
 
-const TermsAndConditionsPage: React.FC = () => {
+const TermsAndConditionsPage = () => {
     const { type } = useParams<{ type: string }>();
     const [terms, setTerms] = useState<TermsAndConditions | null>(null);
     const [isLoading, setIsLoading] = useState(true);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Spinner } from '@/components/ui/spinner';
@@ -16,7 +16,7 @@ type UnifiedPlan = (UpfrontPlan | SubscriptionPlan) & {
     displayType: 'Upfront' | 'Subscription' | 'Single Delivery';
 };
 
-const UnifiedPlanTable: React.FC = () => {
+const UnifiedPlanTable = () => {
   const [plans, setPlans] = useState<UnifiedPlan[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Check } from 'lucide-react';
 import type { ValuePropsAffiliatesProps } from '@/types/ValuePropsAffiliatesProps';
 
@@ -9,7 +8,7 @@ const points = [
   'High-Value Product: Locally crafted, high quality bouquets.',
 ];
 
-export const ValuePropsAffiliates: React.FC<ValuePropsAffiliatesProps> = ({ contentRef }) => {
+export const ValuePropsAffiliates = ({ contentRef }: ValuePropsAffiliatesProps) => {
   return (
     <section ref={contentRef} className="bg-[var(--color4)] pt-10 scroll-mt-10">
       <div className="container mx-auto px-4 max-w-4xl">

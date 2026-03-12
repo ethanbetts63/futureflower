@@ -1,7 +1,7 @@
-import React from 'react';
+
 import { IMPACT_TIERS } from '@/utils/pricingConstants';
 
-const PricingTiers: React.FC = () => {
+const PricingTiers = () => {
     return (
         <section className="bg-[var(--color4)] py-12">
             <div className="container mx-auto px-4 lg:px-8">

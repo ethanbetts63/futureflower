@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 import { cn } from '@/utils/utils';
 import type { BackButtonProps } from '../types/BackButtonProps';
 
-const BackButton: React.FC<BackButtonProps> = ({ to, className, ...props }) => {
+const BackButton = ({ to, className, ...props }: BackButtonProps) => {
   const navigate = useNavigate();
 
   const buttonContent = (

@@ -1,10 +1,9 @@
 // frontend/src/pages/single_delivery_flow/Step4StructurePage.tsx
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import SingleDeliveryStructureEditor from '@/components/form_flow/SingleDeliveryStructureEditor';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 
-const Step4StructurePage: React.FC = () => {
+const Step4StructurePage = () => {
     const { planId } = useParams<{ planId: string }>();
 
     return (

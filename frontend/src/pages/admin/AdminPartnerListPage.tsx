@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAdminPartners } from '@/api/admin';
 import type { AdminPartner } from '@/types/AdminPartner';
@@ -24,13 +24,13 @@ const STATUS_STYLES: Record<string, string> = {
   denied: 'bg-red-100 text-red-700',
 };
 
-const StatusBadge: React.FC<{ status: string }> = ({ status }) => (
+const StatusBadge = ({ status }: { status: string }) => (
   <span className={`px-2 py-0.5 rounded-full text-xs font-semibold capitalize ${STATUS_STYLES[status] ?? 'bg-gray-100 text-gray-600'}`}>
     {status}
   </span>
 );
 
-const PartnerRow: React.FC<{ partner: AdminPartner }> = ({ partner }) => (
+const PartnerRow = ({ partner }: { partner: AdminPartner }) => (
   <div className="flex justify-between items-center gap-4 py-3 border-b border-black/5 last:border-0">
     <div className="flex-1 min-w-0">
       <div className="flex items-center gap-2 flex-wrap">
@@ -55,7 +55,7 @@ const PartnerRow: React.FC<{ partner: AdminPartner }> = ({ partner }) => (
   </div>
 );
 
-const AdminPartnerListPage: React.FC = () => {
+const AdminPartnerListPage = () => {
   const [partners, setPartners] = useState<AdminPartner[]>([]);
   const [activeFilter, setActiveFilter] = useState<StatusFilter>('all');
   const [loading, setLoading] = useState(true);

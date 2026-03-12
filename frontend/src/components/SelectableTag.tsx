@@ -1,9 +1,8 @@
 // futureflower/frontend/src/components/preferences/SelectableTag.tsx
-import React from 'react';
 import { Badge } from "@/components/ui/badge";
 import type { SelectableTagProps } from '../types/SelectableTagProps';
 
-export const SelectableTag: React.FC<SelectableTagProps> = ({ label, isSelected, onClick }) => {
+export const SelectableTag = ({ label, isSelected, onClick }: SelectableTagProps) => {
   return (
     <Badge
       variant={isSelected ? "default" : "outline"}

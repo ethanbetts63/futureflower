@@ -1,5 +1,5 @@
 // frontend/src/pages/ForgotPasswordPage.tsx
-import React from 'react';
+
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -15,7 +15,7 @@ type EmailFormData = {
   email: string;
 };
 
-const ForgotPasswordPage: React.FC = () => {
+const ForgotPasswordPage = () => {
   const form = useForm<EmailFormData>({
     defaultValues: {
       email: '',

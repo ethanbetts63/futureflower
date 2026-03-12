@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { FaqV2 } from '../FaqV2';
 import type { FaqItem } from '../../types/FaqItem';
 
@@ -17,7 +17,7 @@ const pricingFaqs: FaqItem[] = [
     },
 ];
 
-const PricingFaq: React.FC = () => (
+const PricingFaq = () => (
     <section className="bg-[var(--color4)] pb-16">
         <FaqV2
             title="Pricing questions, answered."

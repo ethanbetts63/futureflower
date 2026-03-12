@@ -1,10 +1,9 @@
 // src/components/NextDeliveryCard.tsx
-import React from 'react';
 import { Calendar, Hash, User, MapPin } from 'lucide-react';
 
 import type { NextDeliveryCardProps } from '../types/NextDeliveryCardProps';
 
-const NextDeliveryCard: React.FC<NextDeliveryCardProps> = ({ deliveryInfo }) => {
+const NextDeliveryCard = ({ deliveryInfo }: NextDeliveryCardProps) => {
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {

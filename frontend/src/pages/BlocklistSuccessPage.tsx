@@ -1,10 +1,10 @@
 // src/pages/flow/BlocklistSuccessPage.tsx
-import React from 'react';
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { MailX } from 'lucide-react';
 import Seo from '@/components/Seo';
 
-const BlocklistSuccessPage: React.FC = () => {
+const BlocklistSuccessPage = () => {
   return (
     <div className="container mx-auto max-w-2xl py-12">
       <Seo title="Successfully Unsubscribed | FutureFlower" />

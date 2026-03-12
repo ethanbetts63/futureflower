@@ -24,14 +24,14 @@ const PLAN_STATUS_STYLES: Record<string, string> = {
   refunded: 'bg-red-100 text-red-700',
 };
 
-const Field: React.FC<{ label: string; value: React.ReactNode }> = ({ label, value }) => (
+const Field = ({ label, value }: { label: string; value: React.ReactNode }) => (
   <div>
     <p className="text-xs text-black/40 uppercase tracking-wider mb-0.5">{label}</p>
     <p className="text-black">{value || '—'}</p>
   </div>
 );
 
-const AdminUserDetailPage: React.FC = () => {
+const AdminUserDetailPage = () => {
   const { userId } = useParams<{ userId: string }>();
   const [user, setUser] = useState<AdminUserDetail | null>(null);
   const [loading, setLoading] = useState(true);

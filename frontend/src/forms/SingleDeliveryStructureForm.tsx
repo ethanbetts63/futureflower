@@ -1,5 +1,4 @@
 // frontend/src/forms/SingleDeliveryStructureForm.tsx
-import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -14,13 +13,13 @@ const getMinDateString = (isEdit: boolean) => {
     return minDate.toISOString().split('T')[0];
 };
 
-const SingleDeliveryStructureForm: React.FC<SingleDeliveryStructureFormProps> = ({
+const SingleDeliveryStructureForm = ({
     formData,
     onFormChange,
     setIsDebouncePending,
     isEdit = false,
     isPaid = false,
-}) => {
+}: SingleDeliveryStructureFormProps) => {
     const handleBudgetChange = (budget: number) => {
         if (setIsDebouncePending) setIsDebouncePending(true);
         onFormChange('budget', budget);

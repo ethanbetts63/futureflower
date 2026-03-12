@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
@@ -26,10 +26,10 @@ import type { Plan } from '@/types/Plan';
 const isSubscriptionPlan = (plan: Plan): plan is SubscriptionPlan =>
   'stripe_subscription_id' in plan;
 
-const CancelSubscriptionPageInner: React.FC<{ plan: SubscriptionPlan; planId: string }> = ({
+const CancelSubscriptionPageInner = ({
   plan,
   planId,
-}) => {
+}: { plan: SubscriptionPlan; planId: string }) => {
   const navigate = useNavigate();
   const [cancelType, setCancelType] = useState<'keep_current' | 'cancel_all'>('keep_current');
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -169,7 +169,7 @@ const CancelSubscriptionPageInner: React.FC<{ plan: SubscriptionPlan; planId: st
   );
 };
 
-const CancelSubscriptionPage: React.FC = () => {
+const CancelSubscriptionPage = () => {
   const { planId } = useParams<{ planId: string }>();
 
   return (

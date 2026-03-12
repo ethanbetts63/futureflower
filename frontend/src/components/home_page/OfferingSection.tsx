@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import placeholderImg from '../../assets/florist_packing.webp';
@@ -13,7 +13,7 @@ import subscriptionIconWhite from '../../assets/subscription_symbol_white.svg';
 import deliveryIcon from '../../assets/delivery_symbol.svg';
 import Badge from '../Badge';
 
-const OfferingSection: React.FC = () => {
+const OfferingSection = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 

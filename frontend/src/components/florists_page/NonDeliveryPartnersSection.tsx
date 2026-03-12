@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Check } from 'lucide-react';
 import { BecomePartnerButton } from './BecomePartnerButton';
 
@@ -16,7 +16,7 @@ const features = [
   "Unlock an easy and helpful upsell opportunity."
 ];
 
-export const NonDeliveryPartnersSection: React.FC = () => {
+export const NonDeliveryPartnersSection = () => {
   return (
     <section className="bg-white">
       <div className="grid grid-cols-1 md:grid-cols-2">

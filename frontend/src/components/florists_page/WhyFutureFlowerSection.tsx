@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { ChevronRight } from 'lucide-react';
 
 const conversationStarters = [
@@ -7,7 +7,7 @@ const conversationStarters = [
   '"Would you like us to set up a delivery subscription? We can have something like this delivered once a month."',
 ];
 
-export const WhyFutureFlowerSection: React.FC = () => {
+export const WhyFutureFlowerSection = () => {
   return (
     <section className="bg-[var(--color4)] py-10 md:py-14">
       <div className="container mx-auto px-4">

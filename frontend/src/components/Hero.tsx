@@ -1,9 +1,9 @@
-import React from 'react';
+
 import type { HeroProps } from '../types/HeroProps';
 
 
 
-export const Hero: React.FC<HeroProps> = ({ title, subtitle, imageSrc, srcSet, imageAlt, ctaElement }) => {
+export const Hero = ({ title, subtitle, imageSrc, srcSet, imageAlt, ctaElement }: HeroProps) => {
   return (
     <section className="pt-4 pb-8 lg:py-0">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-12">

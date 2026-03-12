@@ -1,9 +1,8 @@
-import React from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { Link } from 'react-router-dom';
 import type { UserDetailsSummaryProps } from '../types/UserDetailsSummaryProps';
 
-const UserDetailsSummary: React.FC<UserDetailsSummaryProps> = ({ user }) => {
+const UserDetailsSummary = ({ user }: UserDetailsSummaryProps) => {
   if (!user) {
     return (
       <div className="flex items-center justify-center py-6">

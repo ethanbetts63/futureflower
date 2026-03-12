@@ -10,7 +10,7 @@ import { createSubscription } from '@/api/subscriptionPlans'; // Import createSu
 import type { PaymentInitiatorButtonProps } from '@/types/PaymentInitiatorButtonProps';
 import { cn } from '@/utils/utils';
 
-const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
+const PaymentInitiatorButton = ({
   itemType,
   details,
   backPath,
@@ -22,7 +22,7 @@ const PaymentInitiatorButton: React.FC<PaymentInitiatorButtonProps> = ({
   disabled,
   className,
   ...props
-}) => {
+}: PaymentInitiatorButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 

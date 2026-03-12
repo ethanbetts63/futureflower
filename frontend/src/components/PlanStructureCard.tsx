@@ -1,5 +1,5 @@
 // src/components/PlanStructureCard.tsx
-import React from 'react';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Milestone, Repeat, DollarSign } from 'lucide-react';
 import EditButton from '@/components/EditButton';
@@ -14,7 +14,7 @@ const frequencyMap: { [key: string]: string } = {
     'annually': 'Annually',
 };
 
-const PlanStructureCard: React.FC<PlanStructureCardProps> = ({ plan, editUrl }) => {
+const PlanStructureCard = ({ plan, editUrl }: PlanStructureCardProps) => {
     return (
         <Card className="bg-white shadow-md border-none text-black">
             <CardHeader className="flex flex-row justify-between items-center">

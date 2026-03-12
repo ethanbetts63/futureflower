@@ -10,7 +10,7 @@ import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import { toast } from 'sonner';
 import { getPartnerDashboard, updatePartnerDetails } from '@/api/partners';
 
-const BusinessDetailsPage: React.FC = () => {
+const BusinessDetailsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDelivery, setIsDelivery] = useState(false);

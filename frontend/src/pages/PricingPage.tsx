@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Seo from '@/components/Seo';
 import { HeroV2 } from '../components/home_page/HeroV2';
 import deliverToDoor from '../assets/deliver_to_door.png';
@@ -8,7 +8,7 @@ import ComparisonSection from '../components/home_page/ComparisonSectionHome';
 import PricingFaq from '../components/pricing_page/PricingFaq';
 import { IMPACT_TIERS } from '@/utils/pricingConstants';
 
-const PricingPage: React.FC = () => {
+const PricingPage = () => {
     const serviceSchema = {
         "@context": "https://schema.org",
         "@type": "Service",

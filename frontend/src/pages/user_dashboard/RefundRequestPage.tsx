@@ -1,11 +1,11 @@
-import React from 'react';
+
 import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 
 const REFUND_EMAIL = 'ethan.betts.dev@gmail.com';
 
-const RefundRequestPage: React.FC = () => {
+const RefundRequestPage = () => {
   return (
     <>
       <Seo title="Request a Refund | FutureFlower" />

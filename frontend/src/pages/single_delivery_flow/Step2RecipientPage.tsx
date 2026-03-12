@@ -1,10 +1,9 @@
 // frontend/src/pages/single_delivery_flow/Step2RecipientPage.tsx
-import React from 'react';
 import RecipientEditor from '@/components/form_flow/RecipientEditor';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
 
-const Step2RecipientPage: React.FC = () => {
+const Step2RecipientPage = () => {
     return (
         <>
             <StepProgressBar currentStep={2} totalSteps={4} planName="Single Delivery Plan" />

@@ -5,7 +5,7 @@ import { Spinner } from '@/components/ui/spinner';
 
 import type { CheckoutFormProps } from '../types/CheckoutFormProps';
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ planId, source, intentType, itemType }) => {
+const CheckoutForm = ({ planId, source, intentType, itemType }: CheckoutFormProps) => {
   const stripe = useStripe();
   const elements = useElements();
 

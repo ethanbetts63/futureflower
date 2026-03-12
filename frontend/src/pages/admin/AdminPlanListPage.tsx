@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAdminPlans } from '@/api/admin';
 import type { AdminPlan } from '@/types/AdminPlan';
@@ -81,30 +81,30 @@ function sortPlans(plans: AdminPlan[], key: SortKey, dir: SortDir): AdminPlan[] 
 
 // ── Sub-components ────────────────────────────────────────────────────────────
 
-const StatusBadge: React.FC<{ status: string }> = ({ status }) => (
+const StatusBadge = ({ status }: { status: string }) => (
   <span className={`px-2 py-0.5 rounded-full text-xs font-semibold capitalize ${STATUS_STYLES[status] ?? 'bg-gray-100 text-gray-600'}`}>
     {status.replace('_', ' ')}
   </span>
 );
 
-const TypeBadge: React.FC<{ type: string }> = ({ type }) => (
+const TypeBadge = ({ type }: { type: string }) => (
   <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-black/5 text-black/60 capitalize">
     {type}
   </span>
 );
 
-const SortIcon: React.FC<{ col: SortKey; sortKey: SortKey; sortDir: SortDir }> = ({ col, sortKey, sortDir }) => {
+const SortIcon = ({ col, sortKey, sortDir }: { col: SortKey; sortKey: SortKey; sortDir: SortDir }) => {
   if (col !== sortKey) return <ChevronsUpDown className="inline h-3 w-3 ml-1 text-black/20" />;
   return sortDir === 'asc'
     ? <ChevronUp className="inline h-3 w-3 ml-1" />
     : <ChevronDown className="inline h-3 w-3 ml-1" />;
 };
 
-const FilterPills: React.FC<{
+const FilterPills = ({ options, active, onChange }: {
   options: { value: string; label: string }[];
   active: string;
   onChange: (v: string) => void;
-}> = ({ options, active, onChange }) => (
+}) => (
   <div className="flex flex-wrap gap-2">
     {options.map(({ value, label }) => (
       <button
@@ -122,7 +122,7 @@ const FilterPills: React.FC<{
 
 // ── Main page ─────────────────────────────────────────────────────────────────
 
-const AdminPlanListPage: React.FC = () => {
+const AdminPlanListPage = () => {
   const [plans, setPlans] = useState<AdminPlan[]>([]);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('');
   const [typeFilter, setTypeFilter] = useState<PlanTypeFilter>('');

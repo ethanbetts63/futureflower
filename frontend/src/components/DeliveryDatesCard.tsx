@@ -1,5 +1,5 @@
 // src/components/DeliveryDatesCard.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CalendarDays } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
@@ -9,7 +9,7 @@ import type { ProjectedDelivery } from '@/api/upfrontPlans';
 import type { DeliveryEvent } from '../types/DeliveryEvent';
 import type { DeliveryDatesCardProps } from '../types/DeliveryDatesCardProps';
 
-const DeliveryDatesCard: React.FC<DeliveryDatesCardProps> = ({ plan, editUrl }) => {
+const DeliveryDatesCard = ({ plan, editUrl }: DeliveryDatesCardProps) => {
     const hasEvents = (plan.events?.length ?? 0) > 0;
     const [projectedDates, setProjectedDates] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false);

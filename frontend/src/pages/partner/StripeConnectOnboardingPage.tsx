@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { initiateStripeConnectOnboarding } from '@/api/partners';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 
-const StripeConnectOnboardingPage: React.FC = () => {
+const StripeConnectOnboardingPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -1,8 +1,7 @@
-import React from 'react';
 import { OCCASION_IMAGES, DEFAULT_FLOWER_IMAGE } from '@/utils/flowerTypeImages';
 import type { VibePickerProps } from '@/types/VibePickerProps';
 
-export const VibePicker: React.FC<VibePickerProps> = ({ vibes, selected, onSelect }) => {
+export const VibePicker = ({ vibes, selected, onSelect }: VibePickerProps) => {
   return (
     <div>
       {/* Header */}

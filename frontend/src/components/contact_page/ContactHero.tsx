@@ -1,4 +1,4 @@
-import React from 'react';
+
 import heroImage320 from '../../assets/hero2-320w.webp';
 import heroImage640 from '../../assets/hero2-640w.webp';
 import heroImage768 from '../../assets/hero2-768w.webp';
@@ -9,7 +9,7 @@ import heroMobileImage412 from '../../assets/hero2_mobile2-412w.webp';
 import heroMobileImage640 from '../../assets/hero2_mobile2-640w.webp';
 import heroMobileImage768 from '../../assets/hero2_mobile2-768w.webp';
 
-export const ContactHero: React.FC = () => {
+export const ContactHero = () => {
   return (
     <section className="w-full md:relative md:h-screen md:flex md:items-center">
 

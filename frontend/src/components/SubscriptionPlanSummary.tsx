@@ -1,5 +1,5 @@
 // futureflower/frontend/src/components/SubscriptionPlanSummary.tsx
-import React from 'react';
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import type { SubscriptionPlanSummaryProps } from '../types/SubscriptionPlanSummaryProps';
 
@@ -9,7 +9,7 @@ const isSubscriptionPlan = (p: Plan): p is SubscriptionPlan => {
     return 'stripe_subscription_id' in p;
 };
 
-const SubscriptionPlanSummary: React.FC<SubscriptionPlanSummaryProps> = ({ plan }) => {
+const SubscriptionPlanSummary = ({ plan }: SubscriptionPlanSummaryProps) => {
     const title = "Your Subscription";
     const description = "Review your recurring payment details below.";
     

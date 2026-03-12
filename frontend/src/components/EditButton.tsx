@@ -6,7 +6,7 @@ import type { EditButtonProps } from '../types/EditButtonProps';
 
 
 
-const EditButton: React.FC<EditButtonProps> = ({ to, className, ...props }) => {
+const EditButton = ({ to, className, ...props }: EditButtonProps) => {
   const buttonClasses = cn("shadow-md", className);
 
   return (

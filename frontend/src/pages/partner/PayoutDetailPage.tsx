@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Spinner } from '@/components/ui/spinner';
@@ -9,7 +9,7 @@ import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import { getPayoutDetail } from '@/api/partners';
 import type { PayoutDetail } from '@/types';
 
-const PayoutDetailPage: React.FC = () => {
+const PayoutDetailPage = () => {
   const { payoutId } = useParams<{ payoutId: string }>();
   const [payout, setPayout] = useState<PayoutDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);

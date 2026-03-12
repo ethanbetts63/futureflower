@@ -1,5 +1,5 @@
 // futureflower/frontend/src/pages/flow/CreateAccountPage.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -18,7 +18,7 @@ const FLOW_CONFIG: Record<string, { planName: string; totalSteps: number }> = {
 };
 const DEFAULT_FLOW = { planName: 'Single Delivery Plan', totalSteps: 4 };
 
-const CreateAccountPage: React.FC = () => {
+const CreateAccountPage = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const { handleLoginSuccess } = useAuth(); 
