@@ -37,6 +37,7 @@ import { ArticleCarousel } from '../components/home_page/ArticleCarousel';
 import AnnouncementBar from '../components/home_page/AnnouncementBar';
 import OfferingSection from '../components/home_page/OfferingSection';
 import ComparisonSection from '../components/home_page/ComparisonSectionHome';
+import PricingFloristAdvantage from '../components/pricing_page/PricingFloristAdvantage';
 
 
 const HomePage = () => {
@@ -153,6 +154,8 @@ const HomePage = () => {
       <OfferingSection />
 
       <ComparisonSection />
+
+      <PricingFloristAdvantage />
 
       <RomanceSection />
       <DeliverySection />

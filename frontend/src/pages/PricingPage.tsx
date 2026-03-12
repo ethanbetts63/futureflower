@@ -1,11 +1,7 @@
 import React from 'react';
 import Seo from '@/components/Seo';
 import { HeroV2 } from '../components/home_page/HeroV2';
-import deliveryImage320 from '../assets/deliver_to_door-320w.webp';
-import deliveryImage640 from '../assets/deliver_to_door-640w.webp';
-import deliveryImage768 from '../assets/deliver_to_door-768w.webp';
-import deliveryImage1024 from '../assets/deliver_to_door-1024w.webp';
-import deliveryImage1280 from '../assets/deliver_to_door-1280w.webp';
+import deliverToDoor from '../assets/deliver_to_door.png';
 import PricingFloristAdvantage from '../components/pricing_page/PricingFloristAdvantage';
 import PricingTiers from '../components/pricing_page/PricingTiers';
 import ComparisonSection from '../components/home_page/ComparisonSectionHome';
@@ -56,8 +52,8 @@ const PricingPage: React.FC = () => {
                 title={<>More flowers. Fewer fees.</>}
                 subtext="Give florists a budget and preferences. No catalogs, just the freshest, seasonal flowers."
                 image={{
-                    src: deliveryImage1280,
-                    srcSet: `${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`,
+                    src: deliverToDoor,
+                    srcSet: `${deliverToDoor} 1280w`,
                     alt: "Florist delivering a bouquet of flowers to a customer at their door.",
                 }}
             />
