@@ -9,12 +9,10 @@ import type { AdminUserDetail } from '../types/AdminUserDetail';
 import type { MarkOrderedPayload } from '../types/MarkOrderedPayload';
 import type { MarkDeliveredPayload } from '../types/MarkDeliveredPayload';
 import type { AdminCommission } from '../types/AdminCommission';
+import type { PayCommissionResult } from '../types/PayCommissionResult';
+import type { CommissionActionResult } from '../types/CommissionActionResult';
 
-export interface PayCommissionResult {
-  status: string;
-  stripe_transfer_id: string;
-  payout_id: number;
-}
+export type { PayCommissionResult, CommissionActionResult };
 
 export async function getAdminDashboard(): Promise<AdminDashboard> {
   const res = await authedFetch('/api/data/admin/dashboard/');
@@ -111,12 +109,6 @@ export async function payCommission(partnerId: number, commissionId: number): Pr
     throw Object.assign(new Error(data.detail || 'Failed to pay commission'), { data });
   }
   return res.json();
-}
-
-export interface CommissionActionResult {
-  status: string;
-  stripe_transfer_id?: string;
-  payout_id?: number;
 }
 
 export async function getAdminCommissions(params: { status?: string; commission_type?: string } = {}): Promise<AdminCommission[]> {

@@ -1,7 +1,5 @@
-export interface Country {
-  code: string;
-  name: string;
-}
+import type { Country } from '../types/Country';
+export type { Country };
 
 // Common countries pinned first, then the rest alphabetically
 export const COUNTRIES: Country[] = [

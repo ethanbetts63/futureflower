@@ -6,7 +6,8 @@ import StripeConnectBanner from '@/components/StripeConnectBanner';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import { getPartnerDashboard, createDiscountCode } from '@/api/partners';
-import type { Partner, DiscountCode } from '@/types';
+import type { Partner } from '@/types';
+import type { DiscountCodesSectionProps } from '@/types/DiscountCodesSectionProps';
 import { useNavigate } from 'react-router-dom';
 
 const PartnerDashboardPage: React.FC = () => {
@@ -168,11 +169,6 @@ const PartnerDashboardPage: React.FC = () => {
 };
 
 // ─── Discount Codes Section ───────────────────────────────────────────────────
-
-interface DiscountCodesSectionProps {
-  codes: DiscountCode[];
-  onCodesChange: (codes: DiscountCode[]) => void;
-}
 
 const DiscountCodesSection: React.FC<DiscountCodesSectionProps> = ({ codes, onCodesChange }) => {
   const [creating, setCreating] = useState(false);

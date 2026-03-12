@@ -2,11 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Lock } from 'lucide-react';
-
-interface EditControlProps {
-  editUrl: string;
-  locked?: boolean;
-}
+import type { EditControlProps } from '../types/EditControlProps';
 
 const EditControl: React.FC<EditControlProps> = ({ editUrl, locked = false }) => {
   if (locked) {
