@@ -47,6 +47,21 @@ def save_searched_feeds(feeds):
     _save_list("searched_feeds.py", sorted(feeds))
 
 
+def load_planned_emails():
+    path = BASE_DIR / "planned_emails.py"
+    scope = {}
+    exec(path.read_text(encoding="utf-8"), scope)
+    return set(scope.get("PLANNED_EMAILS", []))
+
+
+def save_planned_emails(emails):
+    path = BASE_DIR / "planned_emails.py"
+    path.write_text(
+        "PLANNED_EMAILS = " + json.dumps(sorted(emails), indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
 # ---------------------------------------------------------------------------
 # Term generation
 # ---------------------------------------------------------------------------
@@ -182,12 +197,15 @@ def has_required_fields(rss):
 # Core scrape
 # ---------------------------------------------------------------------------
 
-def scrape_term(term, searched_feeds, stdout_write, limit=None):
+def scrape_term(term, searched_feeds, stdout_write, limit=None, planned_emails=None):
     """
     Scrape one iTunes search term.
     limit: stop writing once this many entries have been written (None = unlimited).
+    planned_emails: set of email addresses already queued or contacted — skip if found.
     Returns (written, skipped, searched_feeds, limit_reached).
     """
+    if planned_emails is None:
+        planned_emails = set()
     stdout_write(f"[{term}] Searching iTunes...")
     results = search_itunes(term)
     stdout_write(f"  {len(results)} results returned")
@@ -220,6 +238,11 @@ def scrape_term(term, searched_feeds, stdout_write, limit=None):
             skipped += 1
             continue
 
+        if rss["email"] in planned_emails:
+            skipped += 1
+            stdout_write(f"  ~ skipping <{rss['email']}> (already planned or contacted)")
+            continue
+
         entry = {
             "subject":                    "",
             "custom_intro":               "",
@@ -239,9 +262,10 @@ def scrape_term(term, searched_feeds, stdout_write, limit=None):
         with open(JSONL_PATH, "a", encoding="utf-8") as f:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
+        planned_emails.add(entry["email"])
         written += 1
         stdout_write(f"  + {entry['podcast_name']}  <{entry['email']}>")
 
     stdout_write(f"  Written: {written}  |  Skipped: {skipped}")
     limit_reached = limit is not None and written >= limit
-    return written, skipped, searched_feeds, limit_reached
+    return written, skipped, searched_feeds, planned_emails, limit_reached
