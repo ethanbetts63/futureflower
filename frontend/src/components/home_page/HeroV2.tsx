@@ -96,7 +96,7 @@ export const HeroV2 = ({ title, subtext, image }: HeroV2Props) => {
               style={{ animationDuration: '2s' }}
             />
           }
-          className="hidden md:block absolute bottom-10 left-10"
+          className="hidden md:block absolute bottom-10 right-10"
         />
       </div>
 
