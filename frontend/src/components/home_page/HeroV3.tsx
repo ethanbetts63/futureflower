@@ -49,7 +49,7 @@ export const HeroV3 = ({ title, subtext, image }: HeroV2Props) => {
         className="absolute top-0 bottom-0 pointer-events-none"
         style={{
           left: '38%',
-          width: '16%',
+          width: '25%',
           background: 'linear-gradient(to right, hsl(353,100%,95%), transparent)',
         }}
       />
@@ -75,7 +75,7 @@ export const HeroV3 = ({ title, subtext, image }: HeroV2Props) => {
             />
             <span
               className="text-xs font-bold tracking-[0.18em] uppercase"
-              style={{ color: 'hsl(143,60%,32%)' }}
+              style={{ color: 'black' }}
             >
               Flower Delivery & Subscriptions
             </span>
@@ -84,7 +84,7 @@ export const HeroV3 = ({ title, subtext, image }: HeroV2Props) => {
           {/* Headline */}
           <h1
             className="text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight"
-            style={{ color: 'hsl(340,35%,18%)' }}
+            style={{ color: 'black' }}
           >
             {title}
           </h1>
@@ -92,7 +92,7 @@ export const HeroV3 = ({ title, subtext, image }: HeroV2Props) => {
           {/* Subtext */}
           <p
             className="mt-4 text-base sm:text-lg leading-relaxed"
-            style={{ color: 'hsl(340,20%,32%)' }}
+            style={{ color: 'black' }}
           >
             {subtext}
           </p>
@@ -102,7 +102,7 @@ export const HeroV3 = ({ title, subtext, image }: HeroV2Props) => {
             <button
               onClick={() => handleNav('/event-gate/single-delivery')}
               className="flex items-center gap-3.5 font-semibold px-5 py-4 rounded-2xl transition-all cursor-pointer shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.99]"
-              style={{ background: 'var(--colorgreen)', color: 'hsl(143,60%,14%)' }}
+              style={{ background: 'var(--colorgreen)', color: 'black' }}
             >
               <span
                 className="flex items-center justify-center rounded-xl p-1.5 shrink-0"
@@ -122,7 +122,7 @@ export const HeroV3 = ({ title, subtext, image }: HeroV2Props) => {
               style={{
                 background: 'hsla(353,100%,99%,0.88)',
                 backdropFilter: 'blur(8px)',
-                color: 'hsl(340,35%,18%)',
+                color: 'black',
                 border: '1.5px solid hsl(347,80%,84%)',
                 boxShadow: '0 2px 12px hsla(347,60%,70%,0.2)',
               }}
@@ -135,7 +135,7 @@ export const HeroV3 = ({ title, subtext, image }: HeroV2Props) => {
               </span>
               <div className="text-left">
                 <span className="block text-[15px] font-bold leading-tight">Subscribe</span>
-                <span className="block text-xs font-normal leading-tight mt-0.5" style={{ color: 'hsl(340,15%,45%)' }}>Recurring deliveries</span>
+                <span className="block text-xs font-normal leading-tight mt-0.5" style={{ color: 'black' }}>Recurring deliveries</span>
               </div>
             </button>
           </div>
