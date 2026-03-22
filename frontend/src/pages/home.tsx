@@ -30,6 +30,7 @@ import heroMobileImage640 from '../assets/hero2_mobile2-640w.webp';
 import heroMobileImage768 from '../assets/hero2_mobile2-768w.webp';
 import { FaqV2 } from '../components/FaqV2';
 import { HeroV2 } from '../components/home_page/HeroV2';
+import { HeroV3 } from '../components/home_page/HeroV3';
 import { DeliverySection } from '../components/home_page/DeliverySection';
 import { RomanceSection } from '../components/home_page/RomanceSection';
 import type { FaqItem } from '@/types/FaqItem';
@@ -131,6 +132,16 @@ const HomePage = () => {
         structuredData={organizationSchema}
       />
       <HeroV2
+        title="Better flowers. Local Florists."
+        subtext="Pick a date. Pick a budget. We handle the rest. Flower Delivery and Subscriptions the right way."
+        image={{
+          src: heroImage1280,
+          srcSet: `${heroImage320} 320w, ${heroImage640} 640w, ${heroImage768} 768w, ${heroImage1024} 1024w, ${heroImage1280} 1280w`,
+          mobileSrcSet: `${heroMobileImage320} 320w, ${heroMobileImage412} 412w, ${heroMobileImage640} 640w, ${heroMobileImage768} 768w`,
+          alt: "A woman holding a large bouquet of flowers.",
+        }}
+      />
+      <HeroV3
         title="Better flowers. Local Florists."
         subtext="Pick a date. Pick a budget. We handle the rest. Flower Delivery and Subscriptions the right way."
         image={{
