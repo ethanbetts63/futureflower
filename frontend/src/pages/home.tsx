@@ -29,7 +29,7 @@ import heroMobileImage412 from '../assets/hero2_mobile2-412w.webp';
 import heroMobileImage640 from '../assets/hero2_mobile2-640w.webp';
 import heroMobileImage768 from '../assets/hero2_mobile2-768w.webp';
 import { FaqV2 } from '../components/FaqV2';
-import { HeroV3 } from '../components/home_page/HeroV3';
+import { HeroV4 } from '../components/home_page/HeroV4';
 import { DeliverySection } from '../components/home_page/DeliverySection';
 import { RomanceSection } from '../components/home_page/RomanceSection';
 import type { FaqItem } from '@/types/FaqItem';
@@ -130,7 +130,7 @@ const HomePage = () => {
         ogImage="/og-images/og-homepage.webp"
         structuredData={organizationSchema}
       />
-      <HeroV3
+      <HeroV4
         title="Better flowers. Local Florists."
         subtext="Pick a date. Pick a budget. We handle the rest. Flower Delivery and Subscriptions the right way."
         image={{

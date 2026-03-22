@@ -7,7 +7,7 @@ import subscriptionIcon from '../../assets/subscription_symbol.svg';
 import deliveryIcon from '../../assets/delivery_symbol.svg';
 import Badge from '../Badge';
 
-export const HeroV3 = ({ title, subtext, image }: HeroV2Props) => {
+export const HeroV4 = ({ title, subtext, image }: HeroV2Props) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
@@ -20,10 +20,10 @@ export const HeroV3 = ({ title, subtext, image }: HeroV2Props) => {
   };
 
   const content = (
-    <div className="max-w-[480px]">
+    <div className="max-w-[480px] text-center">
 
       {/* Eyebrow label */}
-      <div className="flex items-center gap-3 mb-4">
+      <div className="flex items-center justify-center gap-3 mb-4">
         <span className="inline-block h-px w-6 bg-black/30" />
         <span className="text-xs font-bold tracking-[0.18em] uppercase text-black">
           Flower Delivery & Subscriptions
@@ -42,7 +42,7 @@ export const HeroV3 = ({ title, subtext, image }: HeroV2Props) => {
       </p>
 
       {/* CTAs */}
-      <div className="mt-7 flex flex-col sm:flex-row gap-3">
+      <div className="mt-7 flex flex-col sm:flex-row gap-3 justify-center">
         <button
           onClick={() => handleNav('/event-gate/single-delivery')}
           className="flex items-center gap-3.5 font-semibold px-5 py-4 rounded-2xl transition-all cursor-pointer shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.99]"
@@ -110,57 +110,44 @@ export const HeroV3 = ({ title, subtext, image }: HeroV2Props) => {
         </div>
       </div>
 
-      {/* ── DESKTOP: full-bleed overlay ── */}
+      {/* ── DESKTOP: sharp split ── */}
       <div
-        className="hidden md:block relative overflow-hidden"
+        className="hidden md:flex relative overflow-hidden"
         style={{ minHeight: 'clamp(560px, 85vh, 820px)' }}
       >
-        {/* Solid colour base */}
-        <div className="absolute inset-0" style={{ background: 'hsl(353,70%,97%)' }} />
-
-        {/* Image — anchored to the right edge, starts further right on smaller desktops */}
-        <picture className="absolute top-0 bottom-0 right-0 left-[54%] lg:left-[48%] xl:left-[42%]">
-          <img
-            src={image.src}
-            srcSet={image.srcSet}
-            sizes="(min-width: 1280px) 58vw, (min-width: 1024px) 52vw, 46vw"
-            alt={image.alt}
-            fetchPriority="high"
-            className="w-full h-full object-cover object-center"
-          />
-        </picture>
-
-        {/* Feather — same left offset as the image, fades colour into the photo */}
-        <div
-          className="absolute top-0 bottom-0 pointer-events-none left-[54%] lg:left-[48%] xl:left-[42%]"
-          style={{
-            width: '25%',
-            background: 'linear-gradient(to right, hsl(353,70%,97%), transparent)',
-          }}
-        />
-
-        {/* Content */}
-        <div
-          className="relative z-10 flex flex-col justify-center h-full px-10 md:px-14 lg:px-20"
-          style={{ minHeight: 'inherit' }}
-        >
+        {/* Solid colour panel — left side */}
+        <div className="shrink-0 w-1/2 flex flex-col justify-center items-center px-10 md:px-14 lg:px-20" style={{ background: 'hsl(353,70%,97%)' }}>
           {content}
         </div>
 
-        {/* Free Delivery badge */}
-        <Badge
-          title="Free Delivery"
-          subtext="Included on all products"
-          symbol={
+        {/* Image panel — right side, fills remaining space */}
+        <div className="flex-1 relative">
+          <picture className="absolute inset-0">
             <img
-              src={deliveryIcon}
-              alt=""
-              className="h-7 w-7 animate-bounce"
-              style={{ animationDuration: '2s' }}
+              src={image.src}
+              srcSet={image.srcSet}
+              sizes="(min-width: 1280px) 58vw, (min-width: 1024px) 52vw, 46vw"
+              alt={image.alt}
+              fetchPriority="high"
+              className="w-full h-full object-cover object-center"
             />
-          }
-          className="absolute bottom-10 right-10 z-20"
-        />
+          </picture>
+
+          {/* Free Delivery badge */}
+          <Badge
+            title="Free Delivery"
+            subtext="Included on all products"
+            symbol={
+              <img
+                src={deliveryIcon}
+                alt=""
+                className="h-7 w-7 animate-bounce"
+                style={{ animationDuration: '2s' }}
+              />
+            }
+            className="absolute bottom-10 right-10 z-20"
+          />
+        </div>
       </div>
 
     </section>
