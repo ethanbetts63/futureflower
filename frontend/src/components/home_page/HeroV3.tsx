@@ -126,7 +126,7 @@ export const HeroV3 = ({ title, subtext, image }: HeroV2Props) => {
             sizes="(min-width: 1280px) 58vw, (min-width: 1024px) 52vw, 46vw"
             alt={image.alt}
             fetchPriority="high"
-            className="w-full h-full object-cover object-right"
+            className="w-full h-full object-cover object-center"
           />
         </picture>
 
