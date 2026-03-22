@@ -27,9 +27,9 @@ const NavBar = () => {
   return (
     <header ref={navRef} className="sticky top-0 z-50 w-full bg-white border-b border-black/10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center justify-between md:grid md:grid-cols-3">
 
-          {/* Logo + brand */}
+          {/* Logo */}
           <Link to="/" onClick={close} aria-label="FutureFlower company logo" className="flex items-center gap-3 flex-shrink-0">
             <img
               src={logo}
@@ -40,13 +40,21 @@ const NavBar = () => {
               height="367"
               className="h-10 w-auto brightness-0"
             />
-            <span className="hidden sm:block font-['Playfair_Display',_serif] italic font-bold text-2xl md:text-3xl text-black tracking-widest leading-none">
+            {/* Title visible on sm only — on md+ it moves to the centre column */}
+            <span className="hidden sm:block md:hidden font-['Playfair_Display',_serif] italic font-bold text-2xl text-black tracking-widest leading-none">
               FUTUREFLOWER
             </span>
           </Link>
 
+          {/* Centred title — md+ only */}
+          <div className="hidden md:flex justify-center">
+            <Link to="/" onClick={close} className="font-['Playfair_Display',_serif] italic font-bold text-3xl text-black tracking-widest leading-none">
+              FUTUREFLOWER
+            </Link>
+          </div>
+
           {/* Order + Animated hamburger */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 md:justify-end">
             <Link
               to="/pricing"
               onClick={close}
