@@ -2,6 +2,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import type { HeroV2Props } from '../../types/HeroV2Props';
+import flowerIcon from '../../assets/flower_symbol.svg';
+import subscriptionIcon from '../../assets/subscription_symbol.svg';
 import deliveryIcon from '../../assets/delivery_symbol.svg';
 import Badge from '../Badge';
 
@@ -21,34 +23,43 @@ export const HeroV2 = ({ title, subtext, image }: HeroV2Props) => {
     <section className="w-full flex flex-col md:flex-row md:min-h-[600px] md:max-h-[800px]">
 
       {/* Content — below image on mobile, left column on desktop */}
-      <div className="flex flex-col justify-center px-8 sm:px-14 lg:px-20 py-14 bg-white md:w-[45%] order-2 md:order-1">
+      <div className="flex flex-col justify-center px-8 sm:px-12 py-12 bg-[var(--color4)] md:w-[45%] order-2 md:order-1">
 
-        <p className="text-xs font-bold tracking-widest uppercase text-black/40 mb-4">
-          Fresh flower delivery
-        </p>
-
-        <h1 className="font-['Playfair_Display',_serif] text-4xl sm:text-5xl lg:text-[3.5rem] font-bold text-black leading-tight">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-black">
           {title}
         </h1>
 
-        <p className="mt-5 text-base text-black/60 leading-relaxed max-w-sm">
+        <h2 className="mt-4 text-base sm:text-lg text-black">
           {subtext}
-        </p>
+        </h2>
 
-        <div className="mt-10 flex flex-col gap-3">
+        <div className="mt-4 flex flex-col gap-3">
           <button
             onClick={() => handleNav('/event-gate/single-delivery')}
-            className="w-full bg-black text-white font-bold px-8 py-4 text-xs tracking-widest uppercase hover:bg-black/80 transition-colors cursor-pointer text-left flex items-center justify-between group"
+            className="w-full flex items-center justify-between bg-[var(--colorgreen)] text-black font-semibold px-6 py-4 rounded-lg hover:brightness-110 transition-all cursor-pointer group shadow-lg"
           >
-            <span>Send Flowers</span>
-            <span className="text-white/40 font-normal normal-case tracking-normal text-xs group-hover:text-white/70 transition-colors">One-time delivery</span>
+            <div className="flex items-center gap-4">
+              <img src={flowerIcon} alt="" className="h-8 w-8" />
+              <div className="text-left">
+                <span className="block text-base">Send Flowers</span>
+                <span className="block text-xs font-normal text-black/60">One-time delivery for a specific date</span>
+              </div>
+            </div>
+            <svg className="h-5 w-5 text-black/40 group-hover:text-black transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
           </button>
+
           <button
             onClick={() => handleNav('/event-gate/subscription')}
-            className="w-full border border-black text-black font-bold px-8 py-4 text-xs tracking-widest uppercase hover:bg-black hover:text-white transition-colors cursor-pointer text-left flex items-center justify-between group"
+            className="w-full flex items-center justify-between bg-white text-black font-semibold px-6 py-4 rounded-lg hover:bg-gray-100 transition-all cursor-pointer group shadow-lg"
           >
-            <span>Flower Subscriptions</span>
-            <span className="text-black/40 font-normal normal-case tracking-normal text-xs group-hover:text-white/60 transition-colors">Recurring deliveries</span>
+            <div className="flex items-center gap-4">
+              <img src={subscriptionIcon} alt="" className="h-8 w-8" />
+              <div className="text-left">
+                <span className="block text-base">Flower Subscriptions</span>
+                <span className="block text-xs font-normal text-gray-500">Recurring flowers for every date that matters</span>
+              </div>
+            </div>
+            <svg className="h-5 w-5 text-gray-400 group-hover:text-black transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
           </button>
         </div>
 
