@@ -68,17 +68,12 @@ export const HeroV3 = ({ title, subtext, image }: HeroV2Props) => {
         <div className="max-w-[480px]">
 
           {/* Eyebrow label */}
-          <div className="flex items-center gap-2 mb-4">
-            <span
-              className="inline-block h-px w-8"
-              style={{ background: 'var(--colorgreen)' }}
-            />
-            <span
-              className="text-xs font-bold tracking-[0.18em] uppercase"
-              style={{ color: 'black' }}
-            >
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-block h-px w-6 bg-black/30" />
+            <span className="text-xs font-bold tracking-[0.18em] uppercase text-black">
               Flower Delivery & Subscriptions
             </span>
+            <span className="inline-block h-px w-6 bg-black/30" />
           </div>
 
           {/* Headline */}
