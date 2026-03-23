@@ -131,7 +131,7 @@ const HomePage = () => {
         structuredData={organizationSchema}
       />
       <HeroV4
-        title="Better flowers. Local Florists."
+        title="Better Flowers. Local Florists."
         subtext="Pick a date. Pick a budget. We handle the rest. Flower Delivery and Subscriptions the right way."
         image={{
           src: heroImage1280,
