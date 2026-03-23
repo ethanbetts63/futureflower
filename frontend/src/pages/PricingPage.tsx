@@ -1,6 +1,6 @@
 
 import Seo from '@/components/Seo';
-import { HeroV2 } from '../components/home_page/HeroV2';
+import { HeroV4 as HeroV2 } from '../components/home_page/HeroV4';
 import deliverToDoor from '../assets/deliver_to_door.png';
 import PricingFloristAdvantage from '../components/pricing_page/PricingFloristAdvantage';
 import PricingTiers from '../components/pricing_page/PricingTiers';
