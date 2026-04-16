@@ -74,6 +74,15 @@ python manage.py generate --flowers
 python manage.py generate --admin_user Biscuit69
 python manage.py fix_site_domains
 
+# Upload all outbox files to the live server
+python manage.py upload
+
+# Upload to local dev server for testing
+python manage.py upload --dev
+
+# On the server — send from inbox
+python manage.py send_outreach --count 5
+
 cd frontend
 npm config set legacy-peer-deps true
 cd ..

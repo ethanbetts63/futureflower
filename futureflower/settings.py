@@ -190,6 +190,10 @@ DEFAULT_FROM_EMAIL = "FutureFlower <postmaster@mail.futureflower.app>"
 
 # Twilio Settings
 TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
+
+# Internal API
+INTERNAL_API_KEY    = os.environ.get("INTERNAL_API_KEY")
+MARKETING_SERVER_URL = os.environ.get("MARKETING_SERVER_URL", "https://www.futureflower.app")
 TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN")
 TWILIO_PHONE_NUMBER = os.environ.get("TWILIO_PHONE_NUMBER")
 TWILIO_MESSAGING_SERVICE_SID = os.environ.get("TWILIO_MESSAGING_SERVICE_SID")

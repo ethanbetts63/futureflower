@@ -6,30 +6,54 @@ Podcast outreach tool. Scrapes iTunes for podcast leads, stores them in a JSONL 
 
 1. **Scrape** — run the scrape command to populate `podcasts.jsonl` with qualifying podcast leads
 2. **Fill in the blanks** — open `podcasts.jsonl` and bring a batch to Claude. Claude writes the `subject` and `custom_intro` for each entry based on the podcast and latest episode
-3. **Send** — run the send command to fire off all emails. Sent entries are moved to `contacted_podcasts.jsonl` automatically
+3. **Promote** — run `promote_outreach` to move filled entries from `podcasts.jsonl` into `outbox/` as individual JSON files
+4. **Upload** — run `upload` from your local machine to push `outbox/` files to the live server's `inbox/`
+5. **Send** — run `send_outreach` on the server to fire off emails from `inbox/`. Sent entries are moved to `contacted_podcasts.jsonl` automatically
 
 ## Commands
 
 ```bash
 # Scrape the next N qualifying podcasts into podcasts.jsonl
-python manage.py scrape_podcasts --batch 10
+python manage.py scrape_pods --batch 10
+
+# Promote enriched entries from podcasts.jsonl into outbox/
+python manage.py promote_outreach
+
+# Upload outbox/ to the live server inbox/ (run locally)
+python manage.py upload
+
+# Upload to local dev server instead
+python manage.py upload --dev
 
 # Send a one-off test email
 python manage.py send_email --to you@example.com --subject "Test" --body "Hello."
 
-# Send outreach emails to every entry in podcasts.jsonl
-python manage.py send_outreach
+# Send outreach emails from inbox/ (run on server)
+python manage.py send_outreach --count 5
 ```
 
 ## Key Files
 
 - `marketing/podcasts.jsonl` — leads to be contacted (gitignored)
 - `marketing/contacted_podcasts.jsonl` — sent entries, moved here after successful send (gitignored)
+- `marketing/outbox/` — enriched entries ready to upload, one JSON file per recipient (gitignored)
+- `marketing/inbox/` — entries received from upload, waiting to be sent (gitignored)
 - `marketing/email.txt` — the outreach email template. The `__________________________________________` placeholder is replaced with each entry's `custom_intro`
 - `marketing/searched_terms.py` — iTunes search terms already queried (aa → zz), prevents re-searching
 - `marketing/searched_feeds.py` — RSS feed URLs already attempted, prevents duplicate fetches across terms
 - `marketing/utils/scraper.py` — scraping logic
 - `marketing/utils/emailer.py` — Gmail SMTP sender
+
+## Upload Endpoint
+
+`POST /api/marketing/upload/` — receives a single podcast JSON entry and writes it to `inbox/`. Requires the `X-Internal-API-Key` header matching `INTERNAL_API_KEY` in settings.
+
+## Environment Variables
+
+| Variable | Where needed | Purpose |
+|---|---|---|
+| `INTERNAL_API_KEY` | Local + server | Shared secret for the upload endpoint |
+| `MARKETING_SERVER_URL` | Local only | Upload destination (defaults to `https://www.futureflower.app`) |
 
 ## JSONL Entry Format
 

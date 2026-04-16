@@ -38,3 +38,4 @@ marketing/searched_feeds.py
 marketing/searched_terms.py
 marketing/planned_emails.py
 marketing/outbox/
+marketing/inbox/

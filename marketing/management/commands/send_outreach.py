@@ -5,7 +5,6 @@ from django.core.management.base import BaseCommand
 from marketing.utils.emailer import send_email
 
 BASE_DIR        = Path(__file__).resolve().parent.parent.parent
-OUTBOX_DIR      = BASE_DIR / "outbox"
 CONTACTED_PATH  = BASE_DIR / "contacted_podcasts.jsonl"
 TEMPLATE_PATH   = BASE_DIR / "email.txt"
 PLACEHOLDER     = "__________________________________________"
@@ -22,7 +21,7 @@ def build_body(custom_intro: str) -> str:
 
 
 class Command(BaseCommand):
-    help = 'Send outreach emails from outbox/.'
+    help = 'Send outreach emails from inbox/ (or outbox/ with --dir outbox).'
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -33,18 +32,20 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        if not OUTBOX_DIR.exists():
-            self.stdout.write(self.style.WARNING("outbox/ directory not found."))
+        inbox_dir = BASE_DIR / "inbox"
+
+        if not inbox_dir.exists():
+            self.stdout.write(self.style.WARNING("inbox/ directory not found."))
             return
 
-        files = sorted(OUTBOX_DIR.glob("*.json"))
+        files = sorted(inbox_dir.glob("*.json"))
 
         if not files:
-            self.stdout.write(self.style.WARNING("No files in outbox/."))
+            self.stdout.write(self.style.WARNING("No files in inbox/."))
             return
 
         targets = files[:options['count']]
-        self.stdout.write(f"{len(files)} in outbox. Sending {len(targets)}.\n")
+        self.stdout.write(f"{len(files)} in inbox/. Sending {len(targets)}.\n")
 
         sent = 0
         failed = 0
