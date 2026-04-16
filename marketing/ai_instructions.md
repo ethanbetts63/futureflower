@@ -37,6 +37,7 @@ do not write it progromatically. write to the file one entry at a time and do it
 
 if you think two entries are likely actually for the same podcast delete one of them.
 
-Once you have finished filling in all entries, you must run the following command to move them to the outbox:
+Once you have finished filling in all entries, you must run the following commands to move them to the outbox and then upload:
 
 python manage.py promote_outreach
+python manage.py upload
