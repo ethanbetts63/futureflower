@@ -37,6 +37,10 @@ do not write it progromatically. write to the file one entry at a time and do it
 
 if you think two entries are likely actually for the same podcast delete one of them.
 
+If podcasts.jsonl is empty or has no blank entries, run the scraper first in batches of 10:
+
+python manage.py scrape_pods --batch 10
+
 Once you have finished filling in all entries, you must run the following commands to move them to the outbox and then upload:
 
 python manage.py promote_outreach

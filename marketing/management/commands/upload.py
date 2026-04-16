@@ -49,13 +49,13 @@ class Command(BaseCommand):
                 response.raise_for_status()
                 path.unlink()
                 uploaded += 1
-                self.stdout.write(self.style.SUCCESS(f"  Uploaded → {email}"))
+                self.stdout.write(self.style.SUCCESS(f"  Uploaded -> {email}"))
             except requests.HTTPError:
                 failed += 1
-                self.stdout.write(self.style.ERROR(f"  Failed → {email}: HTTP {response.status_code} {response.text}"))
+                self.stdout.write(self.style.ERROR(f"  Failed -> {email}: HTTP {response.status_code} {response.text}"))
             except Exception as e:
                 failed += 1
-                self.stdout.write(self.style.ERROR(f"  Failed → {email}: {e}"))
+                self.stdout.write(self.style.ERROR(f"  Failed -> {email}: {e}"))
 
         self.stdout.write(f"\nDone. Uploaded: {uploaded} | Failed: {failed}")
 
