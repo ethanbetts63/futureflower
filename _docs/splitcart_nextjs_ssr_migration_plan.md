@@ -13,7 +13,7 @@ Starting point:
 - `_docs/splitcart_nextjs_ssr_migration_plan.md` and `_docs/nextjs_migration.md` were committed by the user in commit `e24db08a` with message `chreckpoint`.
 - The working tree showed `_docs/nextjs_migration.md` as deleted before implementation work began. This was not reverted because it was an existing user/worktree change.
 - Implementation will follow this document in phases, beginning with a Next.js App Router shell and preserving behavior before deeper SSR conversion.
-
+ 
 Progress notes for future agents:
 
 - Keep this section updated after each meaningful migration phase.
