@@ -4,6 +4,7 @@ import floristImage320 from '../../assets/florist_making_flowers-320w.webp';
 import floristImage640 from '../../assets/florist_making_flowers-640w.webp';
 import floristImage768 from '../../assets/florist_making_flowers-768w.webp';
 import floristImage1024 from '../../assets/florist_making_flowers-1024w.webp';
+import { assetSrc } from '@/lib/assets';
 
 const PricingFloristAdvantage = () => (
     <section className="bg-white py-12">
@@ -56,8 +57,8 @@ const PricingFloristAdvantage = () => (
                 {/* Right — Image */}
                 <div className="rounded-2xl overflow-hidden shadow-lg">
                     <img
-                        src={floristImage}
-                        srcSet={`${floristImage320} 320w, ${floristImage640} 640w, ${floristImage768} 768w, ${floristImage1024} 1024w`}
+                        src={assetSrc(floristImage)}
+                        srcSet={`${assetSrc(floristImage320)} 320w, ${assetSrc(floristImage640)} 640w, ${assetSrc(floristImage768)} 768w, ${assetSrc(floristImage1024)} 1024w`}
                         sizes="(max-width: 1023px) 100vw, 50vw"
                         alt="A florist carefully crafting a bouquet"
                         className="w-full h-[400px] md:h-[540px] object-cover"

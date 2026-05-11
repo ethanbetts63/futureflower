@@ -5,6 +5,7 @@ import deliveryImage768 from '../../assets/delivery-768w.webp';
 import deliveryImage1024 from '../../assets/delivery-1024w.webp';
 import deliveryImage1280 from '../../assets/delivery-1280w.webp';
 import { Check } from 'lucide-react';
+import { assetSrc } from '@/lib/assets';
 
 const features = [
   "Coordinated delivery through florists who already serve your area, prioritising local partners wherever possible.",
@@ -20,8 +21,8 @@ export const DeliverySection = () => {
         {/* Image Column */}
         <div className="h-full">
           <img
-            src={deliveryImage}
-            srcSet={`${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`}
+            src={assetSrc(deliveryImage)}
+            srcSet={`${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`}
             sizes="(max-width: 768px) 100vw, 50vw"
             alt="Florist delivering a bouquet of flowers"
             className="w-full h-full object-cover"

@@ -5,6 +5,7 @@ import kitchenImage768 from '../../assets/kitchen-768w.webp';
 import kitchenImage1024 from '../../assets/kitchen-1024w.webp';
 import kitchenImage1280 from '../../assets/kitchen-1280w.webp';
 import { Check } from 'lucide-react';
+import { assetSrc } from '@/lib/assets';
 
 const features = [
   "Your gesture stays personal. We don’t add logos or branding to the bouquet — and we source from small businesses wherever possible.",
@@ -42,8 +43,8 @@ export const RomanceSection = () => {
         {/* Image Column */}
         <div className="h-full order-1 md:order-2">
           <img
-            src={kitchenImage}
-            srcSet={`${kitchenImage320} 320w, ${kitchenImage640} 640w, ${kitchenImage768} 768w, ${kitchenImage1024} 1024w, ${kitchenImage1280} 1280w`}
+            src={assetSrc(kitchenImage)}
+            srcSet={`${assetSrc(kitchenImage320)} 320w, ${assetSrc(kitchenImage640)} 640w, ${assetSrc(kitchenImage768)} 768w, ${assetSrc(kitchenImage1024)} 1024w, ${assetSrc(kitchenImage1280)} 1280w`}
             sizes="(max-width: 768px) 100vw, 50vw"
             alt="A beautiful bouquet of flowers on a kitchen table with a couple dancing in the background."
             className="w-full h-full object-cover"

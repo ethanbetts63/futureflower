@@ -121,6 +121,48 @@ Still pending:
 
 - Server-render public page body content instead of only metadata.
 
+### 2026-05-11 - Phase 3 homepage SSR started
+
+Implemented:
+
+- Added a dedicated `frontend/src/app/page.tsx` for `/`.
+- Kept non-root routes on the legacy React Router app through `frontend/src/app/[...slug]/page.tsx`.
+- Homepage now server-renders:
+  - static header and footer
+  - route metadata
+  - Organization JSON-LD
+  - hero copy and responsive hero image
+  - How It Works cards
+  - florist-choice advantage section
+  - romance and delivery content sections
+  - FAQ copy and FAQ JSON-LD
+  - blog/article links
+- Added `frontend/src/lib/assets.ts` to normalize imported static assets to URL strings when used in plain `<img>` tags.
+- Normalized imported image usage in reused homepage sections:
+  - `PricingFloristAdvantage`
+  - `RomanceSection`
+  - `DeliverySection`
+
+Important route note:
+
+- A dedicated `/` page cannot coexist with an optional catch-all `[[...slug]]` in Next because they have the same specificity. The legacy route is therefore a required catch-all `[...slug]`, while `/` is owned by `app/page.tsx`.
+
+Verification:
+
+- `npm run typecheck` passed.
+- `npm run build` passed.
+- Next build output now shows `/` as static and `/[...slug]` as dynamic.
+- `http://127.0.0.1:3000/` initial HTML contains real homepage body content including `Better Flowers. Local Florists.`, `How It Works`, FAQ content, and article links.
+- Homepage HTML was checked for `[object Object]`; none remained after asset normalization.
+- `http://127.0.0.1:3000/contact` returned 200 through the legacy catch-all.
+- `http://127.0.0.1:3000/articles/best-flower-delivery-adelaide` returned 200 through the legacy catch-all.
+- `http://127.0.0.1:3000/sitemap.xml` returned 200.
+
+Still pending:
+
+- The server-rendered homepage is not yet byte-for-byte visual parity with the legacy homepage. It preserves the main content and SEO value first.
+- Convert additional public routes (`/contact`, `/florists`, `/affiliates`, `/pricing`, occasion pages, and articles) from legacy client rendering to App Router server rendering.
+
 ## Executive summary
 
 FutureFlower has more SSR upside than SplitCart because many high-value pages are static or mostly static: homepage, florist partner landing page, affiliate landing page, pricing, contact, occasion landing pages, city landing pages, and article pages. Today, crawlers receive a generic Vite shell first and only see page-specific metadata/content after JavaScript runs.
