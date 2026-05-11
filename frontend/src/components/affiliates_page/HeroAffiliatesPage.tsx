@@ -9,6 +9,7 @@ import deliveryImage640 from '../../assets/delivery-640w.webp';
 import deliveryImage768 from '../../assets/delivery-768w.webp';
 import deliveryImage1024 from '../../assets/delivery-1024w.webp';
 import deliveryImage1280 from '../../assets/delivery-1280w.webp';
+import { assetSrc } from '@/lib/assets';
 
 export const HeroAffiliatesPage = ({ scrollToContent }: HeroAffiliatesPageProps) => {
   return (
@@ -16,12 +17,12 @@ export const HeroAffiliatesPage = ({ scrollToContent }: HeroAffiliatesPageProps)
       <picture className="absolute inset-0 w-full h-full">
         <source
           media="(min-width: 768px)"
-          srcSet={`${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`}
+          srcSet={`${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`}
           sizes="100vw"
         />
         <img
-          src={deliveryImage}
-          srcSet={`${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`}
+          src={assetSrc(deliveryImage)}
+          srcSet={`${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`}
           sizes="100vw"
           alt="Person receiving flowers, representing affiliate rewards" // SEO Alt Text
           fetchPriority="high"

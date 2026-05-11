@@ -1,8 +1,8 @@
-import { StaticArticlesIndex } from "@/components/static/StaticArticlesIndex";
+import BlogExplorePage from "@/page_components/BlogExplorePage";
 import { getRouteMetadata } from "@/lib/routeMetadata";
 
 export const metadata = getRouteMetadata("/articles");
 
-export default function ArticlesPage() {
-  return <StaticArticlesIndex />;
+export default function Page() {
+  return <BlogExplorePage />;
 }

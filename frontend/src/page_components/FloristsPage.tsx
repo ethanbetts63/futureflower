@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef } from 'react';
 import Seo from '../components/Seo';
 import { ProductCarousel } from '../components/ProductCarousel';
@@ -32,6 +34,7 @@ import { WhyFutureFlowerSection } from '../components/florists_page/WhyFutureFlo
 import { ServicesCarouselSection } from '../components/florists_page/ServicesCarouselSection';
 import { SoWhatsTheCatchSection } from '../components/florists_page/SoWhatsTheCatchSection';
 import ComparisonSectionFlorists from '../components/florists_page/ComparisonSectionFlorists';
+import { assetSrc } from '@/lib/assets';
 
 const FloristsPage = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -47,8 +50,8 @@ const FloristsPage = () => {
       description:
         'Display your unique discount code (instore poster / website link). The discount comes out of our margin, not yours.',
       image: {
-        src: floristPackingImage,
-        srcSet: `${floristPackingImage320} 320w, ${floristPackingImage640} 640w, ${floristPackingImage768} 768w, ${floristPackingImage1024} 1024w, ${floristPackingImage1280} 1280w`,
+        src: assetSrc(floristPackingImage),
+        srcSet: `${assetSrc(floristPackingImage320)} 320w, ${assetSrc(floristPackingImage640)} 640w, ${assetSrc(floristPackingImage768)} 768w, ${assetSrc(floristPackingImage1024)} 1024w, ${assetSrc(floristPackingImage1280)} 1280w`,
         sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Florist packing image for setting up link/QR code',
       },
@@ -59,8 +62,8 @@ const FloristsPage = () => {
       description:
         'Customers selects budget, preferences, and delivery details. These will all be provided to you.',
       image: {
-        src: petalImage1280,
-        srcSet: `${petalImage320} 320w, ${petalImage640} 640w, ${petalImage768} 768w, ${petalImage1024} 1024w, ${petalImage1280} 1280w`,
+        src: assetSrc(petalImage1280),
+        srcSet: `${assetSrc(petalImage320)} 320w, ${assetSrc(petalImage640)} 640w, ${assetSrc(petalImage768)} 768w, ${assetSrc(petalImage1024)} 1024w, ${assetSrc(petalImage1280)} 1280w`,
         sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Petal image for customer making their order',
       },
@@ -71,8 +74,8 @@ const FloristsPage = () => {
       description:
         'Recieve a text and email with an acceptance link. Accept and handle the delivery yourself, or reject for a tiered reward ($5–$25) depending on the bouquet value.',
       image: {
-        src: deliveryImage,
-        srcSet: `${deliveryImage320} 320w, ${deliveryImage360} 360w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`,
+        src: assetSrc(deliveryImage),
+        srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage360)} 360w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`,
         sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Delivery image for accepting or rejecting orders',
       },

@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef } from 'react';
 import Seo from '../components/Seo';
 import { HeroAffiliatesPage } from '../components/affiliates_page/HeroAffiliatesPage';
@@ -26,6 +28,7 @@ import deliveryImage640 from '../assets/delivery-640w.webp';
 import deliveryImage768 from '../assets/delivery-768w.webp';
 import deliveryImage1024 from '../assets/delivery-1024w.webp';
 import deliveryImage1280 from '../assets/delivery-1280w.webp';
+import { assetSrc } from '@/lib/assets';
 
 
 const AffiliatesPage = () => {
@@ -42,8 +45,8 @@ const AffiliatesPage = () => {
       description:
         'Create your account and get your custom $5 discount code (e.g., DEBRA5) in minutes.',
       image: {
-        src: petalImage1280,
-        srcSet: `${petalImage320} 320w, ${petalImage640} 640w, ${petalImage768} 768w, ${petalImage1024} 1024w, ${petalImage1280} 1280w`,
+        src: assetSrc(petalImage1280),
+        srcSet: `${assetSrc(petalImage320)} 320w, ${assetSrc(petalImage640)} 640w, ${assetSrc(petalImage768)} 768w, ${assetSrc(petalImage1024)} 1024w, ${assetSrc(petalImage1280)} 1280w`,
         sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Petal image for grabbing your code',
       },
@@ -54,8 +57,8 @@ const AffiliatesPage = () => {
       description:
         'Show how the same price delivers more flowers, true florist\'s choice design, and supports local florists.',
       image: {
-        src: floristImage1280,
-        srcSet: `${floristImage320} 320w, ${floristImage640} 640w, ${floristImage768} 768w, ${floristImage1024} 1024w, ${floristImage1280} 1280w`,
+        src: assetSrc(floristImage1280),
+        srcSet: `${assetSrc(floristImage320)} 320w, ${assetSrc(floristImage640)} 640w, ${assetSrc(floristImage768)} 768w, ${assetSrc(floristImage1024)} 1024w, ${assetSrc(floristImage1280)} 1280w`,
         sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Florist image for sharing the smarter way to buy flowers',
       },
@@ -66,8 +69,8 @@ const AffiliatesPage = () => {
       description:
         'When a follower uses your code, you get paid for their first order, their second, and their third.',
       image: {
-        src: deliveryImage1280,
-        srcSet: `${deliveryImage320} 320w, ${deliveryImage360} 360w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`,
+        src: assetSrc(deliveryImage1280),
+        srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage360)} 360w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`,
         sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Delivery image for triple dipping earnings',
       },

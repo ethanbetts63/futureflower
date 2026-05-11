@@ -1,4 +1,6 @@
 
+"use client";
+
 import Seo from '@/components/Seo';
 import { HeroV4 as HeroV2 } from '../components/home_page/HeroV4';
 import deliverToDoor from '../assets/deliver_to_door.png';
@@ -7,6 +9,7 @@ import PricingTiers from '../components/pricing_page/PricingTiers';
 import ComparisonSection from '../components/home_page/ComparisonSectionHome';
 import PricingFaq from '../components/pricing_page/PricingFaq';
 import { IMPACT_TIERS } from '@/utils/pricingConstants';
+import { assetSrc } from '@/lib/assets';
 
 const PricingPage = () => {
     const serviceSchema = {
@@ -52,8 +55,8 @@ const PricingPage = () => {
                 title={<>More flowers. Fewer fees.</>}
                 subtext="Give florists a budget and preferences. No catalogs, just the freshest, seasonal flowers."
                 image={{
-                    src: deliverToDoor,
-                    srcSet: `${deliverToDoor} 1280w`,
+                    src: assetSrc(deliverToDoor),
+                    srcSet: `${assetSrc(deliverToDoor)} 1280w`,
                     alt: "Florist delivering a bouquet of flowers to a customer at their door.",
                 }}
             />

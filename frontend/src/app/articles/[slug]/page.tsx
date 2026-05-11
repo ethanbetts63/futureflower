@@ -1,13 +1,36 @@
-import { StaticArticlePage } from "@/components/static/StaticArticlePage";
-import { articleMap, articles } from "@/lib/staticPages";
+import BestFlowerDeliveryAdelaide from "@/page_components/articles/BestFlowerDeliveryAdelaide";
+import BestFlowerDeliveryDarwin from "@/page_components/articles/BestFlowerDeliveryDarwin";
+import BestFlowerDeliveryMelbourne from "@/page_components/articles/BestFlowerDeliveryMelbourne";
+import BestFlowerDeliveryPerth from "@/page_components/articles/BestFlowerDeliveryPerth";
+import BestFlowerDeliverySydney from "@/page_components/articles/BestFlowerDeliverySydney";
+import BestFlowerSubscriptionServicesAU from "@/page_components/articles/BestFlowerSubscriptionServicesAU";
+import BestFlowerSubscriptionServicesEU from "@/page_components/articles/BestFlowerSubscriptionServicesEU";
+import BestFlowerSubscriptionServicesNZ from "@/page_components/articles/BestFlowerSubscriptionServicesNZ";
+import BestFlowerSubscriptionServicesUK from "@/page_components/articles/BestFlowerSubscriptionServicesUK";
+import BestFlowerSubscriptionServicesUS from "@/page_components/articles/BestFlowerSubscriptionServicesUS";
+import { articles } from "@/lib/staticPages";
 import { getRouteMetadata } from "@/lib/routeMetadata";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { ComponentType } from "react";
 
 type PageProps = {
   params: Promise<{
     slug: string;
   }>;
+};
+
+const articleComponents: Record<string, ComponentType> = {
+  "best-flower-subscription-services-us": BestFlowerSubscriptionServicesUS,
+  "best-flower-subscription-services-au": BestFlowerSubscriptionServicesAU,
+  "best-flower-subscription-services-uk": BestFlowerSubscriptionServicesUK,
+  "best-flower-subscription-services-eu": BestFlowerSubscriptionServicesEU,
+  "best-flower-subscription-services-nz": BestFlowerSubscriptionServicesNZ,
+  "best-flower-delivery-perth": BestFlowerDeliveryPerth,
+  "best-flower-delivery-sydney": BestFlowerDeliverySydney,
+  "best-flower-delivery-adelaide": BestFlowerDeliveryAdelaide,
+  "best-flower-delivery-darwin": BestFlowerDeliveryDarwin,
+  "best-flower-delivery-melbourne": BestFlowerDeliveryMelbourne,
 };
 
 export function generateStaticParams() {
@@ -25,11 +48,11 @@ export async function generateMetadata({
 
 export default async function ArticlePage({ params }: PageProps) {
   const { slug } = await params;
-  const article = articleMap[slug];
+  const ArticleComponent = articleComponents[slug];
 
-  if (!article) {
+  if (!ArticleComponent) {
     notFound();
   }
 
-  return <StaticArticlePage article={article} />;
+  return <ArticleComponent />;
 }

@@ -1,5 +1,6 @@
 
 import { IMPACT_TIERS } from '@/utils/pricingConstants';
+import { assetSrc } from '@/lib/assets';
 
 const PricingTiers = () => {
     return (
@@ -37,7 +38,7 @@ const PricingTiers = () => {
 
                             <div className="w-full h-48 overflow-hidden">
                                 <img
-                                    src={tier.image}
+                                    src={assetSrc(tier.image)}
                                     alt={tier.name}
                                     className="w-full h-full object-cover"
                                     loading="lazy"

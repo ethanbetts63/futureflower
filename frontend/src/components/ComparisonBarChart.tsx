@@ -4,6 +4,7 @@ import flowerIcon from '../assets/flower_symbol.svg';
 import type { BarChartEntry } from '@/types/BarChartEntry';
 import type { LegendItem } from '@/types/LegendItem';
 import type { ComparisonBarChartProps } from '@/types/ComparisonBarChartProps';
+import { assetSrc } from '@/lib/assets';
 
 export type { BarChartEntry, LegendItem };
 
@@ -25,7 +26,7 @@ export const ComparisonBarChart = ({ heading, bars, legend }: ComparisonBarChart
                 style={{ width: `${seg.widthPercent}%`, backgroundColor: seg.color }}
                 title={seg.title}
               >
-                <img src={seg.icon} alt={seg.iconAlt} className="h-5 w-5 opacity-80 invert brightness-0" loading="lazy" />
+                <img src={assetSrc(seg.icon)} alt={seg.iconAlt} className="h-5 w-5 opacity-80 invert brightness-0" loading="lazy" />
               </div>
             ))}
           </div>

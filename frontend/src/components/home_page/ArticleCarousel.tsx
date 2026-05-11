@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import deliveryImage from '../../assets/delivery.webp';
 import deliveryImage320 from '../../assets/delivery-320w.webp';
@@ -22,75 +22,76 @@ import delivery1Image from '../../assets/delivery1.webp';
 import floristPackingImage from '../../assets/florist_packing.webp';
 import floristPacking2Image from '../../assets/florist_packing2.webp';
 import type { ArticleCarouselProps } from '../../types/ArticleCarouselProps';
+import { assetSrc } from '@/lib/assets';
 
 const articles = [
   {
     title: 'The Best Flower Subscription Services in the United States (2026 Guide)',
-    imageSrc: deliveryImage,
-    srcSet: `${deliveryImage320} 320w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`,
+    imageSrc: assetSrc(deliveryImage),
+    srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`,
     link: '/articles/best-flower-subscription-services-us',
     alt: 'A guide to the best flower subscription services in the US'
   },
   {
     title: 'The Best Flower Subscription Services in Australia (2026 Guide)',
-    imageSrc: floristImage,
-    srcSet: `${floristImage320} 320w, ${floristImage640} 640w, ${floristImage768} 768w, ${floristImage1024} 1024w, ${floristImage1280} 1280w`,
+    imageSrc: assetSrc(floristImage),
+    srcSet: `${assetSrc(floristImage320)} 320w, ${assetSrc(floristImage640)} 640w, ${assetSrc(floristImage768)} 768w, ${assetSrc(floristImage1024)} 1024w, ${assetSrc(floristImage1280)} 1280w`,
     link: '/articles/best-flower-subscription-services-au',
     alt: 'A guide to the best flower subscription services in Australia'
   },
   {
     title: 'The Best Flower Subscription Services in the United Kingdom (2026 Guide)',
-    imageSrc: kitchenImage,
-    srcSet: `${kitchenImage320} 320w, ${kitchenImage640} 640w, ${kitchenImage768} 768w, ${kitchenImage1024} 1024w, ${kitchenImage1280} 1280w`,
+    imageSrc: assetSrc(kitchenImage),
+    srcSet: `${assetSrc(kitchenImage320)} 320w, ${assetSrc(kitchenImage640)} 640w, ${assetSrc(kitchenImage768)} 768w, ${assetSrc(kitchenImage1024)} 1024w, ${assetSrc(kitchenImage1280)} 1280w`,
     link: '/articles/best-flower-subscription-services-uk',
     alt: 'A guide to the best flower subscription services in the UK'
   },
   {
     title: 'The Best Flower Subscription Services in Europe (2026 Guide)',
-    imageSrc: floristImage,
-    srcSet: `${floristImage320} 320w, ${floristImage640} 640w, ${floristImage768} 768w, ${floristImage1024} 1024w, ${floristImage1280} 1280w`,
+    imageSrc: assetSrc(floristImage),
+    srcSet: `${assetSrc(floristImage320)} 320w, ${assetSrc(floristImage640)} 640w, ${assetSrc(floristImage768)} 768w, ${assetSrc(floristImage1024)} 1024w, ${assetSrc(floristImage1280)} 1280w`,
     link: '/articles/best-flower-subscription-services-eu',
     alt: 'A guide to the best flower subscription services in Europe'
   },
   {
     title: 'The Best Flower Subscription Services in New Zealand (2026 Guide)',
-    imageSrc: floristPacking2Image,
-    srcSet: `${floristPacking2Image} 320w, ${floristPacking2Image} 640w, ${floristPacking2Image} 768w, ${floristPacking2Image} 1024w, ${floristPacking2Image} 1280w`,
+    imageSrc: assetSrc(floristPacking2Image),
+    srcSet: `${assetSrc(floristPacking2Image)} 320w, ${assetSrc(floristPacking2Image)} 640w, ${assetSrc(floristPacking2Image)} 768w, ${assetSrc(floristPacking2Image)} 1024w, ${assetSrc(floristPacking2Image)} 1280w`,
     link: '/articles/best-flower-subscription-services-nz',
     alt: 'A guide to the best flower subscription services in New Zealand'
   },
   {
     title: 'The Best Flower Delivery Services in Perth (2026 Guide)',
-    imageSrc: floristPackingImage,
-    srcSet: `${floristPackingImage} 320w, ${floristPackingImage} 640w, ${floristPackingImage} 768w, ${floristPackingImage} 1024w, ${floristPackingImage} 1280w`,
+    imageSrc: assetSrc(floristPackingImage),
+    srcSet: `${assetSrc(floristPackingImage)} 320w, ${assetSrc(floristPackingImage)} 640w, ${assetSrc(floristPackingImage)} 768w, ${assetSrc(floristPackingImage)} 1024w, ${assetSrc(floristPackingImage)} 1280w`,
     link: '/articles/best-flower-delivery-perth',
     alt: 'A guide to the best flower delivery services in Perth'
   },
   {
     title: 'The Best Flower Delivery Services in Sydney (2026 Guide)',
-    imageSrc: delivery1Image,
-    srcSet: `${delivery1Image} 320w, ${delivery1Image} 640w, ${delivery1Image} 768w, ${delivery1Image} 1024w, ${delivery1Image} 1280w`,
+    imageSrc: assetSrc(delivery1Image),
+    srcSet: `${assetSrc(delivery1Image)} 320w, ${assetSrc(delivery1Image)} 640w, ${assetSrc(delivery1Image)} 768w, ${assetSrc(delivery1Image)} 1024w, ${assetSrc(delivery1Image)} 1280w`,
     link: '/articles/best-flower-delivery-sydney',
     alt: 'A guide to the best flower delivery services in Sydney'
   },
   {
     title: 'The Best Flower Delivery Services in Adelaide (2026 Guide)',
-    imageSrc: floristPackingImage,
-    srcSet: `${floristPackingImage} 320w, ${floristPackingImage} 640w, ${floristPackingImage} 768w, ${floristPackingImage} 1024w, ${floristPackingImage} 1280w`,
+    imageSrc: assetSrc(floristPackingImage),
+    srcSet: `${assetSrc(floristPackingImage)} 320w, ${assetSrc(floristPackingImage)} 640w, ${assetSrc(floristPackingImage)} 768w, ${assetSrc(floristPackingImage)} 1024w, ${assetSrc(floristPackingImage)} 1280w`,
     link: '/articles/best-flower-delivery-adelaide',
     alt: 'A guide to the best flower delivery services in Adelaide'
   },
   {
     title: 'The Best Flower Delivery Services in Darwin (2026 Guide)',
-    imageSrc: floristPackingImage,
-    srcSet: `${floristPackingImage} 320w, ${floristPackingImage} 640w, ${floristPackingImage} 768w, ${floristPackingImage} 1024w, ${floristPackingImage} 1280w`,
+    imageSrc: assetSrc(floristPackingImage),
+    srcSet: `${assetSrc(floristPackingImage)} 320w, ${assetSrc(floristPackingImage)} 640w, ${assetSrc(floristPackingImage)} 768w, ${assetSrc(floristPackingImage)} 1024w, ${assetSrc(floristPackingImage)} 1280w`,
     link: '/articles/best-flower-delivery-darwin',
     alt: 'A guide to the best flower delivery services in Darwin'
   },
   {
     title: 'The Best Flower Delivery Services in Melbourne (2026 Guide)',
-    imageSrc: floristPackingImage,
-    srcSet: `${floristPackingImage} 320w, ${floristPackingImage} 640w, ${floristPackingImage} 768w, ${floristPackingImage} 1024w, ${floristPackingImage} 1280w`,
+    imageSrc: assetSrc(floristPackingImage),
+    srcSet: `${assetSrc(floristPackingImage)} 320w, ${assetSrc(floristPackingImage)} 640w, ${assetSrc(floristPackingImage)} 768w, ${assetSrc(floristPackingImage)} 1024w, ${assetSrc(floristPackingImage)} 1280w`,
     link: '/articles/best-flower-delivery-melbourne',
     alt: 'A guide to the best flower delivery services in Melbourne'
   }
@@ -116,7 +117,7 @@ export const ArticleCarousel = ({ exclude, showAll = false }: ArticleCarouselPro
         </p>
         <div className="flex overflow-x-auto space-x-6 pb-4">
           {articlesToShow.map((article) => (
-            <Link to={article.link} key={article.link} className="flex-shrink-0 w-80 h-48 group">
+            <Link href={article.link} key={article.link} className="flex-shrink-0 w-80 h-48 group">
               <div 
                 className="relative w-full h-full bg-cover bg-center rounded-xl shadow-md overflow-hidden transform transition-transform hover:-translate-y-1"
               >
@@ -136,7 +137,7 @@ export const ArticleCarousel = ({ exclude, showAll = false }: ArticleCarouselPro
             </Link>
           ))}
           {!showAll && filteredArticles.length > 3 && (
-            <Link to="/articles" className="flex-shrink-0 w-80 h-48 group">
+            <Link href="/articles" className="flex-shrink-0 w-80 h-48 group">
               <div className="relative w-full h-full bg-[var(--color4)] rounded-xl shadow-md overflow-hidden transform transition-transform hover:-translate-y-1">
                 <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-center text-secondary-foreground">
                   <h3 className="text-2xl text-black font-semibold">See more blog posts</h3>

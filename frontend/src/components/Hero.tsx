@@ -1,5 +1,6 @@
 
 import type { HeroProps } from '../types/HeroProps';
+import { assetSrc } from '@/lib/assets';
 
 
 
@@ -11,7 +12,7 @@ export const Hero = ({ title, subtitle, imageSrc, srcSet, imageAlt, ctaElement }
           <img 
             width="1536"
             height="1024"
-            src={imageSrc} 
+            src={assetSrc(imageSrc)} 
             srcSet={srcSet}
             sizes="(min-width: 1024px) 50vw, 100vw"
             alt={imageAlt} 

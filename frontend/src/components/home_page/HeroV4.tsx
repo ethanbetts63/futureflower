@@ -1,22 +1,14 @@
 
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
 import type { HeroV2Props } from '../../types/HeroV2Props';
 import flowerIcon from '../../assets/flower_symbol.svg';
 import subscriptionIcon from '../../assets/subscription_symbol.svg';
 import deliveryIcon from '../../assets/delivery_symbol.svg';
 import Badge from '../Badge';
+import { assetSrc } from '@/lib/assets';
 
 export const HeroV4 = ({ title, subtext, image }: HeroV2Props) => {
-  const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
-
   const handleNav = (path: string) => {
-    if (isAuthenticated) {
-      navigate(path);
-    } else {
-      navigate(`/create-account?next=${path}`);
-    }
+    window.location.href = `/create-account?next=${encodeURIComponent(path)}`;
   };
 
   const content = (
@@ -52,7 +44,7 @@ export const HeroV4 = ({ title, subtext, image }: HeroV2Props) => {
             className="flex items-center justify-center rounded-xl p-1.5 shrink-0"
             style={{ background: 'hsl(143,70%,44%)' }}
           >
-            <img src={flowerIcon} alt="" className="h-6 w-6" />
+            <img src={assetSrc(flowerIcon)} alt="" className="h-6 w-6" />
           </span>
           <div className="text-left">
             <span className="block text-[15px] font-bold leading-tight">Send Flowers</span>
@@ -75,7 +67,7 @@ export const HeroV4 = ({ title, subtext, image }: HeroV2Props) => {
             className="flex items-center justify-center rounded-xl p-1.5 shrink-0"
             style={{ background: 'hsl(347,100%,93%)' }}
           >
-            <img src={subscriptionIcon} alt="" className="h-6 w-6" />
+            <img src={assetSrc(subscriptionIcon)} alt="" className="h-6 w-6" />
           </span>
           <div className="text-left">
             <span className="block text-[15px] font-bold leading-tight">Subscribe</span>
@@ -97,7 +89,7 @@ export const HeroV4 = ({ title, subtext, image }: HeroV2Props) => {
             <source media="(max-width: 767px)" srcSet={image.mobileSrcSet} sizes="100vw" />
           )}
           <img
-            src={image.src}
+            src={assetSrc(image.src)}
             srcSet={image.srcSet}
             sizes="100vw"
             alt={image.alt}
@@ -124,7 +116,7 @@ export const HeroV4 = ({ title, subtext, image }: HeroV2Props) => {
         <div className="flex-1 relative">
           <picture className="absolute inset-0">
             <img
-              src={image.src}
+              src={assetSrc(image.src)}
               srcSet={image.srcSet}
               sizes="(min-width: 1280px) 58vw, (min-width: 1024px) 52vw, 46vw"
               alt={image.alt}
@@ -139,7 +131,7 @@ export const HeroV4 = ({ title, subtext, image }: HeroV2Props) => {
             subtext="Included on all products"
             symbol={
               <img
-                src={deliveryIcon}
+                src={assetSrc(deliveryIcon)}
                 alt=""
                 className="h-7 w-7 animate-bounce"
                 style={{ animationDuration: '2s' }}

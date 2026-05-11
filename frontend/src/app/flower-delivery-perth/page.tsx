@@ -1,9 +1,8 @@
-import { StaticMarketingPage } from "@/components/static/StaticMarketingPage";
+import FlowerDeliveryPerth from "@/page_components/FlowerDeliveryPerth";
 import { getRouteMetadata } from "@/lib/routeMetadata";
-import { landingPages } from "@/lib/staticPages";
 
 export const metadata = getRouteMetadata("/flower-delivery-perth");
 
-export default function FlowerDeliveryPerthPage() {
-  return <StaticMarketingPage page={landingPages["/flower-delivery-perth"]} />;
+export default function Page() {
+  return <FlowerDeliveryPerth />;
 }

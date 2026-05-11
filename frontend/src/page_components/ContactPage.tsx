@@ -1,4 +1,6 @@
 
+"use client";
+
 import { ContactHero } from '../components/contact_page/ContactHero';
 import OtherSites from '../components/contact_page/OtherSites';
 import { Letter } from '../components/contact_page/Letter';

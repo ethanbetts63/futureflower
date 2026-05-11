@@ -5,6 +5,7 @@ import floristMakingImage640 from '../../assets/florist_making_flowers-640w.webp
 import floristMakingImage768 from '../../assets/florist_making_flowers-768w.webp';
 import floristMakingImage1024 from '../../assets/florist_making_flowers-1024w.webp';
 import floristMakingImage1280 from '../../assets/florist_making_flowers-1280w.webp';
+import { assetSrc } from '@/lib/assets';
 
 const angles = [
   {
@@ -62,8 +63,8 @@ export const ContentIdeasSection = () => {
         {/* Image Column */}
         <div className="h-64 md:h-full order-1 md:order-2">
           <img
-            src={floristMakingImage1280}
-            srcSet={`${floristMakingImage320} 320w, ${floristMakingImage640} 640w, ${floristMakingImage768} 768w, ${floristMakingImage1024} 1024w, ${floristMakingImage1280} 1280w`}
+            src={assetSrc(floristMakingImage1280)}
+            srcSet={`${assetSrc(floristMakingImage320)} 320w, ${assetSrc(floristMakingImage640)} 640w, ${assetSrc(floristMakingImage768)} 768w, ${assetSrc(floristMakingImage1024)} 1024w, ${assetSrc(floristMakingImage1280)} 1280w`}
             sizes="(max-width: 768px) 100vw, 50vw"
             alt="Florist arranging flowers"
             className="w-full h-full object-cover"

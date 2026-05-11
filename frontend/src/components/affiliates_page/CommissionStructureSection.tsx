@@ -1,4 +1,5 @@
 import floristPackingImage from '../../assets/florist_packing.webp'; // TODO: replace with commission-themed image
+import { assetSrc } from '@/lib/assets';
 
 const rows = [
   { budget: '< $100', commission: '$5',  total: '$15' },
@@ -16,7 +17,7 @@ export const CommissionStructureSection = () => {
         {/* Image Column */}
         <div className="h-64 md:h-full">
           <img
-            src={floristPackingImage}
+            src={assetSrc(floristPackingImage)}
             alt="Florist carefully packing a bouquet"
             className="w-full h-full object-cover"
             loading="lazy"

@@ -1,11 +1,11 @@
 
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import type { BecomePartnerButtonProps } from '@/types/BecomePartnerButtonProps';
 
 export const BecomePartnerButton = ({ className = '' }: BecomePartnerButtonProps) => {
   return (
     <Link
-      to="/partner/register"
+      href="/partner/register"
       className={`inline-flex items-center gap-2 bg-green-600 text-white font-medium px-6 py-3 rounded-md hover:bg-green-700 transition-colors text-center shadow-sm ${className}`}
     >
       Get Started

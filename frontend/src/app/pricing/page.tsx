@@ -1,9 +1,8 @@
-import { StaticMarketingPage } from "@/components/static/StaticMarketingPage";
+import PricingPage from "@/page_components/PricingPage";
 import { getRouteMetadata } from "@/lib/routeMetadata";
-import { landingPages } from "@/lib/staticPages";
 
 export const metadata = getRouteMetadata("/pricing");
 
-export default function PricingPage() {
-  return <StaticMarketingPage page={landingPages["/pricing"]} />;
+export default function Page() {
+  return <PricingPage />;
 }

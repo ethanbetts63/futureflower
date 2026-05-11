@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 
@@ -31,15 +29,9 @@ const DetailedProductInfo = ({ subtitle, paragraph, features, onGetStarted, butt
 
 export const CtaCard = () => {
   const [view, setView] = useState<View>('subscription');
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
 
   const handleNavigation = (path: string) => {
-    if (isAuthenticated) {
-      navigate(path);
-    } else {
-      navigate(`/create-account?next=${path}`);
-    }
+    window.location.href = `/create-account?next=${encodeURIComponent(path)}`;
   };
 
   const productData: Record<View, ProductData> = {

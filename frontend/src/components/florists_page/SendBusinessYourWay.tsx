@@ -7,6 +7,7 @@ import floristImage1024 from '../../assets/florist-1024w.webp';
 import floristImage1280 from '../../assets/florist-1280w.webp';
 import { Check } from 'lucide-react';
 import { BecomePartnerButton } from './BecomePartnerButton';
+import { assetSrc } from '@/lib/assets';
 
 const benefits = [
   'Orders from customers who found us, not you',
@@ -22,8 +23,8 @@ export const SendBusinessYourWay = () => {
         {/* Image Column */}
         <div className="h-full order-1 md:order-1">
           <img
-            src={floristImage}
-            srcSet={`${floristImage320} 320w, ${floristImage640} 640w, ${floristImage768} 768w, ${floristImage1024} 1024w, ${floristImage1280} 1280w`}
+            src={assetSrc(floristImage)}
+            srcSet={`${assetSrc(floristImage320)} 320w, ${assetSrc(floristImage640)} 640w, ${assetSrc(floristImage768)} 768w, ${assetSrc(floristImage1024)} 1024w, ${assetSrc(floristImage1280)} 1280w`}
             sizes="(max-width: 768px) 100vw, 50vw"
             alt="A florist preparing a bouquet in their shop."
             className="w-full h-full object-cover"

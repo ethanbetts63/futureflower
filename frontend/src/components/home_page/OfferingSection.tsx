@@ -1,6 +1,4 @@
 
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
 import placeholderImg from '../../assets/florist_packing.webp';
 import placeholderImg320 from '../../assets/florist_packing-320w.webp';
 import placeholderImg412 from '../../assets/florist_packing-412w.webp';
@@ -12,17 +10,11 @@ import flowerIcon from '../../assets/flower_symbol.svg';
 import subscriptionIconWhite from '../../assets/subscription_symbol_white.svg';
 import deliveryIcon from '../../assets/delivery_symbol.svg';
 import Badge from '../Badge';
+import { assetSrc } from '@/lib/assets';
 
 const OfferingSection = () => {
-  const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
-
   const handleNav = (path: string) => {
-    if (isAuthenticated) {
-      navigate(path);
-    } else {
-      navigate(`/create-account?next=${path}`);
-    }
+    window.location.href = `/create-account?next=${encodeURIComponent(path)}`;
   };
 
   return (
@@ -38,7 +30,7 @@ const OfferingSection = () => {
                 subtext="Included on all products"
                 symbol={
                   <img
-                    src={deliveryIcon}
+                    src={assetSrc(deliveryIcon)}
                     alt=""
                     className="h-5 w-5 md:h-7 md:w-7 animate-bounce"
                     style={{ animationDuration: '2s' }}
@@ -48,8 +40,8 @@ const OfferingSection = () => {
               />
 
               <img
-                src={placeholderImg}
-                srcSet={`${placeholderImg320} 320w, ${placeholderImg412} 412w, ${placeholderImg640} 640w, ${placeholderImg768} 768w, ${placeholderImg1024} 1024w, ${placeholderImg1280} 1280w`}
+                src={assetSrc(placeholderImg)}
+                srcSet={`${assetSrc(placeholderImg320)} 320w, ${assetSrc(placeholderImg412)} 412w, ${assetSrc(placeholderImg640)} 640w, ${assetSrc(placeholderImg768)} 768w, ${assetSrc(placeholderImg1024)} 1024w, ${assetSrc(placeholderImg1280)} 1280w`}
                 sizes="(max-width: 1023px) 100vw, 50vw"
                 alt="A florist carefully preparing a bouquet"
                 className="w-full h-[400px] md:h-[540px] object-cover"
@@ -107,7 +99,7 @@ const OfferingSection = () => {
                   className="mt-8 w-full flex items-center justify-between bg-black text-white font-semibold px-6 py-4 rounded-lg hover:bg-black/85 transition-colors cursor-pointer text-sm uppercase tracking-wider group"
                 >
                   <div className="flex items-center gap-2">
-                    <img src={subscriptionIconWhite} alt="" className="h-5 w-5" />
+                    <img src={assetSrc(subscriptionIconWhite)} alt="" className="h-5 w-5" />
                     <span>Subscribe & Secure</span>
                   </div>
                   <svg className="h-4 w-4 text-white/40 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
@@ -125,7 +117,7 @@ const OfferingSection = () => {
                     onClick={() => handleNav('/event-gate/single-delivery')}
                     className="flex-shrink-0 flex items-center gap-2 bg-[var(--colorgreen)] text-black font-semibold px-5 py-3 rounded-lg hover:brightness-110 transition-all cursor-pointer text-sm group self-start md:self-auto"
                   >
-                    <img src={flowerIcon} alt="" className="h-5 w-5" />
+                    <img src={assetSrc(flowerIcon)} alt="" className="h-5 w-5" />
                     <span>Send Flowers</span>
                     <svg className="h-4 w-4 text-black/40 group-hover:text-black transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                   </button>

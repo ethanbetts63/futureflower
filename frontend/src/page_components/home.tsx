@@ -1,3 +1,5 @@
+"use client";
+
 import Seo from '../components/Seo';
 import { ProductCarousel } from '../components/ProductCarousel';
 import type { ProductCarouselStep } from '../components/ProductCarousel';
@@ -38,6 +40,7 @@ import AnnouncementBar from '../components/home_page/AnnouncementBar';
 import OfferingSection from '../components/home_page/OfferingSection';
 import ComparisonSection from '../components/home_page/ComparisonSectionHome';
 import PricingFloristAdvantage from '../components/pricing_page/PricingFloristAdvantage';
+import { assetSrc } from '@/lib/assets';
 
 
 const HomePage = () => {
@@ -74,8 +77,8 @@ const HomePage = () => {
       description:
         'Birthday. Romantic. Sympathy. Celebration. Just because. We design around your preferences.',
       image: {
-        src: petalImage1280,
-        srcSet: `${petalImage320} 320w, ${petalImage640} 640w, ${petalImage768} 768w, ${petalImage1024} 1024w, ${petalImage1280} 1280w`,
+        src: assetSrc(petalImage1280),
+        srcSet: `${assetSrc(petalImage320)} 320w, ${assetSrc(petalImage640)} 640w, ${assetSrc(petalImage768)} 768w, ${assetSrc(petalImage1024)} 1024w, ${assetSrc(petalImage1280)} 1280w`,
         sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Petal image for choosing the vibe',
       },
@@ -86,8 +89,8 @@ const HomePage = () => {
       description:
         'A thoughtful gesture. A classic arrangement. A statement piece. You set the budget — our florists design accordingly.',
       image: {
-        src: floristMakingFlowersImage1280,
-        srcSet: `${floristMakingFlowersImage320} 320w, ${floristMakingFlowersImage640} 640w, ${floristMakingFlowersImage768} 768w, ${floristMakingFlowersImage1024} 1024w, ${floristMakingFlowersImage1280} 1280w`,
+        src: assetSrc(floristMakingFlowersImage1280),
+        srcSet: `${assetSrc(floristMakingFlowersImage320)} 320w, ${assetSrc(floristMakingFlowersImage640)} 640w, ${assetSrc(floristMakingFlowersImage768)} 768w, ${assetSrc(floristMakingFlowersImage1024)} 1024w, ${assetSrc(floristMakingFlowersImage1280)} 1280w`,
         sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Florist making flowers image for choosing the impact',
       },
@@ -98,8 +101,8 @@ const HomePage = () => {
       description:
         'A local florist creates something unique and beautiful. No catalog copies. No warehouse stock. Just real floristry.',
       image: {
-        src: deliveryImage1280,
-        srcSet: `${deliveryImage320} 320w, ${deliveryImage360} 360w, ${deliveryImage640} 640w, ${deliveryImage768} 768w, ${deliveryImage1024} 1024w, ${deliveryImage1280} 1280w`,
+        src: assetSrc(deliveryImage1280),
+        srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage360)} 360w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`,
         sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Delivery image for handling the rest',
       },
@@ -134,9 +137,9 @@ const HomePage = () => {
         title="Better Flowers. Local Florists."
         subtext="Pick a date. Pick a budget. We handle the rest. Flower Delivery and Subscriptions the right way."
         image={{
-          src: heroImage1280,
-          srcSet: `${heroImage320} 320w, ${heroImage640} 640w, ${heroImage768} 768w, ${heroImage1024} 1024w, ${heroImage1280} 1280w`,
-          mobileSrcSet: `${heroMobileImage320} 320w, ${heroMobileImage412} 412w, ${heroMobileImage640} 640w, ${heroMobileImage768} 768w`,
+          src: assetSrc(heroImage1280),
+          srcSet: `${assetSrc(heroImage320)} 320w, ${assetSrc(heroImage640)} 640w, ${assetSrc(heroImage768)} 768w, ${assetSrc(heroImage1024)} 1024w, ${assetSrc(heroImage1280)} 1280w`,
+          mobileSrcSet: `${assetSrc(heroMobileImage320)} 320w, ${assetSrc(heroMobileImage412)} 412w, ${assetSrc(heroMobileImage640)} 640w, ${assetSrc(heroMobileImage768)} 768w`,
           alt: "A woman holding a large bouquet of flowers.",
         }}
       />

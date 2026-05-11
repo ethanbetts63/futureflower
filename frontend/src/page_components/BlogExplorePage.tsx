@@ -1,12 +1,15 @@
-import { Link } from 'react-router-dom';
+"use client";
+
+import Link from 'next/link';
 import { ArticleCarousel } from '../components/home_page/ArticleCarousel';
 import Seo from '../components/Seo';
 import deliveryImage from '../assets/delivery.webp';
+import { assetSrc } from '@/lib/assets';
 
 const BlogExplorePage = () => {
   const prominentArticle = {
     title: 'The Best Flower Subscription Services in the United States (2026 Guide)',
-    imageSrc: deliveryImage,
+    imageSrc: assetSrc(deliveryImage),
     link: '/articles/best-flower-subscription-services-us',
     alt: 'A guide to the best flower subscription services in the US',
     description: 'An in-depth guide to the best flower subscription services in the US, broken down by best overall, cheapest, and highest quality.'
@@ -33,7 +36,7 @@ const BlogExplorePage = () => {
         <div className="container mx-auto px-4 pb-16">
           <h2 className="text-3xl font-bold tracking-tight text-center mb-8">Featured Article</h2>
           <div className="max-w-4xl mx-auto bg-card p-6 rounded-2xl shadow-lg">
-            <Link to={prominentArticle.link} className="group">
+            <Link href={prominentArticle.link} className="group">
               <div className="md:flex md:space-x-6">
                 <div className="md:w-1/2">
                   <img src={prominentArticle.imageSrc} alt={prominentArticle.alt} className="w-full h-auto rounded-xl shadow-md transform transition-transform group-hover:scale-105" loading="lazy" />

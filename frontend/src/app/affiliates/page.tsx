@@ -1,9 +1,8 @@
-import { StaticMarketingPage } from "@/components/static/StaticMarketingPage";
+import AffiliatesPage from "@/page_components/AffiliatesPage";
 import { getRouteMetadata } from "@/lib/routeMetadata";
-import { landingPages } from "@/lib/staticPages";
 
 export const metadata = getRouteMetadata("/affiliates");
 
-export default function AffiliatesPage() {
-  return <StaticMarketingPage page={landingPages["/affiliates"]} />;
+export default function Page() {
+  return <AffiliatesPage />;
 }
