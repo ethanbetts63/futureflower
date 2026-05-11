@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Allow: /static/
-Disallow: /terms-and-conditions/
-
-Sitemap: https://www.futureflower.app/sitemap.xml

@@ -8,6 +8,8 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+.next
+*.tsbuildinfo
 *.local
 .vscode/*
 !.vscode/extensions.json

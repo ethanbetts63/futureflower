@@ -1,96 +1,98 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
-import HomePage from './pages/home';
+import HomePage from './page_components/home';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import { Toaster } from "@/components/ui/sonner"
 import { Spinner } from './components/ui/spinner';
 
 // --- Lazy-loaded Pages ---
-const LoginPage = lazy(() => import('./pages/LoginPage'));
-const UserDashboardLayout = lazy(() => import('./pages/user_dashboard/UserDashboardLayout'));
-const UserDashboardPage = lazy(() => import('./pages/user_dashboard/UserDashboardPage'));
-const AccountManagementPage = lazy(() => import('./pages/user_dashboard/AccountManagementPage'));
-const PlanOverviewPage = lazy(() => import('./pages/user_dashboard/upfront_management/PlanOverviewPage'));
-const EditRecipientPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditRecipientPage'));
-const EditPreferencesPage = lazy(() => import('./pages/user_dashboard/upfront_management/EditPreferencesPage'));
-const EditStructurePage = lazy(() => import('./pages/user_dashboard/upfront_management/EditStructurePage'));
-const SubscriptionPlanOverviewPage = lazy(() => import('./pages/user_dashboard/subscription_management/SubscriptionPlanOverviewPage'));
-const SubscriptionEditRecipientPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditRecipientPage'));
-const SubscriptionEditPreferencesPage = lazy(() => import('./pages/user_dashboard/subscription_management/EditPreferencesPage'));
-const SubscriptionEditStructurePage = lazy(() => import('./pages/user_dashboard/subscription_management/EditStructurePage'));
-const CancelSubscriptionPage = lazy(() => import('./pages/user_dashboard/subscription_management/CancelSubscriptionPage'));
-const RefundRequestPage = lazy(() => import('./pages/user_dashboard/RefundRequestPage'));
+const LoginPage = lazy(() => import('./page_components/LoginPage'));
+const UserDashboardLayout = lazy(() => import('./page_components/user_dashboard/UserDashboardLayout'));
+const UserDashboardPage = lazy(() => import('./page_components/user_dashboard/UserDashboardPage'));
+const AccountManagementPage = lazy(() => import('./page_components/user_dashboard/AccountManagementPage'));
+const PlanOverviewPage = lazy(() => import('./page_components/user_dashboard/upfront_management/PlanOverviewPage'));
+const EditRecipientPage = lazy(() => import('./page_components/user_dashboard/upfront_management/EditRecipientPage'));
+const EditPreferencesPage = lazy(() => import('./page_components/user_dashboard/upfront_management/EditPreferencesPage'));
+const EditStructurePage = lazy(() => import('./page_components/user_dashboard/upfront_management/EditStructurePage'));
+const SubscriptionPlanOverviewPage = lazy(() => import('./page_components/user_dashboard/subscription_management/SubscriptionPlanOverviewPage'));
+const SubscriptionEditRecipientPage = lazy(() => import('./page_components/user_dashboard/subscription_management/EditRecipientPage'));
+const SubscriptionEditPreferencesPage = lazy(() => import('./page_components/user_dashboard/subscription_management/EditPreferencesPage'));
+const SubscriptionEditStructurePage = lazy(() => import('./page_components/user_dashboard/subscription_management/EditStructurePage'));
+const CancelSubscriptionPage = lazy(() => import('./page_components/user_dashboard/subscription_management/CancelSubscriptionPage'));
+const RefundRequestPage = lazy(() => import('./page_components/user_dashboard/RefundRequestPage'));
 
 const EventGate = lazy(() => import('@/components/form_flow/EventGate'));
-const Step1CreateAccountPage = lazy(() => import('./pages/Step1CreateAccountPage'));
+const Step1CreateAccountPage = lazy(() => import('./page_components/Step1CreateAccountPage'));
 
 // Subscription Flow Pages
-const SubscriptionStep2RecipientPage = lazy(() => import('./pages/subscription_flow/Step2RecipientPage'));
-const SubscriptionStep3PreferenceSelectionPage = lazy(() => import('./pages/subscription_flow/Step3PreferenceSelectionPage'));
-const SubscriptionStep4StructurePage = lazy(() => import('./pages/subscription_flow/Step4StructurePage'));
-const SubscriptionStep5ConfirmationPage = lazy(() => import('./pages/subscription_flow/Step5ConfirmationPage'));
+const SubscriptionStep2RecipientPage = lazy(() => import('./page_components/subscription_flow/Step2RecipientPage'));
+const SubscriptionStep3PreferenceSelectionPage = lazy(() => import('./page_components/subscription_flow/Step3PreferenceSelectionPage'));
+const SubscriptionStep4StructurePage = lazy(() => import('./page_components/subscription_flow/Step4StructurePage'));
+const SubscriptionStep5ConfirmationPage = lazy(() => import('./page_components/subscription_flow/Step5ConfirmationPage'));
 
 // Single Delivery Flow Pages
-const SingleDeliveryStep2RecipientPage = lazy(() => import('./pages/single_delivery_flow/Step2RecipientPage'));
-const SingleDeliveryStep3PreferencesPage = lazy(() => import('./pages/single_delivery_flow/Step3PreferencesPage'));
-const SingleDeliveryStep4StructurePage = lazy(() => import('./pages/single_delivery_flow/Step4StructurePage'));
-const SingleDeliveryStep5ConfirmationPage = lazy(() => import('./pages/single_delivery_flow/Step5ConfirmationPage'));
+const SingleDeliveryStep2RecipientPage = lazy(() => import('./page_components/single_delivery_flow/Step2RecipientPage'));
+const SingleDeliveryStep3PreferencesPage = lazy(() => import('./page_components/single_delivery_flow/Step3PreferencesPage'));
+const SingleDeliveryStep4StructurePage = lazy(() => import('./page_components/single_delivery_flow/Step4StructurePage'));
+const SingleDeliveryStep5ConfirmationPage = lazy(() => import('./page_components/single_delivery_flow/Step5ConfirmationPage'));
 
 // --- Partner Pages ---
-const PartnerTypeSelectionPage = lazy(() => import('./pages/partner/PartnerTypeSelectionPage'));
-const ProductSelectionPage = lazy(() => import('./pages/ProductSelectionPage'));
-const PartnerRegistrationPage = lazy(() => import('./pages/partner/PartnerRegistrationPage'));
-const PartnerDashboardPage = lazy(() => import('./pages/partner/PartnerDashboardPage'));
-const DeliveryRequestPage = lazy(() => import('./pages/partner/DeliveryRequestPage'));
-const StripeConnectReturnPage = lazy(() => import('./pages/partner/StripeConnectReturnPage'));
-const StripeConnectOnboardingPage = lazy(() => import('./pages/partner/StripeConnectOnboardingPage'));
-const PayoutsPage = lazy(() => import('./pages/partner/PayoutsPage'));
-const PayoutDetailPage = lazy(() => import('./pages/partner/PayoutDetailPage'));
-const BusinessDetailsPage = lazy(() => import('./pages/partner/BusinessDetailsPage'));
+const PartnerTypeSelectionPage = lazy(() => import('./page_components/partner/PartnerTypeSelectionPage'));
+const ProductSelectionPage = lazy(() => import('./page_components/ProductSelectionPage'));
+const PartnerRegistrationPage = lazy(() => import('./page_components/partner/PartnerRegistrationPage'));
+const PartnerDashboardPage = lazy(() => import('./page_components/partner/PartnerDashboardPage'));
+const DeliveryRequestPage = lazy(() => import('./page_components/partner/DeliveryRequestPage'));
+const StripeConnectReturnPage = lazy(() => import('./page_components/partner/StripeConnectReturnPage'));
+const StripeConnectOnboardingPage = lazy(() => import('./page_components/partner/StripeConnectOnboardingPage'));
+const PayoutsPage = lazy(() => import('./page_components/partner/PayoutsPage'));
+const PayoutDetailPage = lazy(() => import('./page_components/partner/PayoutDetailPage'));
+const BusinessDetailsPage = lazy(() => import('./page_components/partner/BusinessDetailsPage'));
 
-const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
-const PaymentStatusPage = lazy(() => import('./pages/PaymentStatusPage'));
+const CheckoutPage = lazy(() => import('./page_components/CheckoutPage'));
+const PaymentStatusPage = lazy(() => import('./page_components/PaymentStatusPage'));
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
 
 // --- Misc Pages ---
-const BlocklistSuccessPage = lazy(() => import('./pages/BlocklistSuccessPage'));
-const AffiliatesPage = lazy(() => import('./pages/AffiliatesPage'));
-const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
-const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
-const ResetPasswordConfirmPage = lazy(() => import('./pages/ResetPasswordConfirmPage'));
-const ContactPage = lazy(() => import('./pages/ContactPage'));
-const FloristsPage = lazy(() => import('./pages/FloristsPage'));
-const PricingPage = lazy(() => import('./pages/PricingPage'));
-const BirthdayFlowerDelivery = lazy(() => import('./pages/BirthdayFlowerDelivery'));
-const ValentinesDayFlowerDelivery = lazy(() => import('./pages/ValentinesDayFlowerDelivery'));
-const MothersDayFlowerDelivery = lazy(() => import('./pages/MothersDayFlowerDelivery'));
-const FlowerDeliveryPerth = lazy(() => import('./pages/FlowerDeliveryPerth'));
+const BlocklistSuccessPage = lazy(() => import('./page_components/BlocklistSuccessPage'));
+const AffiliatesPage = lazy(() => import('./page_components/AffiliatesPage'));
+const TermsAndConditionsPage = lazy(() => import('./page_components/TermsAndConditionsPage'));
+const ForgotPasswordPage = lazy(() => import('./page_components/ForgotPasswordPage'));
+const ResetPasswordConfirmPage = lazy(() => import('./page_components/ResetPasswordConfirmPage'));
+const ContactPage = lazy(() => import('./page_components/ContactPage'));
+const FloristsPage = lazy(() => import('./page_components/FloristsPage'));
+const PricingPage = lazy(() => import('./page_components/PricingPage'));
+const BirthdayFlowerDelivery = lazy(() => import('./page_components/BirthdayFlowerDelivery'));
+const ValentinesDayFlowerDelivery = lazy(() => import('./page_components/ValentinesDayFlowerDelivery'));
+const MothersDayFlowerDelivery = lazy(() => import('./page_components/MothersDayFlowerDelivery'));
+const FlowerDeliveryPerth = lazy(() => import('./page_components/FlowerDeliveryPerth'));
 
 // --- Blog Pages ---
-const BlogExplorePage = lazy(() => import('./pages/BlogExplorePage'));
-const BestFlowerSubscriptionServicesUS = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesUS'));
-const BestFlowerSubscriptionServicesAU = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesAU'));
-const BestFlowerSubscriptionServicesUK = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesUK'));
-const BestFlowerSubscriptionServicesEU = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesEU'));
-const BestFlowerSubscriptionServicesNZ = lazy(() => import('./pages/articles/BestFlowerSubscriptionServicesNZ'));
-const BestFlowerDeliveryPerth = lazy(() => import('./pages/articles/BestFlowerDeliveryPerth'));
-const BestFlowerDeliverySydney = lazy(() => import('./pages/articles/BestFlowerDeliverySydney'));
+const BlogExplorePage = lazy(() => import('./page_components/BlogExplorePage'));
+const BestFlowerSubscriptionServicesUS = lazy(() => import('./page_components/articles/BestFlowerSubscriptionServicesUS'));
+const BestFlowerSubscriptionServicesAU = lazy(() => import('./page_components/articles/BestFlowerSubscriptionServicesAU'));
+const BestFlowerSubscriptionServicesUK = lazy(() => import('./page_components/articles/BestFlowerSubscriptionServicesUK'));
+const BestFlowerSubscriptionServicesEU = lazy(() => import('./page_components/articles/BestFlowerSubscriptionServicesEU'));
+const BestFlowerSubscriptionServicesNZ = lazy(() => import('./page_components/articles/BestFlowerSubscriptionServicesNZ'));
+const BestFlowerDeliveryPerth = lazy(() => import('./page_components/articles/BestFlowerDeliveryPerth'));
+const BestFlowerDeliverySydney = lazy(() => import('./page_components/articles/BestFlowerDeliverySydney'));
+const BestFlowerDeliveryAdelaide = lazy(() => import('./page_components/articles/BestFlowerDeliveryAdelaide'));
+const BestFlowerDeliveryDarwin = lazy(() => import('./page_components/articles/BestFlowerDeliveryDarwin'));
+const BestFlowerDeliveryMelbourne = lazy(() => import('./page_components/articles/BestFlowerDeliveryMelbourne'));
 
 // --- Admin Pages ---
-const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'));
-const AdminEventDetailPage = lazy(() => import('./pages/admin/AdminEventDetailPage'));
-const AdminPartnerListPage = lazy(() => import('./pages/admin/AdminPartnerListPage'));
-const AdminPartnerDetailPage = lazy(() => import('./pages/admin/AdminPartnerDetailPage'));
-const AdminPlanListPage = lazy(() => import('./pages/admin/AdminPlanListPage'));
-const AdminPlanDetailPage = lazy(() => import('./pages/admin/AdminPlanDetailPage'));
-const MarkOrderedPage = lazy(() => import('./pages/admin/MarkOrderedPage'));
-const MarkDeliveredPage = lazy(() => import('./pages/admin/MarkDeliveredPage'));
-const AdminUserListPage = lazy(() => import('./pages/admin/AdminUserListPage'));
-const AdminUserDetailPage = lazy(() => import('./pages/admin/AdminUserDetailPage'));
-const AdminPayoutListPage = lazy(() => import('./pages/admin/AdminPayoutListPage'));
-const AdminPayoutDetailPage = lazy(() => import('./pages/admin/AdminPayoutDetailPage'));
+const AdminDashboardPage = lazy(() => import('./page_components/admin/AdminDashboardPage'));
+const AdminEventDetailPage = lazy(() => import('./page_components/admin/AdminEventDetailPage'));
+const AdminPartnerListPage = lazy(() => import('./page_components/admin/AdminPartnerListPage'));
+const AdminPartnerDetailPage = lazy(() => import('./page_components/admin/AdminPartnerDetailPage'));
+const AdminPlanListPage = lazy(() => import('./page_components/admin/AdminPlanListPage'));
+const AdminPlanDetailPage = lazy(() => import('./page_components/admin/AdminPlanDetailPage'));
+const MarkOrderedPage = lazy(() => import('./page_components/admin/MarkOrderedPage'));
+const MarkDeliveredPage = lazy(() => import('./page_components/admin/MarkDeliveredPage'));
+const AdminUserListPage = lazy(() => import('./page_components/admin/AdminUserListPage'));
+const AdminUserDetailPage = lazy(() => import('./page_components/admin/AdminUserDetailPage'));
+const AdminPayoutListPage = lazy(() => import('./page_components/admin/AdminPayoutListPage'));
+const AdminPayoutDetailPage = lazy(() => import('./page_components/admin/AdminPayoutDetailPage'));
 const AdminGuard = lazy(() => import('./components/AdminGuard'));
 
 const LoadingFallback = () => (
@@ -101,13 +103,12 @@ const LoadingFallback = () => (
 
 function App() {
   return (
-    <HelmetProvider>
-      <div className="min-h-screen flex flex-col">
-        <NavBar />
-        <Toaster position="top-center" />
-        <div className="flex-grow flex flex-col">
-          <Suspense fallback={<LoadingFallback />}>
-              <Routes>
+    <div className="min-h-screen flex flex-col">
+      <NavBar />
+      <Toaster position="top-center" />
+      <div className="flex-grow flex flex-col">
+        <Suspense fallback={<LoadingFallback />}>
+            <Routes>
                 {/* Public routes */}
                 <Route path="/" element={<HomePage />} />
                 <Route path="/contact" element={<ContactPage />} />
@@ -132,6 +133,9 @@ function App() {
                 <Route path="/articles/best-flower-subscription-services-nz" element={<BestFlowerSubscriptionServicesNZ />} />
                 <Route path="/articles/best-flower-delivery-perth" element={<BestFlowerDeliveryPerth />} />
                 <Route path="/articles/best-flower-delivery-sydney" element={<BestFlowerDeliverySydney />} />
+                <Route path="/articles/best-flower-delivery-adelaide" element={<BestFlowerDeliveryAdelaide />} />
+                <Route path="/articles/best-flower-delivery-darwin" element={<BestFlowerDeliveryDarwin />} />
+                <Route path="/articles/best-flower-delivery-melbourne" element={<BestFlowerDeliveryMelbourne />} />
 
                 {/* Event Creation Flow */}
                 <Route path="/order" element={<ProductSelectionPage />} />
@@ -199,12 +203,11 @@ function App() {
                   <Route path="admin/payouts/:commissionId" element={<AdminGuard><AdminPayoutDetailPage /></AdminGuard>} />
                 </Route>
 
-              </Routes>
-            </Suspense>
-        </div>
-        <Footer />
+            </Routes>
+          </Suspense>
       </div>
-    </HelmetProvider>
+      <Footer />
+    </div>
   );
 }
 

@@ -1,40 +1,18 @@
 
-import { Helmet } from 'react-helmet-async';
 import type { SeoProps } from '../types/SeoProps';
 
-const Seo = ({ title, description, canonicalPath, ogType = 'website', ogImage, noindex, structuredData }: SeoProps) => {
-  const siteUrl = 'https://www.futureflower.app'; // This should ideally come from an environment variable
-  const canonicalUrl = canonicalPath ? `${siteUrl}${canonicalPath}` : undefined;
-  const imageUrl = ogImage ? `${siteUrl}${ogImage}` : `${siteUrl}/static/square-image.jpg`; // Fallback image
+const Seo = ({
+  structuredData,
+}: SeoProps) => {
+  if (!structuredData) {
+    return null;
+  }
 
   return (
-    <Helmet>
-      {/* Standard SEO */}
-      <title>{title}</title>
-      {description && <meta name="description" content={description} />}
-      {noindex && <meta name="robots" content="noindex" />}
-      {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-      
-      {/* Open Graph Tags (Facebook, etc.) */}
-      <meta property="og:title" content={title} />
-      {description && <meta property="og:description" content={description} />}
-      <meta property="og:type" content={ogType} />
-      {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
-      <meta property="og:image" content={imageUrl} />
-      
-      {/* Twitter Card Tags */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      {description && <meta name="twitter:description" content={description} />}
-      <meta name="twitter:image" content={imageUrl} />
-
-      {/* Render structured data if provided */}
-      {structuredData && (
-        <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
-        </script>
-      )}
-    </Helmet>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
   );
 };
 
