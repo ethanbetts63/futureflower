@@ -8,6 +8,7 @@ import heroMobileImage320 from '../../assets/hero2_mobile2-320w.webp';
 import heroMobileImage412 from '../../assets/hero2_mobile2-412w.webp';
 import heroMobileImage640 from '../../assets/hero2_mobile2-640w.webp';
 import heroMobileImage768 from '../../assets/hero2_mobile2-768w.webp';
+import { assetSrc } from '@/lib/assets';
 
 export const ContactHero = () => {
   return (
@@ -18,12 +19,12 @@ export const ContactHero = () => {
         <picture className="block w-full h-full">
           <source
             media="(max-width: 767px)"
-            srcSet={`${heroMobileImage320} 320w, ${heroMobileImage412} 412w, ${heroMobileImage640} 640w, ${heroMobileImage768} 768w`}
+            srcSet={`${assetSrc(heroMobileImage320)} 320w, ${assetSrc(heroMobileImage412)} 412w, ${assetSrc(heroMobileImage640)} 640w, ${assetSrc(heroMobileImage768)} 768w`}
             sizes="100vw"
           />
           <img
-            src={heroImage1280}
-            srcSet={`${heroImage320} 320w, ${heroImage640} 640w, ${heroImage768} 768w, ${heroImage1024} 1024w, ${heroImage1280} 1280w`}
+            src={assetSrc(heroImage1280)}
+            srcSet={`${assetSrc(heroImage320)} 320w, ${assetSrc(heroImage640)} 640w, ${assetSrc(heroImage768)} 768w, ${assetSrc(heroImage1024)} 1024w, ${assetSrc(heroImage1280)} 1280w`}
             sizes="100vw"
             alt="A woman holding a large bouquet of flowers."
             fetchPriority="high"

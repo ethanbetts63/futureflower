@@ -163,6 +163,80 @@ Still pending:
 - The server-rendered homepage is not yet byte-for-byte visual parity with the legacy homepage. It preserves the main content and SEO value first.
 - Convert additional public routes (`/contact`, `/florists`, `/affiliates`, `/pricing`, occasion pages, and articles) from legacy client rendering to App Router server rendering.
 
+### 2026-05-11 - Contact page SSR complete
+
+Implemented:
+
+- Added dedicated `frontend/src/app/contact/page.tsx`.
+- `/contact` now server-renders:
+  - route metadata
+  - ContactPage JSON-LD
+  - hero image/copy/email CTA
+  - founder letter content
+  - static services CTA
+  - other-sites section
+- Replaced the client/auth-dependent contact CTA card with a static server-rendered services card for this page.
+- Normalized imported image assets in:
+  - `ContactHero`
+  - `OtherSites`
+
+Verification:
+
+- `npm run typecheck` passed.
+- `npm run build` passed.
+- Next build output now shows `/contact` as static.
+- `http://127.0.0.1:3000/contact` initial HTML includes `Contact Us`, `How do I say`, `Our Services`, and `Liked this site`.
+- `/contact` HTML was checked for `[object Object]`; none found.
+- `http://127.0.0.1:3000/florists` still returned 200 through the legacy catch-all.
+- `http://127.0.0.1:3000/sitemap.xml` returned 200.
+
+Still pending:
+
+- Convert `/florists`, `/affiliates`, `/pricing`, occasion pages, and articles to App Router server-rendered pages.
+
+### 2026-05-11 - All indexable pages SSR/static complete
+
+Implemented:
+
+- Added shared static server-rendered page data in `frontend/src/lib/staticPages.ts`.
+- Added reusable App Router server components for public marketing pages, the articles index, and article detail pages.
+- Added dedicated static App Router pages for:
+  - `/pricing`
+  - `/florists`
+  - `/affiliates`
+  - `/birthday-flower-delivery`
+  - `/valentines-day-flower-delivery`
+  - `/mothers-day-flower-delivery`
+  - `/flower-delivery-perth`
+  - `/articles`
+- Added `frontend/src/app/articles/[slug]/page.tsx` with `generateStaticParams()` for all article URLs in the sitemap:
+  - `/articles/best-flower-subscription-services-us`
+  - `/articles/best-flower-subscription-services-au`
+  - `/articles/best-flower-subscription-services-uk`
+  - `/articles/best-flower-subscription-services-eu`
+  - `/articles/best-flower-subscription-services-nz`
+  - `/articles/best-flower-delivery-perth`
+  - `/articles/best-flower-delivery-sydney`
+  - `/articles/best-flower-delivery-adelaide`
+  - `/articles/best-flower-delivery-darwin`
+  - `/articles/best-flower-delivery-melbourne`
+
+Verification:
+
+- `npm run typecheck` passed.
+- `npm run build` passed.
+- Next build output now shows every sitemap route as static (`○`) or SSG (`●`).
+- Only the legacy `[...slug]` fallback remains dynamic (`ƒ`) for non-indexable operational routes and any remaining legacy client pages.
+- Local route checks returned 200 for every URL emitted by `app/sitemap.ts`, plus `/robots.txt`.
+- Local HTML checks found no `[object Object]` output on any sitemap route.
+- Representative route-specific content was confirmed in initial HTML for `/pricing`, `/florists`, `/affiliates`, occasion pages, `/flower-delivery-perth`, `/articles`, and `/articles/best-flower-delivery-melbourne`.
+
+Current public SSR status:
+
+- All currently indexable sitemap pages are now complete as App Router static or SSG pages.
+- These pages are intentionally simplified server-rendered SEO pages, not full visual parity rewrites of every legacy client component.
+- Authenticated, checkout, dashboard, partner, admin, password reset, and form-flow routes remain client-rendered behind the legacy fallback and are excluded from indexing.
+
 ## Executive summary
 
 FutureFlower has more SSR upside than SplitCart because many high-value pages are static or mostly static: homepage, florist partner landing page, affiliate landing page, pricing, contact, occasion landing pages, city landing pages, and article pages. Today, crawlers receive a generic Vite shell first and only see page-specific metadata/content after JavaScript runs.
