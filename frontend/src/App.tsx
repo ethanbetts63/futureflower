@@ -1,8 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './page_components/home';
-import NavBar from './components/NavBar';
-import Footer from './components/Footer';
 import { Toaster } from "@/components/ui/sonner"
 import { Spinner } from './components/ui/spinner';
 
@@ -103,8 +101,7 @@ const LoadingFallback = () => (
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <NavBar />
+    <>
       <Toaster position="top-center" />
       <div className="flex-grow flex flex-col">
         <Suspense fallback={<LoadingFallback />}>
@@ -206,8 +203,7 @@ function App() {
             </Routes>
           </Suspense>
       </div>
-      <Footer />
-    </div>
+    </>
   );
 }
 

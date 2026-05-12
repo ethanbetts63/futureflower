@@ -3,7 +3,6 @@
 import { StrictMode, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import App from "@/App";
-import { AuthProvider } from "@/context/AuthContext";
 import ScrollToTop from "@/components/ScrollToTop";
 
 export default function LegacyAppShell() {
@@ -20,10 +19,8 @@ export default function LegacyAppShell() {
   return (
     <StrictMode>
       <BrowserRouter>
-        <AuthProvider>
-          <ScrollToTop />
-          <App />
-        </AuthProvider>
+        <ScrollToTop />
+        <App />
       </BrowserRouter>
     </StrictMode>
   );
