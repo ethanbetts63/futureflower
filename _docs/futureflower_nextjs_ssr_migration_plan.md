@@ -806,6 +806,42 @@ For migrated indexable routes:
 5. Should missing article routes be added, or should Adelaide/Darwin/Melbourne be removed from the sitemap until ready? Recommendation: add the routes because files already exist.
 6. Should `NavBar` and `Footer` be split into server static shells plus small auth-aware client islands later?
 
+### 2026-05-12 - Next.js setup alignment with allbikes reference project
+
+Compared the futureflower Next.js setup against the allbikes project (scootershop.com.au), which has completed a full migration from the same Vite/React Router/Django starting point.
+
+**allbikes migration status:** Complete. No legacy shell, no App.tsx, no react-router-dom. Every route including the full dashboard is a proper App Router page. The `[...slug]` catch-all does not exist.
+
+**futureflower migration status:** All indexable public pages are done (Phases 1–4 complete). The authenticated half — dashboard, subscription/single-delivery flows, checkout, admin, partner portal — still runs through the `LegacyAppShell` catch-all. The shell can be deleted when `App.tsx` is empty.
+
+**Fixes made during this session to align with allbikes:**
+
+- Removed `disableStaticImages: true` from `next.config.ts`. This was left over from the Vite migration and broke all static image imports. Next.js returns `StaticImageData` objects; all usage sites updated to use `.src` or the existing `assetSrc()` helper in `src/lib/assets.ts`.
+- Added `skipTrailingSlashRedirect: true` to `next.config.ts` (same reason as allbikes — prevents redirect loops with Django's `APPEND_SLASH`).
+- Wired `NavBar` and `Footer` into `app/layout.tsx` via a `Providers` wrapper. They were defined as components but never mounted in the App Router layout.
+- Migrated `NavBar` and `Footer` from react-router-dom (`Link`, `useNavigate`) to Next.js (`next/link`, `useRouter`).
+- Removed `NavBar` and `Footer` from `App.tsx` and `AuthProvider` from `LegacyAppShell` — both were being mounted twice after the layout change.
+- Replaced `public/manifest.json` with `app/manifest.ts` (Next.js auto-generates the route). Updated manifest icons to use `.png` files instead of `.ico` variants.
+- Added `app/robots.ts` and `app/sitemap.ts` (were already present and complete from Phase 2).
+- Added icon metadata to `app/layout.tsx`.
+- Created `public/llms.txt`.
+- Migrated Google Analytics and Google Ads scripts from the deleted `index.html` into `app/layout.tsx` using `next/script` with `strategy="afterInteractive"`.
+- Deleted legacy `index.html` (old Vite entry point, unused by Next.js).
+
+**Remaining migration work to reach allbikes parity:**
+
+Routes still in `App.tsx` (still served via LegacyAppShell):
+- `/login`, `/forgot-password`, `/reset-password-confirm/:uid/:token`
+- `/create-account`, `/event-gate`, `/order`, `/payment-status`, `/blocklist-success`
+- `/checkout`, `/subscribe-flow/...`, `/single-delivery-flow/...`
+- `/dashboard/...` (account, plans, refunds)
+- `/dashboard/partner/...` (partner portal)
+- `/dashboard/admin/...` (admin area)
+- `/partner/register/...`, `/partner/delivery-request/...`, `/partner/stripe-connect/...`
+- `/terms-and-conditions/:type`
+
+Once these are migrated to `app/` pages, `App.tsx`, `main.tsx`, `LegacyAppShell`, `BrowserRouter`, and `react-router-dom` can all be deleted.
+
 ## Investigation file map
 
 Key files reviewed:
