@@ -51,8 +51,8 @@ const Footer = () => {
               width="367"
               height="367"
               className="h-16 w-16 object-contain"
-              src={logo}
-              srcSet={`${logo128} 128w, ${logo192} 192w, ${logo256} 256w`}
+              src={logo.src}
+              srcSet={`${logo128.src} 128w, ${logo192.src} 192w, ${logo256.src} 256w`}
               sizes="64px"
               alt="FutureFlower Logo"
               loading="lazy"
@@ -60,7 +60,7 @@ const Footer = () => {
             <p className="text-sm opacity-80">&copy; {currentYear} FutureFlower. All rights reserved.</p>
             <div className="flex items-center gap-1 mt-1">
               <span className="text-xs opacity-60">Powered by</span>
-              <img src={stripeLogo} alt="Stripe" className="h-5" width="50" height="60" loading="lazy" />
+              <img src={stripeLogo.src} alt="Stripe" className="h-5" width="50" height="60" loading="lazy" />
             </div>
           </div>
 

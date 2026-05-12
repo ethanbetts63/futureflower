@@ -35,8 +35,8 @@ const NavBar = () => {
           {/* Logo */}
           <Link href="/" onClick={close} aria-label="FutureFlower company logo" className="flex items-center gap-3 flex-shrink-0">
             <img
-              src={logo}
-              srcSet={`${logo128} 128w, ${logo192} 192w, ${logo256} 256w`}
+              src={logo.src}
+              srcSet={`${logo128.src} 128w, ${logo192.src} 192w, ${logo256.src} 256w`}
               sizes="40px"
               alt=""
               width="367"

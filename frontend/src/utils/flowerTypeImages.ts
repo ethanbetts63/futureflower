@@ -12,17 +12,17 @@ import weddingImg from '@/assets/occasions/wedding.png';
 import medFlowers from '@/assets/med_flowers.png';
 
 export const OCCASION_IMAGES: Record<string, string> = {
-  'Anniversary': anniversaryImg,
-  'Birthday': birthdayImg,
-  'Funeral': funeralImg,
-  'Get Well': getWellImg,
-  'Just Because': justBecauseImg,
-  "Mother's Day": mothersDayImg,
-  'New Born': newBornImg,
-  'Romance': romanceImg,
-  'Sympathy': sympathyImg,
-  'Thank You': thankYouImg,
-  'Wedding': weddingImg,
+  'Anniversary': anniversaryImg.src,
+  'Birthday': birthdayImg.src,
+  'Funeral': funeralImg.src,
+  'Get Well': getWellImg.src,
+  'Just Because': justBecauseImg.src,
+  "Mother's Day": mothersDayImg.src,
+  'New Born': newBornImg.src,
+  'Romance': romanceImg.src,
+  'Sympathy': sympathyImg.src,
+  'Thank You': thankYouImg.src,
+  'Wedding': weddingImg.src,
 };
 
-export const DEFAULT_FLOWER_IMAGE = medFlowers;
+export const DEFAULT_FLOWER_IMAGE = medFlowers.src;

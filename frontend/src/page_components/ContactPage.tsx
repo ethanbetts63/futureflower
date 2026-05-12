@@ -13,19 +13,19 @@ import futureReminderLogo from '@/assets/futurereminder_logo.png';
 const otherSitesData = [
     {
         name: "AllBikes & Scooters",
-        logoSrc: allbikesLogo, 
+        logoSrc: allbikesLogo.src,
         description: "Your one-stop shop for motorcycle and scooter servicing and parts in Perth, Western Australia.",
         url: "https://www.scootershop.com.au", 
     },
     {
         name: "Splitcart",
-        logoSrc: splitcartLogo, 
+        logoSrc: splitcartLogo.src,
         description: "Compare grocery prices across major Australian supermarkets.",
         url: "https://www.splitcart.com.au", 
     },
     {
         name: "FutureReminder",
-        logoSrc: futureReminderLogo, 
+        logoSrc: futureReminderLogo.src,
         description: "Distant and important reminder service with an escalating hierachy of notification. Including text message, email, and emergency contacts.",
         url: "https://www.futurereminder.app", 
     },
