@@ -1,5 +1,6 @@
+"use client";
 
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import logo from '../assets/logo.webp';
 import logo128 from '../assets/logo-128w.webp';
 import logo192 from '../assets/logo-192w.webp';
@@ -19,29 +20,29 @@ const Footer = () => {
           {/* Site Links */}
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Quick Links</p>
-            <Link to="/florists" className="text-sm hover:underline">Florists</Link>
-            <Link to="/affiliates" className="text-sm hover:underline">Affiliates</Link>
-            <Link to="/contact" className="text-sm hover:underline">Contact Us</Link>
+            <Link href="/florists" className="text-sm hover:underline">Florists</Link>
+            <Link href="/affiliates" className="text-sm hover:underline">Affiliates</Link>
+            <Link href="/contact" className="text-sm hover:underline">Contact Us</Link>
             {(user?.is_staff || user?.is_superuser) && (
-              <Link to="/admin-dashboard" className="text-sm hover:underline">Admin Dashboard</Link>
+              <Link href="/admin-dashboard" className="text-sm hover:underline">Admin Dashboard</Link>
             )}
           </div>
 
           {/* Flower Delivery */}
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Flower Delivery</p>
-            <Link to="/birthday-flower-delivery" className="text-sm hover:underline">Birthday Flowers</Link>
-            <Link to="/valentines-day-flower-delivery" className="text-sm hover:underline">Valentine's Day Flowers</Link>
-            <Link to="/mothers-day-flower-delivery" className="text-sm hover:underline">Mother's Day Flowers</Link>
-            <Link to="/flower-delivery-perth" className="text-sm hover:underline">Flower Delivery Perth</Link>
+            <Link href="/birthday-flower-delivery" className="text-sm hover:underline">Birthday Flowers</Link>
+            <Link href="/valentines-day-flower-delivery" className="text-sm hover:underline">Valentine's Day Flowers</Link>
+            <Link href="/mothers-day-flower-delivery" className="text-sm hover:underline">Mother's Day Flowers</Link>
+            <Link href="/flower-delivery-perth" className="text-sm hover:underline">Flower Delivery Perth</Link>
           </div>
 
           {/* Legal Links */}
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Legal</p>
-            <Link to="/terms-and-conditions/customer" className="text-sm hover:underline">Customer Terms & Conditions</Link>
-            <Link to="/terms-and-conditions/florist" className="text-sm hover:underline">Florist Terms & Conditions</Link>
-            <Link to="/terms-and-conditions/affiliate" className="text-sm hover:underline">Affiliate Terms & Conditions</Link>
+            <Link href="/terms-and-conditions/customer" className="text-sm hover:underline">Customer Terms & Conditions</Link>
+            <Link href="/terms-and-conditions/florist" className="text-sm hover:underline">Florist Terms & Conditions</Link>
+            <Link href="/terms-and-conditions/affiliate" className="text-sm hover:underline">Affiliate Terms & Conditions</Link>
           </div>
 
           {/* Brand */}

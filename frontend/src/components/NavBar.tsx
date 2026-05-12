@@ -1,5 +1,8 @@
+"use client";
+
 import { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import logo from '../assets/logo.webp';
 import logo128 from '../assets/logo-128w.webp';
 import logo192 from '../assets/logo-192w.webp';
@@ -8,7 +11,7 @@ import { useAuth } from '@/context/AuthContext';
 
 const NavBar = () => {
   const { isAuthenticated, logout, user } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
@@ -30,7 +33,7 @@ const NavBar = () => {
         <div className="flex h-16 items-center justify-between md:grid md:grid-cols-3">
 
           {/* Logo */}
-          <Link to="/" onClick={close} aria-label="FutureFlower company logo" className="flex items-center gap-3 flex-shrink-0">
+          <Link href="/" onClick={close} aria-label="FutureFlower company logo" className="flex items-center gap-3 flex-shrink-0">
             <img
               src={logo}
               srcSet={`${logo128} 128w, ${logo192} 192w, ${logo256} 256w`}
@@ -48,7 +51,7 @@ const NavBar = () => {
 
           {/* Centred title — md+ only */}
           <div className="hidden md:flex justify-center">
-            <Link to="/" onClick={close} className="font-['Playfair_Display',_serif] italic font-bold text-3xl text-black tracking-widest leading-none">
+            <Link href="/" onClick={close} className="font-['Playfair_Display',_serif] italic font-bold text-3xl text-black tracking-widest leading-none">
               FUTUREFLOWER
             </Link>
           </div>
@@ -56,14 +59,14 @@ const NavBar = () => {
           {/* Order + Animated hamburger */}
           <div className="flex items-center gap-4 md:justify-end">
             <Link
-              to="/pricing"
+              href="/pricing"
               onClick={close}
               className="text-xs font-bold text-black tracking-widest uppercase hover:text-black/50 transition-colors"
             >
               Pricing
             </Link>
             <Link
-              to="/order"
+              href="/order"
               onClick={close}
               className="inline-flex items-center bg-black text-white font-bold px-4 py-1.5 text-xs tracking-widest uppercase"
             >
@@ -89,52 +92,52 @@ const NavBar = () => {
         <nav className="bg-white border-t border-black/10 px-6 py-3 flex flex-col">
           {isAuthenticated ? (
             <>
-              <Link to="/dashboard" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+              <Link href="/dashboard" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                 Dashboard
               </Link>
-              <Link to="/dashboard/account" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+              <Link href="/dashboard/account" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                 Account Management
               </Link>
-              <Link to="/dashboard" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+              <Link href="/dashboard" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                 Flower Plan Management
               </Link>
-              <Link to="/dashboard/refunds" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+              <Link href="/dashboard/refunds" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                 Refunds
               </Link>
               {user?.is_partner && (
                 <>
-                  <Link to="/dashboard/partner" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                  <Link href="/dashboard/partner" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                     Business Dashboard
                   </Link>
-                  <Link to="/dashboard/partner/details" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                  <Link href="/dashboard/partner/details" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                     Business Details
                   </Link>
-                  <Link to="/dashboard/partner/payouts" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                  <Link href="/dashboard/partner/payouts" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                     Payouts
                   </Link>
                 </>
               )}
               {(user?.is_staff || user?.is_superuser) && (
                 <>
-                  <Link to="/dashboard/admin" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                  <Link href="/dashboard/admin" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                     Admin Dashboard
                   </Link>
-                  <Link to="/dashboard/admin/partners" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                  <Link href="/dashboard/admin/partners" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                     Admin Partner List
                   </Link>
-                  <Link to="/dashboard/admin/plans" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                  <Link href="/dashboard/admin/plans" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                     Admin Plan List
                   </Link>
-                  <Link to="/dashboard/admin/users" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                  <Link href="/dashboard/admin/users" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                     Admin User List
                   </Link>
-                  <Link to="/dashboard/admin/payouts" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
+                  <Link href="/dashboard/admin/payouts" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                     Admin Payouts
                   </Link>
                 </>
               )}
               <button
-                onClick={() => { logout(() => navigate('/')); close(); }}
+                onClick={() => { logout(() => router.push('/')); close(); }}
                 className="py-3 text-left text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
               >
                 Logout
@@ -142,7 +145,7 @@ const NavBar = () => {
             </>
           ) : (
             <Link
-              to="/login"
+              href="/login"
               onClick={close}
               className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
             >

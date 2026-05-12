@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "../index.css";
+import Providers from './providers';
+import NavBar from '@/components/NavBar';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -20,7 +23,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>
+          <NavBar />
+          {children}
+          <Footer />
+        </Providers>
+      </body>
     </html>
   );
 }
