@@ -2,6 +2,7 @@
 import articleImage from '../../assets/delivery1.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import Seo from '../../components/Seo';
+import { assetSrc } from '@/lib/assets';
 
 const BestFlowerDeliverySydney = () => {
   const articleDetails = {
@@ -55,7 +56,7 @@ const BestFlowerDeliverySydney = () => {
       <ArticleLayout
         title="The Best Flower Delivery Services in Sydney (2026 Guide)"
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> An in-depth guide to the best flower delivery services in Sydney, organized by best overall, fastest delivery, and most affordable.</>}
-        imageSrc={articleImage.src}
+        imageSrc={assetSrc(articleImage)}
         imageAlt="A variety of flower bouquets from different Sydney delivery services."
         faqPage="best-flower-delivery-sydney"
       >

@@ -2,6 +2,7 @@
 import articleImage from '../../assets/florist_packing.webp'; // Reusing existing image for now
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import Seo from '../../components/Seo';
+import { assetSrc } from '@/lib/assets';
 
 const BestFlowerDeliveryDarwin = () => {
   const articleDetails = {
@@ -55,7 +56,7 @@ const BestFlowerDeliveryDarwin = () => {
       <ArticleLayout
         title="The Best Flower Delivery Services in Darwin (2026 Guide)"
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> A complete guide to the top flower delivery services serving Darwin â€” broken down by best overall, fastest delivery, and most affordable options.</>}
-        imageSrc={articleImage.src}
+        imageSrc={assetSrc(articleImage)}
         imageAlt="A variety of flower bouquets from different Darwin delivery services."
         faqPage="best-flower-delivery-darwin"
       >

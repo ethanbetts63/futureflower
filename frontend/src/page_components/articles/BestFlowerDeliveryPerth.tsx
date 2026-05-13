@@ -2,6 +2,7 @@
 import articleImage from '../../assets/florist_packing.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import Seo from '../../components/Seo';
+import { assetSrc } from '@/lib/assets';
 
 const BestFlowerDeliveryPerth = () => {
   const articleDetails = {
@@ -55,7 +56,7 @@ const BestFlowerDeliveryPerth = () => {
       <ArticleLayout
         title="The Best Flower Delivery Services in Perth (2026 Guide)"
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> An in-depth guide to the best flower delivery services in Perth, broken down by best overall, fastest, and most affordable.</>}
-        imageSrc={articleImage.src}
+        imageSrc={assetSrc(articleImage)}
         imageAlt="A variety of flower bouquets from different Perth delivery services."
         faqPage="best-flower-delivery-perth"
       >

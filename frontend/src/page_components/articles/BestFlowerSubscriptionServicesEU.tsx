@@ -2,6 +2,7 @@
 import articleImage from '../../assets/florist.webp'; // Re-using this image
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import Seo from '../../components/Seo';
+import { assetSrc } from '@/lib/assets';
 
 const BestFlowerSubscriptionServicesEU = () => {
   const articleDetails = {
@@ -55,7 +56,7 @@ const BestFlowerSubscriptionServicesEU = () => {
       <ArticleLayout
         title="The Best Flower Subscription Services in Europe (2026 Guide)"
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> A guide to the best flower subscription services in Europe, covering overall experience, budget options, and high-quality bouquets.</>}
-        imageSrc={articleImage.src}
+        imageSrc={assetSrc(articleImage)}
         imageAlt="A variety of flower bouquets from different European subscription services."
         faqPage="best-flower-subscription-services-eu"
       >

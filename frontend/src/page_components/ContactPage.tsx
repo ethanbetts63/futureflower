@@ -9,23 +9,24 @@ import Seo from '@/components/Seo';
 import allbikesLogo from '@/assets/allbikes_logo.webp';
 import splitcartLogo from '@/assets/splitcart_logo.png';
 import futureReminderLogo from '@/assets/futurereminder_logo.png';
+import { assetSrc } from '@/lib/assets';
 
 const otherSitesData = [
     {
         name: "AllBikes & Scooters",
-        logoSrc: allbikesLogo.src,
+        logoSrc: assetSrc(allbikesLogo),
         description: "Your one-stop shop for motorcycle and scooter servicing and parts in Perth, Western Australia.",
         url: "https://www.scootershop.com.au", 
     },
     {
         name: "Splitcart",
-        logoSrc: splitcartLogo.src,
+        logoSrc: assetSrc(splitcartLogo),
         description: "Compare grocery prices across major Australian supermarkets.",
         url: "https://www.splitcart.com.au", 
     },
     {
         name: "FutureReminder",
-        logoSrc: futureReminderLogo.src,
+        logoSrc: assetSrc(futureReminderLogo),
         description: "Distant and important reminder service with an escalating hierachy of notification. Including text message, email, and emergency contacts.",
         url: "https://www.futurereminder.app", 
     },

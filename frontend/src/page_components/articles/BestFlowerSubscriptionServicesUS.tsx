@@ -2,6 +2,7 @@
 import articleImage from '../../assets/delivery.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import Seo from '../../components/Seo';
+import { assetSrc } from '@/lib/assets';
 
 const BestFlowerSubscriptionServicesUS = () => {
   const articleDetails = {
@@ -55,7 +56,7 @@ const BestFlowerSubscriptionServicesUS = () => {
       <ArticleLayout
         title="The Best Flower Subscription Services in the United States (2026 Guide)"
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> An in-depth guide to the best flower subscription services in the US, broken down by best overall, cheapest, and highest quality.</>}
-        imageSrc={articleImage.src}
+        imageSrc={assetSrc(articleImage)}
         imageAlt="A variety of flower bouquets from different subscription services."
         faqPage="best-flower-subscription-services-us"
       >

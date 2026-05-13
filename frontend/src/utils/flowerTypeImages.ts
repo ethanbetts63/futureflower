@@ -10,19 +10,20 @@ import sympathyImg from '@/assets/occasions/sympathy.png';
 import thankYouImg from '@/assets/occasions/thank_you.png';
 import weddingImg from '@/assets/occasions/wedding.png';
 import medFlowers from '@/assets/med_flowers.png';
+import { assetSrc } from '@/lib/assets';
 
 export const OCCASION_IMAGES: Record<string, string> = {
-  'Anniversary': anniversaryImg.src,
-  'Birthday': birthdayImg.src,
-  'Funeral': funeralImg.src,
-  'Get Well': getWellImg.src,
-  'Just Because': justBecauseImg.src,
-  "Mother's Day": mothersDayImg.src,
-  'New Born': newBornImg.src,
-  'Romance': romanceImg.src,
-  'Sympathy': sympathyImg.src,
-  'Thank You': thankYouImg.src,
-  'Wedding': weddingImg.src,
+  'Anniversary': assetSrc(anniversaryImg),
+  'Birthday': assetSrc(birthdayImg),
+  'Funeral': assetSrc(funeralImg),
+  'Get Well': assetSrc(getWellImg),
+  'Just Because': assetSrc(justBecauseImg),
+  "Mother's Day": assetSrc(mothersDayImg),
+  'New Born': assetSrc(newBornImg),
+  'Romance': assetSrc(romanceImg),
+  'Sympathy': assetSrc(sympathyImg),
+  'Thank You': assetSrc(thankYouImg),
+  'Wedding': assetSrc(weddingImg),
 };
 
-export const DEFAULT_FLOWER_IMAGE = medFlowers.src;
+export const DEFAULT_FLOWER_IMAGE = assetSrc(medFlowers);

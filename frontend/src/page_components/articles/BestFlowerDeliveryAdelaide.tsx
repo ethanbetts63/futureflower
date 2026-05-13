@@ -2,6 +2,7 @@
 import articleImage from '../../assets/florist_packing.webp'; // Reusing existing image for now
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import Seo from '../../components/Seo';
+import { assetSrc } from '@/lib/assets';
 
 const BestFlowerDeliveryAdelaide = () => {
   const articleDetails = {
@@ -55,7 +56,7 @@ const BestFlowerDeliveryAdelaide = () => {
       <ArticleLayout
         title="The Best Flower Delivery Services in Adelaide (2026 Guide)"
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> A complete look at the top flower delivery services in Adelaide, tailored for quality, speed, and price.</>}
-        imageSrc={articleImage.src}
+        imageSrc={assetSrc(articleImage)}
         imageAlt="A variety of flower bouquets from different Adelaide delivery services."
         faqPage="best-flower-delivery-adelaide"
       >

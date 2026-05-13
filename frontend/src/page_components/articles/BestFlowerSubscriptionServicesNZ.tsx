@@ -2,6 +2,7 @@
 import articleImage from '../../assets/florist_packing2.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import Seo from '../../components/Seo';
+import { assetSrc } from '@/lib/assets';
 
 const BestFlowerSubscriptionServicesNZ = () => {
   const articleDetails = {
@@ -55,7 +56,7 @@ const BestFlowerSubscriptionServicesNZ = () => {
       <ArticleLayout
         title="The Best Flower Subscription Services in New Zealand (2026 Guide)"
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> An in-depth guide to the best flower subscription services in NZ, broken down by best overall, cheapest, and highest quality.</>}
-        imageSrc={articleImage.src}
+        imageSrc={assetSrc(articleImage)}
         imageAlt="A variety of flower bouquets from different New Zealand subscription services."
         faqPage="best-flower-subscription-services-nz"
       >

@@ -7,6 +7,7 @@ import logo from '../assets/logo.webp';
 import logo128 from '../assets/logo-128w.webp';
 import logo192 from '../assets/logo-192w.webp';
 import logo256 from '../assets/logo-256w.webp';
+import { assetSrc } from '@/lib/assets';
 import { useAuth } from '@/context/AuthContext';
 
 const NavBar = () => {
@@ -35,8 +36,8 @@ const NavBar = () => {
           {/* Logo */}
           <Link href="/" onClick={close} aria-label="FutureFlower company logo" className="flex items-center gap-3 flex-shrink-0">
             <img
-              src={logo.src}
-              srcSet={`${logo128.src} 128w, ${logo192.src} 192w, ${logo256.src} 256w`}
+              src={assetSrc(logo)}
+              srcSet={`${assetSrc(logo128)} 128w, ${assetSrc(logo192)} 192w, ${assetSrc(logo256)} 256w`}
               sizes="40px"
               alt=""
               width="367"
