@@ -6,6 +6,31 @@ const nextConfig: NextConfig = {
   // APPEND_SLASH adds it back, and the browser loops until ERR_TOO_MANY_REDIRECTS.
   skipTrailingSlashRedirect: true,
 
+  async redirects() {
+    return [
+      {
+        source: '/terms-and-conditions',
+        destination: '/terms-and-conditions/customer',
+        permanent: true,
+      },
+      {
+        source: '/partner/dashboard',
+        destination: '/dashboard/partner',
+        permanent: true,
+      },
+      {
+        source: '/partner/payouts',
+        destination: '/dashboard/partner/payouts',
+        permanent: true,
+      },
+      {
+        source: '/partner/payouts/:payoutId',
+        destination: '/dashboard/partner/payouts',
+        permanent: true,
+      },
+    ];
+  },
+
   async rewrites() {
     const apiUrl = process.env.DJANGO_API_URL ?? "http://127.0.0.1:8000";
 
