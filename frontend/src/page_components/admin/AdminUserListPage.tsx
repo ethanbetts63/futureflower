@@ -1,5 +1,6 @@
+"use client";
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { getAdminUsers } from '@/api/admin';
 import type { AdminUser } from '@/types/AdminUser';
 import { Loader2, ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react';
@@ -183,7 +184,7 @@ const AdminUserListPage = () => {
                       </TableCell>
                       <TableCell>
                         <Link
-                          to={`/dashboard/admin/users/${user.id}`}
+                          href={`/dashboard/admin/users/${user.id}`}
                           className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-black/70 whitespace-nowrap"
                         >
                           View

@@ -1,5 +1,6 @@
+"use client";
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { getAdminPartners } from '@/api/admin';
 import type { AdminPartner } from '@/types/AdminPartner';
 import { Loader2 } from 'lucide-react';
@@ -47,7 +48,7 @@ const PartnerRow = ({ partner }: { partner: AdminPartner }) => (
       <p className="text-sm text-black/40">{partner.email}</p>
     </div>
     <Link
-      to={`/dashboard/admin/partners/${partner.id}`}
+      href={`/dashboard/admin/partners/${partner.id}`}
       className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-center text-black/70 flex-shrink-0"
     >
       View

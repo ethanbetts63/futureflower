@@ -1,6 +1,6 @@
 // src/pages/flow/VerificationSuccessPage.tsx
 
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircleIcon } from 'lucide-react';
@@ -21,7 +21,7 @@ const VerificationSuccessPage = () => {
         </CardHeader>
         <CardContent className="text-center">
           <Button asChild>
-            <Link to="/dashboard">Go to My Events</Link>
+            <Link href="/dashboard">Go to My Events</Link>
           </Button>
         </CardContent>
       </Card>

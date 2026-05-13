@@ -1,6 +1,7 @@
 // futureflower/frontend/src/pages/CheckoutPage.tsx
+"use client";
 import { useState, useEffect } from 'react';
-import { useLocation, Navigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { loadStripe } from '@stripe/stripe-js';
 import type { StripeElementsOptions, Appearance } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
@@ -24,7 +25,7 @@ import flowerIcon from '@/assets/flower_symbol.svg';
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '');
 
 const CheckoutPage = () => {
-    const location = useLocation();
+    const router = useRouter();
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const [planId, setPlanId] = useState<string | null>(null);
     const [itemType, setItemType] = useState<string | null>(null);
@@ -34,11 +35,13 @@ const CheckoutPage = () => {
     const [plan, setPlan] = useState<Plan | null>(null);
 
     useEffect(() => {
-        const secret = location.state?.clientSecret;
-        const id = location.state?.planId;
-        const type = location.state?.itemType;
-        const intent = location.state?.intentType as 'payment' | 'setup';
-        const back = location.state?.backPath;
+        const stored = sessionStorage.getItem('checkoutState');
+        const state = stored ? JSON.parse(stored) : null;
+        const secret = state?.clientSecret;
+        const id = state?.planId;
+        const type = state?.itemType;
+        const intent = state?.intentType as 'payment' | 'setup';
+        const back = state?.backPath;
 
         if (secret && id && type && intent) {
             setClientSecret(secret);
@@ -70,7 +73,7 @@ const CheckoutPage = () => {
         } else {
             setIsLoading(false);
         }
-    }, [location.state]);
+    }, []);
 
     if (isLoading) {
         return (
@@ -83,7 +86,8 @@ const CheckoutPage = () => {
     if (!clientSecret || !planId || !itemType || !intentType || !plan) {
         if (!isLoading) {
             toast.error("Checkout session is invalid or has expired.");
-            return <Navigate to="/" replace />;
+            router.replace('/');
+            return null;
         }
         return null;
     }

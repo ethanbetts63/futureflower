@@ -1,5 +1,5 @@
 
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { getImpactTier } from '@/utils/pricingConstants';
 import flowerIcon from '@/assets/flower_symbol.svg';
 import type { ImpactSummaryProps } from '@/types/ImpactSummaryProps';
@@ -15,7 +15,7 @@ const ImpactSummary = ({ price, editUrl }: ImpactSummaryProps) => {
         </span>
         {editUrl && (
           <Link
-            to={editUrl}
+            href={editUrl}
             className="text-xs font-semibold text-black/40 hover:text-black underline underline-offset-4 transition-colors"
           >
             Edit

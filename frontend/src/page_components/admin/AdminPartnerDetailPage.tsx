@@ -1,5 +1,7 @@
+"use client";
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { getAdminPartner, approvePartner, denyPartner, payCommission } from '@/api/admin';
 import type { AdminPartner } from '@/types/AdminPartner';
 import type { AdminCommission } from '@/types/AdminCommission';
@@ -41,8 +43,9 @@ const StatusBadge = ({ status }: { status: AdminCommission['status'] }) => (
 );
 
 const AdminPartnerDetailPage = () => {
-  const { partnerId } = useParams<{ partnerId: string }>();
-  const navigate = useNavigate();
+  const params = useParams();
+  const partnerId = params.partnerId as string | undefined;
+  const router = useRouter();
   const [partner, setPartner] = useState<AdminPartner | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -63,7 +66,7 @@ const AdminPartnerDetailPage = () => {
     try {
       await approvePartner(partner.id);
       toast.success(`${partner.business_name || partner.first_name} approved.`);
-      navigate('/dashboard/admin');
+      router.push('/dashboard/admin');
     } catch {
       toast.error('Failed to approve partner.');
       setSubmitting(false);
@@ -76,7 +79,7 @@ const AdminPartnerDetailPage = () => {
     try {
       await denyPartner(partner.id);
       toast.success(`${partner.business_name || partner.first_name} denied.`);
-      navigate('/dashboard/admin');
+      router.push('/dashboard/admin');
     } catch {
       toast.error('Failed to deny partner.');
       setSubmitting(false);
@@ -211,7 +214,7 @@ const AdminPartnerDetailPage = () => {
                       <p className="text-xs text-black/40">{formatDate(c.created_at)}</p>
                       {c.event && (
                         <Link
-                          to={`/dashboard/admin/events/${c.event}`}
+                          href={`/dashboard/admin/events/${c.event}`}
                           className="text-xs text-black/40 underline hover:text-black"
                         >
                           View event

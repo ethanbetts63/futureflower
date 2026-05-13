@@ -1,6 +1,6 @@
 // futureflower/frontend/src/pages/subscription_flow/Step5ConfirmationPage.tsx
-
-import { useParams } from 'react-router-dom';
+"use client";
+import { useParams } from 'next/navigation';
 import Seo from '@/components/Seo';
 import PlanDisplay from '@/components/PlanDisplay';
 import SubscriptionSummary from '@/components/SubscriptionSummary';
@@ -10,7 +10,8 @@ import type { Plan } from '../../types/Plan';
 import type { FlowerType } from '../../types/FlowerType';
 
 const Step5ConfirmationPage = () => {
-  const { planId } = useParams<{ planId: string }>();
+  const params = useParams();
+  const planId = params.planId as string | undefined;
 
   const isSubscriptionPlan = (plan: any): plan is SubscriptionPlan => {
     return 'stripe_subscription_id' in plan || 'subscription_message' in plan;

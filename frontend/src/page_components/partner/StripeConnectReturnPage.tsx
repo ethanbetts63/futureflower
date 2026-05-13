@@ -1,5 +1,6 @@
+"use client";
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { CheckCircle, XCircle } from 'lucide-react';
@@ -8,7 +9,7 @@ import Seo from '@/components/Seo';
 import { getStripeConnectStatus } from '@/api/partners';
 
 const StripeConnectReturnPage = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isComplete, setIsComplete] = useState(false);
 
@@ -58,7 +59,7 @@ const StripeConnectReturnPage = () => {
                   ? 'Your Stripe account is set up. You can now receive payouts.'
                   : 'Your Stripe onboarding is not yet complete. Please try again from your dashboard.'}
               </p>
-              <Button onClick={() => navigate('/dashboard/partner')}>
+              <Button onClick={() => router.push('/dashboard/partner')}>
                 Go to Dashboard
               </Button>
             </CardContent>

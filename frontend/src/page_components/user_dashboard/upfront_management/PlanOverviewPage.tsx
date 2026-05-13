@@ -1,5 +1,6 @@
 // futureflower/frontend/src/pages/user_dashboard/PlanOverviewPage.tsx
-import { useParams } from 'react-router-dom';
+"use client";
+import { useParams } from 'next/navigation';
 import Seo from '@/components/Seo';
 import PlanDisplay from '@/components/PlanDisplay';
 import UpfrontSummary from '@/components/UpfrontSummary';
@@ -8,7 +9,8 @@ import type { UpfrontPlan } from '../../../types/UpfrontPlan';
 import type { FlowerType } from '../../../types/FlowerType';
 
 const PlanOverviewPage = () => {
-  const { planId } = useParams<{ planId: string }>();
+  const params = useParams();
+  const planId = params.planId as string | undefined;
 
   return (
     <>

@@ -1,6 +1,7 @@
 // futureflower/frontend/src/components/PreferencesEditor.tsx
+"use client";
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
@@ -24,8 +25,9 @@ const PreferencesEditor = ({
     getPlan,
     updatePlan,
 }: PreferencesEditorProps) => {
-    const { planId } = useParams<{ planId: string }>();
-    const navigate = useNavigate();
+    const params = useParams();
+    const planId = params.planId as string | undefined;
+    const router = useRouter();
 
     // Data fetching state
     const [flowerTypes, setFlowerTypes] = useState<FlowerType[]>([]);
@@ -40,7 +42,7 @@ const PreferencesEditor = ({
     useEffect(() => {
         if (!planId) {
             toast.error("No plan specified.");
-            navigate('/dashboard');
+            router.push('/dashboard');
             return;
         }
 
@@ -77,7 +79,7 @@ const PreferencesEditor = ({
         };
 
         fetchData();
-    }, [navigate, planId, getPlan]);
+    }, [router, planId, getPlan]);
     
     const handleSave = async () => {
         if (!planId) return;
@@ -90,7 +92,7 @@ const PreferencesEditor = ({
             if (mode === 'edit') {
                 toast.success("Preferences saved successfully!");
             }
-            navigate(onSaveNavigateTo.replace('{planId}', planId)); 
+            router.push(onSaveNavigateTo.replace('{planId}', planId));
         } catch (err) {
             toast.error("Failed to save preferences. Please try again.");
         } finally {

@@ -1,19 +1,20 @@
+"use client";
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { initiateStripeConnectOnboarding } from '@/api/partners';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 
 const StripeConnectOnboardingPage = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     initiateStripeConnectOnboarding()
       .then((data) => {
         window.location.href = data.url;
       })
-      .catch(() => navigate('/dashboard/partner', { state: { stripeError: true } }));
-  }, []);
+      .catch(() => router.push('/dashboard/partner'));
+  }, [router]);
 
   return (
     <>

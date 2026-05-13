@@ -1,6 +1,7 @@
 // frontend/src/components/SingleDeliveryStructureEditor.tsx
+"use client";
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
@@ -31,8 +32,9 @@ const SingleDeliveryStructureEditor = ({
     onSaveNavigateTo,
     backPath,
 }: SingleDeliveryStructureEditorProps) => {
-    const { planId } = useParams<{ planId: string }>();
-    const navigate = useNavigate();
+    const params = useParams();
+    const planId = params.planId as string | undefined;
+    const router = useRouter();
     const { isAuthenticated } = useAuth();
     const isEditMode = mode === 'edit';
 
@@ -46,7 +48,7 @@ const SingleDeliveryStructureEditor = ({
 
     useEffect(() => {
         if (!planId) {
-            navigate('/dashboard');
+            router.push('/dashboard');
             return;
         }
 
@@ -71,10 +73,10 @@ const SingleDeliveryStructureEditor = ({
             })
             .catch(error => {
                 toast.error("Failed to load plan details", { description: error.message });
-                navigate(backPath);
+                router.push(backPath);
             })
             .finally(() => setIsLoading(false));
-    }, [planId, isAuthenticated, navigate, backPath, isEditMode]);
+    }, [planId, isAuthenticated, router, backPath, isEditMode]);
 
     const handleFormChange = (field: keyof SingleDeliveryStructureData, value: number | string) => {
         setFormData((prev: SingleDeliveryStructureData) => ({ ...prev, [field]: value }));
@@ -102,7 +104,7 @@ const SingleDeliveryStructureEditor = ({
             if (mode === 'edit') {
                 toast.success("Plan details updated successfully!");
             }
-            navigate(onSaveNavigateTo.replace('{planId}', planId));
+            router.push(onSaveNavigateTo.replace('{planId}', planId));
         } catch (err: any) {
             toast.error("Failed to save plan details.", { description: err.message });
         } finally {

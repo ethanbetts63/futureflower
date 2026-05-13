@@ -1,12 +1,12 @@
-
-import { useNavigate } from 'react-router-dom';
+"use client";
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Calendar, RefreshCw } from 'lucide-react';
 import Seo from '@/components/Seo';
 
 const ProductSelectionPage = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <>
@@ -24,7 +24,7 @@ const ProductSelectionPage = () => {
             {/* Single Delivery Card */}
             <Card
               className="bg-white text-black border-2 border-transparent hover:border-[var(--colorgreen)] cursor-pointer transition-all shadow-md flex flex-col h-full"
-              onClick={() => navigate('/event-gate/single-delivery')}
+              onClick={() => router.push('/event-gate/single-delivery')}
             >
               <CardHeader className="text-center">
                 <div className="flex justify-center mb-4">
@@ -52,7 +52,7 @@ const ProductSelectionPage = () => {
             {/* Subscription Card */}
             <Card
               className="bg-white text-black border-2 border-transparent hover:border-[var(--colorgreen)] cursor-pointer transition-all shadow-md flex flex-col h-full"
-              onClick={() => navigate('/event-gate/subscription')}
+              onClick={() => router.push('/event-gate/subscription')}
             >
               <CardHeader className="text-center">
                 <div className="flex justify-center mb-4">

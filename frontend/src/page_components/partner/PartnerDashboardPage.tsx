@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { Badge } from '@/components/ui/badge';
@@ -8,13 +9,13 @@ import SummarySection from '@/components/SummarySection';
 import { getPartnerDashboard, createDiscountCode } from '@/api/partners';
 import type { Partner } from '@/types';
 import type { DiscountCodesSectionProps } from '@/types/DiscountCodesSectionProps';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 
 const PartnerDashboardPage = () => {
   const [partner, setPartner] = useState<Partner | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -146,7 +147,7 @@ const PartnerDashboardPage = () => {
                       <div
                         key={dr.id}
                         className="flex items-center justify-between border-b border-black/5 pb-2 last:border-0 cursor-pointer hover:bg-gray-50 p-2 rounded"
-                        onClick={() => navigate(`/partner/delivery-request/${dr.token}`)}
+                        onClick={() => router.push(`/partner/delivery-request/${dr.token}`)}
                       >
                         <div>
                           <p className="font-medium text-black">Delivery on {dr.delivery_date}</p>

@@ -1,10 +1,12 @@
-import { useParams } from 'react-router-dom';
+"use client";
+import { useParams } from 'next/navigation';
 import PreferencesEditor from '@/components/form_flow/PreferencesEditor';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
 
 const Step3PreferenceSelectionPage = () => {
-    const { planId } = useParams<{ planId: string }>();
+    const params = useParams();
+    const planId = params.planId as string | undefined;
 
     return (
         <>

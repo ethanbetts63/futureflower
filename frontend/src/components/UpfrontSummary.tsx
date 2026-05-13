@@ -1,5 +1,7 @@
+"use client";
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Calendar, MessageSquare, Tag, StickyNote } from 'lucide-react';
 import EditControl from '@/components/EditControl';
 import { MIN_DAYS_BEFORE_EDIT, MS_PER_DAY } from '@/utils/systemConstants';
@@ -39,7 +41,7 @@ const UpfrontSummary = ({
   planId,
   onRefreshPlan,
 }: UpfrontSummaryProps) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
@@ -53,7 +55,7 @@ const UpfrontSummary = ({
       await cancelUpfrontPlan(planId);
       setCancelDialogOpen(false);
       toast.success('Your plan has been cancelled. To request a refund for remaining deliveries, email ethan.betts.dev@gmail.com.');
-      navigate('/dashboard');
+      router.push('/dashboard');
     } catch {
       setCancelError('Something went wrong. Please try again.');
     } finally {
@@ -259,7 +261,7 @@ const UpfrontSummary = ({
               />
               <span className="text-sm text-black/70 leading-relaxed">
                 I have read and agree to the{' '}
-                <Link to="/terms-and-conditions/customer" target="_blank" className="underline text-black hover:text-black/70">
+                <Link href="/terms-and-conditions/customer" target="_blank" className="underline text-black hover:text-black/70">
                   Customer Terms & Conditions
                 </Link>
                 .

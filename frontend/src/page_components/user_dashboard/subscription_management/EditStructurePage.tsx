@@ -1,9 +1,11 @@
 // futureflower/frontend/src/pages/user_dashboard/subscription_management/EditStructurePage.tsx
-import { useParams } from 'react-router-dom';
+"use client";
+import { useParams } from 'next/navigation';
 import SubscriptionStructureEditor from '@/components/form_flow/SubscriptionStructureEditor';
 
 const EditStructurePage = () => {
-    const { planId } = useParams<{ planId: string }>();
+    const params = useParams();
+    const planId = params.planId as string | undefined;
 
     return (
         <SubscriptionStructureEditor

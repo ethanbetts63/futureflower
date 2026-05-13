@@ -1,10 +1,12 @@
 // futureflower/frontend/src/pages/subscription_flow/Step4StructurePage.tsx
-import { useParams } from 'react-router-dom';
+"use client";
+import { useParams } from 'next/navigation';
 import SubscriptionStructureEditor from '@/components/form_flow/SubscriptionStructureEditor';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 
 const Step4StructurePage = () => {
-    const { planId } = useParams<{ planId: string }>();
+    const params = useParams();
+    const planId = params.planId as string | undefined;
 
     return (
         <>

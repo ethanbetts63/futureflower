@@ -1,5 +1,6 @@
 // frontend/src/pages/single_delivery_flow/Step5ConfirmationPage.tsx
-import { useParams } from 'react-router-dom';
+"use client";
+import { useParams } from 'next/navigation';
 import Seo from '@/components/Seo';
 import PlanDisplay from '@/components/PlanDisplay';
 import UpfrontSummary from '@/components/UpfrontSummary';
@@ -7,7 +8,8 @@ import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
 import type { Plan, FlowerType, UpfrontPlan } from '@/types';
 
 const Step5ConfirmationPage = () => {
-  const { planId } = useParams<{ planId: string }>();
+  const params = useParams();
+  const planId = params.planId as string | undefined;
 
   return (
     <>

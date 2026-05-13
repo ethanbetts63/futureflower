@@ -1,6 +1,7 @@
 // futureflower/frontend/src/pages/flow/CreateAccountPage.tsx
+"use client";
 import { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -19,8 +20,8 @@ const FLOW_CONFIG: Record<string, { planName: string; totalSteps: number }> = {
 const DEFAULT_FLOW = { planName: 'Single Delivery Plan', totalSteps: 4 };
 
 const CreateAccountPage = () => {
-    const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const { handleLoginSuccess } = useAuth(); 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -30,7 +31,7 @@ const CreateAccountPage = () => {
             await registerUser(data);
             await handleLoginSuccess();
             const nextUrl = searchParams.get('next') || '/event-gate';
-            navigate(nextUrl); // Navigate to the event gate to start the plan creation flow
+            router.push(nextUrl); // Navigate to the event gate to start the plan creation flow
         } catch (error: any) {
             const errorData = error.data || {};
             const description = Object.entries(errorData)

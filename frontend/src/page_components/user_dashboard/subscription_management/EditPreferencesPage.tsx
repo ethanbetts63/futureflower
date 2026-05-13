@@ -1,10 +1,12 @@
 // futureflower/frontend/src/pages/user_dashboard/subscription_management/EditPreferencesPage.tsx
-import { useParams } from 'react-router-dom';
+"use client";
+import { useParams } from 'next/navigation';
 import PreferencesEditor from '@/components/form_flow/PreferencesEditor';
 import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
 
 const EditPreferencesPage = () => {
-    const { planId } = useParams<{ planId: string }>();
+    const params = useParams();
+    const planId = params.planId as string | undefined;
 
     return (
         <PreferencesEditor

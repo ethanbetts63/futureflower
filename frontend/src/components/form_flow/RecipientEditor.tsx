@@ -1,6 +1,7 @@
 // futureflower/frontend/src/components/RecipientEditor.tsx
+"use client";
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
@@ -29,8 +30,9 @@ const RecipientEditor = ({
     getPlan,
     updatePlan,
 }: RecipientEditorProps) => {
-    const { planId } = useParams<{ planId: string }>();
-    const navigate = useNavigate();
+    const params = useParams();
+    const planId = params.planId as string | undefined;
+    const router = useRouter();
     const { isAuthenticated } = useAuth();
 
     const [formData, setFormData] = useState<RecipientData>({
@@ -50,7 +52,7 @@ const RecipientEditor = ({
     useEffect(() => {
         if (!planId) {
             toast.error("No plan ID was provided.");
-            navigate('/dashboard');
+            router.push('/dashboard');
             return;
         }
 
@@ -71,14 +73,14 @@ const RecipientEditor = ({
                 });
             } catch (err) {
                 toast.error("Failed to load plan data.");
-                navigate('/dashboard');
+                router.push('/dashboard');
             } finally {
                 setIsLoading(false);
             }
         };
 
         fetchPlanData();
-    }, [planId, isAuthenticated, navigate, getPlan]);
+    }, [planId, isAuthenticated, router, getPlan]);
 
     const handleFormChange = (field: keyof RecipientData, value: string) => {
         setFormData((prev: RecipientData) => ({ ...prev, [field]: value }));
@@ -103,7 +105,7 @@ const RecipientEditor = ({
             }
             
             const destination = onSaveNavigateTo.replace('{planId}', planId);
-            navigate(destination);
+            router.push(destination);
 
         } catch (err) {
             toast.error(mode === 'edit' ? "Failed to update recipient details." : "Failed to save recipient details.");

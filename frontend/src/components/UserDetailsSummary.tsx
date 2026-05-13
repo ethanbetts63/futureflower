@@ -1,5 +1,5 @@
 import { Spinner } from '@/components/ui/spinner';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import type { UserDetailsSummaryProps } from '../types/UserDetailsSummaryProps';
 
 const UserDetailsSummary = ({ user }: UserDetailsSummaryProps) => {
@@ -27,7 +27,7 @@ const UserDetailsSummary = ({ user }: UserDetailsSummaryProps) => {
         </div>
       </div>
       <Link
-        to="/dashboard/account"
+        href="/dashboard/account"
         className="text-xs font-semibold text-black/40 hover:text-black underline underline-offset-4 transition-colors"
       >
         Edit

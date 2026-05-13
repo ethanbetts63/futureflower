@@ -1,6 +1,7 @@
 // futureflower/frontend/src/components/SubscriptionStructureEditor.tsx
+"use client";
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
@@ -30,8 +31,9 @@ const SubscriptionStructureEditor = ({
     onSaveNavigateTo,
     backPath,
 }: SubscriptionStructureEditorProps) => {
-    const { planId } = useParams<{ planId: string }>();
-    const navigate = useNavigate();
+    const params = useParams();
+    const planId = params.planId as string | undefined;
+    const router = useRouter();
     const { isAuthenticated } = useAuth();
     const isEditMode = mode === 'edit';
 
@@ -48,7 +50,7 @@ const SubscriptionStructureEditor = ({
     useEffect(() => {
         if (!planId) {
             toast.error("Plan ID is missing.");
-            navigate('/dashboard');
+            router.push('/dashboard');
             return;
         }
 
@@ -77,10 +79,10 @@ const SubscriptionStructureEditor = ({
             })
             .catch(error => {
                 toast.error("Failed to load plan details", { description: error.message });
-                navigate(backPath);
+                router.push(backPath);
             })
             .finally(() => setIsLoading(false));
-    }, [planId, isAuthenticated, navigate, backPath, isEditMode]);
+    }, [planId, isAuthenticated, router, backPath, isEditMode]);
 
     const handleFormChange = (field: keyof SubscriptionStructureData, value: number | string) => {
         setFormData((prev: SubscriptionStructureData) => ({ ...prev, [field]: value }));
@@ -99,7 +101,7 @@ const SubscriptionStructureEditor = ({
             if (mode === 'edit') {
                 toast.success("Plan structure updated successfully!");
             }
-            navigate(onSaveNavigateTo.replace('{planId}', planId));
+            router.push(onSaveNavigateTo.replace('{planId}', planId));
         } catch (err: any) {
             toast.error("Failed to save plan structure.", { description: err.message });
         } finally {

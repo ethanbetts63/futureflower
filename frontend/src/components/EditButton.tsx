@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
 import { cn } from '@/utils/utils';
@@ -11,7 +11,7 @@ const EditButton = ({ to, className, ...props }: EditButtonProps) => {
 
   return (
     <Button asChild variant="default" size="sm" className={buttonClasses} {...props}>
-      <Link to={to}>
+      <Link href={to}>
         <Pencil className="mr-2 h-4 w-4" /> Edit
       </Link>
     </Button>

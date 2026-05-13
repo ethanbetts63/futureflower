@@ -1,5 +1,5 @@
 // futureflower/frontend/src/components/SubscriptionStructureCard.tsx
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import { FileText, Calendar, Repeat, MessageSquare, Edit } from 'lucide-react';
@@ -22,7 +22,7 @@ const SubscriptionStructureCard = ({ plan, editUrl }: SubscriptionStructureCardP
                     <CardTitle>Subscription Details</CardTitle>
                 </div>
                 <Button asChild variant="outline" size="sm">
-                    <Link to={editUrl}><Edit className="mr-2 h-4 w-4" /> Edit</Link>
+                    <Link href={editUrl}><Edit className="mr-2 h-4 w-4" /> Edit</Link>
                 </Button>
             </CardHeader>
             <CardContent className="space-y-4">

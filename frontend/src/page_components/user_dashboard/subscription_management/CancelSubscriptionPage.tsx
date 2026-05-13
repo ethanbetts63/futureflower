@@ -1,5 +1,6 @@
+"use client";
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
@@ -30,7 +31,7 @@ const CancelSubscriptionPageInner = ({
   plan,
   planId,
 }: { plan: SubscriptionPlan; planId: string }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [cancelType, setCancelType] = useState<'keep_current' | 'cancel_all'>('keep_current');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,7 +44,7 @@ const CancelSubscriptionPageInner = ({
       await cancelSubscription(planId, cancelType);
       setDialogOpen(false);
       toast.success('Your subscription has been cancelled.');
-      navigate('/dashboard');
+      router.push('/dashboard');
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -118,7 +119,7 @@ const CancelSubscriptionPageInner = ({
                   className="underline cursor-pointer"
                   onClick={(e) => {
                     e.preventDefault();
-                    navigate('/dashboard/refunds');
+                    router.push('/dashboard/refunds');
                   }}
                 >
                   You can request a refund here.
@@ -170,7 +171,8 @@ const CancelSubscriptionPageInner = ({
 };
 
 const CancelSubscriptionPage = () => {
-  const { planId } = useParams<{ planId: string }>();
+  const params = useParams();
+  const planId = params.planId as string | undefined;
 
   return (
     <>

@@ -1,5 +1,6 @@
+"use client";
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
@@ -11,7 +12,7 @@ import type { Payout } from '@/types';
 const PayoutsPage = () => {
   const [payouts, setPayouts] = useState<Payout[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchPayouts = async () => {
@@ -58,7 +59,7 @@ const PayoutsPage = () => {
                     <div
                       key={p.id}
                       className="flex items-center justify-between border-b border-black/5 pb-3 last:border-0 cursor-pointer hover:bg-gray-50 p-2 rounded"
-                      onClick={() => navigate(`/dashboard/partner/payouts/${p.id}`)}
+                      onClick={() => router.push(`/dashboard/partner/payouts/${p.id}`)}
                     >
                       <div>
                         <p className="font-medium capitalize text-black">{p.payout_type} Payout</p>

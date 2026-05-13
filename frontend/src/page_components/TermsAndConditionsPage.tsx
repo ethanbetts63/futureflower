@@ -1,5 +1,7 @@
+"use client";
 import { useState, useEffect } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { getTermsByType } from '@/api';
 import type { TermsAndConditions } from '@/types/TermsAndConditions';
 import Seo from '@/components/Seo';
@@ -17,7 +19,9 @@ const TYPE_LABELS: Record<TermsType, string> = {
 };
 
 const TermsAndConditionsPage = () => {
-    const { type } = useParams<{ type: string }>();
+    const params = useParams();
+    const type = params.type as string | undefined;
+    const router = useRouter();
     const [terms, setTerms] = useState<TermsAndConditions | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -44,7 +48,8 @@ const TermsAndConditionsPage = () => {
     }, [validType]);
 
     if (!validType) {
-        return <Navigate to="/terms-and-conditions/customer" replace />;
+        router.replace('/terms-and-conditions/customer');
+        return null;
     }
 
     const renderContent = () => {

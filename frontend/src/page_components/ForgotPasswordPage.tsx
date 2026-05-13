@@ -1,7 +1,7 @@
 // frontend/src/pages/ForgotPasswordPage.tsx
 
 import { useForm, type SubmitHandler } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -82,7 +82,7 @@ const ForgotPasswordPage = () => {
 
                   <div className="text-center text-sm text-black">
                     Remember your password?{" "}
-                    <Link to="/login" className="underline underline-offset-2 hover:underline hover:text-primary">
+                    <Link href="/login" className="underline underline-offset-2 hover:underline hover:text-primary">
                       Back to login
                     </Link>
                   </div>

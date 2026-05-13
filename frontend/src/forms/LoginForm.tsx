@@ -1,7 +1,8 @@
 "use client"
 
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { cn } from "@/utils/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -20,7 +21,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { loginWithPassword } = useAuth();
 
   const form = useForm<LoginFormData>({
@@ -35,7 +36,7 @@ export function LoginForm({
   const onSubmit = async (data: LoginFormData) => {
     try {
       await loginWithPassword(data.email, data.password);
-      navigate('/dashboard');
+      router.push('/dashboard');
     } catch (error) {
       console.error("Login failed", error);
       toast.error("Login Failed", {
@@ -84,7 +85,7 @@ export function LoginForm({
                     <div className="flex items-center">
                       <FormLabel>Password</FormLabel>
                       <Link
-                        to="/forgot-password"
+                        href="/forgot-password"
                         className="ml-auto text-sm underline-offset-2 hover:underline"
                       >
                         Forgot your password?
@@ -117,7 +118,7 @@ export function LoginForm({
                 {/* Signup Link */}
                 <div className="text-center text-sm text-black">
                   Don&apos;t have an account?{" "}
-                  <Link to="/order" className="underline underline-offset-2 hover:underline hover:text-primary">
+                  <Link href="/order" className="underline underline-offset-2 hover:underline hover:text-primary">
                     Order Flowers
                   </Link>
                 </div>

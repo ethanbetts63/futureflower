@@ -1,5 +1,5 @@
 // frontend/src/components/EditControl.tsx
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Lock } from 'lucide-react';
 import type { EditControlProps } from '../types/EditControlProps';
 
@@ -10,7 +10,7 @@ const EditControl = ({ editUrl, locked = false }: EditControlProps) => {
         <Lock className="h-3 w-3" />
         <span className="text-xs">
           Editing closed —{' '}
-          <Link to="/contact" className="underline hover:text-black/50 transition-colors">
+          <Link href="/contact" className="underline hover:text-black/50 transition-colors">
             contact us
           </Link>
         </span>
@@ -20,7 +20,7 @@ const EditControl = ({ editUrl, locked = false }: EditControlProps) => {
 
   return (
     <Link
-      to={editUrl}
+      href={editUrl}
       className="text-xs font-semibold text-black/40 hover:text-black underline underline-offset-4 transition-colors"
     >
       Edit

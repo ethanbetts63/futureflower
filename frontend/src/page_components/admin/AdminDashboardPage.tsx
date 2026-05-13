@@ -1,5 +1,6 @@
+"use client";
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { getAdminDashboard, getPendingPartners, getAdminCommissions } from '@/api/admin';
 import type { AdminDashboard } from '@/types/AdminDashboard';
 import type { AdminPartner } from '@/types/AdminPartner';
@@ -43,14 +44,14 @@ const EventCard = ({ event, section }: EventCardProps) => {
       </div>
       <div className="flex flex-col gap-2 flex-shrink-0">
         <Link
-          to={`/dashboard/admin/events/${event.id}`}
+          href={`/dashboard/admin/events/${event.id}`}
           className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-center text-black/70"
         >
           View
         </Link>
         {section === 'to_order' && (
           <Link
-            to={`/dashboard/admin/events/${event.id}/mark-ordered`}
+            href={`/dashboard/admin/events/${event.id}/mark-ordered`}
             className="text-xs px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700 text-center"
           >
             Place Order
@@ -58,7 +59,7 @@ const EventCard = ({ event, section }: EventCardProps) => {
         )}
         {section === 'ordered' && (
           <Link
-            to={`/dashboard/admin/events/${event.id}/mark-delivered`}
+            href={`/dashboard/admin/events/${event.id}/mark-delivered`}
             className="text-xs px-3 py-1.5 rounded bg-green-600 text-white hover:bg-green-700 text-center"
           >
             Confirm Delivery
@@ -95,7 +96,7 @@ const PartnerRequestRow = ({ partner }: { partner: AdminPartner }) => (
       <p className="text-sm text-black/40">{partner.email}</p>
     </div>
     <Link
-      to={`/dashboard/admin/partners/${partner.id}`}
+      href={`/dashboard/admin/partners/${partner.id}`}
       className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-center text-black/70 flex-shrink-0"
     >
       View
@@ -118,7 +119,7 @@ const PendingPayoutRow = ({ commission }: { commission: AdminCommission }) => (
       </p>
     </div>
     <Link
-      to={`/dashboard/admin/payouts/${commission.id}`}
+      href={`/dashboard/admin/payouts/${commission.id}`}
       className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-center text-black/70 flex-shrink-0"
     >
       View
@@ -173,7 +174,7 @@ const AdminDashboardPage = () => {
                 )}
                 <div className="mt-3">
                   <Link
-                    to="/dashboard/admin/payouts"
+                    href="/dashboard/admin/payouts"
                     className="text-xs font-semibold text-black/40 hover:text-black underline underline-offset-4 transition-colors"
                   >
                     See all payouts
@@ -192,7 +193,7 @@ const AdminDashboardPage = () => {
                 )}
                 <div className="mt-3">
                   <Link
-                    to="/dashboard/admin/partners"
+                    href="/dashboard/admin/partners"
                     className="text-xs font-semibold text-black/40 hover:text-black underline underline-offset-4 transition-colors"
                   >
                     See all partners

@@ -1,5 +1,7 @@
+"use client";
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { getAdminPlanDetail } from '@/api/admin';
 import type { AdminPlanDetail } from '@/types/AdminPlanDetail';
 import { Spinner } from '@/components/ui/spinner';
@@ -41,7 +43,9 @@ const StatusBadge = ({ status }: { status: string }) => (
 );
 
 const AdminPlanDetailPage = () => {
-  const { planType, planId } = useParams<{ planType: string; planId: string }>();
+  const params = useParams();
+  const planType = params.planType as string | undefined;
+  const planId = params.planId as string | undefined;
   const [plan, setPlan] = useState<AdminPlanDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -100,7 +104,7 @@ const AdminPlanDetailPage = () => {
             </div>
             <div className="mt-3">
               <Link
-                to={`/dashboard/admin/users/${plan.customer_id}`}
+                href={`/dashboard/admin/users/${plan.customer_id}`}
                 className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-black/70"
               >
                 View Profile
@@ -172,7 +176,7 @@ const AdminPlanDetailPage = () => {
                     <div className="flex items-center gap-3 flex-shrink-0">
                       <StatusBadge status={event.status} />
                       <Link
-                        to={`/dashboard/admin/events/${event.id}`}
+                        href={`/dashboard/admin/events/${event.id}`}
                         className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-black/70 whitespace-nowrap"
                       >
                         View

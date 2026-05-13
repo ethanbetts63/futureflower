@@ -1,7 +1,3 @@
-import { Outlet } from "react-router-dom";
-
-function UserDashboardLayout() {
-  return <Outlet />;
+export default function UserDashboardLayout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
 }
-
-export default UserDashboardLayout;

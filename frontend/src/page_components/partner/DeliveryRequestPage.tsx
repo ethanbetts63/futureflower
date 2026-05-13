@@ -1,5 +1,6 @@
+"use client";
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
@@ -11,7 +12,8 @@ import { getDeliveryRequestByToken, respondToDeliveryRequest, markDeliveryComple
 import type { DeliveryRequestDetail } from '@/types';
 
 const DeliveryRequestPage = () => {
-  const { token } = useParams<{ token: string }>();
+  const params = useParams();
+  const token = params.token as string | undefined;
   const [request, setRequest] = useState<DeliveryRequestDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isResponding, setIsResponding] = useState(false);

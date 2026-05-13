@@ -1,11 +1,13 @@
-import { Link, useNavigate } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { cn } from '@/utils/utils';
 import type { BackButtonProps } from '../types/BackButtonProps';
 
 const BackButton = ({ to, className, ...props }: BackButtonProps) => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const buttonContent = (
     <>
@@ -19,7 +21,7 @@ const BackButton = ({ to, className, ...props }: BackButtonProps) => {
   if (to) {
     return (
       <Button asChild variant="destructive" className={buttonClassName} {...props}>
-        <Link to={to}>{buttonContent}</Link>
+        <Link href={to}>{buttonContent}</Link>
       </Button>
     );
   }
@@ -27,7 +29,7 @@ const BackButton = ({ to, className, ...props }: BackButtonProps) => {
   return (
     <Button
       variant="destructive"
-      onClick={() => navigate(-1)}
+      onClick={() => router.back()}
       className={buttonClassName}
       {...props}
     >
@@ -37,4 +39,3 @@ const BackButton = ({ to, className, ...props }: BackButtonProps) => {
 };
 
 export default BackButton;
-

@@ -1,11 +1,20 @@
+"use client";
 
-import { Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Spinner } from '@/components/ui/spinner';
 import type { AdminGuardProps } from '@/types/AdminGuardProps';
 
 const AdminGuard = ({ children }: AdminGuardProps) => {
   const { user, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && !user?.is_staff && !user?.is_superuser) {
+      router.replace('/dashboard');
+    }
+  }, [user, isLoading, router]);
 
   if (isLoading) {
     return (
@@ -16,7 +25,7 @@ const AdminGuard = ({ children }: AdminGuardProps) => {
   }
 
   if (!user?.is_staff && !user?.is_superuser) {
-    return <Navigate to="/dashboard" replace />;
+    return null;
   }
 
   return <>{children}</>;

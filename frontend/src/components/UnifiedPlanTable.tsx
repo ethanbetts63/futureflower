@@ -1,5 +1,6 @@
+"use client";
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Spinner } from '@/components/ui/spinner';
 import { showErrorToast } from '@/utils/utils';
@@ -67,7 +68,7 @@ const UnifiedPlanTable = () => {
         <div className="text-center py-12 bg-black/5 rounded-3xl mt-4">
           <p className="text-black/60 mb-6 italic">You have no flower plans yet.</p>
           <Button asChild variant="default" className="font-bold">
-            <Link to="/order">
+            <Link href="/order">
               <Plus className="mr-2 h-4 w-4" /> Create Your First Plan
             </Link>
           </Button>
@@ -130,7 +131,7 @@ const UnifiedPlanTable = () => {
                   </TableCell>
                   <TableCell className="text-right py-5">
                     <Button asChild variant="ghost" size="sm" className="hover:bg-black/5 rounded-full h-10 w-10 p-0">
-                      <Link to={viewLink}>
+                      <Link href={viewLink}>
                         <Eye className="h-5 w-5" />
                         <span className="sr-only">View</span>
                       </Link>

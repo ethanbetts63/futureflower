@@ -1,11 +1,13 @@
 // frontend/src/pages/single_delivery_flow/Step3PreferencesPage.tsx
-import { useParams } from 'react-router-dom';
+"use client";
+import { useParams } from 'next/navigation';
 import PreferencesEditor from '@/components/form_flow/PreferencesEditor';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
 
 const Step3PreferencesPage = () => {
-    const { planId } = useParams<{ planId: string }>();
+    const params = useParams();
+    const planId = params.planId as string | undefined;
 
     return (
         <>

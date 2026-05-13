@@ -1,6 +1,7 @@
 // futureflower/frontend/src/components/SingleDeliveryPlanTable.tsx
+"use client";
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
@@ -81,7 +82,7 @@ const SingleDeliveryPlanTable = ({ showTitle = true }: UpfrontPlanTableProps) =>
               <TableCell className="text-right text-black text-base">{plan.events.length}</TableCell>
               <TableCell className="rounded-r-lg text-right text-base">
                 <Button asChild variant="default" size="sm">
-                  <Link to={`/dashboard/upfront-plans/${plan.id}/overview`}>
+                  <Link href={`/dashboard/upfront-plans/${plan.id}/overview`}>
                     <Eye className="mr-2 h-4 w-4" /> View
                   </Link>
                 </Button>

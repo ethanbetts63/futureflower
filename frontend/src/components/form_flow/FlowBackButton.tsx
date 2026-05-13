@@ -1,5 +1,7 @@
+"use client";
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import { cn } from '@/utils/utils';
@@ -12,18 +14,18 @@ const FlowBackButton = ({
   onClick,
   ...props 
 }: FlowBackButtonProps) => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (onClick) {
       onClick(e);
       if (e.defaultPrevented) return;
     }
-    
+
     if (to) {
-      navigate(to);
+      router.push(to);
     } else {
-      navigate(-1);
+      router.back();
     }
   };
 
@@ -42,7 +44,7 @@ const FlowBackButton = ({
   if (to) {
     return (
       <Button asChild className={baseClassName} {...props}>
-        <Link to={to}>{content}</Link>
+        <Link href={to}>{content}</Link>
       </Button>
     );
   }

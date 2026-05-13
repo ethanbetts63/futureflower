@@ -1,12 +1,12 @@
-
-import { useNavigate } from 'react-router-dom';
+"use client";
+import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CreditCard } from 'lucide-react';
 import type { StripeConnectBannerProps } from '@/types/StripeConnectBannerProps';
 
 const StripeConnectBanner = ({ onboardingComplete }: StripeConnectBannerProps) => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   if (onboardingComplete) return null;
 
@@ -20,7 +20,7 @@ const StripeConnectBanner = ({ onboardingComplete }: StripeConnectBannerProps) =
             <p className="text-sm text-amber-700">Connect your Stripe account to receive automatic payouts.</p>
           </div>
         </div>
-        <Button onClick={() => navigate('/partner/stripe-connect/onboarding')} size="sm">
+        <Button onClick={() => router.push('/partner/stripe-connect/onboarding')} size="sm">
           Set Up
         </Button>
       </CardContent>

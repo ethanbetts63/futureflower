@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router-dom';
+"use client";
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Gift, Truck } from 'lucide-react';
@@ -6,7 +7,7 @@ import Seo from '@/components/Seo';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 
 const PartnerTypeSelectionPage = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <>
@@ -24,7 +25,7 @@ const PartnerTypeSelectionPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card
               className="bg-white text-black border-2 border-transparent hover:border-[var(--colorgreen)] cursor-pointer transition-all shadow-md flex flex-col h-full"
-              onClick={() => navigate('/partner/register/referral')}
+              onClick={() => router.push('/partner/register/referral')}
             >
               <CardHeader className="text-center">
                 <div className="flex justify-center mb-4">
@@ -52,7 +53,7 @@ const PartnerTypeSelectionPage = () => {
 
             <Card
               className="bg-white text-black border-2 border-transparent hover:border-[var(--colorgreen)] cursor-pointer transition-all shadow-md flex flex-col h-full"
-              onClick={() => navigate('/partner/register/delivery')}
+              onClick={() => router.push('/partner/register/delivery')}
             >
               <CardHeader className="text-center">
                 <div className="flex justify-center mb-4">

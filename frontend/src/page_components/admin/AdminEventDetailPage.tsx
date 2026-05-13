@@ -1,5 +1,7 @@
+"use client";
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
 
 function orderTypeToPlanSlug(orderType: string): string {
   return orderType.toLowerCase().includes('subscription') ? 'subscription' : 'upfront';
@@ -44,7 +46,8 @@ const Field = ({ label, value }: { label: string; value: React.ReactNode }) => (
 );
 
 const AdminEventDetailPage = () => {
-  const { eventId } = useParams<{ eventId: string }>();
+  const params = useParams();
+  const eventId = params.eventId as string | undefined;
   const [event, setEvent] = useState<AdminEvent | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -96,12 +99,12 @@ const AdminEventDetailPage = () => {
               <FlowBackButton to="/dashboard/admin" />
               {event.status === 'scheduled' && (
                 <Button asChild className="px-6 py-3 rounded-xl text-base font-normal bg-black text-white hover:bg-black/80">
-                  <Link to={`/dashboard/admin/events/${event.id}/mark-ordered`}>Place Order</Link>
+                  <Link href={`/dashboard/admin/events/${event.id}/mark-ordered`}>Place Order</Link>
                 </Button>
               )}
               {event.status === 'ordered' && (
                 <Button asChild className="px-6 py-3 rounded-xl text-base font-normal bg-green-600 text-white hover:bg-green-700">
-                  <Link to={`/dashboard/admin/events/${event.id}/mark-delivered`}>Confirm Delivery</Link>
+                  <Link href={`/dashboard/admin/events/${event.id}/mark-delivered`}>Confirm Delivery</Link>
                 </Button>
               )}
             </div>
@@ -141,7 +144,7 @@ const AdminEventDetailPage = () => {
             </div>
             <div className="mt-3">
               <Link
-                to={`/dashboard/admin/plans/${orderTypeToPlanSlug(event.order_type)}/${event.order_id}`}
+                href={`/dashboard/admin/plans/${orderTypeToPlanSlug(event.order_type)}/${event.order_id}`}
                 className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-black/70"
               >
                 View Plan
@@ -168,7 +171,7 @@ const AdminEventDetailPage = () => {
             </div>
             <div className="mt-3">
               <Link
-                to={`/dashboard/admin/users/${event.customer_id}`}
+                href={`/dashboard/admin/users/${event.customer_id}`}
                 className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-black/70"
               >
                 View Profile

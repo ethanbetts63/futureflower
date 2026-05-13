@@ -1,5 +1,6 @@
+"use client";
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
 import { getAdminEvent, markEventOrdered } from '@/api/admin';
 import type { AdminEvent } from '@/types/AdminEvent';
 import { Spinner } from '@/components/ui/spinner';
@@ -20,8 +21,9 @@ function formatDate(dtStr: string): string {
 }
 
 const MarkOrderedPage = () => {
-  const { eventId } = useParams<{ eventId: string }>();
-  const navigate = useNavigate();
+  const params = useParams();
+  const eventId = params.eventId as string | undefined;
+  const router = useRouter();
   const [event, setEvent] = useState<AdminEvent | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -45,7 +47,7 @@ const MarkOrderedPage = () => {
         ordered_at: orderedAt,
         ordering_evidence_text: evidenceText,
       });
-      navigate('/dashboard/admin');
+      router.push('/dashboard/admin');
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Failed to mark event as ordered');
     } finally {

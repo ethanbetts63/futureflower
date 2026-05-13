@@ -1,5 +1,7 @@
+"use client";
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { getAdminCommission, approveCommission, denyCommission } from '@/api/admin';
 import type { AdminCommission } from '@/types/AdminCommission';
 import { Spinner } from '@/components/ui/spinner';
@@ -40,7 +42,8 @@ const StatusBadge = ({ status }: { status: string }) => (
 );
 
 const AdminPayoutDetailPage = () => {
-  const { commissionId } = useParams<{ commissionId: string }>();
+  const params = useParams();
+  const commissionId = params.commissionId as string | undefined;
   const [commission, setCommission] = useState<AdminCommission | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -144,7 +147,7 @@ const AdminPayoutDetailPage = () => {
                 value={
                   commission.partner_id ? (
                     <Link
-                      to={`/dashboard/admin/partners/${commission.partner_id}`}
+                      href={`/dashboard/admin/partners/${commission.partner_id}`}
                       className="underline hover:text-black/60"
                     >
                       {commission.partner_name}
@@ -171,7 +174,7 @@ const AdminPayoutDetailPage = () => {
                   label="Event"
                   value={
                     <Link
-                      to={`/dashboard/admin/events/${commission.event}`}
+                      href={`/dashboard/admin/events/${commission.event}`}
                       className="underline hover:text-black/60"
                     >
                       View event #{commission.event}

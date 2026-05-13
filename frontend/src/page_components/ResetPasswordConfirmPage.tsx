@@ -1,7 +1,10 @@
 // frontend/src/pages/ResetPasswordConfirmPage.tsx
 
+"use client";
 import { useForm, type SubmitHandler } from 'react-hook-form';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -17,8 +20,10 @@ type PasswordResetFormData = {
 };
 
 const ResetPasswordConfirmPage = () => {
-  const { uid, token } = useParams<{ uid: string; token: string }>();
-  const navigate = useNavigate();
+  const params = useParams();
+  const uid = params.uid as string | undefined;
+  const token = params.token as string | undefined;
+  const router = useRouter();
 
   const form = useForm<PasswordResetFormData>({
     defaultValues: {
@@ -50,7 +55,7 @@ const ResetPasswordConfirmPage = () => {
     try {
       await confirmPasswordReset(uid, token, data);
       toast.success("Password has been reset! You can now log in.");
-      navigate('/login');
+      router.push('/login');
     } catch (err: any) {
       const errorMessage = err.message || "An error occurred. Please try again.";
       toast.error("Error", {
@@ -118,7 +123,7 @@ const ResetPasswordConfirmPage = () => {
 
                   <div className="text-center text-sm text-black">
                     Remember your password?{" "}
-                    <Link to="/login" className="underline underline-offset-2 hover:underline hover:text-primary">
+                    <Link href="/login" className="underline underline-offset-2 hover:underline hover:text-primary">
                       Back to login
                     </Link>
                   </div>

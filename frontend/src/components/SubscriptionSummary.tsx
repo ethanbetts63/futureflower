@@ -1,5 +1,7 @@
+"use client";
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Calendar, RefreshCw, Tag, MessageSquare } from 'lucide-react';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
@@ -25,7 +27,7 @@ const SubscriptionSummary = ({
   planId,
   onRefreshPlan,
 }: SubscriptionSummaryProps) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
 
@@ -163,7 +165,7 @@ const SubscriptionSummary = ({
               />
               <span className="text-sm text-black/70 leading-relaxed">
                 I have read and agree to the{' '}
-                <Link to="/terms-and-conditions/customer" target="_blank" className="underline text-black hover:text-black/70">
+                <Link href="/terms-and-conditions/customer" target="_blank" className="underline text-black hover:text-black/70">
                   Customer Terms & Conditions
                 </Link>
                 .
@@ -180,7 +182,7 @@ const SubscriptionSummary = ({
                 next scheduled delivery or cancel everything immediately.
               </p>
               <button
-                onClick={() => navigate(`/dashboard/subscription-plans/${planId}/cancel`)}
+                onClick={() => router.push(`/dashboard/subscription-plans/${planId}/cancel`)}
                 className="text-red-600 font-semibold text-sm underline hover:text-red-700 transition-colors cursor-pointer"
               >
                 Cancel Subscription

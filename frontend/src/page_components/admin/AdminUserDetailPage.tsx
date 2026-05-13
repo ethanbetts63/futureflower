@@ -1,5 +1,7 @@
+"use client";
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { getAdminUser } from '@/api/admin';
 import type { AdminUserDetail } from '@/types/AdminUserDetail';
 import { Spinner } from '@/components/ui/spinner';
@@ -32,7 +34,8 @@ const Field = ({ label, value }: { label: string; value: React.ReactNode }) => (
 );
 
 const AdminUserDetailPage = () => {
-  const { userId } = useParams<{ userId: string }>();
+  const params = useParams();
+  const userId = params.userId as string | undefined;
   const [user, setUser] = useState<AdminUserDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -147,7 +150,7 @@ const AdminUserDetailPage = () => {
                         <span className="text-sm text-black">${plan.total_amount}</span>
                       )}
                       <Link
-                        to={`/dashboard/admin/plans/${plan.plan_type}/${plan.id}`}
+                        href={`/dashboard/admin/plans/${plan.plan_type}/${plan.id}`}
                         className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-black/70 whitespace-nowrap"
                       >
                         View

@@ -1,5 +1,6 @@
+"use client";
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
@@ -10,7 +11,8 @@ import { getPayoutDetail } from '@/api/partners';
 import type { PayoutDetail } from '@/types';
 
 const PayoutDetailPage = () => {
-  const { payoutId } = useParams<{ payoutId: string }>();
+  const params = useParams();
+  const payoutId = params.payoutId as string | undefined;
   const [payout, setPayout] = useState<PayoutDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 

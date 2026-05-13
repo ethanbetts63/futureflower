@@ -1,17 +1,21 @@
+"use client";
 
-import { Navigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Spinner } from '@/components/ui/spinner';
 import type { ProtectedRouteProps } from '@/types/ProtectedRouteProps';
 
-/**
- * A wrapper component that ensures a user is authenticated before rendering the child component.
- * It waits for the AuthContext to finish its initial loading state to avoid false-positive redirects
- * during token refresh or initial boot.
- */
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuthenticated, isLoading } = useAuth();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.replace(`/login?next=${encodeURIComponent(pathname)}`);
+    }
+  }, [isAuthenticated, isLoading, router, pathname]);
 
   if (isLoading) {
     return (
@@ -25,8 +29,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }
 
   if (!isAuthenticated) {
-    // Redirect to login, but save the current location so we can send them back after they log in
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return null;
   }
 
   return <>{children}</>;

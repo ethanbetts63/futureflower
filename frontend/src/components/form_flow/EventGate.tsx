@@ -1,6 +1,7 @@
 // frontend/src/components/EventGate.tsx
+"use client";
 import { useEffect, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Seo from '../Seo';
 import { getOrCreatePendingSubscriptionPlan } from '@/api/subscriptionPlans';
@@ -9,8 +10,9 @@ import { toast } from 'sonner';
 
 const EventGate = () => {
     const { isAuthenticated, isLoading } = useAuth();
-    const navigate = useNavigate();
-    const { flowType } = useParams<{ flowType?: string }>();
+    const router = useRouter();
+    const params = useParams();
+    const flowType = params.flowType ? (Array.isArray(params.flowType) ? params.flowType[0] : params.flowType) : undefined;
     const hasInitiated = useRef(false);
 
     const isSubscriptionFlow = flowType === 'subscription';
@@ -27,26 +29,26 @@ const EventGate = () => {
                 try {
                     if (isSubscriptionFlow) {
                         const plan = await getOrCreatePendingSubscriptionPlan();
-                        navigate(`/subscribe-flow/subscription-plan/${plan.id}/recipient`, { replace: true });
+                        router.replace(`/subscribe-flow/subscription-plan/${plan.id}/recipient`);
                     } else if (isSingleDeliveryFlow) {
                         const plan = await getOrCreatePendingSingleDeliveryTypeUpfrontPlan();
-                        navigate(`/single-delivery-flow/plan/${plan.id}/recipient`, { replace: true });
+                        router.replace(`/single-delivery-flow/plan/${plan.id}/recipient`);
                     } else {
-                        navigate('/order', { replace: true });
+                        router.replace('/order');
                     }
                 } catch (error: any) {
                     toast.error("Could not prepare your plan", {
                         description: error.message || "Please try again later.",
                     });
-                    navigate('/dashboard', { replace: true });
+                    router.replace('/dashboard');
                 }
             };
             findOrCreatePlan();
         } else {
             const nextUrl = flowType ? `?next=/event-gate/${flowType}` : '';
-            navigate(`/create-account${nextUrl}`, { replace: true });
+            router.replace(`/create-account${nextUrl}`);
         }
-    }, [isAuthenticated, isLoading, navigate, isSubscriptionFlow, isSingleDeliveryFlow, flowType]);
+    }, [isAuthenticated, isLoading, router, isSubscriptionFlow, isSingleDeliveryFlow, flowType]);
 
     // Render a loading indicator while we determine the auth state
     return (

@@ -1,6 +1,7 @@
 // futureflower/frontend/src/components/PaymentInitiatorButton.tsx
+"use client";
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -24,7 +25,7 @@ const PaymentInitiatorButton = ({
   ...props
 }: PaymentInitiatorButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleInitiatePayment = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (onClick) {
@@ -60,8 +61,15 @@ const PaymentInitiatorButton = ({
         // Subscriptions now use 'payment' intent because we take the first payment immediately
         const intentType = 'payment';
 
-        // Default navigation behavior, now including itemType, intentType, and backPath
-        navigate('/checkout', { state: { clientSecret, planId: idToPass, itemType: itemType, intentType: intentType, backPath: backPath } });
+        // Default navigation behavior, store state in sessionStorage for Next.js
+        sessionStorage.setItem('checkoutState', JSON.stringify({
+          clientSecret,
+          planId: idToPass,
+          itemType: itemType,
+          intentType: intentType,
+          backPath: backPath,
+        }));
+        router.push('/checkout');
       }
 
     } catch (err: any) {

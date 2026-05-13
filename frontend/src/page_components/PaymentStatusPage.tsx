@@ -1,8 +1,10 @@
 // futureflower/frontend/src/pages/PaymentStatusPage.tsx
+"use client";
 import { useState, useEffect, useRef } from 'react';
 import { useStripe } from '@stripe/react-stripe-js';
 import type { PaymentIntentResult } from '@stripe/stripe-js';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
@@ -15,8 +17,8 @@ const MAX_POLL_ATTEMPTS = 15; // 30 seconds max
 
 const UniversalPaymentStatusPage = () => {
     const stripe = useStripe();
-    const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
+    const router = useRouter();
+    const searchParams = useSearchParams();
 
     const [message, setMessage] = useState<string | null>(null);
     const [isProcessing, setIsProcessing] = useState(true);
@@ -49,7 +51,7 @@ const UniversalPaymentStatusPage = () => {
                 const plan = await getPlan();
                 if (plan.status === 'active') {
                     clearInterval(pollIntervalRef.current!);
-                    navigate(targetPath);
+                    router.push(targetPath);
                     return;
                 }
             } catch {
@@ -62,7 +64,7 @@ const UniversalPaymentStatusPage = () => {
                     'Your payment was received but activation is taking a little longer than expected. ' +
                     'Redirecting you now — your plan may take a moment to show as active.'
                 );
-                setTimeout(() => navigate(targetPath), 3000);
+                setTimeout(() => router.push(targetPath), 3000);
             }
         }, POLL_INTERVAL_MS);
     };
@@ -105,7 +107,7 @@ const UniversalPaymentStatusPage = () => {
                             const targetPath = `/dashboard/subscription-plans/${planId}/overview`;
                             pollUntilActive(planId, targetPath, 'SUBSCRIPTION_PLAN_NEW');
                         } else {
-                            setTimeout(() => navigate('/dashboard'), 3000);
+                            setTimeout(() => router.push('/dashboard'), 3000);
                         }
                         break;
                     case 'processing':
@@ -152,7 +154,7 @@ const UniversalPaymentStatusPage = () => {
                             }
                             pollUntilActive(planId, targetPath, itemType);
                         } else {
-                            setTimeout(() => navigate('/dashboard'), 3000);
+                            setTimeout(() => router.push('/dashboard'), 3000);
                         }
                         break;
                     case 'processing':
@@ -172,7 +174,7 @@ const UniversalPaymentStatusPage = () => {
             setIsProcessing(false);
             setMessage("Invalid payment secret provided.");
         }
-    }, [stripe, navigate, searchParams]);
+    }, [stripe, router, searchParams]);
 
     return (
         <div className="min-h-screen w-full flex items-center py-12" style={{ backgroundColor: 'var(--color4)' }}>
@@ -200,7 +202,7 @@ const UniversalPaymentStatusPage = () => {
                                     <>
                                         <p className="text-lg mb-6">{message}</p>
                                         <Button asChild>
-                                            <Link to={tryAgainPath}>Try Again</Link>
+                                            <Link href={tryAgainPath}>Try Again</Link>
                                         </Button>
                                     </>
                                 )}

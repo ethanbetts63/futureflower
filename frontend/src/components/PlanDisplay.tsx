@@ -1,6 +1,8 @@
 // futureflower/frontend/src/components/PlanDisplay.tsx
+"use client";
 import { useState, useEffect, useMemo } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { getFlowerTypes } from '@/api';
 import type { FlowerType } from '../types/FlowerType';
 import type { Plan } from '../types/Plan';
@@ -14,8 +16,9 @@ function PlanDisplay<T extends Plan = Plan>({
     fallbackNavigationPath = '/dashboard',
     getPlan,
 }: PlanDisplayProps<T>) {
-    const { planId } = useParams<{ planId: string }>();
-    const navigate = useNavigate();
+    const params = useParams();
+    const planId = params.planId as string | undefined;
+    const router = useRouter();
 
     const [plan, setPlan] = useState<T | null>(null);
     const [flowerTypes, setFlowerTypes] = useState<FlowerType[]>([]);
@@ -27,7 +30,7 @@ function PlanDisplay<T extends Plan = Plan>({
     useEffect(() => {
         if (!planId) {
             toast.error('No Plan ID found in URL.');
-            navigate(fallbackNavigationPath);
+            router.push(fallbackNavigationPath);
             return;
         }
 
@@ -52,7 +55,7 @@ function PlanDisplay<T extends Plan = Plan>({
         };
 
         fetchData();
-    }, [planId, navigate, fallbackNavigationPath, getPlan]);
+    }, [planId, router, fallbackNavigationPath, getPlan]);
 
     if (loading) {
         return (
@@ -69,7 +72,7 @@ function PlanDisplay<T extends Plan = Plan>({
                 <h1 className="text-2xl font-bold mb-2">Could Not Load Plan</h1>
                 <p>There was an error loading your plan details. Please try again from your dashboard.</p>
                 <Button asChild className="mt-4">
-                    <Link to={fallbackNavigationPath}>Go to Dashboard</Link>
+                    <Link href={fallbackNavigationPath}>Go to Dashboard</Link>
                 </Button>
             </div>
         );

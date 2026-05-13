@@ -1,5 +1,5 @@
 // src/pages/VerificationFailedPage.tsx
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { XCircleIcon } from 'lucide-react'; // Using XCircleIcon for failure
@@ -20,7 +20,7 @@ const VerificationFailedPage = () => {
         </CardHeader>
         <CardContent className="text-center">
           <Button asChild>
-            <Link to="/login">Go to Login</Link>
+            <Link href="/login">Go to Login</Link>
           </Button>
         </CardContent>
       </Card>

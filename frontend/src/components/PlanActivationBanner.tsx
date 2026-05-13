@@ -1,14 +1,15 @@
 // src/components/PlanActivationBanner.tsx
+"use client";
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardTitle } from '@/components/ui/card';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import type { PlanActivationBannerProps } from '../types/PlanActivationBannerProps';
 
 const PlanActivationBanner = ({ planId }: PlanActivationBannerProps) => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleActivate = () => {
-    navigate(`/dashboard/upfront-plans/${planId}/overview`);
+    router.push(`/dashboard/upfront-plans/${planId}/overview`);
   };
 
   return (

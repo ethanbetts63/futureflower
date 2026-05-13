@@ -1,5 +1,6 @@
+"use client";
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { getAdminCommissions } from '@/api/admin';
 import type { AdminCommission } from '@/types/AdminCommission';
 import { Loader2 } from 'lucide-react';
@@ -63,7 +64,7 @@ const CommissionRow = ({ commission }: { commission: AdminCommission }) => (
       </p>
     </div>
     <Link
-      to={`/dashboard/admin/payouts/${commission.id}`}
+      href={`/dashboard/admin/payouts/${commission.id}`}
       className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-center text-black/70 flex-shrink-0"
     >
       View

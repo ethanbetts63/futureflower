@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate, useParams, Navigate, Link } from 'react-router-dom';
+"use client";
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -19,8 +22,9 @@ import { acceptTerms } from '@/api';
 import type { PartnerRegistrationData } from '@/types';
 
 const PartnerRegistrationPage = () => {
-  const { partnerType } = useParams<{ partnerType: string }>();
-  const navigate = useNavigate();
+  const params = useParams();
+  const partnerType = params.partnerType as string | undefined;
+  const router = useRouter();
   const { handleLoginSuccess } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [customerTermsAccepted, setCustomerTermsAccepted] = useState(false);
@@ -34,9 +38,11 @@ const PartnerRegistrationPage = () => {
   const isDelivery = partnerType === 'delivery';
 
   // Redirect if invalid partner type
-  if (partnerType !== 'referral' && partnerType !== 'delivery') {
-    return <Navigate to="/partner/register" replace />;
-  }
+  useEffect(() => {
+    if (partnerType !== 'referral' && partnerType !== 'delivery') {
+      router.replace('/partner/register');
+    }
+  }, [partnerType, router]);
 
   const [form, setForm] = useState({
     email: '',
@@ -101,7 +107,7 @@ const PartnerRegistrationPage = () => {
         acceptTerms('customer'),
         acceptTerms(isDelivery ? 'florist' : 'affiliate'),
       ]);
-      navigate('/dashboard/partner');
+      router.push('/dashboard/partner');
     } catch (error: any) {
       const errorData = error.data || {};
       const description = Object.entries(errorData)
@@ -243,7 +249,7 @@ const PartnerRegistrationPage = () => {
                     />
                     <span className="text-sm text-black/70 leading-relaxed">
                       I have read and agree to the{' '}
-                      <Link to="/terms-and-conditions/customer" target="_blank" className="underline text-black hover:text-black/70">
+                      <Link href="/terms-and-conditions/customer" target="_blank" className="underline text-black hover:text-black/70">
                         Customer Terms & Conditions
                       </Link>
                       .
@@ -257,7 +263,7 @@ const PartnerRegistrationPage = () => {
                     />
                     <span className="text-sm text-black/70 leading-relaxed">
                       I have read and agree to the{' '}
-                      <Link to={`/terms-and-conditions/${isDelivery ? 'florist' : 'affiliate'}`} target="_blank" className="underline text-black hover:text-black/70">
+                      <Link href={`/terms-and-conditions/${isDelivery ? 'florist' : 'affiliate'}`} target="_blank" className="underline text-black hover:text-black/70">
                         {isDelivery ? 'Florist' : 'Affiliate'} Terms & Conditions
                       </Link>
                       .
