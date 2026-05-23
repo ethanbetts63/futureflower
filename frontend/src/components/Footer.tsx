@@ -16,7 +16,7 @@ const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto py-10 px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
 
           {/* Site Links */}
           <div className="flex flex-col gap-2">
@@ -36,6 +36,18 @@ const Footer = () => {
             <Link href="/valentines-day-flower-delivery" className="text-sm hover:underline">Valentine's Day Flowers</Link>
             <Link href="/mothers-day-flower-delivery" className="text-sm hover:underline">Mother's Day Flowers</Link>
             <Link href="/flower-delivery-perth" className="text-sm hover:underline">Flower Delivery Perth</Link>
+          </div>
+
+          {/* Articles */}
+          <div className="flex flex-col gap-2">
+            <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Guides &amp; Articles</p>
+            <Link href="/articles" className="text-sm hover:underline">All Articles</Link>
+            <Link href="/articles/best-flower-subscription-services-au" className="text-sm hover:underline">Best Subscriptions Australia</Link>
+            <Link href="/articles/best-flower-subscription-services-us" className="text-sm hover:underline">Best Subscriptions USA</Link>
+            <Link href="/articles/best-flower-subscription-services-uk" className="text-sm hover:underline">Best Subscriptions UK</Link>
+            <Link href="/articles/best-flower-delivery-perth" className="text-sm hover:underline">Best Flower Delivery Perth</Link>
+            <Link href="/articles/best-flower-delivery-sydney" className="text-sm hover:underline">Best Flower Delivery Sydney</Link>
+            <Link href="/articles/best-flower-delivery-melbourne" className="text-sm hover:underline">Best Flower Delivery Melbourne</Link>
           </div>
 
           {/* Legal Links */}

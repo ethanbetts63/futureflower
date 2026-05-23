@@ -33,7 +33,6 @@ import { HeroV4 } from '../components/home_page/HeroV4';
 import { DeliverySection } from '../components/home_page/DeliverySection';
 import { RomanceSection } from '../components/home_page/RomanceSection';
 import type { FaqItem } from '@/types/FaqItem';
-import { ArticleCarousel } from '../components/home_page/ArticleCarousel';
 import AnnouncementBar from '../components/home_page/AnnouncementBar';
 import OfferingSection from '../components/home_page/OfferingSection';
 import ComparisonSection from '../components/home_page/ComparisonSectionHome';
@@ -170,8 +169,6 @@ const HomePage = () => {
         </section>
       </div>
 
-      <ArticleCarousel />
-      
     </main>
   );
 };
