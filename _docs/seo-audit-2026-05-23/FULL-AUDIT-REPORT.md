@@ -25,8 +25,7 @@ Top priorities:
 1. Rewrite the strongest ranking articles around answer-first, comparison-first intent so page-one impressions convert to clicks.
 2. Expand and localize the weak city/service pages, especially Sydney, Australia, New Zealand, UK, and Perth.
 3. Add visible author/reviewer/date/proof signals and outbound citations to all "best" articles.
-4. Add WebSite, WebPage, BreadcrumbList, and stronger article schema.
-5. Fix image SEO quality issues and missing dimensions on important templates.
+4. Fix image SEO quality issues and missing dimensions on important templates.
 
 ## Evidence Used
 
@@ -93,7 +92,7 @@ Australia and New Zealand have high impressions but poor positions, so they need
 
 ## Technical SEO
 
-Status: Good foundation, moderate hardening needed.
+Status: Good foundation.
 
 Strengths:
 
@@ -107,15 +106,11 @@ Strengths:
 
 Issues:
 
-- Security headers are light. Only HSTS was detected by the technical helper. Missing baseline headers include content-security-policy, x-frame-options, x-content-type-options, and referrer-policy.
-- Sitemap includes deprecated `changefreq` and `priority` fields on all 20 URLs.
 - `/terms-and-conditions` appeared in GSC page data even though the route is disallowed/noindexed in implementation. This may be historical, but it should be monitored.
 - `/order`, `/login`, and `/forgot-password` also appear in GSC page data. They are low-volume, but private utility URLs should not accumulate index signals.
 
 Recommendations:
 
-- Add baseline security headers in `frontend/next.config.ts`.
-- Remove `changefreq` and `priority` from `frontend/src/app/sitemap.ts`; add meaningful `lastModified` instead if available.
 - Keep private routes out of sitemap and keep noindex rules on app/account/checkout flows.
 - Consider adding a Search Console removal or temporary noindex validation for private utility URLs if they continue appearing.
 
@@ -207,29 +202,6 @@ Recommended title/meta tests:
 - Homepage:
   - Test: "FutureFlower | Scheduled Flower Delivery and Flower Subscriptions"
 
-## Schema And Structured Data
-
-Status: Good start, missing supporting graph.
-
-Detected:
-
-- Homepage: Organization and FAQPage.
-- EU article: Article and FAQPage.
-
-Issues from schema helper:
-
-- Homepage missing WebPage and WebSite schema.
-- Article pages missing WebPage, WebSite, and BreadcrumbList schema.
-- FAQPage is present. This is not harmful by itself, but Google no longer broadly awards FAQ rich results outside limited verticals, so it should not be treated as a major rich-result strategy.
-
-Recommendations:
-
-- Add site-wide WebSite schema with SearchAction only if site search exists.
-- Add WebPage schema per public page.
-- Add BreadcrumbList schema to articles and landing pages.
-- Expand Article schema with visible author, dateModified, datePublished, image, publisher, and reviewedBy where appropriate.
-- For commercial landing pages, consider Service schema with areaServed where the page genuinely targets a region.
-
 ## AI Search And GEO
 
 Status: Moderate.
@@ -238,7 +210,7 @@ Strengths:
 
 - `llms.txt` is present and substantive.
 - AI crawlers checked by the GEO helper are allowed.
-- Structured data exists.
+- Structured data exists and has since been expanded with site-wide WebSite schema, page-level WebPage schema, BreadcrumbList schema, and strengthened Article schema.
 - Content is server-rendered enough for basic extraction.
 
 Weaknesses:
@@ -308,7 +280,7 @@ Recommendations:
   - Florist Partnership
 - Link every "best X" article to the most relevant commercial page.
 - Add contextual links between country pages, city pages, and article comparisons.
-- Add breadcrumbs visually and in schema.
+- Add visual breadcrumbs where they help navigation.
 
 ## Priority Issues
 
@@ -332,23 +304,13 @@ No critical indexation blocker was found.
 
 ### Medium
 
-4. Schema graph is incomplete.
-   - Fix: add WebSite, WebPage, BreadcrumbList, enhanced Article and Service schema.
-
-5. Security headers are incomplete.
-   - Fix: add CSP, X-Frame-Options or frame-ancestors, X-Content-Type-Options, Referrer-Policy.
-
-6. Image SEO needs cleanup.
+4. Image SEO needs cleanup.
    - Fix: improve weak alt text, dimensions, lazy loading, and oversized images.
-
-7. Sitemap uses deprecated optional tags and lacks lastmod.
-   - Fix: remove priority/changefreq; optionally add lastModified.
 
 ### Low
 
-8. Add IndexNow only if Bing/Yandex discovery speed matters.
-9. Expand llms.txt with links to the highest-value pages.
-10. Monitor private utility URLs in GSC and validate noindex/disallow behavior.
+6. Expand llms.txt with links to the highest-value pages.
+7. Monitor private utility URLs in GSC and validate noindex/disallow behavior.
 
 ## 90-Day SEO Plan
 
@@ -357,8 +319,6 @@ No critical indexation blocker was found.
 - Rewrite EU, UK, AU, NZ subscription article titles, intros, answer blocks, and meta descriptions.
 - Add author/reviewer/date signals to article templates.
 - Add comparison tables and citations to the EU and Sydney pages first.
-- Add WebPage, WebSite, BreadcrumbList schema.
-- Remove sitemap priority/changefreq.
 
 ### Weeks 3-6
 
