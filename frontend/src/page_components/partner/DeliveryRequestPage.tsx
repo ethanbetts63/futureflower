@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -88,7 +88,7 @@ const DeliveryRequestPage = () => {
           <Card className="bg-white text-black border-none shadow-none md:shadow-xl md:shadow-black/5 rounded-none md:rounded-[2rem] overflow-hidden">
             <CardHeader className="px-4 md:px-8">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif]">Delivery Request</CardTitle>
+                <CardTitle className="text-3xl md:text-4xl font-bold font-playfair-display">Delivery Request</CardTitle>
                 <Badge variant="outline" className="text-sm capitalize">{request.status}</Badge>
               </div>
               <CardDescription>Review the delivery details below.</CardDescription>

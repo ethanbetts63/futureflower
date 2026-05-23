@@ -158,7 +158,7 @@ const CheckoutPage = () => {
                                 </div>
                                 <div>
                                     <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Selection</span>
-                                    <h4 className="text-lg font-bold text-black font-['Playfair_Display',_serif]">
+                                    <h4 className="text-lg font-bold text-black font-playfair-display">
                                         {tier ? tier.name : 'Custom Selection'}
                                     </h4>
                                 </div>

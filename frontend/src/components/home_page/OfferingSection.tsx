@@ -56,7 +56,7 @@ const OfferingSection = () => {
               {/* Subscription Card */}
               <div className="bg-white rounded-2xl p-8 md:p-10 shadow-sm">
                 <p className="text-xs font-semibold tracking-[0.2em] text-gray-500 uppercase">Annual Subscription</p>
-                <h2 className="mt-3 text-3xl md:text-4xl font-bold text-black font-['Playfair_Display',_serif]">
+                <h2 className="mt-3 text-3xl md:text-4xl font-bold text-black font-playfair-display">
                   THE PERSON WHO NEVERS FORGETS
                 </h2>
                 <p className="mt-4 text-base text-black/60 leading-relaxed">
@@ -111,7 +111,7 @@ const OfferingSection = () => {
               <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
-                    <h3 className="text-xl font-bold text-black font-['Playfair_Display',_serif]">The One-Off Delivery</h3>
+                    <h3 className="text-xl font-bold text-black font-playfair-display">The One-Off Delivery</h3>
                     <p className="mt-1 text-sm text-gray-500">No subscription required. Just a single, beautiful gesture for a specific date.</p>
                   </div>
                   <button

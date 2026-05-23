@@ -1,4 +1,4 @@
-﻿import { ArticleLayout } from '../../components/ArticleLayout';
+import { ArticleLayout } from '../../components/ArticleLayout';
 import articleImage from '../../assets/delivery.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import Seo from '../../components/Seo';
@@ -94,7 +94,7 @@ const BestFlowerDeliveryAdelaide = () => {
             <li>Chill Flowers â€“ Highly rated florist known for contemporary arrangements and strong reviews.</li>
             <li>Alyssiums Florist â€“ Boutique Port Adelaide florist with excellent customer feedback.</li>
             <li>The Flower Nook â€“ Curated arrangements with local flair and thoughtful designs.</li>
-            <li>Floral Atelier Australia â€“ 5â˜… boutique studio with exceptional craftsmanship.</li>
+            <li>Floral Atelier Australia â€“ 5★ boutique studio with exceptional craftsmanship.</li>
             <li>BloomBar Flowers â€“ Highly reviewed florist with creative bouquets.</li>
             <li>Adelaide Flower House â€“ Fresh seasonal bouquets and elegant designs.</li>
             <li>Embellish Flowers and Plants and Flowers of Adelaide â€“ Additional local shops with great reputations.</li>

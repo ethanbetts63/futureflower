@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from 'react';
 import { deleteAccount } from '@/api';
@@ -39,7 +39,7 @@ const DeleteAccountSection = () => {
         <div className="bg-red-50/50 border border-red-100 rounded-3xl p-6 md:p-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div className="flex flex-col space-y-1">
-                    <p className="font-bold text-lg font-['Playfair_Display',_serif] text-red-900">Delete Your Account</p>
+                    <p className="font-bold text-lg font-playfair-display text-red-900">Delete Your Account</p>
                     <p className="text-sm text-red-700/70 leading-relaxed max-w-xl">Once you delete your account, there is no going back. All of your data, including personal details and flower plans, will be permanently removed.</p>
                 </div>
 
@@ -51,7 +51,7 @@ const DeleteAccountSection = () => {
                     </AlertDialogTrigger>
                     <AlertDialogContent className="bg-white text-black border-none rounded-3xl p-8">
                         <AlertDialogHeader>
-                            <AlertDialogTitle className="text-2xl font-bold font-['Playfair_Display',_serif]">Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogTitle className="text-2xl font-bold font-playfair-display">Are you absolutely sure?</AlertDialogTitle>
                             <AlertDialogDescription className="text-black/60 text-base py-4">
                                 This action cannot be undone. This will permanently delete your
                                 account and remove all your data from our servers.

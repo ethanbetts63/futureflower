@@ -16,7 +16,7 @@ const PricingFloristAdvantage = () => (
                     <p className="text-xs font-semibold tracking-[0.2em] text-gray-400 uppercase mb-3">
                         The Florist's Choice Advantage
                     </p>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black font-['Playfair_Display',_serif] leading-tight">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black font-playfair-display leading-tight">
                         Why we don't have a catalog.
                     </h2>
 

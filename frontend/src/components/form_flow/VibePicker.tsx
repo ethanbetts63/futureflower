@@ -1,4 +1,4 @@
-import { OCCASION_IMAGES, DEFAULT_FLOWER_IMAGE } from '@/utils/flowerTypeImages';
+﻿import { OCCASION_IMAGES, DEFAULT_FLOWER_IMAGE } from '@/utils/flowerTypeImages';
 import type { VibePickerProps } from '@/types/VibePickerProps';
 
 export const VibePicker = ({ vibes, selected, onSelect }: VibePickerProps) => {
@@ -6,7 +6,7 @@ export const VibePicker = ({ vibes, selected, onSelect }: VibePickerProps) => {
     <div>
       {/* Header */}
       <div className="mb-6">
-        <h3 className="text-2xl font-bold text-black font-['Playfair_Display',_serif]">
+        <h3 className="text-2xl font-bold text-black font-playfair-display">
           What's the Vibe?
         </h3>
         <p className="mt-1 text-sm text-gray-500">
@@ -52,7 +52,7 @@ export const VibePicker = ({ vibes, selected, onSelect }: VibePickerProps) => {
 
                 {/* Content */}
                 <div className="px-4 py-3">
-                  <span className="text-base font-bold text-gray-900 font-['Playfair_Display',_serif]">
+                  <span className="text-base font-bold text-gray-900 font-playfair-display">
                     {vibe.name}
                   </span>
                   {vibe.tagline && (

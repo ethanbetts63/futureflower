@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -151,7 +151,7 @@ const UpfrontSummary = ({
           >
             <div className="flex items-center gap-3">
               <Calendar className="h-5 w-5 text-black/20 flex-shrink-0" />
-              <span className="font-bold font-['Playfair_Display',_serif] text-lg">
+              <span className="font-bold font-playfair-display text-lg">
                 {formatDate(plan.start_date)}
               </span>
             </div>

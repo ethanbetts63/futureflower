@@ -9,7 +9,7 @@ import type { View, DetailedProductInfoProps, ProductData } from '@/types';
 const DetailedProductInfo = ({ subtitle, paragraph, features, onGetStarted, buttonText = "Get Started" }: DetailedProductInfoProps) => {
   return (
     <div className="text-left">
-      <h3 className="text-xl font-bold font-['Playfair_Display',_serif] text-center mb-3">{subtitle}</h3>
+      <h3 className="text-xl font-bold font-playfair-display text-center mb-3">{subtitle}</h3>
       <p className="text-center text-gray-700 my-3 text-sm">{paragraph}</p>
       <ul className="my-4 space-y-4">
         {features.map((feature, index) => (
@@ -68,7 +68,7 @@ export const CtaCard = () => {
   return (
     <Card className="w-full bg-white shadow-md text-gray-900 rounded-none sm:rounded-xl border-0">
       <CardHeader className="px-4 pt-0 pb-0 text-center">
-        <h2 className="font-bold text-4xl text-black font-['Playfair_Display',_serif] mb-2">
+        <h2 className="font-bold text-4xl text-black font-playfair-display mb-2">
           Our Services
         </h2>
         <div className="flex justify-center bg-white p-1 rounded-md">

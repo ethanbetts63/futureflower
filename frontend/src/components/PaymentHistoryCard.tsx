@@ -1,4 +1,4 @@
-// src/components/PaymentHistoryCard.tsx
+﻿// src/components/PaymentHistoryCard.tsx
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { PaymentHistoryCardProps } from '../types/PaymentHistoryCardProps';
 import type { Payment } from '../types/Payment';
@@ -35,13 +35,13 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
       {nextPaymentDateStr && (
         <div className="mb-6 border-b border-black/5 pb-4">
           <h3 className="text-sm font-bold tracking-widest uppercase text-black/40 mb-1">Next Payment Due</h3>
-          <p className="font-bold font-['Playfair_Display',_serif] text-lg">{nextPaymentDateStr}</p>
+          <p className="font-bold font-playfair-display text-lg">{nextPaymentDateStr}</p>
         </div>
       )}
       {nextDeliveryDateStr && (
         <div className="mb-6 border-b border-black/5 pb-4">
           <h3 className="text-sm font-bold tracking-widest uppercase text-black/40 mb-1">Next Delivery Date</h3>
-          <p className="font-bold font-['Playfair_Display',_serif] text-lg">{nextDeliveryDateStr}</p>
+          <p className="font-bold font-playfair-display text-lg">{nextDeliveryDateStr}</p>
         </div>
       )}
       <div className="overflow-x-auto">
@@ -58,7 +58,7 @@ const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
               payments.map((payment: Payment) => (
                 <TableRow key={payment.id} className="border-b-black/5 last:border-0 hover:bg-black/[0.02] transition-colors">
                   <TableCell className="font-medium py-4">{new Date(payment.created_at).toLocaleDateString()}</TableCell>
-                  <TableCell className="text-right py-4 font-bold font-['Playfair_Display',_serif]">${parseFloat(payment.amount).toFixed(2)}</TableCell>
+                  <TableCell className="text-right py-4 font-bold font-playfair-display">${parseFloat(payment.amount).toFixed(2)}</TableCell>
                   <TableCell className="text-center py-4">
                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                         payment.status === 'succeeded'

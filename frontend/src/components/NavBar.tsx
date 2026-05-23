@@ -45,14 +45,14 @@ const NavBar = () => {
               className="h-10 w-auto brightness-0"
             />
             {/* Title visible on sm only — on md+ it moves to the centre column */}
-            <span className="hidden sm:block md:hidden font-['Playfair_Display',_serif] italic font-bold text-2xl text-black tracking-widest leading-none">
+            <span className="hidden sm:block md:hidden font-playfair-display italic font-bold text-2xl text-black tracking-widest leading-none">
               FUTUREFLOWER
             </span>
           </Link>
 
           {/* Centred title — md+ only */}
           <div className="hidden md:flex justify-center">
-            <Link href="/" onClick={close} className="font-['Playfair_Display',_serif] italic font-bold text-3xl text-black tracking-widest leading-none">
+            <Link href="/" onClick={close} className="font-playfair-display italic font-bold text-3xl text-black tracking-widest leading-none">
               FUTUREFLOWER
             </Link>
           </div>

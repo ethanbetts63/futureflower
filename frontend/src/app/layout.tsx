@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
 import Script from 'next/script';
 import { Analytics } from "@vercel/analytics/next";
+import { Playfair_Display } from 'next/font/google';
 import "../index.css";
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+  style: ['normal', 'italic'],
+});
 import Providers from './providers';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -36,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={playfair.variable}>
       <body>
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-NHG66P5X9L" strategy="afterInteractive" />
         <Script id="gtag-init" strategy="afterInteractive">{`

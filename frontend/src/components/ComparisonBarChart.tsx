@@ -1,4 +1,4 @@
-import creditCardIcon from '../assets/credit_card_symbol.svg';
+﻿import creditCardIcon from '../assets/credit_card_symbol.svg';
 import deliveryIcon from '../assets/delivery_symbol.svg';
 import flowerIcon from '../assets/flower_symbol.svg';
 import type { BarChartEntry } from '@/types/BarChartEntry';
@@ -10,7 +10,7 @@ export type { BarChartEntry, LegendItem };
 
 export const ComparisonBarChart = ({ heading, bars, legend }: ComparisonBarChartProps) => (
   <div className="mt-4 mb-8">
-    <h3 className="text-xl font-semibold text-black italic mb-6 font-['Playfair_Display',_serif]">
+    <h3 className="text-xl font-semibold text-black italic mb-6 font-playfair-display">
       {heading}
     </h3>
 

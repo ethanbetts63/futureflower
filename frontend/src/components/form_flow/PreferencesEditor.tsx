@@ -109,7 +109,7 @@ const PreferencesEditor = ({
                 <Seo title={`${title} | FutureFlower`} />
                 <Card className="bg-white text-black border-none shadow-none md:shadow-xl md:shadow-black/5 rounded-none md:rounded-[2rem] overflow-hidden">
                     <CardHeader className="px-4 md:px-8 pt-2">
-                        <CardTitle className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif]">{title}</CardTitle>
+                        <CardTitle className="text-3xl md:text-4xl font-bold font-playfair-display">{title}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-8 px-4 md:px-8">
                         <VibePicker

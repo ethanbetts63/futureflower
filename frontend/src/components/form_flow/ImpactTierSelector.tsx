@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
@@ -42,7 +42,7 @@ export const ImpactTierSelector = ({ value, onChange }: ImpactTierSelectorProps)
     <div>
       {/* Header */}
       <div className="mb-6">
-        <h3 className="text-2xl font-bold text-black font-['Playfair_Display',_serif]">
+        <h3 className="text-2xl font-bold text-black font-playfair-display">
           Choose Your Impact
         </h3>
         <p className="mt-1 text-sm text-gray-500">
@@ -95,7 +95,7 @@ export const ImpactTierSelector = ({ value, onChange }: ImpactTierSelectorProps)
               {/* Content */}
               <div className="p-5 flex-1">
                 <div className="flex items-baseline justify-between gap-x-4 mb-2">
-                  <h4 className="text-lg font-bold text-gray-900 font-['Playfair_Display',_serif]">
+                  <h4 className="text-lg font-bold text-gray-900 font-playfair-display">
                     {tier.name}
                   </h4>
                   <span className="text-lg font-bold text-black">${tier.price}</span>

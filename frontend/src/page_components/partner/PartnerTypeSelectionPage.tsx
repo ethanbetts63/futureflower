@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -16,7 +16,7 @@ const PartnerTypeSelectionPage = () => {
       <div className="min-h-screen w-full py-0 md:py-12 px-0 md:px-4" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto max-w-4xl px-4 md:px-0">
           <div className="text-center mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif] text-black">Become a Partner</h1>
+            <h1 className="text-3xl md:text-4xl font-bold font-playfair-display text-black">Become a Partner</h1>
             <p className="mt-2 text-black">
               Choose the partnership type that best suits you.
             </p>

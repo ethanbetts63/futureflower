@@ -1,4 +1,4 @@
-﻿import { ArticleLayout } from '../../components/ArticleLayout';
+import { ArticleLayout } from '../../components/ArticleLayout';
 import articleImage from '../../assets/delivery.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import Seo from '../../components/Seo';
@@ -61,7 +61,7 @@ const BestFlowerDeliveryPerth = () => {
         faqPage="best-flower-delivery-perth"
       >
         <div className="text-lg text-primary-foreground space-y-6">
-          <p>Perthâ€™s flower delivery market is a mix of strong local florists and a few reliable national services. Whether you need same-day delivery, great value, or premium-quality bouquets, there are clear standouts depending on what you care about most.</p>
+          <p>Perth’s flower delivery market is a mix of strong local florists and a few reliable national services. Whether you need same-day delivery, great value, or premium-quality bouquets, there are clear standouts depending on what you care about most.</p>
           <p>Below are the best flower delivery services in Perth, broken down by best overall, fastest delivery, and most affordable.</p>
 
           <h2 className="text-3xl font-bold tracking-tight">Best Overall Flower Delivery in Perth: Daily Blooms</h2>
@@ -70,7 +70,7 @@ const BestFlowerDeliveryPerth = () => {
           <p><strong>Delivery area:</strong> Perth metro</p>
           <p>Daily Blooms is the best all-round flower delivery option in Perth. Bouquets are modern, well-sized, and consistently well-presented, with a strong focus on seasonal flowers and clean design.</p>
           <p>What sets Daily Blooms apart is consistency. Flowers arrive fresh, thoughtfully arranged, and ready to display. The online ordering experience is smooth, delivery is reliable, and optional add-ons like candles or chocolates make it easy to tailor a gift.</p>
-          <p>Itâ€™s not the cheapest option, but for most people looking for a dependable, high-quality bouquet, Daily Blooms strikes the best balance.</p>
+          <p>It’s not the cheapest option, but for most people looking for a dependable, high-quality bouquet, Daily Blooms strikes the best balance.</p>
           <p><strong>Best for:</strong> Stylish, reliable flower delivery that works for almost any occasion.</p>
 
           <h2 className="text-3xl font-bold tracking-tight">Fastest Flower Delivery in Perth: Floraly</h2>
@@ -80,7 +80,7 @@ const BestFlowerDeliveryPerth = () => {
           <p>Floraly offers one of the latest same-day order cut-offs in Perth, making it the go-to option for last-minute flower deliveries. Orders placed by 3 pm on weekdays can still arrive the same day, which is later than most competitors.</p>
           <p>Floraly is also known for sustainability. Flowers are sourced directly from Australian growers, often delivered in bud form to last longer, and each purchase supports OzHarvest meals. Bouquets are simple but fresh and long-lasting.</p>
           <p>If timing matters more than presentation flair, Floraly is the safest bet.</p>
-          <p><strong>Best for:</strong> Same-day delivery when youâ€™re short on time.</p>
+          <p><strong>Best for:</strong> Same-day delivery when you’re short on time.</p>
 
           <h2 className="text-3xl font-bold tracking-tight">Most Affordable Flower Delivery in Perth: Easy Flowers</h2>
           <p><strong>Starting price:</strong> ~$40 per bouquet</p>
@@ -111,10 +111,10 @@ const BestFlowerDeliveryPerth = () => {
           <p>Those who plan flower deliveries for specific recurring occasions each year may also want to consider a <a href="/" className="underline hover:opacity-70">date-based flower subscription</a> as an alternative to reordering separately each time.</p>
 
           <h2 className="text-3xl font-bold tracking-tight">Thinking Beyond the Next Occasion</h2>
-          <p>Most flower gifts are tied to the next date on the calendar â€” the next birthday, the next anniversary, the next celebration.</p>
+          <p>Most flower gifts are tied to the next date on the calendar — the next birthday, the next anniversary, the next celebration.</p>
           <p>FutureFlower is built for people who occasionally think further ahead. It allows you to plan meaningful deliveries across future years rather than placing separate orders each time.</p>
           <p>That can appeal to people who like the idea of creating a tradition, setting something in motion once, and knowing it will continue without needing attention every time an occasion comes around.</p>
-          <p>Itâ€™s not necessarily for everyone. But for those who value long-term intention over short-term convenience, it offers a different way to approach gifting.</p>
+          <p>It’s not necessarily for everyone. But for those who value long-term intention over short-term convenience, it offers a different way to approach gifting.</p>
         </div>
       </ArticleLayout>
       <section>

@@ -1,4 +1,4 @@
-
+﻿
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import type { UnifiedSummaryCardProps } from '@/types/UnifiedSummaryCardProps';
 
@@ -12,7 +12,7 @@ const UnifiedSummaryCard = ({
   return (
     <Card className={`w-full bg-white shadow-none md:shadow-xl md:shadow-black/5 border-none text-black overflow-hidden rounded-none md:rounded-3xl ${className}`}>
       <CardHeader className="bg-white border-b border-black/5 px-4 md:px-8">
-        <CardTitle className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif]">
+        <CardTitle className="text-3xl md:text-4xl font-bold font-playfair-display">
           {title}
         </CardTitle>
         <CardDescription className="text-black/80 text-base">

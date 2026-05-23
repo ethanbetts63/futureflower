@@ -1,4 +1,4 @@
-import type { ProductCarouselStep } from '@/types/ProductCarouselStep';
+﻿import type { ProductCarouselStep } from '@/types/ProductCarouselStep';
 import type { ProductCarouselProps } from '@/types/ProductCarouselProps';
 
 export type { ProductCarouselStep };
@@ -9,7 +9,7 @@ export const ProductCarousel = ({ title, subtitle, steps }: ProductCarouselProps
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black font-['Playfair_Display',_serif] tracking-tight">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black font-playfair-display tracking-tight">
             {title}
           </h2>
           <p className="mt-3 text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
@@ -42,7 +42,7 @@ export const ProductCarousel = ({ title, subtitle, steps }: ProductCarouselProps
 
               {/* Text content */}
               <div className="pt-9 pb-7 px-6 text-center">
-                <h3 className="text-xl md:text-2xl font-bold text-gray-900 font-['Playfair_Display',_serif]">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 font-playfair-display">
                   {step.title}
                 </h3>
                 <p className="mt-3 text-sm md:text-base text-gray-600 leading-relaxed">

@@ -29,7 +29,7 @@ export const ServicesCarouselSection = () => {
     <section className="bg-primary py-6">
       <div className="container mx-auto px-4">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black font-['Playfair_Display',_serif] tracking-tight">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black font-playfair-display tracking-tight">
             Our Services
           </h2>
           <p className="mt-3 text-base md:text-lg text-gray-600 max-w-2xl mx-auto">

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -119,11 +119,11 @@ const UnifiedPlanTable = () => {
                       {plan.status === 'active' ? 'Active' : (plan.status.replace('_', ' ') || 'Pending')}
                     </span>
                   </TableCell>
-                  <TableCell className="text-black font-bold font-['Playfair_Display',_serif] py-5">
+                  <TableCell className="text-black font-bold font-playfair-display py-5">
                     {`${plan.recipient_first_name || ''} ${plan.recipient_last_name || ''}`.trim() || 'N/A'}
                   </TableCell>
                   <TableCell className="text-right py-5">
-                      <span className="font-bold font-['Playfair_Display',_serif] text-lg">${Number(price).toFixed(2)}</span>
+                      <span className="font-bold font-playfair-display text-lg">${Number(price).toFixed(2)}</span>
                       {isSubscription && <span className="text-[10px] block text-black/40 uppercase font-bold">per delivery</span>}
                   </TableCell>
                   <TableCell className="text-right text-black/60 text-sm capitalize py-5">

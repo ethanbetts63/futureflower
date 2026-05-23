@@ -14,7 +14,7 @@ const ProductSelectionPage = () => {
       <div className="min-h-screen w-full py-8" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-black font-['Playfair_Display',_serif]">Choose Your Plan</h1>
+            <h1 className="text-3xl font-bold text-black font-playfair-display">Choose Your Plan</h1>
             <p className="mt-2 text-black">
               Select the option that best fits your needs.
             </p>
@@ -30,7 +30,7 @@ const ProductSelectionPage = () => {
                 <div className="flex justify-center mb-4">
                   <Calendar className="h-12 w-12 text-[var(--colorgreen)]" />
                 </div>
-                <CardTitle className="text-xl font-['Playfair_Display',_serif]">One-time Bouquet</CardTitle>
+                <CardTitle className="text-xl font-playfair-display">One-time Bouquet</CardTitle>
                 <CardDescription className="text-gray-600">
                   Send flowers for a specific date. Perfect for an upcoming birthday or anniversary.
                 </CardDescription>
@@ -58,7 +58,7 @@ const ProductSelectionPage = () => {
                 <div className="flex justify-center mb-4">
                   <RefreshCw className="h-12 w-12 text-[var(--colorgreen)]" />
                 </div>
-                <CardTitle className="text-xl font-['Playfair_Display',_serif]">Recurring Subscription</CardTitle>
+                <CardTitle className="text-xl font-playfair-display">Recurring Subscription</CardTitle>
                 <CardDescription className="text-gray-600">
                   Fresh flowers delivered weekly or monthly. Flexible schedules, cancel anytime.
                 </CardDescription>

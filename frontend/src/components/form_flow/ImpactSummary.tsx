@@ -1,4 +1,4 @@
-
+﻿
 import Link from 'next/link';
 import { getImpactTier } from '@/utils/pricingConstants';
 import flowerIcon from '@/assets/flower_symbol.svg';
@@ -38,7 +38,7 @@ const ImpactSummary = ({ price, editUrl }: ImpactSummaryProps) => {
           )}
         </div>
         <div>
-          <h4 className="text-xl font-bold text-black font-['Playfair_Display',_serif]">
+          <h4 className="text-xl font-bold text-black font-playfair-display">
             {tier ? tier.name : 'Custom Selection'}
           </h4>
           <p className="mt-1 text-sm text-black/60 leading-relaxed max-w-sm">
@@ -47,7 +47,7 @@ const ImpactSummary = ({ price, editUrl }: ImpactSummaryProps) => {
               : 'A personalized bouquet tailored to your specific budget and preferences.'
             }
           </p>
-          <div className="text-2xl font-bold text-black font-['Playfair_Display',_serif] mt-2">
+          <div className="text-2xl font-bold text-black font-playfair-display mt-2">
             ${Number(price).toFixed(2)}
           </div>
         </div>

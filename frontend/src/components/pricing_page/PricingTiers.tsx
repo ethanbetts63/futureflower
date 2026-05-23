@@ -1,4 +1,4 @@
-
+﻿
 import { IMPACT_TIERS } from '@/utils/pricingConstants';
 import { assetSrc } from '@/lib/assets';
 
@@ -10,7 +10,7 @@ const PricingTiers = () => {
                     <p className="text-xs font-semibold tracking-[0.2em] text-gray-400 uppercase mb-3">
                         Price Guidelines
                     </p>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black font-['Playfair_Display',_serif]">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black font-playfair-display">
                         How much does it cost?
                     </h2>
                     <p className="mt-4 text-base md:text-lg text-black/60 max-w-2xl mx-auto">
@@ -49,7 +49,7 @@ const PricingTiers = () => {
                                 <p className="text-xs font-semibold tracking-[0.15em] uppercase mb-2 text-gray-400">
                                     {tier.name}
                                 </p>
-                                <p className="text-4xl font-bold font-['Playfair_Display',_serif] text-black">
+                                <p className="text-4xl font-bold font-playfair-display text-black">
                                     ${tier.price}
                                 </p>
                                 <p className="mt-4 text-sm leading-relaxed text-black/60">

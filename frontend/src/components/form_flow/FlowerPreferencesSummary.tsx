@@ -1,4 +1,4 @@
-
+﻿
 import { Sprout } from 'lucide-react';
 import { OCCASION_IMAGES, DEFAULT_FLOWER_IMAGE } from '@/utils/flowerTypeImages';
 import type { FlowerPreferencesSummaryProps } from '@/types/FlowerPreferencesSummaryProps';
@@ -24,7 +24,7 @@ const FlowerPreferencesSummary = ({ preferredTypes, flowerNotes, editUrl, locked
             />
           </div>
           <div>
-            <h4 className="text-xl font-bold text-black font-['Playfair_Display',_serif]">
+            <h4 className="text-xl font-bold text-black font-playfair-display">
               {preferredTypes[0].name}
             </h4>
             {preferredTypes[0].tagline && (

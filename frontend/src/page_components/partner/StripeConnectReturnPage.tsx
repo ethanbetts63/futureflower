@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -49,7 +49,7 @@ const StripeConnectReturnPage = () => {
                   <XCircle className="h-16 w-16 text-yellow-500" />
                 )}
               </div>
-              <CardTitle className="text-3xl md:text-4xl font-bold font-['Playfair_Display',_serif]">
+              <CardTitle className="text-3xl md:text-4xl font-bold font-playfair-display">
                 {isComplete ? 'Onboarding Complete!' : 'Onboarding Incomplete'}
               </CardTitle>
             </CardHeader>

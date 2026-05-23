@@ -16,7 +16,7 @@ const ComparisonSection = () => (
       {/* Left Column — Text */}
       <div className="flex items-center justify-center p-8 bg-[var(--color4)]">
         <div className="max-w-xl w-full">
-          <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-black font-['Playfair_Display',_serif] leading-tight">
+          <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-black font-playfair-display leading-tight">
             Stop taking a 45% haircut
           </h2>
           <p className="mt-2 text-lg text-black/60 leading-relaxed">
