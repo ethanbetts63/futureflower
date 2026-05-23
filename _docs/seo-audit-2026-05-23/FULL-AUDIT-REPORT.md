@@ -1,6 +1,7 @@
 # FutureFlower SEO Audit
 
 Audit date: 2026-05-23  
+Updated: 2026-05-23  
 Site: https://www.futureflower.app/  
 Scope: Organic SEO, content, indexability, sitemap, schema, image SEO, AI search readiness, and Search Console export analysis.  
 Excluded by request: Speed and Core Web Vitals investigation. Performance is treated as neutral.
@@ -20,12 +21,22 @@ The Search Console exports show a clear pattern:
 - Several long-tail subscription queries rank on page one but get no clicks, including position 3.7, 4.2, 5.7, and 7.5 queries.
 - The Sydney article has 810 impressions but average position 47.8. It is visible to Google but not competitive for the main city query cluster.
 
-Top priorities:
+Completed since the original audit:
 
-1. Rewrite the strongest ranking articles around answer-first, comparison-first intent so page-one impressions convert to clicks.
-2. Expand and localize the weak city/service pages, especially Sydney, Australia, New Zealand, UK, and Perth.
-3. Add visible author/reviewer/date/proof signals and outbound citations to all "best" articles.
-4. Fix image SEO quality issues and missing dimensions on important templates.
+- Added site-wide `WebSite` schema, page-level `WebPage` schema, `BreadcrumbList` schema, and stronger `Article` schema.
+- Added technical security headers and cleaned sitemap metadata by removing `priority` and `changeFrequency`.
+- Added reliable `lastModified` values to sitemap entries.
+- Removed `FutureFlower` from public indexed article titles and shortened overlong titles/meta descriptions.
+- Rewrote the indexed AU, EU, NZ, and Sydney articles with researched prose and outbound citations.
+- Updated the shared article template and `/articles` page styling to match the AllBikes guide pattern.
+- Reworked FAQs to use a wider AllBikes-style presentation.
+
+Remaining top priorities:
+
+1. Expand and localize commercial pages, especially Sydney, Australia, New Zealand, UK, and Perth.
+2. Add visible author/date/methodology signals to article templates.
+3. Fix image SEO quality issues and missing dimensions on important templates.
+4. Strengthen internal linking once the new commercial pages exist.
 
 ## Evidence Used
 
@@ -88,11 +99,11 @@ Top country impressions:
 - Brazil: 311 impressions, position 7.8, 0 clicks.
 - United Kingdom: 211 impressions, position 22.5, 0 clicks.
 
-Australia and New Zealand have high impressions but poor positions, so they need stronger localized landing pages and article updates. The US is already closer to page one and should be improved for CTR and conversion.
+Australia and New Zealand have high impressions but poor positions, so they need stronger localized landing pages and continued article updates. The US is already closer to page one and should be improved for CTR and conversion.
 
 ## Technical SEO
 
-Status: Good foundation.
+Status: Good foundation. Core structured data and sitemap cleanup have now been implemented.
 
 Strengths:
 
@@ -109,14 +120,14 @@ Issues:
 - `/terms-and-conditions` appeared in GSC page data even though the route is disallowed/noindexed in implementation. This may be historical, but it should be monitored.
 - `/order`, `/login`, and `/forgot-password` also appear in GSC page data. They are low-volume, but private utility URLs should not accumulate index signals.
 
-Recommendations:
+Remaining recommendations:
 
 - Keep private routes out of sitemap and keep noindex rules on app/account/checkout flows.
 - Consider adding a Search Console removal or temporary noindex validation for private utility URLs if they continue appearing.
 
 ## Sitemap And Robots
 
-Status: Strong.
+Status: Strong. Sitemap cleanup has now been implemented.
 
 The sitemap is focused and clean:
 
@@ -125,6 +136,8 @@ The sitemap is focused and clean:
 - All checked URLs returned 200.
 - No noindex URLs in sitemap.
 - No canonical mismatches found.
+- `priority` and `changeFrequency` have been removed.
+- `lastModified` values have been added where reliable dates were available.
 
 The current sitemap is intentionally small, which is fine for the current site. The issue is coverage, not format: there are only a few service/location pages despite GSC showing demand across multiple countries and cities.
 
@@ -143,38 +156,38 @@ Recommended sitemap expansion:
 
 ## Content Quality
 
-Status: Weak to moderate.
+Status: Improved for the indexed AU, EU, NZ, and Sydney articles, with remaining work on non-indexed articles, template-level trust signals, and commercial landing pages.
 
 The content helpers scored:
 
 - EU subscription article: 39/100, 1,121 words.
 - Sydney delivery article: 35/100, 1,133 words.
 
-Shared issues:
+Original shared issues:
 
 - Below the recommended depth for competitive blog posts.
-- No external citations detected in visible HTML.
+- No external citations detected in visible HTML. Addressed for the indexed AU, EU, NZ, and Sydney article rewrites.
 - Limited first-hand proof.
 - Weak author/reviewer/date signals.
 - No comparison tables.
-- Several long sentences reduce scannability.
+- Several long sentences reduce scannability. Partially addressed by rewriting the indexed articles in a more editorial, less bullet-heavy style.
 
 Content strategy issue:
 
-The articles often rank for commercial comparison intent, but the page structure is not yet strong enough for "best X" searches. A user searching "best flower delivery Sydney" expects a dense comparison, pricing, delivery cutoffs, service areas, pros/cons, and update methodology. The current article has some of this, but not enough proof or comparison structure to compete.
+The indexed articles often rank for commercial comparison intent, and four indexed pages have now been rewritten. Remaining article work should continue the same pattern across non-indexed article pages: researched prose, source links, direct answers, comparison structure, and stronger methodology/trust signals.
 
-High-impact content upgrades:
+Remaining content upgrades:
 
-- Add a "Quick answer" block near the top of each article.
-- Add a comparison table with columns such as service, best for, starting price, delivery area, same-day cutoff, subscription available, cancellation, and why it was selected.
+- Extend the rewrite approach to the non-indexed article pages when they become priorities.
+- Add a "Quick answer" block near the top of key article pages.
+- Add comparison tables with columns such as service, best for, starting price, delivery area, same-day cutoff, subscription available, cancellation, and why each service was selected.
 - Add a visible "How we chose" methodology.
-- Add update date and reviewer/author.
-- Link out to cited service/pricing/delivery pages where claims are made.
+- Add visible update date and author/reviewer treatment.
 - Add "best for" snippets that match query variants: easy cancellation, lasts longest, bouquet size, stem count, delivery tracking, delivery when recipient is not home.
 
 ## On-Page SEO
 
-Status: Good metadata foundation, weak query alignment on some pages.
+Status: Improved metadata foundation, with remaining query alignment work on future commercial pages.
 
 Strengths:
 
@@ -183,28 +196,22 @@ Strengths:
 - Homepage H1 is clear: "Better Flowers. Local Florists."
 - Article pages generate metadata from the same route metadata system.
 
-Issues:
+Remaining issues:
 
-- Some page titles are broad and may not capture long-tail intent that is already earning impressions.
-- The highest-ranking queries are often question-like, but the article introductions do not always answer those questions immediately.
+- Some non-indexed article titles/meta descriptions may still be broad because the recent cleanup focused on indexed pages.
+- The highest-ranking queries are often question-like, so key articles should add explicit short answer sections.
 - There is a mismatch between article ranking demand and commercial landing-page availability. For example, the site has an article about Sydney delivery but not a primary `/flower-delivery-sydney` landing page.
 - The homepage title targets "Flower Delivery & Subscriptions", but the product's strongest differentiator is scheduled/recurring occasion gifting. That concept should be made more explicit in snippets and headings.
 
-Recommended title/meta tests:
+Completed title/meta cleanup:
 
-- EU article:
-  - Current angle: "The Best Flower Subscription Services in Europe (2026 Guide)"
-  - Test: "Best Flower Subscription Services in Europe: Prices, Delivery and Cancellation"
-- UK article:
-  - Test: "Best UK Flower Subscriptions: Seasonal Bouquets, Stem Counts and Easy Cancellation"
-- Sydney article:
-  - Test: "Best Flower Delivery Sydney: Same-Day, Affordable and Premium Options"
-- Homepage:
-  - Test: "FutureFlower | Scheduled Flower Delivery and Flower Subscriptions"
+- Removed `FutureFlower` suffixes from public indexed article titles.
+- Shortened long article titles.
+- Rewrote weak/long meta descriptions for the indexed AU, EU, NZ, and Sydney articles.
 
 ## AI Search And GEO
 
-Status: Moderate.
+Status: Moderate, improved by schema and citation work.
 
 Strengths:
 
@@ -212,17 +219,17 @@ Strengths:
 - AI crawlers checked by the GEO helper are allowed.
 - Structured data exists and has since been expanded with site-wide WebSite schema, page-level WebPage schema, BreadcrumbList schema, and strengthened Article schema.
 - Content is server-rendered enough for basic extraction.
+- Indexed AU, EU, NZ, and Sydney articles now include outbound source links.
 
-Weaknesses:
+Remaining weaknesses:
 
 - No strong 134-167 word self-contained answer block was detected on the EU article.
 - Author/date attribution is weak in visible content.
-- Articles lack external proof/citations.
 - Content has few concise, extractable fact blocks.
 
 Recommendations:
 
-- Add one "short answer" block near the top of each article.
+- Add one "short answer" block near the top of each priority article, starting with indexed pages.
 - Add "Key takeaways" and "Best for" bullets.
 - Add visible date/author/reviewer.
 - Add cited claims and outbound references.
@@ -292,11 +299,11 @@ No critical indexation blocker was found.
 
 1. High-impression page-one queries have near-zero CTR.
    - Evidence: EU article 1,555 impressions, 0.2% CTR, position 7.7; long-tail queries ranking position 3.7-8.4 with 0 clicks.
-   - Fix: rewrite titles/meta/intros and add direct answer blocks.
+   - Status: indexed AU, EU, NZ, and Sydney article rewrites are complete; direct short-answer blocks are still recommended.
 
-2. Competitive articles lack proof and depth.
-   - Evidence: EU and Sydney articles around 1,100 words, no external citations, weak author/reviewer signals.
-   - Fix: expand, cite, compare, and add visible methodology.
+2. Remaining article trust signals are weak.
+   - Evidence: article template still lacks visible author/date/methodology treatment.
+   - Fix: add visible article trust block and methodology; extend the rewrite/citation approach to non-indexed articles when prioritized.
 
 3. Missing localized commercial pages for demand already visible in GSC.
    - Evidence: Sydney, Australia, New Zealand, UK queries are appearing but mostly rank poorly.
@@ -316,9 +323,10 @@ No critical indexation blocker was found.
 
 ### Weeks 1-2
 
-- Rewrite EU, UK, AU, NZ subscription article titles, intros, answer blocks, and meta descriptions.
+- Completed: rewrote indexed AU, EU, NZ subscription articles and the indexed Sydney article.
+- Remaining: rewrite non-indexed UK/US/Perth/Melbourne/Adelaide/Darwin articles when they become priorities.
 - Add author/reviewer/date signals to article templates.
-- Add comparison tables and citations to the EU and Sydney pages first.
+- Add short-answer blocks and comparison tables to the highest-impression indexed articles.
 
 ### Weeks 3-6
 
