@@ -1,19 +1,24 @@
 "use client";
 
 import Link from 'next/link';
-import { ArticleCarousel } from '../components/home_page/ArticleCarousel';
 import Seo from '../components/Seo';
-import deliveryImage from '../assets/delivery.webp';
+import { Hero } from '../components/Hero';
+import deliveryImage320 from '../assets/delivery-320w.webp';
+import deliveryImage640 from '../assets/delivery-640w.webp';
+import deliveryImage768 from '../assets/delivery-768w.webp';
+import deliveryImage1024 from '../assets/delivery-1024w.webp';
+import deliveryImage1280 from '../assets/delivery-1280w.webp';
+import { articles } from '@/lib/staticPages';
 import { assetSrc } from '@/lib/assets';
 
 const BlogExplorePage = () => {
-  const prominentArticle = {
-    title: 'The Best Flower Subscription Services in the United States (2026 Guide)',
-    imageSrc: assetSrc(deliveryImage),
-    link: '/articles/best-flower-subscription-services-us',
-    alt: 'A guide to the best flower subscription services in the US',
-    description: 'An in-depth guide to the best flower subscription services in the US, broken down by best overall, cheapest, and highest quality.'
-  };
+  const srcSet = [
+    `${assetSrc(deliveryImage320)} 320w`,
+    `${assetSrc(deliveryImage640)} 640w`,
+    `${assetSrc(deliveryImage768)} 768w`,
+    `${assetSrc(deliveryImage1024)} 1024w`,
+    `${assetSrc(deliveryImage1280)} 1280w`,
+  ].join(', ');
 
   return (
     <>
@@ -24,37 +29,40 @@ const BlogExplorePage = () => {
         ogType="website"
       />
       <div className="bg-primary text-primary-foreground">
-        {/* Hero Section */}
-        <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">FutureFlower Blog</h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto">
-            Insights, guides, and inspiration for long-term floral planning. We explore ideas to help you connect with your future self and remember what matters most.
-          </p>
-        </div>
+        <Hero
+          title="Guides & Articles"
+          subtitle="Practical guides on flower delivery, flower subscriptions, occasion planning, and choosing the right florist-led service."
+          imageSrc={deliveryImage1280}
+          srcSet={srcSet}
+          imageAlt="A florist delivering a bouquet of flowers."
+        />
 
-        {/* Prominent Article Section */}
-        <div className="container mx-auto px-4 pb-16">
-          <h2 className="text-3xl font-bold tracking-tight text-center mb-8">Featured Article</h2>
-          <div className="max-w-4xl mx-auto bg-card p-6 rounded-2xl shadow-lg">
-            <Link href={prominentArticle.link} className="group">
-              <div className="md:flex md:space-x-6">
-                <div className="md:w-1/2">
-                  <img src={prominentArticle.imageSrc} alt={prominentArticle.alt} className="w-full h-auto rounded-xl shadow-md transform transition-transform group-hover:scale-105" loading="lazy" />
-                </div>
-                <div className="md:w-1/2 mt-4 md:mt-0 flex flex-col justify-center">
-                  <h3 className="text-2xl font-bold group-hover:text-secondary transition-colors">{prominentArticle.title}</h3>
-                  <p className="text-base text-card-foreground mt-2">{prominentArticle.description}</p>
-                  <span className="text-white font-semibold mt-4 self-start group-hover:underline">
-                    Read More &rarr;
+        <div className="bg-[var(--color4)]">
+          <div className="container mx-auto px-4 lg:px-8 py-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {articles.map((article) => (
+                <Link
+                  key={article.slug}
+                  href={`/articles/${article.slug}`}
+                  className="group flex flex-col border border-black/10 rounded-lg p-6 hover:border-[var(--colorgreen)] hover:shadow-sm transition-all duration-200 bg-white"
+                >
+                  <p className="text-[var(--colorgreen)] text-[10px] font-bold uppercase tracking-[0.25em] mb-3">
+                    Guide
+                  </p>
+                  <h2 className="text-lg font-semibold text-black group-hover:text-[var(--colorgreen)] transition-colors duration-200 mb-3 leading-snug">
+                    {article.title}
+                  </h2>
+                  <p className="text-sm text-black/70 leading-relaxed mb-5 flex-1">
+                    {article.description}
+                  </p>
+                  <span className="text-sm font-medium text-[var(--colorgreen)]">
+                    Read guide -&gt;
                   </span>
-                </div>
-              </div>
-            </Link>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
-
-        {/* Article Carousel Section */}
-        <ArticleCarousel showAll={true} />
       </div>
     </>
   );
