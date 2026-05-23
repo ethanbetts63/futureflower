@@ -232,24 +232,24 @@ export const articles: ArticleContent[] = [
   },
   {
     slug: "best-flower-subscription-services-au",
-    title: "The Best Flower Subscription Services in Australia (2026 Guide)",
+    title: "Best Flower Subscription Services Australia (2026)",
     description:
-      "An in-depth guide to the best flower subscription services in Australia, broken down by best overall, cheapest, and highest quality.",
+      "Compare Australian flower subscriptions for fresh weekly, fortnightly, and monthly flowers, including flexible national options and local florist plans.",
     sections: [
       {
-        title: "What matters in Australia",
+        title: "What matters",
         body:
-          "Australian flower subscriptions need to account for city coverage, climate, delivery windows, florist availability, and regional differences in fresh flower supply.",
+          "Australian flower subscriptions need clear delivery coverage, practical pause controls, and enough florist flexibility to use the best seasonal stems.",
       },
       {
-        title: "Best overall",
+        title: "Best overall pick",
         body:
-          "The strongest services make recurring flowers easy to manage while still giving florists room to design arrangements around seasonality.",
+          "Floraly is the easiest default for most buyers, while East End Flower Market and Little Flowers suit more specific local and budget needs.",
       },
       {
-        title: "Best value",
+        title: "How to choose",
         body:
-          "The best value option is not just the cheapest headline price; it is the service that sends more of the budget into the arrangement.",
+          "Compare delivered value, not just the monthly price. Delivery fees, bouquet size, and cancellation controls change the real cost.",
       },
     ],
   },
@@ -278,47 +278,47 @@ export const articles: ArticleContent[] = [
   },
   {
     slug: "best-flower-subscription-services-eu",
-    title: "The Best Flower Subscription Services in Europe (2026 Guide)",
+    title: "Best Flower Subscription Services Europe (2026)",
     description:
-      "A guide to the best flower subscription services in Europe, covering overall experience, budget options, and high-quality bouquets.",
+      "Compare European flower subscription options by delivery coverage, bouquet quality, flexibility, gifting, and regional availability.",
     sections: [
       {
         title: "European coverage",
         body:
-          "Flower subscription quality across Europe depends heavily on local fulfilment, delivery partners, and the ability to adapt to country-specific logistics.",
+          "Flower subscription quality across Europe depends heavily on country coverage, local fulfilment, and whether the service explains delivery limits clearly.",
       },
       {
-        title: "Best overall",
+        title: "Best options",
         body:
-          "The best services keep ordering simple while preserving the strengths of local floristry.",
+          "FLOWERBX is strongest for premium subscriptions, Bloom & Wild works well for postal-style flowers, and Mademoiselle Flowers suits Belgium and Luxembourg.",
       },
       {
-        title: "Best premium experience",
+        title: "How to choose",
         body:
-          "Premium buyers should look for freshness, presentation, customer support, and clear delivery communication.",
+          "Start with the recipient's country and postcode, then compare frequency, gift duration, and controls for pausing or changing deliveries.",
       },
     ],
   },
   {
     slug: "best-flower-subscription-services-nz",
-    title: "The Best Flower Subscription Services in New Zealand (2026 Guide)",
+    title: "Best Flower Subscription Services NZ (2026)",
     description:
-      "An in-depth guide to the best flower subscription services in NZ, broken down by best overall, cheapest, and highest quality.",
+      "Compare New Zealand flower subscriptions by city coverage, frequency, price, bouquet style, and florist-led delivery options.",
     sections: [
       {
         title: "New Zealand delivery coverage",
         body:
-          "In New Zealand, reliable subscription flowers depend on local coverage and realistic delivery timing across cities and regions.",
+          "In New Zealand, the best flower subscriptions are often local, so coverage by city or delivery radius matters more than broad national claims.",
       },
       {
-        title: "Best overall",
+        title: "Best options",
         body:
-          "The best overall service offers simple scheduling, good florist coordination, and arrangements that feel fresh rather than generic.",
+          "Koha Iti is a clear Christchurch pick, Meadow Club is better for bespoke florist plans, and Wandering Florist suits local seasonal flowers.",
       },
       {
-        title: "Best value",
+        title: "How to choose",
         body:
-          "Compare what arrives at the door, not just the advertised plan price.",
+          "Compare frequency, delivery fees, pause controls, and whether the florist can work around preferred colours or disliked flowers.",
       },
     ],
   },
@@ -347,24 +347,24 @@ export const articles: ArticleContent[] = [
   },
   {
     slug: "best-flower-delivery-sydney",
-    title: "The Best Flower Delivery Services in Sydney (2026 Guide)",
+    title: "Best Flower Delivery Services Sydney (2026)",
     description:
-      "An in-depth guide to the best flower delivery services in Sydney, organized by best overall, fastest delivery, and most affordable.",
+      "Compare Sydney flower delivery services by same-day cutoffs, bouquet style, delivery coverage, pricing, and gifting experience.",
     sections: [
       {
-        title: "Best overall flower delivery in Sydney",
+        title: "Best overall pick",
         body:
-          "Sydney buyers should compare florist coverage, delivery speed, bouquet quality, and whether the service can handle specific occasion details.",
+          "Fig & Bloom is the strongest premium Sydney pick, especially when the bouquet needs to feel designed and gift-ready.",
       },
       {
-        title: "Fastest delivery",
+        title: "Same-day options",
         body:
-          "Fast delivery is only valuable when the bouquet still arrives fresh and suitable for the occasion.",
+          "Daily Blooms and Floraly are useful same-day options, but always check the current cutoff and postcode coverage before ordering.",
       },
       {
-        title: "Best affordable option",
+        title: "How to choose",
         body:
-          "Affordable flower delivery should keep fees visible and avoid shrinking the actual bouquet value.",
+          "Choose a studio florist for finished presentation, or a bud-first delivery model if freshness and vase life matter more.",
       },
     ],
   },

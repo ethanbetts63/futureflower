@@ -2,21 +2,21 @@
 
 import Link from 'next/link';
 import Seo from '../components/Seo';
-import kitchenImage320 from '../assets/kitchen-320w.webp';
-import kitchenImage640 from '../assets/kitchen-640w.webp';
-import kitchenImage768 from '../assets/kitchen-768w.webp';
-import kitchenImage1024 from '../assets/kitchen-1024w.webp';
-import kitchenImage1280 from '../assets/kitchen-1280w.webp';
+import deliveryImage320 from '../assets/delivery-320w.webp';
+import deliveryImage640 from '../assets/delivery-640w.webp';
+import deliveryImage768 from '../assets/delivery-768w.webp';
+import deliveryImage1024 from '../assets/delivery-1024w.webp';
+import deliveryImage1280 from '../assets/delivery-1280w.webp';
 import { articles } from '@/lib/staticPages';
 import { assetSrc } from '@/lib/assets';
 
 const BlogExplorePage = () => {
   const srcSet = [
-    `${assetSrc(kitchenImage320)} 320w`,
-    `${assetSrc(kitchenImage640)} 640w`,
-    `${assetSrc(kitchenImage768)} 768w`,
-    `${assetSrc(kitchenImage1024)} 1024w`,
-    `${assetSrc(kitchenImage1280)} 1280w`,
+    `${assetSrc(deliveryImage320)} 320w`,
+    `${assetSrc(deliveryImage640)} 640w`,
+    `${assetSrc(deliveryImage768)} 768w`,
+    `${assetSrc(deliveryImage1024)} 1024w`,
+    `${assetSrc(deliveryImage1280)} 1280w`,
   ].join(', ');
 
   return (
@@ -32,7 +32,7 @@ const BlogExplorePage = () => {
           <div className="md:hidden">
             <div className="w-full h-48 overflow-hidden">
               <img
-                src={assetSrc(kitchenImage1280)}
+                src={assetSrc(deliveryImage1280)}
                 srcSet={srcSet}
                 sizes="100vw"
                 alt=""
@@ -50,7 +50,7 @@ const BlogExplorePage = () => {
 
           <div className="hidden md:block relative w-full h-64 overflow-hidden">
             <img
-              src={assetSrc(kitchenImage1280)}
+              src={assetSrc(deliveryImage1280)}
               srcSet={srcSet}
               sizes="100vw"
               alt=""

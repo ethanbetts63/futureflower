@@ -1,20 +1,20 @@
 ﻿import { ArticleLayout } from '../../components/ArticleLayout';
-import articleImage from '../../assets/florist_packing2.webp';
+import articleImage from '../../assets/delivery.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import Seo from '../../components/Seo';
 import { assetSrc } from '@/lib/assets';
 
 const BestFlowerSubscriptionServicesNZ = () => {
   const articleDetails = {
-    title: "The Best Flower Subscription Services in New Zealand (2026 Guide) | FutureFlower",
-    description: "A guide to the best flower subscription services in New Zealand, covering overall experience, budget options, and high-quality bouquets.",
+    title: "Best Flower Subscription Services NZ (2026)",
+    description: "Compare New Zealand flower subscriptions by city coverage, frequency, price, bouquet style, and florist-led delivery options.",
     url: "https://www.futureflower.app/articles/best-flower-subscription-services-nz",
     ogImage: "/static/og-images/og-flower-subscription-nz.webp",
     authorName: "The FutureFlower Team",
     publisherName: "FutureFlower",
     publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
-    dateModified: "2026-02-25T00:00:00Z",
+    dateModified: "2026-05-23T00:00:00Z",
   };
 
   const structuredData = {
@@ -54,64 +54,38 @@ const BestFlowerSubscriptionServicesNZ = () => {
         structuredData={structuredData}
       />
       <ArticleLayout
-        title="The Best Flower Subscription Services in New Zealand (2026 Guide)"
-        subtitle={<><span className="font-bold italic underline">Article Summary:</span> An in-depth guide to the best flower subscription services in NZ, broken down by best overall, cheapest, and highest quality.</>}
+        title="Best Flower Subscription Services in New Zealand (2026)"
+        subtitle={<><span className="font-bold italic underline">Article Summary:</span> A New Zealand-focused comparison of recurring flower delivery options, from city subscriptions to local florist plans.</>}
         imageSrc={assetSrc(articleImage)}
         imageAlt="A variety of flower bouquets from different New Zealand subscription services."
         faqPage="best-flower-subscription-services-nz"
       >
         <div className="text-lg text-primary-foreground space-y-6">
-          <p>Regular flower delivery subscriptions make it easy to enjoy fresh blooms without having to reorder every time. While the NZ market isnâ€™t as large as some others, there are still solid options ranging from local florists to international services that deliver reliably across major cities.</p>
-          <p>Below are the three best flower subscription services available in New Zealand, broken down by best overall, cheapest, and highest quality.</p>
+          <p>New Zealand flower subscriptions are more local than national. You can find strong recurring flower options, but many of the best ones are tied to a city or region rather than a single nationwide platform. That is not a bad thing. With fresh flowers, a local florist who knows their delivery area can often give you better seasonal value than a broader service trying to cover every postcode.</p>
+          <p>The practical way to choose is to start with the recipient's location, then compare frequency, bouquet size, pause options, and delivery fees. A weekly subscription in Christchurch and a monthly florist plan in Whakatane are both flower subscriptions, but they serve different use cases.</p>
 
-          <h2 className="text-3xl font-bold tracking-tight">Best Overall Flower Subscription: 1-800-Flowers</h2>
-          <p><strong>Starting price:</strong> ~US $30â€“35 per delivery (â‰ˆNZ $50â€“55)</p>
-          <p><strong>Delivery frequency:</strong> Typically regular scheduling via subscription</p>
-          <p><strong>Shipping:</strong> Available nationwide to major NZ cities</p>
-          <p>1-800-Flowers is an international florist network that delivers across New Zealand and often appears as the most flexible choice for subscriptions and recurring deliveries. As a large platform with multiple local partners, it offers a wide selection of bouquet styles, optional add-ons (like plants, chocolates, balloons), and user-friendly scheduling. Same-day delivery is often available in urban centres (Auckland, Wellington, Christchurch) when ordered before the cut-off time.</p>
-          <p>The strength of 1-800-Flowers for NZ subscriptions is its breadth of choices and ease of use â€” you arenâ€™t limited to just one bouquet style or a single local florist.</p>
-          <p><strong>Best for:</strong> People who want variety, add-ons, and a subscription service backed by a big network.</p>
+          <h2 className="text-3xl font-bold tracking-tight">Best Christchurch Pick: Koha Iti</h2>
+          <p><a href="https://kohaiti.nz/product-category/flower-subscriptions" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70">Koha Iti</a> is one of the clearest subscription offers in New Zealand. It offers weekly, fortnightly, and monthly flower subscriptions from $45, with automatic billing and the option to cancel. The positioning is refreshingly simple: choose a bunch, choose a frequency, and receive fresh Christchurch flowers on repeat.</p>
+          <p>This is the kind of page buyers should look for when comparing flower subscriptions. It explains the cadence, the entry price, the local delivery focus, and the florist's approach to fresh bunches without hiding the basics. It is especially suitable for everyday home flowers rather than formal occasion bouquets.</p>
+          <p><strong>Best for:</strong> Christchurch customers who want a straightforward, affordable recurring flower plan.</p>
 
-          <h2 className="text-3xl font-bold tracking-tight">Cheapest Flower Subscription: Greenpoint Flowers</h2>
-          <p><strong>Starting price:</strong> ~NZ $50 per monthly delivery</p>
-          <p><strong>Delivery frequency:</strong> Monthly</p>
-          <p><strong>Shipping:</strong> Covers major cities (typically included)</p>
-          <p>Greenpoint Flowers is a local Wellington florist offering a straightforward monthly flower subscription. For the price, you receive a fresh, seasonal bouquet arranged by the florist each month and delivered to your door. While less flashy than some premium options, this is among the most affordable ways to get real flower deliveries on a schedule in New Zealand.</p>
-          <p>Because itâ€™s locally sourced and arranged each time, you often get good seasonal variety even at the budget end.</p>
-          <p><strong>Best for:</strong> Value-focused subscribers who want floral deliveries regularly without a high price.</p>
+          <h2 className="text-3xl font-bold tracking-tight">Best Flexible Florist Plan: Meadow Club</h2>
+          <p><a href="https://meadowclub.co.nz/pages/floral-subscriptions" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70">Meadow Club</a> is a stronger fit if you want something more bespoke. Its subscription page explains weekly, fortnightly, and four-weekly delivery options, with no minimum contract and the ability to pause or cancel. It also invites customers to specify colours, favourite flowers, flowers they dislike, or a custom budget.</p>
+          <p>That extra control is useful for home and workplace flowers because recurring deliveries can become repetitive if the florist has no brief. Meadow Club's approach suits people who want fresh flowers regularly but still want the arrangement to feel curated and personal.</p>
+          <p><strong>Best for:</strong> homes, offices, and gift buyers who want a more tailored florist relationship.</p>
 
-          <h2 className="text-3xl font-bold tracking-tight">Highest Quality Flower Subscription: Teleflora (via Local Florists)</h2>
-          <p><strong>Price range:</strong> Varies (~NZ $60â€“$120+ per delivery depending on size and region)</p>
-          <p><strong>Delivery frequency:</strong> Monthly or as scheduled</p>
-          <p><strong>Shipping:</strong> Nationwide (through partner florists)</p>
-          <p>Teleflora isnâ€™t a single subscription brand but an international network that connects you with local NZ florists for bouquets delivered on a recurring schedule. Because each bouquet is hand-crafted by a professional florist before delivery, the quality and freshness are often noticeably higher than generic boxed subscriptions.</p>
-          <p>Teleflora arrangements tend to feature more premium flowers and design focus, and local florists can tailor bouquets to regional seasonality and preferences. While pricing isnâ€™t always as transparent as with big subscription brands, the quality and personal touch can be worth it.</p>
-          <p><strong>Best for:</strong> Subscribers who care most about florist-crafted arrangements and freshness.</p>
+          <h2 className="text-3xl font-bold tracking-tight">Best Small-Scale Seasonal Option: Wandering Florist</h2>
+          <p><a href="https://www.wanderingflorist.co.nz/shop/p/flower-subscription" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70">Wandering Florist</a> offers a more intimate subscription model built around weekly or fortnightly flowers for a month, with the option to organise longer ongoing monthly deliveries directly. This is not a faceless national subscription box. It reads more like a relationship with a local florist who is choosing seasonal, locally grown flowers for you.</p>
+          <p>That makes it a good fit for people who care about locality and seasonality more than nationwide convenience. It is also a useful reminder that in New Zealand, some of the best subscriptions may be found through smaller florists rather than large flower delivery marketplaces.</p>
+          <p><strong>Best for:</strong> buyers who want seasonal, locally selected flowers and are happy with a more personal ordering process.</p>
 
-          <h2 className="text-3xl font-bold tracking-tight">How Flower Subscriptions in New Zealand Work</h2>
-          <p>Most flower subscriptions available for NZ subscribers operate one of two ways:</p>
-          <ul className="list-disc list-inside space-y-2">
-            <li>International platforms with NZ delivery partners (e.g., 1-800-Flowers), where you select frequency and bouquet style online.</li>
-            <li>Local florists offering repeat delivery (e.g., Greenpoint Flowers or Teleflora partners), where arrangements are crafted locally and delivered by courier or florist service.</li>
-          </ul>
-          <p>Delivery availability and cut-off times vary by city and postcode, especially outside larger centres.</p>
-          <p>Another approach is an <a href="/" className="underline hover:opacity-70">occasion-based flower subscription</a>, where deliveries are planned around specific annual dates rather than a recurring weekly or monthly schedule.</p>
+          <h2 className="text-3xl font-bold tracking-tight">What To Watch In New Zealand</h2>
+          <p>Coverage is the main issue. Many New Zealand florists offer excellent recurring flowers, but only within their own city or delivery radius. That means a great Auckland subscription may be irrelevant for a Wellington recipient, and a Christchurch plan may not help someone in Tauranga.</p>
+          <p>The second issue is cadence. Weekly flowers are lovely, but they also create more delivery complexity and a higher annual cost. Monthly flowers are easier to gift and manage, while fortnightly plans usually give the best balance for homes and offices that want a regular refresh without waste.</p>
 
-          <h2 className="text-3xl font-bold tracking-tight">Final Thoughts</h2>
-          <p>While New Zealandâ€™s flower subscription market isnâ€™t huge, there are reliable ways to enjoy fresh blooms regularly:</p>
-          <ul className="list-disc list-inside space-y-2">
-            <li>1-800-Flowers offers the broadest selection and easiest online experience.</li>
-            <li>Greenpoint Flowers is one of the most affordable local options with simple monthly deliveries.</li>
-            <li>Teleflora via local florists gives you florist-style, high-quality bouquets on a schedule.</li>
-          </ul>
-          <p>Each approach has a slightly different strength â€” choice, price, or craft quality â€” so your best option depends on what you value most in regular flower deliveries.</p>
-
-          <h2 className="text-3xl font-bold tracking-tight">For People Who Like the Idea of a Longer Story</h2>
-          <p>Most flower deliveries are about a single moment.</p>
-          <p>But for some people, the meaning is in the repetition â€” showing up every year, without fail, without being prompted.</p>
-          <p>FutureFlower exists for people who like the idea of turning flowers into a longer-term gesture. You choose the occasions, write the messages if you want to, and future deliveries are planned ahead rather than ordered one at a time.</p>
-          <p>Itâ€™s not a better way to buy flowers. Itâ€™s just a different mindset â€” one focused less on convenience today and more on intention over time.</p>
-          <p>If that idea resonates, itâ€™s something worth exploring.</p>
+          <h2 className="text-3xl font-bold tracking-tight">Final Take</h2>
+          <p>Koha Iti is the cleanest budget-friendly subscription for Christchurch. Meadow Club is the best fit when you want a florist-led plan with more preference control. Wandering Florist is a good example of the local, seasonal subscription style that works well in New Zealand.</p>
+          <p>If you are trying to solve annual gifting rather than weekly home flowers, <a href="/" className="underline hover:opacity-70">FutureFlower</a> is a different option. It is built around planned occasion delivery, so important dates can be scheduled ahead without committing to flowers every week or month.</p>
         </div>
       </ArticleLayout>
       <section>

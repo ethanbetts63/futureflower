@@ -89,7 +89,7 @@ const publicRoutes: Record<string, RouteMetadata> = {
     title:
       "Best Flower Subscription Services Australia (2026)",
     description:
-      "An in-depth guide to the best flower subscription services in Australia, broken down by best overall, cheapest, and highest quality.",
+      "Compare Australian flower subscriptions for fresh weekly, fortnightly, and monthly flowers, including flexible national options and local florist plans.",
     path: "/articles/best-flower-subscription-services-au",
     ogType: "article",
   },
@@ -105,7 +105,7 @@ const publicRoutes: Record<string, RouteMetadata> = {
     title:
       "Best Flower Subscription Services Europe (2026)",
     description:
-      "A guide to the best flower subscription services in Europe, covering overall experience, budget options, and high-quality bouquets.",
+      "Compare European flower subscription options by delivery coverage, bouquet quality, flexibility, gifting, and regional availability.",
     path: "/articles/best-flower-subscription-services-eu",
     ogType: "article",
   },
@@ -113,7 +113,7 @@ const publicRoutes: Record<string, RouteMetadata> = {
     title:
       "Best Flower Subscription Services NZ (2026)",
     description:
-      "An in-depth guide to the best flower subscription services in NZ, broken down by best overall, cheapest, and highest quality.",
+      "Compare New Zealand flower subscriptions by city coverage, frequency, price, bouquet style, and florist-led delivery options.",
     path: "/articles/best-flower-subscription-services-nz",
     ogType: "article",
   },
@@ -127,7 +127,7 @@ const publicRoutes: Record<string, RouteMetadata> = {
   "/articles/best-flower-delivery-sydney": {
     title: "Best Flower Delivery Services Sydney (2026)",
     description:
-      "An in-depth guide to the best flower delivery services in Sydney, organized by best overall, fastest delivery, and most affordable.",
+      "Compare Sydney flower delivery services by same-day cutoffs, bouquet style, delivery coverage, pricing, and gifting experience.",
     path: "/articles/best-flower-delivery-sydney",
     ogType: "article",
   },
