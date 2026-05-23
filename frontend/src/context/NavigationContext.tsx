@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useState, useContext, type ReactNode } from 'react';
 
 import type { NavItem } from '../types/NavItem';

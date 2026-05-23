@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import { deleteAccount } from '@/api';
 import { Button } from "@/components/ui/button";

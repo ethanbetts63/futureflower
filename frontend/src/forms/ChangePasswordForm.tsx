@@ -1,5 +1,7 @@
 // frontend/src/forms/ChangePasswordForm.tsx
 
+"use client";
+
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { changePassword } from '@/api';
 import { Button } from '@/components/ui/button';

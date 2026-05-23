@@ -1,4 +1,6 @@
 
+"use client";
+
 import { useForm } from 'react-hook-form';
 import type { UserProfile } from '../types/UserProfile';
 import { updateUserProfile } from '@/api';
