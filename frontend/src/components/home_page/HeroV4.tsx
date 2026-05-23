@@ -1,3 +1,4 @@
+"use client";
 
 import type { HeroV2Props } from '../../types/HeroV2Props';
 import flowerIcon from '../../assets/flower_symbol.svg';

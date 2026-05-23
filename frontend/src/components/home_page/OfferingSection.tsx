@@ -1,3 +1,4 @@
+"use client";
 
 import placeholderImg from '../../assets/florist_packing.webp';
 import placeholderImg320 from '../../assets/florist_packing-320w.webp';
