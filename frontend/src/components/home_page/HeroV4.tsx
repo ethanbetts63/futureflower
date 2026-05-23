@@ -1,5 +1,4 @@
-"use client";
-
+import Link from 'next/link';
 import type { HeroV2Props } from '../../types/HeroV2Props';
 import flowerIcon from '../../assets/flower_symbol.svg';
 import subscriptionIcon from '../../assets/subscription_symbol.svg';
@@ -7,11 +6,10 @@ import deliveryIcon from '../../assets/delivery_symbol.svg';
 import Badge from '../Badge';
 import { assetSrc } from '@/lib/assets';
 
-export const HeroV4 = ({ title, subtext, image }: HeroV2Props) => {
-  const handleNav = (path: string) => {
-    window.location.href = `/create-account?next=${encodeURIComponent(path)}`;
-  };
+const SEND_HREF = '/create-account?next=%2Fevent-gate%2Fsingle-delivery';
+const SUBSCRIBE_HREF = '/create-account?next=%2Fevent-gate%2Fsubscription';
 
+export const HeroV4 = ({ title, subtext, image }: HeroV2Props) => {
   const content = (
     <div className="max-w-[480px] text-center">
 
@@ -36,9 +34,9 @@ export const HeroV4 = ({ title, subtext, image }: HeroV2Props) => {
 
       {/* CTAs */}
       <div className="mt-7 flex flex-col sm:flex-row gap-3 justify-center">
-        <button
-          onClick={() => handleNav('/event-gate/single-delivery')}
-          className="flex items-center gap-3.5 font-semibold px-5 py-4 rounded-2xl transition-all cursor-pointer shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.99]"
+        <Link
+          href={SEND_HREF}
+          className="flex items-center gap-3.5 font-semibold px-5 py-4 rounded-2xl transition-all shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.99]"
           style={{ background: 'var(--colorgreen)', color: 'black' }}
         >
           <span
@@ -51,11 +49,11 @@ export const HeroV4 = ({ title, subtext, image }: HeroV2Props) => {
             <span className="block text-[15px] font-bold leading-tight">Send Flowers</span>
             <span className="block text-xs font-normal opacity-70 leading-tight mt-0.5">One-time delivery</span>
           </div>
-        </button>
+        </Link>
 
-        <button
-          onClick={() => handleNav('/event-gate/subscription')}
-          className="flex items-center gap-3.5 font-semibold px-5 py-4 rounded-2xl transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.99]"
+        <Link
+          href={SUBSCRIBE_HREF}
+          className="flex items-center gap-3.5 font-semibold px-5 py-4 rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.99]"
           style={{
             background: 'hsla(353,100%,99%,0.88)',
             backdropFilter: 'blur(8px)',
@@ -74,7 +72,7 @@ export const HeroV4 = ({ title, subtext, image }: HeroV2Props) => {
             <span className="block text-[15px] font-bold leading-tight">Subscribe</span>
             <span className="block text-xs font-normal leading-tight mt-0.5 text-black">Recurring deliveries</span>
           </div>
-        </button>
+        </Link>
       </div>
 
     </div>

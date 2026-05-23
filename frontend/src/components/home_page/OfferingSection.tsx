@@ -1,5 +1,4 @@
-"use client";
-
+import Link from 'next/link';
 import placeholderImg from '../../assets/florist_packing.webp';
 import placeholderImg320 from '../../assets/florist_packing-320w.webp';
 import placeholderImg412 from '../../assets/florist_packing-412w.webp';
@@ -13,11 +12,10 @@ import deliveryIcon from '../../assets/delivery_symbol.svg';
 import Badge from '../Badge';
 import { assetSrc } from '@/lib/assets';
 
-const OfferingSection = () => {
-  const handleNav = (path: string) => {
-    window.location.href = `/create-account?next=${encodeURIComponent(path)}`;
-  };
+const SEND_HREF = '/create-account?next=%2Fevent-gate%2Fsingle-delivery';
+const SUBSCRIBE_HREF = '/create-account?next=%2Fevent-gate%2Fsubscription';
 
+const OfferingSection = () => {
   return (
     <section className="bg-white pb-8 md:pt-8">
       <div className="container mx-auto px-0 md:px-4 lg:px-8">
@@ -57,7 +55,7 @@ const OfferingSection = () => {
               <div className="bg-white rounded-2xl p-8 md:p-10 shadow-sm">
                 <p className="text-xs font-semibold tracking-[0.2em] text-gray-500 uppercase">Annual Subscription</p>
                 <h2 className="mt-3 text-3xl md:text-4xl font-bold text-black font-playfair-display">
-                  THE PERSON WHO NEVERS FORGETS
+                  THE PERSON WHO NEVER FORGETS
                 </h2>
                 <p className="mt-4 text-base text-black/60 leading-relaxed">
                   Don't leave your most important gestures to a last-minute reminder.
@@ -95,16 +93,16 @@ const OfferingSection = () => {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => handleNav('/event-gate/subscription')}
-                  className="mt-8 w-full flex items-center justify-between bg-black text-white font-semibold px-6 py-4 rounded-lg hover:bg-black/85 transition-colors cursor-pointer text-sm uppercase tracking-wider group"
+                <Link
+                  href={SUBSCRIBE_HREF}
+                  className="mt-8 w-full flex items-center justify-between bg-black text-white font-semibold px-6 py-4 rounded-lg hover:bg-black/85 transition-colors text-sm uppercase tracking-wider group"
                 >
                   <div className="flex items-center gap-2">
                     <img src={assetSrc(subscriptionIconWhite)} alt="" className="h-5 w-5" />
                     <span>Subscribe & Secure</span>
                   </div>
                   <svg className="h-4 w-4 text-white/40 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                </button>
+                </Link>
               </div>
 
               {/* One-Off Card */}
@@ -114,14 +112,14 @@ const OfferingSection = () => {
                     <h3 className="text-xl font-bold text-black font-playfair-display">The One-Off Delivery</h3>
                     <p className="mt-1 text-sm text-gray-500">No subscription required. Just a single, beautiful gesture for a specific date.</p>
                   </div>
-                  <button
-                    onClick={() => handleNav('/event-gate/single-delivery')}
-                    className="flex-shrink-0 flex items-center gap-2 bg-[var(--colorgreen)] text-black font-semibold px-5 py-3 rounded-lg hover:brightness-110 transition-all cursor-pointer text-sm group self-start md:self-auto"
+                  <Link
+                    href={SEND_HREF}
+                    className="flex-shrink-0 flex items-center gap-2 bg-[var(--colorgreen)] text-black font-semibold px-5 py-3 rounded-lg hover:brightness-110 transition-all text-sm group self-start md:self-auto"
                   >
                     <img src={assetSrc(flowerIcon)} alt="" className="h-5 w-5" />
                     <span>Send Flowers</span>
                     <svg className="h-4 w-4 text-black/40 group-hover:text-black transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                  </button>
+                  </Link>
                 </div>
               </div>
 
