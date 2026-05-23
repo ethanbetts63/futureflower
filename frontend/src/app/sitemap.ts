@@ -2,44 +2,32 @@ import type { MetadataRoute } from "next";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.futureflower.app";
 
-const routes = [
-  "/",
-  "/contact",
-  "/florists",
-  "/affiliates",
-  "/pricing",
-  "/articles",
-  "/articles/best-flower-subscription-services-us",
-  "/articles/best-flower-subscription-services-au",
-  "/articles/best-flower-subscription-services-uk",
-  "/articles/best-flower-subscription-services-eu",
-  "/articles/best-flower-subscription-services-nz",
-  "/articles/best-flower-delivery-perth",
-  "/articles/best-flower-delivery-sydney",
-  "/articles/best-flower-delivery-adelaide",
-  "/articles/best-flower-delivery-darwin",
-  "/articles/best-flower-delivery-melbourne",
-  "/birthday-flower-delivery",
-  "/valentines-day-flower-delivery",
-  "/mothers-day-flower-delivery",
-  "/flower-delivery-perth",
+const routes: Array<{ path: string; lastModified: string }> = [
+  { path: "/", lastModified: "2026-05-11" },
+  { path: "/contact", lastModified: "2026-05-13" },
+  { path: "/florists", lastModified: "2026-05-11" },
+  { path: "/affiliates", lastModified: "2026-05-11" },
+  { path: "/pricing", lastModified: "2026-05-11" },
+  { path: "/articles", lastModified: "2026-05-11" },
+  { path: "/articles/best-flower-subscription-services-us", lastModified: "2026-02-25" },
+  { path: "/articles/best-flower-subscription-services-au", lastModified: "2026-02-25" },
+  { path: "/articles/best-flower-subscription-services-uk", lastModified: "2026-02-25" },
+  { path: "/articles/best-flower-subscription-services-eu", lastModified: "2026-02-25" },
+  { path: "/articles/best-flower-subscription-services-nz", lastModified: "2026-02-25" },
+  { path: "/articles/best-flower-delivery-perth", lastModified: "2026-02-25" },
+  { path: "/articles/best-flower-delivery-sydney", lastModified: "2026-02-25" },
+  { path: "/articles/best-flower-delivery-adelaide", lastModified: "2026-02-25" },
+  { path: "/articles/best-flower-delivery-darwin", lastModified: "2026-02-25" },
+  { path: "/articles/best-flower-delivery-melbourne", lastModified: "2026-02-25" },
+  { path: "/birthday-flower-delivery", lastModified: "2026-05-11" },
+  { path: "/valentines-day-flower-delivery", lastModified: "2026-05-11" },
+  { path: "/mothers-day-flower-delivery", lastModified: "2026-05-11" },
+  { path: "/flower-delivery-perth", lastModified: "2026-05-11" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((route) => ({
-    url: `${siteUrl}${route}`,
-    changeFrequency: route === "/" || route === "/articles" ? "weekly" : "monthly",
-    priority:
-      route === "/"
-        ? 1
-        : [
-            "/articles",
-            "/birthday-flower-delivery",
-            "/valentines-day-flower-delivery",
-            "/mothers-day-flower-delivery",
-            "/flower-delivery-perth",
-          ].includes(route)
-          ? 0.8
-          : 0.7,
+    url: `${siteUrl}${route.path}`,
+    lastModified: route.lastModified,
   }));
 }

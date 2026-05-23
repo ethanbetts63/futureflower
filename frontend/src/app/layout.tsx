@@ -5,6 +5,7 @@ import "../index.css";
 import Providers from './providers';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import { buildWebsiteSchema } from '@/lib/seo';
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -50,6 +51,10 @@ export default function RootLayout({
           {children}
           <Footer />
         </Providers>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildWebsiteSchema()) }}
+        />
         <Analytics />
       </body>
     </html>
