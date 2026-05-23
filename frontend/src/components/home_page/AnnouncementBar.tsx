@@ -1,5 +1,4 @@
-const codeToEmoji = (code: string) =>
-  String.fromCodePoint(0x1F1E6 + code.charCodeAt(0) - 97, 0x1F1E6 + code.charCodeAt(1) - 97);
+import 'flag-icons/css/flag-icons.min.css';
 
 const countries = [
   { name: 'United Kingdom', code: 'gb' },
@@ -40,8 +39,8 @@ const countries = [
 ];
 
 const CountryPill = ({ name, code }: { name: string; code: string }) => (
-  <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-white text-xs font-medium text-black whitespace-nowrap flex-shrink-0">
-    <span aria-hidden="true">{codeToEmoji(code)}</span>
+  <span className="inline-flex items-center gap-1.5  rounded-full px-3 py-1  bg-white text-xs font-medium text-black whitespace-nowrap flex-shrink-0">
+    <span className={`fi fi-${code}`} style={{ fontSize: '0.9em' }} />
     {name}
   </span>
 );

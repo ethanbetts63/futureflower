@@ -1,6 +1,4 @@
 
-"use client";
-
 import Seo from '@/components/Seo';
 import { HeroV4 as HeroV2 } from '../components/home_page/HeroV4';
 import deliverToDoor from '../assets/deliver_to_door.png';

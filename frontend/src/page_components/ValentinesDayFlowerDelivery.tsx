@@ -1,5 +1,3 @@
-"use client";
-
 import Seo from '../components/Seo';
 import { ProductCarousel } from '../components/ProductCarousel';
 import type { ProductCarouselStep } from '../components/ProductCarousel';
