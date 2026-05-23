@@ -1,5 +1,7 @@
 // frontend/src/pages/ForgotPasswordPage.tsx
 
+"use client";
+
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
