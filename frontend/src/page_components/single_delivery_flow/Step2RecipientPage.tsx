@@ -10,8 +10,8 @@ const Step2RecipientPage = () => {
             <RecipientEditor
                 mode="create"
                 title="Who is receiving the flowers?"
-                saveButtonText="Next: Plan Preferences"
-                onSaveNavigateTo="/single-delivery-flow/plan/{planId}/preferences"
+                saveButtonText="Next: Delivery Details"
+                onSaveNavigateTo="/single-delivery-flow/plan/{planId}/structure"
                 onCancelNavigateTo="/order"
                 getPlan={getUpfrontPlanAsSingleDelivery}
                 updatePlan={updateUpfrontPlanAsSingleDelivery}

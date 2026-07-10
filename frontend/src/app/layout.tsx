@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from 'next/script';
 import { Analytics } from "@vercel/analytics/next";
 import { Playfair_Display } from 'next/font/google';
@@ -20,11 +20,11 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.futureflower.app",
   ),
   title: {
-    default: "FutureFlower | Flower Delivery & Subscriptions",
+    default: "FutureFlower | Australian Florist-Led Flower Delivery",
     template: "%s",
   },
   description:
-    "Free delivery from local florists. Pick a date, set a budget, and FutureFlower handles the rest.",
+    "Tell us the occasion, budget, and flower preferences. A local Australian florist designs a bouquet that fits.",
   icons: {
     icon: [
       { url: '/favicon-32x32.png',  sizes: '32x32',  type: 'image/png' },
@@ -36,6 +36,11 @@ export const metadata: Metadata = {
       { url: '/favicon-180x180.png', sizes: '180x180', type: 'image/png' },
     ],
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({

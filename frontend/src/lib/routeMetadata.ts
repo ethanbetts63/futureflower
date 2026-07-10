@@ -12,9 +12,9 @@ type RouteMetadata = {
 
 const publicRoutes: Record<string, RouteMetadata> = {
   "/": {
-    title: "Flower Delivery & Subscriptions",
+    title: "Australian Florist-Led Flower Delivery",
     description:
-      "Free delivery from local florists. Pick a date, set a budget, and we handle the rest - across Australia, the UK, the US, and more.",
+      "Tell us the occasion, budget, and flower preferences. A local Australian florist designs a bouquet that fits.",
     path: "/",
     ogImage: "/og-images/og-homepage.webp",
   },

@@ -37,17 +37,17 @@ const RecipientForm = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="grid gap-2">
             <Label htmlFor="recipient_suburb">Suburb<span className="text-red-500">*</span></Label>
-            <Input id="recipient_suburb" value={formData.recipient_suburb} onChange={handleChange('recipient_suburb')} placeholder="e.g., Suburb, Apt, Suite" />
+            <Input id="recipient_suburb" value={formData.recipient_suburb} onChange={handleChange('recipient_suburb')} placeholder="Suburb" />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="recipient_city">City<span className="text-red-500">*</span></Label>
-            <Input id="recipient_city" value={formData.recipient_city} onChange={handleChange('recipient_city')} placeholder="Springfield" />
+            <Input id="recipient_city" value={formData.recipient_city} onChange={handleChange('recipient_city')} placeholder="Perth" />
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="recipient_state">State / Province</Label>
-            <Input id="recipient_state" value={formData.recipient_state} onChange={handleChange('recipient_state')} placeholder="CA" />
+            <Label htmlFor="recipient_state">State</Label>
+            <Input id="recipient_state" value={formData.recipient_state} onChange={handleChange('recipient_state')} placeholder="WA" />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="recipient_postcode">Postcode<span className="text-red-500">*</span></Label>
@@ -55,7 +55,7 @@ const RecipientForm = ({
           </div>
           <div className="grid gap-2">
             <Label htmlFor="recipient_country">Country<span className="text-red-500">*</span></Label>
-            <Input id="recipient_country" value={formData.recipient_country} onChange={handleChange('recipient_country')} placeholder="USA" />
+            <Input id="recipient_country" value={formData.recipient_country} onChange={handleChange('recipient_country')} placeholder="Australia" />
           </div>
         </div>
       </div>

@@ -10,12 +10,12 @@ const Step4StructurePage = () => {
 
     return (
         <>
-        <StepProgressBar currentStep={4} totalSteps={4} planName="Single Delivery Plan" />
+        <StepProgressBar currentStep={3} totalSteps={4} planName="Single Delivery Plan" />
         <SingleDeliveryStructureEditor
             mode="create"
             saveButtonText="Next: Confirm Your Order"
             onSaveNavigateTo={`/single-delivery-flow/plan/${planId}/confirmation`}
-            backPath={`/single-delivery-flow/plan/${planId}/preferences`}
+            backPath={`/single-delivery-flow/plan/${planId}/recipient`}
         />
         </>
     );

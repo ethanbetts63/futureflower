@@ -5,8 +5,47 @@ import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Seo from '../Seo';
 import { getOrCreatePendingSubscriptionPlan } from '@/api/subscriptionPlans';
-import { getOrCreatePendingSingleDeliveryTypeUpfrontPlan } from '@/api/singleDeliveryPlans';
+import {
+    getOrCreatePendingSingleDeliveryTypeUpfrontPlan,
+    updateUpfrontPlanAsSingleDelivery,
+} from '@/api/singleDeliveryPlans';
 import { toast } from 'sonner';
+import {
+    formatHomepageFlowerNotes,
+    HOMEPAGE_BRIEF_STORAGE_KEY,
+    type HomepageBrief,
+} from '@/lib/homepageBrief';
+
+function readHomepageBrief(): HomepageBrief | null {
+    try {
+        const rawBrief = window.sessionStorage.getItem(HOMEPAGE_BRIEF_STORAGE_KEY);
+        return rawBrief ? JSON.parse(rawBrief) : null;
+    } catch {
+        return null;
+    }
+}
+
+async function applyHomepageBrief(planId: number) {
+    const brief = readHomepageBrief();
+
+    if (!brief) {
+        return;
+    }
+
+    try {
+        await updateUpfrontPlanAsSingleDelivery(String(planId), {
+            budget: brief.budget,
+            preferred_flower_types: brief.vibeId ? [brief.vibeId] : [],
+            flower_notes: formatHomepageFlowerNotes(brief),
+        });
+
+        window.sessionStorage.removeItem(HOMEPAGE_BRIEF_STORAGE_KEY);
+    } catch {
+        toast.error("We could not save your florist brief yet", {
+            description: "You can add those preferences again before checkout.",
+        });
+    }
+}
 
 const EventGate = () => {
     const { isAuthenticated, isLoading } = useAuth();
@@ -32,6 +71,7 @@ const EventGate = () => {
                         router.replace(`/subscribe-flow/subscription-plan/${plan.id}/recipient`);
                     } else if (isSingleDeliveryFlow) {
                         const plan = await getOrCreatePendingSingleDeliveryTypeUpfrontPlan();
+                        await applyHomepageBrief(plan.id);
                         router.replace(`/single-delivery-flow/plan/${plan.id}/recipient`);
                     } else {
                         router.replace('/order');

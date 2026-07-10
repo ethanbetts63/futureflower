@@ -1,174 +1,198 @@
 import Seo from '../components/Seo';
-import { ProductCarousel } from '../components/ProductCarousel';
-import type { ProductCarouselStep } from '../components/ProductCarousel';
-import petalImage320 from '../assets/petal-320w.webp';
-import petalImage640 from '../assets/petal-640w.webp';
-import petalImage768 from '../assets/petal-768w.webp';
-import petalImage1024 from '../assets/petal-1024w.webp';
-import petalImage1280 from '../assets/petal-1280w.webp';
-
-import floristMakingFlowersImage320 from '../assets/florist_making_flowers-320w.webp';
-import floristMakingFlowersImage640 from '../assets/florist_making_flowers-640w.webp';
-import floristMakingFlowersImage768 from '../assets/florist_making_flowers-768w.webp';
-import floristMakingFlowersImage1024 from '../assets/florist_making_flowers-1024w.webp';
-import floristMakingFlowersImage1280 from '../assets/florist_making_flowers-1280w.webp';
-
-import deliveryImage320 from '../assets/delivery-320w.webp';
-import deliveryImage360 from '../assets/delivery-360w.webp';
-import deliveryImage640 from '../assets/delivery-640w.webp';
-import deliveryImage768 from '../assets/delivery-768w.webp';
-import deliveryImage1024 from '../assets/delivery-1024w.webp';
-import deliveryImage1280 from '../assets/delivery-1280w.webp';
-import heroImage320 from '../assets/hero2-320w.webp';
-import heroImage640 from '../assets/hero2-640w.webp';
-import heroImage768 from '../assets/hero2-768w.webp';
-import heroImage1024 from '../assets/hero2-1024w.webp';
-import heroImage1280 from '../assets/hero2-1280w.webp';
-import heroMobileImage320 from '../assets/hero2_mobile2-320w.webp';
-import heroMobileImage412 from '../assets/hero2_mobile2-412w.webp';
-import heroMobileImage640 from '../assets/hero2_mobile2-640w.webp';
-import heroMobileImage768 from '../assets/hero2_mobile2-768w.webp';
+import HomeStarterForm from '@/components/home_page/HomeStarterForm';
 import { FaqV2 } from '../components/FaqV2';
-import { HeroV4 } from '../components/home_page/HeroV4';
-import { DeliverySection } from '../components/home_page/DeliverySection';
-import { RomanceSection } from '../components/home_page/RomanceSection';
 import type { FaqItem } from '@/types/FaqItem';
-import AnnouncementBar from '../components/home_page/AnnouncementBar';
-import OfferingSection from '../components/home_page/OfferingSection';
-import ComparisonSection from '../components/home_page/ComparisonSectionHome';
-import PricingFloristAdvantage from '../components/pricing_page/PricingFloristAdvantage';
-import { assetSrc } from '@/lib/assets';
+import { Check, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
 
+const bouquetImages = [
+  {
+    src: '/images/home/bouquet-pink-wrap.jpg',
+    alt: 'Pink rose bouquet wrapped in white paper',
+  },
+  {
+    src: '/images/home/bouquet-vase.jpg',
+    alt: 'Pastel bouquet arranged in a glass vase',
+  },
+  {
+    src: '/images/home/bouquet-centrepiece.jpg',
+    alt: 'Seasonal flower arrangement on a table',
+  },
+  {
+    src: '/images/home/bouquet-held.jpg',
+    alt: 'Fresh hand-tied bouquet held by the stems',
+  },
+];
+
+const trustPoints = [
+  {
+    icon: Sparkles,
+    title: 'Florist-led design',
+    text: 'No fixed catalog recipe. Your florist works from the occasion, budget, and preferences you provide.',
+  },
+  {
+    icon: MapPin,
+    title: 'Built for Australia first',
+    text: 'We are narrowing the product around Australian deliveries before expanding anywhere else.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Details before payment',
+    text: 'Add the delivery address, date, message, and recipient details before you pay.',
+  },
+];
+
+const homeFaqs: FaqItem[] = [
+  {
+    question: 'Do I choose the exact bouquet?',
+    answer:
+      'No. You choose the occasion, budget, and preferences. A florist designs something suitable from the flowers available to them.',
+  },
+  {
+    question: 'Can I tell the florist what to avoid?',
+    answer:
+      'Yes. Add dislikes, allergies, colours to avoid, or anything else the florist should know in the preferences box.',
+  },
+  {
+    question: 'Where do you deliver?',
+    answer:
+      'FutureFlower is focused on Australia. Availability can depend on the delivery location and florist coverage.',
+  },
+];
 
 const HomePage = () => {
   const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "FutureFlower",
-    "url": "https://www.futureflower.app",
-    "logo": "https://www.futureflower.app/favicon-192x192.png",
-    "description": "Online flower delivery and subscription service connecting customers with local florists across Australia, the UK, the US, New Zealand, and Europe.",
-    "areaServed": [
-      { "@type": "Country", "name": "Australia" },
-      { "@type": "Country", "name": "United Kingdom" },
-      { "@type": "Country", "name": "United States" },
-      { "@type": "Country", "name": "New Zealand" },
-      { "@type": "Continent", "name": "Europe" }
-    ],
-    "sameAs": [
-      "https://www.instagram.com/futureflowerapp/"
-      // Add Facebook page URL here once created
-      // Add X (Twitter) profile URL here once created
-      // Add LinkedIn company page URL here once created
-    ],
-    "founder": {
-      "@type": "Person",
-      "name": "Ethan Betts"
-    }
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'FutureFlower',
+    url: 'https://www.futureflower.app',
+    logo: 'https://www.futureflower.app/favicon-192x192.png',
+    description:
+      'Australian flower delivery service where customers give their preferences and a florist designs a suitable bouquet.',
+    areaServed: [{ '@type': 'Country', name: 'Australia' }],
+    sameAs: ['https://www.instagram.com/futureflowerapp/'],
+    founder: {
+      '@type': 'Person',
+      name: 'Ethan Betts',
+    },
   };
 
-  const howItWorksSteps: ProductCarouselStep[] = [
-    {
-      level: 1,
-      title: 'Choose the Vibe.',
-      description:
-        'Birthday. Romantic. Sympathy. Celebration. Just because. We design around your preferences.',
-      image: {
-        src: assetSrc(petalImage1280),
-        srcSet: `${assetSrc(petalImage320)} 320w, ${assetSrc(petalImage640)} 640w, ${assetSrc(petalImage768)} 768w, ${assetSrc(petalImage1024)} 1024w, ${assetSrc(petalImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Petal image for choosing the vibe',
-      },
-    },
-    {
-      level: 2,
-      title: 'Choose the Impact.',
-      description:
-        'A thoughtful gesture. A classic arrangement. A statement piece. You set the budget — our florists design accordingly.',
-      image: {
-        src: assetSrc(floristMakingFlowersImage1280),
-        srcSet: `${assetSrc(floristMakingFlowersImage320)} 320w, ${assetSrc(floristMakingFlowersImage640)} 640w, ${assetSrc(floristMakingFlowersImage768)} 768w, ${assetSrc(floristMakingFlowersImage1024)} 1024w, ${assetSrc(floristMakingFlowersImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Florist making flowers image for choosing the impact',
-      },
-    },
-    {
-      level: 3,
-      title: 'We handle the rest.',
-      description:
-        'A local florist creates something unique and beautiful. No catalog copies. No warehouse stock. Just real floristry.',
-      image: {
-        src: assetSrc(deliveryImage1280),
-        srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage360)} 360w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Delivery image for handling the rest',
-      },
-    },
-  ];
-
-  const homeFaqs: FaqItem[] = [
-    {
-      "question": "Will I get reminders or confirmations?",
-      "answer": "You will receive a reminder email 1 week and 1 day before the delivery date. They are not confirmation emails so you do not need to respond. They are simply to remind you."
-    },
-    {
-      "question": "What is your refund policy?",
-      "answer": "All orders are 100% refundable up to 14 days before your delivery date, after that point we can not guarantee a refund but we will try our utmost. If your flowers arrive with a major issue (e.g. damaged, dead) this is of course enough reason for a refund. For more information please read the customer terms and conditions."
-    },
-    {
-      "question": "What countries do you operate in?",
-      "answer": "Currently we operate in the EU (Europe), United Kingdom, North America (USA & Canada), Australia and New Zealand."
-    },
-  ];
-
   return (
-    <main>
+    <main className="overflow-x-hidden bg-white text-black">
       <Seo
-        title="FutureFlower | Flower Delivery & Subscriptions"
-        description="Free delivery from local florists. Pick a date, set a budget, and we handle the rest — across Australia, the UK, the US, and more."
+        title="FutureFlower | Australian Florist-Led Flower Delivery"
+        description="Tell us the occasion, budget, and flower preferences. A local Australian florist designs a bouquet that fits."
         canonicalPath="/"
         ogImage="/og-images/og-homepage.webp"
         structuredData={organizationSchema}
       />
-      <HeroV4
-        title="Better Flowers. Local Florists."
-        subtext="Pick a date. Pick a budget. We handle the rest. Flower Delivery and Subscriptions the right way."
-        image={{
-          src: assetSrc(heroImage1280),
-          srcSet: `${assetSrc(heroImage320)} 320w, ${assetSrc(heroImage640)} 640w, ${assetSrc(heroImage768)} 768w, ${assetSrc(heroImage1024)} 1024w, ${assetSrc(heroImage1280)} 1280w`,
-          mobileSrcSet: `${assetSrc(heroMobileImage320)} 320w, ${assetSrc(heroMobileImage412)} 412w, ${assetSrc(heroMobileImage640)} 640w, ${assetSrc(heroMobileImage768)} 768w`,
-          alt: "A woman holding a large bouquet of flowers.",
-        }}
-      />
-      <AnnouncementBar />
 
-      {/* --- Hierarchy Section --- */}
-      <section className="bg-primary">
-        <ProductCarousel
-          title="How It Works"
-          subtitle="Meaningful flowers on meaningful dates, minus the effort. One decision, no hassle."
-          steps={howItWorksSteps}
-        />
+      <section className="relative overflow-hidden bg-[#f8f3ef]">
+        <div className="mx-auto grid min-h-[calc(100vh-72px)] max-w-7xl grid-cols-1 items-center gap-8 px-0 py-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8 lg:py-12">
+          <div className="min-w-0 px-5 sm:px-0">
+            <div className="max-w-full sm:max-w-2xl">
+              <p className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-black/60 shadow-sm">
+                <span className="h-2 w-2 rounded-full bg-[var(--colorgreen)]" />
+                Australian flower delivery
+              </p>
+              <h1 className="mt-5 text-4xl font-bold leading-[1.05] text-black font-playfair-display sm:text-6xl lg:text-7xl">
+                Tell the florist what you want.
+              </h1>
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-black/65">
+                Choose the occasion, budget, and preferences. We organise a bouquet that fits, made by a florist rather than picked from a warehouse catalog.
+              </p>
+            </div>
+
+            <div className="mt-8 w-full max-w-full sm:max-w-2xl">
+              <HomeStarterForm />
+            </div>
+          </div>
+
+          <div className="relative min-h-[520px] overflow-hidden bg-black lg:min-h-[720px] lg:rounded-xl">
+            {bouquetImages.map((image, index) => (
+              <img
+                key={image.src}
+                src={image.src}
+                alt={image.alt}
+                className="homepage-bouquet-frame absolute inset-0 h-full w-full object-cover"
+                style={{ animationDelay: `${index * 4}s` }}
+                fetchPriority={index === 0 ? 'high' : 'auto'}
+              />
+            ))}
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-5 sm:p-8">
+              <div className="max-w-sm text-white">
+                <p className="text-sm font-semibold">A brief, not a catalog order.</p>
+                <p className="mt-1 text-sm leading-relaxed text-white/70">
+                  The florist uses your notes to make the right call on colour, style, and seasonal flowers.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <style>{`
+          .homepage-bouquet-frame {
+            opacity: 0;
+            animation: homepage-bouquet-cycle 16s infinite;
+          }
+
+          .homepage-bouquet-frame:first-child {
+            opacity: 1;
+          }
+
+          @keyframes homepage-bouquet-cycle {
+            0% { opacity: 0; transform: scale(1.03); }
+            5% { opacity: 1; }
+            25% { opacity: 1; }
+            31% { opacity: 0; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.03); }
+          }
+        `}</style>
       </section>
 
-      <OfferingSection />
+      <section className="border-y border-black/10 bg-white">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-black/10 px-5 sm:px-6 md:grid-cols-3 md:divide-x md:divide-y-0 lg:px-8">
+          {trustPoints.map(({ icon: Icon, title, text }) => (
+            <div key={title} className="py-8 md:px-7">
+              <Icon className="h-6 w-6 text-black" />
+              <h2 className="mt-4 text-xl font-bold font-playfair-display">{title}</h2>
+              <p className="mt-2 text-sm leading-relaxed text-black/60">{text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      <ComparisonSection />
+      <section className="bg-[#fbfaf7] py-14 sm:py-16">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
+              Simple by design
+            </p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight font-playfair-display sm:text-4xl">
+              A better order starts with a better brief.
+            </h2>
+          </div>
 
-      <PricingFloristAdvantage />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              'Choose a feeling instead of scrolling through lookalike bouquets.',
+              'Set the budget before the florist starts planning.',
+              'Add favourite colours, dislikes, allergies, or special requests.',
+              'Continue to recipient, address, date, and payment details.',
+            ].map((item) => (
+              <div key={item} className="flex items-start gap-3 rounded-lg bg-white p-4 shadow-sm shadow-black/5">
+                <Check className="mt-0.5 h-5 w-5 shrink-0 text-[var(--colorgreen)]" />
+                <p className="text-sm font-medium leading-relaxed text-black/70">{item}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <RomanceSection />
-      <DeliverySection />
-      
       <div className="bg-[var(--color4)]">
         <section className="pb-8">
-          <FaqV2
-            title="Questions? We have answers."
-            faqs={homeFaqs}
-          />
+          <FaqV2 title="Questions? We have answers." faqs={homeFaqs} />
         </section>
       </div>
-
     </main>
   );
 };
