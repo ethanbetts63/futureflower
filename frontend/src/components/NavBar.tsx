@@ -35,15 +35,17 @@ const NavBar = () => {
 
           {/* Logo */}
           <Link href="/" onClick={close} aria-label="FutureFlower company logo" className="flex items-center gap-3 flex-shrink-0">
-            <img
-              src={assetSrc(logo)}
-              srcSet={`${assetSrc(logo128)} 128w, ${assetSrc(logo192)} 192w, ${assetSrc(logo256)} 256w`}
-              sizes="40px"
-              alt=""
-              width="367"
-              height="367"
-              className="h-10 w-auto brightness-0"
-            />
+            <span className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white shadow-sm">
+              <img
+                src={assetSrc(logo)}
+                srcSet={`${assetSrc(logo128)} 128w, ${assetSrc(logo192)} 192w, ${assetSrc(logo256)} 256w`}
+                sizes="32px"
+                alt=""
+                width="367"
+                height="367"
+                className="h-8 w-8 object-contain brightness-0"
+              />
+            </span>
             {/* Title visible on sm only — on md+ it moves to the centre column */}
             <span className="hidden sm:block md:hidden font-playfair-display italic font-bold text-2xl text-black tracking-widest leading-none">
               FUTUREFLOWER

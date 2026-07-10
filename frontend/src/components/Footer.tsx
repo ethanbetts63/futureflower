@@ -14,7 +14,7 @@ const Footer = () => {
   const { user } = useAuth();
 
   return (
-    <footer className="bg-primary text-primary-foreground">
+    <footer className="border-t border-black/10 bg-white text-black">
       <div className="container mx-auto py-10 px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
 
@@ -60,16 +60,18 @@ const Footer = () => {
 
           {/* Brand */}
           <div className="flex flex-col gap-3">
-            <img
-              width="367"
-              height="367"
-              className="h-16 w-16 object-contain"
-              src={assetSrc(logo)}
-              srcSet={`${assetSrc(logo128)} 128w, ${assetSrc(logo192)} 192w, ${assetSrc(logo256)} 256w`}
-              sizes="64px"
-              alt="FutureFlower Logo"
-              loading="lazy"
-            />
+            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-black/10 bg-white shadow-sm">
+              <img
+                width="367"
+                height="367"
+                className="h-11 w-11 object-contain brightness-0"
+                src={assetSrc(logo)}
+                srcSet={`${assetSrc(logo128)} 128w, ${assetSrc(logo192)} 192w, ${assetSrc(logo256)} 256w`}
+                sizes="40px"
+                alt="FutureFlower Logo"
+                loading="lazy"
+              />
+            </div>
             <p className="text-sm opacity-80">&copy; {currentYear} FutureFlower. All rights reserved.</p>
             <div className="flex items-center gap-1 mt-1">
               <span className="text-xs opacity-60">Powered by</span>

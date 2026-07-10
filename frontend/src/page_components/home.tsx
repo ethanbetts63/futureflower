@@ -45,7 +45,7 @@ const homeFaqs: FaqItem[] = [
   {
     question: 'Do I choose the exact bouquet?',
     answer:
-      'No. You choose the occasion, budget, and preferences. A florist designs something suitable from the flowers available to them.',
+      'No. You choose the occasion, budget, and custom preferences. A florist uses that brief to design something suitable from the flowers available to them.',
   },
   {
     question: 'Can I tell the florist what to avoid?',
@@ -87,22 +87,22 @@ const HomePage = () => {
       />
 
       <section className="relative overflow-hidden bg-[#f8f3ef]">
-        <div className="mx-auto grid min-h-[calc(100vh-72px)] max-w-7xl grid-cols-1 items-center gap-8 px-0 py-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8 lg:py-12">
-          <div className="min-w-0 px-5 sm:px-0">
+        <div className="mx-auto grid min-h-[calc(100vh-72px)] max-w-7xl grid-cols-1 items-center gap-0 px-0 pb-0 pt-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8 lg:px-8 lg:py-12">
+          <div className="min-w-0 px-5 sm:px-6 lg:px-0">
             <div className="max-w-full sm:max-w-2xl">
               <p className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-black/60 shadow-sm">
                 <span className="h-2 w-2 rounded-full bg-[var(--colorgreen)]" />
                 Australian flower delivery
               </p>
               <h1 className="mt-5 text-4xl font-bold leading-[1.05] text-black font-playfair-display sm:text-6xl lg:text-7xl">
-                Tell the florist what you want.
+                Flowers done your way.
               </h1>
               <p className="mt-5 max-w-xl text-lg leading-relaxed text-black/65">
                 Choose the occasion, budget, and preferences. We organise a bouquet that fits, made by a florist rather than picked from a warehouse catalog.
               </p>
             </div>
 
-            <div className="mt-8 w-full max-w-full sm:max-w-2xl">
+            <div className="-mx-5 mt-8 w-[calc(100%+2.5rem)] max-w-none sm:-mx-6 sm:w-[calc(100%+3rem)] lg:mx-0 lg:w-full lg:max-w-2xl">
               <HomeStarterForm />
             </div>
           </div>
@@ -188,7 +188,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      <div className="bg-[var(--color4)]">
+      <div className="bg-[#fbfaf7]">
         <section className="pb-8">
           <FaqV2 title="Questions? We have answers." faqs={homeFaqs} />
         </section>
