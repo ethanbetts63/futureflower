@@ -43,8 +43,6 @@ const Footer = () => {
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Guides &amp; Articles</p>
             <Link href="/articles" className="text-sm hover:underline">All Articles</Link>
             <Link href="/articles/best-flower-subscription-services-au" className="text-sm hover:underline">Best Subscriptions Australia</Link>
-            <Link href="/articles/best-flower-subscription-services-us" className="text-sm hover:underline">Best Subscriptions USA</Link>
-            <Link href="/articles/best-flower-subscription-services-uk" className="text-sm hover:underline">Best Subscriptions UK</Link>
             <Link href="/articles/best-flower-delivery-perth" className="text-sm hover:underline">Best Flower Delivery Perth</Link>
             <Link href="/articles/best-flower-delivery-sydney" className="text-sm hover:underline">Best Flower Delivery Sydney</Link>
             <Link href="/articles/best-flower-delivery-melbourne" className="text-sm hover:underline">Best Flower Delivery Melbourne</Link>

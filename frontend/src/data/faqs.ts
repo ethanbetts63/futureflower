@@ -1,24 +1,6 @@
 import type { FaqItem } from '../types/FaqItem';
 
 export const faqs: { [key: string]: FaqItem[] } = {
-  "best-flower-subscription-services-us": [
-    {
-      "question": "What's the best overall flower subscription in the US?",
-      "answer": "UrbanStems is the best all-around choice. It offers a great balance of modern design, high-quality bouquets, flexible subscription management, and free shipping, making it a reliable and premium-feeling service."
-    },
-    {
-      "question": "Which US flower subscription is the most affordable?",
-      "answer": "The Bouqs Co. is the most affordable mainstream option. With prices starting around $48 per delivery and bouquets sourced directly from farms, it provides excellent value for the money."
-    },
-    {
-      "question": "I want my subscription flowers to last as long as possible. What's the best service for that?",
-      "answer": "For longevity, BloomsyBox is the clear winner. Their flowers are shipped directly from certified farms and are known to last for well over two weeks with proper care, making them the best choice if freshness is your top priority."
-    },
-    {
-      "question": "Do these subscription services offer free shipping?",
-      "answer": "Yes, both UrbanStems and The Bouqs Co. offer free shipping on their subscription deliveries, which is a significant advantage. BloomsyBox also includes shipping in their base price."
-    }
-  ],
   "best-flower-subscription-services-au": [
     {
       "question": "What is the best overall flower subscription service in Australia?",
@@ -53,24 +35,6 @@ export const faqs: { [key: string]: FaqItem[] } = {
     {
       "question": "What's the typical cutoff time for same-day flower delivery in Sydney?",
       "answer": "Most flower delivery services in Sydney require you to place your order by 2 pm or 3 pm on weekdays for same-day delivery. It's always best to check with the specific florist, especially on weekends or holidays."
-    }
-  ],
-  "best-flower-subscription-services-uk": [
-    {
-      "question": "What is the best overall flower subscription service in the UK?",
-      "answer": "Bloom & Wild is widely considered the best all-around option. It offers a great balance of flexible plans, letterbox convenience, and beautifully designed bouquets that arrive in-bud for longer life."
-    },
-    {
-      "question": "I'm looking for a budget-friendly flower subscription in the UK. What do you recommend?",
-      "answer": "For a more affordable option, Bramble & Willow is an excellent choice. With prices starting from around £24 per month, it's a great way to receive fresh, seasonal flowers regularly without a large financial commitment."
-    },
-    {
-      "question": "Which subscription service is best for high-end, luxury flowers?",
-      "answer": "If you prioritize quality and style, Flowerbx is the top recommendation. They specialize in premium, single-variety bouquets that have a luxurious, designer feel, perfect for making a statement."
-    },
-    {
-      "question": "Can I pause or skip a delivery with these subscription services?",
-      "answer": "Yes, most UK flower subscription services, including the ones mentioned, offer flexible management. You can typically pause, skip a delivery, or cancel your subscription easily through your online account."
     }
   ],
   "best-flower-subscription-services-eu": [
@@ -182,4 +146,3 @@ export const faqs: { [key: string]: FaqItem[] } = {
     }
   ]
 };
-

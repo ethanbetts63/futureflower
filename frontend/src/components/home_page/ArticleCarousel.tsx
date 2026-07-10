@@ -1,23 +1,11 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import deliveryImage from '../../assets/delivery.webp';
-import deliveryImage320 from '../../assets/delivery-320w.webp';
-import deliveryImage640 from '../../assets/delivery-640w.webp';
-import deliveryImage768 from '../../assets/delivery-768w.webp';
-import deliveryImage1024 from '../../assets/delivery-1024w.webp';
-import deliveryImage1280 from '../../assets/delivery-1280w.webp';
 import floristImage from '../../assets/florist.webp';
 import floristImage320 from '../../assets/florist-320w.webp';
 import floristImage640 from '../../assets/florist-640w.webp';
 import floristImage768 from '../../assets/florist-768w.webp';
 import floristImage1024 from '../../assets/florist-1024w.webp';
 import floristImage1280 from '../../assets/florist-1280w.webp';
-import kitchenImage from '../../assets/kitchen.webp';
-import kitchenImage320 from '../../assets/kitchen-320w.webp';
-import kitchenImage640 from '../../assets/kitchen-640w.webp';
-import kitchenImage768 from '../../assets/kitchen-768w.webp';
-import kitchenImage1024 from '../../assets/kitchen-1024w.webp';
-import kitchenImage1280 from '../../assets/kitchen-1280w.webp';
 import delivery1Image from '../../assets/delivery1.webp';
 import floristPackingImage from '../../assets/florist_packing.webp';
 import floristPacking2Image from '../../assets/florist_packing2.webp';
@@ -26,25 +14,11 @@ import { assetSrc } from '@/lib/assets';
 
 const articles = [
   {
-    title: 'The Best Flower Subscription Services in the United States (2026 Guide)',
-    imageSrc: assetSrc(deliveryImage),
-    srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`,
-    link: '/articles/best-flower-subscription-services-us',
-    alt: 'A guide to the best flower subscription services in the US'
-  },
-  {
     title: 'The Best Flower Subscription Services in Australia (2026 Guide)',
     imageSrc: assetSrc(floristImage),
     srcSet: `${assetSrc(floristImage320)} 320w, ${assetSrc(floristImage640)} 640w, ${assetSrc(floristImage768)} 768w, ${assetSrc(floristImage1024)} 1024w, ${assetSrc(floristImage1280)} 1280w`,
     link: '/articles/best-flower-subscription-services-au',
     alt: 'A guide to the best flower subscription services in Australia'
-  },
-  {
-    title: 'The Best Flower Subscription Services in the United Kingdom (2026 Guide)',
-    imageSrc: assetSrc(kitchenImage),
-    srcSet: `${assetSrc(kitchenImage320)} 320w, ${assetSrc(kitchenImage640)} 640w, ${assetSrc(kitchenImage768)} 768w, ${assetSrc(kitchenImage1024)} 1024w, ${assetSrc(kitchenImage1280)} 1280w`,
-    link: '/articles/best-flower-subscription-services-uk',
-    alt: 'A guide to the best flower subscription services in the UK'
   },
   {
     title: 'The Best Flower Subscription Services in Europe (2026 Guide)',

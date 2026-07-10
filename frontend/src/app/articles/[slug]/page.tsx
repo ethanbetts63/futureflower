@@ -6,8 +6,6 @@ import BestFlowerDeliverySydney from "@/page_components/articles/BestFlowerDeliv
 import BestFlowerSubscriptionServicesAU from "@/page_components/articles/BestFlowerSubscriptionServicesAU";
 import BestFlowerSubscriptionServicesEU from "@/page_components/articles/BestFlowerSubscriptionServicesEU";
 import BestFlowerSubscriptionServicesNZ from "@/page_components/articles/BestFlowerSubscriptionServicesNZ";
-import BestFlowerSubscriptionServicesUK from "@/page_components/articles/BestFlowerSubscriptionServicesUK";
-import BestFlowerSubscriptionServicesUS from "@/page_components/articles/BestFlowerSubscriptionServicesUS";
 import { articles } from "@/lib/staticPages";
 import { getRouteMetadata } from "@/lib/routeMetadata";
 import type { Metadata } from "next";
@@ -21,9 +19,7 @@ type PageProps = {
 };
 
 const articleComponents: Record<string, ComponentType> = {
-  "best-flower-subscription-services-us": BestFlowerSubscriptionServicesUS,
   "best-flower-subscription-services-au": BestFlowerSubscriptionServicesAU,
-  "best-flower-subscription-services-uk": BestFlowerSubscriptionServicesUK,
   "best-flower-subscription-services-eu": BestFlowerSubscriptionServicesEU,
   "best-flower-subscription-services-nz": BestFlowerSubscriptionServicesNZ,
   "best-flower-delivery-perth": BestFlowerDeliveryPerth,

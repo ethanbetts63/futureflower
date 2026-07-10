@@ -208,29 +208,6 @@ export const landingPages: Record<string, LandingPageContent> = {
 
 export const articles: ArticleContent[] = [
   {
-    slug: "best-flower-subscription-services-us",
-    title: "The Best Flower Subscription Services in the United States (2026 Guide)",
-    description:
-      "An in-depth guide to the best flower subscription services in the US, broken down by best overall, cheapest, and highest quality.",
-    sections: [
-      {
-        title: "Best overall",
-        body:
-          "The best overall subscription balances delivery reliability, arrangement quality, flexible scheduling, and a customer experience that does not make repeat gifting feel like admin.",
-      },
-      {
-        title: "Best value",
-        body:
-          "Budget-conscious buyers should compare the delivered bouquet value, delivery fees, subscription flexibility, and how easy it is to pause or cancel.",
-      },
-      {
-        title: "Best quality",
-        body:
-          "Premium subscriptions usually win on stem quality, arrangement design, packaging, and the ability to make each delivery feel distinct.",
-      },
-    ],
-  },
-  {
     slug: "best-flower-subscription-services-au",
     title: "Best Flower Subscription Services Australia (2026)",
     description:
@@ -250,29 +227,6 @@ export const articles: ArticleContent[] = [
         title: "How to choose",
         body:
           "Compare delivered value, not just the monthly price. Delivery fees, bouquet size, and cancellation controls change the real cost.",
-      },
-    ],
-  },
-  {
-    slug: "best-flower-subscription-services-uk",
-    title: "The Best Flower Subscription Services in the United Kingdom (2026 Guide)",
-    description:
-      "An in-depth guide to the best flower subscription services in the UK, broken down by best overall, cheapest, and highest quality.",
-    sections: [
-      {
-        title: "UK subscription considerations",
-        body:
-          "The UK market has strong national flower brands, but buyers should still compare freshness, delivery consistency, and whether bouquets feel personal.",
-      },
-      {
-        title: "Best overall",
-        body:
-          "Look for subscriptions that combine reliable logistics with enough design flexibility to avoid repetitive deliveries.",
-      },
-      {
-        title: "Best for meaningful dates",
-        body:
-          "For birthdays and anniversaries, scheduling accuracy and message handling matter as much as stem count.",
       },
     ],
   },

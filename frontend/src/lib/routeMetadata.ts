@@ -76,29 +76,12 @@ const publicRoutes: Record<string, RouteMetadata> = {
       "Explore articles, insights, and guides on long-term floral planning, personal growth, and making sure you never forget the important stuff.",
     path: "/articles",
   },
-  "/articles/best-flower-subscription-services-us": {
-    title:
-      "Best Flower Subscription Services US (2026)",
-    description:
-      "An in-depth guide to the best flower subscription services in the US, broken down by best overall, cheapest, and highest quality.",
-    path: "/articles/best-flower-subscription-services-us",
-    ogType: "article",
-    ogImage: "/static/og-images/og-flower-subscription-us.webp",
-  },
   "/articles/best-flower-subscription-services-au": {
     title:
       "Best Flower Subscription Services Australia (2026)",
     description:
       "Compare Australian flower subscriptions for fresh weekly, fortnightly, and monthly flowers, including flexible national options and local florist plans.",
     path: "/articles/best-flower-subscription-services-au",
-    ogType: "article",
-  },
-  "/articles/best-flower-subscription-services-uk": {
-    title:
-      "Best Flower Subscription Services UK (2026)",
-    description:
-      "An in-depth guide to the best flower subscription services in the UK, broken down by best overall, cheapest, and highest quality.",
-    path: "/articles/best-flower-subscription-services-uk",
     ogType: "article",
   },
   "/articles/best-flower-subscription-services-eu": {
