@@ -49,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={playfair.variable}>
+    <html lang="en" className={`${playfair.variable} scroll-smooth`}>
       <body>
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-NHG66P5X9L" strategy="afterInteractive" />
         <Script id="gtag-init" strategy="afterInteractive">{`

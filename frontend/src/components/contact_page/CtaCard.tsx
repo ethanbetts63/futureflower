@@ -47,7 +47,7 @@ export const CtaCard = () => {
           { heading: 'Thoughtful by design', subtext: 'Customize messages and bouquet preferences.' },
         ],
       },
-      onGetStarted: () => handleNavigation('/event-gate/subscription'),
+      onGetStarted: () => handleNavigation('/event-gate/single-delivery'),
     },
     'single-delivery': {
       content: {

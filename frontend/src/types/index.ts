@@ -65,6 +65,7 @@ export type { CreateUpfrontPlanPayload } from './CreateUpfrontPlanPayload';
 export type { PartialUpfrontPlan } from './PartialUpfrontPlan';
 export type { SubscriptionPlan } from './SubscriptionPlan';
 export type { PartialSubscriptionPlan } from './PartialSubscriptionPlan';
+export type { Order, PartialOrder, BillingMode } from './Order';
 export type { UserProfile } from './UserProfile';
 export type { DebouncedFunction } from './DebouncedFunction';
 export type { FeaturePoint } from './FeaturePoint';

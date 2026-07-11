@@ -69,7 +69,7 @@ const NavBar = () => {
               Pricing
             </Link>
             <Link
-              href="/order"
+              href="/#start-order"
               onClick={close}
               className="inline-flex items-center bg-black text-white font-bold px-4 py-1.5 text-xs tracking-widest uppercase"
             >

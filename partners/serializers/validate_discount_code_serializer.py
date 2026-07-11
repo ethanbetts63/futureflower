@@ -1,24 +1,21 @@
 from rest_framework import serializers
 from partners.models import DiscountCode
 from payments.models import Payment
-from events.models import UpfrontPlan, SubscriptionPlan
+from events.models import OrderBase
 
 
 class ValidateDiscountCodeSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=30, required=False, allow_blank=True)
     plan_id = serializers.IntegerField()
-    plan_type = serializers.ChoiceField(choices=['upfront', 'subscription'])
 
     def _get_plan(self):
         plan_id = self.validated_data['plan_id']
-        plan_type = self.validated_data['plan_type']
         user = self.context['request'].user
 
-        Model = UpfrontPlan if plan_type == 'upfront' else SubscriptionPlan
         try:
-            return Model.objects.get(pk=plan_id, user=user)
-        except Model.DoesNotExist:
-            raise serializers.ValidationError("Plan not found.")
+            return OrderBase.objects.get(pk=plan_id, user=user)
+        except OrderBase.DoesNotExist:
+            raise serializers.ValidationError("Order not found.")
 
     def validate_code(self, value):
         if not value:

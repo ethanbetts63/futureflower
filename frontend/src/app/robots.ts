@@ -19,7 +19,6 @@ export default function robots(): MetadataRoute.Robots {
           "/payment-status",
           "/event-gate",
           "/create-account",
-          "/subscribe-flow/",
           "/single-delivery-flow/",
           "/partner/stripe-connect/",
           "/partner/delivery-request/",

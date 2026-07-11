@@ -37,27 +37,15 @@ class AdminUserDetailSerializer(serializers.ModelSerializer):
         return p.business_name or f"{p.user.first_name} {p.user.last_name}".strip()
 
     def get_plans(self, obj):
-        from events.models import UpfrontPlan, SubscriptionPlan
-        upfront = list(
-            UpfrontPlan.objects.filter(user=obj).order_by('-created_at').values(
+        from events.models import OrderBase
+        orders = list(
+            OrderBase.objects.filter(user=obj).order_by('-created_at').values(
                 'id', 'status', 'total_amount', 'created_at',
-                'recipient_first_name', 'recipient_last_name',
+                'recipient_first_name', 'recipient_last_name', 'billing_mode',
             )
         )
-        for p in upfront:
-            p['plan_type'] = 'upfront'
-
-        subscription = list(
-            SubscriptionPlan.objects.filter(user=obj).order_by('-created_at').values(
-                'id', 'status', 'total_amount', 'created_at',
-                'recipient_first_name', 'recipient_last_name',
-            )
-        )
-        for p in subscription:
-            p['plan_type'] = 'subscription'
-
-        all_plans = sorted(upfront + subscription, key=lambda p: p['created_at'], reverse=True)
-        for p in all_plans:
-            p['total_amount'] = str(p['total_amount']) if p['total_amount'] is not None else None
-            p['created_at'] = p['created_at'].isoformat()
-        return all_plans
+        for o in orders:
+            o['plan_type'] = o.pop('billing_mode')
+            o['total_amount'] = str(o['total_amount']) if o['total_amount'] is not None else None
+            o['created_at'] = o['created_at'].isoformat()
+        return orders

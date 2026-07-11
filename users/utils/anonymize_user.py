@@ -4,7 +4,7 @@ from django.conf import settings
 from django.utils import timezone
 from users.models import User
 from users.utils.hash_value import hash_value
-from events.models import UpfrontPlan, SubscriptionPlan
+from events.models import OrderBase
 from events.models.event import Event
 from data_management.models.notification import Notification
 
@@ -30,56 +30,31 @@ def anonymize_user(user: User):
 
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
-    # --- Step 1: Handle UpfrontPlans and Events ---
-    # Delete all non-active upfront plans
-    UpfrontPlan.objects.filter(user=user, status='pending_payment').delete()
+    # --- Step 1 & 2: Handle Orders and Events ---
+    # Delete all non-active orders
+    OrderBase.objects.filter(user=user, status='pending_payment').delete()
 
-    # Anonymize active upfront plans
-    active_upfront_plans = UpfrontPlan.objects.filter(user=user, status='active')
-    for plan in active_upfront_plans:
-        # Delete non-delivered events for this plan
-        plan.events.exclude(status='delivered').delete()
-
-        # Hash and wipe recipient PII on the upfront plan
-        pii_recipient_fields_to_hash = {
-            'recipient_first_name': 'hash_recipient_first_name',
-            'recipient_last_name': 'hash_recipient_last_name',
-        }
-        for field_name, hash_field_name in pii_recipient_fields_to_hash.items():
-            original_value = getattr(plan, field_name, None)
-            if original_value:
-                hashed_value = hash_value(original_value, salt)
-                setattr(plan, hash_field_name, hashed_value)
-                setattr(plan, field_name, None)
-        plan.save()
-
-    # --- Step 2: Handle SubscriptionPlans ---
-    # Cancel Stripe subscriptions before wiping data (while we still have the customer ID)
-    active_subscription_plans = SubscriptionPlan.objects.filter(user=user, status='active')
-    for plan in active_subscription_plans:
-        if plan.stripe_subscription_id:
+    active_orders = OrderBase.objects.filter(user=user, status='active')
+    for order in active_orders:
+        # Cancel Stripe subscriptions before wiping data (while we still have the customer ID)
+        if order.stripe_subscription_id:
             try:
-                stripe.Subscription.cancel(plan.stripe_subscription_id)
+                stripe.Subscription.cancel(order.stripe_subscription_id)
             except stripe.error.StripeError:
                 logger.warning(
                     "Could not cancel Stripe sub %s during anonymization",
-                    plan.stripe_subscription_id
+                    order.stripe_subscription_id
                 )
 
-    # Delete pending subscription plans
-    SubscriptionPlan.objects.filter(user=user, status='pending_payment').delete()
-
-    # Anonymize active subscription plans
-    for plan in active_subscription_plans:
-        # Cancel pending notifications for this plan's events
-        event_ids = plan.events.values_list('id', flat=True)
+        # Cancel pending notifications for this order's events
+        event_ids = order.events.values_list('id', flat=True)
         Notification.objects.filter(
             related_event_id__in=event_ids,
             status='pending'
         ).update(status='cancelled')
 
         # Delete non-delivered events
-        plan.events.exclude(status='delivered').delete()
+        order.events.exclude(status='delivered').delete()
 
         # Hash and wipe recipient PII
         pii_recipient_fields_to_hash = {
@@ -87,12 +62,12 @@ def anonymize_user(user: User):
             'recipient_last_name': 'hash_recipient_last_name',
         }
         for field_name, hash_field_name in pii_recipient_fields_to_hash.items():
-            original_value = getattr(plan, field_name, None)
+            original_value = getattr(order, field_name, None)
             if original_value:
                 hashed_value = hash_value(original_value, salt)
-                setattr(plan, hash_field_name, hashed_value)
-                setattr(plan, field_name, None)
-        plan.save()
+                setattr(order, hash_field_name, hashed_value)
+                setattr(order, field_name, None)
+        order.save()
 
     # --- Step 3 & 4: Hash and Wipe User PII ---
     user_pii_fields_to_hash = {

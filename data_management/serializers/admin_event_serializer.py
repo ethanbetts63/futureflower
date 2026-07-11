@@ -53,15 +53,7 @@ class AdminEventSerializer(serializers.ModelSerializer):
         ]
 
     def get_order_type(self, obj):
-        child = obj.order.get_child_instance()
-        if child is None:
-            return 'Unknown'
-        class_name = child.__class__.__name__
-        if class_name == 'UpfrontPlan':
-            return 'Upfront Plan'
-        if class_name == 'SubscriptionPlan':
-            return 'Subscription Plan'
-        return class_name
+        return dict(obj.order.BILLING_MODE_CHOICES).get(obj.order.billing_mode, 'Unknown')
 
     def get_preferred_flower_types(self, obj):
         return list(obj.order.preferred_flower_types.values_list('name', flat=True))

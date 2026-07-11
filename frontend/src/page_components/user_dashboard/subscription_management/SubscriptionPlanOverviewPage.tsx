@@ -30,7 +30,6 @@ const SubscriptionPlanOverviewPage = () => {
                 <SubscriptionSummary
                   plan={plan}
                   flowerTypeMap={flowerTypeMap}
-                  context="management"
                   planId={planId || ''}
                 />
               );

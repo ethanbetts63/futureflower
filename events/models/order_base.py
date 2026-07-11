@@ -4,8 +4,8 @@ from django.conf import settings
 
 class OrderBase(models.Model):
     """
-    A concrete base class for all order types in the system (e.g., Upfront, Subscription).
-    Contains all common fields related to a user, recipient, and preferences.
+    The single order model for the system. `billing_mode` distinguishes
+    one-time, recurring, and prepaid orders.
     """
     STATUS_CHOICES = (
         ('pending_payment', 'Pending Payment'),
@@ -13,6 +13,12 @@ class OrderBase(models.Model):
         ('completed', 'Completed'),
         ('cancelled', 'Cancelled'),
         ('refunded', 'Refunded'),
+    )
+
+    BILLING_MODE_CHOICES = (
+        ('one_time', 'One-time'),
+        ('recurring', 'Recurring'),
+        ('prepaid', 'Prepaid'),
     )
 
     user = models.ForeignKey(
@@ -30,6 +36,12 @@ class OrderBase(models.Model):
     currency = models.CharField(
         max_length=3, default='USD',
         help_text="The three-letter ISO currency code."
+    )
+    billing_mode = models.CharField(
+        max_length=20,
+        choices=BILLING_MODE_CHOICES,
+        default='one_time',
+        help_text="How this order is billed: one-time, recurring, or prepaid."
     )
 
     # --- Plan Details ---
@@ -74,6 +86,10 @@ class OrderBase(models.Model):
         null=True, blank=True,
         help_text="How often deliveries are made."
     )
+    years = models.PositiveIntegerField(
+        null=True, blank=True,
+        help_text="The total number of years for a prepaid plan."
+    )
 
     # --- Recipient Details ---
     recipient_first_name = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's first name.")
@@ -114,6 +130,19 @@ class OrderBase(models.Model):
         null=True,
         help_text="Optional notes about flower preferences."
     )
+    recurring_preferences = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Optional instructions for recurring deliveries, such as variation or seasonal preferences."
+    )
+    subscription_message = models.TextField(
+        blank=True, null=True,
+        help_text="A single message to be included with all recurring deliveries."
+    )
+    stripe_subscription_id = models.CharField(
+        max_length=255, blank=True, null=True,
+        help_text="The ID from Stripe for managing a recurring order's subscription."
+    )
 
     # --- Draft Messages (pre-payment staging) ---
     draft_card_messages = models.JSONField(
@@ -131,22 +160,7 @@ class OrderBase(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        # This will show the specific type of order (e.g., "Upfront Plan")
-        child_instance = self.get_child_instance()
-        # Prevent recursion if no child exists
-        if child_instance and child_instance != self:
-             return f"{child_instance.__class__.__name__} {self.id} for {self.user.username}"
-        return f"Order {self.id} for {self.user.username}"
-
-    def get_child_instance(self):
-        """
-        Retrieves the actual child instance (e.g., UpfrontPlan) of this OrderBase.
-        """
-        if hasattr(self, 'upfrontplan'):
-            return self.upfrontplan
-        if hasattr(self, 'subscriptionplan'):
-            return self.subscriptionplan
-        return None # Fallback to None if no child is found
+        return f"Order {self.id} ({self.billing_mode}) for {self.user.username}"
 
     class Meta:
         ordering = ['-created_at']

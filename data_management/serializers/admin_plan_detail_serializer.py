@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from events.models import OrderBase, SubscriptionPlan, UpfrontPlan
+from events.models import OrderBase
 
 
 class AdminPlanDetailSerializer(serializers.ModelSerializer):
@@ -7,10 +7,8 @@ class AdminPlanDetailSerializer(serializers.ModelSerializer):
     customer_first_name = serializers.CharField(source='user.first_name', read_only=True)
     customer_last_name = serializers.CharField(source='user.last_name', read_only=True)
     customer_email = serializers.EmailField(source='user.email', read_only=True)
-    plan_type = serializers.SerializerMethodField()
+    plan_type = serializers.CharField(source='billing_mode', read_only=True)
     preferred_flower_types = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
-    years = serializers.SerializerMethodField()
-    subscription_message = serializers.SerializerMethodField()
     events = serializers.SerializerMethodField()
 
     class Meta:
@@ -27,21 +25,6 @@ class AdminPlanDetailSerializer(serializers.ModelSerializer):
             'years', 'subscription_message',
             'events',
         ]
-
-    def get_plan_type(self, obj):
-        if isinstance(obj, SubscriptionPlan):
-            return 'subscription'
-        return 'upfront'
-
-    def get_years(self, obj):
-        if isinstance(obj, UpfrontPlan):
-            return obj.years
-        return None
-
-    def get_subscription_message(self, obj):
-        if isinstance(obj, SubscriptionPlan):
-            return obj.subscription_message
-        return None
 
     def get_events(self, obj):
         return [

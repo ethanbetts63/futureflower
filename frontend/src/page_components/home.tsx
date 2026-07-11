@@ -102,7 +102,10 @@ const HomePage = () => {
               </p>
             </div>
 
-            <div className="-mx-5 mt-8 w-[calc(100%+2.5rem)] max-w-none sm:-mx-6 sm:w-[calc(100%+3rem)] lg:mx-0 lg:w-full lg:max-w-2xl">
+            <div
+              id="start-order"
+              className="-mx-5 mt-8 w-[calc(100%+2.5rem)] max-w-none scroll-mt-24 sm:-mx-6 sm:w-[calc(100%+3rem)] lg:mx-0 lg:w-full lg:max-w-2xl"
+            >
               <HomeStarterForm />
             </div>
           </div>

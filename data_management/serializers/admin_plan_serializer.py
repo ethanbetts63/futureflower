@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from events.models import OrderBase, SubscriptionPlan
+from events.models import OrderBase
 
 
 class AdminPlanSerializer(serializers.ModelSerializer):
     customer_first_name = serializers.CharField(source='user.first_name', read_only=True)
     customer_last_name = serializers.CharField(source='user.last_name', read_only=True)
     customer_email = serializers.EmailField(source='user.email', read_only=True)
-    plan_type = serializers.SerializerMethodField()
+    plan_type = serializers.CharField(source='billing_mode', read_only=True)
 
     class Meta:
         model = OrderBase
@@ -25,8 +25,3 @@ class AdminPlanSerializer(serializers.ModelSerializer):
             'customer_last_name',
             'customer_email',
         ]
-
-    def get_plan_type(self, obj):
-        if isinstance(obj, SubscriptionPlan):
-            return 'subscription'
-        return 'upfront'

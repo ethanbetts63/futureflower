@@ -28,7 +28,7 @@ export const landingPages: Record<string, LandingPageContent> = {
     title: "More flowers. Fewer fees.",
     intro:
       "Choose a budget, set your dates, and let local florists design around the occasion instead of forcing them into rigid catalog recipes.",
-    ctaHref: "/order",
+    ctaHref: "/",
     ctaLabel: "Choose a Plan",
     sections: [
       {
@@ -106,7 +106,7 @@ export const landingPages: Record<string, LandingPageContent> = {
     title: "Fresh birthday flowers, scheduled ahead.",
     intro:
       "Pick the birthday date, set your budget, and a local florist creates a custom arrangement for the day.",
-    ctaHref: "/order",
+    ctaHref: "/",
     ctaLabel: "Schedule Birthday Flowers",
     sections: [
       {
@@ -132,7 +132,7 @@ export const landingPages: Record<string, LandingPageContent> = {
     title: "Plan Valentine's Day flowers before the rush.",
     intro:
       "Schedule Valentine's Day flowers ahead of time and let a local florist design around your message, preferences, and budget.",
-    ctaHref: "/order",
+    ctaHref: "/",
     ctaLabel: "Schedule Valentine's Flowers",
     sections: [
       {
@@ -158,7 +158,7 @@ export const landingPages: Record<string, LandingPageContent> = {
     title: "Mother's Day flowers, handled early.",
     intro:
       "Schedule Mother's Day flowers in advance and give a local florist the context to create something warm, fresh, and personal.",
-    ctaHref: "/order",
+    ctaHref: "/",
     ctaLabel: "Schedule Mother's Day Flowers",
     sections: [
       {
@@ -184,7 +184,7 @@ export const landingPages: Record<string, LandingPageContent> = {
     title: "Fresh flower delivery in Perth from local florists.",
     intro:
       "FutureFlower helps Perth customers schedule one-time bouquets and flower subscriptions with local florist fulfilment.",
-    ctaHref: "/order",
+    ctaHref: "/",
     ctaLabel: "Order Perth Flowers",
     sections: [
       {

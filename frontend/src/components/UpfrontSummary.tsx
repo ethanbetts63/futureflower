@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Calendar, MessageSquare, Tag, StickyNote } from 'lucide-react';
+import { Calendar, MessageSquare, RefreshCw, Tag, StickyNote } from 'lucide-react';
 import EditControl from '@/components/EditControl';
 import { MIN_DAYS_BEFORE_EDIT, MS_PER_DAY } from '@/utils/systemConstants';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
@@ -17,8 +17,13 @@ import PaymentInitiatorButton from '@/components/form_flow/PaymentInitiatorButto
 import DiscountCodeInput from '@/components/form_flow/DiscountCodeInput';
 import PaymentHistoryCard from '@/components/PaymentHistoryCard';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import { acceptTerms } from '@/api';
 import { cancelUpfrontPlan } from '@/api/upfrontPlans';
+import { makeOrderRecurring, startCheckout } from '@/api/orders';
 import { formatDate } from '@/utils/utils';
 import { toast } from 'sonner';
 import {
@@ -44,6 +49,9 @@ const UpfrontSummary = ({
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [makeRecurring, setMakeRecurring] = useState(false);
+  const [recurringFrequency, setRecurringFrequency] = useState('monthly');
+  const [recurringPreferences, setRecurringPreferences] = useState('');
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   const [cancelError, setCancelError] = useState<string | null>(null);
@@ -90,6 +98,34 @@ const UpfrontSummary = ({
   const firstEventMessage = events[0]?.message || '';
   const mainMessage = firstDraftMessage || firstEventMessage;
 
+  const handleRecurringPayment = async () => {
+    if (!planId) return;
+
+    setIsSubmitting(true);
+    try {
+      const recurringOrder = await makeOrderRecurring(planId, {
+        frequency: recurringFrequency,
+        recurring_preferences: recurringPreferences,
+        subscription_message: mainMessage,
+      });
+      const response = await startCheckout(recurringOrder.id);
+
+      sessionStorage.setItem('checkoutState', JSON.stringify({
+        clientSecret: response.clientSecret,
+        planId: String(recurringOrder.id),
+        itemType: 'SUBSCRIPTION_PLAN_NEW',
+        intentType: 'payment',
+        backPath: `${editBasePath}/confirmation`,
+      }));
+      router.push('/checkout');
+    } catch (err: any) {
+      toast.error("Checkout Error", {
+        description: err.message || "Could not initiate the recurring payment. Please try again.",
+      });
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="space-y-8">
       {isOrdering ? (
@@ -113,16 +149,29 @@ const UpfrontSummary = ({
           isOrdering ? (
             <div className="flex flex-row justify-between items-center w-full gap-4">
               <FlowBackButton to={`${editBasePath}/structure`} />
-              <PaymentInitiatorButton
-                itemType="UPFRONT_PLAN_NEW"
-                details={{ upfront_plan_id: planId }}
-                backPath={`${editBasePath}/confirmation`}
-                disabled={isSubmitting || !planId || !termsAccepted}
-                onPaymentInitiate={() => setIsSubmitting(true)}
-                onPaymentError={() => setIsSubmitting(false)}
-              >
-                Next: Payment
-              </PaymentInitiatorButton>
+              {makeRecurring ? (
+                <Button
+                  onClick={handleRecurringPayment}
+                  disabled={isSubmitting || !planId || !termsAccepted}
+                  className="bg-[var(--colorgreen)] text-black font-normal px-6 py-3 rounded-xl hover:bg-[#22c55e] hover:shadow-xl transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 min-w-[200px] border-none text-base"
+                >
+                  <span className="flex items-center gap-2">
+                    {isSubmitting && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
+                    Next: Payment
+                  </span>
+                </Button>
+              ) : (
+                <PaymentInitiatorButton
+                  itemType="ORDER_CHECKOUT"
+                  details={{ order_id: planId }}
+                  backPath={`${editBasePath}/confirmation`}
+                  disabled={isSubmitting || !planId || !termsAccepted}
+                  onPaymentInitiate={() => setIsSubmitting(true)}
+                  onPaymentError={() => setIsSubmitting(false)}
+                >
+                  Next: Payment
+                </PaymentInitiatorButton>
+              )}
             </div>
           ) : (
             <div className="flex justify-start items-center w-full">
@@ -230,6 +279,68 @@ const UpfrontSummary = ({
           price={Number(plan.budget)}
           editUrl={isOrdering ? `${editBasePath}/structure` : undefined}
         />
+
+        {isOrdering && (
+          <SummarySection label="Recurring Delivery">
+            <div className="space-y-4">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <Checkbox
+                  checked={makeRecurring}
+                  onCheckedChange={(checked) => setMakeRecurring(checked === true)}
+                  className="mt-1 flex-shrink-0"
+                />
+                <span>
+                  <span className="block font-semibold text-black">Make this a recurring delivery</span>
+                  <span className="mt-1 block text-sm leading-relaxed text-black/60">
+                    Use this florist brief as the starting point, then let the florist vary future deliveries based on your instructions.
+                  </span>
+                </span>
+              </label>
+
+              {makeRecurring && (
+                <div className="grid gap-4 rounded-2xl border border-black/10 bg-black/[0.02] p-4">
+                  <div className="grid gap-2">
+                    <label htmlFor="recurring-frequency" className="text-sm font-semibold text-black">
+                      Delivery Frequency
+                    </label>
+                    <Select value={recurringFrequency} onValueChange={setRecurringFrequency}>
+                      <SelectTrigger id="recurring-frequency" className="bg-white">
+                        <SelectValue placeholder="Choose frequency" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white">
+                        <SelectItem value="weekly">Weekly</SelectItem>
+                        <SelectItem value="fortnightly">Fortnightly</SelectItem>
+                        <SelectItem value="monthly">Monthly</SelectItem>
+                        <SelectItem value="annually">Annually</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="grid gap-2">
+                    <label htmlFor="recurring-preferences" className="text-sm font-semibold text-black">
+                      Custom Subscription Preferences
+                    </label>
+                    <Textarea
+                      id="recurring-preferences"
+                      value={recurringPreferences}
+                      onChange={(event) => setRecurringPreferences(event.target.value)}
+                      placeholder="Keep each delivery varied, follow the same colour palette, use seasonal flowers, avoid lilies, or anything else the florist should know."
+                      rows={4}
+                      className="bg-white"
+                    />
+                  </div>
+
+                  <div className="flex items-start gap-3 text-sm leading-relaxed text-black/60">
+                    <RefreshCw className="mt-0.5 h-4 w-4 shrink-0 text-black/35" />
+                    <p>
+                      Your first delivery is charged now. Future deliveries are charged before each scheduled delivery.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </SummarySection>
+        )}
 
         {isOrdering && (
           <SummarySection label="Promotions">

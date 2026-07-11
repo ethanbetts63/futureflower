@@ -12,7 +12,7 @@ const Step2RecipientPage = () => {
                 title="Who is receiving the flowers?"
                 saveButtonText="Next: Delivery Details"
                 onSaveNavigateTo="/single-delivery-flow/plan/{planId}/structure"
-                onCancelNavigateTo="/order"
+                onCancelNavigateTo="/"
                 getPlan={getUpfrontPlanAsSingleDelivery}
                 updatePlan={updateUpfrontPlanAsSingleDelivery}
             />

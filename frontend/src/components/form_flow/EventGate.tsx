@@ -4,11 +4,10 @@ import { useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Seo from '../Seo';
-import { getOrCreatePendingSubscriptionPlan } from '@/api/subscriptionPlans';
 import {
-    getOrCreatePendingSingleDeliveryTypeUpfrontPlan,
     updateUpfrontPlanAsSingleDelivery,
 } from '@/api/singleDeliveryPlans';
+import { getOrCreateDraftOrder } from '@/api/orders';
 import { toast } from 'sonner';
 import {
     formatHomepageFlowerNotes,
@@ -66,15 +65,12 @@ const EventGate = () => {
             hasInitiated.current = true;
             const findOrCreatePlan = async () => {
                 try {
-                    if (isSubscriptionFlow) {
-                        const plan = await getOrCreatePendingSubscriptionPlan();
-                        router.replace(`/subscribe-flow/subscription-plan/${plan.id}/recipient`);
-                    } else if (isSingleDeliveryFlow) {
-                        const plan = await getOrCreatePendingSingleDeliveryTypeUpfrontPlan();
+                    if (isSubscriptionFlow || isSingleDeliveryFlow) {
+                        const plan = await getOrCreateDraftOrder();
                         await applyHomepageBrief(plan.id);
                         router.replace(`/single-delivery-flow/plan/${plan.id}/recipient`);
                     } else {
-                        router.replace('/order');
+                        router.replace('/');
                     }
                 } catch (error: any) {
                     toast.error("Could not prepare your plan", {

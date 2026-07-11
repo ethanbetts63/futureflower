@@ -2,11 +2,6 @@ import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
 import type { SubscriptionPlan, PartialSubscriptionPlan } from "@/types";
 
-export async function getOrCreatePendingSubscriptionPlan(): Promise<SubscriptionPlan> {
-    const response = await authedFetch('/api/events/subscription-plans/get-or-create-pending/');
-    return handleResponse(response);
-}
-
 export async function getSubscriptionPlan(planId: string): Promise<SubscriptionPlan> {
     const response = await authedFetch(`/api/events/subscription-plans/${planId}/`);
     return handleResponse(response);

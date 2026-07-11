@@ -5,6 +5,7 @@ export * from './events';
 export * from './upfrontPlans';
 export * from './subscriptionPlans';
 export * from './singleDeliveryPlans';
+export * from './orders';
 export * from './users';
 export * from './payments';
 export * from './partners';

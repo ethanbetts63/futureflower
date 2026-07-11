@@ -83,8 +83,9 @@ const UniversalPaymentStatusPage = () => {
         if (planId) {
             let path = '/dashboard';
             if (source === 'checkout') {
-                const planType = itemType === 'SUBSCRIPTION_PLAN_NEW' ? 'subscription-plan' : 'upfront-plan';
-                path = `/subscribe-flow/${planType}/${planId}/payment`;
+                path = itemType === 'SUBSCRIPTION_PLAN_NEW'
+                    ? `/dashboard/subscription-plans/${planId}/overview`
+                    : `/dashboard/upfront-plans/${planId}/overview`;
             }
             setTryAgainPath(path);
         }

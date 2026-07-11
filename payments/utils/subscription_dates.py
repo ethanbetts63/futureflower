@@ -6,7 +6,7 @@ from django.conf import settings
 # but we need it for type hinting.
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from events.models import SubscriptionPlan
+    from events.models import OrderBase
 
 
 def get_recurring_options(frequency: str) -> dict:
@@ -39,19 +39,19 @@ def calculate_second_delivery_date(start_date, frequency):
     return None
 
 
-def get_next_payment_date(plan: 'SubscriptionPlan') -> date | None:
+def get_next_payment_date(order: 'OrderBase') -> date | None:
     """
-    Calculates the next upcoming payment date for a subscription plan.
+    Calculates the next upcoming payment date for a recurring order.
 
     This function is robust against "date drift" by always calculating
     from the original billing cycle anchor date.
     """
-    if not plan.start_date or not plan.frequency:
+    if not order.start_date or not order.frequency:
         return None
 
     # 1. Calculate the anchor date (when the first payment is/was due)
     lead_days = settings.SUBSCRIPTION_CHARGE_LEAD_DAYS
-    anchor_date = plan.start_date - timedelta(days=lead_days)
+    anchor_date = order.start_date - timedelta(days=lead_days)
 
     today = date.today()
 
@@ -61,7 +61,7 @@ def get_next_payment_date(plan: 'SubscriptionPlan') -> date | None:
 
     # 2. If the anchor is in the past, find the next billing date in the future.
     next_date = anchor_date
-    frequency = plan.frequency
+    frequency = order.frequency
 
     # Loop forward from the anchor date until we find a date in the future.
     while next_date <= today:
@@ -84,11 +84,11 @@ def get_next_payment_date(plan: 'SubscriptionPlan') -> date | None:
     return next_date
 
 
-def get_next_delivery_date(plan: 'SubscriptionPlan') -> date | None:
+def get_next_delivery_date(order: 'OrderBase') -> date | None:
     """
-    Calculates the next upcoming delivery date for a subscription plan.
+    Calculates the next upcoming delivery date for a recurring order.
     """
-    next_payment = get_next_payment_date(plan)
+    next_payment = get_next_payment_date(order)
     if not next_payment:
         return None
 

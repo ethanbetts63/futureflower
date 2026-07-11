@@ -68,7 +68,7 @@ const UnifiedPlanTable = () => {
         <div className="text-center py-12 bg-black/5 rounded-3xl mt-4">
           <p className="text-black/60 mb-6 italic">You have no flower plans yet.</p>
           <Button asChild variant="default" className="font-bold">
-            <Link href="/order">
+            <Link href="/">
               <Plus className="mr-2 h-4 w-4" /> Create Your First Plan
             </Link>
           </Button>

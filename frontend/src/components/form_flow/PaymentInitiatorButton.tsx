@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { createPaymentIntent } from '@/api/payments';
 import { createSubscription } from '@/api/subscriptionPlans'; // Import createSubscription
+import { startCheckout } from '@/api/orders';
 import type { PaymentInitiatorButtonProps } from '@/types/PaymentInitiatorButtonProps';
 import { cn } from '@/utils/utils';
 
@@ -41,7 +42,10 @@ const PaymentInitiatorButton = ({
     try {
       let clientSecret: string;
 
-      if (itemType === 'SUBSCRIPTION_PLAN_NEW') {
+      if (itemType === 'ORDER_CHECKOUT') {
+        const response = await startCheckout(details.order_id as string | number);
+        clientSecret = response.clientSecret;
+      } else if (itemType === 'SUBSCRIPTION_PLAN_NEW') {
         const payload = { subscription_plan_id: details.subscription_plan_id as string };
         const response = await createSubscription(payload);
         clientSecret = response.clientSecret;
@@ -57,7 +61,9 @@ const PaymentInitiatorButton = ({
       if (onPaymentSuccess) {
         onPaymentSuccess(clientSecret);
       } else {
-        const idToPass = details.upfront_plan_id || details.subscription_plan_id || details.one_time_order_id || details.single_delivery_plan_id;
+        const idToPass = details.order_id || details.upfront_plan_id || details.subscription_plan_id || details.one_time_order_id || details.single_delivery_plan_id;
+        // The checkout summary page still keys off the legacy item types.
+        const checkoutPageItemType = itemType === 'ORDER_CHECKOUT' ? 'UPFRONT_PLAN_NEW' : itemType;
         // Subscriptions now use 'payment' intent because we take the first payment immediately
         const intentType = 'payment';
 
@@ -65,7 +71,7 @@ const PaymentInitiatorButton = ({
         sessionStorage.setItem('checkoutState', JSON.stringify({
           clientSecret,
           planId: idToPass,
-          itemType: itemType,
+          itemType: checkoutPageItemType,
           intentType: intentType,
           backPath: backPath,
         }));

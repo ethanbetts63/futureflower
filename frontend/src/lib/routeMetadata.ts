@@ -150,7 +150,6 @@ const noindexPrefixes = [
   "/payment-status",
   "/event-gate",
   "/create-account",
-  "/subscribe-flow",
   "/single-delivery-flow",
   "/partner",
   "/terms-and-conditions",

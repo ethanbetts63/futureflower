@@ -4,27 +4,128 @@ from datetime import timedelta
 from django.conf import settings
 from django.db import transaction
 from payments.models import Payment
-from events.models import UpfrontPlan, SubscriptionPlan, Event
+from events.models import OrderBase, Event
 from events.utils.delivery_dates import calculate_projected_delivery_dates
 from payments.utils.subscription_dates import get_next_delivery_date
 from payments.utils.send_admin_payment_notification import send_admin_payment_notification
 from payments.utils.send_customer_payment_notification import send_customer_payment_notification
 from data_management.utils.notification_factory import create_admin_event_notifications, create_customer_delivery_day_notification
 
+
+def _activate_order(order):
+    order.status = 'active'
+    order.save()
+
+
+def _create_first_event(order, payment_intent_id):
+    """
+    Creates the single delivery Event for a one-time or recurring order's
+    first delivery. Idempotent.
+    """
+    if Event.objects.filter(order=order, delivery_date=order.start_date).exists():
+        print(f"First event for Order (PK: {order.pk}) already exists. Skipping duplicate.")
+        return
+
+    from partners.utils.commission_utils import get_referral_commission_amount
+    commission_amount = get_referral_commission_amount(order.budget) if order.budget else None
+    message = order.subscription_message or (order.draft_card_messages or {}).get('0', '')
+
+    event = Event.objects.create(
+        order=order,
+        delivery_date=order.start_date,
+        message=message,
+        commission_amount=commission_amount,
+    )
+    create_admin_event_notifications(event)
+    create_customer_delivery_day_notification(event)
+    send_customer_payment_notification(order.user, order)
+    send_admin_payment_notification(payment_intent_id, order=order)
+
+
+def _create_projected_events(order, payment_intent_id):
+    """
+    Creates all projected delivery Events for a prepaid multi-year order. Idempotent.
+    """
+    if Event.objects.filter(order=order).exists():
+        print(f"Events for Order (PK: {order.pk}) already exist. Skipping duplicate.")
+        return
+
+    from partners.utils.commission_utils import get_referral_commission_amount
+    commission_amount = get_referral_commission_amount(order.budget) if order.budget else None
+    draft_messages = order.draft_card_messages or {}
+    projected = calculate_projected_delivery_dates(order.start_date, order.frequency, order.years)
+    events_to_create = [
+        Event(
+            order=order,
+            delivery_date=d["date"],
+            message=draft_messages.get(str(d["index"]), ''),
+            commission_amount=commission_amount,
+        )
+        for d in projected
+    ]
+    Event.objects.bulk_create(events_to_create)
+    # Re-query to get DB-assigned PKs (bulk_create doesn't populate them on SQLite)
+    created_events = list(Event.objects.filter(order=order).order_by('delivery_date'))
+    print(f"Created {len(created_events)} Events for Order (PK: {order.pk}).")
+    for event in created_events:
+        create_admin_event_notifications(event)
+        create_customer_delivery_day_notification(event)
+    send_customer_payment_notification(order.user, order)
+    send_admin_payment_notification(payment_intent_id, order=order)
+
+
+def _create_stripe_subscription_for_order(order, payment_method_id):
+    """
+    Creates the actual Stripe Subscription for future deliveries of a
+    recurring order, once the first delivery has been paid for. Idempotent.
+    """
+    if order.stripe_subscription_id:
+        return
+
+    import stripe
+    from datetime import datetime, time
+    from payments.utils.subscription_dates import get_recurring_options, calculate_second_delivery_date
+
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+
+    second_delivery_date = calculate_second_delivery_date(order.start_date, order.frequency)
+    trial_end_date = second_delivery_date - timedelta(days=settings.SUBSCRIPTION_CHARGE_LEAD_DAYS)
+    trial_end_timestamp = int(datetime.combine(trial_end_date, time.min).timestamp())
+
+    if trial_end_timestamp <= datetime.now().timestamp():
+        trial_end_timestamp = int(datetime.now().timestamp() + 60)
+
+    product = stripe.Product.create(name="FutureFlower Subscription")
+
+    subscription = stripe.Subscription.create(
+        customer=order.user.stripe_customer_id,
+        items=[{
+            "price_data": {
+                "currency": order.currency.lower(),
+                "unit_amount": int(order.total_amount * 100),
+                "product": product.id,
+                "recurring": get_recurring_options(order.frequency),
+            }
+        }],
+        trial_end=trial_end_timestamp,
+        default_payment_method=payment_method_id,
+        metadata={'order_id': order.id},
+    )
+
+    order.stripe_subscription_id = subscription.id
+    order.save()
+    print(f"Stripe Subscription {subscription.id} created for order {order.id}.")
+
+
 def handle_payment_intent_succeeded(payment_intent):
     """
-    Handles the payment_intent.succeeded event from Stripe for various single-delivery payments.
-    This is the fulfillment step of the checkout.
+    Handles the payment_intent.succeeded event from Stripe. This is the
+    fulfillment step of checkout, dispatched by the order's billing_mode.
     """
     payment_intent_id = payment_intent['id']
-    metadata = payment_intent.get('metadata', {})
-    item_type = metadata.get('item_type')
-
-    print(f"Processing payment_intent.succeeded for item_type: {item_type} (PI: {payment_intent_id})")
 
     try:
         with transaction.atomic():
-            # Retrieve the payment object that was created in the create_payment_intent view
             payment = Payment.objects.get(stripe_payment_intent_id=payment_intent_id)
 
             # Idempotency: if already processed, skip
@@ -32,12 +133,12 @@ def handle_payment_intent_succeeded(payment_intent):
                 print(f"Payment record (PK: {payment.pk}) already succeeded. Skipping duplicate webhook.")
                 return
 
-            # Update payment status
             payment.status = 'succeeded'
             payment.save()
             print(f"Payment record (PK: {payment.pk}) status updated to 'succeeded'.")
 
             # --- Discount & Commission Processing ---
+            metadata = payment_intent.get('metadata', {})
             discount_code_str = metadata.get('discount_code')
             if discount_code_str:
                 try:
@@ -61,129 +162,31 @@ def handle_payment_intent_succeeded(payment_intent):
                 print(f"Error processing referral commission: {e}")
 
             # --- Fulfillment Logic ---
-            # Use the 'order' relation from the payment object to find the correct plan
             order = payment.order
+            print(f"Processing payment_intent.succeeded for Order {order.id} (billing_mode: {order.billing_mode})")
 
-            if item_type == 'UPFRONT_PLAN_MODIFY':
-                plan_to_update = UpfrontPlan.objects.get(id=order.id)
-                plan_to_update.budget = Decimal(metadata['new_budget'])
-                plan_to_update.years = int(metadata['new_years'])
-                plan_to_update.frequency = metadata['new_frequency']
-                plan_to_update.save()
-                print(f"UpfrontPlan (PK: {plan_to_update.pk}) successfully modified.")
+            if order.billing_mode == 'one_time':
+                _activate_order(order)
+                _create_first_event(order, payment_intent_id)
 
-            elif item_type == 'UPFRONT_PLAN_NEW':
-                plan_to_activate = UpfrontPlan.objects.get(id=order.id)
-                plan_to_activate.status = 'active'
-                plan_to_activate.save()
-                print(f"UpfrontPlan (PK: {plan_to_activate.pk}) successfully activated.")
+            elif order.billing_mode == 'recurring':
+                _activate_order(order)
+                _create_first_event(order, payment_intent_id)
+                payment_method_id = payment_intent.get('payment_method')
+                _create_stripe_subscription_for_order(order, payment_method_id)
 
-                # Create all delivery events for this plan
-                if not Event.objects.filter(order=plan_to_activate.orderbase_ptr).exists():
-                    from partners.utils.commission_utils import get_referral_commission_amount
-                    budget = getattr(plan_to_activate, 'budget', None)
-                    commission_amount = get_referral_commission_amount(budget) if budget else None
-                    draft_messages = plan_to_activate.draft_card_messages or {}
-                    projected = calculate_projected_delivery_dates(
-                        plan_to_activate.start_date,
-                        plan_to_activate.frequency,
-                        plan_to_activate.years,
-                    )
-                    events_to_create = [
-                        Event(
-                            order=plan_to_activate.orderbase_ptr,
-                            delivery_date=d["date"],
-                            message=draft_messages.get(str(d["index"]), ''),
-                            commission_amount=commission_amount,
-                        )
-                        for d in projected
-                    ]
-                    Event.objects.bulk_create(events_to_create)
-                    # Re-query to get DB-assigned PKs (bulk_create doesn't populate them on SQLite)
-                    created_events = list(
-                        Event.objects.filter(order=plan_to_activate.orderbase_ptr).order_by('delivery_date')
-                    )
-                    print(f"Created {len(created_events)} Events for UpfrontPlan (PK: {plan_to_activate.pk}).")
-                    for event in created_events:
-                        create_admin_event_notifications(event)
-                        create_customer_delivery_day_notification(event)
-                    send_customer_payment_notification(plan_to_activate.user, plan_to_activate)
-                    send_admin_payment_notification(payment_intent_id, order=plan_to_activate)
-                else:
-                    print(f"Events for UpfrontPlan (PK: {plan_to_activate.pk}) already exist. Skipping duplicate.")
-
-            elif item_type == 'SUBSCRIPTION_PLAN_NEW':
-                plan_to_activate = SubscriptionPlan.objects.get(id=order.id)
-                plan_to_activate.status = 'active'
-                plan_to_activate.save()
-
-                # 1. Create the first delivery Event
-                if not Event.objects.filter(order=plan_to_activate.orderbase_ptr, delivery_date=plan_to_activate.start_date).exists():
-                    from partners.utils.commission_utils import get_referral_commission_amount
-                    sub_budget = getattr(plan_to_activate, 'budget', None)
-                    sub_commission_amount = get_referral_commission_amount(sub_budget) if sub_budget else None
-                    first_event = Event.objects.create(
-                        order=plan_to_activate.orderbase_ptr,
-                        delivery_date=plan_to_activate.start_date,
-                        message=plan_to_activate.subscription_message,
-                        commission_amount=sub_commission_amount,
-                    )
-                    create_admin_event_notifications(first_event)
-                    create_customer_delivery_day_notification(first_event)
-                    send_customer_payment_notification(plan_to_activate.user, plan_to_activate)
-                    send_admin_payment_notification(payment_intent_id, order=plan_to_activate)
-
-                # 2. Create the actual Stripe Subscription for future deliveries
-                if not plan_to_activate.stripe_subscription_id:
-                    import stripe
-                    from datetime import datetime, time
-                    from payments.utils.subscription_dates import get_recurring_options, calculate_second_delivery_date
-                    
-                    stripe.api_key = settings.STRIPE_SECRET_KEY
-                    
-                    # Calculate the trial end (7 days before the 2nd delivery)
-                    second_delivery_date = calculate_second_delivery_date(plan_to_activate.start_date, plan_to_activate.frequency)
-                    trial_end_date = second_delivery_date - timedelta(days=settings.SUBSCRIPTION_CHARGE_LEAD_DAYS)
-                    trial_end_timestamp = int(datetime.combine(trial_end_date, time.min).timestamp())
-                    
-                    # Ensure trial end is in the future
-                    if trial_end_timestamp <= datetime.now().timestamp():
-                        trial_end_timestamp = int(datetime.now().timestamp() + 60)
-
-                    # Use the payment method from the successful PaymentIntent
-                    payment_method_id = payment_intent.get('payment_method')
-
-                    product = stripe.Product.create(name="FutureFlower Subscription")
-
-                    subscription = stripe.Subscription.create(
-                        customer=plan_to_activate.user.stripe_customer_id,
-                        items=[{
-                            "price_data": {
-                                "currency": plan_to_activate.currency.lower(),
-                                "unit_amount": int(plan_to_activate.total_amount * 100),
-                                "product": product.id,
-                                "recurring": get_recurring_options(plan_to_activate.frequency),
-                            }
-                        }],
-                        trial_end=trial_end_timestamp,
-                        default_payment_method=payment_method_id,
-                        metadata={
-                            'plan_id': plan_to_activate.id,
-                            'item_type': 'SUBSCRIPTION_PLAN_RECURRING'
-                        }
-                    )
-                    
-                    plan_to_activate.stripe_subscription_id = subscription.id
-                    plan_to_activate.save()
-                    print(f"Stripe Subscription {subscription.id} created for plan {plan_to_activate.id}.")
+            elif order.billing_mode == 'prepaid':
+                _activate_order(order)
+                _create_projected_events(order, payment_intent_id)
 
             else:
-                print(f"Unhandled item_type '{item_type}' in payment_intent.succeeded webhook. No action taken.")
+                print(f"Unhandled billing_mode '{order.billing_mode}' for Order {order.id}. No action taken.")
 
     except Payment.DoesNotExist:
         print(f"CRITICAL ERROR: Payment object not found for PI ID: {payment_intent_id}. The webhook may have arrived before the initial request completed.")
     except Exception as e:
         print(f"UNEXPECTED ERROR during payment_intent.succeeded processing. PI ID: {payment_intent_id}, Error: {e}")
+
 
 def handle_invoice_payment_succeeded(invoice):
     """
@@ -196,15 +199,15 @@ def handle_invoice_payment_succeeded(invoice):
 
     try:
         with transaction.atomic():
-            subscription_plan = SubscriptionPlan.objects.select_for_update().get(stripe_subscription_id=subscription_id)
-            print(f"Found SubscriptionPlan (PK: {subscription_plan.pk}) for Stripe Subscription ID: {subscription_id}")
+            order = OrderBase.objects.select_for_update().get(stripe_subscription_id=subscription_id)
+            print(f"Found Order (PK: {order.pk}) for Stripe Subscription ID: {subscription_id}")
 
             # Create a Payment record for this transaction (idempotent via unique stripe_payment_intent_id)
             payment, created = Payment.objects.get_or_create(
                 stripe_payment_intent_id=invoice.get('payment_intent'),
                 defaults={
-                    'user': subscription_plan.user,
-                    'order': subscription_plan.orderbase_ptr,
+                    'user': order.user,
+                    'order': order,
                     'amount': invoice.get('amount_paid') / 100.0,
                     'status': 'succeeded',
                 }
@@ -213,6 +216,7 @@ def handle_invoice_payment_succeeded(invoice):
                 print(f"Created Payment record (PK: {payment.pk}) for invoice.")
             else:
                 print(f"Payment record (PK: {payment.pk}) already exists for this invoice. Skipping duplicate.")
+                return
 
             # Process referral commission for subscription payments
             try:
@@ -221,13 +225,8 @@ def handle_invoice_payment_succeeded(invoice):
             except Exception as e:
                 print(f"Error processing referral commission for subscription: {e}")
 
-            # Only create the next Event if the Payment was newly created (idempotency)
-            if not created:
-                print(f"Payment record (PK: {payment.pk}) already exists for this invoice. Skipping duplicate.")
-                return
-
             # Determine the delivery date for this specific payment.
-            # Since we charge exactly 14 days before delivery, the delivery date 
+            # Since we charge exactly 14 days before delivery, the delivery date
             # is the date the invoice was created plus 7 days.
             invoice_created_ts = invoice.get('created')
             if invoice_created_ts:
@@ -236,32 +235,31 @@ def handle_invoice_payment_succeeded(invoice):
                 delivery_date = invoice_date + timedelta(days=settings.SUBSCRIPTION_CHARGE_LEAD_DAYS)
             else:
                 # Fallback to the drift-free calculation if timestamp is missing
-                delivery_date = get_next_delivery_date(subscription_plan)
+                delivery_date = get_next_delivery_date(order)
 
             if delivery_date is None:
-                print(f"WARNING: Could not determine delivery date for SubscriptionPlan (PK: {subscription_plan.pk}). Skipping Event creation.")
+                print(f"WARNING: Could not determine delivery date for Order (PK: {order.pk}). Skipping Event creation.")
                 return
 
             # Create a new Event for the delivery that was just paid for
-            if not Event.objects.filter(order=subscription_plan.orderbase_ptr, delivery_date=delivery_date).exists():
+            if not Event.objects.filter(order=order, delivery_date=delivery_date).exists():
                 from partners.utils.commission_utils import get_referral_commission_amount
-                rec_budget = getattr(subscription_plan, 'budget', None)
-                rec_commission_amount = get_referral_commission_amount(rec_budget) if rec_budget else None
+                commission_amount = get_referral_commission_amount(order.budget) if order.budget else None
                 new_event = Event.objects.create(
-                    order=subscription_plan.orderbase_ptr,
+                    order=order,
                     delivery_date=delivery_date,
-                    message=subscription_plan.subscription_message,
-                    commission_amount=rec_commission_amount,
+                    message=order.subscription_message,
+                    commission_amount=commission_amount,
                 )
                 create_admin_event_notifications(new_event)
                 create_customer_delivery_day_notification(new_event)
-                send_admin_payment_notification(invoice.get('payment_intent', ''), order=subscription_plan)
+                send_admin_payment_notification(invoice.get('payment_intent', ''), order=order)
                 print(f"Created new Event for recurring delivery on {delivery_date}.")
             else:
                 print(f"Event for delivery on {delivery_date} already exists. Skipping duplicate.")
 
-    except SubscriptionPlan.DoesNotExist:
-        print(f"CRITICAL ERROR: SubscriptionPlan not found for Stripe Subscription ID: {subscription_id}")
+    except OrderBase.DoesNotExist:
+        print(f"CRITICAL ERROR: Order not found for Stripe Subscription ID: {subscription_id}")
     except ValueError as e:
         print(f"ERROR: Could not determine next delivery date. Error: {e}")
     except Exception as e:
@@ -286,31 +284,33 @@ def handle_payment_intent_failed(payment_intent):
 
 def handle_setup_intent_succeeded(setup_intent):
     """
-    Handles the setup_intent.succeeded event. This is key for activating subscriptions with trial periods.
+    Handles the setup_intent.succeeded event. No current checkout path creates
+    SetupIntents; kept as a safety net in case Stripe is still configured to
+    send this event type.
     """
     metadata = setup_intent.get('metadata', {})
-    plan_id = metadata.get('subscription_plan_id')
-    
-    if not plan_id:
-        print("Webhook received a setup_intent.succeeded event without a subscription_plan_id in metadata. Skipping.")
+    order_id = metadata.get('order_id')
+
+    if not order_id:
+        print("Webhook received a setup_intent.succeeded event without an order_id in metadata. Skipping.")
         return
 
-    print(f"Processing setup_intent.succeeded for SubscriptionPlan: {plan_id}")
-    
+    print(f"Processing setup_intent.succeeded for Order: {order_id}")
+
     try:
         with transaction.atomic():
-            plan_to_activate = SubscriptionPlan.objects.get(id=plan_id)
-            if plan_to_activate.status == 'active':
-                print(f"SubscriptionPlan (PK: {plan_to_activate.pk}) already active. Skipping duplicate webhook.")
+            order = OrderBase.objects.get(id=order_id)
+            if order.status == 'active':
+                print(f"Order (PK: {order.pk}) already active. Skipping duplicate webhook.")
                 return
-            plan_to_activate.status = 'active'
-            plan_to_activate.save()
-            print(f"Successfully activated SubscriptionPlan (PK: {plan_to_activate.pk})")
+            order.status = 'active'
+            order.save()
+            print(f"Successfully activated Order (PK: {order.pk})")
 
-    except SubscriptionPlan.DoesNotExist:
-        print(f"CRITICAL ERROR: SubscriptionPlan not found for ID: {plan_id}")
+    except OrderBase.DoesNotExist:
+        print(f"CRITICAL ERROR: Order not found for ID: {order_id}")
     except Exception as e:
-        print(f"UNEXPECTED ERROR during setup_intent.succeeded processing for plan {plan_id}: {e}")
+        print(f"UNEXPECTED ERROR during setup_intent.succeeded processing for order {order_id}: {e}")
 
 
 def handle_subscription_deleted(subscription):
@@ -328,20 +328,20 @@ def handle_subscription_deleted(subscription):
 
     try:
         with transaction.atomic():
-            plan = SubscriptionPlan.objects.select_for_update().get(
+            order = OrderBase.objects.select_for_update().get(
                 stripe_subscription_id=subscription_id
             )
 
-            if plan.status == 'cancelled':
-                print(f"SubscriptionPlan (PK: {plan.pk}) already cancelled. Skipping.")
+            if order.status == 'cancelled':
+                print(f"Order (PK: {order.pk}) already cancelled. Skipping.")
                 return
 
-            plan.status = 'cancelled'
-            plan.save()
-            print(f"SubscriptionPlan (PK: {plan.pk}) marked as cancelled via webhook.")
+            order.status = 'cancelled'
+            order.save()
+            print(f"Order (PK: {order.pk}) marked as cancelled via webhook.")
 
             # Cancel remaining scheduled events and their notifications
-            scheduled_events = plan.events.filter(status='scheduled')
+            scheduled_events = order.events.filter(status='scheduled')
             for event in scheduled_events:
                 from data_management.models.notification import Notification
                 Notification.objects.filter(
@@ -350,8 +350,8 @@ def handle_subscription_deleted(subscription):
                 event.status = 'cancelled'
                 event.save()
 
-    except SubscriptionPlan.DoesNotExist:
-        print(f"SubscriptionPlan not found for Stripe Subscription ID: {subscription_id}. Skipping.")
+    except OrderBase.DoesNotExist:
+        print(f"Order not found for Stripe Subscription ID: {subscription_id}. Skipping.")
     except Exception as e:
         print(f"UNEXPECTED ERROR during customer.subscription.deleted for {subscription_id}: {e}")
 
@@ -426,4 +426,3 @@ def handle_transfer_created(transfer):
         print(f"No Payout found for transfer ID: {transfer_id}. Skipping.")
     except Exception as e:
         print(f"UNEXPECTED ERROR during transfer.created processing for {transfer_id}: {e}")
-

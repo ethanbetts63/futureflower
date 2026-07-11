@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 from django.db.models import Q
-from events.models import UpfrontPlan, SubscriptionPlan
+from events.models import OrderBase
 from data_management.serializers.admin_plan_serializer import AdminPlanSerializer
 
 
@@ -14,12 +14,13 @@ class AdminPlanListView(APIView):
         plan_type_filter = request.query_params.get('plan_type', '').strip()
         search = request.query_params.get('search', '').strip()
 
-        upfront_qs = UpfrontPlan.objects.select_related('user')
-        subscription_qs = SubscriptionPlan.objects.select_related('user')
+        orders_qs = OrderBase.objects.select_related('user')
 
         if status_filter:
-            upfront_qs = upfront_qs.filter(status=status_filter)
-            subscription_qs = subscription_qs.filter(status=status_filter)
+            orders_qs = orders_qs.filter(status=status_filter)
+
+        if plan_type_filter:
+            orders_qs = orders_qs.filter(billing_mode=plan_type_filter)
 
         if search:
             q = (
@@ -29,18 +30,8 @@ class AdminPlanListView(APIView):
                 | Q(recipient_first_name__icontains=search)
                 | Q(recipient_last_name__icontains=search)
             )
-            upfront_qs = upfront_qs.filter(q)
-            subscription_qs = subscription_qs.filter(q)
+            orders_qs = orders_qs.filter(q)
 
-        if plan_type_filter == 'upfront':
-            plans = list(upfront_qs.order_by('-created_at'))
-        elif plan_type_filter == 'subscription':
-            plans = list(subscription_qs.order_by('-created_at'))
-        else:
-            plans = sorted(
-                list(upfront_qs) + list(subscription_qs),
-                key=lambda p: p.created_at,
-                reverse=True,
-            )
+        orders = orders_qs.order_by('-created_at')
 
-        return Response(AdminPlanSerializer(plans, many=True).data)
+        return Response(AdminPlanSerializer(orders, many=True).data)

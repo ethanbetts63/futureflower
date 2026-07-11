@@ -118,7 +118,7 @@ export function LoginForm({
                 {/* Signup Link */}
                 <div className="text-center text-sm text-black">
                   Don&apos;t have an account?{" "}
-                  <Link href="/order" className="underline underline-offset-2 hover:underline hover:text-primary">
+                  <Link href="/" className="underline underline-offset-2 hover:underline hover:text-primary">
                     Order Flowers
                   </Link>
                 </div>
