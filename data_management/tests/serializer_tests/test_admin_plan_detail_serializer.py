@@ -22,7 +22,7 @@ def test_admin_plan_detail_serializer_upfront_plan():
     data = serializer.data
     
     assert data['id'] == plan.id
-    assert data['plan_type'] == 'upfront'
+    assert data['plan_type'] == 'prepaid'
     assert data['years'] == 5
     assert data['subscription_message'] is None
     assert "Lily" in data['preferred_flower_types']
@@ -43,7 +43,7 @@ def test_admin_plan_detail_serializer_subscription_plan():
     data = serializer.data
     
     assert data['id'] == plan.id
-    assert data['plan_type'] == 'subscription'
+    assert data['plan_type'] == 'recurring'
     assert data['years'] is None
     assert data['subscription_message'] == "Hello World"
     assert float(data['budget']) == 75.00

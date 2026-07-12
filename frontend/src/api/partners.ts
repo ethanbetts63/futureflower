@@ -36,7 +36,6 @@ export async function updatePartnerDetails(data: PartnerUpdateData): Promise<Par
 export async function validateDiscountCode(data: {
   code: string;
   plan_id: string;
-  plan_type: 'upfront' | 'subscription';
 }): Promise<DiscountValidationResult> {
   const response = await authedFetch('/api/partners/validate-discount-code/', {
     method: 'POST',

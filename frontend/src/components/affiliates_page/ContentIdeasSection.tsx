@@ -9,24 +9,19 @@ import { assetSrc } from '@/lib/assets';
 
 const angles = [
   {
-    label: 'The "Stop Using Big Flower Websites" Angle',
+    label: 'The "Don\'t Know Flowers? You Don\'t Need To" Angle',
     description:
-      'Explain how major online flower networks quietly take massive cuts from florists — leaving less money in the bouquet. FutureFlower caps commission at 15%, meaning more flowers for the same price.',
+      'Most people buying flowers have no idea what they\'re looking at. Show how giving a budget and a vibe to an actual florist beats guessing between lookalike catalog photos.',
   },
   {
-    label: 'The "Yearly Gift to Yourself"',
+    label: 'The "Support Local" Angle',
     description:
-      'Encourage your audience to send flowers to their future self once a year. A birthday gift. A reminder. A "you made it" moment. Scheduled now, delivered when it matters most.',
-  },
-  {
-    label: 'The "Mother\'s Day" Savior',
-    description:
-      'Remind your audience that the best gift is one that doesn\'t rely on a last-minute reminder.',
+      'Every order is made and delivered by a real local florist under their own name — not a warehouse box with a courier label.',
   },
   {
     label: 'The Unboxing',
     description:
-      'Show the quality of a "Florist\'s Choice" bouquet — no supermarket bundles here.',
+      'Show the quality of a custom florist-designed bouquet — no supermarket bundles here.',
   },
 ];
 

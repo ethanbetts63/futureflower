@@ -1,43 +1,45 @@
 
-import { ChevronRight } from 'lucide-react';
-
-const conversationStarters = [
-  '"Would you like us to arrange something similar delivered for Mother\'s Day?"',
-  '"Would you like us to arrange something similar delivered this time next year?"',
-  '"Would you like us to set up a delivery subscription? We can have something like this delivered once a month."',
-];
-
 export const WhyFutureFlowerSection = () => {
   return (
     <section className="bg-[var(--color4)] py-10 md:py-14">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
-            Right now, when a customer walks into your shop, there's only so much you can upsell: a bigger bouquet, nicer wrapping, maybe an extra gift. And then it's over.
+            Customers come to us with an occasion, a budget, and their preferences — not a catalog picture to copy. We pass that brief to a florist near the delivery address. If that's you, you decide whether to take it.
           </p>
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
-            FutureFlower lets you extend your service beyond today's purchase. We give you the infrastructure to offer <strong>scheduled future deliveries</strong>, <strong>ongoing flower subscriptions</strong>, and <strong>multi-year prepaid flower plans</strong> — all without adding admin, complexity, or operational burden.
+            There's no recipe to follow and no stock to hold for us. You design what suits the brief from the flowers you actually have, deliver it yourself, and put <strong>your own name on it</strong>. We handle the customer, the payment, and the admin.
           </p>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">
-            And we are <strong>completely free to use</strong>. Just set up a QR code in-store and/or a link on your website.
+            And it's <strong>completely free to join</strong>. No fees, no contracts, no minimums.
           </p>
 
-          {/* Conversation Starters */}
+          {/* Sample order brief */}
           <div className="bg-white rounded-xl shadow-md p-8">
             <p className="text-gray-800 font-semibold mb-2 text-lg">
-              This changes the conversation in your store.
+              What an order looks like.
             </p>
             <p className="text-gray-600 mb-6">
-              Instead of wrapping it up and saying goodbye — you can say:
+              A typical brief, sent straight to your phone:
             </p>
-            <div className="flex flex-col gap-3">
-              {conversationStarters.map((line, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <ChevronRight className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-gray-700 italic">{line}</p>
-                </div>
-              ))}
-            </div>
+            <dl className="flex flex-col gap-3 text-gray-700">
+              <div className="flex gap-3">
+                <dt className="w-28 shrink-0 font-semibold text-gray-500 text-sm uppercase tracking-wide pt-0.5">Occasion</dt>
+                <dd>Birthday — for their mum</dd>
+              </div>
+              <div className="flex gap-3">
+                <dt className="w-28 shrink-0 font-semibold text-gray-500 text-sm uppercase tracking-wide pt-0.5">Budget</dt>
+                <dd>$90 + delivery, fully paid</dd>
+              </div>
+              <div className="flex gap-3">
+                <dt className="w-28 shrink-0 font-semibold text-gray-500 text-sm uppercase tracking-wide pt-0.5">Preferences</dt>
+                <dd className="italic">"Loves pink and soft pastels. No lilies — allergies."</dd>
+              </div>
+              <div className="flex gap-3">
+                <dt className="w-28 shrink-0 font-semibold text-gray-500 text-sm uppercase tracking-wide pt-0.5">Delivery</dt>
+                <dd>Friday, 12 June — address and card message included</dd>
+              </div>
+            </dl>
           </div>
         </div>
       </div>

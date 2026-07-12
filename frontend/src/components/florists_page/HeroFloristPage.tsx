@@ -1,8 +1,6 @@
 
 import { ArrowDown } from 'lucide-react';
 import { BecomePartnerButton } from './BecomePartnerButton';
-import moneyBagIcon from '../../assets/money_bag.svg';
-import Badge from '../Badge';
 import type { HeroFloristPageProps } from '@/types/HeroFloristPageProps';
 
 import deliveryImage from '../../assets/delivery.webp';
@@ -31,28 +29,13 @@ export const HeroFloristPage = ({ scrollToContent }: HeroFloristPageProps) => {
           className="w-full h-full object-cover"
         />
       </picture>
-      <Badge
-        title="Bi-Weekly Payouts"
-        subtext="Fast cash flow you control"
-        symbol={
-          <img
-            src={assetSrc(moneyBagIcon)}
-            alt=""
-            className="h-5 w-5 md:h-7 md:w-7 animate-bounce"
-            style={{ animationDuration: '2s' }}
-          />
-        }
-        className="absolute top-8 right-6 sm:top-12 sm:right-12"
-      />
-
-
 
       <div className="relative ml-0 sm:ml-12 md:ml-24 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-black/70 p-8 sm:p-12 rounded-none sm:rounded-lg text-white">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-          Turn one sale into <span className="italic">many</span>.
+          Orders on <span className="italic">your</span> terms.
         </h1>
         <p className="mt-6 text-lg sm:text-xl leading-8">
-          Extend your service beyond today's purchase. Offer scheduled deliveries, and subscriptions — completely free, with zero admin.
+          We send you fully paid local orders. Take the ones you want, design them from the stock you have, and deliver under your own brand. Free to join.
         </p>
         <div className="mt-8 flex items-center gap-8">
           <button

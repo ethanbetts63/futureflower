@@ -25,7 +25,7 @@ class TestAdminPlanListView:
     def test_filter_by_plan_type_upfront_only(self):
         upfront = UpfrontPlanFactory()
         SubscriptionPlanFactory()
-        response = self.client.get(self._url(), {'plan_type': 'upfront'})
+        response = self.client.get(self._url(), {'plan_type': 'prepaid'})
         ids = [p['id'] for p in response.data]
         assert upfront.pk in ids
         assert len(ids) == 1
@@ -33,7 +33,7 @@ class TestAdminPlanListView:
     def test_filter_by_plan_type_subscription_only(self):
         UpfrontPlanFactory()
         sub = SubscriptionPlanFactory()
-        response = self.client.get(self._url(), {'plan_type': 'subscription'})
+        response = self.client.get(self._url(), {'plan_type': 'recurring'})
         ids = [p['id'] for p in response.data]
         assert sub.pk in ids
         assert len(ids) == 1

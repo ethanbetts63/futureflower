@@ -3,7 +3,7 @@ import { ComparisonBarChart, defaultComparisonBars, defaultComparisonLegend } fr
 const rows = [
   { feature: 'Commission',       them: '25-50% per order',              us: '15%' },
   { feature: 'Monthly Fees',     them: 'Often $100–$200+ monthly',      us: '$0' },
-  { feature: 'Order Rejection',  them: '$5–25 penalty for rejecting', us: '$5-25 reward for rejecting**' },
+  { feature: 'Order Rejection',  them: '$5–25 penalty for rejecting', us: 'No penalty — just say no' },
   { feature: 'Delivery Fee',     them: 'Often retain delivery margin',  us: 'Fully Paid' },
   { feature: 'Product Rules',    them: 'Exact vase + stem counts',      us: 'Florist designs freely' },
   { feature: 'Branding',         them: 'Network branding required',     us: 'Florist branding encouraged' },
@@ -32,7 +32,7 @@ const ComparisonSection = () => (
           <div className="mt-6 pt-2 border-t border-black/10">
             <p className="text-sm font-semibold text-black/80 italic">Then how do you make money?</p>
             <p className="mt-2 text-sm text-black/70 leading-relaxed">
-              No catch, our business model is florist first. We charge a flat 15% per order. No hidden "marketing fees," no monthly subscriptions, and no penalties for saying no. We'd rather be a partner than a tax collector. Any lower and we couldn't offer rejection rewards and discount codes.</p>
+              No catch, our business model is florist first. We charge a flat 15% per order. No hidden "marketing fees," no monthly subscriptions, and no penalties for saying no. We'd rather be a partner than a tax collector.</p>
           </div>
         </div>
       </div>
@@ -67,9 +67,6 @@ const ComparisonSection = () => (
             </div>
           ))}
         </div>
-        <p className="mt-3 text-xs text-gray-500 max-w-2xl w-full">
-          **For all customers you signed up and no rejection fee for customers we signed up.
-        </p>
       </div>
 
     </div>

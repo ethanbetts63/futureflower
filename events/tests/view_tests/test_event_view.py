@@ -14,11 +14,11 @@ class TestEventViewSet:
 
     def test_get_queryset_filters_by_user(self):
         plan = UpfrontPlanFactory(user=self.user)
-        EventFactory(order=plan.orderbase_ptr)
+        EventFactory(order=plan)
         
         other_user = UserFactory()
         other_plan = UpfrontPlanFactory(user=other_user)
-        EventFactory(order=other_plan.orderbase_ptr)
+        EventFactory(order=other_plan)
         
         response = self.client.get(self.url)
         assert response.status_code == 200
@@ -26,7 +26,7 @@ class TestEventViewSet:
 
     def test_retrieve_event(self):
         plan = UpfrontPlanFactory(user=self.user)
-        event = EventFactory(order=plan.orderbase_ptr)
+        event = EventFactory(order=plan)
         
         url = f"{self.url}{event.id}/"
         response = self.client.get(url)
@@ -36,7 +36,7 @@ class TestEventViewSet:
     def test_retrieve_other_user_event_fails(self):
         other_user = UserFactory()
         other_plan = UpfrontPlanFactory(user=other_user)
-        event = EventFactory(order=other_plan.orderbase_ptr)
+        event = EventFactory(order=other_plan)
         
         url = f"{self.url}{event.id}/"
         response = self.client.get(url)

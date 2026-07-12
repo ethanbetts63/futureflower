@@ -47,10 +47,7 @@ const SubscriptionSummary = ({
           editUrl={`${editBasePath}/edit-recipient`}
         />
 
-        <SummarySection
-          label="Subscription Schedule"
-          editUrl={`${editBasePath}/edit-structure`}
-        >
+        <SummarySection label="Subscription Schedule">
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-3">
               <RefreshCw className="h-5 w-5 text-black/20 flex-shrink-0" />
@@ -68,10 +65,7 @@ const SubscriptionSummary = ({
         </SummarySection>
 
         {plan.subscription_message && (
-          <SummarySection
-            label="Card Message"
-            editUrl={`${editBasePath}/edit-structure`}
-          >
+          <SummarySection label="Card Message">
             <div className="flex items-start bg-[var(--colorgreen)]/10 rounded-2xl border border-[var(--colorgreen)]/20 p-6">
               <MessageSquare className="h-5 w-5 text-[var(--colorgreen)] mt-1 flex-shrink-0 mr-4" />
               <p className="text-lg font-medium italic text-black/80 leading-relaxed">
@@ -89,14 +83,14 @@ const SubscriptionSummary = ({
 
         <ImpactSummary
           price={Number(plan.budget)}
-          editUrl={`${editBasePath}/edit-structure`}
         />
 
         {plan.status === 'active' && (
           <SummarySection label="Danger Zone">
             <div className="border border-red-200 rounded-2xl p-5 bg-red-50/50">
               <p className="text-sm text-black/60 mb-4">
-                Cancelling your subscription will stop future charges. You can choose to keep your
+                Budget, frequency, and delivery style can't be changed on an active subscription.
+                Cancel this one and start a new order to change them — you can choose to keep your
                 next scheduled delivery or cancel everything immediately.
               </p>
               <button

@@ -7,9 +7,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
 import { toast } from 'sonner';
-import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
-import type { UpfrontPlan } from '../../types/UpfrontPlan';
-import type { PartialUpfrontPlan } from '../../types/PartialUpfrontPlan';
+import { getOrder, updateOrder } from '@/api/orders';
+import type { Order, PartialOrder } from '../../types/Order';
 import SingleDeliveryStructureForm from '@/forms/SingleDeliveryStructureForm';
 import type { SingleDeliveryStructureData } from '../../types/SingleDeliveryStructureData';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
@@ -53,8 +52,8 @@ const SingleDeliveryStructureEditor = ({
         }
 
         setIsLoading(true);
-        getUpfrontPlanAsSingleDelivery(planId)
-            .then((plan: UpfrontPlan) => {
+        getOrder(planId)
+            .then((plan: Order) => {
                 let startDate = plan.start_date || getMinDateString(isEditMode);
                 
                 // Auto-correct if date is too soon and plan is not yet active
@@ -71,7 +70,7 @@ const SingleDeliveryStructureEditor = ({
                     card_message: plan.draft_card_messages?.['0'] || '',
                 });
             })
-            .catch(error => {
+            .catch((error: any) => {
                 toast.error("Failed to load plan details", { description: error.message });
                 router.push(backPath);
             })
@@ -87,7 +86,7 @@ const SingleDeliveryStructureEditor = ({
 
         setIsSaving(true);
         try {
-            const payload: PartialUpfrontPlan = isPaid
+            const payload: PartialOrder = isPaid
                 ? {
                     start_date: formData.start_date,
                     draft_card_messages: { '0': formData.card_message },
@@ -95,11 +94,9 @@ const SingleDeliveryStructureEditor = ({
                 : {
                     budget: formData.budget,
                     start_date: formData.start_date,
-                    frequency: 'annually',
-                    years: 1,
                     draft_card_messages: { '0': formData.card_message },
                 };
-            await updateUpfrontPlanAsSingleDelivery(planId, payload);
+            await updateOrder(planId, payload);
             
             if (mode === 'edit') {
                 toast.success("Plan details updated successfully!");

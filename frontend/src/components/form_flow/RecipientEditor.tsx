@@ -5,8 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
-import type { PartialUpfrontPlan } from '../../types/PartialUpfrontPlan';
-import type { PartialSubscriptionPlan } from '../../types/PartialSubscriptionPlan';
+import type { PartialOrder } from '../../types/Order';
 import type { RecipientData } from '../../types/RecipientData';
 import RecipientForm from '@/forms/RecipientForm';
 import Seo from '@/components/Seo';
@@ -17,9 +16,6 @@ import FlowNextButton from '@/components/form_flow/FlowNextButton';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import type { RecipientEditorProps } from '../../types/RecipientEditorProps';
-
-
-type PartialPlan = PartialUpfrontPlan | PartialSubscriptionPlan;
 
 const RecipientEditor = ({
     mode,
@@ -97,7 +93,7 @@ const RecipientEditor = ({
         
         setIsSaving(true);
         try {
-            const payload: PartialPlan = { ...formData };
+            const payload: PartialOrder = { ...formData };
             await updatePlan(planId, payload);
 
             if (mode === 'edit') {

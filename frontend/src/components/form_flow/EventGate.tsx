@@ -4,10 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Seo from '../Seo';
-import {
-    updateUpfrontPlanAsSingleDelivery,
-} from '@/api/singleDeliveryPlans';
-import { getOrCreateDraftOrder } from '@/api/orders';
+import { getOrCreateDraftOrder, updateOrder } from '@/api/orders';
 import { toast } from 'sonner';
 import {
     formatHomepageFlowerNotes,
@@ -32,7 +29,7 @@ async function applyHomepageBrief(planId: number) {
     }
 
     try {
-        await updateUpfrontPlanAsSingleDelivery(String(planId), {
+        await updateOrder(String(planId), {
             budget: brief.budget,
             preferred_flower_types: brief.vibeId ? [brief.vibeId] : [],
             flower_notes: formatHomepageFlowerNotes(brief),

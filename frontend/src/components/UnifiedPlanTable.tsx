@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -6,19 +6,18 @@ import { Spinner } from '@/components/ui/spinner';
 import { showErrorToast } from '@/utils/utils';
 import { Button } from '@/components/ui/button';
 import { Eye, Plus } from 'lucide-react';
-import { getUpfrontPlans } from '@/api/upfrontPlans';
-import { getSubscriptionPlans } from '@/api/subscriptionPlans';
-import { getSingleDeliveryTypeUpfrontPlans } from '@/api/singleDeliveryPlans';
-import { type UpfrontPlan } from '../types/UpfrontPlan';
-import { type SubscriptionPlan } from '../types/SubscriptionPlan';
+import { getOrders } from '@/api/orders';
+import { type Order } from '../types/Order';
 import { Badge } from '@/components/ui/badge';
 
-type UnifiedPlan = (UpfrontPlan | SubscriptionPlan) & { 
-    displayType: 'Upfront' | 'Subscription' | 'Single Delivery';
+const DISPLAY_TYPE: Record<Order['billing_mode'] & string, string> = {
+  one_time: 'Single Delivery',
+  recurring: 'Subscription',
+  prepaid: 'Upfront',
 };
 
 const UnifiedPlanTable = () => {
-  const [plans, setPlans] = useState<UnifiedPlan[]>([]);
+  const [plans, setPlans] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,20 +25,7 @@ const UnifiedPlanTable = () => {
     const fetchAllPlans = async () => {
       try {
         setIsLoading(true);
-        const [upfront, subscriptions, single] = await Promise.all([
-          getUpfrontPlans(true), // Exclude single delivery
-          getSubscriptionPlans(),
-          getSingleDeliveryTypeUpfrontPlans(),
-        ]);
-
-        const unifiedUpfront = upfront.map(p => ({ ...p, displayType: 'Upfront' as const }));
-        const unifiedSubs = subscriptions.map(p => ({ ...p, displayType: 'Subscription' as const }));
-        const unifiedSingle = single.map(p => ({ ...p, displayType: 'Single Delivery' as const }));
-
-        const allPlans = [...unifiedUpfront, ...unifiedSubs, ...unifiedSingle];
-        
-        // Sort by creation date if available, or just group them
-        setPlans(allPlans);
+        setPlans(await getOrders());
       } catch (err: any) {
         setError(err.message || 'An unexpected error occurred.');
         showErrorToast(err.message || 'Could not load your plans.');
@@ -91,23 +77,22 @@ const UnifiedPlanTable = () => {
           </TableHeader>
           <TableBody>
             {plans.map((plan) => {
-              const isSubscription = plan.displayType === 'Subscription';
-              const price = isSubscription 
-                ? (plan as SubscriptionPlan).total_amount 
-                : (plan as UpfrontPlan).budget;
-              
+              const isSubscription = plan.billing_mode === 'recurring';
+              const displayType = DISPLAY_TYPE[plan.billing_mode ?? 'one_time'];
+              const price = isSubscription ? plan.total_amount : plan.budget;
+
               const viewLink = isSubscription
                 ? `/dashboard/subscription-plans/${plan.id}/overview`
                 : `/dashboard/upfront-plans/${plan.id}/overview`;
 
               return (
                 <TableRow
-                  key={`${plan.displayType}-${plan.id}`}
+                  key={plan.id}
                   className="border-b-black/5 last:border-0 hover:bg-black/[0.02] transition-colors"
                 >
                   <TableCell className="py-5">
                      <Badge variant="outline" className="bg-black/5 text-black/60 text-[10px] uppercase font-bold tracking-tighter border-black/10">
-                       {plan.displayType}
+                       {displayType}
                      </Badge>
                   </TableCell>
                   <TableCell className="py-5">
@@ -127,7 +112,7 @@ const UnifiedPlanTable = () => {
                       {isSubscription && <span className="text-[10px] block text-black/40 uppercase font-bold">per delivery</span>}
                   </TableCell>
                   <TableCell className="text-right text-black/60 text-sm capitalize py-5">
-                    {plan.displayType === 'Single Delivery' ? 'N/A' : plan.frequency}
+                    {plan.billing_mode === 'one_time' ? 'N/A' : plan.frequency}
                   </TableCell>
                   <TableCell className="text-right py-5">
                     <Button asChild variant="ghost" size="sm" className="hover:bg-black/5 rounded-full h-10 w-10 p-0">

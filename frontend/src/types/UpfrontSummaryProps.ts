@@ -1,8 +1,8 @@
-import type { UpfrontPlan } from './UpfrontPlan';
+import type { Order } from './Order';
 import type { FlowerType } from './FlowerType';
 
 export interface UpfrontSummaryProps {
-  plan: UpfrontPlan;
+  plan: Order;
   flowerTypeMap: Map<number, FlowerType>;
   context: 'ordering' | 'management';
   planId: string;

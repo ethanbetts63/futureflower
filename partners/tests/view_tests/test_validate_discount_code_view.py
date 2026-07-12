@@ -64,7 +64,7 @@ class TestValidateDiscountCodeView:
     def test_validate_already_customer_fails(self):
         # Mark a payment as succeeded to simulate existing customer
         from payments.tests.factories.payment_factory import PaymentFactory
-        PaymentFactory(user=self.user, order=self.plan.orderbase_ptr, status='succeeded')
+        PaymentFactory(user=self.user, order=self.plan, status='succeeded')
         
         dc = DiscountCodeFactory(code="NEWBIE", is_active=True)
         data = {

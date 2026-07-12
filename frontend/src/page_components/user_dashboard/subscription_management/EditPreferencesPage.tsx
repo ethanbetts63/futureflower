@@ -2,7 +2,7 @@
 "use client";
 import { useParams } from 'next/navigation';
 import PreferencesEditor from '@/components/form_flow/PreferencesEditor';
-import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
+import { getOrder, updateOrder } from '@/api/orders';
 
 const EditPreferencesPage = () => {
     const params = useParams();
@@ -14,8 +14,8 @@ const EditPreferencesPage = () => {
             saveButtonText="Save Changes"
             onSaveNavigateTo={`/dashboard/subscription-plans/${planId}/overview`}
             backPath={`/dashboard/subscription-plans/${planId}/overview`}
-            getPlan={getSubscriptionPlan}
-            updatePlan={updateSubscriptionPlan}
+            getPlan={getOrder}
+            updatePlan={updateOrder}
         />
     );
 };

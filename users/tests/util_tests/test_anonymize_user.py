@@ -7,7 +7,7 @@ from users.tests.factories.user_factory import UserFactory
 from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
 from events.tests.factories.subscription_plan_factory import SubscriptionPlanFactory
 from events.tests.factories.event_factory import EventFactory
-from events.models import UpfrontPlan, SubscriptionPlan, Event
+from events.models import OrderBase, Event
 from data_management.models.notification import Notification
 
 
@@ -32,7 +32,7 @@ class TestAnonymizeUserUpfrontPlans:
         with patch('users.utils.anonymize_user.stripe'):
             anonymize_user(user)
 
-        assert not UpfrontPlan.objects.filter(pk=pending.pk).exists()
+        assert not OrderBase.objects.filter(pk=pending.pk).exists()
 
     def test_active_upfront_plan_recipient_names_are_hashed(self):
         user = UserFactory()
@@ -92,7 +92,7 @@ class TestAnonymizeUserSubscriptionPlans:
         with patch('users.utils.anonymize_user.stripe'):
             anonymize_user(user)
 
-        assert not SubscriptionPlan.objects.filter(pk=pending.pk).exists()
+        assert not OrderBase.objects.filter(pk=pending.pk).exists()
 
     def test_active_subscription_stripe_is_cancelled_before_data_wipe(self):
         user = UserFactory()

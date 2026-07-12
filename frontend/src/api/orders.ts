@@ -64,3 +64,14 @@ export async function startCheckout(orderId: string | number): Promise<{ clientS
   });
   return handleResponse(response);
 }
+
+export async function cancelOrder(
+  orderId: string | number,
+  options?: { cancel_type?: 'keep_current' | 'cancel_all' }
+): Promise<{ status: string }> {
+  const response = await authedFetch(`/api/events/orders/${orderId}/cancel/`, {
+    method: 'POST',
+    body: JSON.stringify(options || {}),
+  });
+  return handleResponse(response);
+}

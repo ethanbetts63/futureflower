@@ -35,7 +35,7 @@ export const HeroAffiliatesPage = ({ scrollToContent }: HeroAffiliatesPageProps)
           Turn your influence into flowers.
         </h1>
         <p className="mt-6 text-lg sm:text-xl leading-8">
-          Give your audience $5 off and earn up to $75 per referral. No limits. No confusing tracking. Just thoughtful gifting that keeps paying.
+          Give your audience $5 off custom flowers from a local florist, and earn $10 for every new customer you send. Flat and simple.
         </p>
         <div className="mt-8 flex items-center gap-8">
           <button

@@ -27,10 +27,15 @@ class TestAdminPlanDetailView:
         assert response.status_code == 200
         assert response.data['id'] == plan.pk
 
-    def test_400_for_invalid_plan_type(self):
+    def test_plan_type_url_segment_is_not_used_for_lookup(self):
+        """
+        The plan_type URL segment is vestigial now that orders share one
+        table with globally unique ids — any value should still resolve.
+        """
         plan = UpfrontPlanFactory()
-        response = self.client.get(self._url('invalid', plan.pk))
-        assert response.status_code == 400
+        response = self.client.get(self._url('anything', plan.pk))
+        assert response.status_code == 200
+        assert response.data['id'] == plan.pk
 
     def test_404_for_nonexistent_upfront_plan(self):
         response = self.client.get(self._url('upfront', 99999))

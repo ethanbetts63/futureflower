@@ -1,6 +1,6 @@
 export interface AdminPlan {
   id: number;
-  plan_type: 'upfront' | 'subscription';
+  plan_type: 'one_time' | 'recurring' | 'prepaid';
   status: 'pending_payment' | 'active' | 'completed' | 'cancelled' | 'refunded';
   budget: string;
   total_amount: string;

@@ -18,19 +18,14 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from '@/components/ui/alert-dialog';
-import { getSubscriptionPlan, cancelSubscription } from '@/api/subscriptionPlans';
+import { getOrder, cancelOrder } from '@/api/orders';
 import { formatDate } from '@/utils/utils';
-import type { SubscriptionPlan } from '@/types/SubscriptionPlan';
-import type { FlowerType } from '@/types/FlowerType';
-import type { Plan } from '@/types/Plan';
-
-const isSubscriptionPlan = (plan: Plan): plan is SubscriptionPlan =>
-  'stripe_subscription_id' in plan;
+import type { Order } from '@/types/Order';
 
 const CancelSubscriptionPageInner = ({
   plan,
   planId,
-}: { plan: SubscriptionPlan; planId: string }) => {
+}: { plan: Order; planId: string }) => {
   const router = useRouter();
   const [cancelType, setCancelType] = useState<'keep_current' | 'cancel_all'>('keep_current');
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -41,7 +36,7 @@ const CancelSubscriptionPageInner = ({
     setIsSubmitting(true);
     setError(null);
     try {
-      await cancelSubscription(planId, cancelType);
+      await cancelOrder(planId, { cancel_type: cancelType });
       setDialogOpen(false);
       toast.success('Your subscription has been cancelled.');
       router.push('/dashboard');
@@ -179,9 +174,8 @@ const CancelSubscriptionPage = () => {
       <Seo title="Cancel Subscription | FutureFlower" />
       <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-0 md:px-4 max-w-4xl">
-          <PlanDisplay getPlan={getSubscriptionPlan} fallbackNavigationPath="/dashboard">
-            {({ plan }: { plan: Plan; flowerTypeMap: Map<number, FlowerType> }) => {
-              if (!isSubscriptionPlan(plan)) return null;
+          <PlanDisplay getPlan={getOrder} fallbackNavigationPath="/dashboard">
+            {({ plan }: { plan: Order }) => {
               return (
                 <CancelSubscriptionPageInner plan={plan} planId={planId || ''} />
               );

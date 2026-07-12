@@ -11,7 +11,6 @@ import type { DiscountCodeInputProps } from '@/types/DiscountCodeInputProps';
 
 const DiscountCodeInput = ({
   planId,
-  planType,
   existingCode,
   onDiscountApplied,
 }: DiscountCodeInputProps) => {
@@ -39,7 +38,6 @@ const DiscountCodeInput = ({
       const validationResult = await validateDiscountCode({
         code: code.trim(),
         plan_id: planId,
-        plan_type: planType,
       });
       setResult(validationResult);
       onDiscountApplied();
@@ -57,7 +55,6 @@ const DiscountCodeInput = ({
       await validateDiscountCode({
         code: '',
         plan_id: planId,
-        plan_type: planType,
       });
       setCode('');
       setResult(null);

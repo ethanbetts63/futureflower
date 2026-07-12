@@ -1,5 +1,4 @@
-import type { Plan } from './Plan';
-import type { PartialPlan } from './PartialPlan';
+import type { Order, PartialOrder } from './Order';
 
 export interface PreferencesEditorProps {
     mode: 'create' | 'edit';
@@ -8,6 +7,6 @@ export interface PreferencesEditorProps {
     saveButtonText: string;
     onSaveNavigateTo: string;
     backPath: string;
-    getPlan: (planId: string) => Promise<Plan>;
-    updatePlan: (planId: string, data: PartialPlan) => Promise<Plan>;
+    getPlan: (planId: string) => Promise<Order>;
+    updatePlan: (planId: string, data: PartialOrder) => Promise<Order>;
 }

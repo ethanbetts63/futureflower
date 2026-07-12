@@ -9,8 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
-import { getUpfrontPlan } from '@/api/upfrontPlans';
-import { getSubscriptionPlan } from '@/api/subscriptionPlans';
+import { getOrder } from '@/api/orders';
 
 const POLL_INTERVAL_MS = 2000;
 const MAX_POLL_ATTEMPTS = 15; // 30 seconds max
@@ -34,23 +33,18 @@ const UniversalPaymentStatusPage = () => {
         };
     }, []);
 
-    const pollUntilActive = (
-        planId: string,
-        targetPath: string,
-        itemType: string | null,
-    ) => {
+    const pollUntilActive = (planId: string) => {
         let attempts = 0;
-
-        const getPlan = (itemType === 'SUBSCRIPTION_PLAN_NEW')
-            ? () => getSubscriptionPlan(planId)
-            : () => getUpfrontPlan(planId);
 
         pollIntervalRef.current = setInterval(async () => {
             attempts++;
             try {
-                const plan = await getPlan();
-                if (plan.status === 'active') {
+                const order = await getOrder(planId);
+                if (order.status === 'active') {
                     clearInterval(pollIntervalRef.current!);
+                    const targetPath = order.billing_mode === 'recurring'
+                        ? `/dashboard/subscription-plans/${planId}/overview`
+                        : `/dashboard/upfront-plans/${planId}/overview`;
                     router.push(targetPath);
                     return;
                 }
@@ -64,7 +58,7 @@ const UniversalPaymentStatusPage = () => {
                     'Your payment was received but activation is taking a little longer than expected. ' +
                     'Redirecting you now — your plan may take a moment to show as active.'
                 );
-                setTimeout(() => router.push(targetPath), 3000);
+                setTimeout(() => router.push('/dashboard'), 3000);
             }
         }, POLL_INTERVAL_MS);
     };
@@ -78,16 +72,9 @@ const UniversalPaymentStatusPage = () => {
 
         const planId = searchParams.get('plan_id');
         const source = searchParams.get('source');
-        const itemType = searchParams.get('itemType');
 
         if (planId) {
-            let path = '/dashboard';
-            if (source === 'checkout') {
-                path = itemType === 'SUBSCRIPTION_PLAN_NEW'
-                    ? `/dashboard/subscription-plans/${planId}/overview`
-                    : `/dashboard/upfront-plans/${planId}/overview`;
-            }
-            setTryAgainPath(path);
+            setTryAgainPath('/dashboard');
         }
 
         if (!clientSecret) {
@@ -105,8 +92,7 @@ const UniversalPaymentStatusPage = () => {
                         setPaymentSucceeded(true);
                         setMessage('Payment confirmed! Your subscription is being activated...');
                         if (planId && planId !== "N/A") {
-                            const targetPath = `/dashboard/subscription-plans/${planId}/overview`;
-                            pollUntilActive(planId, targetPath, 'SUBSCRIPTION_PLAN_NEW');
+                            pollUntilActive(planId);
                         } else {
                             setTimeout(() => router.push('/dashboard'), 3000);
                         }
@@ -147,13 +133,7 @@ const UniversalPaymentStatusPage = () => {
                         setMessage(successMessage);
 
                         if (planId && planId !== "N/A") {
-                            let targetPath = '/dashboard';
-                            if (itemType && (itemType.startsWith('UPFRONT_PLAN') || itemType === 'SINGLE_DELIVERY_PLAN_NEW')) {
-                                targetPath = `/dashboard/upfront-plans/${planId}/overview`;
-                            } else if (itemType === 'SUBSCRIPTION_PLAN_NEW') {
-                                targetPath = `/dashboard/subscription-plans/${planId}/overview`;
-                            }
-                            pollUntilActive(planId, targetPath, itemType);
+                            pollUntilActive(planId);
                         } else {
                             setTimeout(() => router.push('/dashboard'), 3000);
                         }

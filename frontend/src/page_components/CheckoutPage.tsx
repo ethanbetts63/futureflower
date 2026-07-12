@@ -14,10 +14,8 @@ import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import { MapPin, Calendar, RefreshCw, DollarSign, ShieldCheck } from 'lucide-react';
-import { getSubscriptionPlan } from '@/api/subscriptionPlans';
-import { getUpfrontPlan } from '@/api/upfrontPlans';
-import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
-import type { UpfrontPlan, Plan } from '@/types';
+import { getOrder } from '@/api/orders';
+import type { Order } from '@/types';
 import { formatDate, capitalize } from '@/utils/utils';
 import { getImpactTier } from '@/utils/pricingConstants';
 import flowerIcon from '@/assets/flower_symbol.svg';
@@ -28,48 +26,29 @@ const CheckoutPage = () => {
     const router = useRouter();
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const [planId, setPlanId] = useState<string | null>(null);
-    const [itemType, setItemType] = useState<string | null>(null);
     const [intentType, setIntentType] = useState<'payment' | 'setup' | null>(null);
     const [backPath, setBackPath] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [plan, setPlan] = useState<Plan | null>(null);
+    const [plan, setPlan] = useState<Order | null>(null);
 
     useEffect(() => {
         const stored = sessionStorage.getItem('checkoutState');
         const state = stored ? JSON.parse(stored) : null;
         const secret = state?.clientSecret;
         const id = state?.planId;
-        const type = state?.itemType;
         const intent = state?.intentType as 'payment' | 'setup';
         const back = state?.backPath;
 
-        if (secret && id && type && intent) {
+        if (secret && id && intent) {
             setClientSecret(secret);
             setPlanId(id);
-            setItemType(type);
             setIntentType(intent);
             setBackPath(back);
 
-            const fetchPlan = async () => {
-                try {
-                    let fetchedPlan: Plan;
-                    if (type === 'SUBSCRIPTION_PLAN_NEW') {
-                        fetchedPlan = await getSubscriptionPlan(id);
-                    } else if (type === 'UPFRONT_PLAN_NEW') {
-                        fetchedPlan = await getUpfrontPlan(id);
-                    } else if (type === 'SINGLE_DELIVERY_PLAN_NEW') {
-                        fetchedPlan = await getUpfrontPlanAsSingleDelivery(id);
-                    } else {
-                        throw new Error(`Invalid itemType: ${type}`);
-                    }
-                    setPlan(fetchedPlan);
-                } catch (err) {
-                    console.error('Could not load plan summary:', err);
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-            fetchPlan();
+            getOrder(id)
+                .then(setPlan)
+                .catch((err) => console.error('Could not load plan summary:', err))
+                .finally(() => setIsLoading(false));
         } else {
             setIsLoading(false);
         }
@@ -83,7 +62,7 @@ const CheckoutPage = () => {
         );
     }
 
-    if (!clientSecret || !planId || !itemType || !intentType || !plan) {
+    if (!clientSecret || !planId || !intentType || !plan) {
         if (!isLoading) {
             toast.error("Checkout session is invalid or has expired.");
             router.replace('/');
@@ -95,9 +74,8 @@ const CheckoutPage = () => {
     const appearance: Appearance = { theme: 'stripe' };
     const options: StripeElementsOptions = { clientSecret, appearance };
 
-    const planIsSubscription = 'stripe_subscription_id' in plan || !('years' in plan);
-    const upfrontPlan = plan as UpfrontPlan;
-    const isSingleDelivery = !planIsSubscription && upfrontPlan.years === 1 && upfrontPlan.frequency === 'annually';
+    const planIsSubscription = plan.billing_mode === 'recurring';
+    const isSingleDelivery = plan.billing_mode === 'one_time';
 
     const fullAddress = [
         plan.recipient_street_address,
@@ -173,7 +151,7 @@ const CheckoutPage = () => {
                                     <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Schedule</span>
                                     <p className="font-bold text-black font-['Playfair_Display']">
                                         {isSingleDelivery ? `Single Delivery — ${formatDate(plan.start_date)}` : (
-                                            planIsSubscription ? `${capitalize(plan.frequency)}` : `${capitalize(plan.frequency)} Plan — ${upfrontPlan.years} Years`
+                                            planIsSubscription ? `${capitalize(plan.frequency)}` : `${capitalize(plan.frequency)} Plan — ${plan.years} Years`
                                         )}
                                     </p>
                                     {!isSingleDelivery && (
@@ -242,7 +220,6 @@ const CheckoutPage = () => {
                                         planId={planId}
                                         source="checkout"
                                         intentType={intentType}
-                                        itemType={itemType}
                                     />
                                 </Elements>
                             </div>

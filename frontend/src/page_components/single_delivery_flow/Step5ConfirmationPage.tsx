@@ -4,8 +4,8 @@ import { useParams } from 'next/navigation';
 import Seo from '@/components/Seo';
 import PlanDisplay from '@/components/PlanDisplay';
 import UpfrontSummary from '@/components/UpfrontSummary';
-import { getUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
-import type { Plan, FlowerType, UpfrontPlan } from '@/types';
+import { getOrder } from '@/api/orders';
+import type { Order, FlowerType } from '@/types';
 
 const Step5ConfirmationPage = () => {
   const params = useParams();
@@ -16,11 +16,11 @@ const Step5ConfirmationPage = () => {
       <Seo title="Confirm Your Order | FutureFlower" />
       <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-0 md:px-4 max-w-4xl">
-          <PlanDisplay getPlan={getUpfrontPlanAsSingleDelivery} fallbackNavigationPath="/dashboard">
-            {({ plan, flowerTypeMap, refreshPlan }: { plan: Plan; flowerTypeMap: Map<number, FlowerType>; refreshPlan: () => Promise<void> }) => {
+          <PlanDisplay getPlan={getOrder} fallbackNavigationPath="/dashboard">
+            {({ plan, flowerTypeMap, refreshPlan }: { plan: Order; flowerTypeMap: Map<number, FlowerType>; refreshPlan: () => Promise<void> }) => {
               return (
                 <UpfrontSummary
-                  plan={plan as UpfrontPlan}
+                  plan={plan}
                   flowerTypeMap={flowerTypeMap}
                   context="ordering"
                   planId={planId || ''}

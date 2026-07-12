@@ -1,6 +1,6 @@
 // futureflower/frontend/src/pages/user_dashboard/subscription_management/EditRecipientPage.tsx
 import RecipientEditor from '@/components/form_flow/RecipientEditor';
-import { getSubscriptionPlan, updateSubscriptionPlan } from '@/api';
+import { getOrder, updateOrder } from '@/api/orders';
 
 const EditRecipientPage = () => {
     return (
@@ -10,8 +10,8 @@ const EditRecipientPage = () => {
             saveButtonText="Save Changes"
             onSaveNavigateTo="/dashboard/subscription-plans/{planId}/overview"
             onCancelNavigateTo="/dashboard/subscription-plans/{planId}/overview"
-            getPlan={getSubscriptionPlan}
-            updatePlan={updateSubscriptionPlan}
+            getPlan={getOrder}
+            updatePlan={updateOrder}
         />
     );
 };

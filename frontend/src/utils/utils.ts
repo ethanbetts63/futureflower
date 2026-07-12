@@ -53,7 +53,7 @@ export async function csrfFetch(url: string, options: RequestInit = {}): Promise
  * @param format The desired output format ('long' or 'YYYY-MM-DD').
  * @returns A formatted date string.
  */
-export function formatDate(dateString: string | undefined, format: 'long' | 'YYYY-MM-DD' = 'long'): string {
+export function formatDate(dateString: string | null | undefined, format: 'long' | 'YYYY-MM-DD' = 'long'): string {
   if (!dateString) return "No date";
 
   const date = new Date(dateString);
@@ -77,7 +77,7 @@ export function formatDate(dateString: string | undefined, format: 'long' | 'YYY
  * @param str The string to capitalize.
  * @returns The capitalized string.
  */
-export function capitalize(str: string | undefined): string {
+export function capitalize(str: string | null | undefined): string {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }

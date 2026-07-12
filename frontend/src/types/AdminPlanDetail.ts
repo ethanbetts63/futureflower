@@ -2,7 +2,7 @@ import type { AdminPlanEvent } from './AdminPlanEvent';
 
 export interface AdminPlanDetail {
   id: number;
-  plan_type: 'upfront' | 'subscription';
+  plan_type: 'one_time' | 'recurring' | 'prepaid';
   status: 'pending_payment' | 'active' | 'completed' | 'cancelled' | 'refunded';
   budget: string | null;
   total_amount: string | null;

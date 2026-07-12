@@ -40,7 +40,7 @@ class TestHandleSetupIntentSucceeded:
 
     def test_activates_pending_subscription_plan(self):
         plan = SubscriptionPlanFactory(status='pending_payment')
-        setup_intent = {'metadata': {'subscription_plan_id': str(plan.pk)}}
+        setup_intent = {'metadata': {'order_id': str(plan.pk)}}
 
         handle_setup_intent_succeeded(setup_intent)
 
@@ -49,7 +49,7 @@ class TestHandleSetupIntentSucceeded:
 
     def test_already_active_plan_not_changed(self):
         plan = SubscriptionPlanFactory(status='active')
-        setup_intent = {'metadata': {'subscription_plan_id': str(plan.pk)}}
+        setup_intent = {'metadata': {'order_id': str(plan.pk)}}
 
         handle_setup_intent_succeeded(setup_intent)
 
@@ -60,14 +60,14 @@ class TestHandleSetupIntentSucceeded:
         handle_setup_intent_succeeded({'metadata': {}})
 
     def test_nonexistent_plan_id_does_not_raise(self):
-        handle_setup_intent_succeeded({'metadata': {'subscription_plan_id': '99999'}})
+        handle_setup_intent_succeeded({'metadata': {'order_id': '99999'}})
 
     def test_setup_intent_without_metadata_does_not_raise(self):
         handle_setup_intent_succeeded({})
 
     def test_string_plan_id_works(self):
         plan = SubscriptionPlanFactory(status='pending_payment')
-        handle_setup_intent_succeeded({'metadata': {'subscription_plan_id': str(plan.pk)}})
+        handle_setup_intent_succeeded({'metadata': {'order_id': str(plan.pk)}})
         plan.refresh_from_db()
         assert plan.status == 'active'
 

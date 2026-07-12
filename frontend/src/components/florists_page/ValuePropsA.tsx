@@ -3,10 +3,10 @@ import { Check } from 'lucide-react';
 import type { ValuePropsAProps } from '@/types/ValuePropsAProps';
 
 const points = [
-  'Only sales you\'re leaving behind.',
-  'Decline your customers, still get paid.',
-  'Easy upsell. Locked revenue.',
-  'We absorb bad review risk.',
+  'Fully paid orders, sent to your phone.',
+  'Accept or decline — no penalties.',
+  'Design freely from the stock you have.',
+  'Your branding on every delivery.',
 ];
 
 export const ValuePropsA = ({ contentRef }: ValuePropsAProps) => {

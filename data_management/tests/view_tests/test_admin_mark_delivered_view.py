@@ -36,7 +36,7 @@ class TestAdminMarkDeliveredView:
     def test_mark_delivered_creates_fulfillment_commission(self):
         """When there is an accepted DeliveryRequest, a fulfillment Commission is created."""
         plan = UpfrontPlanFactory(budget=Decimal('120'))
-        event = EventFactory(status='ordered', order=plan.orderbase_ptr)
+        event = EventFactory(status='ordered', order=plan)
         partner = PartnerFactory(partner_type='delivery')
         DeliveryRequestFactory(event=event, partner=partner, status='accepted')
 
@@ -59,7 +59,7 @@ class TestAdminMarkDeliveredView:
     def test_mark_delivered_idempotent_no_duplicate_commission(self):
         """If a fulfillment Commission already exists for the event, another is not created."""
         plan = UpfrontPlanFactory(budget=Decimal('120'))
-        event = EventFactory(status='ordered', order=plan.orderbase_ptr)
+        event = EventFactory(status='ordered', order=plan)
         partner = PartnerFactory(partner_type='delivery')
         DeliveryRequestFactory(event=event, partner=partner, status='accepted')
 

@@ -1,5 +1,4 @@
-import type { Plan } from './Plan';
-import type { PartialPlan } from './PartialPlan';
+import type { Order, PartialOrder } from './Order';
 
 export interface RecipientEditorProps {
     mode: 'create' | 'edit';
@@ -7,6 +6,6 @@ export interface RecipientEditorProps {
     saveButtonText: string;
     onSaveNavigateTo: string; // A string pattern like '/dashboard/plans/{planId}/overview'
     onCancelNavigateTo: string; // A string pattern like '/dashboard' or '/dashboard/plans/{planId}/overview'
-    getPlan: (planId: string) => Promise<Plan>;
-    updatePlan: (planId: string, data: PartialPlan) => Promise<Plan>;
+    getPlan: (planId: string) => Promise<Order>;
+    updatePlan: (planId: string, data: PartialOrder) => Promise<Order>;
 }

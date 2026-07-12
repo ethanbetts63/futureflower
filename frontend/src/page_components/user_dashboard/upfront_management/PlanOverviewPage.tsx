@@ -4,8 +4,8 @@ import { useParams } from 'next/navigation';
 import Seo from '@/components/Seo';
 import PlanDisplay from '@/components/PlanDisplay';
 import UpfrontSummary from '@/components/UpfrontSummary';
-import { getUpfrontPlan } from '@/api/upfrontPlans';
-import type { UpfrontPlan } from '../../../types/UpfrontPlan';
+import { getOrder } from '@/api/orders';
+import type { Order } from '../../../types/Order';
 import type { FlowerType } from '../../../types/FlowerType';
 
 const PlanOverviewPage = () => {
@@ -17,8 +17,8 @@ const PlanOverviewPage = () => {
       <Seo title="Plan Overview | FutureFlower" />
       <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-0 md:px-4 max-w-4xl">
-          <PlanDisplay getPlan={getUpfrontPlan} fallbackNavigationPath="/dashboard">
-            {({ plan, flowerTypeMap }: { plan: UpfrontPlan; flowerTypeMap: Map<number, FlowerType> }) => {
+          <PlanDisplay getPlan={getOrder} fallbackNavigationPath="/dashboard">
+            {({ plan, flowerTypeMap }: { plan: Order; flowerTypeMap: Map<number, FlowerType> }) => {
               return (
                 <UpfrontSummary
                   plan={plan}

@@ -1,7 +1,7 @@
 import pytest
 from events.tests.factories.subscription_plan_factory import SubscriptionPlanFactory
 from events.tests.factories.event_factory import EventFactory
-from events.models import SubscriptionPlan, Event
+from events.models import Event
 from data_management.models.notification import Notification
 from payments.utils.webhook_handlers import handle_subscription_deleted
 

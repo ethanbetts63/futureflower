@@ -1,7 +1,7 @@
 // frontend/src/pages/single_delivery_flow/Step2RecipientPage.tsx
 import RecipientEditor from '@/components/form_flow/RecipientEditor';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
-import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
+import { getOrder, updateOrder } from '@/api/orders';
 
 const Step2RecipientPage = () => {
     return (
@@ -13,8 +13,8 @@ const Step2RecipientPage = () => {
                 saveButtonText="Next: Delivery Details"
                 onSaveNavigateTo="/single-delivery-flow/plan/{planId}/structure"
                 onCancelNavigateTo="/"
-                getPlan={getUpfrontPlanAsSingleDelivery}
-                updatePlan={updateUpfrontPlanAsSingleDelivery}
+                getPlan={getOrder}
+                updatePlan={updateOrder}
             />
         </>
     );

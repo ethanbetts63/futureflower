@@ -1,6 +1,5 @@
-import type { Plan } from './Plan';
-import type { Payment } from './Payment';
+import type { Order } from './Order';
 
 export interface PaymentHistoryCardProps {
-  plan: Plan & { payments?: Payment[] }; 
+  plan: Order;
 }

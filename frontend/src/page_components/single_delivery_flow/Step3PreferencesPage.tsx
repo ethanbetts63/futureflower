@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import PreferencesEditor from '@/components/form_flow/PreferencesEditor';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
-import { getUpfrontPlanAsSingleDelivery, updateUpfrontPlanAsSingleDelivery } from '@/api/singleDeliveryPlans';
+import { getOrder, updateOrder } from '@/api/orders';
 
 const Step3PreferencesPage = () => {
     const params = useParams();
@@ -17,8 +17,8 @@ const Step3PreferencesPage = () => {
             saveButtonText="Next: Details"
             onSaveNavigateTo={`/single-delivery-flow/plan/${planId}/structure`}
             backPath={`/single-delivery-flow/plan/${planId}/recipient`}
-            getPlan={getUpfrontPlanAsSingleDelivery}
-            updatePlan={updateUpfrontPlanAsSingleDelivery}
+            getPlan={getOrder}
+            updatePlan={updateOrder}
         />
         </>
     );

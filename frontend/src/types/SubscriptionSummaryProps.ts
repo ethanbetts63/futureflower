@@ -1,8 +1,8 @@
-import type { SubscriptionPlan } from './SubscriptionPlan';
+import type { Order } from './Order';
 import type { FlowerType } from './FlowerType';
 
 export interface SubscriptionSummaryProps {
-  plan: SubscriptionPlan;
+  plan: Order;
   flowerTypeMap: Map<number, FlowerType>;
   planId: string;
 }

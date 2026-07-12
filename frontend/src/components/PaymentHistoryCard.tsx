@@ -2,18 +2,13 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { PaymentHistoryCardProps } from '../types/PaymentHistoryCardProps';
 import type { Payment } from '../types/Payment';
-import type { SubscriptionPlan } from '../types/SubscriptionPlan';
 
 const PaymentHistoryCard = ({ plan }: PaymentHistoryCardProps) => {
   const payments = plan.payments || [];
 
-  const isSubscriptionPlan = (p: any): p is SubscriptionPlan => {
-    return 'frequency' in p && p.frequency !== null;
-  };
-
   let nextPaymentDateStr: string | null = null;
   let nextDeliveryDateStr: string | null = null;
-  if (isSubscriptionPlan(plan)) {
+  if (plan.billing_mode === 'recurring') {
     if (plan.next_payment_date) {
       nextPaymentDateStr = new Date(`${plan.next_payment_date}T00:00:00`).toLocaleDateString(undefined, {
           year: 'numeric',

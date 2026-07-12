@@ -22,8 +22,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { acceptTerms } from '@/api';
-import { cancelUpfrontPlan } from '@/api/upfrontPlans';
-import { makeOrderRecurring, startCheckout } from '@/api/orders';
+import { cancelOrder, makeOrderRecurring, startCheckout } from '@/api/orders';
 import { formatDate } from '@/utils/utils';
 import { toast } from 'sonner';
 import {
@@ -60,7 +59,7 @@ const UpfrontSummary = ({
     setIsCancelling(true);
     setCancelError(null);
     try {
-      await cancelUpfrontPlan(planId);
+      await cancelOrder(planId);
       setCancelDialogOpen(false);
       toast.success('Your plan has been cancelled. To request a refund for remaining deliveries, email ethan.betts.dev@gmail.com.');
       router.push('/dashboard');
@@ -72,7 +71,7 @@ const UpfrontSummary = ({
   };
 
   const isOrdering = context === 'ordering';
-  const isSingleDelivery = plan.years === 1 && plan.frequency === 'annually' && plan.status !== 'active';
+  const isSingleDelivery = plan.billing_mode === 'one_time';
 
   // Base paths for editing
   const editBasePath = isOrdering
@@ -113,7 +112,6 @@ const UpfrontSummary = ({
       sessionStorage.setItem('checkoutState', JSON.stringify({
         clientSecret: response.clientSecret,
         planId: String(recurringOrder.id),
-        itemType: 'SUBSCRIPTION_PLAN_NEW',
         intentType: 'payment',
         backPath: `${editBasePath}/confirmation`,
       }));
@@ -162,8 +160,7 @@ const UpfrontSummary = ({
                 </Button>
               ) : (
                 <PaymentInitiatorButton
-                  itemType="ORDER_CHECKOUT"
-                  details={{ order_id: planId }}
+                  orderId={planId}
                   backPath={`${editBasePath}/confirmation`}
                   disabled={isSubmitting || !planId || !termsAccepted}
                   onPaymentInitiate={() => setIsSubmitting(true)}
@@ -349,7 +346,6 @@ const UpfrontSummary = ({
               <div className="flex-1">
                 <DiscountCodeInput
                   planId={planId}
-                  planType="upfront"
                   existingCode={plan.discount_code_display}
                   onDiscountApplied={() => onRefreshPlan?.()}
                 />

@@ -2,10 +2,10 @@ import { Check } from 'lucide-react';
 import type { ValuePropsAffiliatesProps } from '@/types/ValuePropsAffiliatesProps';
 
 const points = [
-  'Tiered Rewards: Earn $5–$25 per sale based on bouquet size.',
-  'The Power of Threes: We pay you for the first three orders a customer makes.',
+  'Flat $10 for every new customer you send.',
   'Follower Perk: A custom $5 discount code for your audience.',
-  'High-Value Product: Locally crafted, high quality bouquets.',
+  'No tiers, no caps, no tracking spreadsheets.',
+  'High-Value Product: Custom bouquets from local florists.',
 ];
 
 export const ValuePropsAffiliates = ({ contentRef }: ValuePropsAffiliatesProps) => {

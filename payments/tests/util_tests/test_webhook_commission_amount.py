@@ -18,19 +18,19 @@ class TestWebhookCommissionAmount:
         plan = UpfrontPlanFactory(status='pending_payment', budget=Decimal('150'), frequency='annually', years=1)
         payment = PaymentFactory(
             user=plan.user,
-            order=plan.orderbase_ptr,
+            order=plan,
             stripe_payment_intent_id='pi_upfront_test',
             status='pending',
         )
 
         payment_intent = {
             'id': 'pi_upfront_test',
-            'metadata': {'item_type': 'UPFRONT_PLAN_NEW'},
+            'metadata': {},
             'payment_method': 'pm_test',
         }
         handle_payment_intent_succeeded(payment_intent)
 
-        events = Event.objects.filter(order=plan.orderbase_ptr)
+        events = Event.objects.filter(order=plan)
         assert events.exists()
         for event in events:
             assert event.commission_amount == Decimal('15')
@@ -43,19 +43,19 @@ class TestWebhookCommissionAmount:
         plan = UpfrontPlanFactory(status='pending_payment', budget=Decimal('75'), frequency='annually', years=1)
         payment = PaymentFactory(
             user=plan.user,
-            order=plan.orderbase_ptr,
+            order=plan,
             stripe_payment_intent_id='pi_upfront_test2',
             status='pending',
         )
 
         payment_intent = {
             'id': 'pi_upfront_test2',
-            'metadata': {'item_type': 'UPFRONT_PLAN_NEW'},
+            'metadata': {},
             'payment_method': 'pm_test',
         }
         handle_payment_intent_succeeded(payment_intent)
 
-        event = Event.objects.filter(order=plan.orderbase_ptr).first()
+        event = Event.objects.filter(order=plan).first()
         assert event.commission_amount == Decimal('5')
 
     def test_subscription_plan_first_event_gets_commission_amount(self, mocker):
@@ -70,19 +70,19 @@ class TestWebhookCommissionAmount:
         )
         payment = PaymentFactory(
             user=plan.user,
-            order=plan.orderbase_ptr,
+            order=plan,
             stripe_payment_intent_id='pi_sub_test',
             status='pending',
         )
 
         payment_intent = {
             'id': 'pi_sub_test',
-            'metadata': {'item_type': 'SUBSCRIPTION_PLAN_NEW'},
+            'metadata': {},
             'payment_method': 'pm_test',
         }
         handle_payment_intent_succeeded(payment_intent)
 
-        event = Event.objects.filter(order=plan.orderbase_ptr).first()
+        event = Event.objects.filter(order=plan).first()
         assert event is not None
         # budget=200: not < 200, is < 250 → tier gives $20
         assert event.commission_amount == Decimal('20')
@@ -113,6 +113,6 @@ class TestWebhookCommissionAmount:
         }
         handle_invoice_payment_succeeded(invoice)
 
-        event = Event.objects.filter(order=plan.orderbase_ptr, delivery_date=expected_delivery_date).first()
+        event = Event.objects.filter(order=plan, delivery_date=expected_delivery_date).first()
         assert event is not None
         assert event.commission_amount == Decimal('25')

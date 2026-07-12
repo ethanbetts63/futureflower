@@ -1,7 +1,7 @@
-import type { OrderBase } from './OrderBase';
+import type { Order } from './Order';
 
 export interface RecipientSummaryProps {
-  plan: OrderBase;
+  plan: Order;
   editUrl: string;
   locked?: boolean;
 }

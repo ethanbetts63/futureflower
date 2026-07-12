@@ -59,8 +59,8 @@ def test_admin_user_detail_serializer_plans():
     
     # Verify plan details
     plan_types = {p['plan_type'] for p in data['plans']}
-    assert 'upfront' in plan_types
-    assert 'subscription' in plan_types
+    assert 'prepaid' in plan_types
+    assert 'recurring' in plan_types
     
     amounts = {float(p['total_amount']) for p in data['plans']}
     assert 100.00 in amounts

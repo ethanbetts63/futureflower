@@ -2,10 +2,10 @@ import { ChevronRight } from 'lucide-react';
 import { BecomePartnerButton } from '../florists_page/BecomePartnerButton';
 
 const customerBenefits = [
-  'More of their money goes into actual flowers.',
-  'No supermarket-style bundles.',
-  'No generic network branding.',
-  'Pure floristry from local florists.',
+  'A florist designs from their budget and preferences — not a warehouse catalog.',
+  'Every bouquet is made and delivered by a real local florist.',
+  'No supermarket-style bundles or generic network branding.',
+  'Money spent stays with a local business.',
 ];
 
 export const WhyFutureFlowerAffiliatesSection = () => {
@@ -17,13 +17,10 @@ export const WhyFutureFlowerAffiliatesSection = () => {
             Why FutureFlower for your audience?
           </h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
-            Most flower platforms take 20–45% from florists — plus monthly fees, delivery cuts, and penalties — leaving much less money in the bouquet.
-          </p>
-          <p className="text-lg text-gray-700 leading-relaxed mb-4">
-            FutureFlower does the opposite. We charge a flat <strong>15% with no hidden fees</strong> — no monthly fees, no delivery cuts.
+            The pitch fits in one sentence: tell us the occasion, budget, and preferences, and a local florist designs something custom. No scrolling through lookalike catalog bouquets.
           </p>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">
-            When florists win, customers win:
+            That makes it an easy share:
           </p>
 
           <div className="bg-white rounded-xl shadow-md p-8 mb-6">
@@ -38,7 +35,7 @@ export const WhyFutureFlowerAffiliatesSection = () => {
           </div>
 
           <p className="text-lg text-gray-700 leading-relaxed mb-8">
-            You're not promoting another impulse purchase. You're sharing a better way to buy something that people are already buying.
+            You're not promoting another impulse purchase. You're sharing a better way to buy something people are already buying.
           </p>
 
           <div className="flex justify-center">

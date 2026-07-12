@@ -124,10 +124,10 @@ const AdminPlanDetailPage = () => {
               <Field label="Total" value={plan.total_amount ? `$${plan.total_amount}` : null} />
               <Field label="Frequency" value={plan.frequency ? capitalize(plan.frequency) : null} />
               <Field label="Start Date" value={plan.start_date ? formatDate(plan.start_date) : null} />
-              {plan.plan_type === 'upfront' && (
+              {plan.plan_type === 'prepaid' && (
                 <Field label="Years" value={plan.years} />
               )}
-              {plan.plan_type === 'subscription' && plan.subscription_message && (
+              {plan.plan_type === 'recurring' && plan.subscription_message && (
                 <div className="sm:col-span-2">
                   <Field label="Subscription Message" value={plan.subscription_message} />
                 </div>

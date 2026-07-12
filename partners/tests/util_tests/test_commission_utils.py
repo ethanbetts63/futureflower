@@ -13,7 +13,7 @@ class TestCommissionUtils:
         partner = PartnerFactory(partner_type='non_delivery')
         user = UserFactory(referred_by_partner=partner)
         plan = UpfrontPlanFactory(user=user, budget=75)
-        payment = PaymentFactory(user=user, order=plan.orderbase_ptr, status='succeeded')
+        payment = PaymentFactory(user=user, order=plan, status='succeeded')
 
         process_referral_commission(payment)
 
@@ -25,7 +25,7 @@ class TestCommissionUtils:
     def test_process_referral_commission_no_partner(self):
         user = UserFactory(referred_by_partner=None)
         plan = UpfrontPlanFactory(user=user, budget=100)
-        payment = PaymentFactory(user=user, order=plan.orderbase_ptr, status='succeeded')
+        payment = PaymentFactory(user=user, order=plan, status='succeeded')
 
         process_referral_commission(payment)
         assert Commission.objects.count() == 0
@@ -34,7 +34,7 @@ class TestCommissionUtils:
         partner = PartnerFactory(partner_type='delivery')
         user = UserFactory(referred_by_partner=partner)
         plan = UpfrontPlanFactory(user=user, budget=100)
-        payment = PaymentFactory(user=user, order=plan.orderbase_ptr, status='succeeded')
+        payment = PaymentFactory(user=user, order=plan, status='succeeded')
 
         process_referral_commission(payment)
         assert Commission.objects.count() == 0
@@ -46,10 +46,10 @@ class TestCommissionUtils:
 
         # Create 3 previous succeeded payments
         for _ in range(3):
-            PaymentFactory(user=user, order=plan.orderbase_ptr, status='succeeded')
+            PaymentFactory(user=user, order=plan, status='succeeded')
 
         # 4th succeeded payment
-        payment = PaymentFactory(user=user, order=plan.orderbase_ptr, status='succeeded')
+        payment = PaymentFactory(user=user, order=plan, status='succeeded')
 
         process_referral_commission(payment)
         assert Commission.objects.count() == 0
@@ -81,7 +81,7 @@ class TestReferralCommissionTiers:
         partner = PartnerFactory(partner_type='non_delivery')
         user = UserFactory(referred_by_partner=partner)
         plan = UpfrontPlanFactory(user=user, budget=175)
-        payment = PaymentFactory(user=user, order=plan.orderbase_ptr, status='succeeded')
+        payment = PaymentFactory(user=user, order=plan, status='succeeded')
 
         process_referral_commission(payment)
 

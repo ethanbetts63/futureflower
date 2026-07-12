@@ -2,9 +2,10 @@
 
 
 import { useState, useEffect, useMemo } from 'react';
-import { getUpfrontPlans, getUserProfile } from '@/api';
+import { getOrders } from '@/api/orders';
+import { getUserProfile } from '@/api';
 import { type UserProfile } from '@/types/UserProfile';
-import { type UpfrontPlan } from '@/types/UpfrontPlan';
+import { type Order } from '@/types/Order';
 import { type DeliveryEvent } from '@/types/DeliveryEvent';
 import NextDeliveryCard from '@/components/NextDeliveryCard';
 import type { NextDeliveryInfo } from '../../types/NextDeliveryInfo';
@@ -17,7 +18,7 @@ import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 
 const UserDashboardPage = () => {
-  const [plans, setPlans] = useState<UpfrontPlan[]>([]);
+  const [plans, setPlans] = useState<Order[]>([]);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +26,7 @@ const UserDashboardPage = () => {
     const fetchData = async () => {
       try {
         const [plansData, userData] = await Promise.all([
-          getUpfrontPlans(),
+          getOrders(),
           getUserProfile(),
         ]);
         setPlans(plansData);
@@ -44,7 +45,7 @@ const UserDashboardPage = () => {
     const upcomingDeliveries: NextDeliveryInfo[] = [];
     const now = new Date();
 
-    plans.forEach((plan: UpfrontPlan) => {
+    plans.forEach((plan: Order) => {
       if (plan.events && plan.events.length > 0) {
         const sortedEvents = [...plan.events].sort((a: DeliveryEvent, b: DeliveryEvent) => new Date(a.delivery_date).getTime() - new Date(b.delivery_date).getTime());
         

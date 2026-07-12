@@ -5,13 +5,13 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getFlowerTypes } from '@/api';
 import type { FlowerType } from '../types/FlowerType';
-import type { Plan } from '../types/Plan';
+import type { Order } from '../types/Order';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { PlanDisplayProps } from '../types/PlanDisplayProps';
 
-function PlanDisplay<T extends Plan = Plan>({
+function PlanDisplay<T extends Order = Order>({
     children,
     fallbackNavigationPath = '/dashboard',
     getPlan,

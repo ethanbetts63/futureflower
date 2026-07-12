@@ -7,8 +7,6 @@ import { ValuePropsAffiliates } from '../components/affiliates_page/ValuePropsAf
 import { WhyFutureFlowerAffiliatesSection } from '../components/affiliates_page/WhyFutureFlowerAffiliatesSection';
 import { ProductCarousel } from '../components/ProductCarousel';
 import type { ProductCarouselStep } from '../components/ProductCarousel';
-import ComparisonSectionHome from '../components/home_page/ComparisonSectionHome';
-import { CommissionStructureSection } from '../components/affiliates_page/CommissionStructureSection';
 import { ContentIdeasSection } from '../components/affiliates_page/ContentIdeasSection';
 import petalImage320 from '../assets/petal-320w.webp';
 import petalImage640 from '../assets/petal-640w.webp';
@@ -41,38 +39,38 @@ const AffiliatesPage = () => {
   const affiliateHowItWorksSteps: ProductCarouselStep[] = [
     {
       level: 1,
-      title: 'Grab your code.',
+      title: 'Grab Your Code.',
       description:
         'Create your account and get your custom $5 discount code (e.g., DEBRA5) in minutes.',
       image: {
         src: assetSrc(petalImage1280),
         srcSet: `${assetSrc(petalImage320)} 320w, ${assetSrc(petalImage640)} 640w, ${assetSrc(petalImage768)} 768w, ${assetSrc(petalImage1024)} 1024w, ${assetSrc(petalImage1280)} 1280w`,
         sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Petal image for grabbing your code',
+        alt: 'Flower petals representing an affiliate discount code',
       },
     },
     {
       level: 2,
-      title: 'Share the Smarter Way to Buy Flowers.',
+      title: 'Share It With Your Audience.',
       description:
-        'Show how the same price delivers more flowers, true florist\'s choice design, and supports local florists.',
+        'The pitch is one sentence: give a local florist your budget and preferences, and they design something custom. Your code takes $5 off.',
       image: {
         src: assetSrc(floristImage1280),
         srcSet: `${assetSrc(floristImage320)} 320w, ${assetSrc(floristImage640)} 640w, ${assetSrc(floristImage768)} 768w, ${assetSrc(floristImage1024)} 1024w, ${assetSrc(floristImage1280)} 1280w`,
         sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Florist image for sharing the smarter way to buy flowers',
+        alt: 'Florist arranging a custom bouquet',
       },
     },
     {
       level: 3,
-      title: 'Triple Dip.',
+      title: 'Get Paid.',
       description:
-        'When a follower uses your code, you get paid for their first order, their second, and their third.',
+        'Every time a new customer orders with your code, you earn a flat $10 once their delivery is complete. No tiers, no spreadsheets.',
       image: {
         src: assetSrc(deliveryImage1280),
         srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage360)} 360w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`,
         sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Delivery image for triple dipping earnings',
+        alt: 'Bouquet being delivered to a customer',
       },
     },
   ];
@@ -81,7 +79,7 @@ const AffiliatesPage = () => {
     <main>
       <Seo
         title="FutureFlower Affiliates | Earn by Gifting"
-        description="Help your followers get a better deal on flower deliveries. Earn $5–$25 per delivery while giving your community $5 off their first bouquet."
+        description="Give your audience $5 off custom flowers from a local florist and earn $10 for every new customer you send. Simple, flat, no tiers."
         canonicalPath="/affiliates"
         ogImage="/og-images/og-affiliates.webp"
       />
@@ -95,15 +93,10 @@ const AffiliatesPage = () => {
       <section className="bg-primary">
         <ProductCarousel
           title="How It Works"
-          subtitle="Grab your code, share it once, earn on every order that follows."
+          subtitle="Grab your code, share it, get paid for every new customer."
           steps={affiliateHowItWorksSteps}
         />
       </section>
-
-      <ComparisonSectionHome />
-
-
-      <CommissionStructureSection />
 
       <ContentIdeasSection />
     </main>
