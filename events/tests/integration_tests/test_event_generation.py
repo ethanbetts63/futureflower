@@ -9,7 +9,7 @@ from payments.utils.webhook_handlers import handle_payment_intent_succeeded, han
 @pytest.mark.django_db
 class TestEventGeneration:
     def test_one_time_order_activation_creates_event(self):
-        plan = OrderFactory(billing_mode='one_time', status='pending_payment', frequency='quarterly')
+        plan = OrderFactory(billing_mode='one_time', status='pending_payment', frequency='monthly')
         # Create the Payment object that the handler expects to find
         payment = Payment.objects.create(
             user=plan.user,

@@ -48,8 +48,6 @@ class OrderBase(models.Model):
         ('weekly', 'Weekly'),
         ('fortnightly', 'Fortnightly'),
         ('monthly', 'Monthly'),
-        ('quarterly', 'Quarterly'),
-        ('bi-annually', 'Bi-Annually'),
         ('annually', 'Annually'),
     )
 

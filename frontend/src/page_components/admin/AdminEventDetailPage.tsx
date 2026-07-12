@@ -2,10 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-
-function orderTypeToPlanSlug(orderType: string): string {
-  return orderType.toLowerCase().includes('subscription') ? 'subscription' : 'upfront';
-}
 import { getAdminEvent } from '@/api/admin';
 import type { AdminEvent } from '@/types/AdminEvent';
 import { Spinner } from '@/components/ui/spinner';
@@ -144,7 +140,7 @@ const AdminEventDetailPage = () => {
             </div>
             <div className="mt-3">
               <Link
-                href={`/dashboard/admin/plans/${orderTypeToPlanSlug(event.order_type)}/${event.order_id}`}
+                href={`/dashboard/admin/plans/${event.order_id}`}
                 className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-black/70"
               >
                 View Plan

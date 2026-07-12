@@ -150,7 +150,7 @@ const AdminUserDetailPage = () => {
                         <span className="text-sm text-black">${plan.total_amount}</span>
                       )}
                       <Link
-                        href={`/dashboard/admin/plans/${plan.plan_type}/${plan.id}`}
+                        href={`/dashboard/admin/plans/${plan.id}`}
                         className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-black/70 whitespace-nowrap"
                       >
                         View

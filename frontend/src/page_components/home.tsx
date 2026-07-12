@@ -48,13 +48,13 @@ const trustPoints = [
   },
   {
     icon: MapPin,
-    title: 'Built for Australia first',
-    text: 'We are narrowing the product around Australian deliveries before expanding anywhere else.',
+    title: 'Always supporting local',
+    text: 'Every order is made and delivered by a local Australian florist — their name on the delivery, your money in their till.',
   },
   {
     icon: ShieldCheck,
-    title: 'Details before payment',
-    text: 'Add the delivery address, date, message, and recipient details before you pay.',
+    title: 'We make it right',
+    text: 'Something wrong with your delivery? Tell us and we\'ll sort it — refund or redelivery.',
   },
 ];
 

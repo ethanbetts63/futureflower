@@ -13,7 +13,7 @@ class OrderFactory(DjangoModelFactory):
     status = 'pending_payment'
     billing_mode = 'one_time'
     budget = Faker('pydecimal', left_digits=2, right_digits=2, positive=True, min_value=50, max_value=99)
-    frequency = Faker('random_element', elements=['weekly', 'fortnightly', 'monthly', 'quarterly', 'bi-annually', 'annually'])
+    frequency = Faker('random_element', elements=['weekly', 'fortnightly', 'monthly', 'annually'])
     subtotal = Faker('pydecimal', left_digits=3, right_digits=2, positive=True, min_value=100, max_value=999)
     currency = 'usd'
     start_date = Faker('future_date')
