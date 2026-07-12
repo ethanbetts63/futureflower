@@ -2,8 +2,8 @@
 
 import { useRef } from 'react';
 import Seo from '../components/Seo';
-import { ProductCarousel } from '../components/ProductCarousel';
-import type { ProductCarouselStep } from '../components/ProductCarousel';
+import { HowItWorksSection } from '../components/HowItWorksSection';
+import type { HowItWorksStep } from '../components/HowItWorksSection';
 import { FaqV2 } from '../components/FaqV2';
 import floristPackingImage from '../assets/florist_packing.webp';
 import floristPackingImage320 from '../assets/florist_packing-320w.webp';
@@ -40,40 +40,31 @@ const FloristsPage = () => {
     contentRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const floristHowItWorksSteps: ProductCarouselStep[] = [
+  const floristHowItWorksSteps: HowItWorksStep[] = [
     {
-      level: 1,
-      title: 'Sign Up for Free.',
-      description:
-        'Tell us about your shop and the area you deliver to. No fees, no contracts, no minimums.',
+      title: 'Sign up for free',
+      text: 'Tell us about your shop and the area you deliver to. No fees, no contracts, no minimums.',
       image: {
         src: assetSrc(floristPackingImage),
         srcSet: `${assetSrc(floristPackingImage320)} 320w, ${assetSrc(floristPackingImage640)} 640w, ${assetSrc(floristPackingImage768)} 768w, ${assetSrc(floristPackingImage1024)} 1024w, ${assetSrc(floristPackingImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Florist packing a bouquet for delivery',
       },
     },
     {
-      level: 2,
-      title: 'We Send You Orders Nearby.',
-      description:
-        'Customers give us the occasion, budget, and preferences — not a catalog picture. You get the full brief by text and email.',
+      title: 'We send you orders nearby',
+      text: 'Customers give us the occasion, budget, and preferences — not a catalog picture. You get the full brief by text and email.',
       image: {
         src: assetSrc(petalImage1280),
         srcSet: `${assetSrc(petalImage320)} 320w, ${assetSrc(petalImage640)} 640w, ${assetSrc(petalImage768)} 768w, ${assetSrc(petalImage1024)} 1024w, ${assetSrc(petalImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Flower petals representing a customer order brief',
       },
     },
     {
-      level: 3,
-      title: 'Accept, Design, Deliver.',
-      description:
-        'Text or email us back yes or no. Design freely from the stock you have on hand and deliver under your own brand. Decline anything — no penalties, ever.',
+      title: 'Accept, design, deliver',
+      text: 'Text or email us back yes or no. Design freely from the stock you have on hand and deliver under your own brand. Decline anything — no penalties, ever.',
       image: {
         src: assetSrc(deliveryImage),
         srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage360)} 360w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
         alt: 'Florist delivering a finished bouquet',
       },
     },
@@ -111,13 +102,10 @@ const FloristsPage = () => {
 
       <ValuePropsA contentRef={contentRef} />
 
-      <section className="bg-primary">
-        <ProductCarousel
-          title="How It Works"
-          subtitle="Sign up once. Take the orders you want. Nothing else changes."
-          steps={floristHowItWorksSteps}
-        />
-      </section>
+      <HowItWorksSection
+        heading="Sign up once. Take the orders you want. Nothing else changes."
+        steps={floristHowItWorksSteps}
+      />
 
       <WhyFutureFlowerSection />
 

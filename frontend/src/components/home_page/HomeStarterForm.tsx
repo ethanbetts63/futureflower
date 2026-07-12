@@ -1,15 +1,25 @@
 "use client";
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 import type { FlowerType } from '@/types/FlowerType';
+import { useAuth } from '@/context/AuthContext';
+import { getOrCreateDraftOrder, updateOrder } from '@/api/orders';
 import { IMPACT_TIERS, MIN_BUDGET } from '@/utils/pricingConstants';
-import { FREE_DELIVERY_THRESHOLD } from '@/utils/systemConstants';
+import { FREE_DELIVERY_THRESHOLD, MIN_DAYS_BEFORE_CREATE } from '@/utils/systemConstants';
 import {
+  formatHomepageFlowerNotes,
   HOMEPAGE_BRIEF_STORAGE_KEY,
   type HomepageBrief,
 } from '@/lib/homepageBrief';
+
+const getMinDeliveryDate = () => {
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() + MIN_DAYS_BEFORE_CREATE);
+  return minDate.toISOString().split('T')[0];
+};
 
 const fallbackVibes: FlowerType[] = [
   { id: 0, name: 'Birthday', tagline: 'Warm, bright, celebratory' },
@@ -20,26 +30,69 @@ const fallbackVibes: FlowerType[] = [
   { id: 0, name: 'Other', tagline: 'Describe it below' },
 ];
 
-export default function HomeStarterForm() {
+interface HomeStarterFormProps {
+  defaultVibeName?: string;
+}
+
+export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProps) {
   const router = useRouter();
-  const [selectedVibe, setSelectedVibe] = useState<FlowerType>(fallbackVibes[0]);
+  const { isAuthenticated, isLoading } = useAuth();
+  const [selectedVibe, setSelectedVibe] = useState<FlowerType>(
+    () => fallbackVibes.find((vibe) => vibe.name === defaultVibeName) ?? fallbackVibes[0],
+  );
   const [budget, setBudget] = useState(IMPACT_TIERS[1]?.price ?? 125);
   const [customBudget, setCustomBudget] = useState('');
   const [flowerNotes, setFlowerNotes] = useState('');
+  const [deliveryDate, setDeliveryDate] = useState(getMinDeliveryDate);
+  const [cardMessage, setCardMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const budgetScrollRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmit = () => {
+  const scrollBudgetCarousel = (direction: -1 | 1) => {
+    // One card width (w-64 = 256px) plus the gap-3 (12px) between cards.
+    budgetScrollRef.current?.scrollBy({ left: direction * 268, behavior: 'smooth' });
+  };
+
+  const handleSubmit = async () => {
     const finalBudget = budget >= MIN_BUDGET ? budget : MIN_BUDGET;
+    const minDeliveryDate = getMinDeliveryDate();
+    const finalDeliveryDate = deliveryDate >= minDeliveryDate ? deliveryDate : minDeliveryDate;
     const brief: HomepageBrief = {
       vibeId: selectedVibe.id || null,
       vibeName: selectedVibe.name,
       budget: finalBudget,
       flowerNotes,
+      startDate: finalDeliveryDate,
+      cardMessage,
     };
 
     setIsSubmitting(true);
     window.sessionStorage.setItem(HOMEPAGE_BRIEF_STORAGE_KEY, JSON.stringify(brief));
-    router.push('/event-gate/single-delivery');
+
+    // Not signed in (or auth state still resolving): the brief is saved and
+    // applied by the event gate after account creation.
+    if (isLoading || !isAuthenticated) {
+      router.push('/create-account?next=%2Fevent-gate%2Fsingle-delivery');
+      return;
+    }
+
+    try {
+      const plan = await getOrCreateDraftOrder();
+      await updateOrder(String(plan.id), {
+        budget: brief.budget,
+        preferred_flower_types: brief.vibeId ? [brief.vibeId] : [],
+        flower_notes: formatHomepageFlowerNotes(brief),
+        start_date: finalDeliveryDate,
+        draft_card_messages: { '0': cardMessage },
+      });
+      window.sessionStorage.removeItem(HOMEPAGE_BRIEF_STORAGE_KEY);
+      router.push(`/single-delivery-flow/plan/${plan.id}/recipient`);
+    } catch (error: any) {
+      setIsSubmitting(false);
+      toast.error('Could not start your order', {
+        description: error.message || 'Please try again.',
+      });
+    }
   };
 
   const handleCustomBudgetChange = (value: string) => {
@@ -54,14 +107,9 @@ export default function HomeStarterForm() {
   return (
     <div className="min-w-0 bg-white border-y border-black/10 shadow-xl shadow-black/5 rounded-none p-5 sm:p-6 lg:rounded-xl lg:border lg:p-7">
       <div className="flex items-center justify-between gap-4 border-b border-black/10 pb-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/50">
-            Step 1
-          </p>
-          <h2 className="mt-1 break-words text-2xl font-bold text-black font-playfair-display">
-            Tell the florist what to make
-          </h2>
-        </div>
+        <h2 className="break-words text-2xl font-bold text-black font-playfair-display">
+          Tell the florist what to make
+        </h2>
         <span className="hidden sm:inline-flex rounded-full bg-[var(--colorgreen)] px-3 py-1 text-xs font-semibold text-black">
           Australia
         </span>
@@ -98,8 +146,31 @@ export default function HomeStarterForm() {
         </section>
 
         <section>
-          <h3 className="text-sm font-semibold text-black">Budget</h3>
-          <div className="-mx-5 mt-3 overflow-x-auto px-5 pb-3 pt-1 sm:-mx-6 sm:px-6 lg:-mx-7 lg:px-7">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-black">Budget</h3>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => scrollBudgetCarousel(-1)}
+                aria-label="Scroll budget options left"
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-black/10 bg-white text-black transition hover:border-black/40"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollBudgetCarousel(1)}
+                aria-label="Scroll budget options right"
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-black/10 bg-white text-black transition hover:border-black/40"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+          <div
+            ref={budgetScrollRef}
+            className="scrollbar-hide -mx-5 mt-3 overflow-x-auto px-5 pb-3 pt-1 sm:-mx-6 sm:px-6 lg:-mx-7 lg:px-7"
+          >
             <div className="flex snap-x snap-mandatory gap-3">
             {IMPACT_TIERS.map((tier) => {
               const isSelected = budget === tier.price;
@@ -203,9 +274,38 @@ export default function HomeStarterForm() {
             value={flowerNotes}
             onChange={(event) => setFlowerNotes(event.target.value)}
             placeholder="Describe the occasion, favourite colours, flowers they love, flowers to avoid, or the feeling you want."
-            className="mt-3 min-h-28 w-full resize-none rounded-lg border border-black/10 bg-white p-3 text-sm text-black outline-none transition placeholder:text-black/35 focus:border-black"
+            className="mt-3 min-h-20 w-full resize-none rounded-lg border border-black/10 bg-white p-3 text-sm text-black outline-none transition placeholder:text-black/35 focus:border-black"
           />
         </section>
+
+        <div className="grid gap-6 sm:grid-cols-2">
+          <section>
+            <label htmlFor="homepage-delivery-date" className="text-sm font-semibold text-black">
+              Delivery Date
+            </label>
+            <input
+              id="homepage-delivery-date"
+              type="date"
+              min={getMinDeliveryDate()}
+              value={deliveryDate}
+              onChange={(event) => setDeliveryDate(event.target.value)}
+              className="mt-3 h-11 w-full rounded-lg border border-black/10 bg-white px-3 text-sm text-black outline-none transition focus:border-black"
+            />
+          </section>
+
+          <section>
+            <label htmlFor="homepage-card-message" className="text-sm font-semibold text-black">
+              Card Message <span className="font-normal text-black/45">(optional)</span>
+            </label>
+            <textarea
+              id="homepage-card-message"
+              value={cardMessage}
+              onChange={(event) => setCardMessage(event.target.value)}
+              placeholder="e.g., Happy Birthday! Hope you have a wonderful day."
+              className="mt-3 min-h-11 w-full resize-none rounded-lg border border-black/10 bg-white p-3 text-sm text-black outline-none transition placeholder:text-black/35 focus:border-black sm:min-h-[68px]"
+            />
+          </section>
+        </div>
       </div>
 
       <button
@@ -214,13 +314,14 @@ export default function HomeStarterForm() {
         disabled={isSubmitting}
         className="mt-6 flex w-full items-center justify-between rounded-lg bg-black px-5 py-4 text-left text-white transition hover:bg-black/85 disabled:cursor-wait disabled:opacity-70"
       >
-        <span>
-          <span className="block text-sm font-semibold">Next: Delivery Details</span>
-          <span className="mt-0.5 block text-xs text-white/60">
-            We will save this brief for your florist.
-          </span>
+        <span className="block text-sm font-semibold">
+          {isSubmitting ? 'Preparing your order…' : 'Next: Recipient Details'}
         </span>
-        <ChevronRight className="h-5 w-5 text-white/70" />
+        {isSubmitting ? (
+          <Loader2 className="h-5 w-5 animate-spin text-white/70" />
+        ) : (
+          <ChevronRight className="h-5 w-5 text-white/70" />
+        )}
       </button>
     </div>
   );

@@ -61,11 +61,19 @@ The long-term technical goal is to remove duplicated plan models, duplicated API
 - Additional confirmed-dead code removed opportunistically while touching these areas: `CalculatePlanPayload`/`PriceBreakdown` types (no consumers), the vestigial `plan_type` query param plumbing in `DiscountCodeInput`/`ValidateDiscountCodeSerializer`.
 - Verified end-to-end: `manage.py check`, full backend suite (566 tests passing), `tsc --noEmit -p tsconfig.app.json` clean, `next build` production build succeeds.
 
+### Completed in Fifth Pass (Follow-up Cleanup)
+
+- **`EditButton.tsx`/`EditButtonProps` deleted.** Confirmed zero consumers — it only survived the earlier pass because the components that used it (`DeliveryDatesCard`, `MessagesCard`) were deleted but this one slipped through.
+- **Admin plan detail route simplified.** `/dashboard/admin/plans/[planType]/[planId]` → `/dashboard/admin/plans/[planId]`, end to end: the backend URL and view no longer accept a `plan_type` kwarg (lookups were already pk-only under the hood), and all three frontend link builders (`AdminPlanListPage`, `AdminUserDetailPage`, `AdminEventDetailPage` — the latter also dropped its now-pointless `orderTypeToPlanSlug` helper) were updated to match.
+- **`quarterly` and `bi-annually` frequencies removed entirely.** They were reachable from the backend (`FREQUENCY_CHOICES`, Stripe interval mapping, delivery-date math) but never actually selectable anywhere in the UI — a real mismatch, resolved by deciding these aren't in scope rather than adding UI to reach them. Removed from `OrderBase.FREQUENCY_CHOICES`, `get_recurring_options`, `calculate_second_delivery_date`, and `get_next_payment_date`'s frequency-stepping loop (all in `payments/utils/subscription_dates.py`), plus the test factory's random frequency pool. Migration `events/0007` records the choices change.
+- **`payments/utils/stripe_sync.py` deleted.** Found while touching the frequency-mapping code: an exact orphaned duplicate of `subscription_dates.py::get_recurring_options`, imported by nothing except its own dead test file. Both removed.
+- Verified end-to-end: `manage.py check`, full backend suite (556 tests passing), `tsc --noEmit -p tsconfig.app.json` clean, `next build` production build succeeds.
+
 ### Still Outstanding
 
 - `/single-delivery-flow/plan/[planId]/...` (the pre-payment ordering flow) still uses its own route naming, separate from `/dashboard/orders/[planId]/...` (post-payment management) — could unify further but they serve genuinely different states (draft vs. active order) so the split is defensible as-is.
 - No automated test coverage was ever written for `OrderViewSet`/`OrderSerializer` directly (the migration inherited that gap from the first pass) — worth adding given how central this model now is.
-- `plan_type` on the admin serializers is just `billing_mode` renamed for frontend convenience, and the admin URL still carries a vestigial `planType` segment (`/dashboard/admin/plans/[planType]/[planId]`) that the backend ignores — both still work, just carry unnecessary indirection.
+- `plan_type` on the admin serializers is still just `billing_mode` renamed for frontend convenience — harmless, but could be dropped in favor of the frontend reading `billing_mode` directly.
 - Backfill Stripe metadata to stop relying on `order_id`/`billing_mode` alone if multi-currency or multi-tenant needs arise later (not a current requirement).
 
 ## Current State

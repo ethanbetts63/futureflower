@@ -1,172 +1,94 @@
-import Seo from '../components/Seo';
-import { ProductCarousel } from '../components/ProductCarousel';
-import type { ProductCarouselStep } from '../components/ProductCarousel';
-import petalImage320 from '../assets/petal-320w.webp';
-import petalImage640 from '../assets/petal-640w.webp';
-import petalImage768 from '../assets/petal-768w.webp';
-import petalImage1024 from '../assets/petal-1024w.webp';
-import petalImage1280 from '../assets/petal-1280w.webp';
-
-import floristMakingFlowersImage320 from '../assets/florist_making_flowers-320w.webp';
-import floristMakingFlowersImage640 from '../assets/florist_making_flowers-640w.webp';
-import floristMakingFlowersImage768 from '../assets/florist_making_flowers-768w.webp';
-import floristMakingFlowersImage1024 from '../assets/florist_making_flowers-1024w.webp';
-import floristMakingFlowersImage1280 from '../assets/florist_making_flowers-1280w.webp';
-
-import deliveryImage320 from '../assets/delivery-320w.webp';
-import deliveryImage360 from '../assets/delivery-360w.webp';
-import deliveryImage640 from '../assets/delivery-640w.webp';
-import deliveryImage768 from '../assets/delivery-768w.webp';
-import deliveryImage1024 from '../assets/delivery-1024w.webp';
-import deliveryImage1280 from '../assets/delivery-1280w.webp';
-
-import heroImage320 from '../assets/hero2-320w.webp';
-import heroImage640 from '../assets/hero2-640w.webp';
-import heroImage768 from '../assets/hero2-768w.webp';
-import heroImage1024 from '../assets/hero2-1024w.webp';
-import heroImage1280 from '../assets/hero2-1280w.webp';
-import heroMobileImage320 from '../assets/hero2_mobile2-320w.webp';
-import heroMobileImage412 from '../assets/hero2_mobile2-412w.webp';
-import heroMobileImage640 from '../assets/hero2_mobile2-640w.webp';
-import heroMobileImage768 from '../assets/hero2_mobile2-768w.webp';
-import { FaqV2 } from '../components/FaqV2';
-import { HeroV4 as HeroV2 } from '../components/home_page/HeroV4';
-import { DeliverySection } from '../components/home_page/DeliverySection';
-import { RomanceSection } from '../components/home_page/RomanceSection';
+import OccasionLandingPage, {
+  defaultTrustPoints,
+  type OccasionLandingPageConfig,
+} from './OccasionLandingPage';
 import type { FaqItem } from '@/types/FaqItem';
-import { ArticleCarousel } from '../components/home_page/ArticleCarousel';
-import AnnouncementBar from '../components/home_page/AnnouncementBar';
-import OfferingSection from '../components/home_page/OfferingSection';
-import ComparisonSection from '../components/home_page/ComparisonSectionHome';
-import { assetSrc } from '@/lib/assets';
 
-const BirthdayFlowerDelivery = () => {
-  const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": "Birthday Flower Delivery",
-    "name": "Birthday Flower Delivery by FutureFlower",
-    "description": "Fresh birthday flowers from local florists, delivered on the day. Schedule ahead and never miss a birthday again.",
-    "provider": {
-      "@type": "Organization",
-      "name": "FutureFlower",
-      "url": "https://www.futureflower.app"
-    },
-    "areaServed": [
-      { "@type": "Country", "name": "Australia" },
-      { "@type": "Country", "name": "United Kingdom" },
-      { "@type": "Country", "name": "United States" },
-      { "@type": "Country", "name": "New Zealand" },
-      { "@type": "Continent", "name": "Europe" }
-    ]
-  };
+const birthdayFaqs: FaqItem[] = [
+  {
+    question: 'Can I schedule birthday flower delivery for a future date?',
+    answer:
+      'Yes — FutureFlower is built around scheduling ahead. Pick the birthday date, set your budget, and a local florist handles the arrangement and delivery on the day.',
+  },
+  {
+    question: 'How far in advance can I order birthday flowers?',
+    answer:
+      'You can schedule a birthday delivery weeks or months in advance. Once it\'s locked in, there\'s nothing to remember — the florist makes and delivers the flowers on the date you chose.',
+  },
+  {
+    question: 'What flowers are best for a birthday?',
+    answer:
+      'Bright, cheerful arrangements are popular for birthdays — sunflowers, gerberas, and colourful mixed bouquets are common choices. Your florist designs from your brief and what\'s fresh on the day, so you don\'t need to pick exact stems.',
+  },
+  {
+    question: 'Do I choose the exact bouquet?',
+    answer:
+      'No. You choose the occasion, budget, and custom preferences. A florist uses that brief to design something suitable from the flowers available to them.',
+  },
+  {
+    question: 'Where do you deliver?',
+    answer:
+      'FutureFlower is focused on Australia. Availability can depend on the delivery location and florist coverage.',
+  },
+];
 
-  const howItWorksSteps: ProductCarouselStep[] = [
-    {
-      level: 1,
-      title: 'Choose the Vibe.',
+const config: OccasionLandingPageConfig = {
+  seo: {
+    title: 'Birthday Flower Delivery | FutureFlower',
+    description:
+      'Send fresh birthday flowers designed by a local Australian florist. Pick the date, set a budget, add preferences — the florist handles the rest.',
+    canonicalPath: '/birthday-flower-delivery',
+    ogImage: '/og-images/og-birthday-flowers.webp',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: 'Birthday Flower Delivery',
+      name: 'Birthday Flower Delivery by FutureFlower',
       description:
-        'Birthday. Romantic. Sympathy. Celebration. Just because. We design around your preferences.',
-      image: {
-        src: assetSrc(petalImage1280),
-        srcSet: `${assetSrc(petalImage320)} 320w, ${assetSrc(petalImage640)} 640w, ${assetSrc(petalImage768)} 768w, ${assetSrc(petalImage1024)} 1024w, ${assetSrc(petalImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Petal image for choosing the vibe',
+        'Fresh birthday flowers designed by local Australian florists, delivered on the day. Schedule ahead and never miss a birthday again.',
+      provider: {
+        '@type': 'Organization',
+        name: 'FutureFlower',
+        url: 'https://www.futureflower.app',
       },
+      areaServed: [{ '@type': 'Country', name: 'Australia' }],
+    },
+  },
+  heroBadge: 'Birthday flower delivery',
+  heroTitle: 'Birthday flowers, done your way.',
+  heroSubtext:
+    'Pick the birthday, set a budget, and tell us what they love. A local Australian florist designs something bright and personal — delivered on the day.',
+  imageOverlayTitle: 'A brief, not a catalog order.',
+  imageOverlayText:
+    'Tell the florist about the birthday person — favourite colours, the feeling you want — and they make the right call on the day.',
+  defaultVibeName: 'Birthday',
+  trustPoints: defaultTrustPoints,
+  howItWorksHeading: 'Three steps to a birthday they\'ll remember.',
+  howItWorksSteps: [
+    {
+      title: 'Give us the brief',
+      text: 'The birthday date, your budget, and preferences — their favourite colours, flowers they love, things to avoid. Two minutes, no catalog scrolling.',
     },
     {
-      level: 2,
-      title: 'Choose the Impact.',
-      description:
-        'A thoughtful gesture. A classic arrangement. A statement piece. You set the budget — our florists design accordingly.',
-      image: {
-        src: assetSrc(floristMakingFlowersImage1280),
-        srcSet: `${assetSrc(floristMakingFlowersImage320)} 320w, ${assetSrc(floristMakingFlowersImage640)} 640w, ${assetSrc(floristMakingFlowersImage768)} 768w, ${assetSrc(floristMakingFlowersImage1024)} 1024w, ${assetSrc(floristMakingFlowersImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Florist making flowers image for choosing the impact',
-      },
+      title: 'A local florist designs it',
+      text: 'We pass your brief to a florist near the delivery address. They design a fresh, celebratory arrangement from the best of what\'s in season.',
     },
     {
-      level: 3,
-      title: 'We handle the rest.',
-      description:
-        'A local florist creates something unique and beautiful. No catalog copies. No warehouse stock. Just real floristry.',
-      image: {
-        src: assetSrc(deliveryImage1280),
-        srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage360)} 360w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Delivery image for handling the rest',
-      },
+      title: 'Delivered on their birthday',
+      text: 'Made fresh, delivered to the door with your card message — under the florist\'s own name, because they made it.',
     },
-  ];
-
-  const birthdayFaqs: FaqItem[] = [
-    {
-      question: "Can I schedule birthday flower delivery for a future date?",
-      answer: "Yes — FutureFlower is built around scheduling deliveries in advance. Pick the birthday date, set your budget, and a local florist handles the arrangement and delivery on the day."
-    },
-    {
-      question: "How far in advance can I order birthday flowers?",
-      answer: "You can schedule birthday deliveries months or even years in advance. You'll receive a reminder email 1 week and 1 day before the delivery date, so nothing gets forgotten."
-    },
-    {
-      question: "What flowers are best for a birthday?",
-      answer: "Bright, cheerful arrangements are popular for birthdays — sunflowers, gerberas, and colourful mixed bouquets are common choices. Our local florists design custom arrangements based on your preferences and budget."
-    },
-    {
-      question: "Is birthday flower delivery available across Australia?",
-      answer: "We operate across Australia, the UK, the US, New Zealand, and Europe. Local florists in each region handle the arrangement and delivery so the flowers are always fresh."
-    }
-  ];
-
-  return (
-    <main>
-      <Seo
-        title="Birthday Flower Delivery | FutureFlower"
-        description="Send fresh birthday flowers from local florists. Pick a date, set a budget, and we handle the rest — free delivery across Australia, the UK, the US, and more."
-        canonicalPath="/birthday-flower-delivery"
-        ogImage="/og-images/og-birthday-flowers.webp"
-        structuredData={serviceSchema}
-      />
-      <HeroV2
-        title="Birthday Flower Delivery"
-        subtext="Fresh flowers from local florists, delivered on the day. Schedule ahead and never miss a birthday again."
-        image={{
-          src: assetSrc(heroImage1280),
-          srcSet: `${assetSrc(heroImage320)} 320w, ${assetSrc(heroImage640)} 640w, ${assetSrc(heroImage768)} 768w, ${assetSrc(heroImage1024)} 1024w, ${assetSrc(heroImage1280)} 1280w`,
-          mobileSrcSet: `${assetSrc(heroMobileImage320)} 320w, ${assetSrc(heroMobileImage412)} 412w, ${assetSrc(heroMobileImage640)} 640w, ${assetSrc(heroMobileImage768)} 768w`,
-          alt: "A woman receiving a bright birthday flower bouquet from a local florist.",
-        }}
-      />
-      <AnnouncementBar />
-
-      <section className="bg-primary">
-        <ProductCarousel
-          title="How It Works"
-          subtitle="Pick the date, set a budget, and a local florist creates something fresh. No reordering every year."
-          steps={howItWorksSteps}
-        />
-      </section>
-
-      <OfferingSection />
-
-      <ComparisonSection />
-
-      <RomanceSection />
-      <DeliverySection />
-
-      <div className="bg-[var(--color4)]">
-        <section className="pb-8">
-          <FaqV2
-            title="Birthday flower delivery — answered."
-            faqs={birthdayFaqs}
-          />
-        </section>
-      </div>
-
-      <ArticleCarousel />
-    </main>
-  );
+  ],
+  checklistHeading: 'Never miss a birthday again.',
+  checklistItems: [
+    'Order as far ahead as you like — the delivery is locked to the date.',
+    'Set the budget before the florist starts planning.',
+    'Add favourite colours, dislikes, allergies, or special requests.',
+    'Include a card message so they know who it\'s from.',
+  ],
+  faqTitle: 'Birthday flower delivery — answered.',
+  faqs: birthdayFaqs,
 };
+
+const BirthdayFlowerDelivery = () => <OccasionLandingPage config={config} />;
 
 export default BirthdayFlowerDelivery;

@@ -7,7 +7,6 @@ import { getFlowerTypes } from '@/api';
 import type { FlowerType } from '../types/FlowerType';
 import type { Order } from '../types/Order';
 import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { PlanDisplayProps } from '../types/PlanDisplayProps';
 
@@ -57,13 +56,10 @@ function PlanDisplay<T extends Order = Order>({
         fetchData();
     }, [planId, router, fallbackNavigationPath, getPlan]);
 
+    // The plan fetch is a single quick GET; a flash of spinner looks worse
+    // than a moment of empty page background.
     if (loading) {
-        return (
-            <div className="container mx-auto px-4 py-8 flex justify-center items-center h-screen">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="ml-4 text-muted-foreground">Loading your plan summary...</p>
-            </div>
-        );
+        return null;
     }
 
     if (error || !plan) {

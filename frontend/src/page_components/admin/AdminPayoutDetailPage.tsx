@@ -123,7 +123,7 @@ const AdminPayoutDetailPage = () => {
                     onClick={handleDeny}
                     disabled={submitting}
                     variant="outline"
-                    className="px-6 py-3 rounded-xl text-base font-normal border-red-300 text-red-600 hover:bg-red-50 hover:text-red-700"
+                    className="px-6 py-3 rounded-lg text-sm font-semibold bg-white text-black/70 ring-1 ring-black/15 hover:bg-white hover:text-black hover:ring-black/40 transition-colors shadow-sm border-none"
                   >
                     Deny
                   </Button>
@@ -131,7 +131,7 @@ const AdminPayoutDetailPage = () => {
                     onClick={handleApprove}
                     disabled={submitting || !commission.stripe_connect_onboarding_complete}
                     title={!commission.stripe_connect_onboarding_complete ? 'Partner has not completed Stripe onboarding' : undefined}
-                    className="px-6 py-3 rounded-xl text-base font-normal bg-green-600 text-white hover:bg-green-700"
+                    className="px-6 py-3 rounded-lg text-sm font-semibold bg-black text-white hover:bg-black/85 transition-colors shadow-sm border-none"
                   >
                     {submitting ? <Spinner className="h-4 w-4" /> : 'Approve'}
                   </Button>

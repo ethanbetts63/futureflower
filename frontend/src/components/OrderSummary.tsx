@@ -6,6 +6,7 @@ import { Calendar, MessageSquare, RefreshCw, Tag, StickyNote } from 'lucide-reac
 import EditControl from '@/components/EditControl';
 import { MIN_DAYS_BEFORE_EDIT, MS_PER_DAY } from '@/utils/systemConstants';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
+import FlowNextButton from '@/components/form_flow/FlowNextButton';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import PlanActivationBanner from '@/components/PlanActivationBanner';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
@@ -19,8 +20,6 @@ import PaymentHistoryCard from '@/components/PaymentHistoryCard';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
 import { acceptTerms } from '@/api';
 import { cancelOrder, makeOrderRecurring, startCheckout } from '@/api/orders';
 import { formatDate } from '@/utils/utils';
@@ -152,18 +151,14 @@ const OrderSummary = ({
         footer={
           isOrdering ? (
             <div className="flex flex-row justify-between items-center w-full gap-4">
-              <FlowBackButton to={`${editBasePath}/structure`} />
+              <FlowBackButton to={`${editBasePath}/recipient`} />
               {makeRecurring ? (
-                <Button
+                <FlowNextButton
+                  label="Next: Payment"
                   onClick={handleRecurringPayment}
+                  isLoading={isSubmitting}
                   disabled={isSubmitting || !planId || !termsAccepted}
-                  className="bg-[var(--colorgreen)] text-black font-normal px-6 py-3 rounded-xl hover:bg-[#22c55e] hover:shadow-xl transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 min-w-[200px] border-none text-base"
-                >
-                  <span className="flex items-center gap-2">
-                    {isSubmitting && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
-                    Next: Payment
-                  </span>
-                </Button>
+                />
               ) : (
                 <PaymentInitiatorButton
                   orderId={planId}

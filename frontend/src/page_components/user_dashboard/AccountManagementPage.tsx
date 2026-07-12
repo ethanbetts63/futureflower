@@ -114,11 +114,11 @@ const AccountManagementPage = () => {
                                 </div>
                                 <div className="flex gap-2">
                                     {!isEditing ? (
-                                        <Button variant="outline" size="sm" className="rounded-full px-6 font-bold" onClick={() => setIsEditing(true)}>Edit</Button>
+                                        <Button variant="outline" size="sm" className="rounded-lg px-6 font-semibold bg-white text-black/70 ring-1 ring-black/15 hover:bg-white hover:text-black hover:ring-black/40 transition-colors shadow-sm border-none" onClick={() => setIsEditing(true)}>Edit</Button>
                                     ) : (
                                         <>
-                                            <Button variant="ghost" size="sm" className="rounded-full px-6" onClick={() => setIsEditing(false)}>Cancel</Button>
-                                            <Button size="sm" className="rounded-full px-6 font-bold" onClick={() => document.getElementById('profile-form-submit')?.click()}>
+                                            <Button variant="outline" size="sm" className="rounded-lg px-6 font-semibold bg-white text-black/70 ring-1 ring-black/15 hover:bg-white hover:text-black hover:ring-black/40 transition-colors shadow-sm border-none" onClick={() => setIsEditing(false)}>Cancel</Button>
+                                            <Button size="sm" className="rounded-lg px-6 font-semibold bg-black text-white hover:bg-black/85 transition-colors shadow-sm border-none" onClick={() => document.getElementById('profile-form-submit')?.click()}>
                                                 Save Profile
                                             </Button>
                                         </>

@@ -1,172 +1,94 @@
-import Seo from '../components/Seo';
-import { ProductCarousel } from '../components/ProductCarousel';
-import type { ProductCarouselStep } from '../components/ProductCarousel';
-import petalImage320 from '../assets/petal-320w.webp';
-import petalImage640 from '../assets/petal-640w.webp';
-import petalImage768 from '../assets/petal-768w.webp';
-import petalImage1024 from '../assets/petal-1024w.webp';
-import petalImage1280 from '../assets/petal-1280w.webp';
-
-import floristMakingFlowersImage320 from '../assets/florist_making_flowers-320w.webp';
-import floristMakingFlowersImage640 from '../assets/florist_making_flowers-640w.webp';
-import floristMakingFlowersImage768 from '../assets/florist_making_flowers-768w.webp';
-import floristMakingFlowersImage1024 from '../assets/florist_making_flowers-1024w.webp';
-import floristMakingFlowersImage1280 from '../assets/florist_making_flowers-1280w.webp';
-
-import deliveryImage320 from '../assets/delivery-320w.webp';
-import deliveryImage360 from '../assets/delivery-360w.webp';
-import deliveryImage640 from '../assets/delivery-640w.webp';
-import deliveryImage768 from '../assets/delivery-768w.webp';
-import deliveryImage1024 from '../assets/delivery-1024w.webp';
-import deliveryImage1280 from '../assets/delivery-1280w.webp';
-
-import heroImage320 from '../assets/hero2-320w.webp';
-import heroImage640 from '../assets/hero2-640w.webp';
-import heroImage768 from '../assets/hero2-768w.webp';
-import heroImage1024 from '../assets/hero2-1024w.webp';
-import heroImage1280 from '../assets/hero2-1280w.webp';
-import heroMobileImage320 from '../assets/hero2_mobile2-320w.webp';
-import heroMobileImage412 from '../assets/hero2_mobile2-412w.webp';
-import heroMobileImage640 from '../assets/hero2_mobile2-640w.webp';
-import heroMobileImage768 from '../assets/hero2_mobile2-768w.webp';
-import { FaqV2 } from '../components/FaqV2';
-import { HeroV4 as HeroV2 } from '../components/home_page/HeroV4';
-import { DeliverySection } from '../components/home_page/DeliverySection';
-import { RomanceSection } from '../components/home_page/RomanceSection';
+import OccasionLandingPage, {
+  defaultTrustPoints,
+  type OccasionLandingPageConfig,
+} from './OccasionLandingPage';
 import type { FaqItem } from '@/types/FaqItem';
-import { ArticleCarousel } from '../components/home_page/ArticleCarousel';
-import AnnouncementBar from '../components/home_page/AnnouncementBar';
-import OfferingSection from '../components/home_page/OfferingSection';
-import ComparisonSection from '../components/home_page/ComparisonSectionHome';
-import { assetSrc } from '@/lib/assets';
 
-const MothersDayFlowerDelivery = () => {
-  const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": "Mother's Day Flower Delivery",
-    "name": "Mother's Day Flower Delivery by FutureFlower",
-    "description": "Fresh Mother's Day flowers from local florists. Schedule ahead and never leave it to the last minute.",
-    "provider": {
-      "@type": "Organization",
-      "name": "FutureFlower",
-      "url": "https://www.futureflower.app"
-    },
-    "areaServed": [
-      { "@type": "Country", "name": "Australia" },
-      { "@type": "Country", "name": "United Kingdom" },
-      { "@type": "Country", "name": "United States" },
-      { "@type": "Country", "name": "New Zealand" },
-      { "@type": "Continent", "name": "Europe" }
-    ]
-  };
+const mothersDayFaqs: FaqItem[] = [
+  {
+    question: "When is Mother's Day in Australia?",
+    answer:
+      "Mother's Day in Australia falls on the second Sunday in May. It's one of the busiest days of the year for florists, so scheduling ahead locks in your delivery.",
+  },
+  {
+    question: "Can I schedule Mother's Day flower delivery in advance?",
+    answer:
+      "Yes — you can schedule a Mother's Day delivery weeks or months in advance. Once it's locked in, a local florist handles the arrangement and delivery on the day.",
+  },
+  {
+    question: "What flowers are popular for Mother's Day?",
+    answer:
+      'Soft, feminine arrangements are popular — peonies, roses, lilies, and mixed pastel bouquets. Your florist designs from your brief and budget, so a note about Mum\'s favourites gives them plenty to work with.',
+  },
+  {
+    question: 'Do I choose the exact bouquet?',
+    answer:
+      'No. You choose the occasion, budget, and custom preferences. A florist uses that brief to design something suitable from the flowers available to them.',
+  },
+  {
+    question: 'Where do you deliver?',
+    answer:
+      'FutureFlower is focused on Australia. Availability can depend on the delivery location and florist coverage.',
+  },
+];
 
-  const howItWorksSteps: ProductCarouselStep[] = [
-    {
-      level: 1,
-      title: 'Choose the Vibe.',
+const config: OccasionLandingPageConfig = {
+  seo: {
+    title: "Mother's Day Flower Delivery | FutureFlower",
+    description:
+      "Send fresh Mother's Day flowers designed by a local Australian florist. Schedule ahead, set a budget, and never leave it to the last minute.",
+    canonicalPath: '/mothers-day-flower-delivery',
+    ogImage: '/og-images/og-mothers-day-flowers.webp',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: "Mother's Day Flower Delivery",
+      name: "Mother's Day Flower Delivery by FutureFlower",
       description:
-        'Birthday. Romantic. Sympathy. Celebration. Just because. We design around your preferences.',
-      image: {
-        src: assetSrc(petalImage1280),
-        srcSet: `${assetSrc(petalImage320)} 320w, ${assetSrc(petalImage640)} 640w, ${assetSrc(petalImage768)} 768w, ${assetSrc(petalImage1024)} 1024w, ${assetSrc(petalImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Petal image for choosing the vibe',
+        "Fresh Mother's Day flowers designed by local Australian florists. Schedule ahead and never leave it to the last minute.",
+      provider: {
+        '@type': 'Organization',
+        name: 'FutureFlower',
+        url: 'https://www.futureflower.app',
       },
+      areaServed: [{ '@type': 'Country', name: 'Australia' }],
+    },
+  },
+  heroBadge: "Mother's day delivery",
+  heroTitle: 'Mother\'s Day flowers, done your way.',
+  heroSubtext:
+    'Schedule ahead and never leave it to the last minute. Set a budget and tell us what Mum loves — a local Australian florist designs the rest, delivered on the day.',
+  imageOverlayTitle: 'A brief, not a catalog order.',
+  imageOverlayText:
+    'Her favourite colours, the flowers she grows, the ones she can\'t stand — the florist designs around what makes her, her.',
+  defaultVibeName: 'Thank You',
+  trustPoints: defaultTrustPoints,
+  howItWorksHeading: 'Three steps to making Mum\'s day.',
+  howItWorksSteps: [
+    {
+      title: 'Give us the brief',
+      text: 'Your budget and what Mum loves — favourite colours, flowers from her garden, anything to avoid. Two minutes, no catalog scrolling.',
     },
     {
-      level: 2,
-      title: 'Choose the Impact.',
-      description:
-        'A thoughtful gesture. A classic arrangement. A statement piece. You set the budget — our florists design accordingly.',
-      image: {
-        src: assetSrc(floristMakingFlowersImage1280),
-        srcSet: `${assetSrc(floristMakingFlowersImage320)} 320w, ${assetSrc(floristMakingFlowersImage640)} 640w, ${assetSrc(floristMakingFlowersImage768)} 768w, ${assetSrc(floristMakingFlowersImage1024)} 1024w, ${assetSrc(floristMakingFlowersImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Florist making flowers image for choosing the impact',
-      },
+      title: 'A local florist designs it',
+      text: 'We pass your brief to a florist near Mum. They design something soft and seasonal from the best of what\'s fresh in May.',
     },
     {
-      level: 3,
-      title: 'We handle the rest.',
-      description:
-        'A local florist creates something unique and beautiful. No catalog copies. No warehouse stock. Just real floristry.',
-      image: {
-        src: assetSrc(deliveryImage1280),
-        srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage360)} 360w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Delivery image for handling the rest',
-      },
+      title: 'Delivered on the day',
+      text: 'Made fresh, delivered to her door with your card message — under the florist\'s own name, because they made it.',
     },
-  ];
-
-  const mothersDayFaqs: FaqItem[] = [
-    {
-      question: "When is Mother's Day in Australia?",
-      answer: "Mother's Day in Australia falls on the second Sunday in May. In the UK it falls in March, and in the US in May. FutureFlower supports scheduling across all regions."
-    },
-    {
-      question: "Can I schedule Mother's Day flower delivery in advance?",
-      answer: "Yes — you can schedule Mother's Day deliveries months in advance. You'll receive a reminder email 1 week and 1 day before the date, and a local florist handles everything on the day."
-    },
-    {
-      question: "What flowers are popular for Mother's Day?",
-      answer: "Soft, feminine arrangements are popular — peonies, roses, lilies, and mixed pastel bouquets. Our florists design custom arrangements based on your preferences and budget."
-    },
-    {
-      question: "Is Mother's Day flower delivery available across Australia?",
-      answer: "We operate across Australia, the UK, the US, New Zealand, and Europe. Local florists in each region handle the arrangement and delivery so the flowers are always fresh."
-    }
-  ];
-
-  return (
-    <main>
-      <Seo
-        title="Mother's Day Flower Delivery | FutureFlower"
-        description="Send fresh Mother's Day flowers from local florists. Schedule ahead to guarantee delivery — free across Australia, the UK, the US, and more."
-        canonicalPath="/mothers-day-flower-delivery"
-        ogImage="/og-images/og-mothers-day-flowers.webp"
-        structuredData={serviceSchema}
-      />
-      <HeroV2
-        title="Mother's Day Flower Delivery"
-        subtext="Fresh flowers from local florists, delivered on the day. Schedule months ahead and never leave it to the last minute."
-        image={{
-          src: assetSrc(heroImage1280),
-          srcSet: `${assetSrc(heroImage320)} 320w, ${assetSrc(heroImage640)} 640w, ${assetSrc(heroImage768)} 768w, ${assetSrc(heroImage1024)} 1024w, ${assetSrc(heroImage1280)} 1280w`,
-          mobileSrcSet: `${assetSrc(heroMobileImage320)} 320w, ${assetSrc(heroMobileImage412)} 412w, ${assetSrc(heroMobileImage640)} 640w, ${assetSrc(heroMobileImage768)} 768w`,
-          alt: "A woman delighted by a Mother's Day bouquet from a local florist.",
-        }}
-      />
-      <AnnouncementBar />
-
-      <section className="bg-primary">
-        <ProductCarousel
-          title="How It Works"
-          subtitle="Pick the date, set a budget, and a local florist takes care of the rest. No last-minute stress."
-          steps={howItWorksSteps}
-        />
-      </section>
-
-      <OfferingSection />
-
-      <ComparisonSection />
-
-      <RomanceSection />
-      <DeliverySection />
-
-      <div className="bg-[var(--color4)]">
-        <section className="pb-8">
-          <FaqV2
-            title="Mother's Day flowers — answered."
-            faqs={mothersDayFaqs}
-          />
-        </section>
-      </div>
-
-      <ArticleCarousel />
-    </main>
-  );
+  ],
+  checklistHeading: 'Sorted well before the second Sunday in May.',
+  checklistItems: [
+    'Order weeks or months ahead — the delivery is locked to Mother\'s Day.',
+    'Set the budget before the florist starts planning.',
+    'Add her favourite colours, flowers she loves, or things to avoid.',
+    'Include a card message so she knows exactly who it\'s from.',
+  ],
+  faqTitle: "Mother's Day flowers — answered.",
+  faqs: mothersDayFaqs,
 };
+
+const MothersDayFlowerDelivery = () => <OccasionLandingPage config={config} />;
 
 export default MothersDayFlowerDelivery;

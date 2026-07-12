@@ -5,6 +5,8 @@ export type HomepageBrief = {
   vibeName: string;
   budget: number;
   flowerNotes: string;
+  startDate?: string;
+  cardMessage?: string;
 };
 
 export function formatHomepageFlowerNotes(brief: HomepageBrief) {

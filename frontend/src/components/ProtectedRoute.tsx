@@ -19,11 +19,8 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
-        <div className="text-center">
-          <Spinner className="h-12 w-12 mb-4" />
-          <p className="text-muted-foreground animate-pulse">Verifying your session...</p>
-        </div>
+      <div className="flex h-screen w-full items-center justify-center bg-white">
+        <Spinner className="h-10 w-10 text-black" />
       </div>
     );
   }

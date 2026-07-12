@@ -45,14 +45,14 @@ const EventCard = ({ event, section }: EventCardProps) => {
       <div className="flex flex-col gap-2 flex-shrink-0">
         <Link
           href={`/dashboard/admin/events/${event.id}`}
-          className="text-xs px-3 py-1.5 rounded border border-black/20 hover:bg-black/5 text-center text-black/70"
+          className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white text-black/70 ring-1 ring-black/15 hover:text-black hover:ring-black/40 transition-colors shadow-sm text-center"
         >
           View
         </Link>
         {section === 'to_order' && (
           <Link
             href={`/dashboard/admin/events/${event.id}/mark-ordered`}
-            className="text-xs px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700 text-center"
+            className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-black text-white hover:bg-black/85 transition-colors shadow-sm text-center"
           >
             Place Order
           </Link>
@@ -60,7 +60,7 @@ const EventCard = ({ event, section }: EventCardProps) => {
         {section === 'ordered' && (
           <Link
             href={`/dashboard/admin/events/${event.id}/mark-delivered`}
-            className="text-xs px-3 py-1.5 rounded bg-green-600 text-white hover:bg-green-700 text-center"
+            className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-black text-white hover:bg-black/85 transition-colors shadow-sm text-center"
           >
             Confirm Delivery
           </Link>

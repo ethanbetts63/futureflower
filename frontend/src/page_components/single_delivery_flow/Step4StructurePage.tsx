@@ -2,22 +2,21 @@
 "use client";
 import { useParams } from 'next/navigation';
 import SingleDeliveryStructureEditor from '@/components/form_flow/SingleDeliveryStructureEditor';
-import StepProgressBar from '@/components/form_flow/StepProgressBar';
 
+// No longer a step in the ordering flow — the homepage collects budget, delivery
+// date, and card message. This page remains as the edit target for those fields
+// from the confirmation summary.
 const Step4StructurePage = () => {
     const params = useParams();
     const planId = params.planId as string | undefined;
 
     return (
-        <>
-        <StepProgressBar currentStep={3} totalSteps={4} planName="Single Delivery Plan" />
         <SingleDeliveryStructureEditor
             mode="create"
             saveButtonText="Next: Confirm Your Order"
             onSaveNavigateTo={`/single-delivery-flow/plan/${planId}/confirmation`}
-            backPath={`/single-delivery-flow/plan/${planId}/recipient`}
+            backPath={`/single-delivery-flow/plan/${planId}/confirmation`}
         />
-        </>
     );
 };
 

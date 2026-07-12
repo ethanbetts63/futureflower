@@ -148,14 +148,14 @@ const AdminPartnerDetailPage = () => {
                     onClick={handleDeny}
                     disabled={submitting}
                     variant="outline"
-                    className="px-6 py-3 rounded-xl text-base font-normal border-black/20 text-black/60 hover:bg-black/5 hover:text-black"
+                    className="px-6 py-3 rounded-lg text-sm font-semibold bg-white text-black/70 ring-1 ring-black/15 hover:bg-white hover:text-black hover:ring-black/40 transition-colors shadow-sm border-none"
                   >
                     Deny
                   </Button>
                   <Button
                     onClick={handleApprove}
                     disabled={submitting}
-                    className="px-6 py-3 rounded-xl text-base font-normal bg-green-600 text-white hover:bg-green-700"
+                    className="px-6 py-3 rounded-lg text-sm font-semibold bg-black text-white hover:bg-black/85 transition-colors shadow-sm border-none"
                   >
                     Approve
                   </Button>

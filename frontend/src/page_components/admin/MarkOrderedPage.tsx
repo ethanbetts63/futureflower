@@ -82,7 +82,7 @@ const MarkOrderedPage = () => {
                 <Button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-3 rounded-xl text-base font-normal bg-black text-white hover:bg-black/80"
+                  className="px-6 py-3 rounded-lg text-sm font-semibold bg-black text-white hover:bg-black/85 transition-colors shadow-sm border-none"
                 >
                   {submitting ? 'Saving…' : 'Mark as Ordered'}
                 </Button>

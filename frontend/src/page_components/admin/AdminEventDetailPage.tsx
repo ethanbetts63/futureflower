@@ -94,12 +94,12 @@ const AdminEventDetailPage = () => {
             <div className="flex flex-row justify-between items-center w-full gap-4">
               <FlowBackButton to="/dashboard/admin" />
               {event.status === 'scheduled' && (
-                <Button asChild className="px-6 py-3 rounded-xl text-base font-normal bg-black text-white hover:bg-black/80">
+                <Button asChild className="px-6 py-3 rounded-lg text-sm font-semibold bg-black text-white hover:bg-black/85 transition-colors shadow-sm border-none">
                   <Link href={`/dashboard/admin/events/${event.id}/mark-ordered`}>Place Order</Link>
                 </Button>
               )}
               {event.status === 'ordered' && (
-                <Button asChild className="px-6 py-3 rounded-xl text-base font-normal bg-green-600 text-white hover:bg-green-700">
+                <Button asChild className="px-6 py-3 rounded-lg text-sm font-semibold bg-black text-white hover:bg-black/85 transition-colors shadow-sm border-none">
                   <Link href={`/dashboard/admin/events/${event.id}/mark-delivered`}>Confirm Delivery</Link>
                 </Button>
               )}

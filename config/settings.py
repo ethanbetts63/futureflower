@@ -45,7 +45,11 @@ ALLOWED_HOSTS = ['ethanbetts.pythonanywhere.com', 'api.futureflower.app', 'www.f
 CSRF_TRUSTED_ORIGINS = ['https://www.futureflower.app']
 
 if DEBUG:
-    CSRF_TRUSTED_ORIGINS.append('http://localhost:5173')
+    CSRF_TRUSTED_ORIGINS.extend([
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        'http://localhost:5173',
+    ])
 
 # Application definition
 INSTALLED_APPS = [

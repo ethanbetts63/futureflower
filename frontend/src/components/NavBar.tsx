@@ -95,14 +95,11 @@ const NavBar = () => {
         <nav className="bg-white border-t border-black/10 px-6 py-3 flex flex-col">
           {isAuthenticated ? (
             <>
-              <Link href="/dashboard" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                Dashboard
-              </Link>
               <Link href="/dashboard/account" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                 Account Management
               </Link>
               <Link href="/dashboard" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                Flower Plan Management
+                Order Management
               </Link>
               <Link href="/dashboard/refunds" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
                 Refunds

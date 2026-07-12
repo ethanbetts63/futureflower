@@ -67,7 +67,7 @@ const PaymentInitiatorButton = ({
       onClick={handleInitiatePayment}
       disabled={disabled || isLoading}
       className={cn(
-        "bg-[var(--colorgreen)] text-black font-normal px-6 py-3 rounded-xl hover:bg-[#22c55e] hover:shadow-xl transition-all cursor-pointer group shadow-lg flex items-center justify-between gap-4 min-w-[200px] border-none text-base",
+        "bg-black text-white font-semibold px-6 py-3 rounded-lg hover:bg-black/85 transition-colors cursor-pointer group shadow-sm flex items-center justify-between gap-4 min-w-[160px] border-none text-sm",
         className
       )}
       {...props}
@@ -78,7 +78,7 @@ const PaymentInitiatorButton = ({
         ) : null}
         <span>{children}</span>
       </div>
-      <ChevronRight className="h-4 w-4 text-black/40 group-hover:text-black transition-colors" />
+      <ChevronRight className="h-4 w-4 text-white/70 group-hover:text-white transition-colors" />
     </Button>
   );
 };

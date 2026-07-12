@@ -131,7 +131,7 @@ const CancelOrderPageInner = ({
 
         <Button
           onClick={() => setDialogOpen(true)}
-          className="w-full bg-black text-white hover:bg-black/80 rounded-xl py-3 text-base font-semibold"
+          className="w-full bg-black text-white hover:bg-black/85 transition-colors rounded-lg py-3 text-sm font-semibold shadow-sm border-none"
         >
           Cancel Subscription
         </Button>

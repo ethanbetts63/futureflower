@@ -1,172 +1,94 @@
-import Seo from '../components/Seo';
-import { ProductCarousel } from '../components/ProductCarousel';
-import type { ProductCarouselStep } from '../components/ProductCarousel';
-import petalImage320 from '../assets/petal-320w.webp';
-import petalImage640 from '../assets/petal-640w.webp';
-import petalImage768 from '../assets/petal-768w.webp';
-import petalImage1024 from '../assets/petal-1024w.webp';
-import petalImage1280 from '../assets/petal-1280w.webp';
-
-import floristMakingFlowersImage320 from '../assets/florist_making_flowers-320w.webp';
-import floristMakingFlowersImage640 from '../assets/florist_making_flowers-640w.webp';
-import floristMakingFlowersImage768 from '../assets/florist_making_flowers-768w.webp';
-import floristMakingFlowersImage1024 from '../assets/florist_making_flowers-1024w.webp';
-import floristMakingFlowersImage1280 from '../assets/florist_making_flowers-1280w.webp';
-
-import deliveryImage320 from '../assets/delivery-320w.webp';
-import deliveryImage360 from '../assets/delivery-360w.webp';
-import deliveryImage640 from '../assets/delivery-640w.webp';
-import deliveryImage768 from '../assets/delivery-768w.webp';
-import deliveryImage1024 from '../assets/delivery-1024w.webp';
-import deliveryImage1280 from '../assets/delivery-1280w.webp';
-
-import heroImage320 from '../assets/hero2-320w.webp';
-import heroImage640 from '../assets/hero2-640w.webp';
-import heroImage768 from '../assets/hero2-768w.webp';
-import heroImage1024 from '../assets/hero2-1024w.webp';
-import heroImage1280 from '../assets/hero2-1280w.webp';
-import heroMobileImage320 from '../assets/hero2_mobile2-320w.webp';
-import heroMobileImage412 from '../assets/hero2_mobile2-412w.webp';
-import heroMobileImage640 from '../assets/hero2_mobile2-640w.webp';
-import heroMobileImage768 from '../assets/hero2_mobile2-768w.webp';
-import { FaqV2 } from '../components/FaqV2';
-import { HeroV4 as HeroV2 } from '../components/home_page/HeroV4';
-import { DeliverySection } from '../components/home_page/DeliverySection';
-import { RomanceSection } from '../components/home_page/RomanceSection';
+import OccasionLandingPage, {
+  defaultTrustPoints,
+  type OccasionLandingPageConfig,
+} from './OccasionLandingPage';
 import type { FaqItem } from '@/types/FaqItem';
-import { ArticleCarousel } from '../components/home_page/ArticleCarousel';
-import AnnouncementBar from '../components/home_page/AnnouncementBar';
-import OfferingSection from '../components/home_page/OfferingSection';
-import ComparisonSection from '../components/home_page/ComparisonSectionHome';
-import { assetSrc } from '@/lib/assets';
 
-const ValentinesDayFlowerDelivery = () => {
-  const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": "Valentine's Day Flower Delivery",
-    "name": "Valentine's Day Flower Delivery by FutureFlower",
-    "description": "Fresh Valentine's Day flowers from local florists. Schedule your order months ahead and skip the last-minute rush.",
-    "provider": {
-      "@type": "Organization",
-      "name": "FutureFlower",
-      "url": "https://www.futureflower.app"
-    },
-    "areaServed": [
-      { "@type": "Country", "name": "Australia" },
-      { "@type": "Country", "name": "United Kingdom" },
-      { "@type": "Country", "name": "United States" },
-      { "@type": "Country", "name": "New Zealand" },
-      { "@type": "Continent", "name": "Europe" }
-    ]
-  };
+const valentinesFaqs: FaqItem[] = [
+  {
+    question: "When should I order flowers for Valentine's Day?",
+    answer:
+      'Most florists are overwhelmed with last-minute orders on February 14. Ordering weeks or months in advance locks in your delivery and gives the florist more time to craft a better arrangement.',
+  },
+  {
+    question: "Can I schedule Valentine's Day flower delivery in advance?",
+    answer:
+      "Yes — FutureFlower is built for scheduling ahead. Pick February 14, set your budget, and the order is locked in. The florist makes and delivers the flowers on the day.",
+  },
+  {
+    question: "What flowers are best for Valentine's Day?",
+    answer:
+      'Red roses are the classic choice, but many people opt for mixed arrangements including tulips, peonies, or lisianthus. Your florist designs from your brief and budget, so a simple note like "romantic, soft colours" is enough to work with.',
+  },
+  {
+    question: 'Do I choose the exact bouquet?',
+    answer:
+      'No. You choose the occasion, budget, and custom preferences. A florist uses that brief to design something suitable from the flowers available to them.',
+  },
+  {
+    question: 'Where do you deliver?',
+    answer:
+      'FutureFlower is focused on Australia. Availability can depend on the delivery location and florist coverage.',
+  },
+];
 
-  const howItWorksSteps: ProductCarouselStep[] = [
-    {
-      level: 1,
-      title: 'Choose the Vibe.',
+const config: OccasionLandingPageConfig = {
+  seo: {
+    title: "Valentine's Day Flower Delivery | FutureFlower",
+    description:
+      "Send fresh Valentine's Day flowers designed by a local Australian florist. Order ahead, set a budget, and skip the February 14 rush.",
+    canonicalPath: '/valentines-day-flower-delivery',
+    ogImage: '/og-images/og-valentines-flowers.webp',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: "Valentine's Day Flower Delivery",
+      name: "Valentine's Day Flower Delivery by FutureFlower",
       description:
-        'Birthday. Romantic. Sympathy. Celebration. Just because. We design around your preferences.',
-      image: {
-        src: assetSrc(petalImage1280),
-        srcSet: `${assetSrc(petalImage320)} 320w, ${assetSrc(petalImage640)} 640w, ${assetSrc(petalImage768)} 768w, ${assetSrc(petalImage1024)} 1024w, ${assetSrc(petalImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Petal image for choosing the vibe',
+        "Fresh Valentine's Day flowers designed by local Australian florists. Schedule your order months ahead and skip the last-minute rush.",
+      provider: {
+        '@type': 'Organization',
+        name: 'FutureFlower',
+        url: 'https://www.futureflower.app',
       },
+      areaServed: [{ '@type': 'Country', name: 'Australia' }],
+    },
+  },
+  heroBadge: "Valentine's day delivery",
+  heroTitle: 'Valentine\'s flowers, done your way.',
+  heroSubtext:
+    'Order ahead and skip the February 14 rush. Set a budget and your preferences, and a local Australian florist designs something romantic — delivered on the day.',
+  imageOverlayTitle: 'A brief, not a catalog order.',
+  imageOverlayText:
+    'Roses, or something less expected — the florist uses your notes to design a bouquet that actually feels like the two of you.',
+  defaultVibeName: 'Romance',
+  trustPoints: defaultTrustPoints,
+  howItWorksHeading: 'Three steps to a Valentine\'s Day they\'ll never forget.',
+  howItWorksSteps: [
+    {
+      title: 'Give us the brief',
+      text: 'Your budget and preferences — classic red roses, soft pastels, or the feeling you\'re after. Two minutes, no catalog scrolling, months before the rush.',
     },
     {
-      level: 2,
-      title: 'Choose the Impact.',
-      description:
-        'A thoughtful gesture. A classic arrangement. A statement piece. You set the budget — our florists design accordingly.',
-      image: {
-        src: assetSrc(floristMakingFlowersImage1280),
-        srcSet: `${assetSrc(floristMakingFlowersImage320)} 320w, ${assetSrc(floristMakingFlowersImage640)} 640w, ${assetSrc(floristMakingFlowersImage768)} 768w, ${assetSrc(floristMakingFlowersImage1024)} 1024w, ${assetSrc(floristMakingFlowersImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Florist making flowers image for choosing the impact',
-      },
+      title: 'A local florist designs it',
+      text: 'We pass your brief to a florist near the delivery address. They design something romantic from the best of what\'s fresh on February 14.',
     },
     {
-      level: 3,
-      title: 'We handle the rest.',
-      description:
-        'A local florist creates something unique and beautiful. No catalog copies. No warehouse stock. Just real floristry.',
-      image: {
-        src: assetSrc(deliveryImage1280),
-        srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage360)} 360w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Delivery image for handling the rest',
-      },
+      title: 'Delivered on the day',
+      text: 'Made fresh, delivered to the door with your card message — while everyone else is queuing for whatever\'s left.',
     },
-  ];
-
-  const valentinesFaqs: FaqItem[] = [
-    {
-      question: "When should I order flowers for Valentine's Day?",
-      answer: "Most florists are overwhelmed with last-minute orders on February 14. Ordering weeks or months in advance guarantees your delivery and gives the florist more time to craft a better arrangement."
-    },
-    {
-      question: "Can I schedule Valentine's Day flower delivery in advance?",
-      answer: "Yes — FutureFlower is built for scheduling ahead. Pick February 14, set your budget, and the order is locked in. You'll receive a reminder email 1 week and 1 day before the date."
-    },
-    {
-      question: "What flowers are best for Valentine's Day?",
-      answer: "Red roses are the classic choice, but many people opt for mixed arrangements including tulips, peonies, or lisianthus. Our local florists design custom arrangements based on your preferences and budget."
-    },
-    {
-      question: "Is Valentine's Day flower delivery available in Australia?",
-      answer: "We operate across Australia, the UK, the US, New Zealand, and Europe. Local florists in each region handle the arrangement and delivery so the flowers are always fresh."
-    }
-  ];
-
-  return (
-    <main>
-      <Seo
-        title="Valentine's Day Flower Delivery | FutureFlower"
-        description="Send fresh Valentine's Day flowers from local florists. Schedule your order months ahead — free delivery across Australia, the UK, the US, and more."
-        canonicalPath="/valentines-day-flower-delivery"
-        ogImage="/og-images/og-valentines-flowers.webp"
-        structuredData={serviceSchema}
-      />
-      <HeroV2
-        title="Valentine's Day Flower Delivery"
-        subtext="Fresh flowers from local florists for the one that matters most. Order months ahead and skip the Valentine's Day rush."
-        image={{
-          src: assetSrc(heroImage1280),
-          srcSet: `${assetSrc(heroImage320)} 320w, ${assetSrc(heroImage640)} 640w, ${assetSrc(heroImage768)} 768w, ${assetSrc(heroImage1024)} 1024w, ${assetSrc(heroImage1280)} 1280w`,
-          mobileSrcSet: `${assetSrc(heroMobileImage320)} 320w, ${assetSrc(heroMobileImage412)} 412w, ${assetSrc(heroMobileImage640)} 640w, ${assetSrc(heroMobileImage768)} 768w`,
-          alt: "A romantic Valentine's Day bouquet of roses from a local florist.",
-        }}
-      />
-      <AnnouncementBar />
-
-      <section className="bg-primary">
-        <ProductCarousel
-          title="How It Works"
-          subtitle="Pick February 14, set a budget, and a local florist takes care of the rest. No last-minute panic."
-          steps={howItWorksSteps}
-        />
-      </section>
-
-      <OfferingSection />
-
-      <ComparisonSection />
-
-      <RomanceSection />
-      <DeliverySection />
-
-      <div className="bg-[var(--color4)]">
-        <section className="pb-8">
-          <FaqV2
-            title="Valentine's Day flowers — answered."
-            faqs={valentinesFaqs}
-          />
-        </section>
-      </div>
-
-      <ArticleCarousel />
-    </main>
-  );
+  ],
+  checklistHeading: 'Beat the Valentine\'s Day rush.',
+  checklistItems: [
+    'Order weeks or months ahead — the delivery is locked to February 14.',
+    'Set the budget before the florist starts planning.',
+    'Add favourite colours, flowers they love, or things to avoid.',
+    'Include a card message to say what the flowers can\'t.',
+  ],
+  faqTitle: "Valentine's Day flowers — answered.",
+  faqs: valentinesFaqs,
 };
+
+const ValentinesDayFlowerDelivery = () => <OccasionLandingPage config={config} />;
 
 export default ValentinesDayFlowerDelivery;

@@ -52,7 +52,7 @@ const UnifiedPlanTable = () => {
       return (
         <div className="text-center py-12 bg-black/5 rounded-3xl mt-4">
           <p className="text-black/60 mb-6 italic">You have no flower plans yet.</p>
-          <Button asChild variant="default" className="font-bold">
+          <Button asChild className="rounded-lg px-6 py-3 text-sm font-semibold bg-black text-white hover:bg-black/85 transition-colors shadow-sm border-none">
             <Link href="/">
               <Plus className="mr-2 h-4 w-4" /> Create Your First Plan
             </Link>

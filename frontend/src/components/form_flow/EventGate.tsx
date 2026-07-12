@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Seo from '../Seo';
+import { Spinner } from '@/components/ui/spinner';
 import { getOrCreateDraftOrder, updateOrder } from '@/api/orders';
 import { toast } from 'sonner';
 import {
@@ -33,6 +34,10 @@ async function applyHomepageBrief(planId: number) {
             budget: brief.budget,
             preferred_flower_types: brief.vibeId ? [brief.vibeId] : [],
             flower_notes: formatHomepageFlowerNotes(brief),
+            ...(brief.startDate ? { start_date: brief.startDate } : {}),
+            ...(brief.cardMessage !== undefined
+                ? { draft_card_messages: { '0': brief.cardMessage } }
+                : {}),
         });
 
         window.sessionStorage.removeItem(HOMEPAGE_BRIEF_STORAGE_KEY);
@@ -85,17 +90,14 @@ const EventGate = () => {
 
     // Render a loading indicator while we determine the auth state
     return (
-        <div className="container mx-auto flex justify-center items-center h-screen">
+        <div className="flex h-screen items-center justify-center bg-white">
             <Seo
-                title="Create a New Plan | FutureFlower"
-                description="Start here to create a new flower plan. We'll guide you through setting up your plan details and preferences."
+                title="Starting Your Order | FutureFlower"
+                description="We're setting up your order."
                 canonicalPath={flowType ? `/event-gate/${flowType}` : "/event-gate"}
                 noindex={true}
             />
-            <div className="text-center">
-                <p className="text-lg font-semibold">Preparing your workspace...</p>
-                <p className="text-muted-foreground">Redirecting...</p>
-            </div>
+            <Spinner className="h-10 w-10 text-black" />
         </div>
     );
 };

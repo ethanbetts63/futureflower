@@ -23,7 +23,7 @@ const RefundRequestPage = () => {
             <div className="py-6 space-y-6">
               <p className="text-black/70 leading-relaxed">
                 To request a refund, please send us an email at the address below. We'll review
-                your request and get back to you within 1–2 business days.
+                your request and get back to you within 7 days.
               </p>
 
               <div className="bg-black/5 rounded-2xl p-6 space-y-2">
@@ -43,11 +43,7 @@ const RefundRequestPage = () => {
                 <ul className="space-y-2 text-black/70">
                   <li className="flex items-start gap-2">
                     <span className="text-black/30 mt-0.5">•</span>
-                    <span>Your plan type (Upfront Plan or Subscription)</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-black/30 mt-0.5">•</span>
-                    <span>The date you placed the order or started the subscription</span>
+                    <span>The date you placed the order</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-black/30 mt-0.5">•</span>

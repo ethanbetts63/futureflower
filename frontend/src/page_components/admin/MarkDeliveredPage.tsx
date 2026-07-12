@@ -82,7 +82,7 @@ const MarkDeliveredPage = () => {
                 <Button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-3 rounded-xl text-base font-normal bg-green-600 text-white hover:bg-green-700"
+                  className="px-6 py-3 rounded-lg text-sm font-semibold bg-black text-white hover:bg-black/85 transition-colors shadow-sm border-none"
                 >
                   {submitting ? 'Saving…' : 'Confirm Delivery'}
                 </Button>

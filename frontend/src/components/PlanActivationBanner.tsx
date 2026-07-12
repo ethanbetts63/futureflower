@@ -23,7 +23,7 @@ const PlanActivationBanner = ({ planId }: PlanActivationBannerProps) => {
         </div>
         <Button
           onClick={handleActivate}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white"
+          className="rounded-lg px-6 py-3 text-sm font-semibold bg-black text-white hover:bg-black/85 transition-colors shadow-sm border-none"
         >
           Activate Plan
         </Button>

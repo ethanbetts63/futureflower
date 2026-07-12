@@ -1,177 +1,120 @@
-import Seo from '../components/Seo';
-import { ProductCarousel } from '../components/ProductCarousel';
-import type { ProductCarouselStep } from '../components/ProductCarousel';
-import petalImage320 from '../assets/petal-320w.webp';
-import petalImage640 from '../assets/petal-640w.webp';
-import petalImage768 from '../assets/petal-768w.webp';
-import petalImage1024 from '../assets/petal-1024w.webp';
-import petalImage1280 from '../assets/petal-1280w.webp';
-
-import floristMakingFlowersImage320 from '../assets/florist_making_flowers-320w.webp';
-import floristMakingFlowersImage640 from '../assets/florist_making_flowers-640w.webp';
-import floristMakingFlowersImage768 from '../assets/florist_making_flowers-768w.webp';
-import floristMakingFlowersImage1024 from '../assets/florist_making_flowers-1024w.webp';
-import floristMakingFlowersImage1280 from '../assets/florist_making_flowers-1280w.webp';
-
-import deliveryImage320 from '../assets/delivery-320w.webp';
-import deliveryImage360 from '../assets/delivery-360w.webp';
-import deliveryImage640 from '../assets/delivery-640w.webp';
-import deliveryImage768 from '../assets/delivery-768w.webp';
-import deliveryImage1024 from '../assets/delivery-1024w.webp';
-import deliveryImage1280 from '../assets/delivery-1280w.webp';
-
-import heroImage320 from '../assets/hero2-320w.webp';
-import heroImage640 from '../assets/hero2-640w.webp';
-import heroImage768 from '../assets/hero2-768w.webp';
-import heroImage1024 from '../assets/hero2-1024w.webp';
-import heroImage1280 from '../assets/hero2-1280w.webp';
-import heroMobileImage320 from '../assets/hero2_mobile2-320w.webp';
-import heroMobileImage412 from '../assets/hero2_mobile2-412w.webp';
-import heroMobileImage640 from '../assets/hero2_mobile2-640w.webp';
-import heroMobileImage768 from '../assets/hero2_mobile2-768w.webp';
-import { FaqV2 } from '../components/FaqV2';
-import { HeroV4 as HeroV2 } from '../components/home_page/HeroV4';
-import { DeliverySection } from '../components/home_page/DeliverySection';
-import { RomanceSection } from '../components/home_page/RomanceSection';
+import { MapPin, ShieldCheck, Sparkles } from 'lucide-react';
+import OccasionLandingPage, {
+  type OccasionLandingPageConfig,
+} from './OccasionLandingPage';
 import type { FaqItem } from '@/types/FaqItem';
-import { ArticleCarousel } from '../components/home_page/ArticleCarousel';
-import AnnouncementBar from '../components/home_page/AnnouncementBar';
-import OfferingSection from '../components/home_page/OfferingSection';
-import ComparisonSection from '../components/home_page/ComparisonSectionHome';
-import { assetSrc } from '@/lib/assets';
 
-const FlowerDeliveryPerth = () => {
-  const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": "Flower Delivery",
-    "name": "Flower Delivery Perth by FutureFlower",
-    "description": "Fresh flower delivery in Perth from local florists. One-time deliveries and subscriptions — pick a date, set a budget, and we handle the rest.",
-    "provider": {
-      "@type": "Organization",
-      "name": "FutureFlower",
-      "url": "https://www.futureflower.app"
-    },
-    "areaServed": {
-      "@type": "City",
-      "name": "Perth",
-      "containedInPlace": {
-        "@type": "State",
-        "name": "Western Australia",
-        "containedInPlace": {
-          "@type": "Country",
-          "name": "Australia"
-        }
-      }
-    }
-  };
+const perthFaqs: FaqItem[] = [
+  {
+    question: 'How does flower delivery in Perth work?',
+    answer:
+      'You give us the occasion, budget, and preferences, and a local Perth florist designs a custom arrangement and delivers it on your date. No catalogue copies — every bouquet is made fresh.',
+  },
+  {
+    question: 'Can I schedule Perth flower delivery for a future date?',
+    answer:
+      'Yes — you can schedule deliveries weeks or months in advance. Pick the date when you order and the florist handles everything on the day.',
+  },
+  {
+    question: 'Do I choose the exact bouquet?',
+    answer:
+      'No. You choose the occasion, budget, and custom preferences. A Perth florist uses that brief to design something suitable from the flowers available to them.',
+  },
+  {
+    question: 'Which Perth suburbs do you deliver to?',
+    answer:
+      'Coverage depends on the local florists in our network. Enter the delivery address during checkout and we\'ll confirm availability for that location.',
+  },
+  {
+    question: 'Is same-day flower delivery available in Perth?',
+    answer:
+      'Availability depends on local florists and cut-off times. For guaranteed delivery, we recommend scheduling at least a few days in advance.',
+  },
+];
 
-  const howItWorksSteps: ProductCarouselStep[] = [
-    {
-      level: 1,
-      title: 'Choose the Vibe.',
+const config: OccasionLandingPageConfig = {
+  seo: {
+    title: 'Flower Delivery Perth | FutureFlower',
+    description:
+      'Fresh flower delivery in Perth from local florists. Tell us the occasion, budget, and preferences — a Perth florist designs a bouquet that fits.',
+    canonicalPath: '/flower-delivery-perth',
+    ogImage: '/og-images/og-flower-delivery-perth.webp',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: 'Flower Delivery',
+      name: 'Flower Delivery Perth by FutureFlower',
       description:
-        'Birthday. Romantic. Sympathy. Celebration. Just because. We design around your preferences.',
-      image: {
-        src: assetSrc(petalImage1280),
-        srcSet: `${assetSrc(petalImage320)} 320w, ${assetSrc(petalImage640)} 640w, ${assetSrc(petalImage768)} 768w, ${assetSrc(petalImage1024)} 1024w, ${assetSrc(petalImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Petal image for choosing the vibe',
+        'Fresh flower delivery in Perth from local florists. Give the occasion, budget, and preferences, and a Perth florist designs and delivers a custom bouquet.',
+      provider: {
+        '@type': 'Organization',
+        name: 'FutureFlower',
+        url: 'https://www.futureflower.app',
+      },
+      areaServed: {
+        '@type': 'City',
+        name: 'Perth',
+        containedInPlace: {
+          '@type': 'State',
+          name: 'Western Australia',
+          containedInPlace: {
+            '@type': 'Country',
+            name: 'Australia',
+          },
+        },
       },
     },
+  },
+  heroBadge: 'Perth flower delivery',
+  heroTitle: 'Perth flowers, done your way.',
+  heroSubtext:
+    'Choose the occasion, budget, and preferences. A local Perth florist designs a bouquet that fits — made fresh, not picked from a warehouse catalog.',
+  imageOverlayTitle: 'A brief, not a catalog order.',
+  imageOverlayText:
+    'Your Perth florist uses your notes to make the right call on colour, style, and seasonal WA flowers.',
+  trustPoints: [
     {
-      level: 2,
-      title: 'Choose the Impact.',
-      description:
-        'A thoughtful gesture. A classic arrangement. A statement piece. You set the budget — our florists design accordingly.',
-      image: {
-        src: assetSrc(floristMakingFlowersImage1280),
-        srcSet: `${assetSrc(floristMakingFlowersImage320)} 320w, ${assetSrc(floristMakingFlowersImage640)} 640w, ${assetSrc(floristMakingFlowersImage768)} 768w, ${assetSrc(floristMakingFlowersImage1024)} 1024w, ${assetSrc(floristMakingFlowersImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Florist making flowers image for choosing the impact',
-      },
+      icon: Sparkles,
+      title: 'Florist-led design',
+      text: 'No fixed catalog recipe. Your florist works from the occasion, budget, and preferences you provide.',
     },
     {
-      level: 3,
-      title: 'We handle the rest.',
-      description:
-        'A local florist creates something unique and beautiful. No catalog copies. No warehouse stock. Just real floristry.',
-      image: {
-        src: assetSrc(deliveryImage1280),
-        srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage360)} 360w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`,
-        sizes: "(max-width: 767px) 320px, (max-width: 1023px) 50vw, 33vw",
-        alt: 'Delivery image for handling the rest',
-      },
-    },
-  ];
-
-  const perthFaqs: FaqItem[] = [
-    {
-      question: "How does flower delivery in Perth work?",
-      answer: "You pick the delivery date and set your budget, and a local Perth florist creates a custom arrangement and delivers it on the day. No catalogue copies — every bouquet is made fresh."
+      icon: MapPin,
+      title: 'Made in Perth',
+      text: 'Every order is made and delivered by a local Perth florist — their name on the delivery, your money in their till.',
     },
     {
-      question: "Can I schedule Perth flower delivery for a future date?",
-      answer: "Yes — you can schedule deliveries weeks, months, or even years in advance. You'll receive a reminder email 1 week and 1 day before the delivery date."
+      icon: ShieldCheck,
+      title: 'We make it right',
+      text: 'Something wrong with your delivery? Tell us and we\'ll sort it — refund or redelivery.',
+    },
+  ],
+  howItWorksHeading: 'Three steps between you and better flowers in Perth.',
+  howItWorksSteps: [
+    {
+      title: 'Give us the brief',
+      text: 'Occasion, budget, and preferences — favourite colours, things to avoid, the feeling you\'re after. Two minutes, no catalog scrolling.',
     },
     {
-      question: "Do you offer flower subscriptions in Perth?",
-      answer: "Yes — FutureFlower offers both one-time deliveries and recurring subscriptions in Perth. Subscriptions let you schedule flowers for multiple occasions throughout the year."
+      title: 'A Perth florist designs it',
+      text: 'We pass your brief to a florist near the delivery address. They design something suitable from the best of what\'s in season in WA.',
     },
     {
-      question: "Is same-day flower delivery available in Perth?",
-      answer: "Availability depends on local florists and cut-off times. For guaranteed delivery, we recommend scheduling at least a few days in advance."
-    }
-  ];
-
-  return (
-    <main>
-      <Seo
-        title="Flower Delivery Perth | FutureFlower"
-        description="Fresh flower delivery in Perth from local florists. Pick a date, set a budget, and we handle the rest — free delivery on every order."
-        canonicalPath="/flower-delivery-perth"
-        ogImage="/og-images/og-flower-delivery-perth.webp"
-        structuredData={serviceSchema}
-      />
-      <HeroV2
-        title="Flower Delivery Perth"
-        subtext="Fresh flowers from Perth's local florists. Pick a date, set a budget, and we handle the rest."
-        image={{
-          src: assetSrc(heroImage1280),
-          srcSet: `${assetSrc(heroImage320)} 320w, ${assetSrc(heroImage640)} 640w, ${assetSrc(heroImage768)} 768w, ${assetSrc(heroImage1024)} 1024w, ${assetSrc(heroImage1280)} 1280w`,
-          mobileSrcSet: `${assetSrc(heroMobileImage320)} 320w, ${assetSrc(heroMobileImage412)} 412w, ${assetSrc(heroMobileImage640)} 640w, ${assetSrc(heroMobileImage768)} 768w`,
-          alt: "Fresh flowers arranged by a local Perth florist, ready for delivery.",
-        }}
-      />
-      <AnnouncementBar />
-
-      <section className="bg-primary">
-        <ProductCarousel
-          title="How It Works"
-          subtitle="Pick the date, set a budget, and a local Perth florist creates something fresh. No reordering every year."
-          steps={howItWorksSteps}
-        />
-      </section>
-
-      <OfferingSection />
-
-      <ComparisonSection />
-
-      <RomanceSection />
-      <DeliverySection />
-
-      <div className="bg-[var(--color4)]">
-        <section className="pb-8">
-          <FaqV2
-            title="Perth flower delivery — answered."
-            faqs={perthFaqs}
-          />
-        </section>
-      </div>
-
-      <ArticleCarousel />
-    </main>
-  );
+      title: 'Delivered on your date',
+      text: 'Made fresh, delivered anywhere in their Perth coverage area with your card message — under the florist\'s own name, because they made it.',
+    },
+  ],
+  checklistHeading: 'A better order starts with a better brief.',
+  checklistItems: [
+    'Choose a feeling instead of scrolling through lookalike bouquets.',
+    'Set the budget before the florist starts planning.',
+    'Add favourite colours, dislikes, allergies, or special requests.',
+    'Continue to recipient, address, date, and payment details.',
+  ],
+  faqTitle: 'Perth flower delivery — answered.',
+  faqs: perthFaqs,
 };
+
+const FlowerDeliveryPerth = () => <OccasionLandingPage config={config} />;
 
 export default FlowerDeliveryPerth;

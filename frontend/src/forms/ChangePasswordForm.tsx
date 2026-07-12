@@ -82,7 +82,7 @@ export const ChangePasswordForm = () => {
           <FormMessage>{errors.new_password_confirm?.message}</FormMessage>
         </FormItem>
 
-        <Button type="submit" disabled={isSubmitting} className="rounded-full px-8 font-bold shadow-lg shadow-black/5">
+        <Button type="submit" disabled={isSubmitting} className="rounded-lg px-6 py-3 text-sm font-semibold bg-black text-white hover:bg-black/85 transition-colors shadow-sm border-none">
           Change Password
         </Button>
       </form>
