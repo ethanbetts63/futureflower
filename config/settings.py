@@ -39,7 +39,7 @@ MIN_BUDGET = 50
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['ethanbetts.pythonanywhere.com', 'www.futureflower.app', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['ethanbetts.pythonanywhere.com', 'api.futureflower.app', 'www.futureflower.app', '127.0.0.1', 'localhost']
 
 CSRF_TRUSTED_ORIGINS = ['https://www.futureflower.app']
 
@@ -78,7 +78,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "futureflower.urls"
+ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
@@ -95,7 +95,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "futureflower.wsgi.application"
+WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     'default': {
