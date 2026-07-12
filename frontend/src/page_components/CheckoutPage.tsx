@@ -26,7 +26,6 @@ const CheckoutPage = () => {
     const router = useRouter();
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const [planId, setPlanId] = useState<string | null>(null);
-    const [intentType, setIntentType] = useState<'payment' | 'setup' | null>(null);
     const [backPath, setBackPath] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [plan, setPlan] = useState<Order | null>(null);
@@ -36,13 +35,11 @@ const CheckoutPage = () => {
         const state = stored ? JSON.parse(stored) : null;
         const secret = state?.clientSecret;
         const id = state?.planId;
-        const intent = state?.intentType as 'payment' | 'setup';
         const back = state?.backPath;
 
-        if (secret && id && intent) {
+        if (secret && id) {
             setClientSecret(secret);
             setPlanId(id);
-            setIntentType(intent);
             setBackPath(back);
 
             getOrder(id)
@@ -62,7 +59,7 @@ const CheckoutPage = () => {
         );
     }
 
-    if (!clientSecret || !planId || !intentType || !plan) {
+    if (!clientSecret || !planId || !plan) {
         if (!isLoading) {
             toast.error("Checkout session is invalid or has expired.");
             router.replace('/');
@@ -93,15 +90,15 @@ const CheckoutPage = () => {
     const flowerBudget = Number(plan.budget);
     const tier = getImpactTier(flowerBudget);
 
-    const planName = planIsSubscription ? "Flower Subscription" : (isSingleDelivery ? "Single Delivery" : "Upfront Plan");
+    const planName = planIsSubscription ? "Flower Subscription" : "Single Delivery";
 
     return (
         <>
             <Seo title="Complete Your Order | FutureFlower" />
             <StepProgressBar
                 planName={planName}
-                currentStep={planIsSubscription || isSingleDelivery ? 4 : 5}
-                totalSteps={planIsSubscription || isSingleDelivery ? 4 : 5}
+                currentStep={4}
+                totalSteps={4}
                 isReview={true}
                 customLabel="Payment"
             />
@@ -150,13 +147,11 @@ const CheckoutPage = () => {
                                 <div>
                                     <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Schedule</span>
                                     <p className="font-bold text-black font-['Playfair_Display']">
-                                        {isSingleDelivery ? `Single Delivery — ${formatDate(plan.start_date)}` : (
-                                            planIsSubscription ? `${capitalize(plan.frequency)}` : `${capitalize(plan.frequency)} Plan — ${plan.years} Years`
-                                        )}
+                                        {isSingleDelivery ? `Single Delivery — ${formatDate(plan.start_date)}` : capitalize(plan.frequency)}
                                     </p>
-                                    {!isSingleDelivery && (
+                                    {planIsSubscription && (
                                         <p className="text-xs text-black/60">
-                                            {planIsSubscription ? `Next: ${formatDate(plan.start_date)}` : `Starts: ${formatDate(plan.start_date)}`}
+                                            Next: {formatDate(plan.start_date)}
                                         </p>
                                     )}
                                 </div>
@@ -219,7 +214,6 @@ const CheckoutPage = () => {
                                     <CheckoutForm
                                         planId={planId}
                                         source="checkout"
-                                        intentType={intentType}
                                     />
                                 </Elements>
                             </div>

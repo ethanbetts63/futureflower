@@ -9,7 +9,7 @@ const PlanActivationBanner = ({ planId }: PlanActivationBannerProps) => {
   const router = useRouter();
 
   const handleActivate = () => {
-    router.push(`/dashboard/upfront-plans/${planId}/overview`);
+    router.push(`/dashboard/orders/${planId}/overview`);
   };
 
   return (

@@ -1,4 +1,4 @@
-// futureflower/frontend/src/pages/user_dashboard/upfront_management/EditStructurePage.tsx
+// futureflower/frontend/src/page_components/user_dashboard/order_management/EditStructurePage.tsx
 import SingleDeliveryStructureEditor from '@/components/form_flow/SingleDeliveryStructureEditor';
 
 const EditStructurePage = () => {
@@ -8,8 +8,8 @@ const EditStructurePage = () => {
             isPaid={true}
             title="Edit Delivery Details"
             saveButtonText="Save Changes"
-            onSaveNavigateTo="/dashboard/upfront-plans/{planId}/overview"
-            backPath="/dashboard/upfront-plans/{planId}/overview"
+            onSaveNavigateTo="/dashboard/orders/{planId}/overview"
+            backPath="/dashboard/orders/{planId}/overview"
         />
     );
 };

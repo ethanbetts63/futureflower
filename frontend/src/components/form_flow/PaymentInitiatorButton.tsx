@@ -46,7 +46,6 @@ const PaymentInitiatorButton = ({
         sessionStorage.setItem('checkoutState', JSON.stringify({
           clientSecret,
           planId: String(orderId),
-          intentType: 'payment',
           backPath: backPath,
         }));
         router.push('/checkout');

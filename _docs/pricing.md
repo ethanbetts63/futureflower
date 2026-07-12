@@ -61,7 +61,7 @@ Where our competitors slip in a 20–40% commission, monthly fees, and delivery 
 | **Product Rules** | Exact vase + stem counts | **Florist designs freely** |
 | **Branding** | Network branding required | **Florist branding encouraged** |
 
-## Frequently Asked Questions
+## Questions? We have answers. 
 ### Can I request specific flowers?
 Yes. When placing your order you can leave notes like "Loves lilies" or "No pink," and the florist will accommodate your preferences based on seasonal availability. Because we don't enforce a rigid recipe, your florist has the freedom to honour your requests.
 

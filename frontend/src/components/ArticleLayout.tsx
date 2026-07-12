@@ -84,7 +84,7 @@ export const ArticleLayout = ({ title, subtitle, imageSrc, imageAlt, children, f
       {faqItems && (
         <section className="bg-white px-4 pb-14 text-gray-900">
           <FaqV2
-            title="Frequently Asked Questions"
+            title="Questions? We have answers. "
             faqs={faqItems}
           />
         </section>

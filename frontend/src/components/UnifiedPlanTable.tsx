@@ -13,7 +13,6 @@ import { Badge } from '@/components/ui/badge';
 const DISPLAY_TYPE: Record<Order['billing_mode'] & string, string> = {
   one_time: 'Single Delivery',
   recurring: 'Subscription',
-  prepaid: 'Upfront',
 };
 
 const UnifiedPlanTable = () => {
@@ -81,9 +80,7 @@ const UnifiedPlanTable = () => {
               const displayType = DISPLAY_TYPE[plan.billing_mode ?? 'one_time'];
               const price = isSubscription ? plan.total_amount : plan.budget;
 
-              const viewLink = isSubscription
-                ? `/dashboard/subscription-plans/${plan.id}/overview`
-                : `/dashboard/upfront-plans/${plan.id}/overview`;
+              const viewLink = `/dashboard/orders/${plan.id}/overview`;
 
               return (
                 <TableRow

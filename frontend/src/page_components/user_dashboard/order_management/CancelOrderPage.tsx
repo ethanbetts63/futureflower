@@ -1,3 +1,4 @@
+// futureflower/frontend/src/page_components/user_dashboard/order_management/CancelOrderPage.tsx
 "use client";
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
@@ -22,7 +23,7 @@ import { getOrder, cancelOrder } from '@/api/orders';
 import { formatDate } from '@/utils/utils';
 import type { Order } from '@/types/Order';
 
-const CancelSubscriptionPageInner = ({
+const CancelOrderPageInner = ({
   plan,
   planId,
 }: { plan: Order; planId: string }) => {
@@ -53,7 +54,7 @@ const CancelSubscriptionPageInner = ({
       description="Choose how you would like to cancel your subscription."
       footer={
         <div className="flex justify-start items-center w-full">
-          <FlowBackButton to={`/dashboard/subscription-plans/${planId}/overview`} />
+          <FlowBackButton to={`/dashboard/orders/${planId}/overview`} />
         </div>
       }
     >
@@ -165,7 +166,7 @@ const CancelSubscriptionPageInner = ({
   );
 };
 
-const CancelSubscriptionPage = () => {
+const CancelOrderPage = () => {
   const params = useParams();
   const planId = params.planId as string | undefined;
 
@@ -177,7 +178,7 @@ const CancelSubscriptionPage = () => {
           <PlanDisplay getPlan={getOrder} fallbackNavigationPath="/dashboard">
             {({ plan }: { plan: Order }) => {
               return (
-                <CancelSubscriptionPageInner plan={plan} planId={planId || ''} />
+                <CancelOrderPageInner plan={plan} planId={planId || ''} />
               );
             }}
           </PlanDisplay>
@@ -187,4 +188,4 @@ const CancelSubscriptionPage = () => {
   );
 };
 
-export default CancelSubscriptionPage;
+export default CancelOrderPage;

@@ -2,7 +2,7 @@ import type { AdminPlanEvent } from './AdminPlanEvent';
 
 export interface AdminPlanDetail {
   id: number;
-  plan_type: 'one_time' | 'recurring' | 'prepaid';
+  plan_type: 'one_time' | 'recurring';
   status: 'pending_payment' | 'active' | 'completed' | 'cancelled' | 'refunded';
   budget: string | null;
   total_amount: string | null;
@@ -25,7 +25,6 @@ export interface AdminPlanDetail {
   customer_first_name: string;
   customer_last_name: string;
   customer_email: string;
-  years: number | null;
   subscription_message: string | null;
   events: AdminPlanEvent[];
 }

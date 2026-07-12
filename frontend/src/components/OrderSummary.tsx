@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -35,16 +35,16 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from '@/components/ui/alert-dialog';
-import type { UpfrontSummaryProps } from '@/types/UpfrontSummaryProps';
+import type { OrderSummaryProps } from '@/types/OrderSummaryProps';
 import type { FlowerType } from '@/types/FlowerType';
 
-const UpfrontSummary = ({
+const OrderSummary = ({
   plan,
   flowerTypeMap,
   context,
   planId,
   onRefreshPlan,
-}: UpfrontSummaryProps) => {
+}: OrderSummaryProps) => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -71,12 +71,13 @@ const UpfrontSummary = ({
   };
 
   const isOrdering = context === 'ordering';
+  const isRecurring = plan.billing_mode === 'recurring';
   const isSingleDelivery = plan.billing_mode === 'one_time';
 
   // Base paths for editing
   const editBasePath = isOrdering
     ? `/single-delivery-flow/plan/${planId}`
-    : `/dashboard/upfront-plans/${planId}`;
+    : `/dashboard/orders/${planId}`;
 
   const preferredTypes = plan.preferred_flower_types
     .map(id => flowerTypeMap.get(Number(id)))
@@ -95,7 +96,7 @@ const UpfrontSummary = ({
   // For Single Delivery or context where we want to highlight the main message
   const firstDraftMessage = messages['0'] || '';
   const firstEventMessage = events[0]?.message || '';
-  const mainMessage = firstDraftMessage || firstEventMessage;
+  const mainMessage = isRecurring ? (plan.subscription_message || '') : (firstDraftMessage || firstEventMessage);
 
   const handleRecurringPayment = async () => {
     if (!planId) return;
@@ -112,7 +113,6 @@ const UpfrontSummary = ({
       sessionStorage.setItem('checkoutState', JSON.stringify({
         clientSecret: response.clientSecret,
         planId: String(recurringOrder.id),
-        intentType: 'payment',
         backPath: `${editBasePath}/confirmation`,
       }));
       router.push('/checkout');
@@ -123,6 +123,15 @@ const UpfrontSummary = ({
       setIsSubmitting(false);
     }
   };
+
+  const title = isOrdering
+    ? "Confirm Your Delivery"
+    : (isRecurring ? "Subscription Overview" : "Plan Overview");
+  const description = isOrdering
+    ? "Please review the details of your order before proceeding to payment."
+    : (isRecurring
+      ? "Review and manage the details of your active flower subscription."
+      : "Review and manage the details of your scheduled flower plan.");
 
   return (
     <div className="space-y-8">
@@ -138,11 +147,8 @@ const UpfrontSummary = ({
       )}
 
       <UnifiedSummaryCard
-        title={isOrdering ? "Confirm Your Delivery" : "Plan Overview"}
-        description={isOrdering
-          ? "Please review the details of your order before proceeding to payment."
-          : "Review and manage the details of your scheduled flower plan."
-        }
+        title={title}
+        description={description}
         footer={
           isOrdering ? (
             <div className="flex flex-row justify-between items-center w-full gap-4">
@@ -189,7 +195,25 @@ const UpfrontSummary = ({
           locked={isSectionEditLocked}
         />
 
-        {isSingleDelivery && isOrdering ? (
+        {isRecurring ? (
+          /* Subscription Schedule */
+          <SummarySection label="Subscription Schedule">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-3">
+                <RefreshCw className="h-5 w-5 text-black/20 flex-shrink-0" />
+                <span className="font-bold font-playfair-display text-lg capitalize">
+                  {plan.frequency}
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Calendar className="h-5 w-5 text-black/20 flex-shrink-0" />
+                <span className="text-black/60">
+                  Next delivery on {plan.start_date ? formatDate(plan.start_date) : 'Not set'}
+                </span>
+              </div>
+            </div>
+          </SummarySection>
+        ) : isOrdering ? (
           /* Specialized Single Delivery Schedule for Ordering */
           <SummarySection
             label="Delivery Date"
@@ -211,21 +235,19 @@ const UpfrontSummary = ({
             )}
           </SummarySection>
         ) : (
-          /* Standard Upfront Plan Schedule */
-          <SummarySection
-            label="Plan Schedule"
-          >
+          /* Standard One-Time Order Schedule */
+          <SummarySection label="Plan Schedule">
             <div className="flex flex-col gap-4">
               <div className="bg-black/5 rounded-2xl p-6">
                 <h5 className="text-xs font-bold tracking-widest uppercase text-black mb-4">
-                  {isOrdering ? 'Planned Deliveries' : 'Upcoming Deliveries'}
+                  Upcoming Deliveries
                 </h5>
                 <div className="space-y-4">
                   {events.map((event, idx) => {
                     const daysUntilDelivery = event.delivery_date
                       ? Math.floor((new Date(event.delivery_date).getTime() - Date.now()) / MS_PER_DAY)
                       : 0;
-                    const showEditControl = !isOrdering && daysUntilDelivery > 0;
+                    const showEditControl = daysUntilDelivery > 0;
                     const isRowLocked = daysUntilDelivery <= MIN_DAYS_BEFORE_EDIT;
                     return (
                       <div key={idx} className="flex items-center justify-between border-b border-black/5 last:border-0 pb-3 last:pb-0">
@@ -236,7 +258,7 @@ const UpfrontSummary = ({
                         <div className="flex items-center gap-3">
                           {showEditControl && (
                             <EditControl
-                              editUrl={`/dashboard/upfront-plans/${planId}/edit-structure`}
+                              editUrl={`/dashboard/orders/${planId}/edit-structure`}
                               locked={isRowLocked}
                             />
                           )}
@@ -253,7 +275,7 @@ const UpfrontSummary = ({
         {mainMessage && (
           <SummarySection
             label="Card Message"
-            editUrl={isOrdering ? `${editBasePath}/structure` : `${editBasePath}/edit-structure`}
+            editUrl={isOrdering ? `${editBasePath}/structure` : (isSingleDelivery ? `${editBasePath}/edit-structure` : undefined)}
             locked={isSectionEditLocked}
           >
             <div className="flex items-start bg-[var(--colorgreen)]/10 rounded-2xl border border-[var(--colorgreen)]/20 p-4">
@@ -274,7 +296,7 @@ const UpfrontSummary = ({
 
         <ImpactSummary
           price={Number(plan.budget)}
-          editUrl={isOrdering ? `${editBasePath}/structure` : undefined}
+          editUrl={isOrdering ? `${editBasePath}/structure` : (isSingleDelivery ? `${editBasePath}/edit-structure` : undefined)}
         />
 
         {isOrdering && (
@@ -377,7 +399,7 @@ const UpfrontSummary = ({
           </SummarySection>
         )}
 
-        {!isOrdering && plan.status === 'active' && (
+        {!isOrdering && plan.status === 'active' && isSingleDelivery && (
           <SummarySection label="Danger Zone">
             <div className="border border-red-200 rounded-2xl p-5 bg-red-50/50">
               <p className="text-sm text-black/60 mb-4">
@@ -392,6 +414,24 @@ const UpfrontSummary = ({
                 className="text-red-600 font-semibold text-sm underline hover:text-red-700 transition-colors cursor-pointer"
               >
                 Cancel this plan
+              </button>
+            </div>
+          </SummarySection>
+        )}
+
+        {!isOrdering && plan.status === 'active' && isRecurring && (
+          <SummarySection label="Danger Zone">
+            <div className="border border-red-200 rounded-2xl p-5 bg-red-50/50">
+              <p className="text-sm text-black/60 mb-4">
+                Budget, frequency, and delivery style can't be changed on an active subscription.
+                Cancel this one and start a new order to change them — you can choose to keep your
+                next scheduled delivery or cancel everything immediately.
+              </p>
+              <button
+                onClick={() => router.push(`/dashboard/orders/${planId}/cancel`)}
+                className="text-red-600 font-semibold text-sm underline hover:text-red-700 transition-colors cursor-pointer"
+              >
+                Cancel Subscription
               </button>
             </div>
           </SummarySection>
@@ -426,4 +466,4 @@ const UpfrontSummary = ({
   );
 };
 
-export default UpfrontSummary;
+export default OrderSummary;

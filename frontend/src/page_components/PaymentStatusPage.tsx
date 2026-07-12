@@ -42,10 +42,7 @@ const UniversalPaymentStatusPage = () => {
                 const order = await getOrder(planId);
                 if (order.status === 'active') {
                     clearInterval(pollIntervalRef.current!);
-                    const targetPath = order.billing_mode === 'recurring'
-                        ? `/dashboard/subscription-plans/${planId}/overview`
-                        : `/dashboard/upfront-plans/${planId}/overview`;
-                    router.push(targetPath);
+                    router.push(`/dashboard/orders/${planId}/overview`);
                     return;
                 }
             } catch {
@@ -66,9 +63,7 @@ const UniversalPaymentStatusPage = () => {
     useEffect(() => {
         if (!stripe) return;
 
-        const piClientSecret = searchParams.get('payment_intent_client_secret');
-        const siClientSecret = searchParams.get('setup_intent_client_secret');
-        const clientSecret = piClientSecret || siClientSecret;
+        const clientSecret = searchParams.get('payment_intent_client_secret');
 
         const planId = searchParams.get('plan_id');
         const source = searchParams.get('source');
@@ -83,36 +78,8 @@ const UniversalPaymentStatusPage = () => {
             return;
         }
 
-        // Handle SetupIntent
-        if (clientSecret.startsWith('seti_')) {
-            stripe.retrieveSetupIntent(clientSecret).then(({ setupIntent }) => {
-                setIsProcessing(false);
-                switch (setupIntent?.status) {
-                    case 'succeeded':
-                        setPaymentSucceeded(true);
-                        setMessage('Payment confirmed! Your subscription is being activated...');
-                        if (planId && planId !== "N/A") {
-                            pollUntilActive(planId);
-                        } else {
-                            setTimeout(() => router.push('/dashboard'), 3000);
-                        }
-                        break;
-                    case 'processing':
-                        setMessage("Processing setup. We'll update you when your payment method is saved.");
-                        break;
-                    case 'requires_payment_method':
-                        setPaymentSucceeded(false);
-                        setMessage('Setup failed. Please try another payment method.');
-                        break;
-                    default:
-                        setPaymentSucceeded(false);
-                        setMessage('Something went wrong during setup.');
-                        break;
-                }
-            });
-        }
         // Handle PaymentIntent
-        else if (clientSecret.startsWith('pi_')) {
+        if (clientSecret.startsWith('pi_')) {
             stripe.retrievePaymentIntent(clientSecret).then((result: PaymentIntentResult) => {
                 if (result.error) {
                     setIsProcessing(false);

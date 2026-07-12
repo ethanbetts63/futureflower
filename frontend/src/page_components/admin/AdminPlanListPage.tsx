@@ -19,7 +19,7 @@ import {
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 type StatusFilter = '' | 'pending_payment' | 'active' | 'completed' | 'cancelled' | 'refunded';
-type PlanTypeFilter = '' | 'one_time' | 'recurring' | 'prepaid';
+type PlanTypeFilter = '' | 'one_time' | 'recurring';
 type SortKey = 'customer' | 'recipient' | 'plan_type' | 'status' | 'total' | 'created';
 type SortDir = 'asc' | 'desc';
 
@@ -38,7 +38,6 @@ const TYPE_FILTERS: { value: PlanTypeFilter; label: string }[] = [
   { value: '', label: 'All' },
   { value: 'one_time', label: 'One-time' },
   { value: 'recurring', label: 'Recurring' },
-  { value: 'prepaid', label: 'Prepaid' },
 ];
 
 const STATUS_STYLES: Record<string, string> = {

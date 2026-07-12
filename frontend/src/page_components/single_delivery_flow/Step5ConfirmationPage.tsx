@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import Seo from '@/components/Seo';
 import PlanDisplay from '@/components/PlanDisplay';
-import UpfrontSummary from '@/components/UpfrontSummary';
+import OrderSummary from '@/components/OrderSummary';
 import { getOrder } from '@/api/orders';
 import type { Order, FlowerType } from '@/types';
 
@@ -19,7 +19,7 @@ const Step5ConfirmationPage = () => {
           <PlanDisplay getPlan={getOrder} fallbackNavigationPath="/dashboard">
             {({ plan, flowerTypeMap, refreshPlan }: { plan: Order; flowerTypeMap: Map<number, FlowerType>; refreshPlan: () => Promise<void> }) => {
               return (
-                <UpfrontSummary
+                <OrderSummary
                   plan={plan}
                   flowerTypeMap={flowerTypeMap}
                   context="ordering"

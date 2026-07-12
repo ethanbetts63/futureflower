@@ -1,29 +1,31 @@
-// futureflower/frontend/src/pages/user_dashboard/subscription_management/SubscriptionPlanOverviewPage.tsx
+// futureflower/frontend/src/page_components/user_dashboard/order_management/OrderOverviewPage.tsx
 "use client";
 import { useParams } from 'next/navigation';
 import Seo from '@/components/Seo';
 import PlanDisplay from '@/components/PlanDisplay';
-import SubscriptionSummary from '@/components/SubscriptionSummary';
+import OrderSummary from '@/components/OrderSummary';
 import { getOrder } from '@/api/orders';
-import type { Order } from '../../../types/Order';
-import type { FlowerType } from '../../../types/FlowerType';
+import type { Order } from '@/types/Order';
+import type { FlowerType } from '@/types/FlowerType';
 
-const SubscriptionPlanOverviewPage = () => {
+const OrderOverviewPage = () => {
   const params = useParams();
   const planId = params.planId as string | undefined;
 
   return (
     <>
-      <Seo title="Subscription Overview | FutureFlower" />
+      <Seo title="Order Overview | FutureFlower" />
       <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-0 md:px-4 max-w-4xl">
           <PlanDisplay getPlan={getOrder} fallbackNavigationPath="/dashboard">
-            {({ plan, flowerTypeMap }: { plan: Order; flowerTypeMap: Map<number, FlowerType> }) => {
+            {({ plan, flowerTypeMap, refreshPlan }: { plan: Order; flowerTypeMap: Map<number, FlowerType>; refreshPlan: () => Promise<void> }) => {
               return (
-                <SubscriptionSummary
+                <OrderSummary
                   plan={plan}
                   flowerTypeMap={flowerTypeMap}
+                  context="management"
                   planId={planId || ''}
+                  onRefreshPlan={refreshPlan}
                 />
               );
             }}
@@ -34,4 +36,4 @@ const SubscriptionPlanOverviewPage = () => {
   );
 };
 
-export default SubscriptionPlanOverviewPage;
+export default OrderOverviewPage;

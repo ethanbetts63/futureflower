@@ -69,7 +69,7 @@ const FloristsPage = () => {
       level: 3,
       title: 'Accept, Design, Deliver.',
       description:
-        'Take the orders you want with one tap. Design freely from the stock you have on hand and deliver under your own brand. Decline anything — no penalties, ever.',
+        'Text or email us back yes or no. Design freely from the stock you have on hand and deliver under your own brand. Decline anything — no penalties, ever.',
       image: {
         src: assetSrc(deliveryImage),
         srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage360)} 360w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`,
@@ -111,8 +111,6 @@ const FloristsPage = () => {
 
       <ValuePropsA contentRef={contentRef} />
 
-      <WhyFutureFlowerSection />
-
       <section className="bg-primary">
         <ProductCarousel
           title="How It Works"
@@ -120,6 +118,8 @@ const FloristsPage = () => {
           steps={floristHowItWorksSteps}
         />
       </section>
+
+      <WhyFutureFlowerSection />
 
       <ComparisonSectionFlorists />
 
@@ -129,7 +129,7 @@ const FloristsPage = () => {
       <div className="bg-[var(--color4)]">
         <section className="pb-8">
           <FaqV2
-            title="Frequently Asked Questions"
+            title="Questions? We have answers. "
             faqs={floristFaqs}
           />
         </section>

@@ -1,8 +1,10 @@
 import type { Order } from './Order';
 import type { FlowerType } from './FlowerType';
 
-export interface SubscriptionSummaryProps {
+export interface OrderSummaryProps {
   plan: Order;
   flowerTypeMap: Map<number, FlowerType>;
+  context: 'ordering' | 'management';
   planId: string;
+  onRefreshPlan?: () => void;
 }

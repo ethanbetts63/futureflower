@@ -88,8 +88,6 @@ const AffiliatesPage = () => {
 
       <ValuePropsAffiliates contentRef={contentRef} />
 
-      <WhyFutureFlowerAffiliatesSection />
-
       <section className="bg-primary">
         <ProductCarousel
           title="How It Works"
@@ -97,6 +95,8 @@ const AffiliatesPage = () => {
           steps={affiliateHowItWorksSteps}
         />
       </section>
+
+      <WhyFutureFlowerAffiliatesSection />
 
       <ContentIdeasSection />
     </main>

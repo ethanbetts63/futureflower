@@ -1,7 +1,7 @@
 import type { DeliveryEvent } from './DeliveryEvent';
 import type { Payment } from './Payment';
 
-export type BillingMode = 'one_time' | 'recurring' | 'prepaid';
+export type BillingMode = 'one_time' | 'recurring';
 
 export interface Order {
   id: number;
@@ -28,7 +28,6 @@ export interface Order {
 
   frequency: string | null;
   start_date: string | null;
-  years: number | null;
   delivery_notes: string | null;
   preferred_delivery_time: string | null;
 

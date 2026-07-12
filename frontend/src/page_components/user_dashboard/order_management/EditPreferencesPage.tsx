@@ -1,4 +1,4 @@
-// futureflower/frontend/src/pages/user_dashboard/upfront_management/EditPreferencesPage.tsx
+// futureflower/frontend/src/page_components/user_dashboard/order_management/EditPreferencesPage.tsx
 "use client";
 import { useParams } from 'next/navigation';
 import PreferencesEditor from '@/components/form_flow/PreferencesEditor';
@@ -12,8 +12,8 @@ const EditPreferencesPage = () => {
         <PreferencesEditor
             mode="edit"
             saveButtonText="Save Changes"
-            onSaveNavigateTo={`/dashboard/upfront-plans/${planId}/overview`}
-            backPath={`/dashboard/upfront-plans/${planId}/overview`}
+            onSaveNavigateTo={`/dashboard/orders/${planId}/overview`}
+            backPath={`/dashboard/orders/${planId}/overview`}
             getPlan={getOrder}
             updatePlan={updateOrder}
         />
