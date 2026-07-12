@@ -17,7 +17,6 @@ export type { FaqProps } from './FaqProps';
 export type { UserDetailsSummaryProps } from './UserDetailsSummaryProps';
 export type { ArticleCarouselProps } from './ArticleCarouselProps';
 export type { ArticleLayoutProps } from './ArticleLayoutProps';
-export type { EditButtonProps } from './EditButtonProps';
 export type { FaqV2Props } from './FaqV2Props';
 export type { HeroProps } from './HeroProps';
 export type { HeroV2Props } from './HeroV2Props';

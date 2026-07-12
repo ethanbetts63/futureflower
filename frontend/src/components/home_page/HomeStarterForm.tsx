@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ChevronRight } from 'lucide-react';
 import type { FlowerType } from '@/types/FlowerType';
 import { IMPACT_TIERS, MIN_BUDGET } from '@/utils/pricingConstants';
+import { FREE_DELIVERY_THRESHOLD } from '@/utils/systemConstants';
 import {
   HOMEPAGE_BRIEF_STORAGE_KEY,
   type HomepageBrief,
@@ -184,7 +185,7 @@ export default function HomeStarterForm() {
                   />
                 </div>
                 <p className="mt-2 text-xs leading-snug text-black/50">
-                  Minimum ${MIN_BUDGET}. Delivery is included.
+                  Minimum ${MIN_BUDGET}. Free delivery over ${FREE_DELIVERY_THRESHOLD}.
                 </p>
               </div>
             </div>

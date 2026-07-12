@@ -81,8 +81,8 @@ export async function denyPartner(id: number): Promise<AdminPartner> {
   return res.json();
 }
 
-export async function getAdminPlanDetail(planType: string, planId: string | number): Promise<AdminPlanDetail> {
-  const res = await authedFetch(`/api/data/admin/plans/${planType}/${planId}/`);
+export async function getAdminPlanDetail(planId: string | number): Promise<AdminPlanDetail> {
+  const res = await authedFetch(`/api/data/admin/plans/${planId}/`);
   if (!res.ok) throw new Error('Failed to fetch plan');
   return res.json();
 }

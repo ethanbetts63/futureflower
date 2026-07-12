@@ -6,66 +6,68 @@ import floristImage768 from '../../assets/florist_making_flowers-768w.webp';
 import floristImage1024 from '../../assets/florist_making_flowers-1024w.webp';
 import { assetSrc } from '@/lib/assets';
 
+const steps = [
+    {
+        title: 'Choose the occasion',
+        text: 'Let the florist know the vibe — romantic, sympathy, birthday, and more.',
+    },
+    {
+        title: 'Add your preferences',
+        text: 'Leave specific notes if you want — "She loves peonies," or "Please no lilies."',
+    },
+    {
+        title: 'Set your exact budget',
+        text: 'Select a pricing tier or enter a custom amount.',
+    },
+];
+
 const PricingFloristAdvantage = () => (
-    <section className="bg-white py-12">
-        <div className="container mx-auto px-4 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+    <section className="bg-white py-14 text-black sm:py-16">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
 
-                {/* Left — Text */}
-                <div>
-                    <p className="text-xs font-semibold tracking-[0.2em] text-gray-400 uppercase mb-3">
-                        The Florist's Choice Advantage
+            {/* Text column */}
+            <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
+                    The florist&rsquo;s choice advantage
+                </p>
+                <h2 className="mt-3 text-3xl font-bold leading-tight font-playfair-display sm:text-4xl">
+                    Why we don&rsquo;t have a catalog.
+                </h2>
+
+                <p className="mt-4 max-w-xl text-lg leading-relaxed text-black/65">
+                    Most online flower deliveries force local florists to recreate rigid &ldquo;recipes&rdquo; from a picture. That means cheaper, hardier flowers that survive long transit — not the fresh, seasonal blooms they actually want to use.
+                </p>
+
+                <div className="mt-8 border-t border-black/10 pt-8">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
+                        How FutureFlower works instead
                     </p>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black font-playfair-display leading-tight">
-                        Why we don't have a catalog.
-                    </h2>
-
-                    <p className="mt-6 text-base md:text-lg text-black/60 leading-relaxed">
-                        Most online flower deliveries force local florists to recreate rigid "recipes" from a picture. This forces them to use cheaper, hardier flowers that survive long transit, rather than the fresh, seasonal blooms they actually want to use.
-                    </p>
-
-                    <div className="mt-8 pt-8 border-t border-black/10">
-                        <p className="text-sm font-semibold tracking-[0.15em] text-black uppercase mb-6">
-                            How FutureFlower works instead
-                        </p>
-                        <ol className="flex flex-col gap-5">
-                            <li className="flex items-start gap-4">
-                                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--colorgreen)] text-black text-sm font-bold flex items-center justify-center">1</span>
+                    <ol className="mt-6 flex flex-col gap-5">
+                        {steps.map(({ title, text }, i) => (
+                            <li key={title} className="flex items-start gap-4">
+                                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--colorgreen)] text-sm font-bold text-black">
+                                    {i + 1}
+                                </span>
                                 <div>
-                                    <p className="font-semibold text-black">Choose the occasion</p>
-                                    <p className="mt-0.5 text-sm text-black/60">Let the florist know the vibe — Romantic, Sympathy, Birthday, and more.</p>
+                                    <p className="font-semibold">{title}</p>
+                                    <p className="mt-0.5 text-sm leading-relaxed text-black/60">{text}</p>
                                 </div>
                             </li>
-                            <li className="flex items-start gap-4">
-                                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--colorgreen)] text-black text-sm font-bold flex items-center justify-center">2</span>
-                                <div>
-                                    <p className="font-semibold text-black">Add your preferences</p>
-                                    <p className="mt-0.5 text-sm text-black/60">Leave specific notes if you want — "She loves peonies," or "Please no lilies."</p>
-                                </div>
-                            </li>
-                            <li className="flex items-start gap-4">
-                                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--colorgreen)] text-black text-sm font-bold flex items-center justify-center">3</span>
-                                <div>
-                                    <p className="font-semibold text-black">Set your exact budget</p>
-                                    <p className="mt-0.5 text-sm text-black/60">Select your pricing tier or enter a custom amount.</p>
-                                </div>
-                            </li>
-                        </ol>
-                    </div>
+                        ))}
+                    </ol>
                 </div>
+            </div>
 
-                {/* Right — Image */}
-                <div className="rounded-2xl overflow-hidden shadow-lg">
-                    <img
-                        src={assetSrc(floristImage)}
-                        srcSet={`${assetSrc(floristImage320)} 320w, ${assetSrc(floristImage640)} 640w, ${assetSrc(floristImage768)} 768w, ${assetSrc(floristImage1024)} 1024w`}
-                        sizes="(max-width: 1023px) 100vw, 50vw"
-                        alt="A florist carefully crafting a bouquet"
-                        className="w-full h-[400px] md:h-[540px] object-cover"
-                        loading="lazy"
-                    />
-                </div>
-
+            {/* Image column */}
+            <div className="relative min-h-[400px] overflow-hidden rounded-xl md:min-h-[540px]">
+                <img
+                    src={assetSrc(floristImage)}
+                    srcSet={`${assetSrc(floristImage320)} 320w, ${assetSrc(floristImage640)} 640w, ${assetSrc(floristImage768)} 768w, ${assetSrc(floristImage1024)} 1024w`}
+                    sizes="(max-width: 1023px) 100vw, 50vw"
+                    alt="A florist carefully crafting a bouquet"
+                    className="absolute inset-0 h-full w-full object-cover"
+                    loading="lazy"
+                />
             </div>
         </div>
     </section>

@@ -22,7 +22,7 @@ urlpatterns = [
     # Admin endpoints
     path('admin/dashboard/', AdminDashboardView.as_view(), name='admin-dashboard'),
     path('admin/plans/', AdminPlanListView.as_view(), name='admin-plan-list'),
-    path('admin/plans/<str:plan_type>/<int:pk>/', AdminPlanDetailView.as_view(), name='admin-plan-detail'),
+    path('admin/plans/<int:pk>/', AdminPlanDetailView.as_view(), name='admin-plan-detail'),
     path('admin/events/<int:pk>/', AdminEventDetailView.as_view(), name='admin-event-detail'),
     path('admin/events/<int:pk>/mark-ordered/', AdminMarkOrderedView.as_view(), name='admin-mark-ordered'),
     path('admin/events/<int:pk>/mark-delivered/', AdminMarkDeliveredView.as_view(), name='admin-mark-delivered'),

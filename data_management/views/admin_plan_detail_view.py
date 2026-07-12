@@ -9,7 +9,7 @@ from data_management.serializers.admin_plan_detail_serializer import AdminPlanDe
 class AdminPlanDetailView(APIView):
     permission_classes = [IsAdminUser]
 
-    def get(self, request, plan_type, pk):
+    def get(self, request, pk):
         try:
             order = (
                 OrderBase.objects

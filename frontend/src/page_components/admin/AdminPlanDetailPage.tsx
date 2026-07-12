@@ -44,19 +44,18 @@ const StatusBadge = ({ status }: { status: string }) => (
 
 const AdminPlanDetailPage = () => {
   const params = useParams();
-  const planType = params.planType as string | undefined;
   const planId = params.planId as string | undefined;
   const [plan, setPlan] = useState<AdminPlanDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!planType || !planId) return;
-    getAdminPlanDetail(planType, planId)
+    if (!planId) return;
+    getAdminPlanDetail(planId)
       .then(setPlan)
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
-  }, [planType, planId]);
+  }, [planId]);
 
   if (loading) {
     return (
