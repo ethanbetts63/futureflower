@@ -78,6 +78,13 @@ const nextConfig: NextConfig = {
     const apiUrl = process.env.DJANGO_API_URL ?? "http://127.0.0.1:8000";
 
     return [
+      // Next's :path* reconstruction drops trailing slashes, which Django's
+      // APPEND_SLASH then 301s back, causing a redirect loop. Match the
+      // slashed form explicitly so the slash survives the proxy.
+      {
+        source: "/api/:path*/",
+        destination: `${apiUrl}/api/:path*/`,
+      },
       {
         source: "/api/:path*",
         destination: `${apiUrl}/api/:path*`,
