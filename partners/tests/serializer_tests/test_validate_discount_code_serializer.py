@@ -5,10 +5,9 @@ from rest_framework.request import Request
 from partners.serializers.validate_discount_code_serializer import ValidateDiscountCodeSerializer
 from partners.tests.factories.partner_factory import PartnerFactory
 from partners.tests.factories.discount_code_factory import DiscountCodeFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
-from events.tests.factories.subscription_plan_factory import SubscriptionPlanFactory
 from payments.tests.factories.payment_factory import PaymentFactory
 from users.tests.factories.user_factory import UserFactory
+from events.tests.factories.order_factory import OrderFactory
 
 
 def make_request(user):
@@ -26,7 +25,7 @@ class TestValidateDiscountCodeSerializer:
         user = UserFactory()
         partner = PartnerFactory(status='active')
         dc = DiscountCodeFactory(partner=partner, is_active=True)
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
         request = make_request(user)
         serializer = ValidateDiscountCodeSerializer(
             data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'upfront'},
@@ -36,7 +35,7 @@ class TestValidateDiscountCodeSerializer:
 
     def test_nonexistent_code_fails(self):
         user = UserFactory()
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
         request = make_request(user)
         serializer = ValidateDiscountCodeSerializer(
             data={'code': 'DOESNOTEXIST', 'plan_id': plan.pk, 'plan_type': 'upfront'},
@@ -49,7 +48,7 @@ class TestValidateDiscountCodeSerializer:
         user = UserFactory()
         partner = PartnerFactory(status='pending')
         dc = DiscountCodeFactory(partner=partner, is_active=True)
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
         request = make_request(user)
         serializer = ValidateDiscountCodeSerializer(
             data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'upfront'},
@@ -61,7 +60,7 @@ class TestValidateDiscountCodeSerializer:
         partner = PartnerFactory(status='active')
         user = partner.user
         dc = DiscountCodeFactory(partner=partner, is_active=True)
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
         request = make_request(user)
         serializer = ValidateDiscountCodeSerializer(
             data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'upfront'},
@@ -74,7 +73,7 @@ class TestValidateDiscountCodeSerializer:
         partner = PartnerFactory(status='active')
         dc = DiscountCodeFactory(partner=partner, is_active=True)
         PaymentFactory(user=user, status='succeeded')
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
         request = make_request(user)
         serializer = ValidateDiscountCodeSerializer(
             data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'upfront'},
@@ -84,7 +83,7 @@ class TestValidateDiscountCodeSerializer:
 
     def test_empty_code_passes_validation(self):
         user = UserFactory()
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
         request = make_request(user)
         serializer = ValidateDiscountCodeSerializer(
             data={'code': '', 'plan_id': plan.pk, 'plan_type': 'upfront'},
@@ -96,7 +95,7 @@ class TestValidateDiscountCodeSerializer:
         user = UserFactory()
         partner = PartnerFactory(status='active')
         dc = DiscountCodeFactory(partner=partner, is_active=True, discount_amount=Decimal('5.00'))
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
         request = make_request(user)
         serializer = ValidateDiscountCodeSerializer(
             data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'upfront'},
@@ -111,7 +110,7 @@ class TestValidateDiscountCodeSerializer:
         user = UserFactory()
         partner = PartnerFactory(status='active')
         dc = DiscountCodeFactory(partner=partner)
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
         plan.discount_code = dc
         plan.discount_amount = Decimal('5.00')
         plan.save()
@@ -128,7 +127,7 @@ class TestValidateDiscountCodeSerializer:
         user = UserFactory()
         partner = PartnerFactory(status='active')
         dc = DiscountCodeFactory(partner=partner, is_active=True)
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
         request = make_request(user)
         serializer = ValidateDiscountCodeSerializer(
             data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'upfront'},
@@ -143,7 +142,7 @@ class TestValidateDiscountCodeSerializer:
         user = UserFactory()
         partner = PartnerFactory(status='active')
         dc = DiscountCodeFactory(partner=partner, is_active=True)
-        plan = SubscriptionPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='recurring', user=user)
         request = make_request(user)
         serializer = ValidateDiscountCodeSerializer(
             data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'subscription'},

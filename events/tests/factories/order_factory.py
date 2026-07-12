@@ -4,20 +4,17 @@ from factory import Faker, SubFactory
 from events.models import OrderBase
 from users.tests.factories.user_factory import UserFactory
 
-class UpfrontPlanFactory(DjangoModelFactory):
-    """
-    Builds a prepaid multi-year Order row (the old UpfrontPlan shape).
-    """
+
+class OrderFactory(DjangoModelFactory):
     class Meta:
         model = OrderBase
 
     user = SubFactory(UserFactory)
     status = 'pending_payment'
-    billing_mode = 'prepaid'
+    billing_mode = 'one_time'
     budget = Faker('pydecimal', left_digits=2, right_digits=2, positive=True, min_value=50, max_value=99)
     frequency = Faker('random_element', elements=['weekly', 'fortnightly', 'monthly', 'quarterly', 'bi-annually', 'annually'])
-    years = Faker('random_int', min=1, max=10)
-    subtotal = Faker('pydecimal', left_digits=3, right_digits=2, positive=True, min_value=100, max_value=999) # Changed left_digits to 3 and max_value to 999
+    subtotal = Faker('pydecimal', left_digits=3, right_digits=2, positive=True, min_value=100, max_value=999)
     currency = 'usd'
     start_date = Faker('future_date')
     recipient_first_name = Faker('first_name')

@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import patch, MagicMock
 from payments.utils.send_customer_payment_notification import send_customer_payment_notification
 from users.tests.factories.user_factory import UserFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
+from events.tests.factories.order_factory import OrderFactory
 
 
 @pytest.mark.django_db
@@ -15,7 +15,7 @@ class TestSendCustomerPaymentNotification:
 
     def test_sends_email_to_user_via_mailgun(self):
         user = UserFactory(email='customer@example.com')
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
 
         with patch(
             'payments.utils.send_customer_payment_notification.requests.post',
@@ -28,7 +28,7 @@ class TestSendCustomerPaymentNotification:
 
     def test_email_body_contains_customer_first_name(self):
         user = UserFactory(first_name='Bob', email='bob@example.com')
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
 
         with patch(
             'payments.utils.send_customer_payment_notification.requests.post',
@@ -41,7 +41,7 @@ class TestSendCustomerPaymentNotification:
 
     def test_email_body_contains_recipient_name(self):
         user = UserFactory(email='customer@example.com')
-        plan = UpfrontPlanFactory(
+        plan = OrderFactory(billing_mode='one_time', 
             user=user,
             recipient_first_name='Carol',
             recipient_last_name='Smith',
@@ -58,7 +58,7 @@ class TestSendCustomerPaymentNotification:
 
     def test_email_body_contains_start_date_and_budget(self):
         user = UserFactory(email='customer@example.com')
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
 
         with patch(
             'payments.utils.send_customer_payment_notification.requests.post',
@@ -72,7 +72,7 @@ class TestSendCustomerPaymentNotification:
 
     def test_skips_send_when_user_has_no_email(self):
         user = UserFactory(email='')
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
 
         with patch(
             'payments.utils.send_customer_payment_notification.requests.post',
@@ -83,7 +83,7 @@ class TestSendCustomerPaymentNotification:
 
     def test_mailgun_error_does_not_raise(self):
         user = UserFactory(email='fail@example.com')
-        plan = UpfrontPlanFactory(user=user)
+        plan = OrderFactory(billing_mode='one_time', user=user)
 
         mock_response = MagicMock()
         mock_response.raise_for_status.side_effect = Exception('503 Service Unavailable')

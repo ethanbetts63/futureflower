@@ -4,11 +4,10 @@ from django.conf import settings
 from users.utils.anonymize_user import anonymize_user
 from users.utils.hash_value import hash_value
 from users.tests.factories.user_factory import UserFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
-from events.tests.factories.subscription_plan_factory import SubscriptionPlanFactory
 from events.tests.factories.event_factory import EventFactory
 from events.models import OrderBase, Event
 from data_management.models.notification import Notification
+from events.tests.factories.order_factory import OrderFactory
 
 
 def make_notification(event, status='pending'):
@@ -27,7 +26,7 @@ class TestAnonymizeUserUpfrontPlans:
 
     def test_pending_upfront_plans_are_deleted(self):
         user = UserFactory()
-        pending = UpfrontPlanFactory(user=user, status='pending_payment')
+        pending = OrderFactory(billing_mode='one_time', user=user, status='pending_payment')
 
         with patch('users.utils.anonymize_user.stripe'):
             anonymize_user(user)
@@ -36,7 +35,7 @@ class TestAnonymizeUserUpfrontPlans:
 
     def test_active_upfront_plan_recipient_names_are_hashed(self):
         user = UserFactory()
-        plan = UpfrontPlanFactory(
+        plan = OrderFactory(billing_mode='one_time', 
             user=user,
             status='active',
             recipient_first_name='Jane',
@@ -56,7 +55,7 @@ class TestAnonymizeUserUpfrontPlans:
     def test_active_upfront_plan_street_address_is_not_hashed(self):
         """Address fields are intentionally not hashed — only names are."""
         user = UserFactory()
-        plan = UpfrontPlanFactory(
+        plan = OrderFactory(billing_mode='one_time', 
             user=user,
             status='active',
             recipient_street_address='123 Main St',
@@ -71,7 +70,7 @@ class TestAnonymizeUserUpfrontPlans:
 
     def test_active_upfront_plan_non_delivered_events_deleted(self):
         user = UserFactory()
-        plan = UpfrontPlanFactory(user=user, status='active')
+        plan = OrderFactory(billing_mode='one_time', user=user, status='active')
         delivered = EventFactory(order=plan, status='delivered')
         scheduled = EventFactory(order=plan, status='scheduled')
 
@@ -87,7 +86,7 @@ class TestAnonymizeUserSubscriptionPlans:
 
     def test_pending_subscription_plans_are_deleted(self):
         user = UserFactory()
-        pending = SubscriptionPlanFactory(user=user, status='pending_payment')
+        pending = OrderFactory(billing_mode='recurring', user=user, status='pending_payment')
 
         with patch('users.utils.anonymize_user.stripe'):
             anonymize_user(user)
@@ -96,7 +95,7 @@ class TestAnonymizeUserSubscriptionPlans:
 
     def test_active_subscription_stripe_is_cancelled_before_data_wipe(self):
         user = UserFactory()
-        plan = SubscriptionPlanFactory(
+        plan = OrderFactory(billing_mode='recurring', 
             user=user,
             status='active',
             stripe_subscription_id='sub_abc123',
@@ -112,7 +111,7 @@ class TestAnonymizeUserSubscriptionPlans:
         """A Stripe error during anonymization should not abort the whole process."""
         import stripe as real_stripe
         user = UserFactory()
-        SubscriptionPlanFactory(
+        OrderFactory(billing_mode='recurring', 
             user=user,
             status='active',
             stripe_subscription_id='sub_bad',
@@ -129,7 +128,7 @@ class TestAnonymizeUserSubscriptionPlans:
 
     def test_active_subscription_recipient_names_are_hashed(self):
         user = UserFactory()
-        plan = SubscriptionPlanFactory(
+        plan = OrderFactory(billing_mode='recurring', 
             user=user,
             status='active',
             recipient_first_name='Alice',
@@ -148,7 +147,7 @@ class TestAnonymizeUserSubscriptionPlans:
 
     def test_pending_notifications_for_subscription_events_are_cancelled(self):
         user = UserFactory()
-        plan = SubscriptionPlanFactory(user=user, status='active')
+        plan = OrderFactory(billing_mode='recurring', user=user, status='active')
         event = EventFactory(order=plan, status='scheduled')
         notif = make_notification(event, status='pending')
 
@@ -160,7 +159,7 @@ class TestAnonymizeUserSubscriptionPlans:
 
     def test_sent_notifications_are_not_touched(self):
         user = UserFactory()
-        plan = SubscriptionPlanFactory(user=user, status='active')
+        plan = OrderFactory(billing_mode='recurring', user=user, status='active')
         event = EventFactory(order=plan, status='delivered')
         notif = make_notification(event, status='sent')
 
@@ -172,7 +171,7 @@ class TestAnonymizeUserSubscriptionPlans:
 
     def test_non_delivered_subscription_events_deleted(self):
         user = UserFactory()
-        plan = SubscriptionPlanFactory(user=user, status='active')
+        plan = OrderFactory(billing_mode='recurring', user=user, status='active')
         delivered = EventFactory(order=plan, status='delivered')
         scheduled = EventFactory(order=plan, status='scheduled')
 

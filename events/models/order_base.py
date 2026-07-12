@@ -5,7 +5,7 @@ from django.conf import settings
 class OrderBase(models.Model):
     """
     The single order model for the system. `billing_mode` distinguishes
-    one-time, recurring, and prepaid orders.
+    one-time and recurring orders.
     """
     STATUS_CHOICES = (
         ('pending_payment', 'Pending Payment'),
@@ -18,7 +18,6 @@ class OrderBase(models.Model):
     BILLING_MODE_CHOICES = (
         ('one_time', 'One-time'),
         ('recurring', 'Recurring'),
-        ('prepaid', 'Prepaid'),
     )
 
     user = models.ForeignKey(
@@ -41,7 +40,7 @@ class OrderBase(models.Model):
         max_length=20,
         choices=BILLING_MODE_CHOICES,
         default='one_time',
-        help_text="How this order is billed: one-time, recurring, or prepaid."
+        help_text="How this order is billed: one-time or recurring."
     )
 
     # --- Plan Details ---
@@ -85,10 +84,6 @@ class OrderBase(models.Model):
         choices=FREQUENCY_CHOICES,
         null=True, blank=True,
         help_text="How often deliveries are made."
-    )
-    years = models.PositiveIntegerField(
-        null=True, blank=True,
-        help_text="The total number of years for a prepaid plan."
     )
 
     # --- Recipient Details ---

@@ -2,8 +2,8 @@ import pytest
 from datetime import date, timedelta
 from rest_framework.test import APIClient
 from events.tests.factories.event_factory import EventFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
 from users.tests.factories.user_factory import UserFactory
+from events.tests.factories.order_factory import OrderFactory
 
 
 @pytest.mark.django_db
@@ -36,14 +36,14 @@ class TestAdminDashboardView:
         assert 'delivered' in response.data
 
     def test_to_order_includes_scheduled_within_14_days(self):
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         event = EventFactory(status='scheduled', order=plan, delivery_date=date.today() + timedelta(days=7))
         response = self.client.get(self._url())
         ids = [e['id'] for e in response.data['to_order']]
         assert event.id in ids
 
     def test_to_order_excludes_scheduled_beyond_14_days(self):
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         event = EventFactory(status='scheduled', order=plan, delivery_date=date.today() + timedelta(days=20))
         response = self.client.get(self._url())
         ids = [e['id'] for e in response.data['to_order']]
@@ -51,7 +51,7 @@ class TestAdminDashboardView:
 
     def test_ordered_events_in_ordered_bucket(self):
         from django.utils import timezone
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         event = EventFactory(status='ordered', order=plan, ordered_at=timezone.now())
         response = self.client.get(self._url())
         ids = [e['id'] for e in response.data['ordered']]
@@ -59,7 +59,7 @@ class TestAdminDashboardView:
 
     def test_delivered_events_in_delivered_bucket(self):
         from django.utils import timezone
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         event = EventFactory(status='delivered', order=plan, delivered_at=timezone.now())
         response = self.client.get(self._url())
         ids = [e['id'] for e in response.data['delivered']]
@@ -67,7 +67,7 @@ class TestAdminDashboardView:
 
     def test_to_order_excludes_ordered_events(self):
         from django.utils import timezone
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         ordered = EventFactory(status='ordered', order=plan, delivery_date=date.today() + timedelta(days=5))
         response = self.client.get(self._url())
         ids = [e['id'] for e in response.data['to_order']]

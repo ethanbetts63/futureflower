@@ -26,7 +26,7 @@ class OrderSerializer(serializers.ModelSerializer):
             'recipient_suburb', 'recipient_city', 'recipient_state',
             'recipient_postcode', 'recipient_country',
             'budget', 'subtotal', 'discount_amount', 'tax_amount', 'total_amount',
-            'discount_code_display', 'frequency', 'start_date', 'years',
+            'discount_code_display', 'frequency', 'start_date',
             'delivery_notes', 'preferred_delivery_time',
             'preferred_flower_types', 'flower_notes', 'recurring_preferences',
             'draft_card_messages', 'stripe_subscription_id', 'subscription_message',

@@ -95,11 +95,7 @@ const FloristsPage = () => {
     {
       question: 'How do refunds work?',
       answer: 'If a customer has a legitimate refund request and we are at fault, we cover the full amount. If the issue is with the flowers or the delivery, we refund the customer and ask you to return what we paid you for that order.',
-    },
-    {
-      question: 'Where do you operate?',
-      answer: 'FutureFlower is focused on Australia.',
-    },
+    }
   ];
 
   return (

@@ -1,8 +1,8 @@
 import pytest
 from data_management.serializers.admin_event_serializer import AdminEventSerializer
 from events.tests.factories.event_factory import EventFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
 from events.tests.factories.flower_type_factory import FlowerTypeFactory
+from events.tests.factories.order_factory import OrderFactory
 
 @pytest.mark.django_db
 def test_admin_event_serializer_fields():
@@ -13,7 +13,7 @@ def test_admin_event_serializer_fields():
     flower1 = FlowerTypeFactory(name="Rose")
     flower2 = FlowerTypeFactory(name="Tulip")
     
-    order = UpfrontPlanFactory(
+    order = OrderFactory(billing_mode='one_time', 
         budget=100.00,
         recipient_first_name="Jane",
         recipient_last_name="Doe",

@@ -2,20 +2,19 @@ import pytest
 from decimal import Decimal
 from payments.utils.webhook_handlers import handle_payment_intent_succeeded, handle_invoice_payment_succeeded
 from payments.tests.factories.payment_factory import PaymentFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
-from events.tests.factories.subscription_plan_factory import SubscriptionPlanFactory
+from events.tests.factories.order_factory import OrderFactory
 from events.models import Event
 
 
 @pytest.mark.django_db
 class TestWebhookCommissionAmount:
 
-    def test_upfront_plan_events_get_commission_amount(self, mocker):
-        """Events bulk-created for an upfront plan have commission_amount set from budget."""
+    def test_one_time_order_event_gets_commission_amount(self, mocker):
+        """Event created for a one-time order has commission_amount set from budget."""
         mocker.patch('payments.utils.webhook_handlers.send_customer_payment_notification')
 
         # budget=150: not < 150, is < 200 → tier gives $15
-        plan = UpfrontPlanFactory(status='pending_payment', budget=Decimal('150'), frequency='annually', years=1)
+        plan = OrderFactory(billing_mode='one_time', status='pending_payment', budget=Decimal('150'), frequency='annually')
         payment = PaymentFactory(
             user=plan.user,
             order=plan,
@@ -35,12 +34,12 @@ class TestWebhookCommissionAmount:
         for event in events:
             assert event.commission_amount == Decimal('15')
 
-    def test_upfront_plan_commission_amount_varies_with_budget(self, mocker):
+    def test_one_time_order_commission_amount_varies_with_budget(self, mocker):
         """Commission amount snapshot reflects the tier for the plan's budget."""
         mocker.patch('payments.utils.webhook_handlers.send_customer_payment_notification')
 
         # budget=75 → tier gives $5
-        plan = UpfrontPlanFactory(status='pending_payment', budget=Decimal('75'), frequency='annually', years=1)
+        plan = OrderFactory(billing_mode='one_time', status='pending_payment', budget=Decimal('75'), frequency='annually')
         payment = PaymentFactory(
             user=plan.user,
             order=plan,
@@ -63,7 +62,8 @@ class TestWebhookCommissionAmount:
         mocker.patch('payments.utils.webhook_handlers.send_customer_payment_notification')
 
         # stripe_subscription_id already set → skips Stripe Subscription.create block
-        plan = SubscriptionPlanFactory(
+        plan = OrderFactory(
+            billing_mode='recurring',
             status='pending_payment',
             budget=Decimal('200'),
             stripe_subscription_id='sub_existing',
@@ -93,7 +93,8 @@ class TestWebhookCommissionAmount:
         from datetime import date, timedelta
 
         # budget=250 → tier gives $25
-        plan = SubscriptionPlanFactory(
+        plan = OrderFactory(
+            billing_mode='recurring',
             status='active',
             budget=Decimal('250'),
             stripe_subscription_id='sub_recurring',

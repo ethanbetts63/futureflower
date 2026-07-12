@@ -1,8 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
-from events.tests.factories.subscription_plan_factory import SubscriptionPlanFactory
 from users.tests.factories.user_factory import UserFactory
+from events.tests.factories.order_factory import OrderFactory
 
 
 @pytest.mark.django_db
@@ -16,13 +15,13 @@ class TestAdminPlanDetailView:
         return f'/api/data/admin/plans/{plan_type}/{pk}/'
 
     def test_returns_upfront_plan(self):
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         response = self.client.get(self._url('upfront', plan.pk))
         assert response.status_code == 200
         assert response.data['id'] == plan.pk
 
     def test_returns_subscription_plan(self):
-        plan = SubscriptionPlanFactory()
+        plan = OrderFactory(billing_mode='recurring', )
         response = self.client.get(self._url('subscription', plan.pk))
         assert response.status_code == 200
         assert response.data['id'] == plan.pk
@@ -32,7 +31,7 @@ class TestAdminPlanDetailView:
         The plan_type URL segment is vestigial now that orders share one
         table with globally unique ids — any value should still resolve.
         """
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         response = self.client.get(self._url('anything', plan.pk))
         assert response.status_code == 200
         assert response.data['id'] == plan.pk
@@ -49,12 +48,12 @@ class TestAdminPlanDetailView:
         non_admin = UserFactory(is_staff=False, is_superuser=False)
         client = APIClient()
         client.force_authenticate(user=non_admin)
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         response = client.get(self._url('upfront', plan.pk))
         assert response.status_code == 403
 
     def test_requires_authentication(self):
         client = APIClient()
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         response = client.get(self._url('upfront', plan.pk))
         assert response.status_code == 401

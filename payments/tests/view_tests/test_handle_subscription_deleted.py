@@ -1,9 +1,9 @@
 import pytest
-from events.tests.factories.subscription_plan_factory import SubscriptionPlanFactory
 from events.tests.factories.event_factory import EventFactory
 from events.models import Event
 from data_management.models.notification import Notification
 from payments.utils.webhook_handlers import handle_subscription_deleted
+from events.tests.factories.order_factory import OrderFactory
 
 
 def make_notification(event, status='pending'):
@@ -21,7 +21,7 @@ def make_notification(event, status='pending'):
 class TestHandleSubscriptionDeleted:
 
     def test_active_plan_is_marked_cancelled(self):
-        plan = SubscriptionPlanFactory(status='active', stripe_subscription_id='sub_test_1')
+        plan = OrderFactory(billing_mode='recurring', status='active', stripe_subscription_id='sub_test_1')
 
         handle_subscription_deleted({'id': 'sub_test_1'})
 
@@ -29,7 +29,7 @@ class TestHandleSubscriptionDeleted:
         assert plan.status == 'cancelled'
 
     def test_scheduled_events_are_cancelled(self):
-        plan = SubscriptionPlanFactory(status='active', stripe_subscription_id='sub_test_2')
+        plan = OrderFactory(billing_mode='recurring', status='active', stripe_subscription_id='sub_test_2')
         e1 = EventFactory(order=plan, status='scheduled')
         e2 = EventFactory(order=plan, status='scheduled')
 
@@ -41,7 +41,7 @@ class TestHandleSubscriptionDeleted:
         assert e2.status == 'cancelled'
 
     def test_delivered_events_are_not_touched(self):
-        plan = SubscriptionPlanFactory(status='active', stripe_subscription_id='sub_test_3')
+        plan = OrderFactory(billing_mode='recurring', status='active', stripe_subscription_id='sub_test_3')
         delivered = EventFactory(order=plan, status='delivered')
 
         handle_subscription_deleted({'id': 'sub_test_3'})
@@ -50,7 +50,7 @@ class TestHandleSubscriptionDeleted:
         assert delivered.status == 'delivered'
 
     def test_pending_notifications_cancelled_when_event_cancelled(self):
-        plan = SubscriptionPlanFactory(status='active', stripe_subscription_id='sub_test_4')
+        plan = OrderFactory(billing_mode='recurring', status='active', stripe_subscription_id='sub_test_4')
         event = EventFactory(order=plan, status='scheduled')
         notif = make_notification(event, status='pending')
 
@@ -60,7 +60,7 @@ class TestHandleSubscriptionDeleted:
         assert notif.status == 'cancelled'
 
     def test_already_cancelled_plan_is_skipped(self):
-        plan = SubscriptionPlanFactory(status='cancelled', stripe_subscription_id='sub_test_5')
+        plan = OrderFactory(billing_mode='recurring', status='cancelled', stripe_subscription_id='sub_test_5')
         scheduled = EventFactory(order=plan, status='scheduled')
 
         handle_subscription_deleted({'id': 'sub_test_5'})
@@ -78,7 +78,7 @@ class TestHandleSubscriptionDeleted:
 
     def test_ordered_events_are_not_cancelled(self):
         """Ordered events are left alone — the florist may already be acting on them."""
-        plan = SubscriptionPlanFactory(status='active', stripe_subscription_id='sub_test_6')
+        plan = OrderFactory(billing_mode='recurring', status='active', stripe_subscription_id='sub_test_6')
         ordered = EventFactory(order=plan, status='ordered')
 
         handle_subscription_deleted({'id': 'sub_test_6'})

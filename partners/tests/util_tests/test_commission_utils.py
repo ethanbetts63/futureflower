@@ -4,15 +4,15 @@ from partners.utils.commission_utils import process_referral_commission, get_ref
 from partners.models import Commission
 from partners.tests.factories.partner_factory import PartnerFactory
 from users.tests.factories.user_factory import UserFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
 from payments.tests.factories.payment_factory import PaymentFactory
+from events.tests.factories.order_factory import OrderFactory
 
 @pytest.mark.django_db
 class TestCommissionUtils:
     def test_process_referral_commission_success(self):
         partner = PartnerFactory(partner_type='non_delivery')
         user = UserFactory(referred_by_partner=partner)
-        plan = UpfrontPlanFactory(user=user, budget=75)
+        plan = OrderFactory(billing_mode='one_time', user=user, budget=75)
         payment = PaymentFactory(user=user, order=plan, status='succeeded')
 
         process_referral_commission(payment)
@@ -24,7 +24,7 @@ class TestCommissionUtils:
 
     def test_process_referral_commission_no_partner(self):
         user = UserFactory(referred_by_partner=None)
-        plan = UpfrontPlanFactory(user=user, budget=100)
+        plan = OrderFactory(billing_mode='one_time', user=user, budget=100)
         payment = PaymentFactory(user=user, order=plan, status='succeeded')
 
         process_referral_commission(payment)
@@ -33,7 +33,7 @@ class TestCommissionUtils:
     def test_process_referral_commission_delivery_partner_skipped(self):
         partner = PartnerFactory(partner_type='delivery')
         user = UserFactory(referred_by_partner=partner)
-        plan = UpfrontPlanFactory(user=user, budget=100)
+        plan = OrderFactory(billing_mode='one_time', user=user, budget=100)
         payment = PaymentFactory(user=user, order=plan, status='succeeded')
 
         process_referral_commission(payment)
@@ -42,7 +42,7 @@ class TestCommissionUtils:
     def test_process_referral_commission_limit_exceeded(self):
         partner = PartnerFactory(partner_type='non_delivery')
         user = UserFactory(referred_by_partner=partner)
-        plan = UpfrontPlanFactory(user=user, budget=100)
+        plan = OrderFactory(billing_mode='one_time', user=user, budget=100)
 
         # Create 3 previous succeeded payments
         for _ in range(3):
@@ -80,7 +80,7 @@ class TestReferralCommissionTiers:
     def test_tiered_commission_applied_to_payment(self):
         partner = PartnerFactory(partner_type='non_delivery')
         user = UserFactory(referred_by_partner=partner)
-        plan = UpfrontPlanFactory(user=user, budget=175)
+        plan = OrderFactory(billing_mode='one_time', user=user, budget=175)
         payment = PaymentFactory(user=user, order=plan, status='succeeded')
 
         process_referral_commission(payment)

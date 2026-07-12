@@ -3,11 +3,11 @@ from decimal import Decimal
 from django.utils import timezone
 from rest_framework.test import APIClient
 from events.tests.factories.event_factory import EventFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
 from partners.tests.factories.delivery_request_factory import DeliveryRequestFactory
 from partners.tests.factories.partner_factory import PartnerFactory
 from partners.models import Commission
 from users.tests.factories.user_factory import UserFactory
+from events.tests.factories.order_factory import OrderFactory
 
 
 @pytest.mark.django_db
@@ -35,7 +35,7 @@ class TestAdminMarkDeliveredView:
 
     def test_mark_delivered_creates_fulfillment_commission(self):
         """When there is an accepted DeliveryRequest, a fulfillment Commission is created."""
-        plan = UpfrontPlanFactory(budget=Decimal('120'))
+        plan = OrderFactory(billing_mode='one_time', budget=Decimal('120'))
         event = EventFactory(status='ordered', order=plan)
         partner = PartnerFactory(partner_type='delivery')
         DeliveryRequestFactory(event=event, partner=partner, status='accepted')
@@ -58,7 +58,7 @@ class TestAdminMarkDeliveredView:
 
     def test_mark_delivered_idempotent_no_duplicate_commission(self):
         """If a fulfillment Commission already exists for the event, another is not created."""
-        plan = UpfrontPlanFactory(budget=Decimal('120'))
+        plan = OrderFactory(billing_mode='one_time', budget=Decimal('120'))
         event = EventFactory(status='ordered', order=plan)
         partner = PartnerFactory(partner_type='delivery')
         DeliveryRequestFactory(event=event, partner=partner, status='accepted')

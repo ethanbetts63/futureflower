@@ -3,8 +3,8 @@ from decimal import Decimal
 from rest_framework.test import APIClient
 from partners.tests.factories.discount_code_factory import DiscountCodeFactory
 from users.tests.factories.user_factory import UserFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
 from partners.models import DiscountCode
+from events.tests.factories.order_factory import OrderFactory
 
 @pytest.mark.django_db
 class TestValidateDiscountCodeView:
@@ -14,7 +14,7 @@ class TestValidateDiscountCodeView:
         self.client.force_authenticate(user=self.user)
         self.url = '/api/partners/validate-discount-code/'
         # Create a plan for the user to apply discount to
-        self.plan = UpfrontPlanFactory(user=self.user, subtotal=100)
+        self.plan = OrderFactory(billing_mode='one_time', user=self.user, subtotal=100)
 
     def test_validate_valid_code(self):
         dc = DiscountCodeFactory(code="SAVE5", discount_amount=Decimal('5.00'), is_active=True)

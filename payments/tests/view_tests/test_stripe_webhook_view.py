@@ -4,7 +4,7 @@ from rest_framework.test import APIClient
 import stripe
 from payments.models import Payment
 from payments.tests.factories.payment_factory import PaymentFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
+from events.tests.factories.order_factory import OrderFactory
 
 @pytest.mark.django_db
 class TestStripeWebhookView:

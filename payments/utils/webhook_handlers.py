@@ -5,7 +5,6 @@ from django.conf import settings
 from django.db import transaction
 from payments.models import Payment
 from events.models import OrderBase, Event
-from events.utils.delivery_dates import calculate_projected_delivery_dates
 from payments.utils.subscription_dates import get_next_delivery_date
 from payments.utils.send_admin_payment_notification import send_admin_payment_notification
 from payments.utils.send_customer_payment_notification import send_customer_payment_notification
@@ -38,38 +37,6 @@ def _create_first_event(order, payment_intent_id):
     )
     create_admin_event_notifications(event)
     create_customer_delivery_day_notification(event)
-    send_customer_payment_notification(order.user, order)
-    send_admin_payment_notification(payment_intent_id, order=order)
-
-
-def _create_projected_events(order, payment_intent_id):
-    """
-    Creates all projected delivery Events for a prepaid multi-year order. Idempotent.
-    """
-    if Event.objects.filter(order=order).exists():
-        print(f"Events for Order (PK: {order.pk}) already exist. Skipping duplicate.")
-        return
-
-    from partners.utils.commission_utils import get_referral_commission_amount
-    commission_amount = get_referral_commission_amount(order.budget) if order.budget else None
-    draft_messages = order.draft_card_messages or {}
-    projected = calculate_projected_delivery_dates(order.start_date, order.frequency, order.years)
-    events_to_create = [
-        Event(
-            order=order,
-            delivery_date=d["date"],
-            message=draft_messages.get(str(d["index"]), ''),
-            commission_amount=commission_amount,
-        )
-        for d in projected
-    ]
-    Event.objects.bulk_create(events_to_create)
-    # Re-query to get DB-assigned PKs (bulk_create doesn't populate them on SQLite)
-    created_events = list(Event.objects.filter(order=order).order_by('delivery_date'))
-    print(f"Created {len(created_events)} Events for Order (PK: {order.pk}).")
-    for event in created_events:
-        create_admin_event_notifications(event)
-        create_customer_delivery_day_notification(event)
     send_customer_payment_notification(order.user, order)
     send_admin_payment_notification(payment_intent_id, order=order)
 
@@ -175,10 +142,6 @@ def handle_payment_intent_succeeded(payment_intent):
                 payment_method_id = payment_intent.get('payment_method')
                 _create_stripe_subscription_for_order(order, payment_method_id)
 
-            elif order.billing_mode == 'prepaid':
-                _activate_order(order)
-                _create_projected_events(order, payment_intent_id)
-
             else:
                 print(f"Unhandled billing_mode '{order.billing_mode}' for Order {order.id}. No action taken.")
 
@@ -282,37 +245,6 @@ def handle_payment_intent_failed(payment_intent):
         print(f"UNEXPECTED ERROR during payment_intent.payment_failed processing for ID {payment_intent['id']}: {e}")
 
 
-def handle_setup_intent_succeeded(setup_intent):
-    """
-    Handles the setup_intent.succeeded event. No current checkout path creates
-    SetupIntents; kept as a safety net in case Stripe is still configured to
-    send this event type.
-    """
-    metadata = setup_intent.get('metadata', {})
-    order_id = metadata.get('order_id')
-
-    if not order_id:
-        print("Webhook received a setup_intent.succeeded event without an order_id in metadata. Skipping.")
-        return
-
-    print(f"Processing setup_intent.succeeded for Order: {order_id}")
-
-    try:
-        with transaction.atomic():
-            order = OrderBase.objects.get(id=order_id)
-            if order.status == 'active':
-                print(f"Order (PK: {order.pk}) already active. Skipping duplicate webhook.")
-                return
-            order.status = 'active'
-            order.save()
-            print(f"Successfully activated Order (PK: {order.pk})")
-
-    except OrderBase.DoesNotExist:
-        print(f"CRITICAL ERROR: Order not found for ID: {order_id}")
-    except Exception as e:
-        print(f"UNEXPECTED ERROR during setup_intent.succeeded processing for order {order_id}: {e}")
-
-
 def handle_subscription_deleted(subscription):
     """
     Handles the customer.subscription.deleted event from Stripe.
@@ -375,19 +307,6 @@ def handle_account_updated(account):
             print(f"Partner with Stripe account {account_id} marked as onboarding complete.")
         else:
             print(f"account.updated for {account_id}: already complete or not found.")
-
-
-def handle_setup_intent_failed(setup_intent):
-    """
-    Handles the setup_intent.payment_failed event from Stripe.
-    """
-    # At this time, we will just log the failure.
-    # In a full implementation, you might want to email the user.
-    customer_id = setup_intent.get('customer')
-    print(f"Processing setup_intent.failed for customer: {customer_id}")
-    last_error = setup_intent.get('last_setup_error', {})
-    error_message = last_error.get('message', 'No error message provided.')
-    print(f"SetupIntent failed for customer {customer_id}. Reason: {error_message}")
 
 
 def handle_transfer_created(transfer):

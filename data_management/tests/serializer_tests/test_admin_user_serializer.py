@@ -2,8 +2,7 @@ import pytest
 from data_management.serializers.admin_user_serializer import AdminUserSerializer
 from users.tests.factories.user_factory import UserFactory
 from partners.tests.factories.partner_factory import PartnerFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
-from events.tests.factories.subscription_plan_factory import SubscriptionPlanFactory
+from events.tests.factories.order_factory import OrderFactory
 
 
 @pytest.mark.django_db
@@ -36,20 +35,20 @@ class TestAdminUserSerializer:
 
     def test_plan_count_includes_upfront_plans(self):
         user = UserFactory()
-        UpfrontPlanFactory(user=user)
+        OrderFactory(billing_mode='one_time', user=user)
         data = AdminUserSerializer(user).data
         assert data['plan_count'] == 1
 
     def test_plan_count_includes_subscription_plans(self):
         user = UserFactory()
-        SubscriptionPlanFactory(user=user)
+        OrderFactory(billing_mode='recurring', user=user)
         data = AdminUserSerializer(user).data
         assert data['plan_count'] == 1
 
     def test_plan_count_sums_both_types(self):
         user = UserFactory()
-        UpfrontPlanFactory(user=user)
-        SubscriptionPlanFactory(user=user)
+        OrderFactory(billing_mode='one_time', user=user)
+        OrderFactory(billing_mode='recurring', user=user)
         data = AdminUserSerializer(user).data
         assert data['plan_count'] == 2
 

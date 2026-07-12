@@ -3,8 +3,7 @@ from decimal import Decimal
 from data_management.serializers.admin_user_detail_serializer import AdminUserDetailSerializer
 from users.tests.factories.user_factory import UserFactory
 from partners.tests.factories.partner_factory import PartnerFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
-from events.tests.factories.subscription_plan_factory import SubscriptionPlanFactory
+from events.tests.factories.order_factory import OrderFactory
 
 @pytest.mark.django_db
 def test_admin_user_detail_serializer_basic():
@@ -49,8 +48,8 @@ def test_admin_user_detail_serializer_plans():
     Test that plans (both upfront and subscription) are correctly serialized and included.
     """
     user = UserFactory()
-    plan1 = UpfrontPlanFactory(user=user, subtotal=Decimal('100.00'), discount_amount=Decimal('0'), tax_amount=Decimal('0'))
-    plan2 = SubscriptionPlanFactory(user=user, subtotal=Decimal('50.00'), discount_amount=Decimal('0'), tax_amount=Decimal('0'))
+    plan1 = OrderFactory(billing_mode='one_time', user=user, subtotal=Decimal('100.00'), discount_amount=Decimal('0'), tax_amount=Decimal('0'))
+    plan2 = OrderFactory(billing_mode='recurring', user=user, subtotal=Decimal('50.00'), discount_amount=Decimal('0'), tax_amount=Decimal('0'))
     
     serializer = AdminUserDetailSerializer(user)
     data = serializer.data
@@ -59,7 +58,7 @@ def test_admin_user_detail_serializer_plans():
     
     # Verify plan details
     plan_types = {p['plan_type'] for p in data['plans']}
-    assert 'prepaid' in plan_types
+    assert 'one_time' in plan_types
     assert 'recurring' in plan_types
     
     amounts = {float(p['total_amount']) for p in data['plans']}

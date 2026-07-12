@@ -1,8 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
-from events.tests.factories.subscription_plan_factory import SubscriptionPlanFactory
 from users.tests.factories.user_factory import UserFactory
+from events.tests.factories.order_factory import OrderFactory
 
 
 @pytest.mark.django_db
@@ -16,31 +15,31 @@ class TestAdminPlanListView:
         return '/api/data/admin/plans/'
 
     def test_returns_all_plans_by_default(self):
-        UpfrontPlanFactory()
-        SubscriptionPlanFactory()
+        OrderFactory(billing_mode='one_time', )
+        OrderFactory(billing_mode='recurring', )
         response = self.client.get(self._url())
         assert response.status_code == 200
         assert len(response.data) == 2
 
     def test_filter_by_plan_type_upfront_only(self):
-        upfront = UpfrontPlanFactory()
-        SubscriptionPlanFactory()
-        response = self.client.get(self._url(), {'plan_type': 'prepaid'})
+        upfront = OrderFactory(billing_mode='one_time', )
+        OrderFactory(billing_mode='recurring', )
+        response = self.client.get(self._url(), {'plan_type': 'one_time'})
         ids = [p['id'] for p in response.data]
         assert upfront.pk in ids
         assert len(ids) == 1
 
     def test_filter_by_plan_type_subscription_only(self):
-        UpfrontPlanFactory()
-        sub = SubscriptionPlanFactory()
+        OrderFactory(billing_mode='one_time', )
+        sub = OrderFactory(billing_mode='recurring', )
         response = self.client.get(self._url(), {'plan_type': 'recurring'})
         ids = [p['id'] for p in response.data]
         assert sub.pk in ids
         assert len(ids) == 1
 
     def test_filter_by_status(self):
-        active = UpfrontPlanFactory(status='active')
-        UpfrontPlanFactory(status='pending_payment')
+        active = OrderFactory(billing_mode='one_time', status='active')
+        OrderFactory(billing_mode='one_time', status='pending_payment')
         response = self.client.get(self._url(), {'status': 'active'})
         ids = [p['id'] for p in response.data]
         assert active.pk in ids
@@ -48,15 +47,15 @@ class TestAdminPlanListView:
 
     def test_search_by_user_email(self):
         user = UserFactory(email='findme@example.com')
-        plan = UpfrontPlanFactory(user=user)
-        UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', user=user)
+        OrderFactory(billing_mode='one_time', )
         response = self.client.get(self._url(), {'search': 'findme'})
         ids = [p['id'] for p in response.data]
         assert plan.pk in ids
 
     def test_search_by_recipient_last_name(self):
-        plan = UpfrontPlanFactory(recipient_last_name='UniqueRecipient')
-        UpfrontPlanFactory(recipient_last_name='Other')
+        plan = OrderFactory(billing_mode='one_time', recipient_last_name='UniqueRecipient')
+        OrderFactory(billing_mode='one_time', recipient_last_name='Other')
         response = self.client.get(self._url(), {'search': 'UniqueRecipient'})
         ids = [p['id'] for p in response.data]
         assert plan.pk in ids

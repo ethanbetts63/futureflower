@@ -1,12 +1,6 @@
 import pytest
 from decimal import Decimal
-from events.utils.fee_calc import frequency_to_deliveries_per_year, calculate_service_fee
-
-def test_frequency_to_deliveries_per_year():
-    assert frequency_to_deliveries_per_year('weekly') == 52
-    assert frequency_to_deliveries_per_year('annually') == 1
-    with pytest.raises(ValueError):
-        frequency_to_deliveries_per_year('invalid')
+from events.utils.fee_calc import calculate_service_fee
 
 def test_calculate_service_fee():
     # Defaults should be 0.00

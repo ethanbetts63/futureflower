@@ -2,9 +2,9 @@ import pytest
 from django.utils import timezone
 from rest_framework.test import APIClient
 from events.tests.factories.event_factory import EventFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
 from users.tests.factories.user_factory import UserFactory
 from data_management.models import Notification
+from events.tests.factories.order_factory import OrderFactory
 
 
 @pytest.mark.django_db
@@ -40,7 +40,7 @@ class TestAdminMarkOrderedView:
         assert event.ordering_evidence_text == 'Receipt #123'
 
     def test_cancels_pending_notifications(self):
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         event = EventFactory(status='scheduled', order=plan)
         notif = Notification.objects.create(
             recipient_type='admin',
@@ -55,7 +55,7 @@ class TestAdminMarkOrderedView:
         assert notif.status == 'cancelled'
 
     def test_does_not_cancel_sent_notifications(self):
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         event = EventFactory(status='scheduled', order=plan)
         notif = Notification.objects.create(
             recipient_type='admin',

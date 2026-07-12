@@ -22,7 +22,7 @@ class AdminPlanDetailSerializer(serializers.ModelSerializer):
             'delivery_notes', 'preferred_delivery_time',
             'preferred_flower_types', 'flower_notes',
             'customer_id', 'customer_first_name', 'customer_last_name', 'customer_email',
-            'years', 'subscription_message',
+            'subscription_message',
             'events',
         ]
 

@@ -1,33 +1,92 @@
 
-import { ChevronRight } from 'lucide-react';
+const quietPoints = [
+  {
+    title: 'Your flowers, your call',
+    text: 'No recipes, no stem counts. Design from whatever\'s in the bucket today.',
+  },
+  {
+    title: 'We take the flak',
+    text: 'Bad reviews land on us, not your shop.',
+  },
+  {
+    title: 'No lock-in',
+    text: 'Every order is optional. Stop any time — there\'s nothing to cancel.',
+  },
+];
 
 export const SoWhatsTheCatchSection = () => {
   return (
-    <section className="bg-[var(--color4)] py-10 md:py-14">
-      <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-black mb-6 text-center">
-            So what's the catch?
-          </h2>
-          <p className="text-lg text-gray-700 leading-relaxed mb-6">
-            The most honest answer is that <strong>we handle the customer</strong>. The customers learn to use our service, pay with our system, and give us their details.
-          </p>
-          <p className="text-lg text-gray-700 leading-relaxed mb-4">
-            These are our counter arguments:
-          </p>
-          <div className="flex flex-col gap-3">
-            {[
-              'This is business you wouldn\'t have seen otherwise. These customers found us, not you — every order we send is new revenue, not a customer we took from you.',
-              'We encourage you to put your logo on the bouquet. We differentiate ourselves by standing by local florists. If the flowers are so good the customer wants to skip the middle man and go in-store next time? So be it.',
-              'We carry the customer service, the payment risk, and the bad reviews. You just make and deliver the flowers.',
-              'There\'s no lock-in. Every order is voluntary, and if you decide to stop using our service, you just stop. No contracts, no obligations, no exit process.',
-            ].map((point, i) => (
-              <div key={i} className="flex items-start gap-3 bg-white rounded-lg p-4 shadow-sm">
-                <ChevronRight className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                <p className="text-gray-700">{point}</p>
-              </div>
-            ))}
+    <section className="bg-white py-14 sm:py-20 text-black">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+
+          {/* Text column */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
+              The honest bit
+            </p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight font-playfair-display sm:text-4xl">
+              So what&rsquo;s the catch?
+            </h2>
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-black/65">
+              The catch is that the customer orders through us. They pay on our site, and we keep the order history. That&rsquo;s how we make our money.
+            </p>
+
+            <h3 className="mt-8 text-2xl font-bold leading-snug font-playfair-display sm:text-3xl">
+              But it&rsquo;s <em>your</em> logo the customer sees.
+            </h3>
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-black/65">
+              Every delivery goes out under your name — your wrapping, your card, your brand. A great bouquet doesn&rsquo;t earn us a loyal customer, it earns <strong className="text-black">you </strong> one. If they skip us and walk into your shop next time, that&rsquo;s fine by us.
+            </p>
           </div>
+
+          {/* Swing tag graphic */}
+          <div className="flex justify-center lg:justify-end lg:pr-8" aria-hidden="true">
+            <div className="relative">
+              {/* Twine */}
+              <svg
+                className="absolute -top-14 left-1/2 -translate-x-1/2"
+                width="80"
+                height="64"
+                viewBox="0 0 80 64"
+                fill="none"
+              >
+                <path
+                  d="M40 62 C 36 40, 24 28, 12 6 M40 62 C 44 38, 58 24, 70 4"
+                  stroke="rgba(0,0,0,0.25)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+
+              <div className="w-64 rotate-3 rounded-xl bg-[#fbfaf7] p-6 pt-8 text-center shadow-lg shadow-black/10 ring-1 ring-black/5 transition-transform duration-300 hover:rotate-1 motion-reduce:transition-none">
+                {/* Punched hole */}
+                <span className="absolute left-1/2 top-3 h-4 w-4 -translate-x-1/2 rounded-full bg-white shadow-inner ring-1 ring-black/15" />
+
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-black/40">
+                  Designed &amp; delivered by
+                </p>
+                <div className="my-4 rounded-lg border-2 border-dashed border-black/20 py-7">
+                  <p className="text-sm font-bold uppercase tracking-[0.18em] text-black/35">
+                    Your logo
+                  </p>
+                </div>
+                <p className="text-sm italic text-black/45 font-playfair-display">
+                  Not ours. Ever.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Quiet supporting points */}
+        <div className="mt-14 grid grid-cols-1 divide-y divide-black/10 border-t border-black/10 md:grid-cols-3 md:divide-x md:divide-y-0">
+          {quietPoints.map(({ title, text }) => (
+            <div key={title} className="py-6 md:px-7 md:first:pl-0">
+              <h4 className="text-base font-bold">{title}</h4>
+              <p className="mt-1.5 text-sm leading-relaxed text-black/60">{text}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

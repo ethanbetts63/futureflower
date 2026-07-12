@@ -2,15 +2,14 @@ import pytest
 from decimal import Decimal
 from unittest.mock import MagicMock
 from events.models import Event
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
-from events.tests.factories.subscription_plan_factory import SubscriptionPlanFactory
+from events.tests.factories.order_factory import OrderFactory
 from payments.models import Payment
 from payments.utils.webhook_handlers import handle_payment_intent_succeeded, handle_invoice_payment_succeeded
 
 @pytest.mark.django_db
 class TestEventGeneration:
-    def test_prepaid_plan_activation_creates_events(self):
-        plan = UpfrontPlanFactory(status='pending_payment', years=1, frequency='quarterly')
+    def test_one_time_order_activation_creates_event(self):
+        plan = OrderFactory(billing_mode='one_time', status='pending_payment', frequency='quarterly')
         # Create the Payment object that the handler expects to find
         payment = Payment.objects.create(
             user=plan.user,
@@ -29,10 +28,10 @@ class TestEventGeneration:
 
         plan.refresh_from_db()
         assert plan.status == 'active'
-        assert Event.objects.filter(order=plan).count() == 4
+        assert Event.objects.filter(order=plan).count() == 1
 
     def test_subscription_invoice_creates_single_event(self):
-        plan = SubscriptionPlanFactory(status='active', frequency='monthly')
+        plan = OrderFactory(billing_mode='recurring', status='active', frequency='monthly', stripe_subscription_id='sub_test_123')
 
         mock_invoice = {
             'subscription': plan.stripe_subscription_id,

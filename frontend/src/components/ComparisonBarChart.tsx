@@ -51,22 +51,23 @@ export const defaultComparisonBars: BarChartEntry[] = [
   {
     label: 'Competitors',
     segments: [
-      { widthPercent: 30, color: '#f87171', icon: creditCardIcon, iconAlt: 'Fees', title: 'Commission/Fees' },
-      { widthPercent: 15, color: '#9ca3af', icon: deliveryIcon, iconAlt: 'Delivery', title: 'Delivery Cut' },
-      { widthPercent: 55, color: 'var(--colorgreen)', icon: flowerIcon, iconAlt: 'Flowers', title: 'Flowers' },
+      { widthPercent: 40, color: '#f87171', icon: creditCardIcon, iconAlt: 'Fees', title: 'Commission/Fees' },
+      { widthPercent: 15, color: '#9ca3af', icon: deliveryIcon, iconAlt: 'Delivery', title: 'Delivery' },
+      { widthPercent: 45, color: 'var(--colorgreen)', icon: flowerIcon, iconAlt: 'Flowers', title: 'Flowers' },
     ],
   },
   {
     label: 'FutureFlower',
     segments: [
       { widthPercent: 15, color: '#f87171', icon: creditCardIcon, iconAlt: 'Fees', title: 'Commission/Fees' },
-      { widthPercent: 85, color: 'var(--colorgreen)', icon: flowerIcon, iconAlt: 'Flowers', title: 'Flowers' },
+      { widthPercent: 15, color: '#9ca3af', icon: deliveryIcon, iconAlt: 'Delivery', title: 'Delivery' },
+      { widthPercent: 70, color: 'var(--colorgreen)', icon: flowerIcon, iconAlt: 'Flowers', title: 'Flowers' },
     ],
   },
 ];
 
 export const defaultComparisonLegend: LegendItem[] = [
   { color: '#f87171', label: 'Commission/Fees' },
-  { color: '#9ca3af', label: 'Delivery Cut' },
+  { color: '#9ca3af', label: 'Delivery' },
   { color: 'var(--colorgreen)', label: 'Goes to Florist' },
 ];

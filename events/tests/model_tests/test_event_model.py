@@ -1,8 +1,8 @@
 import pytest
 from datetime import date, timedelta
 from events.tests.factories.event_factory import EventFactory
-from events.tests.factories.upfront_plan_factory import UpfrontPlanFactory
 from events.models import Event
+from events.tests.factories.order_factory import OrderFactory
 
 
 @pytest.mark.django_db
@@ -13,13 +13,13 @@ class TestEventModel:
         assert event.status == 'scheduled'
 
     def test_str_representation_contains_delivery_date(self):
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         delivery_date = date.today() + timedelta(days=10)
         event = EventFactory(order=plan, delivery_date=delivery_date)
         assert str(delivery_date) in str(event)
 
     def test_str_representation_contains_order_id(self):
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         event = EventFactory(order=plan)
         assert str(plan.id) in str(event)
 
@@ -44,7 +44,7 @@ class TestEventModel:
         assert event.delivered_at is None
 
     def test_events_ordered_by_delivery_date(self):
-        plan = UpfrontPlanFactory()
+        plan = OrderFactory(billing_mode='one_time', )
         later = EventFactory(order=plan, delivery_date=date.today() + timedelta(days=20))
         earlier = EventFactory(order=plan, delivery_date=date.today() + timedelta(days=5))
         events = list(Event.objects.filter(order=plan))
