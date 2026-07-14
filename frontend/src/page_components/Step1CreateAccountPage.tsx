@@ -1,7 +1,7 @@
 // futureflower/frontend/src/pages/flow/CreateAccountPage.tsx
 "use client";
 import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,20 +9,18 @@ import { Spinner } from '@/components/ui/spinner';
 import { ProfileCreationForm } from '@/forms/ProfileCreationForm';
 import type { ProfileCreationData } from '../types/ProfileCreationData';
 import { registerUser } from '@/api';
+import { getOrCreateDraftOrder } from '@/api/orders';
+import { clearHomepageBrief, readHomepageBrief, startOrderFromBrief } from '@/lib/homepageBrief';
 import { toast } from 'sonner';
 import Seo from '@/components/Seo';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 
-const FLOW_CONFIG: Record<string, { planName: string; totalSteps: number }> = {
-    'subscription': { planName: 'Subscription Plan', totalSteps: 4 },
-    'single-delivery': { planName: 'Single Delivery Plan', totalSteps: 4 },
-};
-const DEFAULT_FLOW = { planName: 'Single Delivery Plan', totalSteps: 4 };
+const PLAN_NAME = 'Single Delivery Plan';
+const TOTAL_STEPS = 4;
 
 const CreateAccountPage = () => {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const { handleLoginSuccess } = useAuth(); 
+    const { handleLoginSuccess } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleFormSubmit = async (data: ProfileCreationData) => {
@@ -30,29 +28,38 @@ const CreateAccountPage = () => {
         try {
             await registerUser(data);
             await handleLoginSuccess();
-            const nextUrl = searchParams.get('next') || '/event-gate';
-            router.push(nextUrl); // Navigate to the event gate to start the plan creation flow
         } catch (error: any) {
             const errorData = error.data || {};
             const description = Object.entries(errorData)
                 .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(', ') : value}`)
                 .join('; ');
 
-            toast.error("Failed to create profile", { 
-                description: description || "An unknown error occurred. Please try again." 
+            toast.error("Failed to create profile", {
+                description: description || "An unknown error occurred. Please try again.",
             });
-        } finally {
             setIsSubmitting(false);
+            return;
+        }
+
+        // Registration succeeded. Turn the homepage brief (if the visitor started
+        // one before signing up) into a draft order and drop them at the first
+        // editable step. This is the work the old /event-gate route used to do.
+        try {
+            const brief = readHomepageBrief();
+            const plan = brief ? await startOrderFromBrief(brief) : await getOrCreateDraftOrder();
+            clearHomepageBrief();
+            router.push(`/single-delivery-flow/plan/${plan.id}/recipient`);
+        } catch (error: any) {
+            toast.error("Could not start your order", {
+                description: error.message || "Your account is ready — please try again from your dashboard.",
+            });
+            router.push('/dashboard');
         }
     };
 
-    const nextUrl = searchParams.get('next') || '';
-    const flowKey = Object.keys(FLOW_CONFIG).find(key => nextUrl.includes(key));
-    const { planName, totalSteps } = flowKey ? FLOW_CONFIG[flowKey] : DEFAULT_FLOW;
-
     return (
         <>
-        <StepProgressBar currentStep={1} totalSteps={totalSteps} planName={planName} />
+        <StepProgressBar currentStep={1} totalSteps={TOTAL_STEPS} planName={PLAN_NAME} />
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-4xl py-0 md:py-12 px-0 md:px-4">
                 <Seo title="Create Account | FutureFlower" />

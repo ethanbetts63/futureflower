@@ -148,7 +148,6 @@ const noindexPrefixes = [
   "/dashboard",
   "/checkout",
   "/payment-status",
-  "/event-gate",
   "/create-account",
   "/single-delivery-flow",
   "/partner",

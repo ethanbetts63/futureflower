@@ -7,12 +7,12 @@ import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import type { FlowerType } from '@/types/FlowerType';
 import { useAuth } from '@/context/AuthContext';
-import { getOrCreateDraftOrder, updateOrder } from '@/api/orders';
 import { IMPACT_TIERS, MIN_BUDGET } from '@/utils/pricingConstants';
 import { FREE_DELIVERY_THRESHOLD, MIN_DAYS_BEFORE_CREATE } from '@/utils/systemConstants';
 import {
-  formatHomepageFlowerNotes,
+  clearHomepageBrief,
   HOMEPAGE_BRIEF_STORAGE_KEY,
+  startOrderFromBrief,
   type HomepageBrief,
 } from '@/lib/homepageBrief';
 
@@ -70,23 +70,16 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
     setIsSubmitting(true);
     window.sessionStorage.setItem(HOMEPAGE_BRIEF_STORAGE_KEY, JSON.stringify(brief));
 
-    // Not signed in (or auth state still resolving): the brief is saved and
-    // applied by the event gate after account creation.
+    // Not signed in (or auth state still resolving): the brief stays in
+    // sessionStorage and is applied by the create-account page after signup.
     if (isLoading || !isAuthenticated) {
-      router.push('/create-account?next=%2Fevent-gate%2Fsingle-delivery');
+      router.push('/create-account');
       return;
     }
 
     try {
-      const plan = await getOrCreateDraftOrder();
-      await updateOrder(String(plan.id), {
-        budget: brief.budget,
-        preferred_flower_types: brief.vibeId ? [brief.vibeId] : [],
-        flower_notes: formatHomepageFlowerNotes(brief),
-        start_date: finalDeliveryDate,
-        draft_card_messages: { '0': cardMessage },
-      });
-      window.sessionStorage.removeItem(HOMEPAGE_BRIEF_STORAGE_KEY);
+      const plan = await startOrderFromBrief(brief);
+      clearHomepageBrief();
       router.push(`/single-delivery-flow/plan/${plan.id}/recipient`);
     } catch (error: any) {
       setIsSubmitting(false);

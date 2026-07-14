@@ -1,36 +1,21 @@
 
-import heroImage320 from '../../assets/hero2-320w.webp';
-import heroImage640 from '../../assets/hero2-640w.webp';
-import heroImage768 from '../../assets/hero2-768w.webp';
-import heroImage1024 from '../../assets/hero2-1024w.webp';
-import heroImage1280 from '../../assets/hero2-1280w.webp';
-import heroMobileImage320 from '../../assets/hero2_mobile2-320w.webp';
-import heroMobileImage412 from '../../assets/hero2_mobile2-412w.webp';
-import heroMobileImage640 from '../../assets/hero2_mobile2-640w.webp';
-import heroMobileImage768 from '../../assets/hero2_mobile2-768w.webp';
-import { assetSrc } from '@/lib/assets';
+import Image from 'next/image';
+import heroImage from '../../assets/flowers2.webp';
 
 export const ContactHero = () => {
   return (
     <section className="w-full md:relative md:h-screen md:flex md:items-center">
 
       {/* Image — in normal flow on mobile, fills section absolutely on desktop */}
-      <div className="w-full md:absolute md:inset-0">
-        <picture className="block w-full h-full">
-          <source
-            media="(max-width: 767px)"
-            srcSet={`${assetSrc(heroMobileImage320)} 320w, ${assetSrc(heroMobileImage412)} 412w, ${assetSrc(heroMobileImage640)} 640w, ${assetSrc(heroMobileImage768)} 768w`}
-            sizes="100vw"
-          />
-          <img
-            src={assetSrc(heroImage1280)}
-            srcSet={`${assetSrc(heroImage320)} 320w, ${assetSrc(heroImage640)} 640w, ${assetSrc(heroImage768)} 768w, ${assetSrc(heroImage1024)} 1024w, ${assetSrc(heroImage1280)} 1280w`}
-            sizes="100vw"
-            alt="A woman holding a large bouquet of flowers."
-            fetchPriority="high"
-            className="w-full h-80 sm:h-96 object-cover md:h-full"
-          />
-        </picture>
+      <div className="relative w-full h-80 sm:h-96 md:absolute md:inset-0 md:h-full">
+        <Image
+          src={heroImage}
+          alt="A woman holding a large bouquet of flowers."
+          fill
+          sizes="100vw"
+          priority
+          className="object-cover"
+        />
       </div>
 
       {/* Content — below image on mobile, overlaid on desktop */}

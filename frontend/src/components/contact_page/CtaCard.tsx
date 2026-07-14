@@ -32,8 +32,8 @@ const DetailedProductInfo = ({ subtitle, paragraph, features, onGetStarted, butt
 export const CtaCard = () => {
   const [view, setView] = useState<View>('subscription');
 
-  const handleNavigation = (path: string) => {
-    window.location.href = `/create-account?next=${encodeURIComponent(path)}`;
+  const handleNavigation = () => {
+    window.location.href = '/create-account';
   };
 
   const productData: Record<View, ProductData> = {
@@ -47,7 +47,7 @@ export const CtaCard = () => {
           { heading: 'Thoughtful by design', subtext: 'Customize messages and bouquet preferences.' },
         ],
       },
-      onGetStarted: () => handleNavigation('/event-gate/single-delivery'),
+      onGetStarted: () => handleNavigation(),
     },
     'single-delivery': {
       content: {
@@ -59,7 +59,7 @@ export const CtaCard = () => {
           { heading: '100% refundable', subtext: 'Full refund available up to 14 days before delivery.' },
         ],
       },
-      onGetStarted: () => handleNavigation('/event-gate/single-delivery'),
+      onGetStarted: () => handleNavigation(),
     },
   };
 

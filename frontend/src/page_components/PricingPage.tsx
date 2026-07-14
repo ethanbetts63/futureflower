@@ -1,16 +1,16 @@
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Truck } from 'lucide-react';
 import Seo from '@/components/Seo';
-import deliverToDoor from '../assets/deliver_to_door.png';
+import deliverToDoor from '../assets/delivery-1280w.webp';
 import PricingFloristAdvantage from '../components/pricing_page/PricingFloristAdvantage';
 import PricingTiers from '../components/pricing_page/PricingTiers';
 import PricingFaq from '../components/pricing_page/PricingFaq';
 import { FREE_DELIVERY_THRESHOLD } from '@/utils/systemConstants';
 import { IMPACT_TIERS } from '@/utils/pricingConstants';
-import { assetSrc } from '@/lib/assets';
 
-const SEND_HREF = '/create-account?next=%2Fevent-gate%2Fsingle-delivery';
+const SEND_HREF = '/create-account';
 
 const PricingPage = () => {
     const serviceSchema = {
@@ -83,11 +83,13 @@ const PricingPage = () => {
                     </div>
 
                     <div className="relative min-h-[420px] overflow-hidden bg-black lg:min-h-[560px] lg:rounded-xl">
-                        <img
-                            src={assetSrc(deliverToDoor)}
+                        <Image
+                            src={deliverToDoor}
                             alt="Florist delivering a bouquet of flowers to a customer at their door"
-                            fetchPriority="high"
-                            className="absolute inset-0 h-full w-full object-cover"
+                            fill
+                            sizes="(max-width: 1023px) 100vw, 50vw"
+                            priority
+                            className="object-cover"
                         />
                         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-5 sm:p-8">
                             <div className="max-w-sm text-white">

@@ -3,7 +3,6 @@
 export type { DecodedToken } from './DecodedToken';
 export type { AuthResponse } from './AuthResponse';
 export type { BackButtonProps } from './BackButtonProps';
-export type { CreateEventLinkProps } from './CreateEventLinkProps';
 export type { PaymentHistoryCardProps } from './PaymentHistoryCardProps';
 export type { SeoProps } from './SeoProps';
 export type { BannerProps } from './BannerProps';

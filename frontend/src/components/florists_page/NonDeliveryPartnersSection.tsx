@@ -1,14 +1,7 @@
 
+import Image from 'next/image';
 import { Check } from 'lucide-react';
 import { BecomePartnerButton } from './BecomePartnerButton';
-
-import kitchenImage from '../../assets/kitchen.webp';
-import kitchenImage320 from '../../assets/kitchen-320w.webp';
-import kitchenImage640 from '../../assets/kitchen-640w.webp';
-import kitchenImage768 from '../../assets/kitchen-768w.webp';
-import kitchenImage1024 from '../../assets/kitchen-1024w.webp';
-import kitchenImage1280 from '../../assets/kitchen-1280w.webp';
-import { assetSrc } from '@/lib/assets';
 
 const features = [
   "All you need is a small poster in-store or a link on your website.",
@@ -23,14 +16,13 @@ export const NonDeliveryPartnersSection = () => {
       <div className="grid grid-cols-1 md:grid-cols-2">
 
         {/* Image Column */}
-        <div className="h-full order-1 md:order-2">
-          <img
-            src={assetSrc(kitchenImage)}
-            srcSet={`${assetSrc(kitchenImage320)} 320w, ${assetSrc(kitchenImage640)} 640w, ${assetSrc(kitchenImage768)} 768w, ${assetSrc(kitchenImage1024)} 1024w, ${assetSrc(kitchenImage1280)} 1280w`}
-            sizes="(max-width: 768px) 100vw, 50vw"
+        <div className="relative h-full min-h-80 order-1 md:order-2">
+          <Image
+            src="/images/home/bouquet-vase.jpg"
             alt="A beautiful bouquet of flowers on a kitchen table."
-            className="w-full h-full object-cover"
-            loading="lazy"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
           />
         </div>
 
