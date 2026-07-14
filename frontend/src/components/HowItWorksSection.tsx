@@ -23,7 +23,7 @@ export const HowItWorksSection = ({
     <section className="bg-white py-14 sm:py-16">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black">
             {kicker}
           </p>
           <h2 className="mt-3 text-3xl font-bold leading-tight font-playfair-display sm:text-4xl">

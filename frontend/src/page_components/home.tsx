@@ -229,7 +229,7 @@ const HomePage = () => {
       <section className="bg-[#fbfaf7] py-14 sm:py-16">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black">
               Simple by design
             </p>
             <h2 className="mt-3 text-3xl font-bold leading-tight font-playfair-display sm:text-4xl">

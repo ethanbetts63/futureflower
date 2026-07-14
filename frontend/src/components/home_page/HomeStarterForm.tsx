@@ -135,7 +135,7 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
                 >
                   <span className="block break-words text-sm font-semibold">{vibe.name}</span>
                   {vibe.tagline && (
-                    <span className={`mt-1 block break-words text-xs leading-snug ${isSelected ? 'text-white/70' : 'text-black/50'}`}>
+                    <span className={`mt-1 block break-words text-xs leading-snug ${isSelected ? 'text-white/70' : 'text-black'}`}>
                       {vibe.tagline}
                     </span>
                   )}
@@ -204,7 +204,7 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
                       <span className="min-w-0 break-words text-sm font-semibold">{tier.name}</span>
                       <span className="text-sm font-bold">${tier.price}</span>
                     </span>
-                    <span className="mt-1 block break-words text-xs leading-snug text-black/55">
+                    <span className="mt-1 block break-words text-xs leading-snug text-black">
                       {tier.description}
                     </span>
                   </span>
@@ -225,7 +225,7 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
               )}
               <div className="flex h-36 items-center justify-center bg-[#f8f3ef] px-5">
                 <div className="text-center">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/45">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black">
                     Custom
                   </p>
                   <p className="mt-2 text-3xl font-bold text-black font-playfair-display">
@@ -238,7 +238,7 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
                   Custom Budget
                 </label>
                 <div className="relative mt-2">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-black/45">$</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-black">$</span>
                   <input
                     id="homepage-custom-budget"
                     type="number"
@@ -255,7 +255,7 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
                     className="h-11 w-full rounded-md border border-black/10 bg-white pl-7 pr-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black"
                   />
                 </div>
-                <p className="mt-2 text-xs leading-snug text-black/50">
+                <p className="mt-2 text-xs leading-snug text-black">
                   Minimum ${MIN_BUDGET}. Free delivery over ${FREE_DELIVERY_THRESHOLD}.
                 </p>
               </div>
@@ -295,7 +295,7 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
 
           <section>
             <label htmlFor="homepage-card-message" className="text-sm font-semibold text-black">
-              Card Message <span className="font-normal text-black/45">(optional)</span>
+              Card Message <span className="font-normal text-black">(optional)</span>
             </label>
             <textarea
               id="homepage-card-message"
