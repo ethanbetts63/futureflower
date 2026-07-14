@@ -17,7 +17,7 @@ const MENU_LINK =
 type MenuItem = { href: string; label: string };
 
 const ACCOUNT_LINKS: MenuItem[] = [
-  { href: '/manage-order', label: 'Manage an Order' },
+  { href: '/order-support', label: 'Order Support' },
 ];
 
 const PARTNER_LINKS: MenuItem[] = [
@@ -140,8 +140,8 @@ const NavBar = () => {
               </button>
             </>
           ) : (
-            <Link href="/manage-order" onClick={close} className={MENU_LINK}>
-              Manage an Order
+            <Link href="/order-support" onClick={close} className={MENU_LINK}>
+              Order Support
             </Link>
           )}
         </nav>

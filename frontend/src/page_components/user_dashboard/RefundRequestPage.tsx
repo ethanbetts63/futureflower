@@ -8,28 +8,28 @@ const REFUND_EMAIL = 'ethan.betts.dev@gmail.com';
 const RefundRequestPage = () => {
   return (
     <>
-      <Seo title="Request a Refund | FutureFlower" />
+      <Seo title="Order Support | FutureFlower" />
       <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-0 md:px-4 max-w-4xl">
           <UnifiedSummaryCard
-            title="Request a Refund"
-            description="We handle refund requests manually to make sure every case is treated fairly."
+            title="Order Support"
+            description="We handle refunds and subscription cancellations personally."
             footer={
               <div className="flex justify-start items-center w-full">
-                <FlowBackButton to="/dashboard" />
+                <FlowBackButton to="/" />
               </div>
             }
           >
             <div className="py-6 space-y-6">
               <p className="text-black/70 leading-relaxed">
-                To request a refund, please send us an email at the address below. We'll review
-                your request and get back to you within 7 days.
+                To request a refund or cancel a subscription, email us from the email address you used at checkout.
+                We will review your request and get back to you as soon as possible.
               </p>
 
               <div className="bg-black/5 rounded-2xl p-6 space-y-2">
                 <p className="text-xs font-bold tracking-widest uppercase text-black/40">Contact</p>
                 <a
-                  href={`mailto:${REFUND_EMAIL}?subject=Refund%20Request%20-%20FutureFlower`}
+                  href={`mailto:${REFUND_EMAIL}?subject=Order%20Support%20-%20FutureFlower`}
                   className="text-lg font-semibold text-black underline hover:text-black/70 transition-colors"
                 >
                   {REFUND_EMAIL}
@@ -47,7 +47,7 @@ const RefundRequestPage = () => {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-black/30 mt-0.5">•</span>
-                    <span>The reason for your refund request</span>
+                    <span>Whether you need a refund or subscription cancellation</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-black/30 mt-0.5">•</span>

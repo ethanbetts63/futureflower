@@ -11,7 +11,6 @@ from unittest.mock import patch
 patch('data_management.utils.send_notification.send_notification').start()
 patch('payments.utils.send_admin_payment_notification.send_admin_payment_notification').start()
 patch('payments.utils.send_admin_payment_notification.send_admin_cancellation_notification').start()
-patch('users.utils.send_magic_link_email.send_magic_link_email').start()
 # We don't mock send_customer_payment_notification globally because it has its own unit tests
 # that need to check if it's called. Instead, we mock it in specific integration tests.
 patch('twilio.rest.Client').start()

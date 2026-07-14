@@ -116,9 +116,9 @@ export function LoginForm({
                 </Button>
 
                 <div className="text-center text-sm text-black">
-                  Need to manage a flower order?{" "}
-                  <Link href="/manage-order" className="underline underline-offset-2 hover:underline hover:text-primary">
-                    Email an access link
+                  Need order support?{" "}
+                  <Link href="/order-support" className="underline underline-offset-2 hover:underline hover:text-primary">
+                    Contact us
                   </Link>
                 </div>
 

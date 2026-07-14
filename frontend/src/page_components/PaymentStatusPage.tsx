@@ -42,7 +42,7 @@ const UniversalPaymentStatusPage = () => {
                 const order = await getGuestOrder(planId);
                 if (order.status === 'active') {
                     clearInterval(pollIntervalRef.current!);
-                    setMessage('Payment confirmed. We have emailed your private order-management link.');
+                    setMessage('Payment confirmed. For refunds or subscription changes, contact our support team from the email address used at checkout.');
                     setIsProcessing(false);
                     return;
                 }
@@ -103,7 +103,7 @@ const UniversalPaymentStatusPage = () => {
                         if (planId && planId !== "N/A") {
                             pollUntilActive(planId);
                         } else {
-                            setMessage('Payment confirmed. We have emailed your private order-management link.');
+                            setMessage('Payment confirmed. For refunds or subscription changes, contact our support team from the email address used at checkout.');
                         }
                         break;
                     case 'processing':

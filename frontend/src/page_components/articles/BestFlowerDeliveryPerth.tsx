@@ -14,7 +14,7 @@ const BestFlowerDeliveryPerth = () => {
     publisherName: "FutureFlower",
     publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
-    dateModified: "2026-02-25T00:00:00Z",
+    dateModified: "2026-07-14T00:00:00Z",
   };
 
   const structuredData = {
@@ -108,13 +108,12 @@ const BestFlowerDeliveryPerth = () => {
             <li>Easy Flowers is the most affordable option for simple deliveries.</li>
           </ul>
           <p>Which service is best depends on whether you value design, speed, or price, but for most occasions, one of these three will cover your needs.</p>
-          <p>Those who plan flower deliveries for specific recurring occasions each year may also want to consider a <a href="/" className="underline hover:opacity-70">date-based flower subscription</a> as an alternative to reordering separately each time.</p>
+          <p>If you do not want to choose from a fixed catalog bouquet, <a href="/" className="underline hover:opacity-70">FutureFlower</a> offers a more flexible way to order. You set the occasion, budget, delivery date, and preferences, then a local florist designs from the flowers they have fresh and available.</p>
 
-          <h2 className="text-3xl font-bold tracking-tight">Thinking Beyond the Next Occasion</h2>
-          <p>Most flower gifts are tied to the next date on the calendar — the next birthday, the next anniversary, the next celebration.</p>
-          <p>FutureFlower is built for people who occasionally think further ahead. It allows you to plan meaningful deliveries across future years rather than placing separate orders each time.</p>
-          <p>That can appeal to people who like the idea of creating a tradition, setting something in motion once, and knowing it will continue without needing attention every time an occasion comes around.</p>
-          <p>It’s not necessarily for everyone. But for those who value long-term intention over short-term convenience, it offers a different way to approach gifting.</p>
+          <h2 className="text-3xl font-bold tracking-tight">A More Custom Way To Send Flowers</h2>
+          <p>Most online flower ordering starts with a photo and asks a florist to recreate it. That can limit the florist and sometimes leads to substitutions that feel like compromises.</p>
+          <p>FutureFlower starts with the brief instead: who the flowers are for, the occasion, the budget, and any colours or flowers to include or avoid. The florist can then make something suited to the recipient and the season.</p>
+          <p>That makes it a better fit when you want the bouquet to feel personal, fresh, and locally made rather than pulled from a standard product grid.</p>
         </div>
       </ArticleLayout>
       <section>

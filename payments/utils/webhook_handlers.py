@@ -145,12 +145,6 @@ def handle_payment_intent_succeeded(payment_intent):
             else:
                 print(f"Unhandled billing_mode '{order.billing_mode}' for Order {order.id}. No action taken.")
 
-            # Access is delivered after payment and never blocks checkout.
-            from users.models.magic_link import MagicLink
-            from users.utils.send_magic_link_email import send_magic_link_email
-            link, token = MagicLink.create_for(order.user, order)
-            send_magic_link_email(order.user, token, order)
-
     except Payment.DoesNotExist:
         print(f"CRITICAL ERROR: Payment object not found for PI ID: {payment_intent_id}. The webhook may have arrived before the initial request completed.")
     except Exception as e:

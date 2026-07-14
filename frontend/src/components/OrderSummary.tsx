@@ -64,7 +64,7 @@ const OrderSummary = ({
       await cancelOrder(planId);
       setCancelDialogOpen(false);
       toast.success('Your plan has been cancelled. To request a refund for remaining deliveries, email ethan.betts.dev@gmail.com.');
-      router.push('/manage-order');
+      router.push('/order-support');
     } catch {
       setCancelError('Something went wrong. Please try again.');
     } finally {
@@ -79,7 +79,7 @@ const OrderSummary = ({
   // Base paths for editing
   const editBasePath = isOrdering
     ? `/single-delivery-flow/plan/${planId}`
-    : `/manage-order/${planId}`;
+    : `/dashboard/orders/${planId}`;
 
   const preferredTypes = plan.preferred_flower_types
     .map(id => flowerTypeMap.get(Number(id)))
@@ -186,7 +186,7 @@ const OrderSummary = ({
             </div>
           ) : (
             <div className="flex justify-start items-center w-full">
-              <FlowBackButton to="/manage-order" />
+              <FlowBackButton to="/order-support" />
             </div>
           )
         }
@@ -311,7 +311,7 @@ const OrderSummary = ({
               <input value={customerLastName} onChange={(event) => setCustomerLastName(event.target.value)} placeholder="Your last name" className="h-11 rounded-md border border-black/10 bg-white px-3 text-sm" />
               <input value={customerEmail} onChange={(event) => setCustomerEmail(event.target.value)} placeholder="Your email" type="email" className="h-11 rounded-md border border-black/10 bg-white px-3 text-sm sm:col-span-2" />
             </div>
-            <p className="mt-3 text-sm text-black/60">We will send your order receipt and private management link here after payment.</p>
+            <p className="mt-3 text-sm text-black/60">We will send your order receipt here. For refunds or subscription changes, email us from this address.</p>
           </SummarySection>
         )}
 

@@ -14,7 +14,7 @@ const BestFlowerSubscriptionServicesNZ = () => {
     publisherName: "FutureFlower",
     publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
     datePublished: "2026-01-19T00:00:00Z",
-    dateModified: "2026-05-23T00:00:00Z",
+    dateModified: "2026-07-14T00:00:00Z",
   };
 
   const structuredData = {
@@ -85,7 +85,7 @@ const BestFlowerSubscriptionServicesNZ = () => {
 
           <h2 className="text-3xl font-bold tracking-tight">Final Take</h2>
           <p>Koha Iti is the cleanest budget-friendly subscription for Christchurch. Meadow Club is the best fit when you want a florist-led plan with more preference control. Wandering Florist is a good example of the local, seasonal subscription style that works well in New Zealand.</p>
-          <p>If you are trying to solve annual gifting rather than weekly home flowers, <a href="/" className="underline hover:opacity-70">FutureFlower</a> is a different option. It is built around planned occasion delivery, so important dates can be scheduled ahead without committing to flowers every week or month.</p>
+          <p>If you are buying for a gift or occasion rather than weekly home flowers, <a href="/" className="underline hover:opacity-70">FutureFlower</a> is a different option. You give the budget, date, occasion, and preferences, and a local florist creates a custom arrangement from what is fresh and suitable on the day.</p>
         </div>
       </ArticleLayout>
       <section>
