@@ -138,10 +138,10 @@ const OccasionLandingPage = ({ config }: { config: OccasionLandingPageConfig }) 
                 fetchPriority={index === 0 ? 'high' : 'auto'}
               />
             ))}
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-5 sm:p-8">
-              <div className="max-w-sm text-white">
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-5 pt-20 sm:p-8 sm:pt-24">
+              <div className="max-w-sm text-white [text-shadow:0_1px_3px_rgb(0_0_0/0.6)]">
                 <p className="text-sm font-semibold">{config.imageOverlayTitle}</p>
-                <p className="mt-1 text-sm leading-relaxed text-white/70">
+                <p className="mt-1 text-sm leading-relaxed text-white/90">
                   {config.imageOverlayText}
                 </p>
               </div>

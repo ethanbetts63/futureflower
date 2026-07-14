@@ -8,7 +8,33 @@ import logo128 from '../assets/logo-128w.webp';
 import logo192 from '../assets/logo-192w.webp';
 import logo256 from '../assets/logo-256w.webp';
 import { assetSrc } from '@/lib/assets';
+import { cn } from '@/utils/utils';
 import { useAuth } from '@/context/AuthContext';
+
+const MENU_LINK =
+  'py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase';
+
+type MenuItem = { href: string; label: string };
+
+const ACCOUNT_LINKS: MenuItem[] = [
+  { href: '/dashboard/account', label: 'Account Management' },
+  { href: '/dashboard', label: 'Order Management' },
+  { href: '/dashboard/refunds', label: 'Refunds' },
+];
+
+const PARTNER_LINKS: MenuItem[] = [
+  { href: '/dashboard/partner', label: 'Business Dashboard' },
+  { href: '/dashboard/partner/details', label: 'Business Details' },
+  { href: '/dashboard/partner/payouts', label: 'Payouts' },
+];
+
+const ADMIN_LINKS: MenuItem[] = [
+  { href: '/dashboard/admin', label: 'Admin Dashboard' },
+  { href: '/dashboard/admin/partners', label: 'Admin Partner List' },
+  { href: '/dashboard/admin/plans', label: 'Admin Plan List' },
+  { href: '/dashboard/admin/users', label: 'Admin User List' },
+  { href: '/dashboard/admin/payouts', label: 'Admin Payouts' },
+];
 
 const NavBar = () => {
   const { isAuthenticated, logout, user } = useAuth();
@@ -27,6 +53,14 @@ const NavBar = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const menuItems: MenuItem[] = isAuthenticated
+    ? [
+        ...ACCOUNT_LINKS,
+        ...(user?.is_partner ? PARTNER_LINKS : []),
+        ...(user?.is_staff || user?.is_superuser ? ADMIN_LINKS : []),
+      ]
+    : [];
 
   return (
     <header ref={navRef} className="sticky top-0 z-50 w-full bg-white border-b border-black/10">
@@ -95,60 +129,20 @@ const NavBar = () => {
         <nav className="bg-white border-t border-black/10 px-6 py-3 flex flex-col">
           {isAuthenticated ? (
             <>
-              <Link href="/dashboard/account" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                Account Management
-              </Link>
-              <Link href="/dashboard" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                Order Management
-              </Link>
-              <Link href="/dashboard/refunds" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                Refunds
-              </Link>
-              {user?.is_partner && (
-                <>
-                  <Link href="/dashboard/partner" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                    Business Dashboard
-                  </Link>
-                  <Link href="/dashboard/partner/details" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                    Business Details
-                  </Link>
-                  <Link href="/dashboard/partner/payouts" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                    Payouts
-                  </Link>
-                </>
-              )}
-              {(user?.is_staff || user?.is_superuser) && (
-                <>
-                  <Link href="/dashboard/admin" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                    Admin Dashboard
-                  </Link>
-                  <Link href="/dashboard/admin/partners" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                    Admin Partner List
-                  </Link>
-                  <Link href="/dashboard/admin/plans" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                    Admin Plan List
-                  </Link>
-                  <Link href="/dashboard/admin/users" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                    Admin User List
-                  </Link>
-                  <Link href="/dashboard/admin/payouts" onClick={close} className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase border-b border-black/5">
-                    Admin Payouts
-                  </Link>
-                </>
-              )}
+              {menuItems.map(({ href, label }) => (
+                <Link key={href} href={href} onClick={close} className={cn(MENU_LINK, 'border-b border-black/5')}>
+                  {label}
+                </Link>
+              ))}
               <button
                 onClick={() => { logout(() => router.push('/')); close(); }}
-                className="py-3 text-left text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
+                className={cn(MENU_LINK, 'text-left')}
               >
                 Logout
               </button>
             </>
           ) : (
-            <Link
-              href="/login"
-              onClick={close}
-              className="py-3 text-xs font-semibold text-black hover:text-black/50 transition-colors tracking-widest uppercase"
-            >
+            <Link href="/login" onClick={close} className={MENU_LINK}>
               Login
             </Link>
           )}
