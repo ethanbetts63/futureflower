@@ -23,7 +23,8 @@ const Footer = () => {
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Quick Links</p>
             <Link href="/florists" className="text-sm hover:underline">Florists</Link>
             <Link href="/affiliates" className="text-sm hover:underline">Affiliates</Link>
-            <Link href="/contact" className="text-sm hover:underline">Contact Us</Link>
+            <Link href="/order-support" className="text-sm hover:underline">Order Support</Link>
+            <Link href="/login" className="text-sm hover:underline">Log in</Link>
             {(user?.is_staff || user?.is_superuser) && (
               <Link href="/admin-dashboard" className="text-sm hover:underline">Admin Dashboard</Link>
             )}

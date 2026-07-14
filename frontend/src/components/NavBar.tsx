@@ -101,7 +101,7 @@ const NavBar = () => {
               Pricing
             </Link>
             <Link
-              href="/#start-order"
+              href="/"
               onClick={close}
               className="inline-flex items-center bg-black text-white font-bold px-4 py-1.5 text-xs tracking-widest uppercase"
             >
@@ -125,6 +125,12 @@ const NavBar = () => {
       {/* Dropdown menu */}
       <div className={`overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-screen' : 'max-h-0'}`}>
         <nav className="bg-white border-t border-black/10 px-6 py-3 flex flex-col">
+          <Link href="/login" onClick={close} className={cn(MENU_LINK, 'border-b border-black/5')}>
+            Log in
+          </Link>
+          <Link href="/order-support" onClick={close} className={cn(MENU_LINK, 'border-b border-black/5')}>
+            Order Support
+          </Link>
           {isAuthenticated ? (
             <>
               {menuItems.map(({ href, label }) => (
@@ -139,11 +145,7 @@ const NavBar = () => {
                 Logout
               </button>
             </>
-          ) : (
-            <Link href="/order-support" onClick={close} className={MENU_LINK}>
-              Order Support
-            </Link>
-          )}
+          ) : null}
         </nav>
       </div>
     </header>

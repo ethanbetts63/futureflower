@@ -10,7 +10,7 @@ const EditControl = ({ editUrl, locked = false }: EditControlProps) => {
         <Lock className="h-3 w-3" />
         <span className="text-xs">
           Editing closed —{' '}
-          <Link href="/contact" className="underline hover:text-black/50 transition-colors">
+          <Link href="/order-support" className="underline hover:text-black/50 transition-colors">
             contact us
           </Link>
         </span>

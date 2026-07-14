@@ -104,7 +104,7 @@ export function LoginForm({
                 )} />
 
                 {/* Submit Button */}
-                <Button type="submit" className="w-full" disabled={isSubmitting}>
+                <Button type="submit" className="w-full rounded-lg bg-black px-5 py-4 font-semibold text-white transition hover:bg-black/85 disabled:cursor-wait disabled:opacity-70" disabled={isSubmitting}>
                   {isSubmitting ? (
                     <div className="flex items-center">
                       <Spinner className="mr-2 h-4 w-4" />
@@ -114,13 +114,6 @@ export function LoginForm({
                     "Login"
                   )}
                 </Button>
-
-                <div className="text-center text-sm text-black">
-                  Need order support?{" "}
-                  <Link href="/order-support" className="underline underline-offset-2 hover:underline hover:text-primary">
-                    Contact us
-                  </Link>
-                </div>
 
               </form>
             </Form>

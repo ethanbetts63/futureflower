@@ -45,7 +45,7 @@ export function buildWebPageSchema(options: {
   description?: string;
   path: string;
   image?: string;
-  type?: 'WebPage' | 'CollectionPage' | 'ContactPage';
+  type?: 'WebPage' | 'CollectionPage';
 }): object {
   const url = absoluteUrl(options.path);
 
@@ -255,9 +255,8 @@ function getString(value: unknown): string | undefined {
   return undefined;
 }
 
-function getPageType(path: string): 'WebPage' | 'CollectionPage' | 'ContactPage' {
+function getPageType(path: string): 'WebPage' | 'CollectionPage' {
   if (path === '/articles') return 'CollectionPage';
-  if (path === '/contact') return 'ContactPage';
   return 'WebPage';
 }
 

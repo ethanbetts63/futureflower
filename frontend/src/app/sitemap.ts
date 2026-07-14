@@ -4,7 +4,6 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.futureflower.ap
 
 const routes: Array<{ path: string; lastModified: string }> = [
   { path: "/", lastModified: "2026-05-11" },
-  { path: "/contact", lastModified: "2026-05-13" },
   { path: "/florists", lastModified: "2026-05-11" },
   { path: "/affiliates", lastModified: "2026-05-11" },
   { path: "/pricing", lastModified: "2026-05-11" },

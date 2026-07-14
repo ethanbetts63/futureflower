@@ -18,12 +18,6 @@ const publicRoutes: Record<string, RouteMetadata> = {
     path: "/",
     ogImage: "/og-images/og-homepage.webp",
   },
-  "/contact": {
-    title: "Contact Us",
-    description:
-      "Have a question, suggestion, or need support? Get in touch with the FutureFlower team - we'd love to hear from you.",
-    path: "/contact",
-  },
   "/florists": {
     title: "For Florists | Grow Your Revenue",
     description:

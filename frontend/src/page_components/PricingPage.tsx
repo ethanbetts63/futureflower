@@ -10,7 +10,7 @@ import PricingFaq from '../components/pricing_page/PricingFaq';
 import { IMPACT_TIERS } from '@/utils/pricingConstants';
 import { FREE_DELIVERY_THRESHOLD } from '@/utils/systemConstants';
 
-const SEND_HREF = '/#start-order';
+const SEND_HREF = '/';
 
 const PricingPage = () => {
     const serviceSchema = {

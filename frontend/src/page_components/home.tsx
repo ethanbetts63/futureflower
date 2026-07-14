@@ -89,7 +89,7 @@ const HomePage = () => {
               </h1>
               <HeroPills />
               <p className="mt-5 max-w-xl text-lg leading-relaxed text-black/65">
-                Choose the occasion, budget, and preferences. We organise a bouquet that fits, made by a florist rather than picked from a warehouse catalog.
+                Choose the occasion, budget, and preferences. We organise a custom bouquet that fits, made by a florist rather than picked from a warehouse catalog.
               </p>
             </div>
           </div>
