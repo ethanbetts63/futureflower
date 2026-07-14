@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import type { FlowerType } from '@/types/FlowerType';
@@ -191,12 +192,13 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
                       Selected
                     </span>
                   )}
-                  <span className="block h-36 w-full overflow-hidden bg-[#f8f3ef]">
-                    <img
+                  <span className="relative block h-36 w-full overflow-hidden bg-[#f8f3ef]">
+                    <Image
                       src={tier.image}
                       alt=""
-                      className="h-full w-full object-cover"
-                      loading="lazy"
+                      fill
+                      sizes="256px"
+                      className="object-cover"
                     />
                   </span>
                   <span className="block p-3">

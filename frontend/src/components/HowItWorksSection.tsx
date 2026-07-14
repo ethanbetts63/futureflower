@@ -1,11 +1,11 @@
+import Image from 'next/image';
+import type { StaticImageData } from 'next/image';
+
 export interface HowItWorksStep {
   title: string;
   text: string;
-  image: {
-    src: string;
-    srcSet: string;
-    alt: string;
-  };
+  image: string | StaticImageData;
+  imageAlt: string;
 }
 
 interface HowItWorksSectionProps {
@@ -32,16 +32,15 @@ export const HowItWorksSection = ({
         </div>
 
         <div className="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-8">
-          {steps.map(({ title, text, image }, index) => (
+          {steps.map(({ title, text, image, imageAlt }, index) => (
             <div key={title}>
               <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-black">
-                <img
-                  src={image.src}
-                  srcSet={image.srcSet}
+                <Image
+                  src={image}
+                  alt={imageAlt}
+                  fill
                   sizes="(max-width: 639px) 100vw, 33vw"
-                  alt={image.alt}
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover"
+                  className="object-cover"
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4">
                   <p className="text-4xl font-bold leading-none text-white font-playfair-display">{index + 1}</p>

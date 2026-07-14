@@ -1,5 +1,6 @@
 ﻿
 import Link from 'next/link';
+import Image from 'next/image';
 import { getImpactTier } from '@/utils/pricingConstants';
 import flowerIcon from '@/assets/flower_symbol.svg';
 import type { ImpactSummaryProps } from '@/types/ImpactSummaryProps';
@@ -23,13 +24,14 @@ const ImpactSummary = ({ price, editUrl }: ImpactSummaryProps) => {
         )}
       </div>
       <div className="flex items-start gap-5">
-        <div className="flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden shadow-sm border border-black/5">
+        <div className="relative flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden shadow-sm border border-black/5">
           {tier ? (
-            <img
+            <Image
               src={tier.image}
               alt={tier.name}
-              className="w-full h-full object-cover"
-              loading="lazy"
+              fill
+              sizes="96px"
+              className="object-cover"
             />
           ) : (
             <div className="w-full h-full bg-[var(--color4)] flex items-center justify-center">

@@ -2,6 +2,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { loadStripe } from '@stripe/stripe-js';
 import type { StripeElementsOptions, Appearance } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
@@ -122,9 +123,9 @@ const CheckoutPage = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Impact Selection  */}
                             <div className="flex items-center gap-4">
-                                <div className="w-16 h-16 rounded-xl overflow-hidden shadow-sm border border-black/5 bg-[var(--color4)] flex-shrink-0">
+                                <div className="relative w-16 h-16 rounded-xl overflow-hidden shadow-sm border border-black/5 bg-[var(--color4)] flex-shrink-0">
                                     {tier?.image ? (
-                                        <img src={tier.image} alt={tier.name} className="w-full h-full object-cover" loading="lazy" />
+                                        <Image src={tier.image} alt={tier.name} fill sizes="64px" className="object-cover" />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center">
                                             <img src={flowerIcon} alt="" className="h-6 w-6 opacity-20" />

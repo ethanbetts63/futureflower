@@ -1,8 +1,8 @@
 
+import Image from 'next/image';
 import { Truck } from 'lucide-react';
 import { IMPACT_TIERS, MIN_BUDGET } from '@/utils/pricingConstants';
 import { FREE_DELIVERY_THRESHOLD } from '@/utils/systemConstants';
-import { assetSrc } from '@/lib/assets';
 
 const PricingTiers = () => {
     return (
@@ -38,12 +38,13 @@ const PricingTiers = () => {
                                 </div>
                             )}
 
-                            <div className="h-48 w-full overflow-hidden">
-                                <img
-                                    src={assetSrc(tier.image)}
+                            <div className="relative h-48 w-full overflow-hidden">
+                                <Image
+                                    src={tier.image}
                                     alt={tier.name}
-                                    className="h-full w-full object-cover"
-                                    loading="lazy"
+                                    fill
+                                    sizes="(max-width: 767px) 100vw, 33vw"
+                                    className="object-cover"
                                 />
                             </div>
 

@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { IMPACT_TIERS, TIER_PRICES, MIN_BUDGET } from '@/utils/pricingConstants';
 import type { ImpactTierSelectorProps } from '@/types/ImpactTierSelectorProps';
@@ -83,12 +84,13 @@ export const ImpactTierSelector = ({ value, onChange }: ImpactTierSelectorProps)
               )}
 
               {/* Image Wrapper for Clipping */}
-              <div className="w-full h-40 md:h-44 overflow-hidden rounded-t-2xl">
-                <img
+              <div className="relative w-full h-40 md:h-44 overflow-hidden rounded-t-2xl">
+                <Image
                   src={tier.image}
                   alt={tier.name}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
+                  fill
+                  sizes="240px"
+                  className="object-cover"
                 />
               </div>
 

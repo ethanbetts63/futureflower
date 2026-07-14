@@ -6,22 +6,10 @@ import type { FaqItem } from '@/types/FaqItem';
 import { MapPin, ShieldCheck, Sparkles, Truck, Check } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { FREE_DELIVERY_THRESHOLD } from '@/utils/systemConstants';
-import { assetSrc } from '@/lib/assets';
 
-import petalImage320 from '../assets/petal-320w.webp';
-import petalImage640 from '../assets/petal-640w.webp';
-import petalImage768 from '../assets/petal-768w.webp';
-import petalImage1280 from '../assets/petal-1280w.webp';
-
-import floristMakingImage320 from '../assets/florist_making_flowers-320w.webp';
-import floristMakingImage640 from '../assets/florist_making_flowers-640w.webp';
-import floristMakingImage768 from '../assets/florist_making_flowers-768w.webp';
-import floristMakingImage1280 from '../assets/florist_making_flowers-1280w.webp';
-
-import deliveryImage320 from '../assets/delivery-320w.webp';
-import deliveryImage640 from '../assets/delivery-640w.webp';
-import deliveryImage768 from '../assets/delivery-768w.webp';
-import deliveryImage1280 from '../assets/delivery-1280w.webp';
+import petalImage from '../assets/petal-1280w.webp';
+import floristMakingImage from '../assets/florist_making_flowers-1280w.webp';
+import deliveryImage from '../assets/delivery-1280w.webp';
 
 const bouquetImages = [
   {
@@ -44,19 +32,16 @@ const bouquetImages = [
 
 const stepImages = [
   {
-    src: assetSrc(petalImage1280),
-    srcSet: `${assetSrc(petalImage320)} 320w, ${assetSrc(petalImage640)} 640w, ${assetSrc(petalImage768)} 768w, ${assetSrc(petalImage1280)} 1280w`,
-    alt: 'Flower petals representing a customer brief',
+    image: petalImage,
+    imageAlt: 'Flower petals representing a customer brief',
   },
   {
-    src: assetSrc(floristMakingImage1280),
-    srcSet: `${assetSrc(floristMakingImage320)} 320w, ${assetSrc(floristMakingImage640)} 640w, ${assetSrc(floristMakingImage768)} 768w, ${assetSrc(floristMakingImage1280)} 1280w`,
-    alt: 'Florist arranging a custom bouquet',
+    image: floristMakingImage,
+    imageAlt: 'Florist arranging a custom bouquet',
   },
   {
-    src: assetSrc(deliveryImage1280),
-    srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1280)} 1280w`,
-    alt: 'Bouquet being delivered to a doorstep',
+    image: deliveryImage,
+    imageAlt: 'Bouquet being delivered to a doorstep',
   },
 ];
 
@@ -200,7 +185,8 @@ const OccasionLandingPage = ({ config }: { config: OccasionLandingPageConfig }) 
         heading={config.howItWorksHeading}
         steps={config.howItWorksSteps.map((step, index) => ({
           ...step,
-          image: stepImages[index],
+          image: stepImages[index].image,
+          imageAlt: stepImages[index].imageAlt,
         }))}
       />
 

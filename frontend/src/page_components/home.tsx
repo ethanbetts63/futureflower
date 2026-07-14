@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Seo from '../components/Seo';
 import HomeStarterForm from '@/components/home_page/HomeStarterForm';
 import { HowItWorksSection } from '../components/HowItWorksSection';
@@ -5,22 +6,13 @@ import { FaqV2 } from '../components/FaqV2';
 import type { FaqItem } from '@/types/FaqItem';
 import { Check, MapPin, ShieldCheck, Sparkles, Truck } from 'lucide-react';
 import { FREE_DELIVERY_THRESHOLD } from '@/utils/systemConstants';
-import { assetSrc } from '@/lib/assets';
 
-import petalImage320 from '../assets/petal-320w.webp';
-import petalImage640 from '../assets/petal-640w.webp';
-import petalImage768 from '../assets/petal-768w.webp';
-import petalImage1280 from '../assets/petal-1280w.webp';
+import petalImage from '../assets/petal-1280w.webp';
+import floristMakingImage from '../assets/florist_making_flowers-1280w.webp';
+import deliveryImage from '../assets/delivery-1280w.webp';
 
-import floristMakingImage320 from '../assets/florist_making_flowers-320w.webp';
-import floristMakingImage640 from '../assets/florist_making_flowers-640w.webp';
-import floristMakingImage768 from '../assets/florist_making_flowers-768w.webp';
-import floristMakingImage1280 from '../assets/florist_making_flowers-1280w.webp';
-
-import deliveryImage320 from '../assets/delivery-320w.webp';
-import deliveryImage640 from '../assets/delivery-640w.webp';
-import deliveryImage768 from '../assets/delivery-768w.webp';
-import deliveryImage1280 from '../assets/delivery-1280w.webp';
+import flowerTableImage from '../assets/flower1.jpg';
+import flowerHeldImage from '../assets/flowers2.webp';
 
 const bouquetImages = [
   {
@@ -38,6 +30,14 @@ const bouquetImages = [
   {
     src: '/images/home/bouquet-held.jpg',
     alt: 'Fresh hand-tied bouquet held by the stems',
+  },
+  {
+    src: flowerTableImage,
+    alt: 'Bouquets wrapped in kraft paper, ready for delivery',
+  },
+  {
+    src: flowerHeldImage,
+    alt: 'Garden-style bouquet with dahlias and cosmos',
   },
 ];
 
@@ -116,7 +116,7 @@ const HomePage = () => {
               <div className="flex flex-wrap items-center gap-2">
                 <p className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-black/60 shadow-sm">
                   <span className="h-2 w-2 rounded-full bg-[var(--colorgreen)]" />
-                  Australian flower delivery
+                  Local Australian Florists
                 </p>
                 <p className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-black/60 shadow-sm">
                   <Truck className="h-3.5 w-3.5 text-[var(--colorgreen)]" aria-hidden="true" />
@@ -141,13 +141,15 @@ const HomePage = () => {
 
           <div className="order-3 relative mt-8 min-h-[520px] overflow-hidden bg-black lg:order-none lg:col-start-1 lg:row-start-2 lg:mt-0 lg:min-h-[560px] lg:rounded-xl">
             {bouquetImages.map((image, index) => (
-              <img
-                key={image.src}
+              <Image
+                key={image.alt}
                 src={image.src}
                 alt={image.alt}
-                className="homepage-bouquet-frame absolute inset-0 h-full w-full object-cover"
+                fill
+                sizes="(max-width: 1023px) 100vw, 50vw"
+                className="homepage-bouquet-frame object-cover"
                 style={{ animationDelay: `${index * 4}s` }}
-                fetchPriority={index === 0 ? 'high' : 'auto'}
+                priority={index === 0}
               />
             ))}
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-5 sm:p-8">
@@ -164,7 +166,7 @@ const HomePage = () => {
         <style>{`
           .homepage-bouquet-frame {
             opacity: 0;
-            animation: homepage-bouquet-cycle 16s infinite;
+            animation: homepage-bouquet-cycle ${bouquetImages.length * 4}s infinite;
           }
 
           .homepage-bouquet-frame:first-child {
@@ -199,29 +201,20 @@ const HomePage = () => {
           {
             title: 'Give us the brief',
             text: 'Occasion, budget, and preferences — favourite colours, things to avoid, the feeling you\'re after. Two minutes, no catalog scrolling.',
-            image: {
-              src: assetSrc(petalImage1280),
-              srcSet: `${assetSrc(petalImage320)} 320w, ${assetSrc(petalImage640)} 640w, ${assetSrc(petalImage768)} 768w, ${assetSrc(petalImage1280)} 1280w`,
-              alt: 'Flower petals representing a customer brief',
-            },
+            image: petalImage,
+            imageAlt: 'Flower petals representing a customer brief',
           },
           {
             title: 'A local florist designs it',
             text: 'We pass your brief to a florist near the delivery address. They design something suitable from the best of what\'s in season, matching your notes as closely as the day\'s stock allows.',
-            image: {
-              src: assetSrc(floristMakingImage1280),
-              srcSet: `${assetSrc(floristMakingImage320)} 320w, ${assetSrc(floristMakingImage640)} 640w, ${assetSrc(floristMakingImage768)} 768w, ${assetSrc(floristMakingImage1280)} 1280w`,
-              alt: 'Florist arranging a custom bouquet',
-            },
+            image: floristMakingImage,
+            imageAlt: 'Florist arranging a custom bouquet',
           },
           {
             title: 'Delivered on your date',
             text: 'Made fresh, delivered to the door with your card message — under the florist\'s own name, because they made it.',
-            image: {
-              src: assetSrc(deliveryImage1280),
-              srcSet: `${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1280)} 1280w`,
-              alt: 'Bouquet being delivered to a doorstep',
-            },
+            image: deliveryImage,
+            imageAlt: 'Bouquet being delivered to a doorstep',
           },
         ]}
       />

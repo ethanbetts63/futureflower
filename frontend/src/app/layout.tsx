@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import Script from 'next/script';
 import { Analytics } from "@vercel/analytics/next";
 import { Playfair_Display } from 'next/font/google';
 import "../index.css";
@@ -51,13 +50,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} scroll-smooth`}>
       <body>
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-NHG66P5X9L" strategy="afterInteractive" />
-        <Script id="gtag-init" strategy="afterInteractive">{`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-NHG66P5X9L');
-        `}</Script>
         <Providers>
           <NavBar />
           {children}
