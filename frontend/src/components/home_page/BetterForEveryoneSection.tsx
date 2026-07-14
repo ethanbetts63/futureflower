@@ -22,9 +22,6 @@ export const BetterForEveryoneSection = () => {
   return (
     <section className="bg-[#eaf1e7] py-8">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <h2 className="mb-2 text-2xl font-bold text-black font-playfair-display sm:text-3xl">
-          No bouquet templates, no worries!
-        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 sm:divide-x sm:divide-black/15">
           {benefits.map(({ icon: Icon, audience, text }) => (
             <article key={audience} className="border-b border-black/15 py-6 sm:border-b-0 sm:px-6 sm:first:pl-0 sm:last:pr-0">

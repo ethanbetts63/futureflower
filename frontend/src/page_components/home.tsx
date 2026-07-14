@@ -210,18 +210,6 @@ const HomePage = () => {
         ]}
       />
 
-      <section className="border-y border-black/10 bg-white">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-black/10 px-5 sm:px-6 md:grid-cols-3 md:divide-x md:divide-y-0 lg:px-8">
-          {trustPoints.map(({ icon: Icon, title, text }) => (
-            <div key={title} className="py-8 md:px-7">
-              <Icon className="h-6 w-6 text-black" />
-              <h2 className="mt-4 text-xl font-bold font-playfair-display">{title}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-black/60">{text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section className="bg-[#fbfaf7] py-14 sm:py-16">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
           <div>
@@ -248,6 +236,18 @@ const HomePage = () => {
               ))}
             </ul>
           </div>
+        </div>
+      </section>
+
+      <section className="border-y border-black/10 bg-white">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-black/10 px-5 sm:px-6 md:grid-cols-3 md:divide-x md:divide-y-0 lg:px-8">
+          {trustPoints.map(({ icon: Icon, title, text }) => (
+            <div key={title} className="py-8 md:px-7">
+              <Icon className="h-6 w-6 text-black" />
+              <h2 className="mt-4 text-xl font-bold font-playfair-display">{title}</h2>
+              <p className="mt-2 text-sm leading-relaxed text-black/60">{text}</p>
+            </div>
+          ))}
         </div>
       </section>
 
