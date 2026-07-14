@@ -111,9 +111,6 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
         <h2 className="break-words text-2xl font-bold text-black font-playfair-display">
           Tell the florist what to make
         </h2>
-        <span className="hidden sm:inline-flex rounded-full bg-[var(--colorgreen)] px-3 py-1 text-xs font-semibold text-black">
-          Australia
-        </span>
       </div>
 
       <div className="mt-5 space-y-6">
