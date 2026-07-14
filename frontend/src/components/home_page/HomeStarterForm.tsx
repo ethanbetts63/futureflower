@@ -149,11 +149,12 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
               </button>
             </div>
           </div>
-          <div
-            ref={budgetScrollRef}
-            className="scrollbar-hide -mx-5 mt-3 overflow-x-auto px-5 pb-3 pt-1 sm:-mx-6 sm:px-6 lg:-mx-7 lg:px-7"
-          >
-            <div className="flex snap-x snap-mandatory gap-3">
+          <div className="relative -mx-5 mt-3 sm:-mx-6 lg:-mx-7">
+            <div
+              ref={budgetScrollRef}
+              className="scrollbar-hide overflow-x-auto px-5 pb-3 pt-1 sm:px-6 lg:px-7"
+            >
+              <div className="flex snap-x snap-mandatory gap-3">
             {IMPACT_TIERS.map((tier) => {
               const isSelected = budget === tier.price;
 
@@ -244,7 +245,10 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
               </div>
             </div>
             <div className="w-16 shrink-0 sm:w-24 lg:w-28" aria-hidden="true" />
+              </div>
             </div>
+            <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 w-3 bg-white" />
+            <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-3 bg-white" />
           </div>
         </section>
 
