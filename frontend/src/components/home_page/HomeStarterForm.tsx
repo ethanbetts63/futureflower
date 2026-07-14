@@ -90,7 +90,7 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
   };
 
   return (
-    <div className="min-w-0 bg-white border-y border-black/10 shadow-xl shadow-black/5 rounded-none p-5 sm:p-6 lg:rounded-xl lg:border lg:p-7">
+    <div className="min-w-0 bg-white border-y border-black/10 shadow-xl shadow-black/5 rounded-none p-5 sm:rounded-xl sm:border sm:p-6 lg:p-7">
       <div className="flex items-center justify-between gap-4 border-b border-black/10 pb-4">
         <h2 className="break-words text-2xl font-bold text-black font-playfair-display">
           Tell the florist what to make

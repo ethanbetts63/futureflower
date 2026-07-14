@@ -140,7 +140,7 @@ const HomePage = () => {
             <HomeStarterForm />
           </div>
 
-          <div className="order-3 relative mt-8 min-h-[520px] overflow-hidden bg-black lg:order-none lg:col-start-1 lg:row-start-2 lg:mt-0 lg:min-h-[560px] lg:rounded-xl">
+          <div className="order-3 relative mt-8 mb-8 min-h-[520px] overflow-hidden rounded-xl bg-black lg:order-none lg:col-start-1 lg:row-start-2 lg:mt-0 lg:mb-0 lg:min-h-[560px] lg:rounded-none">
             {bouquetImages.map((image, index) => (
               <Image
                 key={image.alt}
