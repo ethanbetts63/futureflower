@@ -103,16 +103,16 @@ export const landingPages: Record<string, LandingPageContent> = {
   "/birthday-flower-delivery": {
     path: "/birthday-flower-delivery",
     eyebrow: "Birthday Flower Delivery",
-    title: "Fresh birthday flowers, scheduled ahead.",
+    title: "Fresh birthday flowers from a local florist.",
     intro:
       "Pick the birthday date, set your budget, and a local florist creates a custom arrangement for the day.",
     ctaHref: "/",
-    ctaLabel: "Schedule Birthday Flowers",
+    ctaLabel: "Order Birthday Flowers",
     sections: [
       {
-        title: "Never miss the date",
+        title: "Choose the date",
         body:
-          "Birthday flowers can be planned in advance so the gesture is ready before the week gets busy.",
+          "Pick the birthday date, set a budget, and add the details the florist should know.",
       },
       {
         title: "Designed for the recipient",
@@ -129,16 +129,16 @@ export const landingPages: Record<string, LandingPageContent> = {
   "/valentines-day-flower-delivery": {
     path: "/valentines-day-flower-delivery",
     eyebrow: "Valentine's Day Flower Delivery",
-    title: "Plan Valentine's Day flowers before the rush.",
+    title: "Valentine's Day flowers from a local florist.",
     intro:
-      "Schedule Valentine's Day flowers ahead of time and let a local florist design around your message, preferences, and budget.",
+      "Order Valentine's Day flowers with a budget, message, and preferences for the florist.",
     ctaHref: "/",
-    ctaLabel: "Schedule Valentine's Flowers",
+    ctaLabel: "Order Valentine's Flowers",
     sections: [
       {
-        title: "Avoid last-minute panic",
+        title: "Choose February 14",
         body:
-          "February 14 is one of the busiest days in floristry. Scheduling early gives the order a better chance of being thoughtful and reliable.",
+          "February 14 is busy for florists. A clear brief gives the order a better chance of being thoughtful and reliable.",
       },
       {
         title: "More personal than a catalog",
@@ -155,16 +155,16 @@ export const landingPages: Record<string, LandingPageContent> = {
   "/mothers-day-flower-delivery": {
     path: "/mothers-day-flower-delivery",
     eyebrow: "Mother's Day Flower Delivery",
-    title: "Mother's Day flowers, handled early.",
+    title: "Mother's Day flowers from a local florist.",
     intro:
-      "Schedule Mother's Day flowers in advance and give a local florist the context to create something warm, fresh, and personal.",
+      "Order Mother's Day flowers with a budget, message, and preferences for the florist.",
     ctaHref: "/",
-    ctaLabel: "Schedule Mother's Day Flowers",
+    ctaLabel: "Order Mother's Day Flowers",
     sections: [
       {
-        title: "Plan before the peak",
+        title: "Choose Mother's Day",
         body:
-          "Mother's Day demand is high. FutureFlower helps you lock in the date and details early.",
+          "Mother's Day demand is high. FutureFlower captures the date, budget, and details in one brief.",
       },
       {
         title: "Add a message once",
@@ -172,9 +172,9 @@ export const landingPages: Record<string, LandingPageContent> = {
           "Include a note and bouquet preferences so the delivery feels considered rather than rushed.",
       },
       {
-        title: "A repeatable tradition",
+        title: "Local florist design",
         body:
-          "Subscriptions make it possible to schedule important annual gestures without recreating the order every year.",
+          "The florist designs from fresh available flowers instead of copying a fixed catalog recipe.",
       },
     ],
   },
@@ -183,7 +183,7 @@ export const landingPages: Record<string, LandingPageContent> = {
     eyebrow: "Flower Delivery Perth",
     title: "Fresh flower delivery in Perth from local florists.",
     intro:
-      "FutureFlower helps Perth customers schedule one-time bouquets and flower subscriptions with local florist fulfilment.",
+      "FutureFlower helps Perth customers order custom bouquets with local florist fulfilment.",
     ctaHref: "/",
     ctaLabel: "Order Perth Flowers",
     sections: [
@@ -193,9 +193,9 @@ export const landingPages: Record<string, LandingPageContent> = {
           "Orders are built around real delivery details, timing, and florist availability across the Perth area.",
       },
       {
-        title: "One-time or recurring",
+        title: "Custom flower orders",
         body:
-          "Send a single bouquet for a specific date, or set up recurring deliveries for the moments that matter every year.",
+          "Send a bouquet for a specific date with your occasion, budget, and preferences attached.",
       },
       {
         title: "Florist choice design",

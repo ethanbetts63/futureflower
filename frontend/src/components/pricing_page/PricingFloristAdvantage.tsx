@@ -1,6 +1,5 @@
 
 import Image from 'next/image';
-import floristImage from '../../assets/florist-1280w.webp';
 
 const steps = [
     {
@@ -57,9 +56,9 @@ const PricingFloristAdvantage = () => (
             {/* Image column */}
             <div className="relative min-h-[400px] overflow-hidden rounded-xl md:min-h-[540px]">
                 <Image
-                    src={floristImage}
+                    src="/images/home/bouquet-vase.jpg"
                     sizes="(max-width: 1023px) 100vw, 50vw"
-                    alt="A florist carefully crafting a bouquet"
+                    alt="Pastel bouquet arranged in a glass vase"
                     fill
                     className="object-cover"
                 />

@@ -1,24 +1,23 @@
-import OccasionLandingPage, {
-  defaultTrustPoints,
-  type OccasionLandingPageConfig,
-} from './OccasionLandingPage';
+import OccasionLandingPage, { type OccasionLandingPageConfig } from './OccasionLandingPage';
+import { defaultTrustPoints } from './occasionLandingContent';
 import type { FaqItem } from '@/types/FaqItem';
+import { Flower2, Leaf, Palette } from 'lucide-react';
 
 const mothersDayFaqs: FaqItem[] = [
   {
     question: "When is Mother's Day in Australia?",
     answer:
-      "Mother's Day in Australia falls on the second Sunday in May. It's one of the busiest days of the year for florists, so scheduling ahead locks in your delivery.",
+      "Mother's Day in Australia falls on the second Sunday in May. It is one of the busiest days of the year for florists, so ordering ahead is useful.",
   },
   {
     question: "Can I schedule Mother's Day flower delivery in advance?",
     answer:
-      "Yes — you can schedule a Mother's Day delivery weeks or months in advance. Once it's locked in, a local florist handles the arrangement and delivery on the day.",
+      "Yes. Pick Mother's Day, set your budget, and add your preferences. A local florist handles the arrangement and delivery on the day.",
   },
   {
     question: "What flowers are popular for Mother's Day?",
     answer:
-      'Soft, feminine arrangements are popular — peonies, roses, lilies, and mixed pastel bouquets. Your florist designs from your brief and budget, so a note about Mum\'s favourites gives them plenty to work with.',
+      'Soft arrangements are popular: peonies, roses, lilies, and mixed pastel bouquets. Your florist designs from your brief and budget, so a note about Mum\'s favourites gives them plenty to work with.',
   },
   {
     question: 'Do I choose the exact bouquet?',
@@ -45,7 +44,7 @@ const config: OccasionLandingPageConfig = {
       serviceType: "Mother's Day Flower Delivery",
       name: "Mother's Day Flower Delivery by FutureFlower",
       description:
-        "Fresh Mother's Day flowers designed by local Australian florists. Schedule ahead and never leave it to the last minute.",
+        "Fresh Mother's Day flowers designed by local Australian florists and delivered on Mother's Day.",
       provider: {
         '@type': 'Organization',
         name: 'FutureFlower',
@@ -54,20 +53,36 @@ const config: OccasionLandingPageConfig = {
       areaServed: [{ '@type': 'Country', name: 'Australia' }],
     },
   },
-  heroBadge: "Mother's day delivery",
   heroTitle: 'Mother\'s Day flowers, done your way.',
   heroSubtext:
-    'Schedule ahead and never leave it to the last minute. Set a budget and tell us what Mum loves — a local Australian florist designs the rest, delivered on the day.',
+    'Order ahead for Mother\'s Day. Set a budget and tell us what Mum likes. A local Australian florist designs the rest, delivered on the day.',
   imageOverlayTitle: 'A brief, not a catalog order.',
   imageOverlayText:
-    'Her favourite colours, the flowers she grows, the ones she can\'t stand — the florist designs around what makes her, her.',
+    'Her favourite colours, the flowers she grows, the ones she cannot stand. The florist designs from those notes.',
   defaultVibeName: 'Thank You',
   trustPoints: defaultTrustPoints,
-  howItWorksHeading: 'Three steps to making Mum\'s day.',
+  betterForEveryoneBenefits: [
+    {
+      icon: Leaf,
+      audience: 'Better for the environment',
+      text: 'The florist can use the best Mother\'s Day flowers already in stock, so less is thrown out.',
+    },
+    {
+      icon: Palette,
+      audience: 'Better for the florist',
+      text: 'A clear brief gives them room to design during a busy week, not just repeat recipes.',
+    },
+    {
+      icon: Flower2,
+      audience: 'Better for Mum',
+      text: 'She gets fresh flowers shaped around her colours, preferences, and your message.',
+    },
+  ],
+  howItWorksHeading: 'Three steps to Mother\'s Day flowers.',
   howItWorksSteps: [
     {
       title: 'Give us the brief',
-      text: 'Your budget and what Mum loves — favourite colours, flowers from her garden, anything to avoid. Two minutes, no catalog scrolling.',
+      text: 'Your budget and what Mum likes: favourite colours, flowers from her garden, anything to avoid. Two minutes, no catalog scrolling.',
     },
     {
       title: 'A local florist designs it',
@@ -75,17 +90,17 @@ const config: OccasionLandingPageConfig = {
     },
     {
       title: 'Delivered on the day',
-      text: 'Made fresh, delivered to her door with your card message — under the florist\'s own name, because they made it.',
+      text: 'Made fresh and delivered to her door with your card message under the florist\'s own name.',
     },
   ],
-  checklistHeading: 'Sorted well before the second Sunday in May.',
+  checklistHeading: 'A better Mother\'s Day order starts with a better brief.',
   checklistItems: [
-    'Order weeks or months ahead — the delivery is locked to Mother\'s Day.',
+    "Order ahead and choose Mother's Day.",
     'Set the budget before the florist starts planning.',
     'Add her favourite colours, flowers she loves, or things to avoid.',
     'Include a card message so she knows exactly who it\'s from.',
   ],
-  faqTitle: "Mother's Day flowers — answered.",
+  faqTitle: "Mother's Day flowers: answered.",
   faqs: mothersDayFaqs,
 };
 

@@ -1,46 +1,16 @@
-import Image from 'next/image';
 import Seo from '../components/Seo';
 import HomeStarterForm from '@/components/home_page/HomeStarterForm';
+import { HeroPills } from '@/components/HeroPills';
+import { RotatingBouquetHeroImage } from '@/components/RotatingBouquetHeroImage';
 import { BetterForEveryoneSection } from '@/components/home_page/BetterForEveryoneSection';
 import { HowItWorksSection } from '../components/HowItWorksSection';
 import { FaqV2 } from '../components/FaqV2';
 import type { FaqItem } from '@/types/FaqItem';
-import { Check, MapPin, ShieldCheck, Sparkles, Truck } from 'lucide-react';
-import { FREE_DELIVERY_THRESHOLD } from '@/utils/systemConstants';
+import { Check, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
 
 import petalImage from '../assets/petal-1280w.webp';
 import floristMakingImage from '../assets/florist-1280w.webp';
 import deliveryImage from '../assets/delivery-1280w.webp';
-
-import flowerTableImage from '../assets/flower1.jpg';
-import flowerHeldImage from '../assets/flowers2.webp';
-
-const bouquetImages = [
-  {
-    src: '/images/home/bouquet-pink-wrap.jpg',
-    alt: 'Pink rose bouquet wrapped in white paper',
-  },
-  {
-    src: '/images/home/bouquet-vase.jpg',
-    alt: 'Pastel bouquet arranged in a glass vase',
-  },
-  {
-    src: '/images/home/bouquet-centrepiece.jpg',
-    alt: 'Seasonal flower arrangement on a table',
-  },
-  {
-    src: '/images/home/bouquet-held.jpg',
-    alt: 'Fresh hand-tied bouquet held by the stems',
-  },
-  {
-    src: flowerTableImage,
-    alt: 'Bouquets wrapped in kraft paper, ready for delivery',
-  },
-  {
-    src: flowerHeldImage,
-    alt: 'Garden-style bouquet with dahlias and cosmos',
-  },
-];
 
 const trustPoints = [
   {
@@ -117,16 +87,7 @@ const HomePage = () => {
               <h1 className="text-4xl font-bold leading-[1.05] text-black font-playfair-display sm:text-6xl lg:text-7xl">
                 Flowers done your way.
               </h1>
-              <div className="mt-5 flex flex-wrap items-center gap-2">
-                <p className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-black/70">
-                  <MapPin className="h-3.5 w-3.5 text-black" aria-hidden="true" />
-                  Local Australian Florists
-                </p>
-                <p className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-black/70">
-                  <Truck className="h-3.5 w-3.5 text-black" aria-hidden="true" />
-                  Free delivery over <span className="font-sans tracking-normal">${FREE_DELIVERY_THRESHOLD}</span>
-                </p>
-              </div>
+              <HeroPills />
               <p className="mt-5 max-w-xl text-lg leading-relaxed text-black/65">
                 Choose the occasion, budget, and preferences. We organise a bouquet that fits, made by a florist rather than picked from a warehouse catalog.
               </p>
@@ -140,48 +101,18 @@ const HomePage = () => {
             <HomeStarterForm />
           </div>
 
-          <div className="order-3 relative min-h-[520px] overflow-hidden bg-black lg:order-none lg:col-start-1 lg:row-start-2 lg:min-h-[560px]">
-            {bouquetImages.map((image, index) => (
-              <Image
-                key={image.alt}
-                src={image.src}
-                alt={image.alt}
-                fill
-                sizes="(max-width: 1023px) 100vw, 50vw"
-                className="homepage-bouquet-frame object-cover"
-                style={{ animationDelay: `${index * 4}s` }}
-                priority={index === 0}
-              />
-            ))}
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-5 pt-20 sm:p-8 sm:pt-24">
+          <RotatingBouquetHeroImage
+            className="order-3 relative min-h-[520px] overflow-hidden bg-black lg:order-none lg:col-start-1 lg:row-start-2 lg:min-h-[560px]"
+            overlay={
               <div className="max-w-sm text-white [text-shadow:0_1px_3px_rgb(0_0_0/0.6)]">
                 <p className="text-sm font-semibold">A brief, not a catalog order.</p>
                 <p className="mt-1 text-sm leading-relaxed text-white/90">
                   The florist uses your notes to make the right call on colour, style, and seasonal flowers.
                 </p>
               </div>
-            </div>
-          </div>
+            }
+          />
         </div>
-
-        <style>{`
-          .homepage-bouquet-frame {
-            opacity: 0;
-            animation: homepage-bouquet-cycle ${bouquetImages.length * 4}s infinite;
-          }
-
-          .homepage-bouquet-frame:first-child {
-            opacity: 1;
-          }
-
-          @keyframes homepage-bouquet-cycle {
-            0% { opacity: 0; transform: scale(1.03); }
-            5% { opacity: 1; }
-            25% { opacity: 1; }
-            31% { opacity: 0; transform: scale(1); }
-            100% { opacity: 0; transform: scale(1.03); }
-          }
-        `}</style>
       </section>
 
       <BetterForEveryoneSection />

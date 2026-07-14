@@ -1,24 +1,23 @@
-import OccasionLandingPage, {
-  defaultTrustPoints,
-  type OccasionLandingPageConfig,
-} from './OccasionLandingPage';
+import OccasionLandingPage, { type OccasionLandingPageConfig } from './OccasionLandingPage';
+import { defaultTrustPoints } from './occasionLandingContent';
 import type { FaqItem } from '@/types/FaqItem';
+import { Flower2, Leaf, Palette } from 'lucide-react';
 
 const birthdayFaqs: FaqItem[] = [
   {
     question: 'Can I schedule birthday flower delivery for a future date?',
     answer:
-      'Yes — FutureFlower is built around scheduling ahead. Pick the birthday date, set your budget, and a local florist handles the arrangement and delivery on the day.',
+      'Yes. Pick the birthday date, set your budget, and a local florist handles the arrangement and delivery on the day.',
   },
   {
     question: 'How far in advance can I order birthday flowers?',
     answer:
-      'You can schedule a birthday delivery weeks or months in advance. Once it\'s locked in, there\'s nothing to remember — the florist makes and delivers the flowers on the date you chose.',
+      'You can order ahead for a birthday delivery. Pick the date, add the details, and the florist makes and delivers the flowers on the date you chose.',
   },
   {
     question: 'What flowers are best for a birthday?',
     answer:
-      'Bright, cheerful arrangements are popular for birthdays — sunflowers, gerberas, and colourful mixed bouquets are common choices. Your florist designs from your brief and what\'s fresh on the day, so you don\'t need to pick exact stems.',
+      'Bright, cheerful arrangements are popular for birthdays: sunflowers, gerberas, and colourful mixed bouquets are common choices. Your florist designs from your brief and what is fresh on the day, so you do not need to pick exact stems.',
   },
   {
     question: 'Do I choose the exact bouquet?',
@@ -45,7 +44,7 @@ const config: OccasionLandingPageConfig = {
       serviceType: 'Birthday Flower Delivery',
       name: 'Birthday Flower Delivery by FutureFlower',
       description:
-        'Fresh birthday flowers designed by local Australian florists, delivered on the day. Schedule ahead and never miss a birthday again.',
+        'Fresh birthday flowers designed by local Australian florists and delivered on the date you choose.',
       provider: {
         '@type': 'Organization',
         name: 'FutureFlower',
@@ -54,20 +53,36 @@ const config: OccasionLandingPageConfig = {
       areaServed: [{ '@type': 'Country', name: 'Australia' }],
     },
   },
-  heroBadge: 'Birthday flower delivery',
   heroTitle: 'Birthday flowers, done your way.',
   heroSubtext:
-    'Pick the birthday, set a budget, and tell us what they love. A local Australian florist designs something bright and personal — delivered on the day.',
+    'Pick the birthday, set a budget, and tell us what they like. A local Australian florist designs something bright and personal, delivered on the day.',
   imageOverlayTitle: 'A brief, not a catalog order.',
   imageOverlayText:
     'Tell the florist about the birthday person — favourite colours, the feeling you want — and they make the right call on the day.',
   defaultVibeName: 'Birthday',
   trustPoints: defaultTrustPoints,
-  howItWorksHeading: 'Three steps to a birthday they\'ll remember.',
+  betterForEveryoneBenefits: [
+    {
+      icon: Leaf,
+      audience: 'Better for the environment',
+      text: 'The florist can use suitable birthday flowers already on hand, so fewer stems are wasted.',
+    },
+    {
+      icon: Palette,
+      audience: 'Better for the florist',
+      text: 'A birthday brief gives them room to design instead of copying a fixed recipe.',
+    },
+    {
+      icon: Flower2,
+      audience: 'Better for the recipient',
+      text: 'They get fresher flowers chosen for their colours, style, and the date.',
+    },
+  ],
+  howItWorksHeading: 'Three steps to birthday flowers.',
   howItWorksSteps: [
     {
       title: 'Give us the brief',
-      text: 'The birthday date, your budget, and preferences — their favourite colours, flowers they love, things to avoid. Two minutes, no catalog scrolling.',
+      text: 'The birthday date, your budget, and preferences: their favourite colours, flowers they like, things to avoid. Two minutes, no catalog scrolling.',
     },
     {
       title: 'A local florist designs it',
@@ -75,17 +90,17 @@ const config: OccasionLandingPageConfig = {
     },
     {
       title: 'Delivered on their birthday',
-      text: 'Made fresh, delivered to the door with your card message — under the florist\'s own name, because they made it.',
+      text: 'Made fresh and delivered to the door with your card message under the florist\'s own name.',
     },
   ],
-  checklistHeading: 'Never miss a birthday again.',
+  checklistHeading: 'A better birthday order starts with a better brief.',
   checklistItems: [
-    'Order as far ahead as you like — the delivery is locked to the date.',
+    'Order ahead and choose the delivery date.',
     'Set the budget before the florist starts planning.',
     'Add favourite colours, dislikes, allergies, or special requests.',
     'Include a card message so they know who it\'s from.',
   ],
-  faqTitle: 'Birthday flower delivery — answered.',
+  faqTitle: 'Birthday flower delivery: answered.',
   faqs: birthdayFaqs,
 };
 

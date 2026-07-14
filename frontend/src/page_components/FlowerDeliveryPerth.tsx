@@ -1,4 +1,4 @@
-import { MapPin, ShieldCheck, Sparkles } from 'lucide-react';
+import { Flower2, Leaf, MapPin, Palette, ShieldCheck, Sparkles } from 'lucide-react';
 import OccasionLandingPage, {
   type OccasionLandingPageConfig,
 } from './OccasionLandingPage';
@@ -13,7 +13,7 @@ const perthFaqs: FaqItem[] = [
   {
     question: 'Can I schedule Perth flower delivery for a future date?',
     answer:
-      'Yes — you can schedule deliveries weeks or months in advance. Pick the date when you order and the florist handles everything on the day.',
+      'Yes. Pick the date when you order and the florist handles everything on the day.',
   },
   {
     question: 'Do I choose the exact bouquet?',
@@ -65,7 +65,6 @@ const config: OccasionLandingPageConfig = {
       },
     },
   },
-  heroBadge: 'Perth flower delivery',
   heroTitle: 'Perth flowers, done your way.',
   heroSubtext:
     'Choose the occasion, budget, and preferences. A local Perth florist designs a bouquet that fits — made fresh, not picked from a warehouse catalog.',
@@ -89,7 +88,24 @@ const config: OccasionLandingPageConfig = {
       text: 'Something wrong with your delivery? Tell us and we\'ll sort it — refund or redelivery.',
     },
   ],
-  howItWorksHeading: 'Three steps between you and better flowers in Perth.',
+  betterForEveryoneBenefits: [
+    {
+      icon: Leaf,
+      audience: 'Better for the environment',
+      text: 'Perth florists can use suitable stems they already have, so fewer flowers are wasted.',
+    },
+    {
+      icon: Palette,
+      audience: 'Better for the florist',
+      text: 'Less waste protects margin, and the brief lets them design instead of copy a recipe.',
+    },
+    {
+      icon: Flower2,
+      audience: 'Better for you',
+      text: 'You get fresh Perth flowers chosen for the occasion, budget, and delivery date.',
+    },
+  ],
+  howItWorksHeading: 'Three steps between you and Perth flowers.',
   howItWorksSteps: [
     {
       title: 'Give us the brief',
@@ -101,7 +117,7 @@ const config: OccasionLandingPageConfig = {
     },
     {
       title: 'Delivered on your date',
-      text: 'Made fresh, delivered anywhere in their Perth coverage area with your card message — under the florist\'s own name, because they made it.',
+      text: 'Made fresh and delivered in the florist\'s Perth coverage area with your card message under their own name.',
     },
   ],
   checklistHeading: 'A better order starts with a better brief.',
@@ -111,7 +127,7 @@ const config: OccasionLandingPageConfig = {
     'Add favourite colours, dislikes, allergies, or special requests.',
     'Continue to recipient, address, date, and payment details.',
   ],
-  faqTitle: 'Perth flower delivery — answered.',
+  faqTitle: 'Perth flower delivery: answered.',
   faqs: perthFaqs,
 };
 

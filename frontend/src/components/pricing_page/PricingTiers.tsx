@@ -6,12 +6,9 @@ import { FREE_DELIVERY_THRESHOLD } from '@/utils/systemConstants';
 
 const PricingTiers = () => {
     return (
-        <section className="bg-[#fbfaf7] py-14 text-black sm:py-16">
+        <section className="bg-[#fbfaf7] py-6 text-black sm:py-16">
             <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
                 <div className="mx-auto mb-12 max-w-2xl text-center">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
-                        Price guidelines
-                    </p>
                     <h2 className="mt-3 text-3xl font-bold leading-tight font-playfair-display sm:text-4xl">
                         How much does it cost?
                     </h2>

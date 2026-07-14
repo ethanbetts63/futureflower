@@ -26,7 +26,7 @@ export const HowItWorksSection = ({
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black">
             {kicker}
           </p>
-          <h2 className="mt-3 text-3xl font-bold leading-tight font-playfair-display sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-bold leading-tight text-black font-playfair-display sm:text-4xl">
             {heading}
           </h2>
         </div>
@@ -46,7 +46,7 @@ export const HowItWorksSection = ({
                   <p className="text-4xl font-bold leading-none text-white font-playfair-display">{index + 1}</p>
                 </div>
               </div>
-              <h3 className="mt-5 text-xl font-bold font-playfair-display">{title}</h3>
+              <h3 className="mt-5 text-xl font-bold text-black font-playfair-display">{title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-black/60">{text}</p>
             </div>
           ))}

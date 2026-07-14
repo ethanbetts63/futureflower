@@ -1,19 +1,18 @@
-import OccasionLandingPage, {
-  defaultTrustPoints,
-  type OccasionLandingPageConfig,
-} from './OccasionLandingPage';
+import OccasionLandingPage, { type OccasionLandingPageConfig } from './OccasionLandingPage';
+import { defaultTrustPoints } from './occasionLandingContent';
 import type { FaqItem } from '@/types/FaqItem';
+import { Flower2, Leaf, Palette } from 'lucide-react';
 
 const valentinesFaqs: FaqItem[] = [
   {
     question: "When should I order flowers for Valentine's Day?",
     answer:
-      'Most florists are overwhelmed with last-minute orders on February 14. Ordering weeks or months in advance locks in your delivery and gives the florist more time to craft a better arrangement.',
+      'February 14 is busy for florists. Ordering ahead locks in the date and gives the florist a clearer brief.',
   },
   {
     question: "Can I schedule Valentine's Day flower delivery in advance?",
     answer:
-      "Yes — FutureFlower is built for scheduling ahead. Pick February 14, set your budget, and the order is locked in. The florist makes and delivers the flowers on the day.",
+      'Yes. Pick February 14, set your budget, and add your preferences. The florist makes and delivers the flowers on the day.',
   },
   {
     question: "What flowers are best for Valentine's Day?",
@@ -45,7 +44,7 @@ const config: OccasionLandingPageConfig = {
       serviceType: "Valentine's Day Flower Delivery",
       name: "Valentine's Day Flower Delivery by FutureFlower",
       description:
-        "Fresh Valentine's Day flowers designed by local Australian florists. Schedule your order months ahead and skip the last-minute rush.",
+        "Fresh Valentine's Day flowers designed by local Australian florists and delivered on February 14.",
       provider: {
         '@type': 'Organization',
         name: 'FutureFlower',
@@ -54,20 +53,36 @@ const config: OccasionLandingPageConfig = {
       areaServed: [{ '@type': 'Country', name: 'Australia' }],
     },
   },
-  heroBadge: "Valentine's day delivery",
   heroTitle: 'Valentine\'s flowers, done your way.',
   heroSubtext:
-    'Order ahead and skip the February 14 rush. Set a budget and your preferences, and a local Australian florist designs something romantic — delivered on the day.',
+    'Order ahead for February 14. Set a budget and your preferences, and a local Australian florist designs something suitable, delivered on the day.',
   imageOverlayTitle: 'A brief, not a catalog order.',
   imageOverlayText:
-    'Roses, or something less expected — the florist uses your notes to design a bouquet that actually feels like the two of you.',
+    'Roses, or something less expected. The florist uses your notes to design a bouquet that fits.',
   defaultVibeName: 'Romance',
   trustPoints: defaultTrustPoints,
-  howItWorksHeading: 'Three steps to a Valentine\'s Day they\'ll never forget.',
+  betterForEveryoneBenefits: [
+    {
+      icon: Leaf,
+      audience: 'Better for the environment',
+      text: 'A flexible brief lets the florist use strong Valentine\'s flowers already available, reducing waste.',
+    },
+    {
+      icon: Palette,
+      audience: 'Better for the florist',
+      text: 'They can design for the message and budget instead of assembling the same recipe all day.',
+    },
+    {
+      icon: Flower2,
+      audience: 'Better for you',
+      text: 'You get fresh flowers that feel considered, without paying for a catalog copy.',
+    },
+  ],
+  howItWorksHeading: 'Three steps to Valentine\'s Day flowers.',
   howItWorksSteps: [
     {
       title: 'Give us the brief',
-      text: 'Your budget and preferences — classic red roses, soft pastels, or the feeling you\'re after. Two minutes, no catalog scrolling, months before the rush.',
+      text: 'Your budget and preferences — classic red roses, soft pastels, or the feeling you\'re after. Two minutes, no catalog scrolling.',
     },
     {
       title: 'A local florist designs it',
@@ -75,17 +90,17 @@ const config: OccasionLandingPageConfig = {
     },
     {
       title: 'Delivered on the day',
-      text: 'Made fresh, delivered to the door with your card message — while everyone else is queuing for whatever\'s left.',
+      text: 'Made fresh and delivered to the door with your card message.',
     },
   ],
-  checklistHeading: 'Beat the Valentine\'s Day rush.',
+  checklistHeading: 'A better Valentine\'s order starts with a better brief.',
   checklistItems: [
-    'Order weeks or months ahead — the delivery is locked to February 14.',
+    'Order ahead and choose February 14.',
     'Set the budget before the florist starts planning.',
     'Add favourite colours, flowers they love, or things to avoid.',
     'Include a card message to say what the flowers can\'t.',
   ],
-  faqTitle: "Valentine's Day flowers — answered.",
+  faqTitle: "Valentine's Day flowers: answered.",
   faqs: valentinesFaqs,
 };
 

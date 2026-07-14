@@ -1,6 +1,13 @@
+import type { LucideIcon } from 'lucide-react';
 import { Flower2, Leaf, Palette } from 'lucide-react';
 
-const benefits = [
+export type BetterForEveryoneBenefit = {
+  icon: LucideIcon;
+  audience: string;
+  text: string;
+};
+
+const defaultBenefits: BetterForEveryoneBenefit[] = [
   {
     icon: Leaf,
     audience: 'Better for the environment',
@@ -18,7 +25,11 @@ const benefits = [
   },
 ];
 
-export const BetterForEveryoneSection = () => {
+export const BetterForEveryoneSection = ({
+  benefits = defaultBenefits,
+}: {
+  benefits?: BetterForEveryoneBenefit[];
+}) => {
   return (
     <section className="bg-[#eaf1e7] py-8">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">

@@ -54,19 +54,19 @@ const publicRoutes: Record<string, RouteMetadata> = {
   "/valentines-day-flower-delivery": {
     title: "Valentine's Day Flower Delivery",
     description:
-      "Send fresh Valentine's Day flowers from local florists. Schedule your order months ahead - free delivery across Australia, the UK, the US, and more.",
+      "Send fresh Valentine's Day flowers from local florists. Set a budget, add preferences, and choose February 14.",
     path: "/valentines-day-flower-delivery",
   },
   "/mothers-day-flower-delivery": {
     title: "Mother's Day Flower Delivery",
     description:
-      "Send fresh Mother's Day flowers from local florists. Schedule ahead to guarantee delivery - free across Australia, the UK, the US, and more.",
+      "Send fresh Mother's Day flowers from local florists. Set a budget, add preferences, and choose Mother's Day.",
     path: "/mothers-day-flower-delivery",
   },
   "/flower-delivery-perth": {
     title: "Flower Delivery Perth",
     description:
-      "Fresh flower delivery in Perth from local florists. Pick a date, set a budget, and we handle the rest - free delivery on every order.",
+      "Fresh flower delivery in Perth from local florists. Pick a date, set a budget, and add your preferences.",
     path: "/flower-delivery-perth",
     ogImage: "/og-images/og-flower-delivery-perth.webp",
   },
