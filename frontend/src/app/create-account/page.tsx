@@ -1,10 +1,5 @@
-import { Suspense } from 'react';
-import Step1CreateAccountPage from '@/page_components/Step1CreateAccountPage';
+import { redirect } from 'next/navigation';
 
 export default function Page() {
-  return (
-    <Suspense fallback={null}>
-      <Step1CreateAccountPage />
-    </Suspense>
-  );
+  redirect('/#start-order');
 }

@@ -2,6 +2,6 @@ import type { Order } from './Order';
 
 export interface RecipientSummaryProps {
   plan: Order;
-  editUrl: string;
+  editUrl?: string;
   locked?: boolean;
 }

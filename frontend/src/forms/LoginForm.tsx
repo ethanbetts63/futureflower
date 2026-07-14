@@ -56,9 +56,9 @@ export function LoginForm({
 
                 {/* Header */}
                 <div className="flex flex-col items-center gap-2 text-center">
-                  <h1 className="text-2xl font-bold">Welcome back</h1>
+                  <h1 className="text-2xl font-bold">Partner and staff access</h1>
                   <p className="text-muted-foreground text-balance text-sm">
-                    Login to your  account
+                    Sign in to your FutureFlower business account
                   </p>
                 </div>
 
@@ -115,11 +115,10 @@ export function LoginForm({
                   )}
                 </Button>
 
-                {/* Signup Link */}
                 <div className="text-center text-sm text-black">
-                  Don&apos;t have an account?{" "}
-                  <Link href="/" className="underline underline-offset-2 hover:underline hover:text-primary">
-                    Order Flowers
+                  Need to manage a flower order?{" "}
+                  <Link href="/manage-order" className="underline underline-offset-2 hover:underline hover:text-primary">
+                    Email an access link
                   </Link>
                 </div>
 

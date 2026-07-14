@@ -38,6 +38,11 @@ class PasswordResetRequestView(APIView):
         
         try:
             user = User.objects.get(email__iexact=email, is_active=True)
+            if not (user.is_staff or user.is_superuser or hasattr(user, 'partner_profile')):
+                return Response(
+                    {"detail": "If an account with this email exists, a password reset link has been sent."},
+                    status=status.HTTP_200_OK,
+                )
             
             # --- Rate Limiting Logic ---
             if user.password_reset_last_sent_at:

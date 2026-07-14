@@ -21,7 +21,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { acceptGuestTerms, claimGuestCheckout, makeGuestOrderRecurring, startGuestCheckoutPayment } from '@/api/guestCheckout';
-import { cancelOrder, makeOrderRecurring, startCheckout } from '@/api/orders';
+import { cancelOrder } from '@/api/orders';
 import { formatDate } from '@/utils/utils';
 import { toast } from 'sonner';
 import {
@@ -64,7 +64,7 @@ const OrderSummary = ({
       await cancelOrder(planId);
       setCancelDialogOpen(false);
       toast.success('Your plan has been cancelled. To request a refund for remaining deliveries, email ethan.betts.dev@gmail.com.');
-      router.push('/dashboard');
+      router.push('/manage-order');
     } catch {
       setCancelError('Something went wrong. Please try again.');
     } finally {
@@ -79,7 +79,7 @@ const OrderSummary = ({
   // Base paths for editing
   const editBasePath = isOrdering
     ? `/single-delivery-flow/plan/${planId}`
-    : `/dashboard/orders/${planId}`;
+    : `/manage-order/${planId}`;
 
   const preferredTypes = plan.preferred_flower_types
     .map(id => flowerTypeMap.get(Number(id)))
@@ -111,7 +111,7 @@ const OrderSummary = ({
         recurring_preferences: recurringPreferences,
         subscription_message: mainMessage,
       });
-      const response = await startCheckout(recurringOrder.id);
+      const response = await startGuestCheckoutPayment(recurringOrder.id);
 
       sessionStorage.setItem('checkoutState', JSON.stringify({
         clientSecret: response.clientSecret,
@@ -186,7 +186,7 @@ const OrderSummary = ({
             </div>
           ) : (
             <div className="flex justify-start items-center w-full">
-              <FlowBackButton to="/dashboard" />
+              <FlowBackButton to="/manage-order" />
             </div>
           )
         }
@@ -199,7 +199,7 @@ const OrderSummary = ({
 
         <RecipientSummary
           plan={plan}
-          editUrl={`${editBasePath}/edit-recipient`}
+          editUrl={isOrdering ? `${editBasePath}/edit-recipient` : undefined}
           locked={isSectionEditLocked}
         />
 
@@ -264,11 +264,8 @@ const OrderSummary = ({
                           <span className="text-sm font-medium">{formatDate(event.delivery_date)}</span>
                         </div>
                         <div className="flex items-center gap-3">
-                          {showEditControl && (
-                            <EditControl
-                              editUrl={`/dashboard/orders/${planId}/edit-structure`}
-                              locked={isRowLocked}
-                            />
+                          {showEditControl && isOrdering && (
+                            <EditControl editUrl={`${editBasePath}/structure`} locked={isRowLocked} />
                           )}
                         </div>
                       </div>
@@ -283,7 +280,7 @@ const OrderSummary = ({
         {mainMessage && (
           <SummarySection
             label="Card Message"
-            editUrl={isOrdering ? `${editBasePath}/structure` : (isSingleDelivery ? `${editBasePath}/edit-structure` : undefined)}
+            editUrl={isOrdering ? `${editBasePath}/structure` : undefined}
             locked={isSectionEditLocked}
           >
             <div className="flex items-start bg-[var(--colorgreen)]/10 rounded-2xl border border-[var(--colorgreen)]/20 p-4">
@@ -298,13 +295,13 @@ const OrderSummary = ({
         <FlowerPreferencesSummary
           preferredTypes={preferredTypes}
           flowerNotes={plan.flower_notes}
-          editUrl={`${editBasePath}/edit-preferences`}
+          editUrl={isOrdering ? `${editBasePath}/edit-preferences` : undefined}
           locked={isSectionEditLocked}
         />
 
         <ImpactSummary
           price={Number(plan.budget)}
-          editUrl={isOrdering ? `${editBasePath}/structure` : (isSingleDelivery ? `${editBasePath}/edit-structure` : undefined)}
+          editUrl={isOrdering ? `${editBasePath}/structure` : undefined}
         />
 
         {isOrdering && (
@@ -447,7 +444,7 @@ const OrderSummary = ({
                 next scheduled delivery or cancel everything immediately.
               </p>
               <button
-                onClick={() => router.push(`/dashboard/orders/${planId}/cancel`)}
+                onClick={() => setCancelDialogOpen(true)}
                 className="text-red-600 font-semibold text-sm underline hover:text-red-700 transition-colors cursor-pointer"
               >
                 Cancel Subscription

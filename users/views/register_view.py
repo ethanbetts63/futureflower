@@ -17,6 +17,12 @@ class RegisterView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
+        return Response(
+            {'detail': 'Customer checkout no longer requires account registration.'},
+            status=status.HTTP_410_GONE,
+        )
+
+    def legacy_post(self, request, *args, **kwargs):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 

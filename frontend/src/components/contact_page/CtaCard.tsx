@@ -33,7 +33,7 @@ export const CtaCard = () => {
   const [view, setView] = useState<View>('subscription');
 
   const handleNavigation = () => {
-    window.location.href = '/create-account';
+    window.location.href = '/#start-order';
   };
 
   const productData: Record<View, ProductData> = {

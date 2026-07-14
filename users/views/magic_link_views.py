@@ -21,8 +21,10 @@ class RequestMagicLinkView(APIView):
         email = str(request.data.get('email', '')).strip().lower()
         user = User.objects.filter(email__iexact=email, is_active=True).first()
         if user and not user.is_staff and not hasattr(user, 'partner_profile'):
-            link, token = MagicLink.create_for(user)
-            send_magic_link_email(user, token)
+            order = user.orders.exclude(status='pending_payment').order_by('-updated_at').first()
+            if order:
+                link, token = MagicLink.create_for(user, order)
+                send_magic_link_email(user, token, order)
         return Response({'detail': 'If we found an order for that email, we sent a private access link.'})
 
 

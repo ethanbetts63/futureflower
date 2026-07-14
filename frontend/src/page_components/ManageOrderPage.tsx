@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { consumeMagicLink, requestMagicLink } from '@/api/auth';
 import { useAuth } from '@/context/AuthContext';

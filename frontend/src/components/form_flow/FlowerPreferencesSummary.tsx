@@ -11,7 +11,7 @@ const FlowerPreferencesSummary = ({ preferredTypes, flowerNotes, editUrl, locked
         <span className="text-xs font-bold tracking-[0.2em] text-black uppercase">
           Flower Preferences
         </span>
-        <EditControl editUrl={editUrl} locked={locked} />
+        {editUrl && <EditControl editUrl={editUrl} locked={locked} />}
       </div>
       {preferredTypes.length > 0 ? (
         <div className="flex items-start gap-5">
