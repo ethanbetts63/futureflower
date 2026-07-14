@@ -20,7 +20,7 @@ import PaymentHistoryCard from '@/components/PaymentHistoryCard';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { acceptTerms } from '@/api';
+import { acceptGuestTerms, claimGuestCheckout, makeGuestOrderRecurring, startGuestCheckoutPayment } from '@/api/guestCheckout';
 import { cancelOrder, makeOrderRecurring, startCheckout } from '@/api/orders';
 import { formatDate } from '@/utils/utils';
 import { toast } from 'sonner';
@@ -53,6 +53,9 @@ const OrderSummary = ({
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   const [cancelError, setCancelError] = useState<string | null>(null);
+  const [customerFirstName, setCustomerFirstName] = useState('');
+  const [customerLastName, setCustomerLastName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
 
   const handleCancelPlan = async () => {
     setIsCancelling(true);
@@ -102,7 +105,8 @@ const OrderSummary = ({
 
     setIsSubmitting(true);
     try {
-      const recurringOrder = await makeOrderRecurring(planId, {
+      await claimGuestCheckout({ email: customerEmail, first_name: customerFirstName, last_name: customerLastName });
+      const recurringOrder = await makeGuestOrderRecurring(planId, {
         frequency: recurringFrequency,
         recurring_preferences: recurringPreferences,
         subscription_message: mainMessage,
@@ -121,6 +125,14 @@ const OrderSummary = ({
       });
       setIsSubmitting(false);
     }
+  };
+
+  const claimBeforePayment = async () => {
+    if (!customerFirstName || !customerLastName || !customerEmail) {
+      throw new Error('Enter your name and email before payment.');
+    }
+    await claimGuestCheckout({ email: customerEmail, first_name: customerFirstName, last_name: customerLastName });
+    return startGuestCheckoutPayment(planId);
   };
 
   const title = isOrdering
@@ -164,6 +176,7 @@ const OrderSummary = ({
                   orderId={planId}
                   backPath={`${editBasePath}/confirmation`}
                   disabled={isSubmitting || !planId || !termsAccepted}
+                  startPayment={claimBeforePayment}
                   onPaymentInitiate={() => setIsSubmitting(true)}
                   onPaymentError={() => setIsSubmitting(false)}
                 >
@@ -295,6 +308,17 @@ const OrderSummary = ({
         />
 
         {isOrdering && (
+          <SummarySection label="Your Details">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <input value={customerFirstName} onChange={(event) => setCustomerFirstName(event.target.value)} placeholder="Your first name" className="h-11 rounded-md border border-black/10 bg-white px-3 text-sm" />
+              <input value={customerLastName} onChange={(event) => setCustomerLastName(event.target.value)} placeholder="Your last name" className="h-11 rounded-md border border-black/10 bg-white px-3 text-sm" />
+              <input value={customerEmail} onChange={(event) => setCustomerEmail(event.target.value)} placeholder="Your email" type="email" className="h-11 rounded-md border border-black/10 bg-white px-3 text-sm sm:col-span-2" />
+            </div>
+            <p className="mt-3 text-sm text-black/60">We will send your order receipt and private management link here after payment.</p>
+          </SummarySection>
+        )}
+
+        {isOrdering && (
           <SummarySection label="Recurring Delivery">
             <div className="space-y-4">
               <label className="flex items-start gap-3 cursor-pointer">
@@ -379,7 +403,7 @@ const OrderSummary = ({
                 onCheckedChange={(checked) => {
                   const accepted = checked === true;
                   setTermsAccepted(accepted);
-                  if (accepted) acceptTerms('customer').catch(console.error);
+                  if (accepted) acceptGuestTerms().catch(console.error);
                 }}
                 className="mt-0.5 flex-shrink-0"
               />

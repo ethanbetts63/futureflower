@@ -158,6 +158,8 @@ AUTH_USER_MODEL = "users.User"
 # Cookie names for JWT tokens
 AUTH_COOKIE = 'access_token'
 AUTH_COOKIE_REFRESH = 'refresh_token'
+GUEST_CHECKOUT_LIFETIME = timedelta(days=7)
+MAGIC_LINK_LIFETIME = timedelta(minutes=30)
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

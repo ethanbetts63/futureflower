@@ -5,6 +5,7 @@ from .views.delete_user_view import DeleteUserView
 from .views.change_password_view import ChangePasswordView
 from .views.password_reset_request_view import PasswordResetRequestView
 from .views.password_reset_confirm_view import PasswordResetConfirmView
+from .views.magic_link_views import RequestMagicLinkView, ConsumeMagicLinkView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -20,4 +21,6 @@ urlpatterns = [
     path('change-password/', ChangePasswordView.as_view(), name='change-password'),
     path('password-reset/request/', PasswordResetRequestView.as_view(), name='password-reset-request'),
     path('password-reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
+    path('magic-link/request/', RequestMagicLinkView.as_view(), name='request-magic-link'),
+    path('magic-link/consume/', ConsumeMagicLinkView.as_view(), name='consume-magic-link'),
 ]

@@ -2,7 +2,7 @@
 "use client";
 import RecipientEditor from '@/components/form_flow/RecipientEditor';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
-import { getOrder, updateOrder } from '@/api/orders';
+import { getGuestOrder, updateGuestOrder } from '@/api/guestCheckout';
 
 const Step2RecipientPage = () => {
     return (
@@ -14,8 +14,8 @@ const Step2RecipientPage = () => {
                 saveButtonText="Next: Confirm Your Order"
                 onSaveNavigateTo="/single-delivery-flow/plan/{planId}/confirmation"
                 onCancelNavigateTo="/"
-                getPlan={getOrder}
-                updatePlan={updateOrder}
+                getPlan={getGuestOrder}
+                updatePlan={updateGuestOrder}
             />
         </>
     );

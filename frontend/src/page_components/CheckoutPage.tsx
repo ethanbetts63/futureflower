@@ -15,7 +15,7 @@ import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import { MapPin, Calendar, RefreshCw, DollarSign, ShieldCheck } from 'lucide-react';
-import { getOrder } from '@/api/orders';
+import { getGuestOrder } from '@/api/guestCheckout';
 import type { Order } from '@/types';
 import { formatDate, capitalize } from '@/utils/utils';
 import { getImpactTier } from '@/utils/pricingConstants';
@@ -43,7 +43,7 @@ const CheckoutPage = () => {
             setPlanId(id);
             setBackPath(back);
 
-            getOrder(id)
+            getGuestOrder(id)
                 .then(setPlan)
                 .catch((err) => console.error('Could not load plan summary:', err))
                 .finally(() => setIsLoading(false));

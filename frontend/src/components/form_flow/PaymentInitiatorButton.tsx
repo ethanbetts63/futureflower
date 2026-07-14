@@ -19,6 +19,7 @@ const PaymentInitiatorButton = ({
   onPaymentError,
   children,
   disabled,
+  startPayment,
   className,
   ...props
 }: PaymentInitiatorButtonProps) => {
@@ -37,7 +38,7 @@ const PaymentInitiatorButton = ({
     if (onPaymentInitiate) onPaymentInitiate();
 
     try {
-      const { clientSecret } = await startCheckout(orderId);
+      const { clientSecret } = await (startPayment ? startPayment(orderId) : startCheckout(orderId));
 
       if (onPaymentSuccess) {
         onPaymentSuccess(clientSecret);

@@ -1,4 +1,4 @@
-import { getOrCreateDraftOrder, updateOrder } from '@/api/orders';
+import { startGuestCheckout } from '@/api/guestCheckout';
 import type { Order, PartialOrder } from '@/types/Order';
 
 export const HOMEPAGE_BRIEF_STORAGE_KEY = 'futureflower.homepageBrief.v1';
@@ -59,7 +59,5 @@ export function briefToOrderPatch(brief: HomepageBrief): PartialOrder {
  * Shared by the homepage form (logged-in path) and the post-registration flow.
  */
 export async function startOrderFromBrief(brief: HomepageBrief): Promise<Order> {
-  const plan = await getOrCreateDraftOrder();
-  await updateOrder(String(plan.id), briefToOrderPatch(brief));
-  return plan;
+  return startGuestCheckout(brief);
 }

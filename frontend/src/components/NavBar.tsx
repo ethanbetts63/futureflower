@@ -17,9 +17,7 @@ const MENU_LINK =
 type MenuItem = { href: string; label: string };
 
 const ACCOUNT_LINKS: MenuItem[] = [
-  { href: '/dashboard/account', label: 'Account Management' },
-  { href: '/dashboard', label: 'Order Management' },
-  { href: '/dashboard/refunds', label: 'Refunds' },
+  { href: '/manage-order', label: 'Manage an Order' },
 ];
 
 const PARTNER_LINKS: MenuItem[] = [
@@ -142,8 +140,8 @@ const NavBar = () => {
               </button>
             </>
           ) : (
-            <Link href="/login" onClick={close} className={MENU_LINK}>
-              Login
+            <Link href="/manage-order" onClick={close} className={MENU_LINK}>
+              Manage an Order
             </Link>
           )}
         </nav>

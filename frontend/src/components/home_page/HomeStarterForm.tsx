@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import type { FlowerType } from '@/types/FlowerType';
-import { useAuth } from '@/context/AuthContext';
 import { IMPACT_TIERS, MIN_BUDGET } from '@/utils/pricingConstants';
 import { FREE_DELIVERY_THRESHOLD, MIN_DAYS_BEFORE_CREATE } from '@/utils/systemConstants';
 import {
@@ -37,7 +36,6 @@ interface HomeStarterFormProps {
 
 export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProps) {
   const router = useRouter();
-  const { isAuthenticated, isLoading } = useAuth();
   const [selectedVibe, setSelectedVibe] = useState<FlowerType>(
     () => fallbackVibes.find((vibe) => vibe.name === defaultVibeName) ?? fallbackVibes[0],
   );
@@ -69,13 +67,6 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
 
     setIsSubmitting(true);
     window.sessionStorage.setItem(HOMEPAGE_BRIEF_STORAGE_KEY, JSON.stringify(brief));
-
-    // Not signed in (or auth state still resolving): the brief stays in
-    // sessionStorage and is applied by the create-account page after signup.
-    if (isLoading || !isAuthenticated) {
-      router.push('/create-account');
-      return;
-    }
 
     try {
       const plan = await startOrderFromBrief(brief);

@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Seo from '@/components/Seo';
-import { getOrder } from '@/api/orders';
+import { getGuestOrder } from '@/api/guestCheckout';
 
 const POLL_INTERVAL_MS = 2000;
 const MAX_POLL_ATTEMPTS = 15; // 30 seconds max
@@ -22,7 +22,7 @@ const UniversalPaymentStatusPage = () => {
     const [message, setMessage] = useState<string | null>(null);
     const [isProcessing, setIsProcessing] = useState(true);
     const [paymentSucceeded, setPaymentSucceeded] = useState(false);
-    const [tryAgainPath, setTryAgainPath] = useState('/dashboard');
+    const [tryAgainPath, setTryAgainPath] = useState('/');
 
     const pollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -39,10 +39,11 @@ const UniversalPaymentStatusPage = () => {
         pollIntervalRef.current = setInterval(async () => {
             attempts++;
             try {
-                const order = await getOrder(planId);
+                const order = await getGuestOrder(planId);
                 if (order.status === 'active') {
                     clearInterval(pollIntervalRef.current!);
-                    router.push(`/dashboard/orders/${planId}/overview`);
+                    setMessage('Payment confirmed. We have emailed your private order-management link.');
+                    setIsProcessing(false);
                     return;
                 }
             } catch {
@@ -55,7 +56,7 @@ const UniversalPaymentStatusPage = () => {
                     'Your payment was received but activation is taking a little longer than expected. ' +
                     'Redirecting you now — your plan may take a moment to show as active.'
                 );
-                setTimeout(() => router.push('/dashboard'), 3000);
+                setIsProcessing(false);
             }
         }, POLL_INTERVAL_MS);
     };
@@ -69,7 +70,7 @@ const UniversalPaymentStatusPage = () => {
         const source = searchParams.get('source');
 
         if (planId) {
-            setTryAgainPath('/dashboard');
+            setTryAgainPath('/');
         }
 
         if (!clientSecret) {
@@ -102,7 +103,7 @@ const UniversalPaymentStatusPage = () => {
                         if (planId && planId !== "N/A") {
                             pollUntilActive(planId);
                         } else {
-                            setTimeout(() => router.push('/dashboard'), 3000);
+                            setMessage('Payment confirmed. We have emailed your private order-management link.');
                         }
                         break;
                     case 'processing':

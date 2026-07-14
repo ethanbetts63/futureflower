@@ -37,6 +37,20 @@ export async function logoutUser(): Promise<void> {
   });
 }
 
+export async function requestMagicLink(email: string): Promise<{ detail: string }> {
+  const response = await fetch('/api/users/magic-link/request/', {
+    method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }),
+  });
+  return handleResponse(response);
+}
+
+export async function consumeMagicLink(token: string): Promise<{ detail: string; order_id: number | null }> {
+  const response = await fetch('/api/users/magic-link/consume/', {
+    method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token }),
+  });
+  return handleResponse(response);
+}
+
 export async function claimAccount(password: string): Promise<{ detail: string }> {
   const response = await authedFetch('/api/users/claim/', {
     method: 'POST',
