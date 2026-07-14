@@ -1,13 +1,8 @@
 
+import Image from 'next/image';
 import floristImage from '../../assets/florist.webp';
-import floristImage320 from '../../assets/florist-320w.webp';
-import floristImage640 from '../../assets/florist-640w.webp';
-import floristImage768 from '../../assets/florist-768w.webp';
-import floristImage1024 from '../../assets/florist-1024w.webp';
-import floristImage1280 from '../../assets/florist-1280w.webp';
 import { Check } from 'lucide-react';
 import { BecomePartnerButton } from './BecomePartnerButton';
-import { assetSrc } from '@/lib/assets';
 
 const benefits = [
   'Orders from customers who found us, not you',
@@ -21,14 +16,13 @@ export const SendBusinessYourWay = () => {
       <div className="grid grid-cols-1 md:grid-cols-2">
 
         {/* Image Column */}
-        <div className="h-full order-1 md:order-1">
-          <img
-            src={assetSrc(floristImage)}
-            srcSet={`${assetSrc(floristImage320)} 320w, ${assetSrc(floristImage640)} 640w, ${assetSrc(floristImage768)} 768w, ${assetSrc(floristImage1024)} 1024w, ${assetSrc(floristImage1280)} 1280w`}
+        <div className="relative min-h-[320px] h-full order-1 md:order-1">
+          <Image
+            src={floristImage}
             sizes="(max-width: 768px) 100vw, 50vw"
             alt="A florist preparing a bouquet in their shop."
-            className="w-full h-full object-cover"
-            loading="lazy"
+            fill
+            className="object-cover"
           />
         </div>
 

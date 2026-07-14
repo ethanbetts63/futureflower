@@ -1,11 +1,7 @@
 
+import Image from 'next/image';
 import { BecomePartnerButton } from '../florists_page/BecomePartnerButton';
-import floristMakingImage320 from '../../assets/florist_making_flowers-320w.webp';
-import floristMakingImage640 from '../../assets/florist_making_flowers-640w.webp';
-import floristMakingImage768 from '../../assets/florist_making_flowers-768w.webp';
-import floristMakingImage1024 from '../../assets/florist_making_flowers-1024w.webp';
-import floristMakingImage1280 from '../../assets/florist_making_flowers-1280w.webp';
-import { assetSrc } from '@/lib/assets';
+import floristImage from '../../assets/florist-1280w.webp';
 
 const angles = [
   {
@@ -55,13 +51,12 @@ export const ContentIdeasSection = () => {
 
         {/* Image column */}
         <div className="relative min-h-[320px] overflow-hidden rounded-xl lg:min-h-0">
-          <img
-            src={assetSrc(floristMakingImage1280)}
-            srcSet={`${assetSrc(floristMakingImage320)} 320w, ${assetSrc(floristMakingImage640)} 640w, ${assetSrc(floristMakingImage768)} 768w, ${assetSrc(floristMakingImage1024)} 1024w, ${assetSrc(floristMakingImage1280)} 1280w`}
+          <Image
+            src={floristImage}
             sizes="(max-width: 1023px) 100vw, 40vw"
             alt="Florist arranging a custom bouquet"
-            className="absolute inset-0 h-full w-full object-cover"
-            loading="lazy"
+            fill
+            className="object-cover"
           />
         </div>
       </div>

@@ -1,22 +1,10 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import Seo from '../components/Seo';
-import deliveryImage320 from '../assets/delivery-320w.webp';
-import deliveryImage640 from '../assets/delivery-640w.webp';
-import deliveryImage768 from '../assets/delivery-768w.webp';
-import deliveryImage1024 from '../assets/delivery-1024w.webp';
-import deliveryImage1280 from '../assets/delivery-1280w.webp';
+import deliveryImage from '../assets/delivery-1280w.webp';
 import { articles } from '@/lib/staticPages';
-import { assetSrc } from '@/lib/assets';
 
 const BlogExplorePage = () => {
-  const srcSet = [
-    `${assetSrc(deliveryImage320)} 320w`,
-    `${assetSrc(deliveryImage640)} 640w`,
-    `${assetSrc(deliveryImage768)} 768w`,
-    `${assetSrc(deliveryImage1024)} 1024w`,
-    `${assetSrc(deliveryImage1280)} 1280w`,
-  ].join(', ');
-
   return (
     <>
       <Seo
@@ -28,14 +16,14 @@ const BlogExplorePage = () => {
       <div className="bg-primary text-primary-foreground">
         <section className="w-full">
           <div className="md:hidden">
-            <div className="w-full h-48 overflow-hidden">
-              <img
-                src={assetSrc(deliveryImage1280)}
-                srcSet={srcSet}
+            <div className="relative w-full h-48 overflow-hidden">
+              <Image
+                src={deliveryImage}
                 sizes="100vw"
                 alt=""
-                className="w-full h-full object-cover object-center"
-                fetchPriority="high"
+                fill
+                priority
+                className="object-cover object-center"
               />
             </div>
             <div className="bg-black px-6 py-4">
@@ -47,13 +35,13 @@ const BlogExplorePage = () => {
           </div>
 
           <div className="hidden md:block relative w-full h-64 overflow-hidden">
-            <img
-              src={assetSrc(deliveryImage1280)}
-              srcSet={srcSet}
+            <Image
+              src={deliveryImage}
               sizes="100vw"
               alt=""
-              className="absolute inset-0 w-full h-full object-cover object-center"
-              fetchPriority="high"
+              fill
+              priority
+              className="object-cover object-center"
             />
             <div className="absolute inset-0 flex items-end justify-center p-10 pb-8">
               <div className="bg-black/70 backdrop-blur-sm rounded-lg px-6 py-4 max-w-xl text-center">

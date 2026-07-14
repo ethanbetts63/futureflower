@@ -1,15 +1,10 @@
 
 import { ArrowDown } from 'lucide-react';
+import Image from 'next/image';
 import { BecomePartnerButton } from './BecomePartnerButton';
 import type { HeroFloristPageProps } from '@/types/HeroFloristPageProps';
 
 import deliveryImage from '../../assets/delivery.webp';
-import deliveryImage320 from '../../assets/delivery-320w.webp';
-import deliveryImage640 from '../../assets/delivery-640w.webp';
-import deliveryImage768 from '../../assets/delivery-768w.webp';
-import deliveryImage1024 from '../../assets/delivery-1024w.webp';
-import deliveryImage1280 from '../../assets/delivery-1280w.webp';
-import { assetSrc } from '@/lib/assets';
 
 export const HeroFloristPage = ({ scrollToContent }: HeroFloristPageProps) => {
   return (
@@ -44,13 +39,13 @@ export const HeroFloristPage = ({ scrollToContent }: HeroFloristPageProps) => {
 
         {/* Image column */}
         <div className="relative min-h-[420px] overflow-hidden bg-black lg:min-h-[720px] lg:rounded-xl">
-          <img
-            src={assetSrc(deliveryImage)}
-            srcSet={`${assetSrc(deliveryImage320)} 320w, ${assetSrc(deliveryImage640)} 640w, ${assetSrc(deliveryImage768)} 768w, ${assetSrc(deliveryImage1024)} 1024w, ${assetSrc(deliveryImage1280)} 1280w`}
+          <Image
+            src={deliveryImage}
             sizes="(max-width: 1023px) 100vw, 50vw"
             alt="Florist delivering a bouquet of flowers"
-            fetchPriority="high"
-            className="absolute inset-0 h-full w-full object-cover"
+            fill
+            priority
+            className="object-cover"
           />
           <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-5 sm:p-8">
             <div className="max-w-sm text-white">

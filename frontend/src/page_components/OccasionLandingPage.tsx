@@ -8,7 +8,7 @@ import type { LucideIcon } from 'lucide-react';
 import { FREE_DELIVERY_THRESHOLD } from '@/utils/systemConstants';
 
 import petalImage from '../assets/petal-1280w.webp';
-import floristMakingImage from '../assets/florist_making_flowers-1280w.webp';
+import floristMakingImage from '../assets/florist-1280w.webp';
 import deliveryImage from '../assets/delivery-1280w.webp';
 
 const bouquetImages = [

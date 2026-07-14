@@ -1,10 +1,6 @@
 
-import floristImage from '../../assets/florist_making_flowers-1280w.webp';
-import floristImage320 from '../../assets/florist_making_flowers-320w.webp';
-import floristImage640 from '../../assets/florist_making_flowers-640w.webp';
-import floristImage768 from '../../assets/florist_making_flowers-768w.webp';
-import floristImage1024 from '../../assets/florist_making_flowers-1024w.webp';
-import { assetSrc } from '@/lib/assets';
+import Image from 'next/image';
+import floristImage from '../../assets/florist-1280w.webp';
 
 const steps = [
     {
@@ -60,13 +56,12 @@ const PricingFloristAdvantage = () => (
 
             {/* Image column */}
             <div className="relative min-h-[400px] overflow-hidden rounded-xl md:min-h-[540px]">
-                <img
-                    src={assetSrc(floristImage)}
-                    srcSet={`${assetSrc(floristImage320)} 320w, ${assetSrc(floristImage640)} 640w, ${assetSrc(floristImage768)} 768w, ${assetSrc(floristImage1024)} 1024w`}
+                <Image
+                    src={floristImage}
                     sizes="(max-width: 1023px) 100vw, 50vw"
                     alt="A florist carefully crafting a bouquet"
-                    className="absolute inset-0 h-full w-full object-cover"
-                    loading="lazy"
+                    fill
+                    className="object-cover"
                 />
             </div>
         </div>
