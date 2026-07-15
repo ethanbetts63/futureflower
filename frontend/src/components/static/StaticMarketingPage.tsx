@@ -16,7 +16,7 @@ export function StaticMarketingPage({ page }: { page: LandingPageContent }) {
         </p>
         <Link
           href={page.ctaHref}
-          className="mt-8 inline-flex bg-[var(--colorgreen)] px-6 py-4 text-sm font-bold uppercase tracking-widest text-black"
+          className="mt-8 inline-flex rounded-lg bg-black px-6 py-4 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-black/85"
         >
           {page.ctaLabel}
         </Link>

@@ -44,7 +44,7 @@ const PartnerTypeSelectionPage = () => {
                   <li>Perfect for bloggers, influencers, and flower enthusiasts</li>
                 </ul>
                 <div className="pt-4 mt-auto">
-                  <Button className="w-full bg-[var(--colorgreen)] text-black hover:opacity-90 hover:bg-[var(--colorgreen)]" size="lg">
+                  <Button className="w-full bg-black text-white hover:bg-black/85" size="lg">
                     Select
                   </Button>
                 </div>
@@ -72,7 +72,7 @@ const PartnerTypeSelectionPage = () => {
                   <li>Perfect for florists and local delivery services</li>
                 </ul>
                 <div className="pt-4 mt-auto">
-                  <Button className="w-full bg-[var(--colorgreen)] text-black hover:opacity-90 hover:bg-[var(--colorgreen)]" size="lg">
+                  <Button className="w-full bg-black text-white hover:bg-black/85" size="lg">
                     Select
                   </Button>
                 </div>

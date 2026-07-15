@@ -83,7 +83,7 @@ const DiscountCodeInput = ({
             {isLoading ? <Spinner className="h-4 w-4" /> : 'Clear'}
           </Button>
         ) : (
-          <Button onClick={handleApply} disabled={!code.trim() || isLoading} type="button">
+          <Button onClick={handleApply} disabled={!code.trim() || isLoading} type="button" className="rounded-lg bg-black px-5 py-4 font-semibold text-white transition hover:bg-black/85 disabled:cursor-wait disabled:opacity-70">
             {isLoading ? <Spinner className="h-4 w-4" /> : 'Apply'}
           </Button>
         )}

@@ -19,7 +19,7 @@ const StepProgressBar = ({ currentStep, totalSteps, planName, isReview, customLa
                 </div>
                 <div className="w-full h-1.5 bg-black/10 rounded-full overflow-hidden">
                     <div
-                        className="h-full bg-[var(--colorgreen)] rounded-full transition-all duration-500 ease-out"
+                        className="h-full bg-black rounded-full transition-all duration-500 ease-out"
                         style={{ width: `${progressPercent}%` }}
                     />
                 </div>
