@@ -24,6 +24,21 @@ export default function robots(): MetadataRoute.Robots {
           "/terms-and-conditions/",
         ],
       },
+      {
+        userAgent: [
+          "GPTBot",
+          "OAI-SearchBot",
+          "ChatGPT-User",
+          "ClaudeBot",
+          "Claude-Web",
+          "anthropic-ai",
+          "PerplexityBot",
+          "Google-Extended",
+          "CCBot",
+        ],
+        allow: "/",
+        disallow: ["/api/"],
+      },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,
   };

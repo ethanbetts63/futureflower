@@ -33,9 +33,9 @@ const publicRoutes: Record<string, RouteMetadata> = {
     ogImage: "/og-images/og-affiliates.webp",
   },
   "/pricing": {
-    title: "Flower Subscription Pricing Plans",
+    title: "Flower Delivery Pricing",
     description:
-      "Simple, transparent pricing for flower delivery and subscriptions. Set your budget, choose your dates, and local florists handle the rest.",
+      "Simple, transparent flower delivery pricing. Set your budget and a local Australian florist designs the bouquet, delivery included. Recurring subscriptions available too.",
     path: "/pricing",
   },
   "/flower-subscription": {

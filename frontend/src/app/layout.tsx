@@ -12,7 +12,7 @@ const playfair = Playfair_Display({
 import Providers from './providers';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
-import { buildWebsiteSchema } from '@/lib/seo';
+import { buildWebsiteSchema, buildOrganizationSchema } from '@/lib/seo';
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -57,7 +57,9 @@ export default function RootLayout({
         </Providers>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildWebsiteSchema()) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([buildOrganizationSchema(), buildWebsiteSchema()]),
+          }}
         />
         <Analytics />
       </body>

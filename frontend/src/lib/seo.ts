@@ -30,13 +30,20 @@ export function buildOrganizationSchema(): object {
     '@id': `${SITE_URL}/#organization`,
     name: SITE_NAME,
     url: SITE_URL,
+    description:
+      'Australian flower delivery service where customers give their preferences and a florist designs a suitable bouquet.',
     logo: {
       '@type': 'ImageObject',
       url: absoluteUrl(PUBLISHER_LOGO),
       width: 512,
       height: 512,
     },
+    areaServed: [{ '@type': 'Country', name: 'Australia' }],
     sameAs: ['https://www.instagram.com/futureflowerapp/'],
+    founder: {
+      '@type': 'Person',
+      name: 'Ethan Betts',
+    },
   };
 }
 

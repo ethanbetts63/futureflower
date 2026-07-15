@@ -55,22 +55,6 @@ const homeFaqs: FaqItem[] = [
 ];
 
 const HomePage = () => {
-  const organizationSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'FutureFlower',
-    url: 'https://www.futureflower.app',
-    logo: 'https://www.futureflower.app/favicon-192x192.png',
-    description:
-      'Australian flower delivery service where customers give their preferences and a florist designs a suitable bouquet.',
-    areaServed: [{ '@type': 'Country', name: 'Australia' }],
-    sameAs: ['https://www.instagram.com/futureflowerapp/'],
-    founder: {
-      '@type': 'Person',
-      name: 'Ethan Betts',
-    },
-  };
-
   return (
     <main className="overflow-x-hidden bg-white text-black">
       <Seo
@@ -78,7 +62,6 @@ const HomePage = () => {
         description="Tell us the occasion, budget, and flower preferences. A local Australian florist designs a bouquet that fits."
         canonicalPath="/"
         ogImage="/og-images/og-homepage.webp"
-        structuredData={organizationSchema}
       />
 
       <LandingHero
