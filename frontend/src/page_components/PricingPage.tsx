@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import Seo from '@/components/Seo';
+import JsonLd from '@/components/JsonLd';
 import { HeroPills } from '@/components/HeroPills';
 import { RotatingBouquetHeroImage } from '@/components/RotatingBouquetHeroImage';
 import PricingFloristAdvantage from '../components/pricing_page/PricingFloristAdvantage';
@@ -42,12 +42,7 @@ const PricingPage = () => {
 
     return (
         <main className="text-black">
-            <Seo
-                title="Flower Delivery Pricing | FutureFlower"
-                description="Simple, transparent pricing for flower delivery. Set your budget, add your preferences, and a local Australian florist handles the rest."
-                canonicalPath="/pricing"
-                structuredData={serviceSchema}
-            />
+            <JsonLd path="/pricing" structuredData={serviceSchema} />
 
             {/* Hero */}
             <section className="relative overflow-hidden bg-[#f8f3ef]">

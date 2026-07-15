@@ -12,7 +12,6 @@ import { registerUser } from '@/api';
 import { getOrCreateDraftOrder } from '@/api/orders';
 import { clearHomepageBrief, readHomepageBrief, startOrderFromBrief } from '@/lib/homepageBrief';
 import { toast } from 'sonner';
-import Seo from '@/components/Seo';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 
 const PLAN_NAME = 'Single Delivery Plan';
@@ -62,7 +61,6 @@ const CreateAccountPage = () => {
         <StepProgressBar currentStep={1} totalSteps={TOTAL_STEPS} planName={PLAN_NAME} />
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-4xl py-0 md:py-12 px-0 md:px-4">
-                <Seo title="Create Account | FutureFlower" />
                 <Card className="bg-white text-black border-none shadow-none md:shadow-md rounded-none md:rounded-xl overflow-hidden">
                     <CardHeader className="px-4 md:px-8 pt-2">
                         <CardTitle className="text-3xl">Create Your Account</CardTitle>

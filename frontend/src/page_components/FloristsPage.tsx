@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from 'react';
-import Seo from '../components/Seo';
+import JsonLd from '../components/JsonLd';
 import { HowItWorksSection } from '../components/HowItWorksSection';
 import type { HowItWorksStep } from '../components/HowItWorksSection';
 import { FaqV2 } from '../components/FaqV2';
@@ -60,12 +60,7 @@ const FloristsPage = () => {
 
   return (
     <main>
-      <Seo
-        title="FutureFlower for Florists | Fully Paid Local Orders, Zero Fees"
-        description="Free to join. We send you fully paid local orders — take the ones you want, design from the stock you have, and deliver under your own brand."
-        canonicalPath="/florists"
-        ogImage="/og-images/og-homepage.webp"
-      />
+      <JsonLd path="/florists" />
 
       <HeroFloristPage />
 

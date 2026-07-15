@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { getAdminPlans } from '@/api/admin';
 import type { AdminPlan } from '@/types/AdminPlan';
 import { Loader2, ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react';
-import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import {
@@ -169,7 +168,6 @@ const AdminPlanListPage = () => {
 
   return (
     <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
-      <Seo title="Admin Plan List | FutureFlower" />
       <div className="container mx-auto max-w-5xl">
         <UnifiedSummaryCard
           title="Plans"

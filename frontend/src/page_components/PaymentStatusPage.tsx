@@ -8,7 +8,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import Seo from '@/components/Seo';
 import { getGuestOrder } from '@/api/guestCheckout';
 
 const POLL_INTERVAL_MS = 2000;
@@ -128,7 +127,6 @@ const UniversalPaymentStatusPage = () => {
     return (
         <div className="min-h-screen w-full flex items-center py-12" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-2xl">
-                <Seo title="Payment Status | FutureFlower" />
                 <Card className="bg-white text-black border-none shadow-md">
                     <CardHeader>
                         <CardTitle>Payment Status</CardTitle>

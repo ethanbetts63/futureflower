@@ -1,35 +1,6 @@
-import Seo from '../components/Seo';
-import HomeStarterForm from '@/components/home_page/HomeStarterForm';
-import { HeroPills } from '@/components/HeroPills';
-import { LandingHero } from '@/components/LandingHero';
-import { RotatingBouquetHeroImage } from '@/components/RotatingBouquetHeroImage';
-import { BetterForEveryoneSection } from '@/components/home_page/BetterForEveryoneSection';
-import { HowItWorksSection } from '../components/HowItWorksSection';
-import { FaqV2 } from '../components/FaqV2';
+import OccasionLandingPage, { type OccasionLandingPageConfig } from './OccasionLandingPage';
+import { defaultTrustPoints } from './occasionLandingContent';
 import type { FaqItem } from '@/types/FaqItem';
-import { Check, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
-
-import petalImage from '../assets/petal-1280w.webp';
-import floristMakingImage from '../assets/florist-1280w.webp';
-import deliveryImage from '../assets/delivery-1280w.webp';
-
-const trustPoints = [
-  {
-    icon: Sparkles,
-    title: 'Florist-led design',
-    text: 'No fixed catalog recipe. Your florist works from the occasion, budget, and preferences you provide.',
-  },
-  {
-    icon: MapPin,
-    title: 'Always supporting local',
-    text: 'Every order is made and delivered by a local Australian florist — their name on the delivery, your money in their till.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'We make it right',
-    text: 'Something wrong with your delivery? Tell us and we\'ll sort it — refund or redelivery.',
-  },
-];
 
 const homeFaqs: FaqItem[] = [
   {
@@ -54,111 +25,43 @@ const homeFaqs: FaqItem[] = [
   },
 ];
 
-const HomePage = () => {
-  return (
-    <main className="overflow-x-hidden bg-white text-black">
-      <Seo
-        title="FutureFlower | Australian Florist-Led Flower Delivery"
-        description="Tell us the occasion, budget, and flower preferences. A local Australian florist designs a bouquet that fits."
-        canonicalPath="/"
-        ogImage="/og-images/og-homepage.webp"
-      />
-
-      <LandingHero
-        formId="start-order"
-        heading="Aussie flower delivery, done your way."
-        eyebrow={<HeroPills />}
-        description="Choose the occasion, budget, and preferences. We organise a custom bouquet that fits, made by a florist rather than picked from a warehouse catalog."
-        form={<HomeStarterForm />}
-        image={
-          <RotatingBouquetHeroImage
-            className="relative min-h-[520px] overflow-hidden bg-black lg:min-h-[560px]"
-            overlay={
-              <div className="max-w-sm text-white [text-shadow:0_1px_3px_rgb(0_0_0/0.6)]">
-                <p className="text-sm font-semibold">A brief, not a catalog order.</p>
-                <p className="mt-1 text-sm leading-relaxed text-white/90">
-                  The florist uses your notes to make the right call on colour, style, and seasonal flowers.
-                </p>
-              </div>
-            }
-          />
-        }
-      />
-
-      <BetterForEveryoneSection />
-
-      <HowItWorksSection
-        heading="Three steps between you and better flowers."
-        steps={[
-          {
-            title: 'Give us the brief',
-            text: 'Occasion, budget, and preferences — favourite colours, things to avoid, the feeling you\'re after. Two minutes, no catalog scrolling.',
-            image: petalImage,
-            imageAlt: 'Flower petals representing a customer brief',
-          },
-          {
-            title: 'A local florist designs it',
-            text: 'We pass your brief to a florist near the delivery address. They design something suitable from the best of what\'s in season, matching your notes as closely as the day\'s stock allows.',
-            image: floristMakingImage,
-            imageAlt: 'Florist arranging a custom bouquet',
-          },
-          {
-            title: 'Delivered on your date',
-            text: 'Made fresh, delivered to the door with your card message — under the florist\'s own name, because they made it.',
-            image: deliveryImage,
-            imageAlt: 'Bouquet being delivered to a doorstep',
-          },
-        ]}
-      />
-
-      <section className="bg-[#fbfaf7] py-14 sm:py-16">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black">
-              Simple by design
-            </p>
-            <h2 className="mt-3 text-3xl font-bold leading-tight font-playfair-display sm:text-4xl">
-              A better order starts with a better brief.
-            </h2>
-          </div>
-
-          <div className="self-center rounded-xl bg-white shadow-sm shadow-black/5">
-            <ul className="divide-y divide-black/5">
-              {[
-                'Choose a feeling instead of scrolling through lookalike bouquets.',
-                'Set the budget before the florist starts planning.',
-                'Add favourite colours, dislikes, allergies, or special requests.',
-                'Continue to recipient, address, date, and payment details.',
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3 px-5 py-4">
-                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-[var(--colorgreen)]" />
-                  <p className="font-medium leading-relaxed text-black/70">{item}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-black/10 bg-white">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-black/10 px-5 sm:px-6 md:grid-cols-3 md:divide-x md:divide-y-0 lg:px-8">
-          {trustPoints.map(({ icon: Icon, title, text }) => (
-            <div key={title} className="py-8 md:px-7">
-              <Icon className="h-6 w-6 text-black" />
-              <h2 className="mt-4 text-xl font-bold font-playfair-display">{title}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-black/60">{text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <div className="bg-[#fbfaf7]">
-        <section className="pb-8">
-          <FaqV2 title="Questions? We have answers." faqs={homeFaqs} />
-        </section>
-      </div>
-    </main>
-  );
+const config: OccasionLandingPageConfig = {
+  seo: {
+    canonicalPath: '/',
+  },
+  heroTitle: 'Aussie flower delivery, done your way.',
+  heroSubtext:
+    'Choose the occasion, budget, and preferences. We organise a custom bouquet that fits, made by a florist rather than picked from a warehouse catalog.',
+  imageOverlayTitle: 'A brief, not a catalog order.',
+  imageOverlayText:
+    'The florist uses your notes to make the right call on colour, style, and seasonal flowers.',
+  trustPoints: defaultTrustPoints,
+  howItWorksHeading: 'Three steps between you and better flowers.',
+  howItWorksSteps: [
+    {
+      title: 'Give us the brief',
+      text: 'Occasion, budget, and preferences — favourite colours, things to avoid, the feeling you\'re after. Two minutes, no catalog scrolling.',
+    },
+    {
+      title: 'A local florist designs it',
+      text: 'We pass your brief to a florist near the delivery address. They design something suitable from the best of what\'s in season, matching your notes as closely as the day\'s stock allows.',
+    },
+    {
+      title: 'Delivered on your date',
+      text: 'Made fresh, delivered to the door with your card message — under the florist\'s own name, because they made it.',
+    },
+  ],
+  checklistHeading: 'A better order starts with a better brief.',
+  checklistItems: [
+    'Choose a feeling instead of scrolling through lookalike bouquets.',
+    'Set the budget before the florist starts planning.',
+    'Add favourite colours, dislikes, allergies, or special requests.',
+    'Continue to recipient, address, date, and payment details.',
+  ],
+  faqTitle: 'Questions? We have answers.',
+  faqs: homeFaqs,
 };
+
+const HomePage = () => <OccasionLandingPage config={config} />;
 
 export default HomePage;

@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useState, useEffect, useMemo } from 'react';
 import { getOrders } from '@/api/orders';
 import { getUserProfile } from '@/api';
@@ -14,7 +13,6 @@ import UserDetailsSummary from '@/components/UserDetailsSummary';
 import SummarySection from '@/components/SummarySection';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
-import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 
 const UserDashboardPage = () => {
@@ -74,7 +72,6 @@ const UserDashboardPage = () => {
   return (
     <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
       <div className="container mx-auto max-w-4xl">
-        <Seo title="Dashboard | FutureFlower" />
         
         <UnifiedSummaryCard
           title="Welcome to Your Dashboard"

@@ -1,18 +1,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import Seo from '../components/Seo';
+import JsonLd from '../components/JsonLd';
 import deliveryImage from '../assets/delivery-1280w.webp';
 import { articles } from '@/lib/staticPages';
 
 const BlogExplorePage = () => {
   return (
     <>
-      <Seo
-        title="FutureFlower Blog"
-        description="Explore articles, insights, and guides on long-term floral planning, personal growth, and making sure you never forget the important stuff."
-        canonicalPath="/articles"
-        ogType="website"
-      />
+      <JsonLd path="/articles" />
       <div className="bg-primary text-primary-foreground">
         <section className="w-full">
           <div className="md:hidden">

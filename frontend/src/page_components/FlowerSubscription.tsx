@@ -1,4 +1,5 @@
 import OccasionLandingPage, { type OccasionLandingPageConfig } from './OccasionLandingPage';
+import { buildServiceSchema } from '@/lib/seo';
 import type { FaqItem } from '@/types/FaqItem';
 import { CalendarClock, Leaf, Palette, RefreshCw, ShieldCheck } from 'lucide-react';
 
@@ -32,25 +33,13 @@ const subscriptionFaqs: FaqItem[] = [
 
 const config: OccasionLandingPageConfig = {
   seo: {
-    title: 'Flower Subscription Delivery in Australia | FutureFlower',
-    description:
-      'Set up a recurring flower subscription designed by a local Australian florist. Choose your frequency and budget, pause anytime, and get fresh seasonal bouquets on repeat.',
     canonicalPath: '/flower-subscription',
-    ogImage: '/og-images/og-homepage.webp',
-    structuredData: {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
+    structuredData: buildServiceSchema({
       serviceType: 'Flower Subscription Delivery',
       name: 'Flower Subscription by FutureFlower',
       description:
         'Recurring flower delivery designed by local Australian florists. Choose a frequency and budget, and receive fresh seasonal bouquets on a weekly, fortnightly, or monthly schedule.',
-      provider: {
-        '@type': 'Organization',
-        name: 'FutureFlower',
-        url: 'https://www.futureflower.app',
-      },
-      areaServed: [{ '@type': 'Country', name: 'Australia' }],
-    },
+    }),
   },
   heroTitle: 'Fresh flowers on repeat, done your way.',
   heroSubtext:

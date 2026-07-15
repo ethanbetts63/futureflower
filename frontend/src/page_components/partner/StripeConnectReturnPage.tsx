@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { CheckCircle, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Seo from '@/components/Seo';
 import { getStripeConnectStatus } from '@/api/partners';
 
 const StripeConnectReturnPage = () => {
@@ -37,7 +36,6 @@ const StripeConnectReturnPage = () => {
 
   return (
     <>
-      <Seo title="Stripe Connect | FutureFlower" />
       <div className="min-h-screen w-full py-0 md:py-12 px-0 md:px-4" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto max-w-4xl">
           <Card className="bg-white text-black border-none shadow-none md:shadow-xl md:shadow-black/5 rounded-none md:rounded-[2rem] overflow-hidden text-center">

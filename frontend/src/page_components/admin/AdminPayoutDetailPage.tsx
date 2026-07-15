@@ -6,7 +6,6 @@ import { getAdminCommission, approveCommission, denyCommission } from '@/api/adm
 import type { AdminCommission } from '@/types/AdminCommission';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
-import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
@@ -109,7 +108,6 @@ const AdminPayoutDetailPage = () => {
 
   return (
     <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
-      <Seo title="Commission Detail | FutureFlower" />
       <div className="container mx-auto max-w-4xl">
         <UnifiedSummaryCard
           title="Commission Detail"

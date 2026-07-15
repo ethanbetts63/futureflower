@@ -8,7 +8,6 @@ import type { StripeElementsOptions, Appearance } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
-import Seo from '@/components/Seo';
 import CheckoutForm from '@/forms/CheckoutForm';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
@@ -95,7 +94,6 @@ const CheckoutPage = () => {
 
     return (
         <>
-            <Seo title="Complete Your Order | FutureFlower" />
             <StepProgressBar
                 planName={planName}
                 currentStep={4}

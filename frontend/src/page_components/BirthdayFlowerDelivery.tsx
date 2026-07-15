@@ -1,5 +1,6 @@
 import OccasionLandingPage, { type OccasionLandingPageConfig } from './OccasionLandingPage';
 import { defaultTrustPoints } from './occasionLandingContent';
+import { buildServiceSchema } from '@/lib/seo';
 import type { FaqItem } from '@/types/FaqItem';
 import { Flower2, Leaf, Palette } from 'lucide-react';
 
@@ -33,25 +34,13 @@ const birthdayFaqs: FaqItem[] = [
 
 const config: OccasionLandingPageConfig = {
   seo: {
-    title: 'Birthday Flower Delivery | FutureFlower',
-    description:
-      'Send fresh birthday flowers designed by a local Australian florist. Pick the date, set a budget, add preferences — the florist handles the rest.',
     canonicalPath: '/birthday-flower-delivery',
-    ogImage: '/og-images/og-birthday-flowers.webp',
-    structuredData: {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
+    structuredData: buildServiceSchema({
       serviceType: 'Birthday Flower Delivery',
       name: 'Birthday Flower Delivery by FutureFlower',
       description:
         'Fresh birthday flowers designed by local Australian florists and delivered on the date you choose.',
-      provider: {
-        '@type': 'Organization',
-        name: 'FutureFlower',
-        url: 'https://www.futureflower.app',
-      },
-      areaServed: [{ '@type': 'Country', name: 'Australia' }],
-    },
+    }),
   },
   heroTitle: 'Birthday flowers, done your way.',
   heroSubtext:

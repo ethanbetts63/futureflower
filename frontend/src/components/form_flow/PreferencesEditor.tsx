@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
-import Seo from '@/components/Seo';
 import { toast } from 'sonner';
 import { getFlowerTypes } from '@/api';
 import type { FlowerType } from '../../types/FlowerType';
@@ -106,7 +105,6 @@ const PreferencesEditor = ({
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
             <div className="container mx-auto max-w-4xl py-0 md:py-12 px-0 md:px-4">
-                <Seo title={`${title} | FutureFlower`} />
                 <Card className="bg-white text-black border-none shadow-none md:shadow-xl md:shadow-black/5 rounded-none md:rounded-[2rem] overflow-hidden">
                     <CardHeader className="px-4 md:px-8 pt-2">
                         <CardTitle className="text-3xl md:text-4xl font-bold font-playfair-display">{title}</CardTitle>

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { getAdminCommissions } from '@/api/admin';
 import type { AdminCommission } from '@/types/AdminCommission';
 import { Loader2 } from 'lucide-react';
-import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 
@@ -93,7 +92,6 @@ const AdminPayoutListPage = () => {
 
   return (
     <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
-      <Seo title="Payout List | FutureFlower" />
       <div className="container mx-auto max-w-4xl">
         <UnifiedSummaryCard
           title="Commissions & Payouts"

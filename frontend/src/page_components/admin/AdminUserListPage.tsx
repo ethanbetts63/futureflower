@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { getAdminUsers } from '@/api/admin';
 import type { AdminUser } from '@/types/AdminUser';
 import { Loader2, ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react';
-import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import {
@@ -89,7 +88,6 @@ const AdminUserListPage = () => {
 
   return (
     <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
-      <Seo title="Admin User List | FutureFlower" />
       <div className="container mx-auto max-w-5xl">
         <UnifiedSummaryCard
           title="Users"

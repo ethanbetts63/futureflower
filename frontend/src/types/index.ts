@@ -4,7 +4,6 @@ export type { DecodedToken } from './DecodedToken';
 export type { AuthResponse } from './AuthResponse';
 export type { BackButtonProps } from './BackButtonProps';
 export type { PaymentHistoryCardProps } from './PaymentHistoryCardProps';
-export type { SeoProps } from './SeoProps';
 export type { BannerProps } from './BannerProps';
 export type { SelectableTagProps } from './SelectableTagProps';
 export type { RecipientEditorProps } from './RecipientEditorProps';

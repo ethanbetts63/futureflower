@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.futureflower.app";
+import { SITE_URL } from "@/lib/seo";
 
 const routes: Array<{ path: string; lastModified: string }> = [
   { path: "/", lastModified: "2026-05-11" },
@@ -23,7 +22,7 @@ const routes: Array<{ path: string; lastModified: string }> = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((route) => ({
-    url: `${siteUrl}${route.path}`,
+    url: `${SITE_URL}${route.path}`,
     lastModified: route.lastModified,
   }));
 }

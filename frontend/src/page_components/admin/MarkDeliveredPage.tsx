@@ -6,7 +6,6 @@ import type { AdminEvent } from '@/types/AdminEvent';
 import { Spinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
@@ -70,7 +69,6 @@ const MarkDeliveredPage = () => {
 
   return (
     <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
-      <Seo title="Confirm Delivery | FutureFlower" />
       <div className="container mx-auto max-w-4xl">
         <form onSubmit={handleSubmit}>
           <UnifiedSummaryCard

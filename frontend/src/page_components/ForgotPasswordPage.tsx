@@ -10,7 +10,6 @@ import { Form, FormControl, FormItem, FormLabel, FormMessage } from '@/component
 import { Card, CardContent } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from "sonner";
-import Seo from '@/components/Seo';
 import { requestPasswordReset } from '@/api';
 
 type EmailFormData = {
@@ -39,11 +38,6 @@ const ForgotPasswordPage = () => {
 
   return (
     <div className="bg-[var(--color4)] flex flex-grow min-h-full flex-col items-center justify-center p-6 md:p-10">
-      <Seo
-        title="Forgot Password | FutureFlower"
-        description="Reset your password for your FutureFlower account. Enter your email to receive a password reset link."
-        canonicalPath="/forgot-password"
-      />
       <div className="flex flex-col gap-6 w-full max-w-sm md:max-w-md">
         <Card className="overflow-hidden p-0 bg-white text-black shadow-md border-none">
           <CardContent className="p-0">

@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { Badge } from '@/components/ui/badge';
-import Seo from '@/components/Seo';
 import StripeConnectBanner from '@/components/StripeConnectBanner';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
@@ -55,7 +54,6 @@ const PartnerDashboardPage = () => {
 
   return (
     <>
-      <Seo title="Partner Dashboard | FutureFlower" />
       <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
         <div className="container mx-auto max-w-4xl">
           <UnifiedSummaryCard

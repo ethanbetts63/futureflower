@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
+import { SITE_URL } from "./seo";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.futureflower.app";
-
-type RouteMetadata = {
+export type RouteMetadata = {
   title: string;
   description?: string;
   path: string;
@@ -140,12 +139,12 @@ const noindexPrefixes = [
 ];
 
 function metadataFromRoute(route: RouteMetadata): Metadata {
-  const canonicalUrl = `${siteUrl}${route.path}`;
+  const canonicalUrl = `${SITE_URL}${route.path}`;
   const imageUrl = route.ogImage
     ? route.ogImage.startsWith("http")
       ? route.ogImage
-      : `${siteUrl}${route.ogImage}`
-    : `${siteUrl}/og-images/og-homepage.webp`;
+      : `${SITE_URL}${route.ogImage}`
+    : `${SITE_URL}/og-images/og-homepage.webp`;
 
   return {
     title: route.title,
@@ -167,6 +166,15 @@ function metadataFromRoute(route: RouteMetadata): Metadata {
       images: [imageUrl],
     },
   };
+}
+
+/**
+ * Raw content registry lookup — the single source of truth for a route's
+ * title/description/ogImage/ogType. Used both for Next page metadata and for
+ * the JSON-LD emitted by <JsonLd path="…" />, so the two never drift.
+ */
+export function getRouteContent(path: string): RouteMetadata | undefined {
+  return publicRoutes[path];
 }
 
 export function getPathFromSlug(slug?: string[]) {

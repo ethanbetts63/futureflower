@@ -1,6 +1,7 @@
-import Seo from '../components/Seo';
+import JsonLd from '../components/JsonLd';
 import HomeStarterForm from '@/components/home_page/HomeStarterForm';
 import { HeroPills } from '@/components/HeroPills';
+import { LandingHero } from '@/components/LandingHero';
 import { RotatingBouquetHeroImage } from '@/components/RotatingBouquetHeroImage';
 import {
   BetterForEveryoneSection,
@@ -33,11 +34,8 @@ const stepImages = [
 
 export interface OccasionLandingPageConfig {
   seo: {
-    title: string;
-    description: string;
     canonicalPath: string;
-    ogImage: string;
-    structuredData: object;
+    structuredData?: object;
   };
   heroTitle: string;
   heroSubtext: string;
@@ -45,7 +43,8 @@ export interface OccasionLandingPageConfig {
   imageOverlayText: string;
   defaultVibeName?: string;
   trustPoints: { icon: LucideIcon; title: string; text: string }[];
-  betterForEveryoneBenefits: BetterForEveryoneBenefit[];
+  /** Omit to use the default "better for everyone" benefits (as the homepage does). */
+  betterForEveryoneBenefits?: BetterForEveryoneBenefit[];
   howItWorksHeading: string;
   howItWorksSteps: { title: string; text: string }[];
   checklistHeading: string;
@@ -57,37 +56,17 @@ export interface OccasionLandingPageConfig {
 const OccasionLandingPage = ({ config }: { config: OccasionLandingPageConfig }) => {
   return (
     <main className="overflow-x-hidden bg-white text-black">
-      <Seo
-        title={config.seo.title}
-        description={config.seo.description}
-        canonicalPath={config.seo.canonicalPath}
-        ogImage={config.seo.ogImage}
-        structuredData={config.seo.structuredData}
-      />
+      <JsonLd path={config.seo.canonicalPath} structuredData={config.seo.structuredData} />
 
-      <section className="relative overflow-hidden bg-[#f8f3ef]">
-        <div className="mx-auto grid min-h-[calc(100vh-72px)] max-w-7xl grid-cols-1 items-start gap-0 px-0 pb-0 pt-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8 lg:px-8 lg:py-12">
-          <div className="min-w-0 px-5 sm:px-6 lg:col-start-1 lg:row-start-1 lg:self-end lg:px-0 lg:pb-4">
-            <div className="max-w-full sm:max-w-2xl">
-              <h1 className="text-4xl font-bold leading-[1.05] text-black font-playfair-display sm:text-6xl lg:text-7xl">
-                {config.heroTitle}
-              </h1>
-              <HeroPills />
-              <p className="mt-5 max-w-xl text-lg leading-relaxed text-black/65">
-                {config.heroSubtext}
-              </p>
-            </div>
-          </div>
-
-          <div
-            id="start-order"
-            className="order-2 mt-8 min-w-0 scroll-mt-24 lg:order-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0"
-          >
-            <HomeStarterForm defaultVibeName={config.defaultVibeName} />
-          </div>
-
+      <LandingHero
+        formId="start-order"
+        heading={config.heroTitle}
+        eyebrow={<HeroPills />}
+        description={config.heroSubtext}
+        form={<HomeStarterForm defaultVibeName={config.defaultVibeName} />}
+        image={
           <RotatingBouquetHeroImage
-            className="order-3 relative mt-8 min-h-[520px] overflow-hidden bg-black lg:order-none lg:col-start-1 lg:row-start-2 lg:mt-0 lg:min-h-[560px] lg:rounded-xl"
+            className="relative min-h-[520px] overflow-hidden bg-black lg:min-h-[560px]"
             overlay={
               <div className="max-w-sm text-white [text-shadow:0_1px_3px_rgb(0_0_0/0.6)]">
                 <p className="text-sm font-semibold">{config.imageOverlayTitle}</p>
@@ -97,8 +76,8 @@ const OccasionLandingPage = ({ config }: { config: OccasionLandingPageConfig }) 
               </div>
             }
           />
-        </div>
-      </section>
+        }
+      />
 
       <BetterForEveryoneSection benefits={config.betterForEveryoneBenefits} />
 

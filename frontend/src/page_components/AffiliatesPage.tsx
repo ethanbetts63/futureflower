@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from 'react';
-import Seo from '../components/Seo';
+import JsonLd from '../components/JsonLd';
 import { HeroAffiliatesPage } from '../components/affiliates_page/HeroAffiliatesPage';
 import { ValuePropsAffiliates } from '../components/affiliates_page/ValuePropsAffiliates';
 import { WhyFutureFlowerAffiliatesSection } from '../components/affiliates_page/WhyFutureFlowerAffiliatesSection';
@@ -39,12 +39,7 @@ const AffiliatesPage = () => {
 
   return (
     <main>
-      <Seo
-        title="FutureFlower Affiliates | Earn by Gifting"
-        description="Give your audience $5 off custom flowers from a local florist and earn $10 for every new customer you send. Simple, flat, no tiers."
-        canonicalPath="/affiliates"
-        ogImage="/og-images/og-affiliates.webp"
-      />
+      <JsonLd path="/affiliates" />
 
       <HeroAffiliatesPage />
 

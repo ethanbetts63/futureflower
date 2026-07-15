@@ -1,7 +1,7 @@
 ﻿import { ArticleLayout } from '../../components/ArticleLayout';
 import articleImage from '../../assets/delivery.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
-import Seo from '../../components/Seo';
+import JsonLd from '../../components/JsonLd';
 import { assetSrc } from '@/lib/assets';
 
 const BestFlowerSubscriptionServicesAU = () => {
@@ -45,14 +45,7 @@ const BestFlowerSubscriptionServicesAU = () => {
 
   return (
     <>
-      <Seo
-        title={articleDetails.title}
-        description={articleDetails.description}
-        canonicalPath="/articles/best-flower-subscription-services-au"
-        ogType="article"
-        ogImage={articleDetails.ogImage}
-        structuredData={structuredData}
-      />
+      <JsonLd path="/articles/best-flower-subscription-services-au" structuredData={structuredData} />
       <ArticleLayout
         title="Best Flower Subscription Services in Australia (2026)"
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> A practical comparison of Australian flower subscriptions, with notes on coverage, flexibility, bouquet style, and who each service suits.</>}

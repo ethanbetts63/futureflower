@@ -1,7 +1,7 @@
 import { ArticleLayout } from '../../components/ArticleLayout';
 import articleImage from '../../assets/delivery.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
-import Seo from '../../components/Seo';
+import JsonLd from '../../components/JsonLd';
 import { assetSrc } from '@/lib/assets';
 
 const BestFlowerDeliveryMelbourne = () => {
@@ -45,14 +45,7 @@ const BestFlowerDeliveryMelbourne = () => {
 
   return (
     <>
-      <Seo
-        title={articleDetails.title}
-        description={articleDetails.description}
-        canonicalPath="/articles/best-flower-delivery-melbourne"
-        ogType="article"
-        ogImage={articleDetails.ogImage}
-        structuredData={structuredData}
-      />
+      <JsonLd path="/articles/best-flower-delivery-melbourne" structuredData={structuredData} />
       <ArticleLayout
         title="The Best Flower Delivery Services in Melbourne (2026 Guide)"
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> A comprehensive guide to the top flower delivery services in Melbourne, broken down by best overall, fastest delivery, and most affordable options.</>}

@@ -2,12 +2,10 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { MailX } from 'lucide-react';
-import Seo from '@/components/Seo';
 
 const BlocklistSuccessPage = () => {
   return (
     <div className="container mx-auto max-w-2xl py-12">
-      <Seo title="Successfully Unsubscribed | FutureFlower" />
       <Card>
         <CardHeader className="flex flex-col items-center text-center">
           <MailX className="h-16 w-16 text-red-500 mb-4" />

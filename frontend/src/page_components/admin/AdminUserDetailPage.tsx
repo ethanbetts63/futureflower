@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { getAdminUser } from '@/api/admin';
 import type { AdminUserDetail } from '@/types/AdminUserDetail';
 import { Spinner } from '@/components/ui/spinner';
-import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
@@ -68,7 +67,6 @@ const AdminUserDetailPage = () => {
 
   return (
     <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
-      <Seo title={`${user.first_name} ${user.last_name} | FutureFlower`} />
       <div className="container mx-auto max-w-4xl">
         <UnifiedSummaryCard
           title={`${user.first_name} ${user.last_name}`}

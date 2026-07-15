@@ -1,5 +1,4 @@
 
-import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 
@@ -8,7 +7,6 @@ const REFUND_EMAIL = 'ethan.betts.dev@gmail.com';
 const RefundRequestPage = () => {
   return (
     <>
-      <Seo title="Order Support | FutureFlower" />
       <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-0 md:px-4 max-w-4xl">
           <UnifiedSummaryCard

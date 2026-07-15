@@ -2,6 +2,7 @@ import { Flower2, Leaf, MapPin, Palette, ShieldCheck, Sparkles } from 'lucide-re
 import OccasionLandingPage, {
   type OccasionLandingPageConfig,
 } from './OccasionLandingPage';
+import { buildServiceSchema } from '@/lib/seo';
 import type { FaqItem } from '@/types/FaqItem';
 
 const perthFaqs: FaqItem[] = [
@@ -34,23 +35,12 @@ const perthFaqs: FaqItem[] = [
 
 const config: OccasionLandingPageConfig = {
   seo: {
-    title: 'Flower Delivery Perth | FutureFlower',
-    description:
-      'Fresh flower delivery in Perth from local florists. Tell us the occasion, budget, and preferences — a Perth florist designs a bouquet that fits.',
     canonicalPath: '/flower-delivery-perth',
-    ogImage: '/og-images/og-flower-delivery-perth.webp',
-    structuredData: {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
+    structuredData: buildServiceSchema({
       serviceType: 'Flower Delivery',
       name: 'Flower Delivery Perth by FutureFlower',
       description:
         'Fresh flower delivery in Perth from local florists. Give the occasion, budget, and preferences, and a Perth florist designs and delivers a custom bouquet.',
-      provider: {
-        '@type': 'Organization',
-        name: 'FutureFlower',
-        url: 'https://www.futureflower.app',
-      },
       areaServed: {
         '@type': 'City',
         name: 'Perth',
@@ -63,7 +53,7 @@ const config: OccasionLandingPageConfig = {
           },
         },
       },
-    },
+    }),
   },
   heroTitle: 'Perth flowers, done your way.',
   heroSubtext:

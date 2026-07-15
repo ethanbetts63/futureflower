@@ -4,7 +4,6 @@ import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { getTermsByType } from '@/api';
 import type { TermsAndConditions } from '@/types/TermsAndConditions';
-import Seo from '@/components/Seo';
 import { Spinner } from '@/components/ui/spinner';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
@@ -82,7 +81,6 @@ const TermsAndConditionsPage = () => {
 
     return (
         <>
-            <Seo title={`${TYPE_LABELS[validType]} Terms & Conditions | FutureFlower`} />
             <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
                 <div className="container mx-auto max-w-4xl">
                     <UnifiedSummaryCard

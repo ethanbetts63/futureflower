@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { getAdminPlanDetail } from '@/api/admin';
 import type { AdminPlanDetail } from '@/types/AdminPlanDetail';
 import { Spinner } from '@/components/ui/spinner';
-import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
@@ -88,7 +87,6 @@ const AdminPlanDetailPage = () => {
 
   return (
     <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
-      <Seo title="Plan Detail | FutureFlower" />
       <div className="container mx-auto max-w-4xl">
         <UnifiedSummaryCard
           title={`${capitalize(plan.plan_type)} Plan #${plan.id}`}

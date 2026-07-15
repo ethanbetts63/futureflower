@@ -1,7 +1,7 @@
 ﻿import { ArticleLayout } from '../../components/ArticleLayout';
 import articleImage from '../../assets/delivery.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
-import Seo from '../../components/Seo';
+import JsonLd from '../../components/JsonLd';
 import { assetSrc } from '@/lib/assets';
 
 const BestFlowerDeliverySydney = () => {
@@ -45,14 +45,7 @@ const BestFlowerDeliverySydney = () => {
 
   return (
     <>
-      <Seo
-        title={articleDetails.title}
-        description={articleDetails.description}
-        canonicalPath="/articles/best-flower-delivery-sydney"
-        ogType="article"
-        ogImage={articleDetails.ogImage}
-        structuredData={structuredData}
-      />
+      <JsonLd path="/articles/best-flower-delivery-sydney" structuredData={structuredData} />
       <ArticleLayout
         title="Best Flower Delivery Services in Sydney (2026)"
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> A practical comparison of Sydney flower delivery options, including same-day cutoffs, design quality, and who each service suits.</>}

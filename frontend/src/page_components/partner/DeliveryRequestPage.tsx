@@ -7,7 +7,6 @@ import { Spinner } from '@/components/ui/spinner';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, XCircle, MapPin, Calendar, DollarSign } from 'lucide-react';
 import { toast } from 'sonner';
-import Seo from '@/components/Seo';
 import { getDeliveryRequestByToken, respondToDeliveryRequest, markDeliveryComplete } from '@/api/partners';
 import type { DeliveryRequestDetail } from '@/types';
 
@@ -82,7 +81,6 @@ const DeliveryRequestPage = () => {
 
   return (
     <>
-      <Seo title="Delivery Request | FutureFlower" />
       <div className="min-h-screen w-full py-0 md:py-12 px-0 md:px-4" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto max-w-4xl space-y-6">
           <Card className="bg-white text-black border-none shadow-none md:shadow-xl md:shadow-black/5 rounded-none md:rounded-[2rem] overflow-hidden">

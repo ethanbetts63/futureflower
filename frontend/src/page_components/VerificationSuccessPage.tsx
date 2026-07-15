@@ -4,12 +4,10 @@ import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircleIcon } from 'lucide-react';
-import Seo from '@/components/Seo';
 
 const VerificationSuccessPage = () => {
   return (
     <div className="container mx-auto max-w-2xl py-12">
-      <Seo title="Verification Successful | FutureFlower" />
       <Card>
         <CardHeader className="flex flex-col items-center text-center">
           <CheckCircleIcon className="h-16 w-16 text-green-500 mb-4" />

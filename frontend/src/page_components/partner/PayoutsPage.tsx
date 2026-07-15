@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Spinner } from '@/components/ui/spinner';
-import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import { getPayouts } from '@/api/partners';
@@ -38,7 +37,6 @@ const PayoutsPage = () => {
 
   return (
     <>
-      <Seo title="Payouts | FutureFlower" />
       <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
         <div className="container mx-auto max-w-4xl">
           <UnifiedSummaryCard

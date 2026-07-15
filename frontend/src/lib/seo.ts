@@ -47,6 +47,25 @@ export function buildOrganizationSchema(): object {
   };
 }
 
+export function buildServiceSchema(options: {
+  serviceType: string;
+  name: string;
+  description: string;
+  areaServed?: object | object[];
+}): object {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: options.serviceType,
+    name: options.name,
+    description: options.description,
+    provider: {
+      '@id': `${SITE_URL}/#organization`,
+    },
+    areaServed: options.areaServed ?? [{ '@type': 'Country', name: 'Australia' }],
+  };
+}
+
 export function buildWebPageSchema(options: {
   title: string;
   description?: string;

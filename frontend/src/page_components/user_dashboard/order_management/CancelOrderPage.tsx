@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import Seo from '@/components/Seo';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import PlanDisplay from '@/components/PlanDisplay';
@@ -172,7 +171,6 @@ const CancelOrderPage = () => {
 
   return (
     <>
-      <Seo title="Cancel Subscription | FutureFlower" />
       <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
         <div className="container mx-auto px-0 md:px-4 max-w-4xl">
           <PlanDisplay getPlan={getOrder} fallbackNavigationPath="/dashboard">

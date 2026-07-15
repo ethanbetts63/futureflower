@@ -1,5 +1,6 @@
 import OccasionLandingPage, { type OccasionLandingPageConfig } from './OccasionLandingPage';
 import { defaultTrustPoints } from './occasionLandingContent';
+import { buildServiceSchema } from '@/lib/seo';
 import type { FaqItem } from '@/types/FaqItem';
 import { Flower2, Leaf, Palette } from 'lucide-react';
 
@@ -33,25 +34,13 @@ const valentinesFaqs: FaqItem[] = [
 
 const config: OccasionLandingPageConfig = {
   seo: {
-    title: "Valentine's Day Flower Delivery | FutureFlower",
-    description:
-      "Send fresh Valentine's Day flowers designed by a local Australian florist. Order ahead, set a budget, and skip the February 14 rush.",
     canonicalPath: '/valentines-day-flower-delivery',
-    ogImage: '/og-images/og-valentines-flowers.webp',
-    structuredData: {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
+    structuredData: buildServiceSchema({
       serviceType: "Valentine's Day Flower Delivery",
       name: "Valentine's Day Flower Delivery by FutureFlower",
       description:
         "Fresh Valentine's Day flowers designed by local Australian florists and delivered on February 14.",
-      provider: {
-        '@type': 'Organization',
-        name: 'FutureFlower',
-        url: 'https://www.futureflower.app',
-      },
-      areaServed: [{ '@type': 'Country', name: 'Australia' }],
-    },
+    }),
   },
   heroTitle: 'Valentine\'s flowers, done your way.',
   heroSubtext:

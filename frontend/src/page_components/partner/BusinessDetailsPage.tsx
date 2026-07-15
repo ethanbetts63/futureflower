@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import Seo from '@/components/Seo';
 import ServiceAreaMap from '@/components/ServiceAreaMap';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
@@ -106,7 +105,6 @@ const BusinessDetailsPage = () => {
 
   return (
     <>
-      <Seo title="Business Details | FutureFlower" />
       <div style={{ backgroundColor: 'var(--color4)' }} className="min-h-screen py-0 md:py-12 px-0 md:px-4">
         <div className="container mx-auto max-w-4xl">
           <form onSubmit={handleSubmit}>

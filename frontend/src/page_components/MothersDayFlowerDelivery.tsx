@@ -1,5 +1,6 @@
 import OccasionLandingPage, { type OccasionLandingPageConfig } from './OccasionLandingPage';
 import { defaultTrustPoints } from './occasionLandingContent';
+import { buildServiceSchema } from '@/lib/seo';
 import type { FaqItem } from '@/types/FaqItem';
 import { Flower2, Leaf, Palette } from 'lucide-react';
 
@@ -33,25 +34,13 @@ const mothersDayFaqs: FaqItem[] = [
 
 const config: OccasionLandingPageConfig = {
   seo: {
-    title: "Mother's Day Flower Delivery | FutureFlower",
-    description:
-      "Send fresh Mother's Day flowers designed by a local Australian florist. Schedule ahead, set a budget, and never leave it to the last minute.",
     canonicalPath: '/mothers-day-flower-delivery',
-    ogImage: '/og-images/og-mothers-day-flowers.webp',
-    structuredData: {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
+    structuredData: buildServiceSchema({
       serviceType: "Mother's Day Flower Delivery",
       name: "Mother's Day Flower Delivery by FutureFlower",
       description:
         "Fresh Mother's Day flowers designed by local Australian florists and delivered on Mother's Day.",
-      provider: {
-        '@type': 'Organization',
-        name: 'FutureFlower',
-        url: 'https://www.futureflower.app',
-      },
-      areaServed: [{ '@type': 'Country', name: 'Australia' }],
-    },
+    }),
   },
   heroTitle: 'Mother\'s Day flowers, done your way.',
   heroSubtext:
