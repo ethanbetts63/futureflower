@@ -231,52 +231,6 @@ export const articles: ArticleContent[] = [
     ],
   },
   {
-    slug: "best-flower-subscription-services-eu",
-    title: "Best Flower Subscription Services Europe (2026)",
-    description:
-      "Compare European flower subscription options by delivery coverage, bouquet quality, flexibility, gifting, and regional availability.",
-    sections: [
-      {
-        title: "European coverage",
-        body:
-          "Flower subscription quality across Europe depends heavily on country coverage, local fulfilment, and whether the service explains delivery limits clearly.",
-      },
-      {
-        title: "Best options",
-        body:
-          "FLOWERBX is strongest for premium subscriptions, Bloom & Wild works well for postal-style flowers, and Mademoiselle Flowers suits Belgium and Luxembourg.",
-      },
-      {
-        title: "How to choose",
-        body:
-          "Start with the recipient's country and postcode, then compare frequency, gift duration, and controls for pausing or changing deliveries.",
-      },
-    ],
-  },
-  {
-    slug: "best-flower-subscription-services-nz",
-    title: "Best Flower Subscription Services NZ (2026)",
-    description:
-      "Compare New Zealand flower subscriptions by city coverage, frequency, price, bouquet style, and florist-led delivery options.",
-    sections: [
-      {
-        title: "New Zealand delivery coverage",
-        body:
-          "In New Zealand, the best flower subscriptions are often local, so coverage by city or delivery radius matters more than broad national claims.",
-      },
-      {
-        title: "Best options",
-        body:
-          "Koha Iti is a clear Christchurch pick, Meadow Club is better for bespoke florist plans, and Wandering Florist suits local seasonal flowers.",
-      },
-      {
-        title: "How to choose",
-        body:
-          "Compare frequency, delivery fees, pause controls, and whether the florist can work around preferred colours or disliked flowers.",
-      },
-    ],
-  },
-  {
     slug: "best-flower-delivery-perth",
     title: "The Best Flower Delivery Services in Perth (2026 Guide)",
     description:

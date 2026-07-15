@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   ),
   title: {
     default: "FutureFlower | Australian Florist-Led Flower Delivery",
-    template: "%s",
+    template: "%s | FutureFlower",
   },
   description:
     "Tell us the occasion, budget, and flower preferences. A local Australian florist designs a bouquet that fits.",

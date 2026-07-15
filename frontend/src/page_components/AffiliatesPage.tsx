@@ -16,10 +16,6 @@ import deliveryImage from '../assets/delivery-1280w.webp';
 const AffiliatesPage = () => {
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const scrollToContent = () => {
-    contentRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const affiliateHowItWorksSteps: HowItWorksStep[] = [
     {
       title: 'Grab your code',
@@ -50,7 +46,7 @@ const AffiliatesPage = () => {
         ogImage="/og-images/og-affiliates.webp"
       />
 
-      <HeroAffiliatesPage scrollToContent={scrollToContent} />
+      <HeroAffiliatesPage />
 
       <ValuePropsAffiliates contentRef={contentRef} />
 

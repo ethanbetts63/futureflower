@@ -1,6 +1,7 @@
 import Seo from '../components/Seo';
 import HomeStarterForm from '@/components/home_page/HomeStarterForm';
 import { HeroPills } from '@/components/HeroPills';
+import { LandingHero } from '@/components/LandingHero';
 import { RotatingBouquetHeroImage } from '@/components/RotatingBouquetHeroImage';
 import { BetterForEveryoneSection } from '@/components/home_page/BetterForEveryoneSection';
 import { HowItWorksSection } from '../components/HowItWorksSection';
@@ -80,29 +81,15 @@ const HomePage = () => {
         structuredData={organizationSchema}
       />
 
-      <section className="relative overflow-hidden bg-[#f8f3ef]">
-        <div className="mx-auto grid min-h-[calc(100vh-72px)] max-w-7xl grid-cols-1 items-start gap-0 px-0 pb-0 pt-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8 lg:px-8 lg:py-12">
-          <div className="min-w-0 px-5 sm:px-6 lg:col-start-1 lg:row-start-1 lg:self-end lg:px-0 lg:pb-4">
-            <div className="max-w-full sm:max-w-2xl">
-              <h1 className="text-4xl font-bold leading-[1.05] text-black font-playfair-display sm:text-6xl lg:text-7xl">
-                Flowers done your way.
-              </h1>
-              <HeroPills />
-              <p className="mt-5 max-w-xl text-lg leading-relaxed text-black/65">
-                Choose the occasion, budget, and preferences. We organise a custom bouquet that fits, made by a florist rather than picked from a warehouse catalog.
-              </p>
-            </div>
-          </div>
-
-          <div
-            id="start-order"
-            className="order-2 mt-8 min-w-0 scroll-mt-24 lg:order-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0"
-          >
-            <HomeStarterForm />
-          </div>
-
+      <LandingHero
+        formId="start-order"
+        heading="Aussie flower delivery, done your way."
+        eyebrow={<HeroPills />}
+        description="Choose the occasion, budget, and preferences. We organise a custom bouquet that fits, made by a florist rather than picked from a warehouse catalog."
+        form={<HomeStarterForm />}
+        image={
           <RotatingBouquetHeroImage
-            className="order-3 relative min-h-[520px] overflow-hidden bg-black lg:order-none lg:col-start-1 lg:row-start-2 lg:min-h-[560px]"
+            className="relative min-h-[520px] overflow-hidden bg-black lg:min-h-[560px]"
             overlay={
               <div className="max-w-sm text-white [text-shadow:0_1px_3px_rgb(0_0_0/0.6)]">
                 <p className="text-sm font-semibold">A brief, not a catalog order.</p>
@@ -112,8 +99,8 @@ const HomePage = () => {
               </div>
             }
           />
-        </div>
-      </section>
+        }
+      />
 
       <BetterForEveryoneSection />
 

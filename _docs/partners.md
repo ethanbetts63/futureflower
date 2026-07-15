@@ -9,7 +9,7 @@ Both types get a discount code at registration. Both types require admin approva
 
 ## Registration Flow
 
-1. User visits `/partner/register` and selects partner type (referral or delivery).
+1. Partner type is determined by entry point: the `/florists` hero embeds the delivery registration form, and the `/affiliates` hero embeds the referral registration form. There is no separate type-selection step.
 2. Fills in account details: email, password, first name, last name, business name, phone, and country (ISO 2-letter code, used to set the Stripe Express account's country).
 3. Delivery partners additionally set their location on an interactive map (lat/lng) and configure a service radius (default 10km).
 4. On submit, backend creates:
@@ -171,7 +171,7 @@ Partners must complete Stripe Connect onboarding to receive payouts.
 - `events/models/order_base.py` — Pricing fields and auto-computed total_amount
 
 **Frontend:**
-- `frontend/src/pages/partner/PartnerRegistrationPage.tsx`
+- `frontend/src/components/partner/PartnerRegistrationForm.tsx` — embedded in the `/florists` and `/affiliates` heroes via `LandingHero`
 - `frontend/src/pages/partner/PartnerDashboardPage.tsx`
 - `frontend/src/components/form_flow/DiscountCodeInput.tsx`
 - `frontend/src/components/summaries/UpfrontSummary.tsx`

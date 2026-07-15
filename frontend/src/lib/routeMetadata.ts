@@ -78,22 +78,6 @@ const publicRoutes: Record<string, RouteMetadata> = {
     path: "/articles/best-flower-subscription-services-au",
     ogType: "article",
   },
-  "/articles/best-flower-subscription-services-eu": {
-    title:
-      "Best Flower Subscription Services Europe (2026)",
-    description:
-      "Compare European flower subscription options by delivery coverage, bouquet quality, flexibility, gifting, and regional availability.",
-    path: "/articles/best-flower-subscription-services-eu",
-    ogType: "article",
-  },
-  "/articles/best-flower-subscription-services-nz": {
-    title:
-      "Best Flower Subscription Services NZ (2026)",
-    description:
-      "Compare New Zealand flower subscriptions by city coverage, frequency, price, bouquet style, and florist-led delivery options.",
-    path: "/articles/best-flower-subscription-services-nz",
-    ogType: "article",
-  },
   "/articles/best-flower-delivery-perth": {
     title: "Best Flower Delivery Services Perth (2026)",
     description:

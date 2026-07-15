@@ -9,8 +9,6 @@ const routes: Array<{ path: string; lastModified: string }> = [
   { path: "/pricing", lastModified: "2026-05-11" },
   { path: "/articles", lastModified: "2026-05-23" },
   { path: "/articles/best-flower-subscription-services-au", lastModified: "2026-05-23" },
-  { path: "/articles/best-flower-subscription-services-eu", lastModified: "2026-05-23" },
-  { path: "/articles/best-flower-subscription-services-nz", lastModified: "2026-05-23" },
   { path: "/articles/best-flower-delivery-perth", lastModified: "2026-05-23" },
   { path: "/articles/best-flower-delivery-sydney", lastModified: "2026-05-23" },
   { path: "/articles/best-flower-delivery-adelaide", lastModified: "2026-05-23" },

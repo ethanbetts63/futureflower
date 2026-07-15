@@ -111,6 +111,7 @@ const ServiceAreaMap = ({
           max={500}
           step={1}
           onValueChange={(value) => onRadiusChange(value[0])}
+          className="[&_[data-slot=slider-range]]:bg-black [&_[data-slot=slider-thumb]]:border-black"
         />
       </div>
     </div>

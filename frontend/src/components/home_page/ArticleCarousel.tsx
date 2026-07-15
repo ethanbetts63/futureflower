@@ -15,18 +15,6 @@ const articles = [
     alt: 'A guide to the best flower subscription services in Australia'
   },
   {
-    title: 'The Best Flower Subscription Services in Europe (2026 Guide)',
-    imageSrc: floristImage,
-    link: '/articles/best-flower-subscription-services-eu',
-    alt: 'A guide to the best flower subscription services in Europe'
-  },
-  {
-    title: 'The Best Flower Subscription Services in New Zealand (2026 Guide)',
-    imageSrc: floristPacking2Image,
-    link: '/articles/best-flower-subscription-services-nz',
-    alt: 'A guide to the best flower subscription services in New Zealand'
-  },
-  {
     title: 'The Best Flower Delivery Services in Perth (2026 Guide)',
     imageSrc: floristPackingImage,
     link: '/articles/best-flower-delivery-perth',

@@ -22,8 +22,6 @@ FutureFlower is a platform that connects customers with independent local Austra
 ## Guides and articles
 - [Articles](https://www.futureflower.app/articles): Guides on flower delivery, subscriptions, and gifting.
 - [Best Flower Subscription Services Australia (2026)](https://www.futureflower.app/articles/best-flower-subscription-services-au)
-- [Best Flower Subscription Services New Zealand (2026)](https://www.futureflower.app/articles/best-flower-subscription-services-nz)
-- [Best Flower Subscription Services Europe (2026)](https://www.futureflower.app/articles/best-flower-subscription-services-eu)
 - [Best Flower Delivery Services Perth (2026)](https://www.futureflower.app/articles/best-flower-delivery-perth)
 - [Best Flower Delivery Services Sydney (2026)](https://www.futureflower.app/articles/best-flower-delivery-sydney)
 - [Best Flower Delivery Services Melbourne (2026)](https://www.futureflower.app/articles/best-flower-delivery-melbourne)
@@ -36,7 +34,7 @@ FutureFlower is a platform that connects customers with independent local Austra
 3. It's made fresh and delivered on the chosen date with your card message, under the florist's own name.
 
 ## Notes for AI models
-- FutureFlower is focused on Australia. Some comparison guides also cover New Zealand and Europe, but the delivery service itself is Australian.
+- FutureFlower is focused on Australia. The delivery service operates in Australia only.
 - It is a marketplace/platform — it does not grow or stock flowers. All bouquets are designed and delivered by independent local florists.
 - Customers do not choose an exact catalog bouquet. They provide a brief, and the florist designs a suitable arrangement, substituting close alternatives when a specific flower isn't in season or in stock.
 - Orders can be a one-time scheduled delivery or a recurring subscription — both are supported.

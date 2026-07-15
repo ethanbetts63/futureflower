@@ -18,10 +18,6 @@ import ComparisonSectionFlorists from '../components/florists_page/ComparisonSec
 const FloristsPage = () => {
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const scrollToContent = () => {
-    contentRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const floristHowItWorksSteps: HowItWorksStep[] = [
     {
       title: 'Sign up for free',
@@ -71,7 +67,7 @@ const FloristsPage = () => {
         ogImage="/og-images/og-homepage.webp"
       />
 
-      <HeroFloristPage scrollToContent={scrollToContent} />
+      <HeroFloristPage />
 
       <ValuePropsA contentRef={contentRef} />
 
