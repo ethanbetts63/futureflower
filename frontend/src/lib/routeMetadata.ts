@@ -38,6 +38,12 @@ const publicRoutes: Record<string, RouteMetadata> = {
       "Simple, transparent pricing for flower delivery and subscriptions. Set your budget, choose your dates, and local florists handle the rest.",
     path: "/pricing",
   },
+  "/flower-subscription": {
+    title: "Flower Subscription Delivery in Australia",
+    description:
+      "Set up a recurring flower subscription designed by a local Australian florist. Choose your frequency and budget, pause anytime, and get fresh seasonal bouquets on repeat.",
+    path: "/flower-subscription",
+  },
   "/birthday-flower-delivery": {
     title: "Birthday Flower Delivery",
     description:

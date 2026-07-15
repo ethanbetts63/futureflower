@@ -7,6 +7,7 @@ FutureFlower is a platform that connects customers with independent local Austra
 ## Main pages
 - [Home](https://www.futureflower.app/): Start an order — choose an occasion, budget, delivery date, and preferences for a florist to work from.
 - [Pricing](https://www.futureflower.app/pricing): Budget tiers and transparent pricing. The budget you set is what goes into the bouquet, with free delivery over the threshold.
+- [Flower Subscription](https://www.futureflower.app/flower-subscription): Recurring flower delivery — choose a frequency and budget, and a local florist designs a fresh seasonal bouquet each cycle. Pause, skip, or cancel anytime.
 - [For Florists](https://www.futureflower.app/florists): How local florists partner with FutureFlower to receive and fulfil scheduled deliveries and subscriptions.
 - [Affiliates](https://www.futureflower.app/affiliates): Referral programme — earn per delivery while giving your audience a discount on their first bouquet.
 - [Contact](https://www.futureflower.app/contact): Get in touch with the FutureFlower team.

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronRight, Loader2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useAuth } from '@/context/AuthContext';
 import { Input } from '@/components/ui/input';
@@ -37,6 +37,10 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
   const [radiusKm, setRadiusKm] = useState(10);
 
   const isDelivery = partnerType === 'delivery';
+
+  // Delivery registration is split into two steps (account details, then store
+  // location + terms) so the form fits inside the hero. Referral stays single-step.
+  const [step, setStep] = useState<1 | 2>(1);
 
   const [form, setForm] = useState({
     email: '',
@@ -115,22 +119,53 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
     }
   };
 
+  const handleContinue = () => {
+    if (!form.first_name || !form.last_name || !form.email || !form.password || !form.confirm_password) {
+      toast.error('Please fill in all required fields.');
+      return;
+    }
+    if (form.password !== form.confirm_password) {
+      toast.error('Passwords do not match.');
+      return;
+    }
+    if (!form.country) {
+      toast.error('Please select your country.');
+      return;
+    }
+    setStep(2);
+  };
+
+  const showAccountStep = !isDelivery || step === 1;
+  const showLocationStep = isDelivery && step === 2;
+  const showTerms = !isDelivery || step === 2;
+
   return (
     <div
       className={`min-w-0 rounded-none border-y border-black/10 bg-white p-5 text-black shadow-xl shadow-black/5 sm:rounded-xl sm:border sm:p-6 lg:p-7 ${className}`}
     >
       <div className="border-b border-black/10 pb-4">
-        <h2 className="break-words text-2xl font-bold text-black font-playfair-display">
-          {isDelivery ? 'Become a delivery partner' : 'Become a referral partner'}
-        </h2>
+        <div className="flex items-center justify-between gap-4">
+          <h2 className="break-words text-2xl font-bold text-black font-playfair-display">
+            {isDelivery ? 'Become a delivery partner' : 'Become a referral partner'}
+          </h2>
+          {isDelivery && (
+            <span className="shrink-0 text-xs font-semibold uppercase tracking-[0.12em] text-black/50">
+              Step {step} of 2
+            </span>
+          )}
+        </div>
         <p className="mt-1 text-sm leading-relaxed text-black/60">
-          {isDelivery
-            ? 'Sign up to fulfil flower deliveries in your area and earn from each order.'
-            : 'Sign up to get your unique discount code and start earning commissions.'}
+          {!isDelivery
+            ? 'Sign up to get your unique discount code and start earning commissions.'
+            : step === 1
+              ? 'Sign up to fulfil flower deliveries in your area and earn from each order.'
+              : 'Set your store location and the area you deliver to.'}
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="mt-5 space-y-6">
+        {showAccountStep && (
+        <>
         {/* Account Details */}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
@@ -187,9 +222,11 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
             </SelectContent>
           </Select>
         </div>
+        </>
+        )}
 
-        {/* Delivery Partner Fields */}
-        {isDelivery && (
+        {/* Store Location (delivery step 2) */}
+        {showLocationStep && (
           <div className="space-y-4 border-t border-black/10 pt-6">
             <h3 className="text-lg font-semibold">Store Location</h3>
 
@@ -231,6 +268,7 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
         )}
 
         {/* Terms & Conditions */}
+        {showTerms && (
         <div className="space-y-3 border-t border-black/10 pt-6">
           <label className="flex cursor-pointer items-start gap-3">
             <Checkbox
@@ -261,21 +299,45 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
             </span>
           </label>
         </div>
+        )}
 
-        <button
-          type="submit"
-          disabled={isSubmitting || !customerTermsAccepted || !partnerTermsAccepted}
-          className="flex w-full items-center justify-between rounded-lg bg-black px-5 py-4 text-left text-white transition hover:bg-black/85 disabled:cursor-not-allowed disabled:opacity-70"
-        >
-          <span className="block text-sm font-semibold">
-            {isSubmitting ? 'Setting up…' : `Create ${isDelivery ? 'delivery' : 'referral'} partner account`}
-          </span>
-          {isSubmitting ? (
-            <Loader2 className="h-5 w-5 animate-spin text-white/70" />
-          ) : (
+        {isDelivery && step === 1 ? (
+          <button
+            type="button"
+            onClick={handleContinue}
+            className="flex w-full items-center justify-between rounded-lg bg-black px-5 py-4 text-left text-white transition hover:bg-black/85"
+          >
+            <span className="block text-sm font-semibold">Continue to store location</span>
             <ChevronRight className="h-5 w-5 text-white/70" />
-          )}
-        </button>
+          </button>
+        ) : (
+          <div className="space-y-3">
+            {isDelivery && step === 2 && (
+              <button
+                type="button"
+                onClick={() => setStep(1)}
+                className="inline-flex items-center gap-1 text-sm font-medium text-black/60 transition hover:text-black"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                Back to account details
+              </button>
+            )}
+            <button
+              type="submit"
+              disabled={isSubmitting || !customerTermsAccepted || !partnerTermsAccepted}
+              className="flex w-full items-center justify-between rounded-lg bg-black px-5 py-4 text-left text-white transition hover:bg-black/85 disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              <span className="block text-sm font-semibold">
+                {isSubmitting ? 'Setting up…' : `Create ${isDelivery ? 'delivery' : 'referral'} partner account`}
+              </span>
+              {isSubmitting ? (
+                <Loader2 className="h-5 w-5 animate-spin text-white/70" />
+              ) : (
+                <ChevronRight className="h-5 w-5 text-white/70" />
+              )}
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );

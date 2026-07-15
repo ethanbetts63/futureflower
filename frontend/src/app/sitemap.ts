@@ -7,6 +7,7 @@ const routes: Array<{ path: string; lastModified: string }> = [
   { path: "/florists", lastModified: "2026-05-11" },
   { path: "/affiliates", lastModified: "2026-05-11" },
   { path: "/pricing", lastModified: "2026-05-11" },
+  { path: "/flower-subscription", lastModified: "2026-07-15" },
   { path: "/articles", lastModified: "2026-05-23" },
   { path: "/articles/best-flower-subscription-services-au", lastModified: "2026-05-23" },
   { path: "/articles/best-flower-delivery-perth", lastModified: "2026-05-23" },

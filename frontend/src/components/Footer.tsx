@@ -33,6 +33,7 @@ const Footer = () => {
           {/* Flower Delivery */}
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Flower Delivery</p>
+            <Link href="/flower-subscription" className="text-sm hover:underline">Flower Subscription</Link>
             <Link href="/birthday-flower-delivery" className="text-sm hover:underline">Birthday Flowers</Link>
             <Link href="/valentines-day-flower-delivery" className="text-sm hover:underline">Valentine's Day Flowers</Link>
             <Link href="/mothers-day-flower-delivery" className="text-sm hover:underline">Mother's Day Flowers</Link>
