@@ -2,52 +2,17 @@
 import articleImage from '../../assets/delivery.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import JsonLd from '../../components/JsonLd';
+import { articleBySlug } from '@/lib/articles';
 import { assetSrc } from '@/lib/assets';
 
 const BestFlowerSubscriptionServicesAU = () => {
-  const articleDetails = {
-    title: "Best Flower Subscription Services Australia (2026)",
-    description: "Compare Australian flower subscriptions for fresh weekly, fortnightly, and monthly flowers, including flexible national options and local florist plans.",
-    url: "https://www.futureflower.app/articles/best-flower-subscription-services-au",
-    ogImage: "/static/og-images/og-flower-subscription-au.webp",
-    authorName: "The FutureFlower Team",
-    publisherName: "FutureFlower",
-    publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
-    datePublished: "2026-01-19T00:00:00Z",
-    dateModified: "2026-07-14T00:00:00Z",
-  };
-
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': articleDetails.url,
-    },
-    headline: articleDetails.title,
-    description: articleDetails.description,
-    image: `https://www.futureflower.app${articleDetails.ogImage}`,
-    author: {
-      '@type': 'Organization',
-      name: articleDetails.publisherName,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: articleDetails.publisherName,
-      logo: {
-        '@type': 'ImageObject',
-        url: articleDetails.publisherLogoUrl,
-      },
-    },
-    datePublished: articleDetails.datePublished,
-    dateModified: articleDetails.dateModified,
-  };
+  const meta = articleBySlug['best-flower-subscription-services-au'];
 
   return (
     <>
-      <JsonLd path="/articles/best-flower-subscription-services-au" structuredData={structuredData} />
+      <JsonLd path="/articles/best-flower-subscription-services-au" structuredData={{ '@type': 'Article', datePublished: meta.datePublished, dateModified: meta.dateModified, image: meta.ogImage }} />
       <ArticleLayout
-        title="Best Flower Subscription Services in Australia (2026)"
+        title={meta.displayTitle}
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> A practical comparison of Australian flower subscriptions, with notes on coverage, flexibility, bouquet style, and who each service suits.</>}
         imageSrc={assetSrc(articleImage)}
         imageAlt="A variety of flower bouquets from different Australian subscription services."

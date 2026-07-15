@@ -1,52 +1,16 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
-import floristImage from '../../assets/florist.webp';
-import delivery1Image from '../../assets/delivery1.webp';
-import floristPackingImage from '../../assets/florist_packing.webp';
-import floristPacking2Image from '../../assets/florist_packing2.webp';
+import { ARTICLES } from '@/lib/articles';
 import type { ArticleCarouselProps } from '../../types/ArticleCarouselProps';
 
-const articles = [
-  {
-    title: 'The Best Flower Subscription Services in Australia (2026 Guide)',
-    imageSrc: floristImage,
-    link: '/articles/best-flower-subscription-services-au',
-    alt: 'A guide to the best flower subscription services in Australia'
-  },
-  {
-    title: 'The Best Flower Delivery Services in Perth (2026 Guide)',
-    imageSrc: floristPackingImage,
-    link: '/articles/best-flower-delivery-perth',
-    alt: 'A guide to the best flower delivery services in Perth'
-  },
-  {
-    title: 'The Best Flower Delivery Services in Sydney (2026 Guide)',
-    imageSrc: delivery1Image,
-    link: '/articles/best-flower-delivery-sydney',
-    alt: 'A guide to the best flower delivery services in Sydney'
-  },
-  {
-    title: 'The Best Flower Delivery Services in Adelaide (2026 Guide)',
-    imageSrc: floristPackingImage,
-    link: '/articles/best-flower-delivery-adelaide',
-    alt: 'A guide to the best flower delivery services in Adelaide'
-  },
-  {
-    title: 'The Best Flower Delivery Services in Darwin (2026 Guide)',
-    imageSrc: floristPackingImage,
-    link: '/articles/best-flower-delivery-darwin',
-    alt: 'A guide to the best flower delivery services in Darwin'
-  },
-  {
-    title: 'The Best Flower Delivery Services in Melbourne (2026 Guide)',
-    imageSrc: floristPackingImage,
-    link: '/articles/best-flower-delivery-melbourne',
-    alt: 'A guide to the best flower delivery services in Melbourne'
-  }
-];
-
-
+// Derived from the single article registry (lib/articles.ts).
+const articles = ARTICLES.map((article) => ({
+  title: article.displayTitle,
+  imageSrc: article.carouselImage,
+  link: `/articles/${article.slug}`,
+  alt: article.carouselAlt,
+}));
 
 export const ArticleCarousel = ({ exclude, showAll = false }: ArticleCarouselProps) => {
   const filteredArticles = articles.filter(article => article.link !== exclude);

@@ -2,52 +2,17 @@ import { ArticleLayout } from '../../components/ArticleLayout';
 import articleImage from '../../assets/delivery.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import JsonLd from '../../components/JsonLd';
+import { articleBySlug } from '@/lib/articles';
 import { assetSrc } from '@/lib/assets';
 
 const BestFlowerDeliveryPerth = () => {
-  const articleDetails = {
-    title: "The Best Flower Delivery Services in Perth (2026 Guide) | FutureFlower",
-    description: "An in-depth guide to the best flower delivery services in Perth, broken down by best overall, fastest, and most affordable options.",
-    url: "https://www.futureflower.app/articles/best-flower-delivery-perth",
-    ogImage: "/static/og-images/og-flower-delivery-perth.webp",
-    authorName: "The FutureFlower Team",
-    publisherName: "FutureFlower",
-    publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
-    datePublished: "2026-01-19T00:00:00Z",
-    dateModified: "2026-07-14T00:00:00Z",
-  };
-
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': articleDetails.url,
-    },
-    headline: articleDetails.title,
-    description: articleDetails.description,
-    image: `https://www.futureflower.app${articleDetails.ogImage}`,
-    author: {
-      '@type': 'Organization',
-      name: articleDetails.publisherName,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: articleDetails.publisherName,
-      logo: {
-        '@type': 'ImageObject',
-        url: articleDetails.publisherLogoUrl,
-      },
-    },
-    datePublished: articleDetails.datePublished,
-    dateModified: articleDetails.dateModified,
-  };
+  const meta = articleBySlug['best-flower-delivery-perth'];
 
   return (
     <>
-      <JsonLd path="/articles/best-flower-delivery-perth" structuredData={structuredData} />
+      <JsonLd path="/articles/best-flower-delivery-perth" structuredData={{ '@type': 'Article', datePublished: meta.datePublished, dateModified: meta.dateModified, image: meta.ogImage }} />
       <ArticleLayout
-        title="The Best Flower Delivery Services in Perth (2026 Guide)"
+        title={meta.displayTitle}
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> An in-depth guide to the best flower delivery services in Perth, broken down by best overall, fastest, and most affordable.</>}
         imageSrc={assetSrc(articleImage)}
         imageAlt="A variety of flower bouquets from different Perth delivery services."

@@ -2,52 +2,17 @@ import { ArticleLayout } from '../../components/ArticleLayout';
 import articleImage from '../../assets/delivery.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import JsonLd from '../../components/JsonLd';
+import { articleBySlug } from '@/lib/articles';
 import { assetSrc } from '@/lib/assets';
 
 const BestFlowerDeliveryDarwin = () => {
-  const articleDetails = {
-    title: "The Best Flower Delivery Services in Darwin (2026 Guide) | FutureFlower",
-    description: "A complete guide to the top flower delivery services serving Darwin — broken down by best overall, fastest delivery, and most affordable options.",
-    url: "https://www.futureflower.app/articles/best-flower-delivery-darwin",
-    ogImage: "/static/og-images/og-flower-delivery-darwin.webp", // Assuming this will be created later
-    authorName: "The FutureFlower Team",
-    publisherName: "FutureFlower",
-    publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
-    datePublished: "2026-01-21T00:00:00Z", // Today's date
-    dateModified: "2026-07-14T00:00:00Z",
-  };
-
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': articleDetails.url,
-    },
-    headline: articleDetails.title,
-    description: articleDetails.description,
-    image: `https://www.futureflower.app${articleDetails.ogImage}`,
-    author: {
-      '@type': 'Organization',
-      name: articleDetails.publisherName,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: articleDetails.publisherName,
-      logo: {
-        '@type': 'ImageObject',
-        url: articleDetails.publisherLogoUrl,
-      },
-    },
-    datePublished: articleDetails.datePublished,
-    dateModified: articleDetails.dateModified,
-  };
+  const meta = articleBySlug['best-flower-delivery-darwin'];
 
   return (
     <>
-      <JsonLd path="/articles/best-flower-delivery-darwin" structuredData={structuredData} />
+      <JsonLd path="/articles/best-flower-delivery-darwin" structuredData={{ '@type': 'Article', datePublished: meta.datePublished, dateModified: meta.dateModified, image: meta.ogImage }} />
       <ArticleLayout
-        title="The Best Flower Delivery Services in Darwin (2026 Guide)"
+        title={meta.displayTitle}
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> A complete guide to the top flower delivery services serving Darwin — broken down by best overall, fastest delivery, and most affordable options.</>}
         imageSrc={assetSrc(articleImage)}
         imageAlt="A variety of flower bouquets from different Darwin delivery services."

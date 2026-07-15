@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import JsonLd from '../components/JsonLd';
 import deliveryImage from '../assets/delivery-1280w.webp';
-import { articles } from '@/lib/staticPages';
+import { ARTICLES } from '@/lib/articles';
 
 const BlogExplorePage = () => {
   return (
@@ -52,7 +52,7 @@ const BlogExplorePage = () => {
         <div className="bg-[var(--color4)]">
           <div className="container mx-auto px-4 lg:px-8 py-10">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {articles.map((article) => (
+              {ARTICLES.map((article) => (
                 <Link
                   key={article.slug}
                   href={`/articles/${article.slug}`}
@@ -62,7 +62,7 @@ const BlogExplorePage = () => {
                     Guide
                   </p>
                   <h2 className="text-lg font-semibold text-black group-hover:text-amber-500 transition-colors duration-200 mb-3 leading-snug">
-                    {article.title}
+                    {article.displayTitle}
                   </h2>
                   <p className="text-sm text-black/70 leading-relaxed mb-5 flex-1">
                     {article.description}

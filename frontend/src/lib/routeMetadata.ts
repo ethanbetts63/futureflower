@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE_URL } from "./seo";
+import { ARTICLES } from "./articles";
 
 export type RouteMetadata = {
   title: string;
@@ -9,9 +10,27 @@ export type RouteMetadata = {
   ogImage?: string;
 };
 
+// Article route metadata is derived from the single article registry (lib/articles.ts).
+const articleRoutes: Record<string, RouteMetadata> = Object.fromEntries(
+  ARTICLES.map((article) => [
+    `/articles/${article.slug}`,
+    {
+      title: article.seoTitle,
+      description: article.description,
+      path: `/articles/${article.slug}`,
+      ogType: "article" as const,
+    },
+  ]),
+);
+
 const publicRoutes: Record<string, RouteMetadata> = {
   "/": {
-    title: "Australian Florist-Led Flower Delivery",
+    // NOTE: the "%s | FutureFlower" title template in app/layout.tsx does NOT apply
+    // to the homepage — Next.js only applies a template to CHILD segments, and
+    // app/page.tsx shares the root segment with app/layout.tsx. So the brand must be
+    // baked into the homepage title explicitly here (every other route gets it via
+    // the template).
+    title: "Australian Florist-Led Flower Delivery | FutureFlower",
     description:
       "Tell us the occasion, budget, and flower preferences. A local Australian florist designs a bouquet that fits.",
     path: "/",
@@ -75,52 +94,7 @@ const publicRoutes: Record<string, RouteMetadata> = {
       "Explore articles, insights, and guides on long-term floral planning, personal growth, and making sure you never forget the important stuff.",
     path: "/articles",
   },
-  "/articles/best-flower-subscription-services-au": {
-    title:
-      "Best Flower Subscription Services Australia (2026)",
-    description:
-      "Compare Australian flower subscriptions for fresh weekly, fortnightly, and monthly flowers, including flexible national options and local florist plans.",
-    path: "/articles/best-flower-subscription-services-au",
-    ogType: "article",
-  },
-  "/articles/best-flower-delivery-perth": {
-    title: "Best Flower Delivery Services Perth (2026)",
-    description:
-      "An in-depth guide to the best flower delivery services in Perth, broken down by best overall, fastest, and most affordable.",
-    path: "/articles/best-flower-delivery-perth",
-    ogType: "article",
-  },
-  "/articles/best-flower-delivery-sydney": {
-    title: "Best Flower Delivery Services Sydney (2026)",
-    description:
-      "Compare Sydney flower delivery services by same-day cutoffs, bouquet style, delivery coverage, pricing, and gifting experience.",
-    path: "/articles/best-flower-delivery-sydney",
-    ogType: "article",
-  },
-  "/articles/best-flower-delivery-adelaide": {
-    title:
-      "Best Flower Delivery Services Adelaide (2026)",
-    description:
-      "A complete look at the top flower delivery services in Adelaide, tailored for quality, speed, and price.",
-    path: "/articles/best-flower-delivery-adelaide",
-    ogType: "article",
-    ogImage: "/static/og-images/og-flower-delivery-adelaide.webp",
-  },
-  "/articles/best-flower-delivery-darwin": {
-    title: "Best Flower Delivery Services Darwin (2026)",
-    description:
-      "A complete guide to the top flower delivery services serving Darwin - broken down by best overall, fastest delivery, and most affordable options.",
-    path: "/articles/best-flower-delivery-darwin",
-    ogType: "article",
-  },
-  "/articles/best-flower-delivery-melbourne": {
-    title:
-      "Best Flower Delivery Services Melbourne (2026)",
-    description:
-      "A comprehensive guide to the top flower delivery services in Melbourne, broken down by best overall, fastest delivery, and most affordable options.",
-    path: "/articles/best-flower-delivery-melbourne",
-    ogType: "article",
-  },
+  ...articleRoutes,
 };
 
 const noindexPrefixes = [

@@ -2,52 +2,17 @@
 import articleImage from '../../assets/delivery.webp';
 import { ArticleCarousel } from '../../components/home_page/ArticleCarousel';
 import JsonLd from '../../components/JsonLd';
+import { articleBySlug } from '@/lib/articles';
 import { assetSrc } from '@/lib/assets';
 
 const BestFlowerDeliverySydney = () => {
-  const articleDetails = {
-    title: "Best Flower Delivery Services Sydney (2026)",
-    description: "Compare Sydney flower delivery services by same-day cutoffs, bouquet style, delivery coverage, pricing, and gifting experience.",
-    url: "https://www.futureflower.app/articles/best-flower-delivery-sydney",
-    ogImage: "/static/og-images/og-flower-delivery-sydney.webp",
-    authorName: "The FutureFlower Team",
-    publisherName: "FutureFlower",
-    publisherLogoUrl: "https://www.futureflower.app/static/logo_128_black.png",
-    datePublished: "2026-01-19T00:00:00Z",
-    dateModified: "2026-07-14T00:00:00Z",
-  };
-
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': articleDetails.url,
-    },
-    headline: articleDetails.title,
-    description: articleDetails.description,
-    image: `https://www.futureflower.app${articleDetails.ogImage}`,
-    author: {
-      '@type': 'Organization',
-      name: articleDetails.publisherName,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: articleDetails.publisherName,
-      logo: {
-        '@type': 'ImageObject',
-        url: articleDetails.publisherLogoUrl,
-      },
-    },
-    datePublished: articleDetails.datePublished,
-    dateModified: articleDetails.dateModified,
-  };
+  const meta = articleBySlug['best-flower-delivery-sydney'];
 
   return (
     <>
-      <JsonLd path="/articles/best-flower-delivery-sydney" structuredData={structuredData} />
+      <JsonLd path="/articles/best-flower-delivery-sydney" structuredData={{ '@type': 'Article', datePublished: meta.datePublished, dateModified: meta.dateModified, image: meta.ogImage }} />
       <ArticleLayout
-        title="Best Flower Delivery Services in Sydney (2026)"
+        title={meta.displayTitle}
         subtitle={<><span className="font-bold italic underline">Article Summary:</span> A practical comparison of Sydney flower delivery options, including same-day cutoffs, design quality, and who each service suits.</>}
         imageSrc={assetSrc(articleImage)}
         imageAlt="A variety of flower bouquets from different Sydney delivery services."

@@ -4,7 +4,7 @@ import BestFlowerDeliveryMelbourne from "@/page_components/articles/BestFlowerDe
 import BestFlowerDeliveryPerth from "@/page_components/articles/BestFlowerDeliveryPerth";
 import BestFlowerDeliverySydney from "@/page_components/articles/BestFlowerDeliverySydney";
 import BestFlowerSubscriptionServicesAU from "@/page_components/articles/BestFlowerSubscriptionServicesAU";
-import { articles } from "@/lib/staticPages";
+import { ARTICLES } from "@/lib/articles";
 import { getRouteMetadata } from "@/lib/routeMetadata";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -26,7 +26,7 @@ const articleComponents: Record<string, ComponentType> = {
 };
 
 export function generateStaticParams() {
-  return articles.map((article) => ({
+  return ARTICLES.map((article) => ({
     slug: article.slug,
   }));
 }
