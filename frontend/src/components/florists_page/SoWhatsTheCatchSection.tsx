@@ -36,7 +36,7 @@ export const SoWhatsTheCatchSection = () => {
               But it&rsquo;s <em>your</em> logo the customer sees.
             </h3>
             <p className="mt-4 max-w-xl text-lg leading-relaxed text-black/65">
-              Every delivery goes out under your name — your wrapping, your card, your brand. A great bouquet doesn&rsquo;t earn us a loyal customer, it earns <strong className="text-black">you </strong> one. If they skip us and walk into your shop next time, that&rsquo;s fine by us.
+              Every delivery goes out under your name — your wrapping, your card, your brand. A great bouquet doesn&rsquo;t always earn us a loyal customer, becuase it could earn <strong className="text-black">you </strong> one instead. If they skip us and walk into your shop next time, that&rsquo;s fine by us.
             </p>
           </div>
 
