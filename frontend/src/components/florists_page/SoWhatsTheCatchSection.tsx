@@ -60,7 +60,6 @@ export const SoWhatsTheCatchSection = () => {
               </svg>
 
               <div className="w-64 rotate-3 rounded-xl bg-[#fbfaf7] p-6 pt-8 text-center shadow-lg shadow-black/10 ring-1 ring-black/5 transition-transform duration-300 hover:rotate-1 motion-reduce:transition-none">
-                {/* Punched hole */}
                 <span className="absolute left-1/2 top-3 h-4 w-4 -translate-x-1/2 rounded-full bg-white shadow-inner ring-1 ring-black/15" />
 
                 <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-black/40">
