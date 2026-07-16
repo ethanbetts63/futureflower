@@ -29,7 +29,7 @@ const config: OccasionLandingPageConfig = {
   seo: {
     canonicalPath: '/',
   },
-  heroTitle: 'Aussie flower delivery, done your way.',
+  heroTitle: 'Online flower delivery, done your way.',
   heroSubtext:
     'Choose the occasion, budget, and preferences. We organise a custom bouquet that fits, made by a florist rather than picked from a warehouse catalog.',
   imageOverlayTitle: 'A brief, not a catalog order.',

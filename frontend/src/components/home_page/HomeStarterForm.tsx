@@ -11,9 +11,9 @@ import { FREE_DELIVERY_THRESHOLD, MIN_DAYS_BEFORE_CREATE } from '@/utils/systemC
 import {
   clearHomepageBrief,
   HOMEPAGE_BRIEF_STORAGE_KEY,
-  startOrderFromBrief,
   type HomepageBrief,
 } from '@/lib/homepageBrief';
+import { startGuestCheckout } from '@/api/guestCheckout';
 
 const getMinDeliveryDate = () => {
   const minDate = new Date();
@@ -69,9 +69,9 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
     window.sessionStorage.setItem(HOMEPAGE_BRIEF_STORAGE_KEY, JSON.stringify(brief));
 
     try {
-      const plan = await startOrderFromBrief(brief);
+      await startGuestCheckout(brief);
       clearHomepageBrief();
-      router.push(`/single-delivery-flow/plan/${plan.id}/recipient`);
+      router.push('/order/recipient');
     } catch (error: any) {
       setIsSubmitting(false);
       toast.error('Could not start your order', {

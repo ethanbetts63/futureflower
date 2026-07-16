@@ -16,7 +16,6 @@ class AdminDashboardView(APIView):
             Event.objects
             .filter(status='scheduled', delivery_date__lte=cutoff)
             .select_related('order', 'order__user')
-            .prefetch_related('order__preferred_flower_types')
             .order_by('delivery_date')
         )
 
@@ -24,7 +23,6 @@ class AdminDashboardView(APIView):
             Event.objects
             .filter(status='ordered')
             .select_related('order', 'order__user')
-            .prefetch_related('order__preferred_flower_types')
             .order_by('delivery_date')
         )
 
@@ -32,7 +30,6 @@ class AdminDashboardView(APIView):
             Event.objects
             .filter(status='delivered')
             .select_related('order', 'order__user')
-            .prefetch_related('order__preferred_flower_types')
             .order_by('-delivered_at')[:50]
         )
 

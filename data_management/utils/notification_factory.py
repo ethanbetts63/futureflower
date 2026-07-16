@@ -5,7 +5,6 @@ from data_management.utils import sms_messages
 
 def _build_event_body(event):
     order = event.order
-    flower_types = ', '.join(order.preferred_flower_types.values_list('name', flat=True)) or 'Not specified'
     return (
         f"Upcoming FutureFlower delivery requires ordering.\n\n"
         f"Recipient: {order.recipient_first_name} {order.recipient_last_name}\n"
@@ -14,7 +13,7 @@ def _build_event_body(event):
         f"{order.recipient_country}\n"
         f"Delivery Date: {event.delivery_date}\n"
         f"Budget: ${order.budget}\n"
-        f"Flower Types: {flower_types}\n"
+        f"Brief: {order.flower_notes or 'Not specified'}\n"
     )
 
 

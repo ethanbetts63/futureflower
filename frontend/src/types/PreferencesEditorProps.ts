@@ -7,6 +7,6 @@ export interface PreferencesEditorProps {
     saveButtonText: string;
     onSaveNavigateTo: string;
     backPath: string;
-    getPlan: (planId: string) => Promise<Order>;
-    updatePlan: (planId: string, data: PartialOrder) => Promise<Order>;
+    getPlan: () => Promise<Order>;
+    updatePlan: (data: PartialOrder) => Promise<Order>;
 }

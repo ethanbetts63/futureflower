@@ -1,12 +1,17 @@
 // futureflower/frontend/src/page_components/user_dashboard/order_management/EditPreferencesPage.tsx
 "use client";
+import { useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import PreferencesEditor from '@/components/form_flow/PreferencesEditor';
 import { getOrder, updateOrder } from '@/api/orders';
+import type { PartialOrder } from '@/types/Order';
 
 const EditPreferencesPage = () => {
     const params = useParams();
-    const planId = params.planId as string | undefined;
+    const planId = params.planId as string;
+
+    const getPlan = useCallback(() => getOrder(planId), [planId]);
+    const updatePlan = useCallback((data: PartialOrder) => updateOrder(planId, data), [planId]);
 
     return (
         <PreferencesEditor
@@ -14,8 +19,8 @@ const EditPreferencesPage = () => {
             saveButtonText="Save Changes"
             onSaveNavigateTo={`/dashboard/orders/${planId}/overview`}
             backPath={`/dashboard/orders/${planId}/overview`}
-            getPlan={getOrder}
-            updatePlan={updateOrder}
+            getPlan={getPlan}
+            updatePlan={updatePlan}
         />
     );
 };

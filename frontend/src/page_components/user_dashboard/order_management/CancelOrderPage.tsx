@@ -1,6 +1,6 @@
 // futureflower/frontend/src/page_components/user_dashboard/order_management/CancelOrderPage.tsx
 "use client";
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
@@ -167,22 +167,22 @@ const CancelOrderPageInner = ({
 
 const CancelOrderPage = () => {
   const params = useParams();
-  const planId = params.planId as string | undefined;
+  const planId = params.planId as string;
+
+  const getPlan = useCallback(() => getOrder(planId), [planId]);
 
   return (
-    <>
-      <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
-        <div className="container mx-auto px-0 md:px-4 max-w-4xl">
-          <PlanDisplay getPlan={getOrder} fallbackNavigationPath="/dashboard">
-            {({ plan }: { plan: Order }) => {
-              return (
-                <CancelOrderPageInner plan={plan} planId={planId || ''} />
-              );
-            }}
-          </PlanDisplay>
-        </div>
+    <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
+      <div className="container mx-auto px-0 md:px-4 max-w-4xl">
+        <PlanDisplay getPlan={getPlan} fallbackNavigationPath="/dashboard">
+          {({ plan }: { plan: Order }) => {
+            return (
+              <CancelOrderPageInner plan={plan} planId={planId} />
+            );
+          }}
+        </PlanDisplay>
       </div>
-    </>
+    </div>
   );
 };
 

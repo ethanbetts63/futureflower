@@ -34,12 +34,6 @@ export async function getOrder(orderId: string): Promise<Order> {
   return parseOrder(data);
 }
 
-export async function getOrCreateDraftOrder(): Promise<Order> {
-  const response = await authedFetch('/api/events/orders/get-or-create-draft/');
-  const data = await handleResponse<any>(response);
-  return parseOrder(data);
-}
-
 export async function updateOrder(orderId: string, orderData: PartialOrder): Promise<Order> {
   const response = await authedFetch(`/api/events/orders/${orderId}/`, {
     method: 'PATCH',

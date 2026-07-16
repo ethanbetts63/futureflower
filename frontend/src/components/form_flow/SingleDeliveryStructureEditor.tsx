@@ -1,12 +1,10 @@
 ﻿// frontend/src/components/SingleDeliveryStructureEditor.tsx
 "use client";
 import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
-import { getOrder, updateOrder } from '@/api/orders';
 import type { Order, PartialOrder } from '../../types/Order';
 import SingleDeliveryStructureForm from '@/forms/SingleDeliveryStructureForm';
 import type { SingleDeliveryStructureData } from '../../types/SingleDeliveryStructureData';
@@ -29,11 +27,10 @@ const SingleDeliveryStructureEditor = ({
     saveButtonText,
     onSaveNavigateTo,
     backPath,
+    getPlan,
+    updatePlan,
 }: SingleDeliveryStructureEditorProps) => {
-    const params = useParams();
-    const planId = params.planId as string | undefined;
     const router = useRouter();
-    const { isAuthenticated } = useAuth();
     const isEditMode = mode === 'edit';
 
     const [formData, setFormData] = useState<SingleDeliveryStructureData>({
@@ -45,13 +42,8 @@ const SingleDeliveryStructureEditor = ({
     const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
-        if (!planId) {
-            router.push('/dashboard');
-            return;
-        }
-
         setIsLoading(true);
-        getOrder(planId)
+        getPlan()
             .then((plan: Order) => {
                 let startDate = plan.start_date || getMinDateString(isEditMode);
                 
@@ -74,15 +66,13 @@ const SingleDeliveryStructureEditor = ({
                 router.push(backPath);
             })
             .finally(() => setIsLoading(false));
-    }, [planId, isAuthenticated, router, backPath, isEditMode]);
+    }, [getPlan, router, backPath, isEditMode]);
 
     const handleFormChange = (field: keyof SingleDeliveryStructureData, value: number | string) => {
         setFormData((prev: SingleDeliveryStructureData) => ({ ...prev, [field]: value }));
     };
 
     const handleSave = async () => {
-        if (!planId) return;
-
         setIsSaving(true);
         try {
             const payload: PartialOrder = isPaid
@@ -95,12 +85,12 @@ const SingleDeliveryStructureEditor = ({
                     start_date: formData.start_date,
                     draft_card_messages: { '0': formData.card_message },
                 };
-            await updateOrder(planId, payload);
-            
+            await updatePlan(payload);
+
             if (mode === 'edit') {
                 toast.success("Plan details updated successfully!");
             }
-            router.push(onSaveNavigateTo.replace('{planId}', planId));
+            router.push(onSaveNavigateTo);
         } catch (err: any) {
             toast.error("Failed to save plan details.", { description: err.message });
         } finally {
@@ -129,9 +119,7 @@ const SingleDeliveryStructureEditor = ({
                         />
                     </CardContent>
                     <CardFooter className="flex flex-row justify-between items-center gap-4 py-2 px-4 md:px-8 border-t border-black/5">
-                        <FlowBackButton 
-                            to={backPath.replace('{planId}', planId || '')} 
-                        />
+                        <FlowBackButton to={backPath} />
                         <FlowNextButton 
                             label={saveButtonText} 
                             onClick={handleSave} 

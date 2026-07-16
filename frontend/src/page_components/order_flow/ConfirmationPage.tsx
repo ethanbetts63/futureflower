@@ -1,29 +1,21 @@
-// futureflower/frontend/src/page_components/user_dashboard/order_management/OrderOverviewPage.tsx
+// frontend/src/page_components/order_flow/ConfirmationPage.tsx
 "use client";
-import { useCallback } from 'react';
-import { useParams } from 'next/navigation';
 import PlanDisplay from '@/components/PlanDisplay';
 import OrderSummary from '@/components/OrderSummary';
-import { getOrder } from '@/api/orders';
-import type { Order } from '@/types/Order';
-import type { FlowerType } from '@/types/FlowerType';
+import { getGuestOrder } from '@/api/guestCheckout';
+import type { Order, FlowerType } from '@/types';
 
-const OrderOverviewPage = () => {
-  const params = useParams();
-  const planId = params.planId as string;
-
-  const getPlan = useCallback(() => getOrder(planId), [planId]);
-
+const ConfirmationPage = () => {
   return (
     <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
       <div className="container mx-auto px-0 md:px-4 max-w-4xl">
-        <PlanDisplay getPlan={getPlan} fallbackNavigationPath="/dashboard">
+        <PlanDisplay getPlan={getGuestOrder} fallbackNavigationPath="/">
           {({ plan, flowerTypeMap, refreshPlan }: { plan: Order; flowerTypeMap: Map<number, FlowerType>; refreshPlan: () => Promise<void> }) => {
             return (
               <OrderSummary
                 plan={plan}
                 flowerTypeMap={flowerTypeMap}
-                context="management"
+                context="ordering"
                 onRefreshPlan={refreshPlan}
               />
             );
@@ -34,4 +26,4 @@ const OrderOverviewPage = () => {
   );
 };
 
-export default OrderOverviewPage;
+export default ConfirmationPage;

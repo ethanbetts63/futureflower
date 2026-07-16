@@ -106,7 +106,6 @@ const noindexPrefixes = [
   "/checkout",
   "/payment-status",
   "/create-account",
-  "/single-delivery-flow",
   "/partner",
   "/terms-and-conditions",
   "/blocklist-success",

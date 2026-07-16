@@ -81,11 +81,16 @@ Three user-facing flows share backend infrastructure:
 ### Public
 `/` Home | `/login` | `/contact` | `/florists` | `/terms-and-conditions` | `/forgot-password` | `/reset-password-confirm/:uid/:token` | `/articles/*` (regional SEO content)
 
-### Order Flows
-`/event-gate` -> `/upfront-flow/*` | `/subscribe-flow/*` | `/single-delivery-flow/*`
+### Order Flow
+`/` (the brief) -> `/order/recipient` -> `/order/confirmation` -> `/checkout`
+
+Guest checkout: the draft order is authorized by an httponly `guest_checkout_token`
+cookie and resolved from it server-side, so these URLs carry no order id.
+`/order/preferences` and `/order/structure` are edit targets reached from the
+confirmation summary, not numbered steps. `/order` itself redirects to `/`.
 
 ### Dashboard (Authenticated)
-`/dashboard` Home | `/dashboard/plans` | `/dashboard/account` | `/dashboard/upfront-plans/:id/*` | `/dashboard/subscription-plans/:id/*`
+`/dashboard` Home | `/dashboard/account` | `/dashboard/orders/:planId/*` | `/dashboard/refunds` | `/dashboard/partner/*` | `/dashboard/admin/*`
 
 ### Checkout
 `/checkout` | `/payment-status`

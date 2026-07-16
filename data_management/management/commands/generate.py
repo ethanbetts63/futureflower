@@ -1,7 +1,6 @@
 from django.core.management.base import BaseCommand
 from data_management.utils.generation_utils.terms_generator import TermsUpdateOrchestrator
 from data_management.utils.archive_db.database_archiver import DatabaseArchiver
-from data_management.utils.generation_utils.flowers_generator import FlowerGenerator
 from data_management.utils.generation_utils.admin_user_generator import AdminUserGenerator
 
 class Command(BaseCommand):
@@ -17,11 +16,6 @@ class Command(BaseCommand):
             '--archive',
             action='store_true',
             help='Archive the current database state to JSON files.',
-        )
-        parser.add_argument(
-            '--flowers',
-            action='store_true',
-            help='Generate flower list and write to flowers.json.',
         )
         parser.add_argument(
             '--admin_user',
@@ -45,12 +39,6 @@ class Command(BaseCommand):
             archiver = DatabaseArchiver(command=self)
             archiver.run()
 
-        if options['flowers']:
-            something_generated = True
-            self.stdout.write(self.style.SUCCESS('Generating flowers.json...'))
-            generator = FlowerGenerator(command=self)
-            generator.run()
-
         if options['admin_user']:
             something_generated = True
             self.stdout.write(self.style.SUCCESS('Setting up admin user...'))
@@ -59,7 +47,7 @@ class Command(BaseCommand):
 
         if not something_generated:
             self.stdout.write(self.style.WARNING(
-                'No generation flag specified. Please use --terms, --archive, --flowers, or --admin_user.'
+                'No generation flag specified. Please use --terms, --archive, or --admin_user.'
             ))
 
 

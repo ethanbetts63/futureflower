@@ -113,11 +113,6 @@ class OrderBase(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     # --- Preferences ---
-    preferred_flower_types = models.ManyToManyField(
-        'events.FlowerType',
-        related_name='preferred_orders',
-        blank=True
-    )
     flower_notes = models.TextField(
         blank=True,
         null=True,

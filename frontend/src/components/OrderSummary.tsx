@@ -41,10 +41,13 @@ const OrderSummary = ({
   plan,
   flowerTypeMap,
   context,
-  planId,
   onRefreshPlan,
 }: OrderSummaryProps) => {
   const router = useRouter();
+  // The order the server actually resolved. In the guest flow the URL carries no
+  // id at all — the checkout cookie decides — so the loaded plan is the only
+  // trustworthy source for one.
+  const orderId = String(plan.id);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [makeRecurring, setMakeRecurring] = useState(false);
@@ -61,7 +64,7 @@ const OrderSummary = ({
     setIsCancelling(true);
     setCancelError(null);
     try {
-      await cancelOrder(planId);
+      await cancelOrder(orderId);
       setCancelDialogOpen(false);
       toast.success('Your plan has been cancelled. To request a refund for remaining deliveries, email ethan.betts.dev@gmail.com.');
       router.push('/order-support');
@@ -77,9 +80,7 @@ const OrderSummary = ({
   const isSingleDelivery = plan.billing_mode === 'one_time';
 
   // Base paths for editing
-  const editBasePath = isOrdering
-    ? `/single-delivery-flow/plan/${planId}`
-    : `/dashboard/orders/${planId}`;
+  const editBasePath = isOrdering ? '/order' : `/dashboard/orders/${orderId}`;
 
   const preferredTypes = plan.preferred_flower_types
     .map(id => flowerTypeMap.get(Number(id)))
@@ -101,17 +102,15 @@ const OrderSummary = ({
   const mainMessage = isRecurring ? (plan.subscription_message || '') : (firstDraftMessage || firstEventMessage);
 
   const handleRecurringPayment = async () => {
-    if (!planId) return;
-
     setIsSubmitting(true);
     try {
       await claimGuestCheckout({ email: customerEmail, first_name: customerFirstName, last_name: customerLastName });
-      const recurringOrder = await makeGuestOrderRecurring(planId, {
+      const recurringOrder = await makeGuestOrderRecurring({
         frequency: recurringFrequency,
         recurring_preferences: recurringPreferences,
         subscription_message: mainMessage,
       });
-      const response = await startGuestCheckoutPayment(recurringOrder.id);
+      const response = await startGuestCheckoutPayment();
 
       sessionStorage.setItem('checkoutState', JSON.stringify({
         clientSecret: response.clientSecret,
@@ -132,7 +131,7 @@ const OrderSummary = ({
       throw new Error('Enter your name and email before payment.');
     }
     await claimGuestCheckout({ email: customerEmail, first_name: customerFirstName, last_name: customerLastName });
-    return startGuestCheckoutPayment(planId);
+    return startGuestCheckoutPayment();
   };
 
   const title = isOrdering
@@ -148,13 +147,13 @@ const OrderSummary = ({
     <div className="space-y-8">
       {isOrdering ? (
         <StepProgressBar
-          planName="Single Delivery"
-          currentStep={4}
-          totalSteps={4}
+          planName="Single Delivery Plan"
+          currentStep={3}
+          totalSteps={3}
           isReview={true}
         />
       ) : (
-        plan.status !== 'active' && <PlanActivationBanner planId={planId} />
+        plan.status !== 'active' && <PlanActivationBanner planId={orderId} />
       )}
 
       <UnifiedSummaryCard
@@ -169,13 +168,13 @@ const OrderSummary = ({
                   label="Next: Payment"
                   onClick={handleRecurringPayment}
                   isLoading={isSubmitting}
-                  disabled={isSubmitting || !planId || !termsAccepted}
+                  disabled={isSubmitting || !termsAccepted}
                 />
               ) : (
                 <PaymentInitiatorButton
-                  orderId={planId}
+                  orderId={orderId}
                   backPath={`${editBasePath}/confirmation`}
-                  disabled={isSubmitting || !planId || !termsAccepted}
+                  disabled={isSubmitting || !termsAccepted}
                   startPayment={claimBeforePayment}
                   onPaymentInitiate={() => setIsSubmitting(true)}
                   onPaymentError={() => setIsSubmitting(false)}
@@ -199,7 +198,7 @@ const OrderSummary = ({
 
         <RecipientSummary
           plan={plan}
-          editUrl={isOrdering ? `${editBasePath}/edit-recipient` : undefined}
+          editUrl={isOrdering ? `${editBasePath}/recipient` : undefined}
           locked={isSectionEditLocked}
         />
 
@@ -295,7 +294,7 @@ const OrderSummary = ({
         <FlowerPreferencesSummary
           preferredTypes={preferredTypes}
           flowerNotes={plan.flower_notes}
-          editUrl={isOrdering ? `${editBasePath}/edit-preferences` : undefined}
+          editUrl={isOrdering ? `${editBasePath}/preferences` : undefined}
           locked={isSectionEditLocked}
         />
 
@@ -327,7 +326,7 @@ const OrderSummary = ({
                 <span>
                   <span className="block font-semibold text-black">Make this a recurring delivery</span>
                   <span className="mt-1 block text-sm leading-relaxed text-black/60">
-                    Use this florist brief as the starting point, then let the florist vary future deliveries based on your instructions.
+                    Create a bouquet delivery subscription on a schedule of your choice. You can cancel anytime.
                   </span>
                 </span>
               </label>
@@ -383,7 +382,7 @@ const OrderSummary = ({
               <Tag className="h-5 w-5 text-black/20 mt-1 flex-shrink-0" />
               <div className="flex-1">
                 <DiscountCodeInput
-                  planId={planId}
+                  planId={orderId}
                   existingCode={plan.discount_code_display}
                   onDiscountApplied={() => onRefreshPlan?.()}
                 />

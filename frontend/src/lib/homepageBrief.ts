@@ -1,5 +1,4 @@
-import { startGuestCheckout } from '@/api/guestCheckout';
-import type { Order, PartialOrder } from '@/types/Order';
+import type { PartialOrder } from '@/types/Order';
 
 export const HOMEPAGE_BRIEF_STORAGE_KEY = 'futureflower.homepageBrief.v1';
 
@@ -52,12 +51,4 @@ export function briefToOrderPatch(brief: HomepageBrief): PartialOrder {
       ? { draft_card_messages: { '0': brief.cardMessage } }
       : {}),
   };
-}
-
-/**
- * Find-or-create the signed-in user's draft order and apply the brief to it.
- * Shared by the homepage form (logged-in path) and the post-registration flow.
- */
-export async function startOrderFromBrief(brief: HomepageBrief): Promise<Order> {
-  return startGuestCheckout(brief);
 }

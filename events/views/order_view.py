@@ -33,7 +33,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         return (
             OrderBase.objects
             .filter(user=self.request.user)
-            .prefetch_related('preferred_flower_types', 'events', 'payments')
+            .prefetch_related('events', 'payments')
             .order_by('-created_at')
         )
 

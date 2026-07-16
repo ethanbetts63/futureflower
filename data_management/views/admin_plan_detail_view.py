@@ -14,7 +14,7 @@ class AdminPlanDetailView(APIView):
             order = (
                 OrderBase.objects
                 .select_related('user')
-                .prefetch_related('preferred_flower_types', 'events')
+                .prefetch_related('events')
                 .get(pk=pk)
             )
         except OrderBase.DoesNotExist:

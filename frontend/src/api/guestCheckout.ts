@@ -1,7 +1,7 @@
 import { getCsrfToken } from '@/utils/utils';
 import { handleResponse } from './helpers';
 import type { Order, PartialOrder } from '@/types/Order';
-import type { HomepageBrief } from '@/lib/homepageBrief';
+import { briefToOrderPatch, type HomepageBrief } from '@/lib/homepageBrief';
 
 function parseOrder(order: any): Order {
   return {
@@ -26,19 +26,16 @@ async function request(action: string, body?: unknown, method = 'POST') {
 }
 
 export async function startGuestCheckout(brief: HomepageBrief): Promise<Order> {
-  return parseOrder(await request('start', { brief: {
-    budget: brief.budget, preferred_flower_types: brief.vibeId ? [brief.vibeId] : [],
-    flower_notes: `Occasion / vibe: ${brief.vibeName}${brief.flowerNotes.trim() ? `\nCustomer preferences: ${brief.flowerNotes.trim()}` : ''}`,
-    ...(brief.startDate ? { start_date: brief.startDate } : {}),
-    ...(brief.cardMessage !== undefined ? { draft_card_messages: { '0': brief.cardMessage } } : {}),
-  }}));
+  return parseOrder(await request('start', { brief: briefToOrderPatch(brief) }));
 }
 
-export async function getGuestOrder(_orderId?: string): Promise<Order> {
+// The guest endpoints take no order id: the httponly checkout cookie authorizes
+// exactly one draft order, and the server resolves it from that alone.
+export async function getGuestOrder(): Promise<Order> {
   return parseOrder(await request('order', undefined, 'GET'));
 }
 
-export async function updateGuestOrder(_orderId: string, data: PartialOrder): Promise<Order> {
+export async function updateGuestOrder(data: PartialOrder): Promise<Order> {
   return parseOrder(await request('order', data));
 }
 
@@ -46,11 +43,11 @@ export async function claimGuestCheckout(data: { email: string; first_name: stri
   return parseOrder(await request('claim', data));
 }
 
-export async function makeGuestOrderRecurring(_orderId: string, payload: { frequency: string; recurring_preferences?: string; subscription_message?: string }): Promise<Order> {
+export async function makeGuestOrderRecurring(payload: { frequency: string; recurring_preferences?: string; subscription_message?: string }): Promise<Order> {
   return parseOrder(await request('make-recurring', payload));
 }
 
-export async function startGuestCheckoutPayment(_orderId: string | number): Promise<{ clientSecret: string }> {
+export async function startGuestCheckoutPayment(): Promise<{ clientSecret: string }> {
   return request('checkout');
 }
 

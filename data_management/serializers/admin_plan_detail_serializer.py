@@ -8,7 +8,6 @@ class AdminPlanDetailSerializer(serializers.ModelSerializer):
     customer_last_name = serializers.CharField(source='user.last_name', read_only=True)
     customer_email = serializers.EmailField(source='user.email', read_only=True)
     plan_type = serializers.CharField(source='billing_mode', read_only=True)
-    preferred_flower_types = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
     events = serializers.SerializerMethodField()
 
     class Meta:
@@ -20,7 +19,7 @@ class AdminPlanDetailSerializer(serializers.ModelSerializer):
             'recipient_street_address', 'recipient_suburb', 'recipient_city',
             'recipient_state', 'recipient_postcode', 'recipient_country',
             'delivery_notes', 'preferred_delivery_time',
-            'preferred_flower_types', 'flower_notes',
+            'flower_notes',
             'customer_id', 'customer_first_name', 'customer_last_name', 'customer_email',
             'subscription_message',
             'events',

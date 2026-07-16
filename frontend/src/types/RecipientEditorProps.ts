@@ -4,8 +4,10 @@ export interface RecipientEditorProps {
     mode: 'create' | 'edit';
     title: string;
     saveButtonText: string;
-    onSaveNavigateTo: string; // A string pattern like '/dashboard/plans/{planId}/overview'
-    onCancelNavigateTo: string; // A string pattern like '/dashboard' or '/dashboard/plans/{planId}/overview'
-    getPlan: (planId: string) => Promise<Order>;
-    updatePlan: (planId: string, data: PartialOrder) => Promise<Order>;
+    onSaveNavigateTo: string;
+    onCancelNavigateTo: string;
+    // Bound by the caller: the guest flow resolves the order from its checkout
+    // cookie, the dashboard from the planId in its own URL.
+    getPlan: () => Promise<Order>;
+    updatePlan: (data: PartialOrder) => Promise<Order>;
 }

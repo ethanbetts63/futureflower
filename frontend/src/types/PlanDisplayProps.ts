@@ -8,5 +8,5 @@ export interface PlanDisplayProps<T extends Order = Order> {
         refreshPlan: () => Promise<void>;
     }) => React.ReactNode;
     fallbackNavigationPath?: string;
-    getPlan: (planId: string) => Promise<T>;
+    getPlan: () => Promise<T>;
 }

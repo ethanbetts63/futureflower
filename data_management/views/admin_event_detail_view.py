@@ -14,7 +14,6 @@ class AdminEventDetailView(APIView):
             event = (
                 Event.objects
                 .select_related('order', 'order__user')
-                .prefetch_related('order__preferred_flower_types')
                 .get(pk=pk)
             )
         except Event.DoesNotExist:

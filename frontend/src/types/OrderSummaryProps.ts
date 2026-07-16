@@ -5,6 +5,5 @@ export interface OrderSummaryProps {
   plan: Order;
   flowerTypeMap: Map<number, FlowerType>;
   context: 'ordering' | 'management';
-  planId: string;
   onRefreshPlan?: () => void;
 }

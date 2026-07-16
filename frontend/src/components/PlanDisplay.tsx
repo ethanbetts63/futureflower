@@ -1,7 +1,6 @@
 // futureflower/frontend/src/components/PlanDisplay.tsx
 "use client";
 import { useState, useEffect, useMemo } from 'react';
-import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getFlowerTypes } from '@/api';
 import type { FlowerType } from '../types/FlowerType';
@@ -15,10 +14,6 @@ function PlanDisplay<T extends Order = Order>({
     fallbackNavigationPath = '/dashboard',
     getPlan,
 }: PlanDisplayProps<T>) {
-    const params = useParams();
-    const planId = params.planId as string | undefined;
-    const router = useRouter();
-
     const [plan, setPlan] = useState<T | null>(null);
     const [flowerTypes, setFlowerTypes] = useState<FlowerType[]>([]);
     const [loading, setLoading] = useState(true);
@@ -27,18 +22,12 @@ function PlanDisplay<T extends Order = Order>({
     const flowerTypeMap = useMemo(() => new Map(flowerTypes.map(ft => [ft.id, ft])), [flowerTypes]);
 
     useEffect(() => {
-        if (!planId) {
-            toast.error('No Plan ID found in URL.');
-            router.push(fallbackNavigationPath);
-            return;
-        }
-
         const fetchData = async () => {
             try {
                 setLoading(true);
                 setError(null);
                 const [planData, flowerTypesData] = await Promise.all([
-                    getPlan(planId),
+                    getPlan(),
                     getFlowerTypes(),
                 ]);
                 setPlan(planData);
@@ -54,7 +43,7 @@ function PlanDisplay<T extends Order = Order>({
         };
 
         fetchData();
-    }, [planId, router, fallbackNavigationPath, getPlan]);
+    }, [getPlan]);
 
     // The plan fetch is a single quick GET; a flash of spinner looks worse
     // than a moment of empty page background.
@@ -75,9 +64,8 @@ function PlanDisplay<T extends Order = Order>({
     }
 
     const refreshPlan = async () => {
-        if (!planId) return;
         try {
-            const planData = await getPlan(planId);
+            const planData = await getPlan();
             setPlan(planData);
         } catch (err) {
             console.error('Failed to refresh plan:', err);

@@ -1,8 +1,7 @@
 ﻿// futureflower/frontend/src/components/RecipientEditor.tsx
 "use client";
 import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import type { PartialOrder } from '../../types/Order';
@@ -25,10 +24,7 @@ const RecipientEditor = ({
     getPlan,
     updatePlan,
 }: RecipientEditorProps) => {
-    const params = useParams();
-    const planId = params.planId as string | undefined;
     const router = useRouter();
-    const { isAuthenticated } = useAuth();
 
     const [formData, setFormData] = useState<RecipientData>({
         recipient_first_name: '',
@@ -45,16 +41,10 @@ const RecipientEditor = ({
     const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
-        if (!planId) {
-            toast.error("No plan ID was provided.");
-            router.push('/dashboard');
-            return;
-        }
-
         const fetchPlanData = async () => {
             setIsLoading(true);
             try {
-                const plan = await getPlan(planId);
+                const plan = await getPlan();
                 setFormData({
                     recipient_first_name: plan.recipient_first_name || '',
                     recipient_last_name: plan.recipient_last_name || '',
@@ -68,39 +58,36 @@ const RecipientEditor = ({
                 });
             } catch (err) {
                 toast.error("Failed to load plan data.");
-                router.push('/dashboard');
+                router.push(onCancelNavigateTo);
             } finally {
                 setIsLoading(false);
             }
         };
 
         fetchPlanData();
-    }, [planId, isAuthenticated, router, getPlan]);
+    }, [router, getPlan, onCancelNavigateTo]);
 
     const handleFormChange = (field: keyof RecipientData, value: string) => {
         setFormData((prev: RecipientData) => ({ ...prev, [field]: value }));
     };
 
     const handleSave = async () => {
-        if (!planId) return;
-
         // Simple validation
         if (!formData.recipient_first_name || !formData.recipient_street_address || !formData.recipient_city) {
             toast.error("Please fill in at least the recipient's first name, address, and city.");
             return;
         }
-        
+
         setIsSaving(true);
         try {
             const payload: PartialOrder = { ...formData };
-            await updatePlan(planId, payload);
+            await updatePlan(payload);
 
             if (mode === 'edit') {
                 toast.success("Recipient details updated successfully!");
             }
-            
-            const destination = onSaveNavigateTo.replace('{planId}', planId);
-            router.push(destination);
+
+            router.push(onSaveNavigateTo);
 
         } catch (err) {
             toast.error(mode === 'edit' ? "Failed to update recipient details." : "Failed to save recipient details.");
@@ -116,8 +103,6 @@ const RecipientEditor = ({
             </div>
         );
     }
-
-    const backButtonTo = planId ? onCancelNavigateTo.replace('{planId}', planId) : onCancelNavigateTo;
 
     return (
         <div className="min-h-screen w-full" style={{ backgroundColor: 'var(--color4)' }}>
@@ -146,7 +131,7 @@ const RecipientEditor = ({
                         </div>
                     </CardContent>
                     <CardFooter className="flex flex-row justify-between items-center gap-4 py-2 px-4 md:px-8 border-t border-black/5">
-                        <FlowBackButton to={backButtonTo} />
+                        <FlowBackButton to={onCancelNavigateTo} />
                         <FlowNextButton 
                             label={saveButtonText} 
                             onClick={handleSave} 

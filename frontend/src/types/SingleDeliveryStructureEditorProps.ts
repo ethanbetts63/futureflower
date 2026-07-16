@@ -1,4 +1,5 @@
 // frontend/src/types/SingleDeliveryStructureEditorProps.ts
+import type { Order, PartialOrder } from './Order';
 
 export interface SingleDeliveryStructureEditorProps {
     mode: 'create' | 'edit';
@@ -8,4 +9,6 @@ export interface SingleDeliveryStructureEditorProps {
     saveButtonText: string;
     onSaveNavigateTo: string;
     backPath: string;
+    getPlan: () => Promise<Order>;
+    updatePlan: (data: PartialOrder) => Promise<Order>;
 }

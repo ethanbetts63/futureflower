@@ -1,7 +1,7 @@
 // futureflower/frontend/src/components/PreferencesEditor.tsx
 "use client";
 import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
@@ -24,8 +24,6 @@ const PreferencesEditor = ({
     getPlan,
     updatePlan,
 }: PreferencesEditorProps) => {
-    const params = useParams();
-    const planId = params.planId as string | undefined;
     const router = useRouter();
 
     // Data fetching state
@@ -39,18 +37,12 @@ const PreferencesEditor = ({
     const [flowerNotes, setFlowerNotes] = useState<string>('');
 
     useEffect(() => {
-        if (!planId) {
-            toast.error("No plan specified.");
-            router.push('/dashboard');
-            return;
-        }
-
         const fetchData = async () => {
             setIsLoading(true);
             try {
                 const [flowerTypesData, planData] = await Promise.all([
                     getFlowerTypes(),
-                    getPlan(planId), 
+                    getPlan(),
                 ]);
                 
                 setFlowerTypes(flowerTypesData);
@@ -78,20 +70,19 @@ const PreferencesEditor = ({
         };
 
         fetchData();
-    }, [router, planId, getPlan]);
-    
+    }, [router, getPlan]);
+
     const handleSave = async () => {
-        if (!planId) return;
         setIsSaving(true);
         try {
-            await updatePlan(planId, {
+            await updatePlan({
                 preferred_flower_types: selectedVibe !== null ? [selectedVibe] : [],
                 flower_notes: flowerNotes,
             });
             if (mode === 'edit') {
                 toast.success("Preferences saved successfully!");
             }
-            router.push(onSaveNavigateTo.replace('{planId}', planId));
+            router.push(onSaveNavigateTo);
         } catch (err) {
             toast.error("Failed to save preferences. Please try again.");
         } finally {
