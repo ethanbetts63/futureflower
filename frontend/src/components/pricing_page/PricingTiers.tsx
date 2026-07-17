@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { Truck } from 'lucide-react';
 import { IMPACT_TIERS, MIN_BUDGET } from '@/utils/pricingConstants';
-import { FREE_DELIVERY_THRESHOLD } from '@/utils/systemConstants';
+import { DELIVERY_FEE, DELIVERY_INCLUDED_THRESHOLD } from '@/utils/systemConstants';
 
 const PricingTiers = () => {
     return (
@@ -52,12 +52,12 @@ const PricingTiers = () => {
                                 <p className="mt-2 text-4xl font-bold font-playfair-display">
                                     ${tier.price}
                                 </p>
-                                {tier.price >= FREE_DELIVERY_THRESHOLD && (
-                                    <p className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-black/70">
-                                        <Truck className="h-4 w-4 text-[var(--colorgreen)]" aria-hidden="true" />
-                                        Free delivery
-                                    </p>
-                                )}
+                                <p className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-black/70">
+                                    <Truck className="h-4 w-4 text-[var(--colorgreen)]" aria-hidden="true" />
+                                    {tier.price >= DELIVERY_INCLUDED_THRESHOLD
+                                        ? 'Delivery included'
+                                        : `+ $${DELIVERY_FEE} delivery`}
+                                </p>
                                 <p className="mt-4 text-sm leading-relaxed text-black/60">
                                     {tier.description}
                                 </p>
@@ -71,7 +71,7 @@ const PricingTiers = () => {
                         Or name your own number.
                     </p>
                     <p className="mx-auto mt-1.5 max-w-xl text-sm leading-relaxed text-black/60">
-                        Set any custom budget from ${MIN_BUDGET} when you order — free delivery kicks in over ${FREE_DELIVERY_THRESHOLD}.
+                        Set any custom budget from ${MIN_BUDGET} when you order — delivery is included from ${DELIVERY_INCLUDED_THRESHOLD}, and below that a ${DELIVERY_FEE} delivery fee is added.
                     </p>
                 </div>
             </div>

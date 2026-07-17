@@ -1,7 +1,6 @@
 import pytest
 from data_management.serializers.admin_event_serializer import AdminEventSerializer
 from events.tests.factories.event_factory import EventFactory
-from events.tests.factories.flower_type_factory import FlowerTypeFactory
 from events.tests.factories.order_factory import OrderFactory
 
 @pytest.mark.django_db
@@ -9,18 +8,14 @@ def test_admin_event_serializer_fields():
     """
     Test that AdminEventSerializer correctly serializes event and related order fields.
     """
-    # Setup order with specific details
-    flower1 = FlowerTypeFactory(name="Rose")
-    flower2 = FlowerTypeFactory(name="Tulip")
-    
-    order = OrderFactory(billing_mode='one_time', 
+    order = OrderFactory(billing_mode='one_time',
         budget=100.00,
         recipient_first_name="Jane",
         recipient_last_name="Doe",
         delivery_notes="Leave at door",
+        flower_notes="Occasion / vibe: Romance",
     )
-    order.preferred_flower_types.add(flower1, flower2)
-    
+
     event = EventFactory(order=order)
     
     serializer = AdminEventSerializer(event)
@@ -33,6 +28,5 @@ def test_admin_event_serializer_fields():
     assert data['recipient_last_name'] == "Doe"
     assert data['delivery_notes'] == "Leave at door"
     assert data['order_type'] == "One-time"
-    assert "Rose" in data['preferred_flower_types']
-    assert "Tulip" in data['preferred_flower_types']
+    assert data['flower_notes'] == "Occasion / vibe: Romance"
     assert data['customer_email'] == order.user.email

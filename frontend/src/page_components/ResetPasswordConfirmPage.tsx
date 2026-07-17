@@ -12,6 +12,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from "sonner";
 import { confirmPasswordReset } from '@/api';
+import { errorMessage } from '@/utils/errors';
 
 type PasswordResetFormData = {
   password: string;
@@ -55,10 +56,9 @@ const ResetPasswordConfirmPage = () => {
       await confirmPasswordReset(uid, token, data);
       toast.success("Password has been reset! You can now log in.");
       router.push('/login');
-    } catch (err: any) {
-      const errorMessage = err.message || "An error occurred. Please try again.";
+    } catch (err) {
       toast.error("Error", {
-        description: errorMessage,
+        description: errorMessage(err) || "An error occurred. Please try again.",
       });
     }
   };

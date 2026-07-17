@@ -48,8 +48,9 @@ def test_admin_user_detail_serializer_plans():
     Test that plans (both upfront and subscription) are correctly serialized and included.
     """
     user = UserFactory()
-    plan1 = OrderFactory(billing_mode='one_time', user=user, subtotal=Decimal('100.00'), discount_amount=Decimal('0'), tax_amount=Decimal('0'))
-    plan2 = OrderFactory(billing_mode='recurring', user=user, subtotal=Decimal('50.00'), discount_amount=Decimal('0'), tax_amount=Decimal('0'))
+    # Budget drives the total: $100 is at the threshold, so no delivery fee is added.
+    plan1 = OrderFactory(billing_mode='one_time', user=user, budget=Decimal('100.00'), discount_amount=Decimal('0'), tax_amount=Decimal('0'))
+    plan2 = OrderFactory(billing_mode='recurring', user=user, budget=Decimal('50.00'), discount_amount=Decimal('0'), tax_amount=Decimal('0'))
     
     serializer = AdminUserDetailSerializer(user)
     data = serializer.data
@@ -63,4 +64,5 @@ def test_admin_user_detail_serializer_plans():
     
     amounts = {float(p['total_amount']) for p in data['plans']}
     assert 100.00 in amounts
-    assert 50.00 in amounts
+    # $50 is under the threshold, so the $20 delivery fee is added on top.
+    assert 70.00 in amounts

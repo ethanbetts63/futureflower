@@ -7,7 +7,9 @@ import 'leaflet/dist/leaflet.css';
 import { Slider } from '@/components/ui/slider';
 import type { ServiceAreaMapProps } from '@/types/ServiceAreaMapProps';
 
-// Fix default marker icon issue with bundlers
+// Fix default marker icon issue with bundlers. `_getIconUrl` is private and not
+// in Leaflet's types, so the cast is the only way to reach it.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',

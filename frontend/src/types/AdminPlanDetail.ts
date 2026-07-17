@@ -19,12 +19,10 @@ export interface AdminPlanDetail {
   recipient_country: string | null;
   delivery_notes: string | null;
   preferred_delivery_time: string | null;
-  preferred_flower_types: string[];
   flower_notes: string | null;
   customer_id: number;
   customer_first_name: string;
   customer_last_name: string;
   customer_email: string;
-  subscription_message: string | null;
   events: AdminPlanEvent[];
 }

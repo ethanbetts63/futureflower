@@ -11,6 +11,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from "sonner";
 import { requestPasswordReset } from '@/api';
+import { errorMessage } from '@/utils/errors';
 
 type EmailFormData = {
   email: string;
@@ -30,9 +31,8 @@ const ForgotPasswordPage = () => {
       const response = await requestPasswordReset(data.email);
       toast.info(response.detail); // Show the generic message from the backend
       reset();
-    } catch (err: any) {
-      const errorMessage = err.message || 'An unexpected error occurred.';
-      toast.error(errorMessage);
+    } catch (err) {
+      toast.error(errorMessage(err) || 'An unexpected error occurred.');
     }
   };
 

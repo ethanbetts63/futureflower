@@ -1,13 +1,12 @@
 // futureflower/frontend/src/components/PlanDisplay.tsx
 "use client";
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { getFlowerTypes } from '@/api';
-import type { FlowerType } from '../types/FlowerType';
 import type { Order } from '../types/Order';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import type { PlanDisplayProps } from '../types/PlanDisplayProps';
+import { errorMessage } from '@/utils/errors';
 
 function PlanDisplay<T extends Order = Order>({
     children,
@@ -15,27 +14,19 @@ function PlanDisplay<T extends Order = Order>({
     getPlan,
 }: PlanDisplayProps<T>) {
     const [plan, setPlan] = useState<T | null>(null);
-    const [flowerTypes, setFlowerTypes] = useState<FlowerType[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
-    const flowerTypeMap = useMemo(() => new Map(flowerTypes.map(ft => [ft.id, ft])), [flowerTypes]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
                 setError(null);
-                const [planData, flowerTypesData] = await Promise.all([
-                    getPlan(),
-                    getFlowerTypes(),
-                ]);
-                setPlan(planData);
-                setFlowerTypes(flowerTypesData);
-            } catch (err: any) {
-                const errorMessage = 'Failed to load plan details.';
-                setError(errorMessage);
-                toast.error(errorMessage, { description: err.message });
+                setPlan(await getPlan());
+            } catch (err) {
+                const summary = 'Failed to load plan details.';
+                setError(summary);
+                toast.error(summary, { description: errorMessage(err) });
                 console.error(err);
             } finally {
                 setLoading(false);
@@ -65,14 +56,13 @@ function PlanDisplay<T extends Order = Order>({
 
     const refreshPlan = async () => {
         try {
-            const planData = await getPlan();
-            setPlan(planData);
+            setPlan(await getPlan());
         } catch (err) {
             console.error('Failed to refresh plan:', err);
         }
     };
 
-    return <>{children({ plan, flowerTypeMap, refreshPlan })}</>;
+    return <>{children({ plan, refreshPlan })}</>;
 };
 
 export default PlanDisplay;

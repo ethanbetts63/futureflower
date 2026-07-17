@@ -14,6 +14,7 @@ import {
   TableRow,
   TableCell,
 } from '@/components/ui/table';
+import { errorMessage } from '@/utils/errors';
 
 type SortKey = 'name' | 'email' | 'plans' | 'joined';
 type SortDir = 'asc' | 'desc';
@@ -67,12 +68,14 @@ const AdminUserListPage = () => {
   }, [searchInput]);
 
   useEffect(() => {
-    setLoading(true);
-    setError(null);
+    // `cancelled` guards against an earlier, slower search overwriting a newer
+    // one — the rows keep showing the previous results until this one lands.
+    let cancelled = false;
     getAdminUsers(activeSearch || undefined)
-      .then(setUsers)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+      .then((result) => { if (!cancelled) { setUsers(result); setError(null); } })
+      .catch((e) => { if (!cancelled) setError(errorMessage(e)); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
   }, [activeSearch]);
 
   function handleSort(col: SortKey) {

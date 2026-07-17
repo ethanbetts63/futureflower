@@ -35,11 +35,10 @@ import {
   AlertDialogAction,
 } from '@/components/ui/alert-dialog';
 import type { OrderSummaryProps } from '@/types/OrderSummaryProps';
-import type { FlowerType } from '@/types/FlowerType';
+import { errorMessage } from '@/utils/errors';
 
 const OrderSummary = ({
   plan,
-  flowerTypeMap,
   context,
   onRefreshPlan,
 }: OrderSummaryProps) => {
@@ -82,12 +81,7 @@ const OrderSummary = ({
   // Base paths for editing
   const editBasePath = isOrdering ? '/order' : `/dashboard/orders/${orderId}`;
 
-  const preferredTypes = plan.preferred_flower_types
-    .map(id => flowerTypeMap.get(Number(id)))
-    .filter((ft): ft is FlowerType => !!ft);
-
-  const messages = plan.draft_card_messages || {};
-  const events = plan.events || [];
+  const events = plan.events;
 
   // Lock all edits if the nearest upcoming delivery is within the edit lead time
   const nearestUpcomingDays = events
@@ -96,10 +90,9 @@ const OrderSummary = ({
     .sort((a, b) => a - b)[0];
   const isSectionEditLocked = !isOrdering && nearestUpcomingDays !== undefined && nearestUpcomingDays <= MIN_DAYS_BEFORE_EDIT;
 
-  // For Single Delivery or context where we want to highlight the main message
-  const firstDraftMessage = messages['0'] || '';
-  const firstEventMessage = events[0]?.message || '';
-  const mainMessage = isRecurring ? (plan.subscription_message || '') : (firstDraftMessage || firstEventMessage);
+  // Only one-off deliveries carry a card message. Before payment it lives on the
+  // order; afterwards it has been copied onto the delivery event.
+  const mainMessage = isRecurring ? '' : (plan.card_message || events[0]?.message || '');
 
   const handleRecurringPayment = async () => {
     setIsSubmitting(true);
@@ -108,7 +101,6 @@ const OrderSummary = ({
       const recurringOrder = await makeGuestOrderRecurring({
         frequency: recurringFrequency,
         recurring_preferences: recurringPreferences,
-        subscription_message: mainMessage,
       });
       const response = await startGuestCheckoutPayment();
 
@@ -118,9 +110,9 @@ const OrderSummary = ({
         backPath: `${editBasePath}/confirmation`,
       }));
       router.push('/checkout');
-    } catch (err: any) {
+    } catch (err) {
       toast.error("Checkout Error", {
-        description: err.message || "Could not initiate the recurring payment. Please try again.",
+        description: errorMessage(err) || "Could not initiate the recurring payment. Please try again.",
       });
       setIsSubmitting(false);
     }
@@ -288,11 +280,16 @@ const OrderSummary = ({
                 "{mainMessage}"
               </p>
             </div>
+            {makeRecurring && (
+              <p className="mt-3 text-sm leading-relaxed text-black/60">
+                Recurring deliveries arrive without a card message, so this one won't be
+                included. Untick "Make this a recurring delivery" to send it.
+              </p>
+            )}
           </SummarySection>
         )}
 
         <FlowerPreferencesSummary
-          preferredTypes={preferredTypes}
           flowerNotes={plan.flower_notes}
           editUrl={isOrdering ? `${editBasePath}/preferences` : undefined}
           locked={isSectionEditLocked}

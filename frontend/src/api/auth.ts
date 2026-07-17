@@ -1,8 +1,6 @@
 
 import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
-import type { AuthResponse } from "@/types";
-import type { ProfileCreationData } from "../types/ProfileCreationData";
 
 type PasswordResetConfirmPayload = {
   password: string;
@@ -15,16 +13,6 @@ export async function loginUser(email: string, password: string): Promise<{ deta
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: email, password }),
-  });
-  return handleResponse(response);
-}
-
-export async function registerUser(userData: ProfileCreationData): Promise<AuthResponse> {
-  const response = await fetch('/api/users/register/', {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(userData),
   });
   return handleResponse(response);
 }

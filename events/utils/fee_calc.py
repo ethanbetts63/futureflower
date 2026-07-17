@@ -1,12 +1,18 @@
 from decimal import Decimal
 
-def calculate_service_fee(
-    budget: Decimal,
-    commission_pct: Decimal = Decimal('0.00'),
-    min_fee: Decimal = Decimal('0.00'),
-) -> Decimal:
+from django.conf import settings
+
+
+def calculate_delivery_fee(budget: Decimal) -> Decimal:
     """
-    Calculates the service fee for a single delivery based on the bouquet budget.
-    Defaults to 0.00 as requested, but allows for commission and min_fee overrides.
+    Returns the delivery fee for a bouquet budget.
+
+    At or above DELIVERY_INCLUDED_THRESHOLD the budget absorbs the delivery
+    cost, so nothing is added. Below it the fee is charged on top, which leaves
+    the budget intact for flowers.
     """
-    return max(budget * commission_pct, min_fee)
+    if not budget:
+        return Decimal('0.00')
+    if budget >= Decimal(settings.DELIVERY_INCLUDED_THRESHOLD):
+        return Decimal('0.00')
+    return Decimal(settings.DELIVERY_FEE).quantize(Decimal('0.01'))

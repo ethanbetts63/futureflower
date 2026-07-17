@@ -8,7 +8,7 @@ import PricingFloristAdvantage from '../components/pricing_page/PricingFloristAd
 import PricingTiers from '../components/pricing_page/PricingTiers';
 import PricingFaq from '../components/pricing_page/PricingFaq';
 import { IMPACT_TIERS } from '@/utils/pricingConstants';
-import { FREE_DELIVERY_THRESHOLD } from '@/utils/systemConstants';
+import { DELIVERY_INCLUDED_THRESHOLD } from '@/utils/systemConstants';
 
 const SEND_HREF = '/';
 
@@ -54,7 +54,7 @@ const PricingPage = () => {
                             </h1>
                             <HeroPills />
                             <p className="mt-5 max-w-xl text-lg leading-relaxed text-black/65">
-                                The budget you set is the amount you pay — delivery included, nothing added at checkout. A local florist puts it into the bouquet.
+                                Set a budget of ${DELIVERY_INCLUDED_THRESHOLD} or more and that is the amount you pay — delivery included, nothing added at checkout. A local florist designs to it.
                             </p>
                             <div className="mt-8">
                                 <Link
@@ -73,9 +73,9 @@ const PricingPage = () => {
                         overlayClassName="bg-gradient-to-t from-black/70 to-transparent p-5 sm:p-8"
                         overlay={
                             <div className="max-w-sm text-white">
-                                <p className="text-sm font-semibold">Free delivery over ${FREE_DELIVERY_THRESHOLD}.</p>
+                                <p className="text-sm font-semibold">Delivery included over ${DELIVERY_INCLUDED_THRESHOLD}.</p>
                                 <p className="mt-1 text-sm leading-relaxed text-white/70">
-                                    Your budget goes into the flowers, not the fees.
+                                    A local florist designs to your budget — no catalog, no markup at checkout.
                                 </p>
                             </div>
                         }

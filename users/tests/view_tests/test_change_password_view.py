@@ -5,15 +5,32 @@ from users.tests.factories.user_factory import UserFactory
 
 @pytest.mark.django_db
 class TestChangePasswordView:
+    """
+    Only staff, superusers and partners hold passwords. Customers order as
+    guests and reach their orders through an emailed link, so they have no
+    password to change.
+    """
 
     def setup_method(self):
         self.client = APIClient()
-        self.user = UserFactory(password='old_password123')
+        self.user = UserFactory(password='old_password123', is_staff=True)
         self.url = '/api/users/change-password/'
 
     def test_unauthenticated_user_cannot_access(self):
         response = self.client.put(self.url, {})
         assert response.status_code == 401
+
+    def test_customer_cannot_change_password(self):
+        customer = UserFactory(password='old_password123')
+        self.client.force_authenticate(user=customer)
+        data = {
+            "old_password": "old_password123",
+            "new_password": "new_strong_password456",
+            "new_password_confirm": "new_strong_password456",
+        }
+        response = self.client.put(self.url, data, format='json')
+
+        assert response.status_code == 403
 
     def test_change_password_success(self):
         self.client.force_authenticate(user=self.user)
@@ -76,7 +93,7 @@ class TestChangePasswordView:
             "new_password_confirm": "password",
         }
         response = self.client.put(self.url, data, format='json')
-        
+
         assert response.status_code == 400
         assert "new_password" in response.data
         assert "too common" in str(response.data['new_password'])

@@ -4,6 +4,7 @@
 
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { changePassword } from '@/api';
+import { errorMessage } from '@/utils/errors';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -46,12 +47,10 @@ export const ChangePasswordForm = () => {
       });
       toast.success("Password changed successfully!");
       reset();
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.old_password?.[0] 
-                        || err.response?.data?.detail
-                        || err.message 
-                        || 'An error occurred.';
-      toast.error(errorMessage);
+    } catch (err) {
+      // handleResponse already surfaces the field error (e.g. a wrong old_password)
+      // as the message, so there is nothing more specific to dig out.
+      toast.error(errorMessage(err));
     }
   };
 

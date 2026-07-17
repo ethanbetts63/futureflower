@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, type ReactNode, useCallback } from 'react';
 import * as api from '@/api';
+import { ApiError } from '@/api/ApiError';
 import type { UserProfile } from '../types/UserProfile';
 import type { AuthContextType } from '../types/AuthContextType';
 
@@ -17,9 +18,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const fullProfile = await api.getUserProfile();
       setUser(fullProfile);
-    } catch (error: any) {
+    } catch (error) {
       // Only clear the user on authentication errors — don't log out on network blips
-      const status = error.data?.status || error.response?.status;
+      const status = error instanceof ApiError ? error.status : null;
       if (status === 401 || status === 403) {
         localStorage.removeItem('hasSession');
         setUser(null);
@@ -71,12 +72,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    * Login handler for the traditional email/password form.
    */
   const loginWithPassword = async (email: string, password: string) => {
-    try {
-      await api.loginUser(email, password);
-      await handleLoginSuccess();
-    } catch (error) {
-      throw error;
-    }
+    await api.loginUser(email, password);
+    await handleLoginSuccess();
   };
 
   /**

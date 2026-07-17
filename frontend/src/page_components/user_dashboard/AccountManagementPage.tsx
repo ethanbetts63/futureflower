@@ -12,6 +12,7 @@ import { ChangePasswordForm } from '@/forms/ChangePasswordForm';
 import DeleteAccountSection from '@/components/DeleteAccountSection';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
+import { errorMessage } from '@/utils/errors';
 
 const AccountManagementPage = () => {
     const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -27,8 +28,8 @@ const AccountManagementPage = () => {
                 getUserProfile(),
             ]);
             setProfile(profileData);
-        } catch (err: any) {
-            setError(err.message || 'Failed to fetch account details.');
+        } catch (err) {
+            setError(errorMessage(err) || 'Failed to fetch account details.');
         } finally {
             setLoading(false);
         }

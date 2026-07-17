@@ -14,6 +14,7 @@ import SummarySection from '@/components/SummarySection';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
+import { errorMessage } from '@/utils/errors';
 
 const UserDashboardPage = () => {
   const [plans, setPlans] = useState<Order[]>([]);
@@ -29,8 +30,8 @@ const UserDashboardPage = () => {
         ]);
         setPlans(plansData);
         setUser(userData);
-      } catch (err: any) {
-        toast.error("Failed to load your dashboard.", { description: err.message });
+      } catch (err) {
+        toast.error("Failed to load your dashboard.", { description: errorMessage(err) });
         console.error(err);
       } finally {
         setLoading(false);

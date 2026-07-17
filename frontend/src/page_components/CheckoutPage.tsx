@@ -38,11 +38,15 @@ const CheckoutPage = () => {
         const back = state?.backPath;
 
         if (secret && id) {
+            // sessionStorage does not exist while this renders on the server, so
+            // the handoff from the confirmation page can only be read after mount
+            // — it cannot move into a lazy useState initializer.
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setClientSecret(secret);
             setPlanId(id);
             setBackPath(back);
 
-            getGuestOrder(id)
+            getGuestOrder()
                 .then(setPlan)
                 .catch((err) => console.error('Could not load plan summary:', err))
                 .finally(() => setIsLoading(false));
@@ -83,7 +87,7 @@ const CheckoutPage = () => {
         plan.recipient_country
     ].filter(Boolean).join(', ');
 
-    const subtotal = Number(plan.subtotal);
+    const deliveryFee = Number(plan.delivery_fee);
     const discountAmount = Number(plan.discount_amount);
     const taxAmount = Number(plan.tax_amount);
     const totalPlanAmount = Number(plan.total_amount);
@@ -172,8 +176,16 @@ const CheckoutPage = () => {
                         <SummarySection label="Order Total">
                             <div className="space-y-3 bg-black/5 rounded-2xl p-4 mt-1">
                                 <div className="flex items-center justify-between text-sm">
-                                    <span className="text-black/60">Subtotal</span>
-                                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                                    <span className="text-black/60">Bouquet budget</span>
+                                    <span className="font-semibold">${flowerBudget.toFixed(2)}</span>
+                                </div>
+                                <div className="flex items-center justify-between text-sm">
+                                    <span className="text-black/60">Delivery</span>
+                                    {deliveryFee > 0 ? (
+                                        <span className="font-semibold">${deliveryFee.toFixed(2)}</span>
+                                    ) : (
+                                        <span className="font-semibold text-green-600">Included</span>
+                                    )}
                                 </div>
                                 {discountAmount > 0 && (
                                     <div className="flex items-center justify-between text-sm text-green-600">
@@ -187,10 +199,6 @@ const CheckoutPage = () => {
                                         <span className="font-semibold">${taxAmount.toFixed(2)}</span>
                                     </div>
                                 )}
-                                <div className="flex items-center justify-between text-sm">
-                                    <span className="text-black/60">Delivery</span>
-                                    <span className="font-semibold">$0.00</span>
-                                </div>
                                 <div className="pt-3 border-t border-black/10 flex items-center justify-between">
                                     <span className="font-bold text-black flex items-center gap-2">
                                         <DollarSign className="h-4 w-4 text-black/40" />

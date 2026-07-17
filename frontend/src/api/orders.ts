@@ -1,37 +1,22 @@
 import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
+import { parseOrder } from './parseOrder';
 import type { Order, PartialOrder } from '@/types/Order';
 
 type MakeRecurringPayload = {
   frequency: string;
   recurring_preferences?: string;
-  subscription_message?: string;
 };
-
-function parseOrder(order: any): Order {
-  return {
-    ...order,
-    budget: order.budget !== null && order.budget !== undefined ? Number(order.budget) : null,
-    subtotal: Number(order.subtotal ?? 0),
-    discount_amount: Number(order.discount_amount ?? 0),
-    tax_amount: Number(order.tax_amount ?? 0),
-    total_amount: order.total_amount !== null && order.total_amount !== undefined ? Number(order.total_amount) : null,
-    events: order.events || [],
-    payments: order.payments || [],
-    draft_card_messages: order.draft_card_messages || {},
-  } as Order;
-}
 
 export async function getOrders(): Promise<Order[]> {
   const response = await authedFetch('/api/events/orders/');
-  const data = await handleResponse<any[]>(response);
+  const data = await handleResponse<unknown[]>(response);
   return data.map(parseOrder);
 }
 
 export async function getOrder(orderId: string): Promise<Order> {
   const response = await authedFetch(`/api/events/orders/${orderId}/`);
-  const data = await handleResponse<any>(response);
-  return parseOrder(data);
+  return parseOrder(await handleResponse<unknown>(response));
 }
 
 export async function updateOrder(orderId: string, orderData: PartialOrder): Promise<Order> {
@@ -39,8 +24,7 @@ export async function updateOrder(orderId: string, orderData: PartialOrder): Pro
     method: 'PATCH',
     body: JSON.stringify(orderData),
   });
-  const data = await handleResponse<any>(response);
-  return parseOrder(data);
+  return parseOrder(await handleResponse<unknown>(response));
 }
 
 export async function makeOrderRecurring(orderId: string, payload: MakeRecurringPayload): Promise<Order> {
@@ -48,8 +32,7 @@ export async function makeOrderRecurring(orderId: string, payload: MakeRecurring
     method: 'POST',
     body: JSON.stringify(payload),
   });
-  const data = await handleResponse<any>(response);
-  return parseOrder(data);
+  return parseOrder(await handleResponse<unknown>(response));
 }
 
 export async function startCheckout(orderId: string | number): Promise<{ clientSecret: string }> {

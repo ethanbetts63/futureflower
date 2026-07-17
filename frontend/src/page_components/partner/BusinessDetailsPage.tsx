@@ -10,6 +10,8 @@ import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import { toast } from 'sonner';
 import { getPartnerDashboard, updatePartnerDetails } from '@/api/partners';
+import { errorMessage } from '@/utils/errors';
+import { fieldErrorSummary } from '@/api/ApiError';
 
 const BusinessDetailsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -82,13 +84,10 @@ const BusinessDetailsPage = () => {
         }),
       });
       toast.success('Business details updated.');
-    } catch (error: any) {
-      const errorData = error.data || {};
-      const description = Object.entries(errorData)
-        .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(', ') : value}`)
-        .join('; ');
+    } catch (error) {
+      const description = fieldErrorSummary(error);
       toast.error('Update failed', {
-        description: description || error.message || 'Please try again.',
+        description: description || errorMessage(error) || 'Please try again.',
       });
     } finally {
       setIsSubmitting(false);

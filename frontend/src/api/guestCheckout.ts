@@ -1,28 +1,17 @@
 import { getCsrfToken } from '@/utils/utils';
 import { handleResponse } from './helpers';
+import { parseOrder } from './parseOrder';
 import type { Order, PartialOrder } from '@/types/Order';
 import { briefToOrderPatch, type HomepageBrief } from '@/lib/homepageBrief';
 
-function parseOrder(order: any): Order {
-  return {
-    ...order,
-    budget: order.budget !== null && order.budget !== undefined ? Number(order.budget) : null,
-    subtotal: Number(order.subtotal ?? 0),
-    discount_amount: Number(order.discount_amount ?? 0),
-    tax_amount: Number(order.tax_amount ?? 0),
-    total_amount: order.total_amount !== null && order.total_amount !== undefined ? Number(order.total_amount) : null,
-    events: order.events || [], payments: order.payments || [], draft_card_messages: order.draft_card_messages || {},
-  } as Order;
-}
-
-async function request(action: string, body?: unknown, method = 'POST') {
+async function request<T = unknown>(action: string, body?: unknown, method = 'POST'): Promise<T> {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   const csrf = getCsrfToken();
   if (csrf) headers['X-CSRFToken'] = csrf;
   const response = await fetch(`/api/events/guest-checkout/${action}/`, {
     method, credentials: 'include', headers, ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
   });
-  return handleResponse<any>(response);
+  return handleResponse<T>(response);
 }
 
 export async function startGuestCheckout(brief: HomepageBrief): Promise<Order> {
@@ -43,12 +32,12 @@ export async function claimGuestCheckout(data: { email: string; first_name: stri
   return parseOrder(await request('claim', data));
 }
 
-export async function makeGuestOrderRecurring(payload: { frequency: string; recurring_preferences?: string; subscription_message?: string }): Promise<Order> {
+export async function makeGuestOrderRecurring(payload: { frequency: string; recurring_preferences?: string }): Promise<Order> {
   return parseOrder(await request('make-recurring', payload));
 }
 
 export async function startGuestCheckoutPayment(): Promise<{ clientSecret: string }> {
-  return request('checkout');
+  return request<{ clientSecret: string }>('checkout');
 }
 
 export async function acceptGuestTerms(): Promise<void> {

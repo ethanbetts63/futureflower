@@ -21,7 +21,6 @@ class AdminPlanDetailSerializer(serializers.ModelSerializer):
             'delivery_notes', 'preferred_delivery_time',
             'flower_notes',
             'customer_id', 'customer_first_name', 'customer_last_name', 'customer_email',
-            'subscription_message',
             'events',
         ]
 

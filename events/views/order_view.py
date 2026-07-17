@@ -8,7 +8,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from events.models import OrderBase
 from events.serializers import OrderSerializer
-from events.utils.fee_calc import calculate_service_fee
 from payments.models import Payment
 from payments.utils.checkout import (
     ensure_stripe_customer,
@@ -70,17 +69,9 @@ class OrderViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        recurring_preferences = request.data.get('recurring_preferences', '')
-        subscription_message = request.data.get('subscription_message')
-        if subscription_message is None:
-            subscription_message = (order.draft_card_messages or {}).get('0', '')
-
         order.billing_mode = 'recurring'
         order.frequency = frequency
-        order.recurring_preferences = recurring_preferences
-        order.subscription_message = subscription_message
-        if order.budget:
-            order.subtotal = (order.budget + calculate_service_fee(order.budget)).quantize(Decimal('0.01'))
+        order.recurring_preferences = request.data.get('recurring_preferences', '')
         order.save()
 
         return Response(self.get_serializer(order).data)

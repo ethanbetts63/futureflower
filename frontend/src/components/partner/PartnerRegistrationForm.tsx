@@ -14,6 +14,8 @@ import { COUNTRIES } from '@/data/countries';
 import { registerPartner } from '@/api/partners';
 import { acceptTerms } from '@/api';
 import type { PartnerRegistrationData } from '@/types';
+import { errorMessage } from '@/utils/errors';
+import { fieldErrorSummary } from '@/api/ApiError';
 
 // Leaflet touches `window` at module load, so keep the map client-only to avoid
 // breaking server prerendering of the pages that embed this form.
@@ -106,13 +108,10 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
         acceptTerms(isDelivery ? 'florist' : 'affiliate'),
       ]);
       router.push('/dashboard/partner');
-    } catch (error: any) {
-      const errorData = error.data || {};
-      const description = Object.entries(errorData)
-        .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(', ') : value}`)
-        .join('; ');
+    } catch (error) {
+      const description = fieldErrorSummary(error);
       toast.error('Registration failed', {
-        description: description || error.message || 'Please try again.',
+        description: description || errorMessage(error) || 'Please try again.',
       });
     } finally {
       setIsSubmitting(false);

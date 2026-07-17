@@ -65,7 +65,7 @@ const publicRoutes: Record<string, RouteMetadata> = {
   "/birthday-flower-delivery": {
     title: "Birthday Flower Delivery",
     description:
-      "Send fresh birthday flowers from local florists. Pick a date, set a budget, and we handle the rest with free delivery.",
+      "Send fresh birthday flowers from local florists. Pick a date, set a budget, and we handle the rest with delivery included from $100.",
     path: "/birthday-flower-delivery",
     ogImage: "/og-images/og-birthday-flowers.webp",
   },

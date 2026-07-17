@@ -8,6 +8,7 @@ import { Spinner } from '@/components/ui/spinner';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
+import { errorMessage } from '@/utils/errors';
 
 function formatDate(dtStr: string): string {
   return new Date(dtStr).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -52,7 +53,7 @@ const AdminPlanDetailPage = () => {
     if (!planId) return;
     getAdminPlanDetail(planId)
       .then(setPlan)
-      .catch((e) => setError(e.message))
+      .catch((e) => setError(errorMessage(e)))
       .finally(() => setLoading(false));
   }, [planId]);
 
@@ -121,11 +122,6 @@ const AdminPlanDetailPage = () => {
               <Field label="Total" value={plan.total_amount ? `$${plan.total_amount}` : null} />
               <Field label="Frequency" value={plan.frequency ? capitalize(plan.frequency) : null} />
               <Field label="Start Date" value={plan.start_date ? formatDate(plan.start_date) : null} />
-              {plan.plan_type === 'recurring' && plan.subscription_message && (
-                <div className="sm:col-span-2">
-                  <Field label="Subscription Message" value={plan.subscription_message} />
-                </div>
-              )}
             </div>
           </SummarySection>
 
@@ -150,10 +146,6 @@ const AdminPlanDetailPage = () => {
           {/* Preferences */}
           <SummarySection label="Preferences">
             <div className="grid grid-cols-1 gap-4">
-              <Field
-                label="Flower Types"
-                value={plan.preferred_flower_types.length > 0 ? plan.preferred_flower_types.join(', ') : null}
-              />
               {plan.flower_notes && (
                 <Field label="Notes" value={plan.flower_notes} />
               )}

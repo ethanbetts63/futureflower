@@ -5,6 +5,6 @@ export interface PaymentInitiatorButtonProps extends ButtonProps {
   backPath?: string;
   onPaymentInitiate?: () => void;
   onPaymentSuccess?: (clientSecret: string) => void;
-  onPaymentError?: (error: any) => void;
+  onPaymentError?: (error: unknown) => void;
   startPayment?: (orderId: string | number) => Promise<{ clientSecret: string }>;
 }

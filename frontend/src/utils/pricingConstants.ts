@@ -23,7 +23,7 @@ export const IMPACT_TIERS: ImpactTier[] = [
   },
   {
     name: 'The Grand Gesture',
-    price: 300,
+    price: 250,
     description: 'A show-stopping display of luxury blooms for life\'s biggest milestones.',
     image: largeFlowers,
   },

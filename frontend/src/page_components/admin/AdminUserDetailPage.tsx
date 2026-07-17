@@ -8,6 +8,7 @@ import { Spinner } from '@/components/ui/spinner';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
+import { errorMessage } from '@/utils/errors';
 
 function formatDate(dtStr: string): string {
   return new Date(dtStr).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -43,7 +44,7 @@ const AdminUserDetailPage = () => {
     if (!userId) return;
     getAdminUser(Number(userId))
       .then(setUser)
-      .catch((e) => setError(e.message))
+      .catch((e) => setError(errorMessage(e)))
       .finally(() => setLoading(false));
   }, [userId]);
 

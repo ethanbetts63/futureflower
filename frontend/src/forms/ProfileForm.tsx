@@ -10,6 +10,8 @@ import { Form, FormControl, FormField as ShadcnFormField, FormItem, FormLabel, F
 import { toast } from "sonner";
 
 import type { ProfileFormProps } from '../types/ProfileFormProps';
+import { fieldErrorSummary } from '@/api/ApiError';
+import { errorMessage } from '@/utils/errors';
 
 type ProfileFormData = Omit<UserProfile, 'id' | 'username'>;
 
@@ -27,13 +29,10 @@ export const ProfileForm = ({ profile, onProfileUpdate, isEditing }: ProfileForm
         try {
             const updatedProfile = await updateUserProfile(values);
             onProfileUpdate(updatedProfile);
-        } catch (error: any) {
-            const errorData = error.data || {};
-            let description = "An unknown error occurred.";
-            if (Object.keys(errorData).length > 0) {
-                 description = Object.entries(errorData).map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(', ') : value}`).join('\n');
-            }
-            toast.error("Update Failed", { description });
+        } catch (error) {
+            toast.error("Update Failed", {
+                description: fieldErrorSummary(error, '\n') || errorMessage(error),
+            });
         }
     };
     

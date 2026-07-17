@@ -11,6 +11,7 @@ import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import { Button } from '@/components/ui/button';
+import { errorMessage } from '@/utils/errors';
 
 function formatDate(dtStr: string): string {
   return new Date(dtStr).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -55,7 +56,7 @@ const AdminPartnerDetailPage = () => {
     if (!partnerId) return;
     getAdminPartner(Number(partnerId))
       .then(setPartner)
-      .catch((e) => setError(e.message))
+      .catch((e) => setError(errorMessage(e)))
       .finally(() => setLoading(false));
   }, [partnerId]);
 
@@ -94,8 +95,8 @@ const AdminPartnerDetailPage = () => {
       // Refresh partner data
       const updated = await getAdminPartner(partner.id);
       setPartner(updated);
-    } catch (e: any) {
-      toast.error(e.message || 'Failed to pay commission.');
+    } catch (e) {
+      toast.error(errorMessage(e) || 'Failed to pay commission.');
     } finally {
       setPayingId(null);
     }

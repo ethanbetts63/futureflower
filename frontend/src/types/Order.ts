@@ -20,6 +20,8 @@ export interface Order {
   recipient_country: string | null;
 
   budget: number | null;
+  /** Server-computed. Zero once the budget reaches the delivery-included threshold. */
+  delivery_fee: number;
   subtotal: number;
   discount_amount: number;
   tax_amount: number;
@@ -31,13 +33,12 @@ export interface Order {
   delivery_notes: string | null;
   preferred_delivery_time: string | null;
 
-  preferred_flower_types: number[];
   flower_notes: string | null;
   recurring_preferences: string | null;
-  draft_card_messages: Record<string, string>;
+  /** One-off deliveries only — subscriptions are delivered without a card message. */
+  card_message: string | null;
 
   stripe_subscription_id: string | null;
-  subscription_message: string | null;
   next_payment_date: string | null;
   next_delivery_date: string | null;
 

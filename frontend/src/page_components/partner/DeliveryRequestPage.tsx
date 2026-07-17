@@ -9,6 +9,7 @@ import { CheckCircle, XCircle, MapPin, Calendar, DollarSign } from 'lucide-react
 import { toast } from 'sonner';
 import { getDeliveryRequestByToken, respondToDeliveryRequest, markDeliveryComplete } from '@/api/partners';
 import type { DeliveryRequestDetail } from '@/types';
+import { errorMessage } from '@/utils/errors';
 
 const DeliveryRequestPage = () => {
   const params = useParams();
@@ -24,8 +25,8 @@ const DeliveryRequestPage = () => {
       try {
         const data = await getDeliveryRequestByToken(token);
         setRequest(data);
-      } catch (err: any) {
-        setError(err.message || 'Delivery request not found.');
+      } catch (err) {
+        setError(errorMessage(err) || 'Delivery request not found.');
       } finally {
         setIsLoading(false);
       }
@@ -41,8 +42,8 @@ const DeliveryRequestPage = () => {
       toast.success(action === 'accept' ? 'Delivery accepted!' : 'Delivery declined.');
       const data = await getDeliveryRequestByToken(token);
       setRequest(data);
-    } catch (err: any) {
-      toast.error('Failed to respond', { description: err.message });
+    } catch (err) {
+      toast.error('Failed to respond', { description: errorMessage(err) });
     } finally {
       setIsResponding(false);
     }
@@ -56,8 +57,8 @@ const DeliveryRequestPage = () => {
       toast.success('Marked as delivered!');
       const data = await getDeliveryRequestByToken(token);
       setRequest(data);
-    } catch (err: any) {
-      toast.error('Failed to mark as delivered', { description: err.message });
+    } catch (err) {
+      toast.error('Failed to mark as delivered', { description: errorMessage(err) });
     } finally {
       setIsResponding(false);
     }

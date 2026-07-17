@@ -8,6 +8,8 @@ import { CheckCircle, XCircle } from 'lucide-react';
 import { validateDiscountCode } from '@/api/partners';
 import type { DiscountValidationResult } from '@/types';
 import type { DiscountCodeInputProps } from '@/types/DiscountCodeInputProps';
+import { errorMessage } from '@/utils/errors';
+import { fieldErrors } from '@/api/ApiError';
 
 const DiscountCodeInput = ({
   planId,
@@ -41,9 +43,8 @@ const DiscountCodeInput = ({
       });
       setResult(validationResult);
       onDiscountApplied();
-    } catch (err: any) {
-      const errorMsg = err.data?.code?.[0] || err.message || 'Invalid discount code.';
-      setError(errorMsg);
+    } catch (err) {
+      setError(fieldErrors(err)?.code?.[0] || errorMessage(err) || 'Invalid discount code.');
     } finally {
       setIsLoading(false);
     }
@@ -60,8 +61,8 @@ const DiscountCodeInput = ({
       setResult(null);
       setError(null);
       onDiscountApplied();
-    } catch (err: any) {
-      setError(err.message || 'Failed to clear discount code.');
+    } catch (err) {
+      setError(errorMessage(err) || 'Failed to clear discount code.');
     } finally {
       setIsLoading(false);
     }

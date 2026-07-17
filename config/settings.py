@@ -35,7 +35,11 @@ MIN_DAYS_BEFORE_CREATE = 3
 MIN_DAYS_BEFORE_EDIT = 7
 SUBSCRIPTION_CHARGE_LEAD_DAYS = 7
 MIN_BUDGET = 65
-FREE_DELIVERY_THRESHOLD = 100
+# At or above this budget the delivery cost is absorbed by the budget and no
+# separate fee is charged. Below it, DELIVERY_FEE is added so the budget keeps
+# its full flower value.
+DELIVERY_INCLUDED_THRESHOLD = 100
+DELIVERY_FEE = 20
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'

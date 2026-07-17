@@ -2,6 +2,8 @@ from decimal import Decimal
 from django.db import models
 from django.conf import settings
 
+from events.utils.fee_calc import calculate_delivery_fee
+
 class OrderBase(models.Model):
     """
     The single order model for the system. `billing_mode` distinguishes
@@ -54,6 +56,11 @@ class OrderBase(models.Model):
     budget = models.DecimalField(
         max_digits=10, decimal_places=2, null=True, blank=True,
         help_text="The budget per bouquet."
+    )
+    delivery_fee = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0,
+        help_text="Delivery fee, auto-computed on save. Zero once the budget "
+                  "reaches the threshold, where delivery comes out of the budget."
     )
     subtotal = models.DecimalField(
         max_digits=10, decimal_places=2, default=0,
@@ -123,23 +130,26 @@ class OrderBase(models.Model):
         null=True,
         help_text="Optional instructions for recurring deliveries, such as variation or seasonal preferences."
     )
-    subscription_message = models.TextField(
-        blank=True, null=True,
-        help_text="A single message to be included with all recurring deliveries."
-    )
     stripe_subscription_id = models.CharField(
         max_length=255, blank=True, null=True,
         help_text="The ID from Stripe for managing a recurring order's subscription."
     )
 
-    # --- Draft Messages (pre-payment staging) ---
-    draft_card_messages = models.JSONField(
-        default=dict,
+    # --- Card message (pre-payment staging) ---
+    card_message = models.TextField(
         blank=True,
-        help_text="Staging area for card messages before payment. Keyed by delivery index (e.g. {'0': 'Happy Birthday!'}). Consumed when events are created on payment."
+        null=True,
+        help_text=(
+            "Card message for a one-off delivery, staged before payment and copied "
+            "onto the Event when it is created. Subscriptions are delivered without "
+            "a card message, so this is ignored when billing_mode is 'recurring'."
+        )
     )
 
     def save(self, *args, **kwargs):
+        if self.budget:
+            self.delivery_fee = calculate_delivery_fee(self.budget)
+            self.subtotal = (self.budget + self.delivery_fee).quantize(Decimal('0.01'))
         self.total_amount = (
             (self.subtotal or Decimal('0'))
             - (self.discount_amount or Decimal('0'))

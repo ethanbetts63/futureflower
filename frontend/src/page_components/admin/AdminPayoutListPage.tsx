@@ -6,6 +6,7 @@ import type { AdminCommission } from '@/types/AdminCommission';
 import { Loader2 } from 'lucide-react';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
+import { errorMessage } from '@/utils/errors';
 
 type StatusFilter = 'all' | 'pending' | 'approved' | 'processing' | 'paid' | 'denied';
 type TypeFilter = 'all' | 'referral' | 'fulfillment';
@@ -79,15 +80,15 @@ const AdminPayoutListPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setLoading(true);
-    setError(null);
+    let cancelled = false;
     getAdminCommissions({
       status: statusFilter === 'all' ? undefined : statusFilter,
       commission_type: typeFilter === 'all' ? undefined : typeFilter,
     })
-      .then(setCommissions)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+      .then((result) => { if (!cancelled) { setCommissions(result); setError(null); } })
+      .catch((e) => { if (!cancelled) setError(errorMessage(e)); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
   }, [statusFilter, typeFilter]);
 
   return (

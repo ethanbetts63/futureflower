@@ -14,6 +14,7 @@ import {
   TableRow,
   TableCell,
 } from '@/components/ui/table';
+import { errorMessage } from '@/utils/errors';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -143,16 +144,16 @@ const AdminPlanListPage = () => {
 
   // Fetch when filters change
   useEffect(() => {
-    setLoading(true);
-    setError(null);
+    let cancelled = false;
     getAdminPlans({
       status: statusFilter || undefined,
       plan_type: typeFilter || undefined,
       search: activeSearch || undefined,
     })
-      .then(setPlans)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+      .then((result) => { if (!cancelled) { setPlans(result); setError(null); } })
+      .catch((e) => { if (!cancelled) setError(errorMessage(e)); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
   }, [statusFilter, typeFilter, activeSearch]);
 
   function handleSort(col: SortKey) {

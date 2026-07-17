@@ -2,16 +2,13 @@ import pytest
 from data_management.serializers.admin_plan_detail_serializer import AdminPlanDetailSerializer
 from events.tests.factories.order_factory import OrderFactory
 from events.tests.factories.event_factory import EventFactory
-from events.tests.factories.flower_type_factory import FlowerTypeFactory
 
 @pytest.mark.django_db
 def test_admin_plan_detail_serializer_one_time_order():
     """
     Test that AdminPlanDetailSerializer correctly serializes a one-time order.
     """
-    flower = FlowerTypeFactory(name="Lily")
-    plan = OrderFactory(billing_mode='one_time', budget=50.00)
-    plan.preferred_flower_types.add(flower)
+    plan = OrderFactory(billing_mode='one_time', budget=50.00, flower_notes="No lilies")
 
     # Create associated events
     event1 = EventFactory(order=plan, delivery_date="2023-01-01", status="delivered")
@@ -22,8 +19,7 @@ def test_admin_plan_detail_serializer_one_time_order():
 
     assert data['id'] == plan.id
     assert data['plan_type'] == 'one_time'
-    assert data['subscription_message'] is None
-    assert "Lily" in data['preferred_flower_types']
+    assert data['flower_notes'] == "No lilies"
     assert len(data['events']) == 2
     # Check ordering of events
     assert data['events'][0]['id'] == event1.id
@@ -35,12 +31,11 @@ def test_admin_plan_detail_serializer_recurring_order():
     """
     Test that AdminPlanDetailSerializer correctly serializes a recurring order.
     """
-    plan = OrderFactory(billing_mode='recurring', subscription_message="Hello World", budget=75.00)
+    plan = OrderFactory(billing_mode='recurring', budget=75.00)
 
     serializer = AdminPlanDetailSerializer(plan)
     data = serializer.data
 
     assert data['id'] == plan.id
     assert data['plan_type'] == 'recurring'
-    assert data['subscription_message'] == "Hello World"
     assert float(data['budget']) == 75.00

@@ -27,7 +27,8 @@ def _create_first_event(order, payment_intent_id):
 
     from partners.utils.commission_utils import get_referral_commission_amount
     commission_amount = get_referral_commission_amount(order.budget) if order.budget else None
-    message = order.subscription_message or (order.draft_card_messages or {}).get('0', '')
+    # Only one-off deliveries carry a card message; subscriptions are delivered without one.
+    message = order.card_message if order.billing_mode == 'one_time' else ''
 
     event = Event.objects.create(
         order=order,
@@ -208,10 +209,10 @@ def handle_invoice_payment_succeeded(invoice):
             if not Event.objects.filter(order=order, delivery_date=delivery_date).exists():
                 from partners.utils.commission_utils import get_referral_commission_amount
                 commission_amount = get_referral_commission_amount(order.budget) if order.budget else None
+                # Recurring deliveries carry no card message.
                 new_event = Event.objects.create(
                     order=order,
                     delivery_date=delivery_date,
-                    message=order.subscription_message,
                     commission_amount=commission_amount,
                 )
                 create_admin_event_notifications(new_event)

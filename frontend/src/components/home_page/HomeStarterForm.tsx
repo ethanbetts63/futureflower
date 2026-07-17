@@ -5,15 +5,15 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import type { FlowerType } from '@/types/FlowerType';
 import { IMPACT_TIERS, MIN_BUDGET } from '@/utils/pricingConstants';
-import { FREE_DELIVERY_THRESHOLD, MIN_DAYS_BEFORE_CREATE } from '@/utils/systemConstants';
+import { DELIVERY_FEE, DELIVERY_INCLUDED_THRESHOLD, MIN_DAYS_BEFORE_CREATE } from '@/utils/systemConstants';
 import {
   clearHomepageBrief,
   HOMEPAGE_BRIEF_STORAGE_KEY,
   type HomepageBrief,
 } from '@/lib/homepageBrief';
 import { startGuestCheckout } from '@/api/guestCheckout';
+import { errorMessage } from '@/utils/errors';
 
 const getMinDeliveryDate = () => {
   const minDate = new Date();
@@ -21,13 +21,17 @@ const getMinDeliveryDate = () => {
   return minDate.toISOString().split('T')[0];
 };
 
-const fallbackVibes: FlowerType[] = [
-  { id: 0, name: 'Birthday', tagline: 'Warm, bright, celebratory' },
-  { id: 0, name: 'Romance', tagline: 'Soft, intimate, considered' },
-  { id: 0, name: 'Sympathy', tagline: 'Gentle, calm, respectful' },
-  { id: 0, name: 'Thank You', tagline: 'Polished, generous, sincere' },
-  { id: 0, name: 'Just Because', tagline: 'Fresh, seasonal, easy' },
-  { id: 0, name: 'Other', tagline: 'Describe it below' },
+// The occasion is guidance for the florist, not a catalog selection: it is
+// folded into the brief's notes text rather than stored as its own record.
+type Occasion = { name: string; tagline: string };
+
+const occasions: Occasion[] = [
+  { name: 'Birthday', tagline: 'Warm, bright, celebratory' },
+  { name: 'Romance', tagline: 'Soft, intimate, considered' },
+  { name: 'Sympathy', tagline: 'Gentle, calm, respectful' },
+  { name: 'Thank You', tagline: 'Polished, generous, sincere' },
+  { name: 'Just Because', tagline: 'Fresh, seasonal, easy' },
+  { name: 'Other', tagline: 'Describe it below' },
 ];
 
 interface HomeStarterFormProps {
@@ -36,8 +40,8 @@ interface HomeStarterFormProps {
 
 export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProps) {
   const router = useRouter();
-  const [selectedVibe, setSelectedVibe] = useState<FlowerType>(
-    () => fallbackVibes.find((vibe) => vibe.name === defaultVibeName) ?? fallbackVibes[0],
+  const [selectedVibe, setSelectedVibe] = useState<Occasion>(
+    () => occasions.find((occasion) => occasion.name === defaultVibeName) ?? occasions[0],
   );
   const [budget, setBudget] = useState(IMPACT_TIERS[1]?.price ?? 125);
   const [customBudget, setCustomBudget] = useState('');
@@ -57,7 +61,6 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
     const minDeliveryDate = getMinDeliveryDate();
     const finalDeliveryDate = deliveryDate >= minDeliveryDate ? deliveryDate : minDeliveryDate;
     const brief: HomepageBrief = {
-      vibeId: selectedVibe.id || null,
       vibeName: selectedVibe.name,
       budget: finalBudget,
       flowerNotes,
@@ -72,10 +75,10 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
       await startGuestCheckout(brief);
       clearHomepageBrief();
       router.push('/order/recipient');
-    } catch (error: any) {
+    } catch (error) {
       setIsSubmitting(false);
       toast.error('Could not start your order', {
-        description: error.message || 'Please try again.',
+        description: errorMessage(error) || 'Please try again.',
       });
     }
   };
@@ -101,12 +104,12 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
         <section>
           <h3 className="text-sm font-semibold text-black">Occasion</h3>
           <div className="mt-3 grid grid-cols-1 gap-2 min-[360px]:grid-cols-2 sm:grid-cols-3">
-            {fallbackVibes.map((vibe) => {
+            {occasions.map((vibe) => {
               const isSelected = selectedVibe.name === vibe.name;
 
               return (
                 <button
-                  key={`${vibe.id}-${vibe.name}`}
+                  key={vibe.name}
                   type="button"
                   onClick={() => setSelectedVibe(vibe)}
                   className={`min-h-20 min-w-0 rounded-lg border p-3 text-left transition ${
@@ -240,7 +243,7 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
                   />
                 </div>
                 <p className="mt-2 text-xs leading-snug text-black">
-                  Minimum ${MIN_BUDGET}. Free delivery over ${FREE_DELIVERY_THRESHOLD}.
+                  Minimum ${MIN_BUDGET}. Delivery included from ${DELIVERY_INCLUDED_THRESHOLD}; below that a ${DELIVERY_FEE} delivery fee is added.
                 </p>
               </div>
             </div>

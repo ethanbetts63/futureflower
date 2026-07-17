@@ -7,11 +7,25 @@ from datetime import timedelta
 
 @pytest.mark.django_db
 class TestPasswordResetRequestView:
+    """
+    Only staff, superusers and partners hold passwords, so only they can be
+    sent a reset link. Customers reach their orders via an emailed link.
+    """
 
     def setup_method(self):
         self.client = APIClient()
-        self.user = UserFactory(email='test@example.com')
+        self.user = UserFactory(email='test@example.com', is_staff=True)
         self.url = '/api/users/password-reset/request/'
+
+    def test_customer_is_not_sent_a_reset_email(self, mocker):
+        mock_send_email = mocker.patch('users.views.password_reset_request_view.send_password_reset_email')
+        UserFactory(email='customer@example.com')
+
+        response = self.client.post(self.url, {'email': 'customer@example.com'}, format='json')
+
+        # Still a generic 200, so the response cannot be used to enumerate users.
+        assert response.status_code == 200
+        mock_send_email.assert_not_called()
 
     def test_request_with_valid_email_sends_email(self, mocker):
         mock_send_email = mocker.patch('users.views.password_reset_request_view.send_password_reset_email', return_value=True)

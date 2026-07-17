@@ -10,6 +10,7 @@ import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import { Button } from '@/components/ui/button';
+import { errorMessage } from '@/utils/errors';
 
 function formatDate(dtStr: string): string {
   return new Date(dtStr).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -52,7 +53,7 @@ const AdminPayoutDetailPage = () => {
     if (!commissionId) return;
     getAdminCommission(Number(commissionId))
       .then(setCommission)
-      .catch((e) => setError(e.message))
+      .catch((e) => setError(errorMessage(e)))
       .finally(() => setLoading(false));
   }, [commissionId]);
 
@@ -64,8 +65,8 @@ const AdminPayoutDetailPage = () => {
       toast.success('Commission approved — Stripe transfer initiated.');
       const updated = await getAdminCommission(commission.id);
       setCommission(updated);
-    } catch (e: any) {
-      toast.error(e.message || 'Failed to approve commission.');
+    } catch (e) {
+      toast.error(errorMessage(e) || 'Failed to approve commission.');
     } finally {
       setSubmitting(false);
     }
@@ -79,8 +80,8 @@ const AdminPayoutDetailPage = () => {
       toast.success('Commission denied.');
       const updated = await getAdminCommission(commission.id);
       setCommission(updated);
-    } catch (e: any) {
-      toast.error(e.message || 'Failed to deny commission.');
+    } catch (e) {
+      toast.error(errorMessage(e) || 'Failed to deny commission.');
     } finally {
       setSubmitting(false);
     }

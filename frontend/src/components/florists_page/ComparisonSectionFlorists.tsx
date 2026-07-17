@@ -1,10 +1,10 @@
-import { ComparisonBarChart, defaultComparisonBars, defaultComparisonLegend } from '../ComparisonBarChart';
+import { ComparisonBarChart, floristComparisonBars, floristComparisonLegend } from '../ComparisonBarChart';
 
 const rows = [
   { feature: 'Commission',       them: '25-50% per order',              us: '15%' },
   { feature: 'Monthly Fees',     them: 'Often $100–$200+ monthly',      us: '$0' },
   { feature: 'Order Rejection',  them: '$5–25 penalty for rejecting', us: 'No penalty — just say no' },
-  { feature: 'Delivery Fee',     them: 'Often retain delivery margin',  us: 'Fully Paid' },
+  { feature: 'Delivery Fee',     them: 'Often retain delivery margin',  us: 'We retain none of it' },
   { feature: 'Product Rules',    them: 'Exact vase + stem counts',      us: 'Florist designs freely' },
   { feature: 'Branding',         them: 'Network branding required',     us: 'Florist branding encouraged' },
 ];
@@ -25,8 +25,8 @@ const ComparisonSection = () => (
 
           <ComparisonBarChart
             heading="Get More Bloom for Your Buck"
-            bars={defaultComparisonBars}
-            legend={defaultComparisonLegend}
+            bars={floristComparisonBars}
+            legend={floristComparisonLegend}
           />
 
           <div className="mt-6 pt-2 border-t border-black/10">

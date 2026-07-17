@@ -53,8 +53,12 @@ Promotional discount codes linked to florist partners. Currently schema-only (no
 - `calculate_final_plan_cost(plan, new_structure)` - Calculates the amount owing when modifying an existing plan, accounting for already-succeeded payments.
 
 ### `utils/fee_calc.py`
-- `calculate_service_fee(budget)` - Returns `max(budget * 5%, $15.00)` per delivery.
+- `calculate_delivery_fee(budget)` - Returns `$0` once the budget reaches `DELIVERY_INCLUDED_THRESHOLD` (the budget absorbs delivery), otherwise `DELIVERY_FEE`. Both live in `settings.py`.
 - `frequency_to_deliveries_per_year(frequency)` - Maps frequency string to annual delivery count.
+
+Pricing is computed server-side in `OrderBase.save()`: `subtotal = budget + delivery_fee`,
+then `total_amount = subtotal - discount_amount + tax_amount`. Never set `subtotal` or
+`delivery_fee` directly — they are derived from `budget` on every save.
 
 ## API Endpoints
 

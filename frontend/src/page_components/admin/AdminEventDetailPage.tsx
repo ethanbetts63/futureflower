@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
+import { errorMessage } from '@/utils/errors';
 
 function formatDate(dateStr: string): string {
   return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-AU', {
@@ -51,7 +52,7 @@ const AdminEventDetailPage = () => {
     if (!eventId) return;
     getAdminEvent(Number(eventId))
       .then(setEvent)
-      .catch((e) => setError(e.message))
+      .catch((e) => setError(errorMessage(e)))
       .finally(() => setLoading(false));
   }, [eventId]);
 
@@ -149,10 +150,6 @@ const AdminEventDetailPage = () => {
           {/* Preferences */}
           <SummarySection label="Preferences">
             <div className="grid grid-cols-1 gap-4">
-              <Field
-                label="Flower Types"
-                value={event.preferred_flower_types.length > 0 ? event.preferred_flower_types.join(', ') : null}
-              />
               {event.flower_notes && <Field label="Flower Notes" value={event.flower_notes} />}
             </div>
           </SummarySection>

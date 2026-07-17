@@ -3,13 +3,6 @@ import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
 import type { UserProfile } from "@/types";
 
-export async function getDashboardAnalytics(): Promise<any[]> {
-    const response = await authedFetch('/api/data/analytics/dashboard/', {
-        method: 'GET',
-    });
-    return handleResponse(response);
-}
-
 export async function getUserProfile(): Promise<UserProfile> {
     const response = await authedFetch('/api/users/me/', {
         method: 'GET',

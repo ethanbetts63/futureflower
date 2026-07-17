@@ -9,6 +9,7 @@ import { getPartnerDashboard, createDiscountCode } from '@/api/partners';
 import type { Partner } from '@/types';
 import type { DiscountCodesSectionProps } from '@/types/DiscountCodesSectionProps';
 import { useRouter } from 'next/navigation';
+import { errorMessage } from '@/utils/errors';
 
 const PartnerDashboardPage = () => {
   const [partner, setPartner] = useState<Partner | null>(null);
@@ -21,8 +22,8 @@ const PartnerDashboardPage = () => {
       try {
         const data = await getPartnerDashboard();
         setPartner(data);
-      } catch (err: any) {
-        setError(err.message || 'Failed to load dashboard.');
+      } catch (err) {
+        setError(errorMessage(err) || 'Failed to load dashboard.');
       } finally {
         setIsLoading(false);
       }
@@ -183,8 +184,8 @@ const DiscountCodesSection = ({ codes, onCodesChange }: DiscountCodesSectionProp
       onCodesChange([...codes, newCode]);
       setCreating(false);
       setNewCodeName('');
-    } catch (err: any) {
-      setCreateError(err.message || 'Failed to create code.');
+    } catch (err) {
+      setCreateError(errorMessage(err) || 'Failed to create code.');
     } finally {
       setCreateSaving(false);
     }

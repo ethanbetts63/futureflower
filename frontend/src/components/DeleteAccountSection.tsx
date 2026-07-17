@@ -16,6 +16,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { errorMessage } from '@/utils/errors';
 
 const DeleteAccountSection = () => {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -29,8 +30,8 @@ const DeleteAccountSection = () => {
             // Redirect to the homepage. Auth cookies are cleared server-side on account deletion.
             window.location.href = '/';
 
-        } catch (err: any) {
-            setDeleteError(err.message || 'Failed to delete account. Please try again.');
+        } catch (err) {
+            setDeleteError(errorMessage(err) || 'Failed to delete account. Please try again.');
             setIsDeleting(false);
         }
     };

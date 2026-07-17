@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
+import { errorMessage } from '@/utils/errors';
 
 function toLocalDatetimeInputValue(date: Date): string {
   const pad = (n: number) => String(n).padStart(2, '0');
@@ -48,7 +49,7 @@ const MarkDeliveredPage = () => {
       });
       router.push('/dashboard/admin');
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'Failed to mark event as delivered');
+      toast.error(err instanceof Error ? errorMessage(err) : 'Failed to mark event as delivered');
     } finally {
       setSubmitting(false);
     }

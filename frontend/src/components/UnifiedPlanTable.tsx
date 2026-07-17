@@ -9,6 +9,7 @@ import { Eye, Plus } from 'lucide-react';
 import { getOrders } from '@/api/orders';
 import { type Order } from '../types/Order';
 import { Badge } from '@/components/ui/badge';
+import { errorMessage } from '@/utils/errors';
 
 const DISPLAY_TYPE: Record<Order['billing_mode'] & string, string> = {
   one_time: 'Single Delivery',
@@ -25,9 +26,9 @@ const UnifiedPlanTable = () => {
       try {
         setIsLoading(true);
         setPlans(await getOrders());
-      } catch (err: any) {
-        setError(err.message || 'An unexpected error occurred.');
-        showErrorToast(err.message || 'Could not load your plans.');
+      } catch (err) {
+        setError(errorMessage(err) || 'An unexpected error occurred.');
+        showErrorToast(errorMessage(err) || 'Could not load your plans.');
       } finally {
         setIsLoading(false);
       }

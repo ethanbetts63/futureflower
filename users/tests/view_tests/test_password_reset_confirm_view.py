@@ -8,10 +8,30 @@ from django.utils.encoding import force_bytes
 
 @pytest.mark.django_db
 class TestPasswordResetConfirmView:
+    """
+    Only staff, superusers and partners hold passwords, so a reset link only
+    works for them — a valid token for a customer is still refused.
+    """
 
     def setup_method(self):
         self.client = APIClient()
-        self.user = UserFactory()
+        self.user = UserFactory(is_staff=True)
+
+    def test_customer_cannot_reset_even_with_valid_token(self):
+        customer = UserFactory()
+        uidb64 = urlsafe_base64_encode(force_bytes(customer.pk))
+        token = default_token_generator.make_token(customer)
+        url = f'/api/users/password-reset/confirm/{uidb64}/{token}/'
+
+        data = {
+            'password': 'new_strong_password123',
+            'password_confirm': 'new_strong_password123'
+        }
+        response = self.client.post(url, data, format='json')
+
+        assert response.status_code == 400
+        customer.refresh_from_db()
+        assert not customer.check_password('new_strong_password123')
 
     def test_password_reset_success(self):
         self.user.refresh_from_db()

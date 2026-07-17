@@ -7,6 +7,7 @@ import type { TermsAndConditions } from '@/types/TermsAndConditions';
 import { Spinner } from '@/components/ui/spinner';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
+import { errorMessage } from '@/utils/errors';
 
 const VALID_TYPES = ['florist', 'customer', 'affiliate'] as const;
 type TermsType = typeof VALID_TYPES[number];
@@ -36,8 +37,8 @@ const TermsAndConditionsPage = () => {
                 setError(null);
                 const data = await getTermsByType(validType);
                 setTerms(data);
-            } catch (err: any) {
-                setError(err.message || 'Failed to load terms and conditions.');
+            } catch (err) {
+                setError(errorMessage(err) || 'Failed to load terms and conditions.');
             } finally {
                 setIsLoading(false);
             }

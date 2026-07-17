@@ -9,6 +9,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { startCheckout } from '@/api/orders';
 import type { PaymentInitiatorButtonProps } from '@/types/PaymentInitiatorButtonProps';
 import { cn } from '@/utils/utils';
+import { errorMessage } from '@/utils/errors';
 
 const PaymentInitiatorButton = ({
   orderId,
@@ -52,10 +53,10 @@ const PaymentInitiatorButton = ({
         router.push('/checkout');
       }
 
-    } catch (err: any) {
+    } catch (err) {
       console.error("Failed to initiate payment:", err);
       toast.error("Checkout Error", {
-        description: err.message || "Could not initiate the payment process. Please try again.",
+        description: errorMessage(err) || "Could not initiate the payment process. Please try again.",
       });
       if (onPaymentError) onPaymentError(err);
     } finally {

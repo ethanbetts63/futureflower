@@ -10,6 +10,7 @@ import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
 import type { EventCardProps } from '@/types/EventCardProps';
 import type { QueueSectionProps } from '@/types/QueueSectionProps';
+import { errorMessage } from '@/utils/errors';
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr + 'T00:00:00');
@@ -140,7 +141,7 @@ const AdminDashboardPage = () => {
         setPendingPartners(partners);
         setPendingPayouts(payouts);
       })
-      .catch((e) => setError(e.message))
+      .catch((e) => setError(errorMessage(e)))
       .finally(() => setLoading(false));
   }, []);
 

@@ -1,5 +1,4 @@
 ﻿import creditCardIcon from '../assets/credit_card_symbol.svg';
-import deliveryIcon from '../assets/delivery_symbol.svg';
 import flowerIcon from '../assets/flower_symbol.svg';
 import type { BarChartEntry } from '@/types/BarChartEntry';
 import type { LegendItem } from '@/types/LegendItem';
@@ -46,28 +45,28 @@ export const ComparisonBarChart = ({ heading, bars, legend }: ComparisonBarChart
   </div>
 );
 
-// Pre-built default data for the home page comparison
-export const defaultComparisonBars: BarChartEntry[] = [
+// Florist-facing comparison: what share of the order the florist receives.
+// Delivery is not a segment here — it is a cost the florist chooses to spend
+// out of money they have already been paid, so deducting it would understate
+// what actually lands in their account.
+export const floristComparisonBars: BarChartEntry[] = [
   {
     label: 'Competitors',
     segments: [
       { widthPercent: 40, color: '#f87171', icon: creditCardIcon, iconAlt: 'Fees', title: 'Commission/Fees' },
-      { widthPercent: 15, color: '#9ca3af', icon: deliveryIcon, iconAlt: 'Delivery', title: 'Delivery' },
-      { widthPercent: 45, color: 'var(--colorgreen)', icon: flowerIcon, iconAlt: 'Flowers', title: 'Flowers' },
+      { widthPercent: 60, color: 'var(--colorgreen)', icon: flowerIcon, iconAlt: 'Florist', title: 'Florist' },
     ],
   },
   {
     label: 'FutureFlower',
     segments: [
       { widthPercent: 15, color: '#f87171', icon: creditCardIcon, iconAlt: 'Fees', title: 'Commission/Fees' },
-      { widthPercent: 15, color: '#9ca3af', icon: deliveryIcon, iconAlt: 'Delivery', title: 'Delivery' },
-      { widthPercent: 70, color: 'var(--colorgreen)', icon: flowerIcon, iconAlt: 'Flowers', title: 'Flowers' },
+      { widthPercent: 85, color: 'var(--colorgreen)', icon: flowerIcon, iconAlt: 'Florist', title: 'Florist' },
     ],
   },
 ];
 
-export const defaultComparisonLegend: LegendItem[] = [
+export const floristComparisonLegend: LegendItem[] = [
   { color: '#f87171', label: 'Commission/Fees' },
-  { color: '#9ca3af', label: 'Delivery' },
-  { color: 'var(--colorgreen)', label: 'Goes to Florist' },
+  { color: 'var(--colorgreen)', label: 'Florist' },
 ];

@@ -6,6 +6,7 @@ import type { AdminPartner } from '@/types/AdminPartner';
 import { Loader2 } from 'lucide-react';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/components/SummarySection';
+import { errorMessage } from '@/utils/errors';
 
 type StatusFilter = 'all' | 'pending' | 'active' | 'suspended' | 'denied';
 
@@ -62,12 +63,12 @@ const AdminPartnerListPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setLoading(true);
-    setError(null);
+    let cancelled = false;
     getAdminPartners(activeFilter === 'all' ? undefined : activeFilter)
-      .then(setPartners)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+      .then((result) => { if (!cancelled) { setPartners(result); setError(null); } })
+      .catch((e) => { if (!cancelled) setError(errorMessage(e)); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
   }, [activeFilter]);
 
   return (

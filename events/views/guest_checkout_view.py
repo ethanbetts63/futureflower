@@ -14,7 +14,6 @@ from rest_framework.views import APIView
 from data_management.models import TermsAcceptance, TermsAndConditions
 from events.models import CheckoutSession, OrderBase
 from events.serializers import OrderSerializer
-from events.utils.fee_calc import calculate_service_fee
 from payments.models import Payment
 from payments.utils.checkout import (
     ensure_stripe_customer,
@@ -151,9 +150,6 @@ class GuestCheckoutView(APIView):
         order.billing_mode = 'recurring'
         order.frequency = frequency
         order.recurring_preferences = request.data.get('recurring_preferences', '')
-        order.subscription_message = request.data.get('subscription_message') or (order.draft_card_messages or {}).get('0', '')
-        if order.budget:
-            order.subtotal = (order.budget + calculate_service_fee(order.budget)).quantize(Decimal('0.01'))
         order.save()
         return Response(OrderSerializer(order).data)
 

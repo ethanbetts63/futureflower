@@ -14,6 +14,7 @@ import FlowNextButton from '@/components/form_flow/FlowNextButton';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import type { RecipientEditorProps } from '../../types/RecipientEditorProps';
+import { errorMessage } from '@/utils/errors';
 
 const RecipientEditor = ({
     mode,
@@ -57,7 +58,7 @@ const RecipientEditor = ({
                     delivery_notes: plan.delivery_notes || '',
                 });
             } catch (err) {
-                toast.error("Failed to load plan data.");
+                toast.error("Failed to load plan data.", { description: errorMessage(err) });
                 router.push(onCancelNavigateTo);
             } finally {
                 setIsLoading(false);
@@ -90,7 +91,9 @@ const RecipientEditor = ({
             router.push(onSaveNavigateTo);
 
         } catch (err) {
-            toast.error(mode === 'edit' ? "Failed to update recipient details." : "Failed to save recipient details.");
+            toast.error(mode === 'edit' ? "Failed to update recipient details." : "Failed to save recipient details.", {
+                description: errorMessage(err),
+            });
         } finally {
             setIsSaving(false);
         }

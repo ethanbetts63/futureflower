@@ -1,5 +1,5 @@
 import { MapPin, Truck } from 'lucide-react';
-import { FREE_DELIVERY_THRESHOLD } from '@/utils/systemConstants';
+import { DELIVERY_INCLUDED_THRESHOLD } from '@/utils/systemConstants';
 
 export const HeroPills = () => {
   return (
@@ -10,7 +10,7 @@ export const HeroPills = () => {
       </p>
       <p className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-black/70">
         <Truck className="h-3.5 w-3.5 text-black" aria-hidden="true" />
-        Free delivery over <span className="font-sans tracking-normal">${FREE_DELIVERY_THRESHOLD}</span>
+        Delivery included over <span className="font-sans tracking-normal">${DELIVERY_INCLUDED_THRESHOLD}</span>
       </p>
     </div>
   );

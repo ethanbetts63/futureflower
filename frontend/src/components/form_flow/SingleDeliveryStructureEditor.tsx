@@ -12,6 +12,7 @@ import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import FlowNextButton from '@/components/form_flow/FlowNextButton';
 import type { SingleDeliveryStructureEditorProps } from '../../types/SingleDeliveryStructureEditorProps';
 import { MIN_DAYS_BEFORE_CREATE, MIN_DAYS_BEFORE_EDIT } from '@/utils/systemConstants';
+import { errorMessage } from '@/utils/errors';
 
 const getMinDateString = (isEdit: boolean) => {
     const minDate = new Date();
@@ -58,11 +59,11 @@ const SingleDeliveryStructureEditor = ({
                 setFormData({
                     budget: Number(plan.budget) || 125,
                     start_date: startDate,
-                    card_message: plan.draft_card_messages?.['0'] || '',
+                    card_message: plan.card_message || '',
                 });
             })
-            .catch((error: any) => {
-                toast.error("Failed to load plan details", { description: error.message });
+            .catch((error: unknown) => {
+                toast.error("Failed to load plan details", { description: errorMessage(error) });
                 router.push(backPath);
             })
             .finally(() => setIsLoading(false));
@@ -78,12 +79,12 @@ const SingleDeliveryStructureEditor = ({
             const payload: PartialOrder = isPaid
                 ? {
                     start_date: formData.start_date,
-                    draft_card_messages: { '0': formData.card_message },
+                    card_message: formData.card_message,
                 }
                 : {
                     budget: formData.budget,
                     start_date: formData.start_date,
-                    draft_card_messages: { '0': formData.card_message },
+                    card_message: formData.card_message,
                 };
             await updatePlan(payload);
 
@@ -91,8 +92,8 @@ const SingleDeliveryStructureEditor = ({
                 toast.success("Plan details updated successfully!");
             }
             router.push(onSaveNavigateTo);
-        } catch (err: any) {
-            toast.error("Failed to save plan details.", { description: err.message });
+        } catch (err) {
+            toast.error("Failed to save plan details.", { description: errorMessage(err) });
         } finally {
             setIsSaving(false);
         }

@@ -32,13 +32,14 @@ const UniversalPaymentStatusPage = () => {
         };
     }, []);
 
-    const pollUntilActive = (planId: string) => {
+    // The guest checkout cookie identifies the order, so no id is needed here.
+    const pollUntilActive = () => {
         let attempts = 0;
 
         pollIntervalRef.current = setInterval(async () => {
             attempts++;
             try {
-                const order = await getGuestOrder(planId);
+                const order = await getGuestOrder();
                 if (order.status === 'active') {
                     clearInterval(pollIntervalRef.current!);
                     setMessage('Payment confirmed. For refunds or subscription changes, contact our support team from the email address used at checkout.');
@@ -92,7 +93,7 @@ const UniversalPaymentStatusPage = () => {
                 const paymentIntent = result.paymentIntent;
 
                 switch (paymentIntent?.status) {
-                    case 'succeeded':
+                    case 'succeeded': {
                         setPaymentSucceeded(true);
                         const successMessage = source === 'upfront-management'
                             ? 'Payment confirmed! Your plan is being updated...'
@@ -100,11 +101,12 @@ const UniversalPaymentStatusPage = () => {
                         setMessage(successMessage);
 
                         if (planId && planId !== "N/A") {
-                            pollUntilActive(planId);
+                            pollUntilActive();
                         } else {
                             setMessage('Payment confirmed. For refunds or subscription changes, contact our support team from the email address used at checkout.');
                         }
                         break;
+                    }
                     case 'processing':
                         setMessage("Payment processing. We'll update you when payment is received.");
                         break;

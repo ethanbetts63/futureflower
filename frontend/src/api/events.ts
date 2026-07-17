@@ -1,7 +1,7 @@
 
 import { authedFetch } from './apiClient';
 import { handleResponse } from './helpers';
-import type { DeliveryEvent, FlowerType } from '../types';
+import type { DeliveryEvent } from '../types';
 
 export async function getEvents(): Promise<DeliveryEvent[]> {
     const response = await authedFetch('/api/events/', {
@@ -44,10 +44,5 @@ export async function activateFreeEvent(eventId: number): Promise<DeliveryEvent>
     const response = await authedFetch(`/api/events/${eventId}/activate/`, {
         method: 'POST',
     });
-    return handleResponse(response);
-}
-
-export async function getFlowerTypes(): Promise<FlowerType[]> {
-    const response = await authedFetch('/api/events/flower-types/');
     return handleResponse(response);
 }

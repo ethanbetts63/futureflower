@@ -3,7 +3,6 @@ import type { PartialOrder } from '@/types/Order';
 export const HOMEPAGE_BRIEF_STORAGE_KEY = 'futureflower.homepageBrief.v1';
 
 export type HomepageBrief = {
-  vibeId: number | null;
   vibeName: string;
   budget: number;
   flowerNotes: string;
@@ -44,11 +43,8 @@ export function clearHomepageBrief() {
 export function briefToOrderPatch(brief: HomepageBrief): PartialOrder {
   return {
     budget: brief.budget,
-    preferred_flower_types: brief.vibeId ? [brief.vibeId] : [],
     flower_notes: formatHomepageFlowerNotes(brief),
     ...(brief.startDate ? { start_date: brief.startDate } : {}),
-    ...(brief.cardMessage !== undefined
-      ? { draft_card_messages: { '0': brief.cardMessage } }
-      : {}),
+    ...(brief.cardMessage !== undefined ? { card_message: brief.cardMessage } : {}),
   };
 }
