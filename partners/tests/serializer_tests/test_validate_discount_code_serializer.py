@@ -1,151 +1,119 @@
 import pytest
 from decimal import Decimal
-from rest_framework.test import APIRequestFactory
-from rest_framework.request import Request
 from partners.serializers.validate_discount_code_serializer import ValidateDiscountCodeSerializer
 from partners.tests.factories.partner_factory import PartnerFactory
 from partners.tests.factories.discount_code_factory import DiscountCodeFactory
-from payments.tests.factories.payment_factory import PaymentFactory
 from users.tests.factories.user_factory import UserFactory
 from events.tests.factories.order_factory import OrderFactory
 
 
-def make_request(user):
-    factory = APIRequestFactory()
-    req = factory.get('/')
-    drf_req = Request(req)
-    drf_req.user = user
-    return drf_req
+def serializer_for(code):
+    """The serializer takes only a code; the caller supplies the order."""
+    serializer = ValidateDiscountCodeSerializer(data={'code': code})
+    return serializer
 
 
 @pytest.mark.django_db
 class TestValidateDiscountCodeSerializer:
 
     def test_valid_code_passes_validation(self):
-        user = UserFactory()
         partner = PartnerFactory(status='active')
         dc = DiscountCodeFactory(partner=partner, is_active=True)
-        plan = OrderFactory(billing_mode='one_time', user=user)
-        request = make_request(user)
-        serializer = ValidateDiscountCodeSerializer(
-            data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'upfront'},
-            context={'request': request},
-        )
+
+        serializer = serializer_for(dc.code)
+
         assert serializer.is_valid(), serializer.errors
 
     def test_nonexistent_code_fails(self):
-        user = UserFactory()
-        plan = OrderFactory(billing_mode='one_time', user=user)
-        request = make_request(user)
-        serializer = ValidateDiscountCodeSerializer(
-            data={'code': 'DOESNOTEXIST', 'plan_id': plan.pk, 'plan_type': 'upfront'},
-            context={'request': request},
-        )
+        serializer = serializer_for('DOESNOTEXIST')
+
         assert not serializer.is_valid()
         assert 'code' in serializer.errors
 
+    def test_inactive_code_fails(self):
+        dc = DiscountCodeFactory(is_active=False)
+
+        serializer = serializer_for(dc.code)
+
+        assert not serializer.is_valid()
+
     def test_inactive_partner_code_fails(self):
-        user = UserFactory()
         partner = PartnerFactory(status='pending')
         dc = DiscountCodeFactory(partner=partner, is_active=True)
-        plan = OrderFactory(billing_mode='one_time', user=user)
-        request = make_request(user)
-        serializer = ValidateDiscountCodeSerializer(
-            data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'upfront'},
-            context={'request': request},
-        )
-        assert not serializer.is_valid()
 
-    def test_own_code_fails(self):
-        partner = PartnerFactory(status='active')
-        user = partner.user
-        dc = DiscountCodeFactory(partner=partner, is_active=True)
-        plan = OrderFactory(billing_mode='one_time', user=user)
-        request = make_request(user)
-        serializer = ValidateDiscountCodeSerializer(
-            data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'upfront'},
-            context={'request': request},
-        )
-        assert not serializer.is_valid()
+        serializer = serializer_for(dc.code)
 
-    def test_existing_customer_code_fails(self):
-        user = UserFactory()
-        partner = PartnerFactory(status='active')
-        dc = DiscountCodeFactory(partner=partner, is_active=True)
-        PaymentFactory(user=user, status='succeeded')
-        plan = OrderFactory(billing_mode='one_time', user=user)
-        request = make_request(user)
-        serializer = ValidateDiscountCodeSerializer(
-            data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'upfront'},
-            context={'request': request},
-        )
         assert not serializer.is_valid()
 
     def test_empty_code_passes_validation(self):
-        user = UserFactory()
-        plan = OrderFactory(billing_mode='one_time', user=user)
-        request = make_request(user)
-        serializer = ValidateDiscountCodeSerializer(
-            data={'code': '', 'plan_id': plan.pk, 'plan_type': 'upfront'},
-            context={'request': request},
-        )
+        serializer = serializer_for('')
+
         assert serializer.is_valid(), serializer.errors
 
-    def test_apply_discount_sets_discount_on_plan(self):
-        user = UserFactory()
+    def test_apply_discount_sets_discount_on_the_order(self):
         partner = PartnerFactory(status='active')
         dc = DiscountCodeFactory(partner=partner, is_active=True, discount_amount=Decimal('5.00'))
-        plan = OrderFactory(billing_mode='one_time', user=user)
-        request = make_request(user)
-        serializer = ValidateDiscountCodeSerializer(
-            data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'upfront'},
-            context={'request': request},
-        )
-        assert serializer.is_valid()
-        result = serializer.apply_discount()
+        order = OrderFactory(billing_mode='one_time', user=UserFactory(), budget=100)
+
+        serializer = serializer_for(dc.code)
+        assert serializer.is_valid(), serializer.errors
+        result = serializer.apply_discount(order)
+
         assert result['code'] == dc.code
         assert Decimal(result['discount_amount']) == Decimal('5.00')
+        order.refresh_from_db()
+        assert order.discount_code == dc
+        assert order.discount_amount == Decimal('5.00')
 
     def test_apply_discount_clears_when_empty_code(self):
-        user = UserFactory()
-        partner = PartnerFactory(status='active')
-        dc = DiscountCodeFactory(partner=partner)
-        plan = OrderFactory(billing_mode='one_time', user=user)
-        plan.discount_code = dc
-        plan.discount_amount = Decimal('5.00')
-        plan.save()
-        request = make_request(user)
-        serializer = ValidateDiscountCodeSerializer(
-            data={'code': '', 'plan_id': plan.pk, 'plan_type': 'upfront'},
-            context={'request': request},
-        )
-        assert serializer.is_valid()
-        result = serializer.apply_discount()
-        assert result['code'] is None
+        dc = DiscountCodeFactory()
+        order = OrderFactory(billing_mode='one_time', user=UserFactory(), budget=100)
+        order.discount_code = dc
+        order.discount_amount = Decimal('5.00')
+        order.save()
 
-    def test_apply_discount_sets_referred_by_partner(self):
-        user = UserFactory()
-        partner = PartnerFactory(status='active')
-        dc = DiscountCodeFactory(partner=partner, is_active=True)
-        plan = OrderFactory(billing_mode='one_time', user=user)
-        request = make_request(user)
-        serializer = ValidateDiscountCodeSerializer(
-            data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'upfront'},
-            context={'request': request},
-        )
-        serializer.is_valid()
-        serializer.apply_discount()
-        user.refresh_from_db()
-        assert user.referred_by_partner == partner
-
-    def test_subscription_plan_type_works(self):
-        user = UserFactory()
-        partner = PartnerFactory(status='active')
-        dc = DiscountCodeFactory(partner=partner, is_active=True)
-        plan = OrderFactory(billing_mode='recurring', user=user)
-        request = make_request(user)
-        serializer = ValidateDiscountCodeSerializer(
-            data={'code': dc.code, 'plan_id': plan.pk, 'plan_type': 'subscription'},
-            context={'request': request},
-        )
+        serializer = serializer_for('')
         assert serializer.is_valid(), serializer.errors
+        result = serializer.apply_discount(order)
+
+        assert result['code'] is None
+        order.refresh_from_db()
+        assert order.discount_code is None
+        assert order.discount_amount == 0
+
+    def test_apply_discount_attributes_the_order_user_to_the_partner(self):
+        partner = PartnerFactory(status='active')
+        dc = DiscountCodeFactory(partner=partner, is_active=True)
+        order = OrderFactory(billing_mode='one_time', user=UserFactory(), budget=100)
+
+        serializer = serializer_for(dc.code)
+        assert serializer.is_valid(), serializer.errors
+        serializer.apply_discount(order)
+
+        order.user.refresh_from_db()
+        assert order.user.referred_by_partner == partner
+
+    def test_apply_discount_keeps_an_existing_attribution(self):
+        first = PartnerFactory(status='active')
+        second = PartnerFactory(status='active')
+        user = UserFactory(referred_by_partner=first)
+        dc = DiscountCodeFactory(partner=second, is_active=True)
+        order = OrderFactory(billing_mode='one_time', user=user, budget=100)
+
+        serializer = serializer_for(dc.code)
+        assert serializer.is_valid(), serializer.errors
+        serializer.apply_discount(order)
+
+        user.refresh_from_db()
+        assert user.referred_by_partner == first
+
+    def test_apply_discount_works_for_a_recurring_order(self):
+        partner = PartnerFactory(status='active')
+        dc = DiscountCodeFactory(partner=partner, is_active=True, discount_amount=Decimal('5.00'))
+        order = OrderFactory(billing_mode='recurring', user=UserFactory(), budget=100)
+
+        serializer = serializer_for(dc.code)
+        assert serializer.is_valid(), serializer.errors
+        result = serializer.apply_discount(order)
+
+        assert Decimal(result['discount_amount']) == Decimal('5.00')

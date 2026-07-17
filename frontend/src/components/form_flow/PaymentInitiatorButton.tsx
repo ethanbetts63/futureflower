@@ -6,7 +6,6 @@ import { toast } from 'sonner';
 import { ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { startCheckout } from '@/api/orders';
 import type { PaymentInitiatorButtonProps } from '@/types/PaymentInitiatorButtonProps';
 import { cn } from '@/utils/utils';
 import { errorMessage } from '@/utils/errors';
@@ -39,7 +38,7 @@ const PaymentInitiatorButton = ({
     if (onPaymentInitiate) onPaymentInitiate();
 
     try {
-      const { clientSecret } = await (startPayment ? startPayment(orderId) : startCheckout(orderId));
+      const { clientSecret } = await startPayment(orderId);
 
       if (onPaymentSuccess) {
         onPaymentSuccess(clientSecret);

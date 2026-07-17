@@ -4,7 +4,6 @@ import type {
   AuthResponse,
   Partner,
   DiscountCode,
-  DiscountValidationResult,
   PartnerRegistrationData,
   PartnerUpdateData,
   DeliveryRequestDetail,
@@ -28,17 +27,6 @@ export async function getPartnerDashboard(): Promise<Partner> {
 export async function updatePartnerDetails(data: PartnerUpdateData): Promise<PartnerUpdateData> {
   const response = await authedFetch('/api/partners/update/', {
     method: 'PATCH',
-    body: JSON.stringify(data),
-  });
-  return handleResponse(response);
-}
-
-export async function validateDiscountCode(data: {
-  code: string;
-  plan_id: string;
-}): Promise<DiscountValidationResult> {
-  const response = await authedFetch('/api/partners/validate-discount-code/', {
-    method: 'POST',
     body: JSON.stringify(data),
   });
   return handleResponse(response);

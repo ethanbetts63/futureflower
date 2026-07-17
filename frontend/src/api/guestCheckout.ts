@@ -1,7 +1,7 @@
 import { getCsrfToken } from '@/utils/utils';
 import { handleResponse } from './helpers';
 import { parseOrder } from './parseOrder';
-import type { Order, PartialOrder } from '@/types/Order';
+import type { DiscountValidationResult, Order, PartialOrder } from '@/types';
 import { briefToOrderPatch, type HomepageBrief } from '@/lib/homepageBrief';
 
 async function request<T = unknown>(action: string, body?: unknown, method = 'POST'): Promise<T> {
@@ -34,6 +34,11 @@ export async function claimGuestCheckout(data: { email: string; first_name: stri
 
 export async function makeGuestOrderRecurring(payload: { frequency: string; recurring_preferences?: string }): Promise<Order> {
   return parseOrder(await request('make-recurring', payload));
+}
+
+// Pass an empty code to clear the discount.
+export async function applyGuestDiscount(code: string): Promise<DiscountValidationResult> {
+  return request<DiscountValidationResult>('discount', { code });
 }
 
 export async function startGuestCheckoutPayment(): Promise<{ clientSecret: string }> {

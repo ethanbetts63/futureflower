@@ -1,4 +1,4 @@
-import RefundRequestPage from '@/page_components/user_dashboard/RefundRequestPage';
+import RefundRequestPage from '@/page_components/RefundRequestPage';
 
 export default function Page() {
   return <RefundRequestPage />;

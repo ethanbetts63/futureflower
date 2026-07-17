@@ -1,75 +1,65 @@
 from rest_framework import serializers
 from partners.models import DiscountCode
-from payments.models import Payment
-from events.models import OrderBase
 
 
 class ValidateDiscountCodeSerializer(serializers.Serializer):
+    """
+    Applies (or clears) a discount code on an order the caller has already been
+    authorized for. It deliberately takes no order id: the caller passes the
+    order in, so this cannot be pointed at someone else's.
+    """
     code = serializers.CharField(max_length=30, required=False, allow_blank=True)
-    plan_id = serializers.IntegerField()
 
-    def _get_plan(self):
-        plan_id = self.validated_data['plan_id']
-        user = self.context['request'].user
-
-        try:
-            return OrderBase.objects.get(pk=plan_id, user=user)
-        except OrderBase.DoesNotExist:
-            raise serializers.ValidationError("Order not found.")
+    def _lookup(self, code):
+        # Matching is case-insensitive only because MySQL's default collation is.
+        return DiscountCode.objects.select_related('partner', 'partner__user').get(
+            code=code, is_active=True
+        )
 
     def validate_code(self, value):
         if not value:
             return value
 
         try:
-            discount_code = DiscountCode.objects.select_related('partner', 'partner__user').get(code=value, is_active=True)
+            discount_code = self._lookup(value)
         except DiscountCode.DoesNotExist:
             raise serializers.ValidationError("This discount code does not exist.")
 
         if discount_code.partner.status != 'active':
             raise serializers.ValidationError("This discount code is not currently valid.")
 
-        user = self.context.get('request').user
-
-        if user == discount_code.partner.user:
-            raise serializers.ValidationError("You cannot use your own discount code.")
-
-        if Payment.objects.filter(user=user, status='succeeded').exists():
-            raise serializers.ValidationError("Discount codes are only available for new customers.")
-
         return value
 
-    def apply_discount(self):
+    def apply_discount(self, order):
         code = self.validated_data.get('code', '')
-        plan = self._get_plan()
-        user = self.context['request'].user
 
         if not code:
-            # Clear discount from plan
-            plan.discount_code = None
-            plan.discount_amount = 0
-            plan.save()
+            order.discount_code = None
+            order.discount_amount = 0
+            order.save()
             return {
                 'code': None,
                 'discount_amount': '0.00',
                 'partner_name': None,
-                'new_total_amount': str(plan.total_amount),
+                'new_total_amount': str(order.total_amount),
             }
 
-        discount_code = DiscountCode.objects.select_related('partner').get(code=code, is_active=True)
+        discount_code = self._lookup(code)
+        order.discount_code = discount_code
+        order.discount_amount = discount_code.discount_amount
+        order.save()
 
-        plan.discount_code = discount_code
-        plan.discount_amount = discount_code.discount_amount
-        plan.save()
-
-        # Set referred_by_partner if not already set
-        if not user.referred_by_partner:
-            user.referred_by_partner = discount_code.partner
-            user.save(update_fields=['referred_by_partner'])
+        # Attribution for the partner's commission. The order keeps the user it
+        # was created for, so setting this on a guest's placeholder user survives
+        # the claim and is what process_referral_commission reads at payment time.
+        customer = order.user
+        if not customer.referred_by_partner:
+            customer.referred_by_partner = discount_code.partner
+            customer.save(update_fields=['referred_by_partner'])
 
         return {
             'code': discount_code.code,
             'discount_amount': str(discount_code.discount_amount),
             'partner_name': discount_code.partner.business_name or 'Partner',
-            'new_total_amount': str(plan.total_amount),
+            'new_total_amount': str(order.total_amount),
         }

@@ -3,11 +3,6 @@ import { handleResponse } from './helpers';
 import { parseOrder } from './parseOrder';
 import type { Order, PartialOrder } from '@/types/Order';
 
-type MakeRecurringPayload = {
-  frequency: string;
-  recurring_preferences?: string;
-};
-
 export async function getOrders(): Promise<Order[]> {
   const response = await authedFetch('/api/events/orders/');
   const data = await handleResponse<unknown[]>(response);
@@ -25,21 +20,6 @@ export async function updateOrder(orderId: string, orderData: PartialOrder): Pro
     body: JSON.stringify(orderData),
   });
   return parseOrder(await handleResponse<unknown>(response));
-}
-
-export async function makeOrderRecurring(orderId: string, payload: MakeRecurringPayload): Promise<Order> {
-  const response = await authedFetch(`/api/events/orders/${orderId}/make-recurring/`, {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  });
-  return parseOrder(await handleResponse<unknown>(response));
-}
-
-export async function startCheckout(orderId: string | number): Promise<{ clientSecret: string }> {
-  const response = await authedFetch(`/api/events/orders/${orderId}/checkout/`, {
-    method: 'POST',
-  });
-  return handleResponse(response);
 }
 
 export async function cancelOrder(

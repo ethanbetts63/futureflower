@@ -3,7 +3,6 @@ from partners.views import (
     PartnerRegistrationView,
     PartnerDashboardView,
     PartnerUpdateView,
-    ValidateDiscountCodeView,
     DeliveryRequestDetailView,
     DeliveryRequestRespondView,
     DeliveryRequestListView,
@@ -30,7 +29,6 @@ urlpatterns = [
     path('register/', PartnerRegistrationView.as_view(), name='partner-register'),
     path('dashboard/', PartnerDashboardView.as_view(), name='partner-dashboard'),
     path('update/', PartnerUpdateView.as_view(), name='partner-update'),
-    path('validate-discount-code/', ValidateDiscountCodeView.as_view(), name='validate-discount-code'),
     path('discount-codes/', DiscountCodeCreateView.as_view(), name='discount-code-create'),
 
     # Phase 2

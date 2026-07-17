@@ -5,14 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { CheckCircle, XCircle } from 'lucide-react';
-import { validateDiscountCode } from '@/api/partners';
+import { applyGuestDiscount } from '@/api/guestCheckout';
 import type { DiscountValidationResult } from '@/types';
 import type { DiscountCodeInputProps } from '@/types/DiscountCodeInputProps';
 import { errorMessage } from '@/utils/errors';
 import { fieldErrors } from '@/api/ApiError';
 
 const DiscountCodeInput = ({
-  planId,
   existingCode,
   onDiscountApplied,
 }: DiscountCodeInputProps) => {
@@ -37,11 +36,7 @@ const DiscountCodeInput = ({
     setResult(null);
 
     try {
-      const validationResult = await validateDiscountCode({
-        code: code.trim(),
-        plan_id: planId,
-      });
-      setResult(validationResult);
+      setResult(await applyGuestDiscount(code.trim()));
       onDiscountApplied();
     } catch (err) {
       setError(fieldErrors(err)?.code?.[0] || errorMessage(err) || 'Invalid discount code.');
@@ -53,10 +48,7 @@ const DiscountCodeInput = ({
   const handleClear = async () => {
     setIsLoading(true);
     try {
-      await validateDiscountCode({
-        code: '',
-        plan_id: planId,
-      });
+      await applyGuestDiscount('');
       setCode('');
       setResult(null);
       setError(null);

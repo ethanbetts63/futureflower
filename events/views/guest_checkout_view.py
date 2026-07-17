@@ -12,6 +12,7 @@ from rest_framework.views import APIView
 from data_management.models import TermsAcceptance, TermsAndConditions
 from events.models import CheckoutSession, OrderBase
 from events.serializers import OrderSerializer
+from partners.serializers import ValidateDiscountCodeSerializer
 from payments.utils.checkout import (
     start_order_payment,
     validate_order_ready_for_payment,
@@ -73,6 +74,8 @@ class GuestCheckoutView(APIView):
             return self.make_recurring(request, session)
         if action == 'accept-terms':
             return self.accept_terms(session)
+        if action == 'discount':
+            return self.discount(request, session)
         if action == 'checkout':
             return self.checkout(session)
         return Response({'detail': 'Unknown checkout action.'}, status=404)
@@ -119,19 +122,21 @@ class GuestCheckoutView(APIView):
         if not email or not first_name or not last_name:
             return Response({'detail': 'First name, last name, and email are required.'}, status=400)
 
-        current_user = session.order.user
-        existing_user = User.objects.filter(email__iexact=email).exclude(pk=current_user.pk).first()
-        if existing_user:
-            session.order.user = existing_user
-            session.order.save(update_fields=['user'])
-            current_user.delete()
-        else:
-            current_user.username = email
-            current_user.email = email
-            current_user.first_name = first_name
-            current_user.last_name = last_name
-            current_user.set_unusable_password()
-            current_user.save(update_fields=['username', 'email', 'first_name', 'last_name', 'password'])
+        # Nothing verifies this email, so it cannot be used to resolve identity.
+        # This used to reattach the order to any account already holding the
+        # address, which let a checkout take over a stranger's user: their Stripe
+        # customer got the payment, their record got this customer's terms
+        # acceptance, and naming a staff address bought the order for $1 via the
+        # staff override in start_order_payment.
+        #
+        # The order keeps the user created for it. `username` stays the opaque
+        # placeholder — it is only unique-per-order because it is never set to the
+        # email, which is what forced the lookup above in the first place.
+        customer = session.order.user
+        customer.email = email
+        customer.first_name = first_name
+        customer.last_name = last_name
+        customer.save(update_fields=['email', 'first_name', 'last_name'])
 
         session.customer_email = email
         session.save(update_fields=['customer_email', 'updated_at'])
@@ -145,6 +150,11 @@ class GuestCheckoutView(APIView):
         order = session.order
         order.make_recurring(frequency, request.data.get('recurring_preferences', ''))
         return Response(OrderSerializer(order).data)
+
+    def discount(self, request, session):
+        serializer = ValidateDiscountCodeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.apply_discount(session.order))
 
     def accept_terms(self, session):
         latest = TermsAndConditions.objects.filter(terms_type='customer').order_by('-published_at').first()

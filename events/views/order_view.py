@@ -7,10 +7,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from events.models import OrderBase
 from events.serializers import OrderSerializer
-from payments.utils.checkout import (
-    start_order_payment,
-    validate_order_ready_for_payment,
-)
 from data_management.models.notification import Notification
 from payments.utils.send_admin_payment_notification import send_admin_cancellation_notification
 
@@ -19,8 +15,9 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class OrderViewSet(viewsets.ModelViewSet):
     """
-    The single order API: draft creation, editing, converting to recurring,
-    checkout, and cancellation.
+    Authenticated read/edit/cancel for a user's own orders. Ordering and payment
+    happen in the unauthenticated checkout flow (see GuestCheckoutView), so this
+    deliberately has no draft-creation or checkout entry point.
     """
     permission_classes = [IsAuthenticated]
     serializer_class = OrderSerializer
@@ -32,56 +29,6 @@ class OrderViewSet(viewsets.ModelViewSet):
             .prefetch_related('events', 'payments')
             .order_by('-created_at')
         )
-
-    @action(detail=False, methods=['get'], url_path='get-or-create-draft')
-    @transaction.atomic
-    def get_or_create_draft(self, request):
-        """
-        Return the latest one-time draft, or create one.
-        """
-        draft = (
-            OrderBase.objects
-            .filter(user=request.user, status='pending_payment', billing_mode='one_time')
-            .order_by('-created_at')
-            .first()
-        )
-
-        if draft is None:
-            draft = OrderBase.objects.create(user=request.user, billing_mode='one_time')
-
-        return Response(self.get_serializer(draft).data)
-
-    @action(detail=True, methods=['post'], url_path='make-recurring')
-    @transaction.atomic
-    def make_recurring(self, request, pk=None):
-        """
-        Converts a one-time draft order into a recurring one, in place.
-        """
-        order = self.get_object()
-
-        frequency = request.data.get('frequency')
-        if frequency not in dict(OrderBase.FREQUENCY_CHOICES):
-            return Response(
-                {'frequency': 'Choose a valid delivery frequency.'},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        order.make_recurring(frequency, request.data.get('recurring_preferences', ''))
-
-        return Response(self.get_serializer(order).data)
-
-    @action(detail=True, methods=['post'], url_path='checkout')
-    def checkout(self, request, pk=None):
-        """
-        Single checkout entry point for both one-time and recurring orders.
-        """
-        order = self.get_object()
-
-        problem = validate_order_ready_for_payment(order)
-        if problem:
-            return Response({'detail': problem}, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response({'clientSecret': start_order_payment(order)})
 
     @action(detail=True, methods=['post'], url_path='cancel')
     @transaction.atomic

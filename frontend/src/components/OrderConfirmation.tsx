@@ -172,7 +172,6 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
             <input value={customerLastName} onChange={(event) => setCustomerLastName(event.target.value)} placeholder="Your last name" className="h-11 rounded-md border border-black/10 bg-white px-3 text-sm" />
             <input value={customerEmail} onChange={(event) => setCustomerEmail(event.target.value)} placeholder="Your email" type="email" className="h-11 rounded-md border border-black/10 bg-white px-3 text-sm sm:col-span-2" />
           </div>
-          <p className="mt-3 text-sm text-black/60">We will send your order receipt here. For refunds or subscription changes, email us from this address.</p>
         </SummarySection>
 
         <SummarySection label="Recurring Delivery">
@@ -240,7 +239,6 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
             <Tag className="h-5 w-5 text-black/20 mt-1 flex-shrink-0" />
             <div className="flex-1">
               <DiscountCodeInput
-                planId={orderId}
                 existingCode={plan.discount_code_display}
                 onDiscountApplied={() => onRefreshPlan?.()}
               />
