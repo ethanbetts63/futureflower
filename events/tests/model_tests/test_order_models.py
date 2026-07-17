@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 import pytest
 from events.tests.factories.order_factory import OrderFactory
 from events.models import OrderBase
@@ -23,6 +25,46 @@ class TestOrderModels:
         plan = OrderFactory(billing_mode='one_time', budget=100)
         assert plan.delivery_fee == 0
         assert plan.total_amount == 100
+
+    def test_a_budget_assigned_as_a_float_still_prices_correctly(self):
+        """
+        A DecimalField does not coerce until it is written, so a budget assigned
+        as a float reaches save() as a float and used to crash the money
+        arithmetic with "unsupported operand type(s) for +: 'float' and 'Decimal'".
+        """
+        plan = OrderFactory(billing_mode='one_time', budget=80.00)
+
+        assert plan.budget == Decimal('80.00')
+        assert plan.delivery_fee == Decimal('20.00')
+        assert plan.total_amount == Decimal('100.00')
+
+    def test_a_paid_order_is_not_repriced_when_the_fee_setting_changes(self, settings):
+        """
+        The stored price is the record of what was charged. Activation saves the
+        order again, so a later DELIVERY_FEE change must not rewrite history.
+        """
+        plan = OrderFactory(billing_mode='one_time', budget=80)
+        assert plan.total_amount == Decimal('100.00')
+
+        plan.status = 'active'
+        plan.save()
+
+        settings.DELIVERY_FEE = 40
+        plan.save()
+        plan.refresh_from_db()
+
+        assert plan.delivery_fee == Decimal('20.00')
+        assert plan.total_amount == Decimal('100.00')
+
+    def test_a_draft_still_reprices_when_the_fee_setting_changes(self, settings):
+        plan = OrderFactory(billing_mode='one_time', budget=80)
+
+        settings.DELIVERY_FEE = 40
+        plan.save()
+        plan.refresh_from_db()
+
+        assert plan.delivery_fee == Decimal('40.00')
+        assert plan.total_amount == Decimal('120.00')
 
     def test_order_str_representation(self):
         plan = OrderFactory(billing_mode='one_time')

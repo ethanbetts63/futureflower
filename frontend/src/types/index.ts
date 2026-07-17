@@ -2,7 +2,6 @@
 
 export type { DecodedToken } from './DecodedToken';
 export type { AuthResponse } from './AuthResponse';
-export type { BackButtonProps } from './BackButtonProps';
 export type { PaymentHistoryCardProps } from './PaymentHistoryCardProps';
 export type { BannerProps } from './BannerProps';
 export type { SelectableTagProps } from './SelectableTagProps';
@@ -31,7 +30,6 @@ export type { RecipientData } from './RecipientData';
 export type { RecipientFormProps } from './RecipientFormProps';
 export type { ProfileFormProps } from './ProfileFormProps';
 export type { EventCreationData } from './EventCreationData';
-export type { EventCreationFormProps } from './EventCreationFormProps';
 export type { CheckoutFormProps } from './CheckoutFormProps';
 export type { Payment } from './Payment';
 export type { Order, PartialOrder, BillingMode } from './Order';
@@ -75,7 +73,6 @@ export type { BarSegment } from './BarSegment';
 export type { BarChartEntry } from './BarChartEntry';
 export type { LegendItem } from './LegendItem';
 export type { ComparisonBarChartProps } from './ComparisonBarChartProps';
-export type { OrderSummaryProps } from './OrderSummaryProps';
 export type { BadgeProps } from './BadgeProps';
 export type { ValuePropsAffiliatesProps } from './ValuePropsAffiliatesProps';
 export type { SummarySectionProps } from './SummarySectionProps';

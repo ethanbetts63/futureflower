@@ -97,20 +97,6 @@ const publicRoutes: Record<string, RouteMetadata> = {
   ...articleRoutes,
 };
 
-const noindexPrefixes = [
-  "/order",
-  "/login",
-  "/forgot-password",
-  "/reset-password-confirm",
-  "/dashboard",
-  "/checkout",
-  "/payment-status",
-  "/create-account",
-  "/partner",
-  "/terms-and-conditions",
-  "/blocklist-success",
-];
-
 function metadataFromRoute(route: RouteMetadata): Metadata {
   const canonicalUrl = `${SITE_URL}${route.path}`;
   const imageUrl = route.ogImage
@@ -165,20 +151,12 @@ export function getRouteMetadata(path: string): Metadata {
     return metadataFromRoute(route);
   }
 
-  const noindex = noindexPrefixes.some(
-    (prefix) => path === prefix || path.startsWith(`${prefix}/`),
-  );
-
-  if (noindex) {
-    return {
-      title: "FutureFlower",
-      robots: {
-        index: false,
-        follow: false,
-      },
-    };
-  }
-
+  // Default deny: anything not in the registry above — checkout, the dashboard,
+  // partner pages, the ordering flow — is noindexed. Adding a route to
+  // publicRoutes is the deliberate act that makes it indexable.
+  //
+  // There used to be a noindexPrefixes list checked here, but both branches
+  // returned exactly this, so the list never changed an outcome.
   return {
     title: "FutureFlower",
     robots: {

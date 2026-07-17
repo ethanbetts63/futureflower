@@ -3,7 +3,7 @@
 import { useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import PlanDisplay from '@/components/PlanDisplay';
-import OrderSummary from '@/components/OrderSummary';
+import PlanOverview from '@/components/PlanOverview';
 import { getOrder } from '@/api/orders';
 import type { Order } from '@/types/Order';
 
@@ -17,15 +17,7 @@ const OrderOverviewPage = () => {
     <div className="min-h-screen w-full py-0 md:py-12" style={{ backgroundColor: 'var(--color4)' }}>
       <div className="container mx-auto px-0 md:px-4 max-w-4xl">
         <PlanDisplay getPlan={getPlan} fallbackNavigationPath="/dashboard">
-          {({ plan, refreshPlan }: { plan: Order; refreshPlan: () => Promise<void> }) => {
-            return (
-              <OrderSummary
-                plan={plan}
-                context="management"
-                onRefreshPlan={refreshPlan}
-              />
-            );
-          }}
+          {({ plan }: { plan: Order }) => <PlanOverview plan={plan} />}
         </PlanDisplay>
       </div>
     </div>

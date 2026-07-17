@@ -31,7 +31,7 @@ const config: OccasionLandingPageConfig = {
   },
   heroTitle: 'Online flower delivery, done your way.',
   heroSubtext:
-    'Choose the occasion, budget, and preferences. We organise a custom bouquet that fits, made by a florist rather than picked from a warehouse catalog.',
+    'Choose the occasion, budget, and preferences. Get a custom bouquet crafted by an aussie florist rather than picked from a warehouse catalog.',
   imageOverlayTitle: 'A brief, not a catalog order.',
   imageOverlayText:
     'The florist uses your notes to make the right call on colour, style, and seasonal flowers.',

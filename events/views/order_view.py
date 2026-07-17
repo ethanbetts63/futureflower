@@ -1,5 +1,4 @@
 import stripe
-from decimal import Decimal
 from django.conf import settings
 from django.db import transaction
 from rest_framework import viewsets, status
@@ -8,11 +7,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from events.models import OrderBase
 from events.serializers import OrderSerializer
-from payments.models import Payment
 from payments.utils.checkout import (
-    ensure_stripe_customer,
-    get_staff_override_amount,
-    reuse_or_cancel_pending_payment_intent,
+    start_order_payment,
+    validate_order_ready_for_payment,
 )
 from data_management.models.notification import Notification
 from payments.utils.send_admin_payment_notification import send_admin_cancellation_notification
@@ -69,10 +66,7 @@ class OrderViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        order.billing_mode = 'recurring'
-        order.frequency = frequency
-        order.recurring_preferences = request.data.get('recurring_preferences', '')
-        order.save()
+        order.make_recurring(frequency, request.data.get('recurring_preferences', ''))
 
         return Response(self.get_serializer(order).data)
 
@@ -82,66 +76,12 @@ class OrderViewSet(viewsets.ModelViewSet):
         Single checkout entry point for both one-time and recurring orders.
         """
         order = self.get_object()
-        billing_mode = order.billing_mode
 
-        if order.total_amount is None:
-            return Response(
-                {"error": "Order is missing a total amount."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        problem = validate_order_ready_for_payment(order)
+        if problem:
+            return Response({'detail': problem}, status=status.HTTP_400_BAD_REQUEST)
 
-        if billing_mode == 'recurring' and not all([order.start_date, order.frequency]):
-            return Response(
-                {"error": "Order is missing a start date or delivery frequency."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        if order.total_amount <= 0:
-            return Response(
-                {"error": "Order amount must be greater than zero."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        user = request.user
-        ensure_stripe_customer(user)
-
-        final_amount = get_staff_override_amount(user, Decimal(order.total_amount))
-        if final_amount < Decimal('0.50'):
-            final_amount = Decimal('0.50')
-        amount_in_cents = int(final_amount * 100)
-
-        reused_secret = reuse_or_cancel_pending_payment_intent(order, amount_in_cents)
-        if reused_secret:
-            return Response({'clientSecret': reused_secret})
-
-        metadata = {
-            'order_id': str(order.id),
-            'billing_mode': billing_mode,
-        }
-        if order.discount_code:
-            metadata['discount_code'] = order.discount_code.code
-
-        payment_intent_kwargs = dict(
-            amount=amount_in_cents,
-            currency=order.currency.lower(),
-            customer=user.stripe_customer_id,
-            automatic_payment_methods={'enabled': True},
-            metadata=metadata,
-        )
-        if billing_mode == 'recurring':
-            payment_intent_kwargs['setup_future_usage'] = 'off_session'
-
-        payment_intent = stripe.PaymentIntent.create(**payment_intent_kwargs)
-
-        Payment.objects.create(
-            user=user,
-            order=order,
-            stripe_payment_intent_id=payment_intent.id,
-            amount=final_amount,
-            status='pending',
-        )
-
-        return Response({'clientSecret': payment_intent.client_secret})
+        return Response({'clientSecret': start_order_payment(order)})
 
     @action(detail=True, methods=['post'], url_path='cancel')
     @transaction.atomic
@@ -168,10 +108,13 @@ class OrderViewSet(viewsets.ModelViewSet):
             )
 
         if order.billing_mode == 'recurring' and order.stripe_subscription_id:
-            try:
+            # Ask Stripe what it thinks first, rather than cancelling and swallowing
+            # the error. Blanket-catching InvalidRequestError also hid a bad key or
+            # a malformed id, marking the order cancelled here while Stripe happily
+            # kept billing it — the one outcome worse than failing loudly.
+            subscription = stripe.Subscription.retrieve(order.stripe_subscription_id)
+            if subscription.status != 'canceled':
                 stripe.Subscription.cancel(order.stripe_subscription_id)
-            except stripe.error.InvalidRequestError:
-                pass  # Already cancelled on Stripe's side
 
         order.status = 'cancelled'
         order.save()

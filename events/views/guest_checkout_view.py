@@ -1,7 +1,5 @@
 import uuid
-from decimal import Decimal
 
-import stripe
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import transaction
@@ -14,15 +12,12 @@ from rest_framework.views import APIView
 from data_management.models import TermsAcceptance, TermsAndConditions
 from events.models import CheckoutSession, OrderBase
 from events.serializers import OrderSerializer
-from payments.models import Payment
 from payments.utils.checkout import (
-    ensure_stripe_customer,
-    get_staff_override_amount,
-    reuse_or_cancel_pending_payment_intent,
+    start_order_payment,
+    validate_order_ready_for_payment,
 )
 
 User = get_user_model()
-stripe.api_key = settings.STRIPE_SECRET_KEY
 
 CHECKOUT_COOKIE = 'guest_checkout_token'
 
@@ -146,11 +141,9 @@ class GuestCheckoutView(APIView):
         frequency = request.data.get('frequency')
         if frequency not in dict(OrderBase.FREQUENCY_CHOICES):
             return Response({'frequency': 'Choose a valid delivery frequency.'}, status=400)
+
         order = session.order
-        order.billing_mode = 'recurring'
-        order.frequency = frequency
-        order.recurring_preferences = request.data.get('recurring_preferences', '')
-        order.save()
+        order.make_recurring(frequency, request.data.get('recurring_preferences', ''))
         return Response(OrderSerializer(order).data)
 
     def accept_terms(self, session):
@@ -164,34 +157,9 @@ class GuestCheckoutView(APIView):
         order = session.order
         if not session.customer_email:
             return Response({'detail': 'Enter your contact details before payment.'}, status=400)
-        if order.total_amount is None or order.total_amount <= 0:
-            return Response({'detail': 'Order amount must be greater than zero.'}, status=400)
-        if order.billing_mode == 'recurring' and not all([order.start_date, order.frequency]):
-            return Response({'detail': 'Subscription details are incomplete.'}, status=400)
 
-        user = order.user
-        ensure_stripe_customer(user)
-        final_amount = get_staff_override_amount(user, Decimal(order.total_amount))
-        amount_in_cents = int(max(final_amount, Decimal('0.50')) * 100)
-        reused_secret = reuse_or_cancel_pending_payment_intent(order, amount_in_cents)
-        if reused_secret:
-            return Response({'clientSecret': reused_secret})
+        problem = validate_order_ready_for_payment(order)
+        if problem:
+            return Response({'detail': problem}, status=400)
 
-        metadata = {'order_id': str(order.id), 'billing_mode': order.billing_mode}
-        if order.discount_code:
-            metadata['discount_code'] = order.discount_code.code
-        kwargs = {
-            'amount': amount_in_cents,
-            'currency': order.currency.lower(),
-            'customer': user.stripe_customer_id,
-            'automatic_payment_methods': {'enabled': True},
-            'metadata': metadata,
-        }
-        if order.billing_mode == 'recurring':
-            kwargs['setup_future_usage'] = 'off_session'
-        payment_intent = stripe.PaymentIntent.create(**kwargs)
-        Payment.objects.create(
-            user=user, order=order, stripe_payment_intent_id=payment_intent.id,
-            amount=final_amount, status='pending',
-        )
-        return Response({'clientSecret': payment_intent.client_secret})
+        return Response({'clientSecret': start_order_payment(order)})

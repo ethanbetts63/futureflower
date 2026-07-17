@@ -146,8 +146,37 @@ class OrderBase(models.Model):
         )
     )
 
+    def make_recurring(self, frequency, recurring_preferences=''):
+        """
+        Convert this order to a recurring one. Raises ValueError on an unknown
+        frequency, so callers must validate input before calling.
+        """
+        if frequency not in dict(self.FREQUENCY_CHOICES):
+            raise ValueError(f'Unknown delivery frequency: {frequency!r}')
+
+        self.billing_mode = 'recurring'
+        self.frequency = frequency
+        self.recurring_preferences = recurring_preferences
+        self.save()
+
     def save(self, *args, **kwargs):
-        if self.budget:
+        # Price is derived only while the order is still a draft. Once it leaves
+        # 'pending_payment' the stored figures are the record of what the customer
+        # was actually charged, and every later save — activation, cancellation,
+        # a subscription update — must leave them alone. Recomputing would reprice
+        # paid orders whenever DELIVERY_FEE changed, which customer terms 3.3
+        # ("Changes do not affect orders already paid for") forbids.
+        if self.status == 'pending_payment':
+            self._recalculate_price()
+        super().save(*args, **kwargs)
+
+    def _recalculate_price(self):
+        if self.budget is not None:
+            # A DecimalField only coerces its value on the way to the database, so
+            # a budget assigned as a float or int is still one here and would blow
+            # up the money arithmetic below. to_python normalises it, and raises
+            # ValidationError on anything that isn't a number at all.
+            self.budget = self._meta.get_field('budget').to_python(self.budget)
             self.delivery_fee = calculate_delivery_fee(self.budget)
             self.subtotal = (self.budget + self.delivery_fee).quantize(Decimal('0.01'))
         self.total_amount = (
@@ -155,7 +184,6 @@ class OrderBase(models.Model):
             - (self.discount_amount or Decimal('0'))
             + (self.tax_amount or Decimal('0'))
         )
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Order {self.id} ({self.billing_mode}) for {self.user.username}"
