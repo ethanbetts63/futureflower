@@ -4,6 +4,7 @@ import pytest
 import stripe
 
 from events.tests.factories.order_factory import OrderFactory
+from users.tests.factories.user_factory import UserFactory
 from payments.models import Payment
 from payments.utils.checkout import (
     start_order_payment,
@@ -86,16 +87,18 @@ class TestStartOrderPayment:
         assert metadata['order_id'] == str(order.id)
         assert metadata['billing_mode'] == order.billing_mode
 
-    def test_staff_are_charged_the_override_not_the_order_total(self, stripe_intent, mocker):
-        mocker.patch(
-            'payments.utils.checkout.get_staff_override_amount',
-            return_value=Decimal('1.00'),
-        )
-        order = OrderFactory(budget=Decimal('500.00'))
+    def test_staff_are_charged_the_order_total_like_anyone_else(self, stripe_intent):
+        """
+        Staff used to be billed a $1 override. Because the charge was derived from
+        order.user, and the checkout let an unverified email pick that user, naming
+        a staff address bought any order for $1.
+        """
+        staff = UserFactory(is_staff=True, is_superuser=True)
+        order = OrderFactory(user=staff, budget=Decimal('500.00'))
         start_order_payment(order)
 
-        assert stripe_intent.call_args.kwargs['amount'] == 100
-        assert Payment.objects.get(order=order).amount == Decimal('1.00')
+        assert stripe_intent.call_args.kwargs['amount'] == 50000
+        assert Payment.objects.get(order=order).amount == Decimal('500.00')
 
     def test_a_pending_intent_of_the_same_amount_is_reused(self, stripe_intent, mocker):
         mocker.patch(

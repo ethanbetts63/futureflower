@@ -23,15 +23,6 @@ def ensure_stripe_customer(user):
         user.save()
 
 
-def get_staff_override_amount(user, amount):
-    """
-    Staff/superuser override: always charge $1 for testing.
-    """
-    if user.is_staff or user.is_superuser:
-        return Decimal('1.00')
-    return amount
-
-
 def validate_order_ready_for_payment(order):
     """
     Return why the order cannot be paid for yet, or None if it can.
@@ -60,10 +51,7 @@ def start_order_payment(order):
 
     # Clamp before converting to cents so the recorded Payment always matches
     # what Stripe is actually charging.
-    final_amount = max(
-        get_staff_override_amount(user, Decimal(order.total_amount)),
-        STRIPE_MINIMUM_CHARGE,
-    )
+    final_amount = max(Decimal(order.total_amount), STRIPE_MINIMUM_CHARGE)
     amount_in_cents = int(final_amount * 100)
 
     reused_secret = reuse_or_cancel_pending_payment_intent(order, amount_in_cents)

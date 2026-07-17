@@ -125,9 +125,8 @@ class GuestCheckoutView(APIView):
         # Nothing verifies this email, so it cannot be used to resolve identity.
         # This used to reattach the order to any account already holding the
         # address, which let a checkout take over a stranger's user: their Stripe
-        # customer got the payment, their record got this customer's terms
-        # acceptance, and naming a staff address bought the order for $1 via the
-        # staff override in start_order_payment.
+        # customer got the payment and their record got this customer's terms
+        # acceptance.
         #
         # The order keeps the user created for it. `username` stays the opaque
         # placeholder — it is only unique-per-order because it is never set to the

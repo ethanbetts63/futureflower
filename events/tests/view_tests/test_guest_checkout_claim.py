@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
 from events.models import OrderBase
-from payments.utils.checkout import get_staff_override_amount
 
 User = get_user_model()
 
@@ -37,11 +36,13 @@ class TestGuestCheckoutClaim:
         assert order.user.first_name == 'Bo'
         assert order.user.last_name == 'Buyer'
 
-    def test_claiming_a_staff_email_does_not_take_over_the_staff_account(self):
+    def test_claiming_someone_elses_email_does_not_take_over_their_account(self):
         """
-        The email is never verified. Resolving it against existing accounts used
-        to hand the order to whoever held the address — and if that was a staff
-        member, the staff override then billed the order at $1.
+        The email is never verified. Resolving it against existing accounts used to
+        hand the order to whoever held the address, which put this customer's
+        payment on their Stripe customer and their terms acceptance on the wrong
+        person. A staff address additionally billed the order at $1 via the (now
+        removed) staff override.
         """
         staff = User.objects.create_user(
             username='boss', email='boss@futureflower.app', is_staff=True
@@ -62,8 +63,7 @@ class TestGuestCheckoutClaim:
         assert order.user_id == placeholder_user_id
         assert order.user_id != staff.pk
         assert not order.user.is_staff
-        # The order is still billed at its real price, not the $1 staff override.
-        assert get_staff_override_amount(order.user, order.total_amount) == Decimal('125.00')
+        assert order.total_amount == Decimal('125.00')
 
     def test_two_orders_may_share_an_email_without_colliding(self):
         """

@@ -83,6 +83,7 @@ export type { ProtectedRouteProps } from './ProtectedRouteProps';
 export type { BecomePartnerButtonProps } from './BecomePartnerButtonProps';
 export type { ValuePropsAProps } from './ValuePropsAProps';
 export type { DiscountCodeInputProps } from './DiscountCodeInputProps';
+export type { OrderTotalSummaryProps } from './OrderTotalSummaryProps';
 export type { FlowBackButtonProps } from './FlowBackButtonProps';
 export type { FlowerPreferencesSummaryProps } from './FlowerPreferencesSummaryProps';
 export type { FlowNextButtonProps } from './FlowNextButtonProps';

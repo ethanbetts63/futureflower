@@ -15,6 +15,7 @@ import FlowerPreferencesSummary from '@/components/form_flow/FlowerPreferencesSu
 import ImpactSummary from '@/components/form_flow/ImpactSummary';
 import PaymentInitiatorButton from '@/components/form_flow/PaymentInitiatorButton';
 import DiscountCodeInput from '@/components/form_flow/DiscountCodeInput';
+import OrderTotalSummary from '@/components/form_flow/OrderTotalSummary';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
@@ -245,6 +246,8 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
             </div>
           </div>
         </SummarySection>
+
+        <OrderTotalSummary plan={plan} isSubscription={makeRecurring || isRecurring} />
 
         <SummarySection label="Terms & Conditions">
           <label className="flex items-start gap-3 cursor-pointer">
