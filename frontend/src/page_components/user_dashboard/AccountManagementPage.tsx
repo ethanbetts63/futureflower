@@ -6,10 +6,9 @@ import { getUserProfile } from '@/api';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Terminal, User, ShieldCheck, Trash2 } from "lucide-react";
-import { ProfileForm } from '@/forms/ProfileForm'; 
+import { Terminal, User, ShieldCheck } from "lucide-react";
+import { ProfileForm } from '@/forms/ProfileForm';
 import { ChangePasswordForm } from '@/forms/ChangePasswordForm';
-import DeleteAccountSection from '@/components/DeleteAccountSection';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import { errorMessage } from '@/utils/errors';
@@ -144,16 +143,6 @@ const AccountManagementPage = () => {
                         <div className="max-w-md">
                             <ChangePasswordForm />
                         </div>
-                    </div>
-
-                    <div className="py-8">
-                        <div className="flex items-center gap-3 mb-6">
-                            <Trash2 className="h-5 w-5 text-black/20" />
-                            <span className="text-xs font-bold tracking-[0.2em] text-black uppercase">
-                                Danger Zone
-                            </span>
-                        </div>
-                        <DeleteAccountSection />
                     </div>
                 </UnifiedSummaryCard>
             </div>

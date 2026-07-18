@@ -114,9 +114,9 @@ const AdminUserDetailPage = () => {
                   <Field label="Stripe Customer ID" value={user.stripe_customer_id} />
                 </div>
               )}
-              {user.anonymized_at && (
+              {user.deleted_at && (
                 <div className="sm:col-span-2">
-                  <Field label="Anonymized At" value={formatDate(user.anonymized_at)} />
+                  <Field label="Deleted At" value={formatDate(user.deleted_at)} />
                 </div>
               )}
             </div>

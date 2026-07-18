@@ -77,7 +77,7 @@ const CheckoutPage = () => {
     const options: StripeElementsOptions = { clientSecret, appearance };
 
     const planIsSubscription = plan.billing_mode === 'recurring';
-    const isSingleDelivery = plan.billing_mode === 'one_time';
+    const isOrder = plan.billing_mode === 'one_time';
 
     const fullAddress = [
         plan.recipient_street_address,
@@ -147,7 +147,7 @@ const CheckoutPage = () => {
                                 <div>
                                     <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Schedule</span>
                                     <p className="font-bold text-black font-['Playfair_Display']">
-                                        {isSingleDelivery ? `Single Delivery — ${formatDate(plan.start_date)}` : capitalize(plan.frequency)}
+                                        {isOrder ? `Single Delivery — ${formatDate(plan.start_date)}` : capitalize(plan.frequency)}
                                     </p>
                                     {planIsSubscription && (
                                         <p className="text-xs text-black/60">

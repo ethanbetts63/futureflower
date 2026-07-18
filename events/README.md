@@ -7,7 +7,7 @@ The `events` app is the core domain of FutureFlower. It manages orders (plans), 
 ## Models
 
 ### OrderBase (Abstract Base)
-Base class for all order types. Stores recipient details, delivery preferences, plan parameters (budget, frequency, start date), and M2M preferences for colors and flower types. Includes `hash_*` fields for GDPR-compliant anonymization of recipient PII.
+Base class for all order types. Stores recipient details, delivery preferences, plan parameters (budget, frequency, start date), and M2M preferences for colors and flower types.
 
 **Status lifecycle:** `pending_payment` -> `active` -> `completed` | `cancelled` | `refunded`
 

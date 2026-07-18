@@ -1,9 +1,9 @@
-// frontend/src/forms/SingleDeliveryStructureForm.tsx
+// frontend/src/forms/OrderStructureForm.tsx
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ImpactTierSelector } from '@/components/form_flow/ImpactTierSelector';
-import type { SingleDeliveryStructureFormProps } from '../types/SingleDeliveryStructureFormProps';
+import type { OrderStructureFormProps } from '../types/OrderStructureFormProps';
 import { MIN_DAYS_BEFORE_CREATE, MIN_DAYS_BEFORE_EDIT } from '@/utils/systemConstants';
 
 const getMinDateString = (isEdit: boolean) => {
@@ -13,13 +13,13 @@ const getMinDateString = (isEdit: boolean) => {
     return minDate.toISOString().split('T')[0];
 };
 
-const SingleDeliveryStructureForm = ({
+const OrderStructureForm = ({
     formData,
     onFormChange,
     setIsDebouncePending,
     isEdit = false,
     isPaid = false,
-}: SingleDeliveryStructureFormProps) => {
+}: OrderStructureFormProps) => {
     const handleBudgetChange = (budget: number) => {
         if (setIsDebouncePending) setIsDebouncePending(true);
         onFormChange('budget', budget);
@@ -60,4 +60,4 @@ const SingleDeliveryStructureForm = ({
     );
 };
 
-export default SingleDeliveryStructureForm;
+export default OrderStructureForm;

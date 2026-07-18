@@ -2,7 +2,7 @@
 "use client";
 import { useCallback } from 'react';
 import { useParams } from 'next/navigation';
-import SingleDeliveryStructureEditor from '@/components/form_flow/SingleDeliveryStructureEditor';
+import OrderStructureEditor from '@/components/form_flow/OrderStructureEditor';
 import { getOrder, updateOrder } from '@/api/orders';
 import type { PartialOrder } from '@/types/Order';
 
@@ -14,7 +14,7 @@ const EditStructurePage = () => {
     const updatePlan = useCallback((data: PartialOrder) => updateOrder(planId, data), [planId]);
 
     return (
-        <SingleDeliveryStructureEditor
+        <OrderStructureEditor
             mode="edit"
             isPaid={true}
             title="Edit Delivery Details"

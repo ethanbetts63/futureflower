@@ -3,8 +3,7 @@ from django.db import models
 
 class User(AbstractUser):
     """
-    Custom user model that includes fields for various contact methods
-    and fields to support data anonymization upon account deletion.
+    Custom user model that includes fields for various contact methods.
     """
     password_reset_last_sent_at = models.DateTimeField(
         null=True,
@@ -34,24 +33,12 @@ class User(AbstractUser):
         help_text="The partner who referred this user via discount code."
     )
 
-    # --------------------------------------------------------------------------
-    # Anonymization Fields
-    # These fields store the hashes of PII and are only populated upon account
-    # deletion. The original PII fields are then wiped.
-    # --------------------------------------------------------------------------
-    
-    anonymized_at = models.DateTimeField(
+    deleted_at = models.DateTimeField(
         null=True,
         blank=True,
         editable=False,
-        help_text="Timestamp of when the account was anonymized."
+        help_text="Timestamp of when the account was deleted."
     )
-    
-    # Hashed versions of user PII for audit purposes.
-    # CharField with max_length=64 for SHA-256 hashes.
-    hash_first_name = models.CharField(max_length=64, blank=True, editable=False)
-    hash_last_name = models.CharField(max_length=64, blank=True, editable=False)
-    hash_email = models.CharField(max_length=64, blank=True, editable=False, db_index=True)
 
     def __str__(self):
         return self.username

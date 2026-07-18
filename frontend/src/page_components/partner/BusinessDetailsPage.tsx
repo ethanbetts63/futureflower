@@ -6,8 +6,10 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import ServiceAreaMap from '@/components/ServiceAreaMap';
+import DeleteAccountSection from '@/components/DeleteAccountSection';
 import UnifiedSummaryCard from '@/components/form_flow/UnifiedSummaryCard';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
+import { Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { getPartnerDashboard, updatePartnerDetails } from '@/api/partners';
 import { errorMessage } from '@/utils/errors';
@@ -179,6 +181,16 @@ const BusinessDetailsPage = () => {
               </div>
             </UnifiedSummaryCard>
           </form>
+
+          <div className="mt-8">
+            <div className="flex items-center gap-3 mb-6">
+              <Trash2 className="h-5 w-5 text-black/20" />
+              <span className="text-xs font-bold tracking-[0.2em] text-black uppercase">
+                Danger Zone
+              </span>
+            </div>
+            <DeleteAccountSection />
+          </div>
         </div>
       </div>
     </>

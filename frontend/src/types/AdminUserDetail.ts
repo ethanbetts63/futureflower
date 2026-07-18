@@ -10,7 +10,7 @@ export interface AdminUserDetail {
   is_active: boolean;
   date_joined: string;
   stripe_customer_id: string | null;
-  anonymized_at: string | null;
+  deleted_at: string | null;
   is_partner: boolean;
   referred_by: string | null;
   plans: AdminUserPlan[];

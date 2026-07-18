@@ -1,7 +1,7 @@
-// frontend/src/types/SingleDeliveryStructureEditorProps.ts
+// frontend/src/types/OrderStructureEditorProps.ts
 import type { Order, PartialOrder } from './Order';
 
-export interface SingleDeliveryStructureEditorProps {
+export interface OrderStructureEditorProps {
     mode: 'create' | 'edit';
     isPaid?: boolean;
     title?: string;

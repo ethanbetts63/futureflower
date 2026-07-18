@@ -21,7 +21,7 @@ class AdminUserDetailSerializer(serializers.ModelSerializer):
             'is_active',
             'date_joined',
             'stripe_customer_id',
-            'anonymized_at',
+            'deleted_at',
             'is_partner',
             'referred_by',
             'plans',

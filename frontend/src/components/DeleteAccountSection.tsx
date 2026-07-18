@@ -41,7 +41,7 @@ const DeleteAccountSection = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div className="flex flex-col space-y-1">
                     <p className="font-bold text-lg font-playfair-display text-red-900">Delete Your Account</p>
-                    <p className="text-sm text-red-700/70 leading-relaxed max-w-xl">Once you delete your account, there is no going back. All of your data, including personal details and flower plans, will be permanently removed.</p>
+                    <p className="text-sm text-red-700/70 leading-relaxed max-w-xl">Once you delete your account, there is no going back. Your account will be deactivated and you will no longer be able to log in.</p>
                 </div>
 
                 <AlertDialog>

@@ -1,4 +1,4 @@
-﻿// frontend/src/components/SingleDeliveryStructureEditor.tsx
+﻿// frontend/src/components/OrderStructureEditor.tsx
 "use client";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -6,11 +6,11 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 import type { Order, PartialOrder } from '../../types/Order';
-import SingleDeliveryStructureForm from '@/forms/SingleDeliveryStructureForm';
-import type { SingleDeliveryStructureData } from '../../types/SingleDeliveryStructureData';
+import OrderStructureForm from '@/forms/OrderStructureForm';
+import type { OrderStructureData } from '../../types/OrderStructureData';
 import FlowBackButton from '@/components/form_flow/FlowBackButton';
 import FlowNextButton from '@/components/form_flow/FlowNextButton';
-import type { SingleDeliveryStructureEditorProps } from '../../types/SingleDeliveryStructureEditorProps';
+import type { OrderStructureEditorProps } from '../../types/OrderStructureEditorProps';
 import { MIN_DAYS_BEFORE_CREATE, MIN_DAYS_BEFORE_EDIT } from '@/utils/systemConstants';
 import { errorMessage } from '@/utils/errors';
 
@@ -21,7 +21,7 @@ const getMinDateString = (isEdit: boolean) => {
     return minDate.toISOString().split('T')[0];
 };
 
-const SingleDeliveryStructureEditor = ({
+const OrderStructureEditor = ({
     mode,
     isPaid = false,
     title = "Delivery Details",
@@ -30,11 +30,11 @@ const SingleDeliveryStructureEditor = ({
     backPath,
     getPlan,
     updatePlan,
-}: SingleDeliveryStructureEditorProps) => {
+}: OrderStructureEditorProps) => {
     const router = useRouter();
     const isEditMode = mode === 'edit';
 
-    const [formData, setFormData] = useState<SingleDeliveryStructureData>({
+    const [formData, setFormData] = useState<OrderStructureData>({
         budget: 125,
         start_date: getMinDateString(isEditMode),
         card_message: '',
@@ -69,8 +69,8 @@ const SingleDeliveryStructureEditor = ({
             .finally(() => setIsLoading(false));
     }, [getPlan, router, backPath, isEditMode]);
 
-    const handleFormChange = (field: keyof SingleDeliveryStructureData, value: number | string) => {
-        setFormData((prev: SingleDeliveryStructureData) => ({ ...prev, [field]: value }));
+    const handleFormChange = (field: keyof OrderStructureData, value: number | string) => {
+        setFormData((prev: OrderStructureData) => ({ ...prev, [field]: value }));
     };
 
     const handleSave = async () => {
@@ -111,7 +111,7 @@ const SingleDeliveryStructureEditor = ({
                         <CardTitle className="text-3xl md:text-4xl font-bold font-playfair-display">{title}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-8 px-4 md:px-8">
-                        <SingleDeliveryStructureForm
+                        <OrderStructureForm
                             formData={formData}
                             onFormChange={handleFormChange}
                             setIsDebouncePending={() => {}}
@@ -134,4 +134,4 @@ const SingleDeliveryStructureEditor = ({
     );
 };
 
-export default SingleDeliveryStructureEditor;
+export default OrderStructureEditor;
