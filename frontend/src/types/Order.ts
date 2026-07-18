@@ -24,7 +24,6 @@ export interface Order {
   delivery_fee: number;
   subtotal: number;
   discount_amount: number;
-  tax_amount: number;
   total_amount: number | null;
   discount_code_display: string | null;
 

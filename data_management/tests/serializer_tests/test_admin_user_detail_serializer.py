@@ -49,8 +49,8 @@ def test_admin_user_detail_serializer_plans():
     """
     user = UserFactory()
     # Budget drives the total: $100 is at the threshold, so no delivery fee is added.
-    plan1 = OrderFactory(billing_mode='one_time', user=user, budget=Decimal('100.00'), discount_amount=Decimal('0'), tax_amount=Decimal('0'))
-    plan2 = OrderFactory(billing_mode='recurring', user=user, budget=Decimal('50.00'), discount_amount=Decimal('0'), tax_amount=Decimal('0'))
+    plan1 = OrderFactory(billing_mode='one_time', user=user, budget=Decimal('100.00'), discount_amount=Decimal('0'))
+    plan2 = OrderFactory(billing_mode='recurring', user=user, budget=Decimal('50.00'), discount_amount=Decimal('0'))
     
     serializer = AdminUserDetailSerializer(user)
     data = serializer.data

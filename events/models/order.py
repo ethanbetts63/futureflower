@@ -22,9 +22,6 @@ class Order(models.Model):
         ('recurring', 'Recurring'),
     )
 
-    # Guidance for the florist, not a catalog choice. Stored structurally so the
-    # brief form can show the picker again on edit; the customer's own words live
-    # separately in flower_notes.
     OCCASION_CHOICES = (
         ('birthday', 'Birthday'),
         ('romance', 'Romance'),
@@ -57,7 +54,6 @@ class Order(models.Model):
         help_text="How this order is billed: one-time or recurring."
     )
 
-    # --- Plan Details ---
     FREQUENCY_CHOICES = (
         ('weekly', 'Weekly'),
         ('fortnightly', 'Fortnightly'),
@@ -76,7 +72,7 @@ class Order(models.Model):
     )
     subtotal = models.DecimalField(
         max_digits=10, decimal_places=2, default=0,
-        help_text="Output of the pricing formula before discounts/tax."
+        help_text="Output of the pricing formula before discounts."
     )
     discount_code = models.ForeignKey(
         'partners.DiscountCode',
@@ -87,10 +83,6 @@ class Order(models.Model):
     discount_amount = models.DecimalField(
         max_digits=10, decimal_places=2, default=0,
         help_text="The discount amount applied to this order."
-    )
-    tax_amount = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0,
-        help_text="Tax amount (placeholder for future use)."
     )
     total_amount = models.DecimalField(
         max_digits=10, decimal_places=2, null=True, blank=True,
@@ -194,7 +186,6 @@ class Order(models.Model):
         self.total_amount = (
             (self.subtotal or Decimal('0'))
             - (self.discount_amount or Decimal('0'))
-            + (self.tax_amount or Decimal('0'))
         )
 
     def __str__(self):

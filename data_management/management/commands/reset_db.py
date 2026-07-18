@@ -1,6 +1,6 @@
 # Local dev (default): drops every table, wipes and rebuilds migrations from the
-# current models, then regenerates the data the app needs from committed sources
-# (terms from HTML files, the admin user from a generator).
+# current models, then regenerates the terms and conditions from their committed
+# HTML source (see generate.py --terms).
 #
 # Server (--server): pulls latest code and reuses the already-committed migrations
 # (no makemigrations), then does the same regeneration. The server must never
@@ -8,7 +8,8 @@
 #
 # There is nothing to restore from a backup here: everything the reset needs is
 # generated from source, so unlike the podcast pipeline this command takes no
-# archive. See generate.py for --terms / --admin_user.
+# archive. The admin user is created separately (generate --admin_user), not by
+# this reset.
 
 import shutil
 import subprocess
@@ -30,11 +31,6 @@ class Command(BaseCommand):
             action="store_true",
             help="Server variant: pull code and reuse committed migrations instead "
                  "of squashing them locally.",
-        )
-        parser.add_argument(
-            "--admin-password",
-            required=True,
-            help="Password for the regenerated admin user (see generate --admin_user).",
         )
 
     def handle(self, *args, **options):
@@ -79,9 +75,6 @@ class Command(BaseCommand):
 
         self.stdout.write("\nGenerating terms and conditions...")
         call_command("generate", terms=True)
-
-        self.stdout.write("\nCreating admin user...")
-        call_command("generate", admin_user=options["admin_password"])
 
         self.stdout.write(self.style.SUCCESS("\nDatabase reset complete."))
 

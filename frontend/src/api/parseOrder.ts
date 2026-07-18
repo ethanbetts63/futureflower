@@ -41,7 +41,6 @@ export function parseOrder(raw: unknown): Order {
     budget: nullableMoney(order.budget, 'budget'),
     subtotal: money(order.subtotal, 'subtotal'),
     discount_amount: money(order.discount_amount, 'discount_amount'),
-    tax_amount: money(order.tax_amount, 'tax_amount'),
     total_amount: nullableMoney(order.total_amount, 'total_amount'),
     events: list(order.events, 'events'),
     payments: list(order.payments, 'payments'),

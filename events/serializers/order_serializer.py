@@ -20,7 +20,7 @@ class OrderSerializer(serializers.ModelSerializer):
             'recipient_first_name', 'recipient_last_name', 'recipient_street_address',
             'recipient_suburb', 'recipient_city', 'recipient_state',
             'recipient_postcode', 'recipient_country',
-            'budget', 'delivery_fee', 'subtotal', 'discount_amount', 'tax_amount',
+            'budget', 'delivery_fee', 'subtotal', 'discount_amount',
             'total_amount',
             'discount_code_display', 'frequency', 'occasion', 'start_date',
             'delivery_notes', 'preferred_delivery_time',
@@ -31,7 +31,7 @@ class OrderSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = [
             'id', 'user', 'status', 'delivery_fee', 'subtotal', 'discount_amount',
-            'tax_amount', 'total_amount', 'discount_code_display', 'stripe_subscription_id',
+            'total_amount', 'discount_code_display', 'stripe_subscription_id',
             'next_payment_date', 'next_delivery_date',
             'created_at', 'updated_at', 'events', 'payments',
         ]
