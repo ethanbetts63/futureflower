@@ -6,17 +6,11 @@ import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { IMPACT_TIERS, MIN_BUDGET } from '@/utils/pricingConstants';
-import { DELIVERY_FEE, DELIVERY_INCLUDED_THRESHOLD, MIN_DAYS_BEFORE_CREATE } from '@/utils/systemConstants';
+import { DELIVERY_FEE, DELIVERY_INCLUDED_THRESHOLD, minDeliveryDate } from '@/utils/systemConstants';
 import { type HomepageBrief, orderToBrief, briefToOrderPatch } from '@/lib/homepageBrief';
 import { OCCASIONS, occasionByName, occasionByValue, type Occasion } from '@/lib/occasions';
 import { startGuestCheckout, getGuestOrder, updateGuestOrder } from '@/api/guestCheckout';
 import { errorMessage } from '@/utils/errors';
-
-const getMinDeliveryDate = () => {
-  const minDate = new Date();
-  minDate.setDate(minDate.getDate() + MIN_DAYS_BEFORE_CREATE);
-  return minDate.toISOString().split('T')[0];
-};
 
 interface HomeStarterFormProps {
   defaultVibeName?: string;
@@ -35,7 +29,7 @@ export default function HomeStarterForm({ defaultVibeName, mode = 'create' }: Ho
   const [budget, setBudget] = useState(IMPACT_TIERS[1]?.price ?? 125);
   const [customBudget, setCustomBudget] = useState('');
   const [flowerNotes, setFlowerNotes] = useState('');
-  const [deliveryDate, setDeliveryDate] = useState(getMinDeliveryDate);
+  const [deliveryDate, setDeliveryDate] = useState(minDeliveryDate);
   const [cardMessage, setCardMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const budgetScrollRef = useRef<HTMLDivElement>(null);
@@ -77,8 +71,8 @@ export default function HomeStarterForm({ defaultVibeName, mode = 'create' }: Ho
 
   const handleSubmit = async () => {
     const finalBudget = budget >= MIN_BUDGET ? budget : MIN_BUDGET;
-    const minDeliveryDate = getMinDeliveryDate();
-    const finalDeliveryDate = deliveryDate >= minDeliveryDate ? deliveryDate : minDeliveryDate;
+    const earliest = minDeliveryDate();
+    const finalDeliveryDate = deliveryDate >= earliest ? deliveryDate : earliest;
     const brief: HomepageBrief = {
       occasion: selectedVibe.value,
       budget: finalBudget,
@@ -297,7 +291,7 @@ export default function HomeStarterForm({ defaultVibeName, mode = 'create' }: Ho
             <input
               id="homepage-delivery-date"
               type="date"
-              min={getMinDeliveryDate()}
+              min={minDeliveryDate()}
               value={deliveryDate}
               onChange={(event) => setDeliveryDate(event.target.value)}
               className="mt-3 h-11 w-full rounded-lg border border-black/10 bg-white px-3 text-sm text-black outline-none transition focus:border-black"

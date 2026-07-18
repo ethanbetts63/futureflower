@@ -21,6 +21,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { acceptGuestTerms, claimGuestCheckout, makeGuestOrderRecurring, startGuestCheckoutPayment } from '@/api/guestCheckout';
 import { formatDate } from '@/utils/utils';
 import { occasionLabel } from '@/lib/occasions';
+import { FREQUENCIES } from '@/lib/frequencies';
 import { errorMessage } from '@/utils/errors';
 import { toast } from 'sonner';
 import type { Order } from '@/types/Order';
@@ -203,10 +204,9 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
                       <SelectValue placeholder="Choose frequency" />
                     </SelectTrigger>
                     <SelectContent className="bg-white">
-                      <SelectItem value="weekly">Weekly</SelectItem>
-                      <SelectItem value="fortnightly">Fortnightly</SelectItem>
-                      <SelectItem value="monthly">Monthly</SelectItem>
-                      <SelectItem value="annually">Annually</SelectItem>
+                      {FREQUENCIES.map((frequency) => (
+                        <SelectItem key={frequency.value} value={frequency.value}>{frequency.label}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>

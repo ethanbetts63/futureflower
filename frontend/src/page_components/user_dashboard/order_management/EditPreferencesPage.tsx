@@ -2,7 +2,7 @@
 "use client";
 import { useCallback } from 'react';
 import { useParams } from 'next/navigation';
-import PreferencesEditor from '@/components/form_flow/PreferencesEditor';
+import OrderPreferencesEditor from '@/components/form_flow/OrderPreferencesEditor';
 import { getOrder, updateOrder } from '@/api/orders';
 import type { PartialOrder } from '@/types/Order';
 
@@ -14,7 +14,7 @@ const EditPreferencesPage = () => {
     const updatePlan = useCallback((data: PartialOrder) => updateOrder(planId, data), [planId]);
 
     return (
-        <PreferencesEditor
+        <OrderPreferencesEditor
             mode="edit"
             saveButtonText="Save Changes"
             onSaveNavigateTo={`/dashboard/orders/${planId}/overview`}

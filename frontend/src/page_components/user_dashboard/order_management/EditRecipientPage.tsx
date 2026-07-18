@@ -2,7 +2,7 @@
 "use client";
 import { useCallback } from 'react';
 import { useParams } from 'next/navigation';
-import RecipientEditor from '@/components/form_flow/RecipientEditor';
+import OrderRecipientEditor from '@/components/form_flow/OrderRecipientEditor';
 import { getOrder, updateOrder } from '@/api/orders';
 import type { PartialOrder } from '@/types/Order';
 
@@ -16,12 +16,12 @@ const EditRecipientPage = () => {
     const updatePlan = useCallback((data: PartialOrder) => updateOrder(planId, data), [planId]);
 
     return (
-        <RecipientEditor
+        <OrderRecipientEditor
             mode="edit"
             title="Edit Recipient Details"
             saveButtonText="Save Changes"
             onSaveNavigateTo={`/dashboard/orders/${planId}/overview`}
-            onCancelNavigateTo={`/dashboard/orders/${planId}/overview`}
+            backPath={`/dashboard/orders/${planId}/overview`}
             getPlan={getPlan}
             updatePlan={updatePlan}
         />

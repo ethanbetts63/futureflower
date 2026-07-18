@@ -10,13 +10,6 @@ class User(AbstractUser):
         blank=True,
         help_text="Timestamp of when the last password reset email was sent."
     )
-    accepted_terms = models.ManyToManyField(
-        'data_management.TermsAndConditions',
-        through='data_management.TermsAcceptance',
-        blank=True,
-        related_name='accepting_users',
-    )
-
     stripe_customer_id = models.CharField(
         max_length=255,
         blank=True,

@@ -1,6 +1,6 @@
 // frontend/src/page_components/order_flow/RecipientPage.tsx
 "use client";
-import RecipientEditor from '@/components/form_flow/RecipientEditor';
+import OrderRecipientEditor from '@/components/form_flow/OrderRecipientEditor';
 import StepProgressBar from '@/components/form_flow/StepProgressBar';
 import { getGuestOrder, updateGuestOrder } from '@/api/guestCheckout';
 
@@ -9,12 +9,12 @@ const RecipientPage = () => {
     return (
         <>
             <StepProgressBar currentStep={2} totalSteps={3} planName="Single Delivery Plan" />
-            <RecipientEditor
+            <OrderRecipientEditor
                 mode="create"
                 title="Who is receiving the flowers?"
                 saveButtonText="Next: Confirm Your Order"
                 onSaveNavigateTo="/order/confirmation"
-                onCancelNavigateTo="/"
+                backPath="/"
                 getPlan={getGuestOrder}
                 updatePlan={updateGuestOrder}
             />

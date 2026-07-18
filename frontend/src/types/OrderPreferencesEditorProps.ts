@@ -1,13 +1,11 @@
 import type { Order, PartialOrder } from './Order';
 
-export interface RecipientEditorProps {
+export interface OrderPreferencesEditorProps {
     mode: 'create' | 'edit';
-    title: string;
+    title?: string;
     saveButtonText: string;
     onSaveNavigateTo: string;
-    onCancelNavigateTo: string;
-    // Bound by the caller: the guest flow resolves the order from its checkout
-    // cookie, the dashboard from the planId in its own URL.
+    backPath: string;
     getPlan: () => Promise<Order>;
     updatePlan: (data: PartialOrder) => Promise<Order>;
 }

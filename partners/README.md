@@ -13,7 +13,6 @@ The `partners` app manages the relationship between FutureFlower and its busines
 - **Commission:** Records earnings for partners (referral or fulfillment).
 - **DeliveryRequest:** Manages the lifecycle of a delivery assignment (notified, accepted, declined).
 - **Payout:** Tracks payments made to partners via Stripe Connect.
-- **ServiceArea:** (Optional/Future) For more granular service area management.
 
 ## Testing
 

@@ -117,7 +117,6 @@ def handle_payment_intent_succeeded(payment_intent):
                             discount_code=dc,
                             user=payment.user,
                             payment=payment,
-                            discount_applied=dc.discount_amount,
                         )
                         print(f"DiscountUsage created for Payment {payment.pk}")
                 except Exception as e:

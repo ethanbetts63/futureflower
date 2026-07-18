@@ -5,8 +5,8 @@ export type { AuthResponse } from './AuthResponse';
 export type { PaymentHistoryCardProps } from './PaymentHistoryCardProps';
 export type { BannerProps } from './BannerProps';
 export type { SelectableTagProps } from './SelectableTagProps';
-export type { RecipientEditorProps } from './RecipientEditorProps';
-export type { PreferencesEditorProps } from './PreferencesEditorProps';
+export type { OrderRecipientEditorProps } from './OrderRecipientEditorProps';
+export type { OrderPreferencesEditorProps } from './OrderPreferencesEditorProps';
 export type { PlanDisplayProps } from './PlanDisplayProps';
 export type { PlanActivationBannerProps } from './PlanActivationBannerProps';
 
@@ -37,7 +37,6 @@ export type { UserProfile } from './UserProfile';
 export type { FeaturePoint } from './FeaturePoint';
 export type { DetailedProductInfoProps } from './DetailedProductInfoProps';
 export type { ProductData } from './ProductData';
-export type { View } from './View';
 export type { OrderStructureData } from './OrderStructureData';
 export type { OrderStructureEditorProps } from './OrderStructureEditorProps';
 export type { OrderStructureFormProps } from './OrderStructureFormProps';

@@ -4,14 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ImpactTierSelector } from '@/components/form_flow/ImpactTierSelector';
 import type { OrderStructureFormProps } from '../types/OrderStructureFormProps';
-import { MIN_DAYS_BEFORE_CREATE, MIN_DAYS_BEFORE_EDIT } from '@/utils/systemConstants';
-
-const getMinDateString = (isEdit: boolean) => {
-    const minDate = new Date();
-    const leadTime = isEdit ? MIN_DAYS_BEFORE_EDIT : MIN_DAYS_BEFORE_CREATE;
-    minDate.setDate(minDate.getDate() + leadTime);
-    return minDate.toISOString().split('T')[0];
-};
+import { MIN_DAYS_BEFORE_CREATE, MIN_DAYS_BEFORE_EDIT, minDeliveryDate } from '@/utils/systemConstants';
 
 const OrderStructureForm = ({
     formData,
@@ -36,7 +29,7 @@ const OrderStructureForm = ({
                 <Input
                     id="start-date"
                     type="date"
-                    min={getMinDateString(isEdit)}
+                    min={minDeliveryDate(isEdit)}
                     value={formData.start_date}
                     onChange={(e) => onFormChange('start_date', e.target.value)}
                 />
