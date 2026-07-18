@@ -71,7 +71,7 @@ const config: OccasionLandingPageConfig = {
   howItWorksSteps: [
     {
       title: 'Give us the brief',
-      text: 'Your budget and preferences — classic red roses, soft pastels, or the feeling you\'re after. Two minutes, no catalog scrolling.',
+      text: 'Your budget and preferences — classic red roses, soft pastels, or the feeling you\'re after. ',
     },
     {
       title: 'A local florist designs it',

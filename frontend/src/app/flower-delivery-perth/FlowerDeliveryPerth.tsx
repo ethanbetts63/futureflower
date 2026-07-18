@@ -99,7 +99,7 @@ const config: OccasionLandingPageConfig = {
   howItWorksSteps: [
     {
       title: 'Give us the brief',
-      text: 'Occasion, budget, and preferences — favourite colours, things to avoid, the feeling you\'re after. Two minutes, no catalog scrolling.',
+      text: 'Occasion, budget, and preferences — favourite colours, things to avoid, the feeling you\'re after. ',
     },
     {
       title: 'A Perth florist designs it',
