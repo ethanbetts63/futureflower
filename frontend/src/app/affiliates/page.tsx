@@ -1,4 +1,4 @@
-import AffiliatesPage from "@/page_components/AffiliatesPage";
+import AffiliatesPage from "@/app/affiliates/AffiliatesPage";
 import { getRouteMetadata } from "@/lib/routeMetadata";
 
 export const metadata = getRouteMetadata("/affiliates");

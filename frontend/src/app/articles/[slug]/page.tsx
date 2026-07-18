@@ -1,9 +1,9 @@
-import BestFlowerDeliveryAdelaide from "@/page_components/articles/BestFlowerDeliveryAdelaide";
-import BestFlowerDeliveryDarwin from "@/page_components/articles/BestFlowerDeliveryDarwin";
-import BestFlowerDeliveryMelbourne from "@/page_components/articles/BestFlowerDeliveryMelbourne";
-import BestFlowerDeliveryPerth from "@/page_components/articles/BestFlowerDeliveryPerth";
-import BestFlowerDeliverySydney from "@/page_components/articles/BestFlowerDeliverySydney";
-import BestFlowerSubscriptionServicesAU from "@/page_components/articles/BestFlowerSubscriptionServicesAU";
+import BestFlowerDeliveryAdelaide from "@/app/articles/[slug]/BestFlowerDeliveryAdelaide";
+import BestFlowerDeliveryDarwin from "@/app/articles/[slug]/BestFlowerDeliveryDarwin";
+import BestFlowerDeliveryMelbourne from "@/app/articles/[slug]/BestFlowerDeliveryMelbourne";
+import BestFlowerDeliveryPerth from "@/app/articles/[slug]/BestFlowerDeliveryPerth";
+import BestFlowerDeliverySydney from "@/app/articles/[slug]/BestFlowerDeliverySydney";
+import BestFlowerSubscriptionServicesAU from "@/app/articles/[slug]/BestFlowerSubscriptionServicesAU";
 import { ARTICLES } from "@/lib/articles";
 import { getRouteMetadata } from "@/lib/routeMetadata";
 import type { Metadata } from "next";

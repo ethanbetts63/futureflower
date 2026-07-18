@@ -1,4 +1,4 @@
-import ResetPasswordConfirmPage from '@/page_components/ResetPasswordConfirmPage';
+import ResetPasswordConfirmPage from '@/app/reset-password-confirm/[uid]/[token]/ResetPasswordConfirmPage';
 
 export default function Page() {
   return <ResetPasswordConfirmPage />;

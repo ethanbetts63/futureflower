@@ -1,5 +1,5 @@
-import AdminGuard from '@/components/AdminGuard';
-import AdminDashboardPage from '@/page_components/admin/AdminDashboardPage';
+import AdminGuard from '@/shared_components/AdminGuard';
+import AdminDashboardPage from '@/app/dashboard/admin/AdminDashboardPage';
 
 export default function Page() {
   return (

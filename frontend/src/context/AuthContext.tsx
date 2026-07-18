@@ -3,8 +3,8 @@
 import { createContext, useContext, useState, useEffect, type ReactNode, useCallback } from 'react';
 import * as api from '@/api';
 import { ApiError } from '@/api/ApiError';
-import type { UserProfile } from '../types/UserProfile';
-import type { AuthContextType } from '../types/AuthContextType';
+import type { UserProfile } from '@/types/UserProfile';
+import type { AuthContextType } from '@/types/AuthContextType';
 
 // --- Context Creation ---
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

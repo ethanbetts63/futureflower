@@ -1,4 +1,4 @@
-import BirthdayFlowerDelivery from "@/page_components/BirthdayFlowerDelivery";
+import BirthdayFlowerDelivery from "@/app/birthday-flower-delivery/BirthdayFlowerDelivery";
 import { getRouteMetadata } from "@/lib/routeMetadata";
 
 export const metadata = getRouteMetadata("/birthday-flower-delivery");

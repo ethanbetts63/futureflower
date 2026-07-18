@@ -1,4 +1,4 @@
-import EditStructurePage from '@/page_components/user_dashboard/order_management/EditStructurePage';
+import EditStructurePage from '@/app/dashboard/orders/[planId]/edit-structure/EditStructurePage';
 
 export default function Page() {
   return <EditStructurePage />;

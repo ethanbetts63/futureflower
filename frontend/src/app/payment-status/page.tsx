@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import PaymentStatusPage from '@/page_components/PaymentStatusPage';
+import PaymentStatusPage from '@/app/payment-status/PaymentStatusPage';
 
 export default function Page() {
   return (

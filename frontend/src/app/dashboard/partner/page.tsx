@@ -1,4 +1,4 @@
-import PartnerDashboardPage from '@/page_components/partner/PartnerDashboardPage';
+import PartnerDashboardPage from '@/app/dashboard/partner/PartnerDashboardPage';
 
 export default function Page() {
   return <PartnerDashboardPage />;

@@ -1,4 +1,4 @@
-import FlowerDeliveryPerth from "@/page_components/FlowerDeliveryPerth";
+import FlowerDeliveryPerth from "@/app/flower-delivery-perth/FlowerDeliveryPerth";
 import { getRouteMetadata } from "@/lib/routeMetadata";
 
 export const metadata = getRouteMetadata("/flower-delivery-perth");

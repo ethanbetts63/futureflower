@@ -1,4 +1,4 @@
-import BlogExplorePage from "@/page_components/BlogExplorePage";
+import BlogExplorePage from "@/app/articles/BlogExplorePage";
 import { getRouteMetadata } from "@/lib/routeMetadata";
 
 export const metadata = getRouteMetadata("/articles");

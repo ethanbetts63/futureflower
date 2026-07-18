@@ -1,4 +1,4 @@
-import CancelOrderPage from '@/page_components/user_dashboard/order_management/CancelOrderPage';
+import CancelOrderPage from '@/app/dashboard/orders/[planId]/cancel/CancelOrderPage';
 
 export default function Page() {
   return <CancelOrderPage />;

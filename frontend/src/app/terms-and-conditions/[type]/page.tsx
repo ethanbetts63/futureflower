@@ -1,4 +1,4 @@
-import TermsAndConditionsPage from '@/page_components/TermsAndConditionsPage';
+import TermsAndConditionsPage from '@/app/terms-and-conditions/[type]/TermsAndConditionsPage';
 
 export default function Page() {
   return <TermsAndConditionsPage />;

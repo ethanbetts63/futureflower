@@ -1,5 +1,5 @@
-import AdminGuard from '@/components/AdminGuard';
-import MarkOrderedPage from '@/page_components/admin/MarkOrderedPage';
+import AdminGuard from '@/shared_components/AdminGuard';
+import MarkOrderedPage from '@/app/dashboard/admin/events/[eventId]/mark-ordered/MarkOrderedPage';
 
 export default function Page() {
   return (

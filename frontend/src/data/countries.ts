@@ -1,4 +1,4 @@
-import type { Country } from '../types/Country';
+import type { Country } from '@/types/Country';
 export type { Country };
 
 // Common countries pinned first, then the rest alphabetically

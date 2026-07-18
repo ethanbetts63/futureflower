@@ -1,4 +1,4 @@
-import BlocklistSuccessPage from '@/page_components/BlocklistSuccessPage';
+import BlocklistSuccessPage from '@/app/blocklist-success/BlocklistSuccessPage';
 
 export default function Page() {
   return <BlocklistSuccessPage />;

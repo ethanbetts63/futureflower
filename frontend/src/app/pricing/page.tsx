@@ -1,4 +1,4 @@
-import PricingPage from "@/page_components/PricingPage";
+import PricingPage from "@/app/pricing/PricingPage";
 import { getRouteMetadata } from "@/lib/routeMetadata";
 
 export const metadata = getRouteMetadata("/pricing");

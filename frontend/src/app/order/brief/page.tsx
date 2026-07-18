@@ -1,4 +1,4 @@
-import BriefPage from '@/page_components/order_flow/BriefPage';
+import BriefPage from '@/app/order/brief/BriefPage';
 
 export default function Page() {
   return <BriefPage />;

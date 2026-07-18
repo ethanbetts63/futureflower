@@ -1,4 +1,4 @@
-import OrderOverviewPage from '@/page_components/user_dashboard/order_management/OrderOverviewPage';
+import OrderOverviewPage from '@/app/dashboard/orders/[planId]/overview/OrderOverviewPage';
 
 export default function Page() {
   return <OrderOverviewPage />;

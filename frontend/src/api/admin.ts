@@ -1,16 +1,16 @@
 import { authedFetch } from './apiClient';
-import type { AdminDashboard } from '../types/AdminDashboard';
-import type { AdminEvent } from '../types/AdminEvent';
-import type { AdminPartner } from '../types/AdminPartner';
-import type { AdminPlan } from '../types/AdminPlan';
-import type { AdminPlanDetail } from '../types/AdminPlanDetail';
-import type { AdminUser } from '../types/AdminUser';
-import type { AdminUserDetail } from '../types/AdminUserDetail';
-import type { MarkOrderedPayload } from '../types/MarkOrderedPayload';
-import type { MarkDeliveredPayload } from '../types/MarkDeliveredPayload';
-import type { AdminCommission } from '../types/AdminCommission';
-import type { PayCommissionResult } from '../types/PayCommissionResult';
-import type { CommissionActionResult } from '../types/CommissionActionResult';
+import type { AdminDashboard } from '@/types/AdminDashboard';
+import type { AdminEvent } from '@/types/AdminEvent';
+import type { AdminPartner } from '@/types/AdminPartner';
+import type { AdminPlan } from '@/types/AdminPlan';
+import type { AdminPlanDetail } from '@/types/AdminPlanDetail';
+import type { AdminUser } from '@/types/AdminUser';
+import type { AdminUserDetail } from '@/types/AdminUserDetail';
+import type { MarkOrderedPayload } from '@/types/MarkOrderedPayload';
+import type { MarkDeliveredPayload } from '@/types/MarkDeliveredPayload';
+import type { AdminCommission } from '@/types/AdminCommission';
+import type { PayCommissionResult } from '@/types/PayCommissionResult';
+import type { CommissionActionResult } from '@/types/CommissionActionResult';
 
 export type { PayCommissionResult, CommissionActionResult };
 

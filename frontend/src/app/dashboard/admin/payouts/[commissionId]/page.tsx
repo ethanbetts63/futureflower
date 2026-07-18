@@ -1,5 +1,5 @@
-import AdminGuard from '@/components/AdminGuard';
-import AdminPayoutDetailPage from '@/page_components/admin/AdminPayoutDetailPage';
+import AdminGuard from '@/shared_components/AdminGuard';
+import AdminPayoutDetailPage from '@/app/dashboard/admin/payouts/[commissionId]/AdminPayoutDetailPage';
 
 export default function Page() {
   return (

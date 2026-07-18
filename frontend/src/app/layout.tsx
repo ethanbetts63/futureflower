@@ -10,8 +10,8 @@ const playfair = Playfair_Display({
   style: ['normal', 'italic'],
 });
 import Providers from './providers';
-import NavBar from '@/components/NavBar';
-import Footer from '@/components/Footer';
+import NavBar from '@/shared_components/NavBar';
+import Footer from '@/shared_components/Footer';
 import { buildWebsiteSchema, buildOrganizationSchema } from '@/lib/seo';
 
 export const metadata: Metadata = {

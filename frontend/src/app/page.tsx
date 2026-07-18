@@ -1,4 +1,4 @@
-import HomePage from "@/page_components/home";
+import HomePage from "@/app/HomePage";
 import { getRouteMetadata } from "@/lib/routeMetadata";
 
 export const metadata = getRouteMetadata("/");

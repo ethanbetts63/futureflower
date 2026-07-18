@@ -1,4 +1,4 @@
-import EditRecipientPage from '@/page_components/user_dashboard/order_management/EditRecipientPage';
+import EditRecipientPage from '@/app/dashboard/orders/[planId]/edit-recipient/EditRecipientPage';
 
 export default function Page() {
   return <EditRecipientPage />;
