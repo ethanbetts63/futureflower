@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Event, OrderBase
+from .models import Event, Order
 
 admin.site.register(Event)
-admin.site.register(OrderBase)
+admin.site.register(Order)

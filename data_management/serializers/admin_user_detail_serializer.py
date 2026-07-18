@@ -37,9 +37,9 @@ class AdminUserDetailSerializer(serializers.ModelSerializer):
         return p.business_name or f"{p.user.first_name} {p.user.last_name}".strip()
 
     def get_plans(self, obj):
-        from events.models import OrderBase
+        from events.models import Order
         orders = list(
-            OrderBase.objects.filter(user=obj).order_by('-created_at').values(
+            Order.objects.filter(user=obj).order_by('-created_at').values(
                 'id', 'status', 'total_amount', 'created_at',
                 'recipient_first_name', 'recipient_last_name', 'billing_mode',
             )

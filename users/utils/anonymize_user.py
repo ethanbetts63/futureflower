@@ -4,7 +4,7 @@ from django.conf import settings
 from django.utils import timezone
 from users.models import User
 from users.utils.hash_value import hash_value
-from events.models import OrderBase
+from events.models import Order
 from events.models.event import Event
 from data_management.models.notification import Notification
 
@@ -32,9 +32,9 @@ def anonymize_user(user: User):
 
     # --- Step 1 & 2: Handle Orders and Events ---
     # Delete all non-active orders
-    OrderBase.objects.filter(user=user, status='pending_payment').delete()
+    Order.objects.filter(user=user, status='pending_payment').delete()
 
-    active_orders = OrderBase.objects.filter(user=user, status='active')
+    active_orders = Order.objects.filter(user=user, status='active')
     for order in active_orders:
         # Cancel Stripe subscriptions before wiping data (while we still have the customer ID)
         if order.stripe_subscription_id:

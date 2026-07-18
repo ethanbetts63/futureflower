@@ -6,7 +6,7 @@ from django.conf import settings
 # but we need it for type hinting.
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from events.models import OrderBase
+    from events.models import Order
 
 
 def get_recurring_options(frequency: str) -> dict:
@@ -33,7 +33,7 @@ def calculate_second_delivery_date(start_date, frequency):
     return None
 
 
-def get_next_payment_date(order: 'OrderBase') -> date | None:
+def get_next_payment_date(order: 'Order') -> date | None:
     """
     Calculates the next upcoming payment date for a recurring order.
 
@@ -74,7 +74,7 @@ def get_next_payment_date(order: 'OrderBase') -> date | None:
     return next_date
 
 
-def get_next_delivery_date(order: 'OrderBase') -> date | None:
+def get_next_delivery_date(order: 'Order') -> date | None:
     """
     Calculates the next upcoming delivery date for a recurring order.
     """

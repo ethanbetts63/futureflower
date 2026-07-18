@@ -6,13 +6,13 @@ from events.tests.factories.event_factory import EventFactory
 @pytest.mark.django_db
 def test_reassign_delivery_request_fails_without_coords():
     event = EventFactory()
-    # order is created by factory, and OrderBase has no lat/lng fields
+    # order is created by factory, and Order has no lat/lng fields
     dr = reassign_delivery_request(event)
     assert dr is None
 
 @pytest.mark.django_db
 def test_reassign_delivery_request_success_if_coords_existed(mocker):
-    # Since OrderBase has no lat/lng, we have to mock getattr or the object
+    # Since Order has no lat/lng, we have to mock getattr or the object
     event = EventFactory()
     order = event.order
     mocker.patch.object(order, 'latitude', -33.8688, create=True)

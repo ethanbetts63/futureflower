@@ -4,7 +4,7 @@ import pytest
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
-from events.models import OrderBase
+from events.models import Order
 
 User = get_user_model()
 
@@ -15,7 +15,7 @@ CLAIM_URL = '/api/events/guest-checkout/claim/'
 def start_order(client, budget='125.00'):
     response = client.post(START_URL, {'brief': {'budget': budget}}, format='json')
     assert response.status_code == 201, response.data
-    return OrderBase.objects.get(pk=response.data['id'])
+    return Order.objects.get(pk=response.data['id'])
 
 
 @pytest.mark.django_db

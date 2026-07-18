@@ -1,18 +1,15 @@
 "use client";
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { IMPACT_TIERS, MIN_BUDGET } from '@/utils/pricingConstants';
 import { DELIVERY_FEE, DELIVERY_INCLUDED_THRESHOLD, MIN_DAYS_BEFORE_CREATE } from '@/utils/systemConstants';
-import {
-  clearHomepageBrief,
-  HOMEPAGE_BRIEF_STORAGE_KEY,
-  type HomepageBrief,
-} from '@/lib/homepageBrief';
-import { startGuestCheckout } from '@/api/guestCheckout';
+import { type HomepageBrief, orderToBrief, briefToOrderPatch } from '@/lib/homepageBrief';
+import { OCCASIONS, occasionByName, occasionByValue, type Occasion } from '@/lib/occasions';
+import { startGuestCheckout, getGuestOrder, updateGuestOrder } from '@/api/guestCheckout';
 import { errorMessage } from '@/utils/errors';
 
 const getMinDeliveryDate = () => {
@@ -21,27 +18,19 @@ const getMinDeliveryDate = () => {
   return minDate.toISOString().split('T')[0];
 };
 
-// The occasion is guidance for the florist, not a catalog selection: it is
-// folded into the brief's notes text rather than stored as its own record.
-type Occasion = { name: string; tagline: string };
-
-const occasions: Occasion[] = [
-  { name: 'Birthday', tagline: 'Warm, bright, celebratory' },
-  { name: 'Romance', tagline: 'Soft, intimate, considered' },
-  { name: 'Sympathy', tagline: 'Gentle, calm, respectful' },
-  { name: 'Thank You', tagline: 'Polished, generous, sincere' },
-  { name: 'Just Because', tagline: 'Fresh, seasonal, easy' },
-  { name: 'Other', tagline: 'Describe it below' },
-];
-
 interface HomeStarterFormProps {
   defaultVibeName?: string;
+  /** 'edit' loads the existing draft and saves back to it, returning to the
+   *  confirmation summary. 'create' (default) starts/continues a draft and moves
+   *  on to the recipient step. */
+  mode?: 'create' | 'edit';
 }
 
-export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProps) {
+export default function HomeStarterForm({ defaultVibeName, mode = 'create' }: HomeStarterFormProps) {
   const router = useRouter();
+  const isEdit = mode === 'edit';
   const [selectedVibe, setSelectedVibe] = useState<Occasion>(
-    () => occasions.find((occasion) => occasion.name === defaultVibeName) ?? occasions[0],
+    () => occasionByName(defaultVibeName) ?? OCCASIONS[0],
   );
   const [budget, setBudget] = useState(IMPACT_TIERS[1]?.price ?? 125);
   const [customBudget, setCustomBudget] = useState('');
@@ -50,6 +39,36 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
   const [cardMessage, setCardMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const budgetScrollRef = useRef<HTMLDivElement>(null);
+
+  // Prefill from the existing draft, if any. Without this, returning to the form
+  // — via the confirmation "Edit" link, or just navigating back to the homepage —
+  // shows defaults and overwrites the order with them on submit.
+  useEffect(() => {
+    let cancelled = false;
+    getGuestOrder()
+      .then((order) => {
+        if (cancelled) return;
+        const brief = orderToBrief(order);
+        if (brief.occasion) {
+          setSelectedVibe((current) => occasionByValue(brief.occasion) ?? current);
+        }
+        if (brief.budget) {
+          setBudget(brief.budget);
+          if (!IMPACT_TIERS.some((tier) => tier.price === brief.budget)) {
+            setCustomBudget(String(brief.budget));
+          }
+        }
+        setFlowerNotes(brief.flowerNotes);
+        if (brief.startDate) setDeliveryDate(brief.startDate);
+        setCardMessage(brief.cardMessage ?? '');
+      })
+      .catch(() => {
+        // No draft yet (first visit): keep the defaults.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const scrollBudgetCarousel = (direction: -1 | 1) => {
     // One card width (w-64 = 256px) plus the gap-3 (12px) between cards.
@@ -61,7 +80,7 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
     const minDeliveryDate = getMinDeliveryDate();
     const finalDeliveryDate = deliveryDate >= minDeliveryDate ? deliveryDate : minDeliveryDate;
     const brief: HomepageBrief = {
-      vibeName: selectedVibe.name,
+      occasion: selectedVibe.value,
       budget: finalBudget,
       flowerNotes,
       startDate: finalDeliveryDate,
@@ -69,15 +88,17 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
     };
 
     setIsSubmitting(true);
-    window.sessionStorage.setItem(HOMEPAGE_BRIEF_STORAGE_KEY, JSON.stringify(brief));
-
     try {
-      await startGuestCheckout(brief);
-      clearHomepageBrief();
-      router.push('/order/recipient');
+      if (isEdit) {
+        await updateGuestOrder(briefToOrderPatch(brief));
+        router.push('/order/confirmation');
+      } else {
+        await startGuestCheckout(brief);
+        router.push('/order/recipient');
+      }
     } catch (error) {
       setIsSubmitting(false);
-      toast.error('Could not start your order', {
+      toast.error(isEdit ? 'Could not save your changes' : 'Could not start your order', {
         description: errorMessage(error) || 'Please try again.',
       });
     }
@@ -104,7 +125,7 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
         <section>
           <h3 className="text-sm font-semibold text-black">Occasion</h3>
           <div className="mt-3 grid grid-cols-1 gap-2 min-[360px]:grid-cols-2 sm:grid-cols-3">
-            {occasions.map((vibe) => {
+            {OCCASIONS.map((vibe) => {
               const isSelected = selectedVibe.name === vibe.name;
 
               return (
@@ -305,7 +326,9 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
         className="mt-6 flex w-full items-center justify-between rounded-lg bg-black px-5 py-4 text-left text-white transition hover:bg-black/85 disabled:cursor-wait disabled:opacity-70"
       >
         <span className="block text-sm font-semibold">
-          {isSubmitting ? 'Preparing your order…' : 'Next: Recipient Details'}
+          {isSubmitting
+            ? (isEdit ? 'Saving…' : 'Preparing your order…')
+            : (isEdit ? 'Save & Review Order' : 'Next: Recipient Details')}
         </span>
         {isSubmitting ? (
           <Loader2 className="h-5 w-5 animate-spin text-white/70" />

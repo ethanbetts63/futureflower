@@ -17,7 +17,7 @@ class Payment(models.Model):
         related_name='payments'
     )
     order = models.ForeignKey(
-        'events.OrderBase',
+        'events.Order',
         on_delete=models.CASCADE,
         related_name='payments',
         help_text="The order this payment is for."

@@ -9,7 +9,7 @@ from django.utils import timezone
 class CheckoutSession(models.Model):
     """Opaque, browser-held authority for an in-progress guest checkout."""
 
-    order = models.OneToOneField('events.OrderBase', on_delete=models.CASCADE, related_name='checkout_session')
+    order = models.OneToOneField('events.Order', on_delete=models.CASCADE, related_name='checkout_session')
     token_hash = models.CharField(max_length=64, unique=True, editable=False)
     customer_email = models.EmailField(blank=True)
     expires_at = models.DateTimeField()

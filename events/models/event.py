@@ -5,7 +5,7 @@ class Event(models.Model):
     Represents a single flower delivery event within a FlowerPlan.
     """
     order = models.ForeignKey(
-        'events.OrderBase',
+        'events.Order',
         on_delete=models.CASCADE,
         related_name="events",
         help_text="The order this event belongs to."

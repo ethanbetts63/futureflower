@@ -2,7 +2,7 @@ from decimal import Decimal
 
 import pytest
 from events.tests.factories.order_factory import OrderFactory
-from events.models import OrderBase
+from events.models import Order
 
 @pytest.mark.django_db
 class TestOrderModels:
@@ -11,7 +11,7 @@ class TestOrderModels:
         assert plan.status == 'pending_payment'
         assert plan.billing_mode == 'one_time'
         assert plan.budget == 100
-        assert isinstance(plan, OrderBase)
+        assert isinstance(plan, Order)
 
     def test_recurring_order_creation(self):
         plan = OrderFactory(billing_mode='recurring', budget=80)

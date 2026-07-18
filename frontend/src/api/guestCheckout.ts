@@ -32,7 +32,7 @@ export async function claimGuestCheckout(data: { email: string; first_name: stri
   return parseOrder(await request('claim', data));
 }
 
-export async function makeGuestOrderRecurring(payload: { frequency: string; recurring_preferences?: string }): Promise<Order> {
+export async function makeGuestOrderRecurring(payload: { frequency: string }): Promise<Order> {
   return parseOrder(await request('make-recurring', payload));
 }
 

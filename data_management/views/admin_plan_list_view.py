@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 from django.db.models import Q
-from events.models import OrderBase
+from events.models import Order
 from data_management.serializers.admin_plan_serializer import AdminPlanSerializer
 
 
@@ -14,7 +14,7 @@ class AdminPlanListView(APIView):
         plan_type_filter = request.query_params.get('plan_type', '').strip()
         search = request.query_params.get('search', '').strip()
 
-        orders_qs = OrderBase.objects.select_related('user')
+        orders_qs = Order.objects.select_related('user')
 
         if status_filter:
             orders_qs = orders_qs.filter(status=status_filter)

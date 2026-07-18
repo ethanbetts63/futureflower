@@ -1,50 +1,34 @@
-import type { PartialOrder } from '@/types/Order';
+import type { Order, PartialOrder } from '@/types/Order';
 
-export const HOMEPAGE_BRIEF_STORAGE_KEY = 'futureflower.homepageBrief.v1';
-
+// The brief the customer fills in on the homepage form. Occasion is a structured
+// key (see lib/occasions); the customer's own words live in flowerNotes, kept
+// separate so an edit can show the occasion picker again rather than a text dump.
 export type HomepageBrief = {
-  vibeName: string;
+  occasion: string;
   budget: number;
   flowerNotes: string;
   startDate?: string;
   cardMessage?: string;
 };
 
-export function formatHomepageFlowerNotes(brief: HomepageBrief) {
-  const lines = [`Occasion / vibe: ${brief.vibeName}`];
-  const notes = brief.flowerNotes.trim();
-
-  if (notes) {
-    lines.push(`Customer preferences: ${notes}`);
-  }
-
-  return lines.join('\n');
-}
-
-/** Read the homepage brief saved before the account-creation detour, if any. */
-export function readHomepageBrief(): HomepageBrief | null {
-  try {
-    const raw = window.sessionStorage.getItem(HOMEPAGE_BRIEF_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
-export function clearHomepageBrief() {
-  try {
-    window.sessionStorage.removeItem(HOMEPAGE_BRIEF_STORAGE_KEY);
-  } catch {
-    /* sessionStorage unavailable — nothing to clear */
-  }
-}
-
-/** Translate a homepage brief into the fields patched onto a draft order. */
+/** Translate a brief into the fields patched onto a draft order. */
 export function briefToOrderPatch(brief: HomepageBrief): PartialOrder {
   return {
     budget: brief.budget,
-    flower_notes: formatHomepageFlowerNotes(brief),
+    occasion: brief.occasion || null,
+    flower_notes: brief.flowerNotes,
     ...(brief.startDate ? { start_date: brief.startDate } : {}),
     ...(brief.cardMessage !== undefined ? { card_message: brief.cardMessage } : {}),
+  };
+}
+
+/** Seed the form from an existing draft order, so returning to edit prefills it. */
+export function orderToBrief(order: Order): HomepageBrief {
+  return {
+    occasion: order.occasion || '',
+    budget: Number(order.budget) || 0,
+    flowerNotes: order.flower_notes || '',
+    startDate: order.start_date || undefined,
+    cardMessage: order.card_message || '',
   };
 }

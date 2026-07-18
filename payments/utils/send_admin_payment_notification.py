@@ -60,7 +60,7 @@ def send_admin_payment_notification(payment_id: str, order=None):
 
     Args:
         payment_id: The ID of the successful payment, for logging purposes.
-        order: The OrderBase instance associated with the payment (optional, for order context).
+        order: The Order instance associated with the payment (optional, for order context).
     """
     subject = "New FutureFlower Order Received"
     admin_email = settings.ADMIN_EMAIL

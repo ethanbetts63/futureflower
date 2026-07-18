@@ -4,7 +4,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.db import transaction
 from payments.models import Payment
-from events.models import OrderBase, Event
+from events.models import Order, Event
 from payments.utils.subscription_dates import get_next_delivery_date
 from payments.utils.send_admin_payment_notification import send_admin_payment_notification
 from payments.utils.send_customer_payment_notification import send_customer_payment_notification
@@ -163,7 +163,7 @@ def handle_invoice_payment_succeeded(invoice):
 
     try:
         with transaction.atomic():
-            order = OrderBase.objects.select_for_update().get(stripe_subscription_id=subscription_id)
+            order = Order.objects.select_for_update().get(stripe_subscription_id=subscription_id)
             print(f"Found Order (PK: {order.pk}) for Stripe Subscription ID: {subscription_id}")
 
             # Create a Payment record for this transaction (idempotent via unique stripe_payment_intent_id)
@@ -222,7 +222,7 @@ def handle_invoice_payment_succeeded(invoice):
             else:
                 print(f"Event for delivery on {delivery_date} already exists. Skipping duplicate.")
 
-    except OrderBase.DoesNotExist:
+    except Order.DoesNotExist:
         print(f"CRITICAL ERROR: Order not found for Stripe Subscription ID: {subscription_id}")
     except ValueError as e:
         print(f"ERROR: Could not determine next delivery date. Error: {e}")
@@ -261,7 +261,7 @@ def handle_subscription_deleted(subscription):
 
     try:
         with transaction.atomic():
-            order = OrderBase.objects.select_for_update().get(
+            order = Order.objects.select_for_update().get(
                 stripe_subscription_id=subscription_id
             )
 
@@ -283,7 +283,7 @@ def handle_subscription_deleted(subscription):
                 event.status = 'cancelled'
                 event.save()
 
-    except OrderBase.DoesNotExist:
+    except Order.DoesNotExist:
         print(f"Order not found for Stripe Subscription ID: {subscription_id}. Skipping.")
     except Exception as e:
         print(f"UNEXPECTED ERROR during customer.subscription.deleted for {subscription_id}: {e}")

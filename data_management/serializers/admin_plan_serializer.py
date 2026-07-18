@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from events.models import OrderBase
+from events.models import Order
 
 
 class AdminPlanSerializer(serializers.ModelSerializer):
@@ -9,7 +9,7 @@ class AdminPlanSerializer(serializers.ModelSerializer):
     plan_type = serializers.CharField(source='billing_mode', read_only=True)
 
     class Meta:
-        model = OrderBase
+        model = Order
         fields = [
             'id',
             'plan_type',

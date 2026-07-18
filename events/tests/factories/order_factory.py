@@ -1,13 +1,13 @@
 import factory
 from factory.django import DjangoModelFactory
 from factory import Faker, SubFactory
-from events.models import OrderBase
+from events.models import Order
 from users.tests.factories.user_factory import UserFactory
 
 
 class OrderFactory(DjangoModelFactory):
     class Meta:
-        model = OrderBase
+        model = Order
 
     user = SubFactory(UserFactory)
     status = 'pending_payment'

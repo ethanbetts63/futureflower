@@ -29,8 +29,8 @@ class AdminUserSerializer(serializers.ModelSerializer):
         return hasattr(obj, 'partner_profile')
 
     def get_plan_count(self, obj):
-        from events.models import OrderBase
-        return OrderBase.objects.filter(user=obj).count()
+        from events.models import Order
+        return Order.objects.filter(user=obj).count()
 
     def get_referred_by(self, obj):
         if not obj.referred_by_partner:

@@ -1,9 +1,9 @@
 from .event import Event
-from .order_base import OrderBase
+from .order import Order
 from .checkout_session import CheckoutSession
 
 __all__ = [
     'Event',
-    'OrderBase',
+    'Order',
     'CheckoutSession',
 ]

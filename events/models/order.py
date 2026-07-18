@@ -4,7 +4,7 @@ from django.conf import settings
 
 from events.utils.fee_calc import calculate_delivery_fee
 
-class OrderBase(models.Model):
+class Order(models.Model):
     """
     The single order model for the system. `billing_mode` distinguishes
     one-time and recurring orders.
@@ -20,6 +20,18 @@ class OrderBase(models.Model):
     BILLING_MODE_CHOICES = (
         ('one_time', 'One-time'),
         ('recurring', 'Recurring'),
+    )
+
+    # Guidance for the florist, not a catalog choice. Stored structurally so the
+    # brief form can show the picker again on edit; the customer's own words live
+    # separately in flower_notes.
+    OCCASION_CHOICES = (
+        ('birthday', 'Birthday'),
+        ('romance', 'Romance'),
+        ('sympathy', 'Sympathy'),
+        ('thank_you', 'Thank You'),
+        ('just_because', 'Just Because'),
+        ('other', 'Other'),
     )
 
     user = models.ForeignKey(
@@ -90,6 +102,12 @@ class OrderBase(models.Model):
         null=True, blank=True,
         help_text="How often deliveries are made."
     )
+    occasion = models.CharField(
+        max_length=20,
+        choices=OCCASION_CHOICES,
+        null=True, blank=True,
+        help_text="The occasion the bouquet is for, used as guidance for the florist."
+    )
 
     # --- Recipient Details ---
     recipient_first_name = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's first name.")
@@ -125,11 +143,6 @@ class OrderBase(models.Model):
         null=True,
         help_text="Optional notes about flower preferences."
     )
-    recurring_preferences = models.TextField(
-        blank=True,
-        null=True,
-        help_text="Optional instructions for recurring deliveries, such as variation or seasonal preferences."
-    )
     stripe_subscription_id = models.CharField(
         max_length=255, blank=True, null=True,
         help_text="The ID from Stripe for managing a recurring order's subscription."
@@ -146,7 +159,7 @@ class OrderBase(models.Model):
         )
     )
 
-    def make_recurring(self, frequency, recurring_preferences=''):
+    def make_recurring(self, frequency):
         """
         Convert this order to a recurring one. Raises ValueError on an unknown
         frequency, so callers must validate input before calling.
@@ -156,7 +169,6 @@ class OrderBase(models.Model):
 
         self.billing_mode = 'recurring'
         self.frequency = frequency
-        self.recurring_preferences = recurring_preferences
         self.save()
 
     def save(self, *args, **kwargs):

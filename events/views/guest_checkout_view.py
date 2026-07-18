@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from data_management.models import TermsAcceptance, TermsAndConditions
-from events.models import CheckoutSession, OrderBase
+from events.models import CheckoutSession, Order
 from events.serializers import OrderSerializer
 from partners.serializers import ValidateDiscountCodeSerializer
 from payments.utils.checkout import (
@@ -98,7 +98,7 @@ class GuestCheckoutView(APIView):
             user = User.objects.create_user(username=placeholder, email=placeholder)
             user.set_unusable_password()
             user.save(update_fields=['password'])
-            order = OrderBase.objects.create(user=user, billing_mode='one_time')
+            order = Order.objects.create(user=user, billing_mode='one_time')
             _, token = CheckoutSession.create_for_order(order)
 
         serializer = OrderSerializer(order, data=request.data.get('brief', {}), partial=True)
@@ -143,11 +143,11 @@ class GuestCheckoutView(APIView):
 
     def make_recurring(self, request, session):
         frequency = request.data.get('frequency')
-        if frequency not in dict(OrderBase.FREQUENCY_CHOICES):
+        if frequency not in dict(Order.FREQUENCY_CHOICES):
             return Response({'frequency': 'Choose a valid delivery frequency.'}, status=400)
 
         order = session.order
-        order.make_recurring(frequency, request.data.get('recurring_preferences', ''))
+        order.make_recurring(frequency)
         return Response(OrderSerializer(order).data)
 
     def discount(self, request, session):

@@ -5,7 +5,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from events.models import OrderBase
+from events.models import Order
 from events.serializers import OrderSerializer
 from data_management.models.notification import Notification
 from payments.utils.send_admin_payment_notification import send_admin_cancellation_notification
@@ -24,7 +24,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return (
-            OrderBase.objects
+            Order.objects
             .filter(user=self.request.user)
             .prefetch_related('events', 'payments')
             .order_by('-created_at')

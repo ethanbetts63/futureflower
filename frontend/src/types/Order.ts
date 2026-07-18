@@ -29,12 +29,12 @@ export interface Order {
   discount_code_display: string | null;
 
   frequency: string | null;
+  occasion: string | null;
   start_date: string | null;
   delivery_notes: string | null;
   preferred_delivery_time: string | null;
 
   flower_notes: string | null;
-  recurring_preferences: string | null;
   /** One-off deliveries only — subscriptions are delivered without a card message. */
   card_message: string | null;
 

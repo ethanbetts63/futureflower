@@ -18,14 +18,16 @@ import DiscountCodeInput from '@/components/form_flow/DiscountCodeInput';
 import OrderTotalSummary from '@/components/form_flow/OrderTotalSummary';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import { acceptGuestTerms, claimGuestCheckout, makeGuestOrderRecurring, startGuestCheckoutPayment } from '@/api/guestCheckout';
 import { formatDate } from '@/utils/utils';
+import { occasionLabel } from '@/lib/occasions';
 import { errorMessage } from '@/utils/errors';
 import { toast } from 'sonner';
 import type { Order } from '@/types/Order';
 
 const EDIT_BASE_PATH = '/order';
+// Every field the homepage brief form collects is edited back through it.
+const BRIEF_EDIT_PATH = '/order/brief';
 
 interface OrderConfirmationProps {
   plan: Order;
@@ -48,7 +50,6 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [makeRecurring, setMakeRecurring] = useState(false);
   const [recurringFrequency, setRecurringFrequency] = useState('monthly');
-  const [recurringPreferences, setRecurringPreferences] = useState('');
   const [customerFirstName, setCustomerFirstName] = useState('');
   const [customerLastName, setCustomerLastName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
@@ -64,7 +65,6 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
       await claimGuestCheckout({ email: customerEmail, first_name: customerFirstName, last_name: customerLastName });
       const recurringOrder = await makeGuestOrderRecurring({
         frequency: recurringFrequency,
-        recurring_preferences: recurringPreferences,
       });
       const response = await startGuestCheckoutPayment();
 
@@ -132,7 +132,7 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
         {isRecurring ? (
           <SubscriptionScheduleSummary plan={plan} />
         ) : (
-          <SummarySection label="Delivery Date" editUrl={`${EDIT_BASE_PATH}/structure`}>
+          <SummarySection label="Delivery Date" editUrl={BRIEF_EDIT_PATH}>
             <div className="flex items-center gap-3">
               <Calendar className="h-5 w-5 text-black/20 flex-shrink-0" />
               <span className="font-bold font-playfair-display text-lg">
@@ -153,7 +153,7 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
         {cardMessage && (
           <CardMessageSummary
             message={cardMessage}
-            editUrl={`${EDIT_BASE_PATH}/structure`}
+            editUrl={BRIEF_EDIT_PATH}
             footnote={makeRecurring
               ? 'Recurring deliveries arrive without a card message, so this one won\'t be included. Untick "Make this a recurring delivery" to send it.'
               : undefined}
@@ -162,10 +162,11 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
 
         <FlowerPreferencesSummary
           flowerNotes={plan.flower_notes}
-          editUrl={`${EDIT_BASE_PATH}/preferences`}
+          occasion={occasionLabel(plan.occasion)}
+          editUrl={BRIEF_EDIT_PATH}
         />
 
-        <ImpactSummary price={Number(plan.budget)} editUrl={`${EDIT_BASE_PATH}/structure`} />
+        <ImpactSummary price={Number(plan.budget)} editUrl={BRIEF_EDIT_PATH} />
 
         <SummarySection label="Your Details">
           <div className="grid gap-4 sm:grid-cols-2">
@@ -208,20 +209,6 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
                       <SelectItem value="annually">Annually</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
-
-                <div className="grid gap-2">
-                  <label htmlFor="recurring-preferences" className="text-sm font-semibold text-black">
-                    Custom Subscription Preferences
-                  </label>
-                  <Textarea
-                    id="recurring-preferences"
-                    value={recurringPreferences}
-                    onChange={(event) => setRecurringPreferences(event.target.value)}
-                    placeholder="Keep each delivery varied, follow the same colour palette, use seasonal flowers, avoid lilies, or anything else the florist should know."
-                    rows={4}
-                    className="bg-white"
-                  />
                 </div>
 
                 <div className="flex items-start gap-3 text-sm leading-relaxed text-black/60">
