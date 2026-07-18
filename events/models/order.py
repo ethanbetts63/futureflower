@@ -44,7 +44,7 @@ class Order(models.Model):
         help_text="The current status of the order."
     )
     currency = models.CharField(
-        max_length=3, default='USD',
+        max_length=3, default='AUD',
         help_text="The three-letter ISO currency code."
     )
     billing_mode = models.CharField(
