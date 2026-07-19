@@ -43,7 +43,6 @@ class AdminUserGenerator:
         self.password = password
 
     def run(self):
-        # Create or update user
         user, created = User.objects.update_or_create(
             username=ADMIN_USER['username'],
             defaults=ADMIN_USER,
@@ -55,7 +54,6 @@ class AdminUserGenerator:
         else:
             self.command.stdout.write(f"Updated admin user: {user.email}")
 
-        # Create or update partner
         partner, created = Partner.objects.update_or_create(
             user=user,
             defaults=ADMIN_PARTNER,
@@ -65,7 +63,6 @@ class AdminUserGenerator:
         else:
             self.command.stdout.write(f"Updated partner: {partner.business_name}")
 
-        # Create or update discount code
         discount_code, created = DiscountCode.objects.update_or_create(
             partner=partner,
             defaults=ADMIN_DISCOUNT_CODE,

@@ -1,4 +1,3 @@
-# users/tests/serializer_tests/test_change_password_serializer.py
 import pytest
 from rest_framework import serializers
 from users.serializers.change_password_serializer import ChangePasswordSerializer
@@ -6,9 +5,6 @@ from users.tests.factories.user_factory import UserFactory
 
 @pytest.mark.django_db
 def test_change_password_success(drf_request_factory, mocker):
-    """
-    Tests that a user can successfully change their password.
-    """
     user = UserFactory(password="old_password")
     request = drf_request_factory(user=user)
     mock_update_hash = mocker.patch('users.serializers.change_password_serializer.update_session_auth_hash')
@@ -29,9 +25,6 @@ def test_change_password_success(drf_request_factory, mocker):
 
 @pytest.mark.django_db
 def test_change_password_incorrect_old_password(drf_request_factory):
-    """
-    Tests that a validation error is raised for an incorrect old password.
-    """
     user = UserFactory(password="old_password")
     request = drf_request_factory(user=user)
     
@@ -49,9 +42,6 @@ def test_change_password_incorrect_old_password(drf_request_factory):
 
 @pytest.mark.django_db
 def test_change_password_mismatch(drf_request_factory):
-    """
-    Tests that a validation error is raised when new passwords do not match.
-    """
     user = UserFactory(password="old_password")
     request = drf_request_factory(user=user)
     
@@ -69,10 +59,6 @@ def test_change_password_mismatch(drf_request_factory):
 
 @pytest.mark.django_db
 def test_change_password_fails_django_validation(drf_request_factory):
-    """
-    Tests that the serializer fails if the new password doesn't meet
-    Django's password strength requirements (e.g., too short).
-    """
     user = UserFactory(password="old_password")
     request = drf_request_factory(user=user)
     

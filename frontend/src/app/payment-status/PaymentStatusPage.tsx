@@ -1,4 +1,3 @@
-// futureflower/frontend/src/pages/PaymentStatusPage.tsx
 "use client";
 import { useState, useEffect, useRef } from 'react';
 import { useStripe } from '@stripe/react-stripe-js';
@@ -15,7 +14,7 @@ import { formatDate, capitalize } from '@/lib/utils';
 import type { Order } from '@/types';
 
 const POLL_INTERVAL_MS = 2000;
-const MAX_POLL_ATTEMPTS = 15; // 30 seconds max
+const MAX_POLL_ATTEMPTS = 15;
 
 const UniversalPaymentStatusPage = () => {
     const stripe = useStripe();
@@ -24,9 +23,6 @@ const UniversalPaymentStatusPage = () => {
 
     const [message, setMessage] = useState<string | null>(null);
     const [isProcessing, setIsProcessing] = useState(true);
-    // Separate from paymentSucceeded: this tracks only the post-payment
-    // "activating the order" wait, so the spinner can stop once that
-    // resolves instead of spinning forever whenever paymentSucceeded is true.
     const [isActivating, setIsActivating] = useState(false);
     const [paymentSucceeded, setPaymentSucceeded] = useState(false);
     const [tryAgainPath, setTryAgainPath] = useState('/');
@@ -35,9 +31,6 @@ const UniversalPaymentStatusPage = () => {
 
     const pollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-    // The order summary is decoration for the wait — if it can't load
-    // (expired cookie, direct visit), the status flow works without it. A
-    // skeleton holds its space while it loads so the card doesn't pop in.
     useEffect(() => {
         getGuestOrder()
             .then(setPlan)
@@ -45,12 +38,6 @@ const UniversalPaymentStatusPage = () => {
             .finally(() => setPlanLoading(false));
     }, []);
 
-    // The guest checkout cookie identifies the order, so no id is needed here.
-    // Always clears any interval already running: without this, a re-fire of
-    // the effect below (a dependency changing, or React's dev-mode double
-    // invoke) would orphan the previous interval — it keeps polling, and its
-    // own clearInterval calls the *new* interval's id instead of its own,
-    // silently killing the active poller mid-wait.
     const pollUntilActive = () => {
         if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
         let attempts = 0;
@@ -68,7 +55,6 @@ const UniversalPaymentStatusPage = () => {
                     return;
                 }
             } catch {
-                // Network error — keep trying until max attempts
             }
 
             if (attempts >= MAX_POLL_ATTEMPTS) {
@@ -86,10 +72,6 @@ const UniversalPaymentStatusPage = () => {
     useEffect(() => {
         if (!stripe) return;
 
-        // Guards the async retrievePaymentIntent callback below: if this
-        // effect re-fires before that promise resolves (dev-mode double
-        // invoke, or a dependency changing), the stale run must not touch
-        // state or start a poll interval after its own cleanup already ran.
         let cancelled = false;
 
         const clientSecret = searchParams.get('payment_intent_client_secret');
@@ -107,7 +89,6 @@ const UniversalPaymentStatusPage = () => {
             return;
         }
 
-        // Handle PaymentIntent
         if (clientSecret.startsWith('pi_')) {
             stripe.retrievePaymentIntent(clientSecret).then((result: PaymentIntentResult) => {
                 if (cancelled) return;

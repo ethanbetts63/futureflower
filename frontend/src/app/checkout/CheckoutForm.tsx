@@ -13,8 +13,6 @@ const CheckoutForm = ({ planId, source }: CheckoutFormProps) => {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  // The PaymentElement streams in from Stripe; until it reports ready the Pay
-  // button would sit alone above empty space, so it stays hidden.
   const [isElementReady, setIsElementReady] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -85,7 +83,6 @@ const CheckoutForm = ({ planId, source }: CheckoutFormProps) => {
         </Button>
       )}
 
-      {/* Show any error or success messages */}
       {errorMessage && <div id="payment-message" className="text-red-500 mt-2">{errorMessage}</div>}
     </form>
   );

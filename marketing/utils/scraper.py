@@ -13,10 +13,6 @@ ITUNES_NS  = "http://www.itunes.com/dtds/podcast-1.0.dtd"
 CONTENT_NS = "http://purl.org/rss/1.0/modules/content/"
 
 
-# ---------------------------------------------------------------------------
-# Tracking
-# ---------------------------------------------------------------------------
-
 def _load_list(filename):
     path = BASE_DIR / filename
     var = "SEARCHED_TERMS" if "terms" in filename else "SEARCHED_FEEDS"
@@ -62,10 +58,6 @@ def save_planned_emails(emails):
     )
 
 
-# ---------------------------------------------------------------------------
-# Term generation
-# ---------------------------------------------------------------------------
-
 def all_terms():
     for a in "abcdefghijklmnopqrstuvwxyz":
         for b in "abcdefghijklmnopqrstuvwxyz":
@@ -82,10 +74,6 @@ def next_terms(searched, count):
     return results
 
 
-# ---------------------------------------------------------------------------
-# iTunes search
-# ---------------------------------------------------------------------------
-
 def search_itunes(term):
     try:
         resp = requests.get(
@@ -98,10 +86,6 @@ def search_itunes(term):
     except Exception:
         return []
 
-
-# ---------------------------------------------------------------------------
-# iTunes-level filters
-# ---------------------------------------------------------------------------
 
 def is_recent(date_str, days=30):
     try:
@@ -118,10 +102,6 @@ def passes_itunes_filters(result):
         and bool(result.get("feedUrl"))
     )
 
-
-# ---------------------------------------------------------------------------
-# RSS parsing
-# ---------------------------------------------------------------------------
 
 def _text(el, tag, ns):
     return (el.findtext(tag, namespaces=ns) or "").strip()
@@ -193,17 +173,7 @@ def has_required_fields(rss):
     ])
 
 
-# ---------------------------------------------------------------------------
-# Core scrape
-# ---------------------------------------------------------------------------
-
 def scrape_term(term, searched_feeds, stdout_write, limit=None, planned_emails=None):
-    """
-    Scrape one iTunes search term.
-    limit: stop writing once this many entries have been written (None = unlimited).
-    planned_emails: set of email addresses already queued or contacted — skip if found.
-    Returns (written, skipped, searched_feeds, limit_reached).
-    """
     if planned_emails is None:
         planned_emails = set()
     stdout_write(f"[{term}] Searching iTunes...")

@@ -14,20 +14,17 @@ from payments.utils.checkout import (
 
 @pytest.fixture
 def stripe_intent(mocker):
-    """Stand in for Stripe so no request leaves the test suite."""
     intent = mocker.Mock(id='pi_test_123', client_secret='pi_test_123_secret')
     return mocker.patch.object(stripe.PaymentIntent, 'create', return_value=intent)
 
 
 @pytest.fixture
 def stripe_product(mocker):
-    """Stand in for the (cached, created-once) subscription Product."""
     return mocker.patch.object(stripe.Product, 'create', return_value=mocker.Mock(id='prod_test_123'))
 
 
 @pytest.fixture
 def stripe_subscription(stripe_product, mocker):
-    """Stand in for the native subscription flow: Product, Subscription."""
     subscription = mocker.Mock(
         id='sub_test_123',
         latest_invoice=mocker.Mock(
@@ -47,12 +44,6 @@ def no_stripe_customer_call(mocker):
 
 @pytest.fixture(autouse=True)
 def fake_product_cache(mocker):
-    """
-    The subscription Product id is cached indefinitely via Django's cache
-    framework, which is file-based and shared with the real dev environment.
-    Swap in an in-memory fake so tests neither pollute nor read that file, and
-    so each test starts with an empty cache regardless of run order.
-    """
     store = {}
     fake_cache = mocker.Mock()
     fake_cache.get.side_effect = store.get
@@ -97,8 +88,6 @@ class TestStartOrderPayment:
         charged_cents = stripe_intent.call_args.kwargs['amount']
         payment = Payment.objects.get(order=order)
 
-        # The guest and authenticated paths used to clamp differently, so the
-        # recorded Payment could disagree with the actual charge.
         assert Decimal(charged_cents) == payment.amount * 100
         assert payment.status == 'pending'
         assert payment.stripe_payment_intent_id == 'pi_test_123'
@@ -117,11 +106,6 @@ class TestStartOrderPayment:
         assert metadata['billing_mode'] == order.billing_mode
 
     def test_staff_are_charged_the_order_total_like_anyone_else(self, stripe_intent):
-        """
-        Staff used to be billed a $1 override. Because the charge was derived from
-        order.user, and the checkout let an unverified email pick that user, naming
-        a staff address bought any order for $1.
-        """
         staff = UserFactory(is_staff=True, is_superuser=True)
         order = OrderFactory(user=staff, budget=Decimal('500.00'))
         start_order_payment(order)
@@ -168,7 +152,6 @@ def _order_with_discount(amount='5.00', **overrides):
 
 @pytest.mark.django_db
 class TestStartSubscriptionPayment:
-    """Recurring orders create a real Stripe Subscription at checkout."""
 
     def test_returns_the_first_invoice_client_secret(self, stripe_subscription, stripe_intent):
         order = _recurring_order()
@@ -186,15 +169,11 @@ class TestStartSubscriptionPayment:
         start_order_payment(order)
 
         kwargs = stripe_subscription.call_args.kwargs
-        # One-off item for the first delivery, charged now.
         assert kwargs['add_invoice_items'][0]['price_data']['unit_amount'] == int(order.total_amount * 100)
-        # Recurring billing starts only at trial end.
         assert kwargs['trial_end'] > 0
         assert kwargs['payment_behavior'] == 'default_incomplete'
 
     def test_the_subscription_product_is_created_only_once(self, stripe_subscription, stripe_product, mocker):
-        """Products are permanent Stripe objects; creating one per checkout
-        left thousands of duplicates in the account."""
         stripe_subscription.side_effect = [
             mocker.Mock(
                 id='sub_test_1',
@@ -216,7 +195,6 @@ class TestStartSubscriptionPayment:
         assert kwargs['payment_settings'] == {'save_default_payment_method': 'on_subscription'}
 
     def test_recurring_price_is_the_undiscounted_subtotal(self, stripe_subscription):
-        """A discount must not bake itself into every future delivery's price."""
         order = _order_with_discount('5.00', budget=Decimal('80.00'))
         start_order_payment(order)
 
@@ -226,11 +204,6 @@ class TestStartSubscriptionPayment:
         assert recurring['unit_amount'] > int(order.total_amount * 100)
 
     def test_discount_reduces_the_first_invoice_directly(self, stripe_subscription):
-        """
-        No Stripe coupon is needed: the first invoice is a one-off item whose
-        amount is already fully under our control, so the discount is simply
-        subtracted from it — same effect, one fewer Stripe object.
-        """
         order = _order_with_discount('5.00', budget=Decimal('80.00'))
         start_order_payment(order)
 
@@ -245,9 +218,7 @@ class TestStartSubscriptionPayment:
 
         payment = Payment.objects.get(order=order)
         assert payment.status == 'pending'
-        # The PaymentIntent id is embedded in the client secret.
         assert payment.stripe_payment_intent_id == 'pi_sub_123'
-        # The customer pays the discounted total on the first invoice.
         assert payment.amount == order.total_amount
 
     def test_an_incomplete_subscription_with_matching_amount_is_reused(self, stripe_subscription, mocker):
@@ -266,11 +237,6 @@ class TestStartSubscriptionPayment:
         stripe_subscription.assert_not_called()
 
     def test_a_stale_subscription_of_the_wrong_amount_is_cancelled_exactly_once(self, stripe_subscription, mocker):
-        """
-        Regression test: cancelling a stale subscription used to happen twice
-        (once inline, once in the shared cleanup helper) — cancelling an
-        already-cancelled Stripe subscription errors on the second call.
-        """
         order = _recurring_order(stripe_subscription_id='sub_stale')
         stale = mocker.Mock(
             status='incomplete',

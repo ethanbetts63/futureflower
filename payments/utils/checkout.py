@@ -7,20 +7,12 @@ from django.core.cache import cache
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-# Stripe rejects charges below 50 cents.
 STRIPE_MINIMUM_CHARGE = Decimal('0.50')
 
-# Cached indefinitely: Products are permanent Stripe objects, and creating one
-# per checkout left thousands of identical duplicates in the account. If the
-# cache is ever cleared, a new Product is created once and re-cached — a rare
-# extra duplicate is an acceptable trade-off for not calling the Search API.
 _SUBSCRIPTION_PRODUCT_CACHE_KEY = 'stripe_subscription_product_id'
 
 
 def ensure_stripe_customer(user):
-    """
-    Makes sure the user has a Stripe Customer ID, creating one if needed.
-    """
     if not user.stripe_customer_id:
         customer = stripe.Customer.create(
             email=user.email,
@@ -32,7 +24,6 @@ def ensure_stripe_customer(user):
 
 
 def _subscription_product_id():
-    """The single Stripe Product used for every recurring order's price."""
     product_id = cache.get(_SUBSCRIPTION_PRODUCT_CACHE_KEY)
     if product_id:
         return product_id
@@ -43,9 +34,6 @@ def _subscription_product_id():
 
 
 def validate_order_ready_for_payment(order):
-    """
-    Return why the order cannot be paid for yet, or None if it can.
-    """
     if order.total_amount is None or order.total_amount <= 0:
         return 'Order amount must be greater than zero.'
     if order.billing_mode == 'recurring' and not all([order.start_date, order.frequency]):
