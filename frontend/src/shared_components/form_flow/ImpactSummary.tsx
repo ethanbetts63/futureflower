@@ -1,12 +1,12 @@
 ﻿
 import Link from 'next/link';
 import Image from 'next/image';
-import { getImpactTier, CUSTOM_IMPACT_IMAGE } from '@/lib/pricingConstants';
+import { getImpactTier, resolveImpactDisplay } from '@/lib/pricingConstants';
 import type { ImpactSummaryProps } from '@/types/ImpactSummaryProps';
 
 const ImpactSummary = ({ price, editUrl }: ImpactSummaryProps) => {
   const tier = getImpactTier(price);
-  const image = tier?.image ?? CUSTOM_IMPACT_IMAGE;
+  const { name, image } = resolveImpactDisplay(price);
 
   return (
     <div className="py-6 border-b border-black/5 last:border-0">
@@ -27,7 +27,7 @@ const ImpactSummary = ({ price, editUrl }: ImpactSummaryProps) => {
         <div className="relative flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden shadow-sm border border-black/5">
           <Image
             src={image}
-            alt={tier ? tier.name : 'Custom Selection'}
+            alt={name}
             fill
             sizes="96px"
             className="object-cover"
@@ -35,7 +35,7 @@ const ImpactSummary = ({ price, editUrl }: ImpactSummaryProps) => {
         </div>
         <div>
           <h4 className="text-xl font-bold text-black font-playfair-display">
-            {tier ? tier.name : 'Custom Selection'}
+            {name}
           </h4>
           <p className="mt-1 text-sm text-black/60 leading-relaxed max-w-sm">
             {tier

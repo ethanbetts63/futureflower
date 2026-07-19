@@ -13,6 +13,9 @@ const CheckoutForm = ({ planId, source }: CheckoutFormProps) => {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  // The PaymentElement streams in from Stripe; until it reports ready the Pay
+  // button would sit alone above empty space, so it stays hidden.
+  const [isElementReady, setIsElementReady] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -55,18 +58,20 @@ const CheckoutForm = ({ planId, source }: CheckoutFormProps) => {
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
-      <PaymentElement id="payment-element" />
+      <PaymentElement id="payment-element" onReady={() => setIsElementReady(true)} />
 
-      <Button disabled={isProcessing || !stripe || !elements} className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white">
-        {isProcessing ? (
-          <>
-            <Spinner className="mr-2 h-4 w-4 text-current" />
-            Processing...
-          </>
-        ) : (
-          'Pay now'
-        )}
-      </Button>
+      {isElementReady && (
+        <Button disabled={isProcessing || !stripe || !elements} className="w-full mt-6 bg-black hover:bg-black/85 text-white">
+          {isProcessing ? (
+            <>
+              <Spinner className="mr-2 h-4 w-4 text-current" />
+              Processing...
+            </>
+          ) : (
+            'Pay now'
+          )}
+        </Button>
+      )}
 
       {/* Show any error or success messages */}
       {errorMessage && <div id="payment-message" className="text-red-500 mt-2">{errorMessage}</div>}

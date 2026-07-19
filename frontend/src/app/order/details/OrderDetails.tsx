@@ -40,8 +40,10 @@ const OrderDetails = ({ plan, onRefreshPlan }: OrderDetailsProps) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [makeRecurring, setMakeRecurring] = useState(false);
-  const [recurringFrequency, setRecurringFrequency] = useState('monthly');
+  // A return visit (e.g. a failed payment attempt) can load an order that is
+  // already recurring — start the toggle in sync with it, not always off.
+  const [makeRecurring, setMakeRecurring] = useState(() => plan.billing_mode === 'recurring');
+  const [recurringFrequency, setRecurringFrequency] = useState(() => plan.frequency || 'monthly');
 
   // Contact details were claimed at the recipient step; the server rejects
   // checkout if that never happened.

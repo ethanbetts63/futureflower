@@ -10,20 +10,9 @@ import { Input } from '@/shared_components/ui/input';
 import { Textarea } from '@/shared_components/ui/textarea';
 import { claimGuestCheckout, getGuestOrder, updateGuestOrder } from '@/api/guestCheckout';
 import { errorMessage } from '@/lib/errors';
+import { EMPTY_RECIPIENT, recipientFromPlan } from '@/lib/recipientData';
 import type { Order } from '@/types/Order';
 import type { RecipientData } from '@/types/RecipientData';
-
-const EMPTY_RECIPIENT: RecipientData = {
-    recipient_first_name: '',
-    recipient_last_name: '',
-    recipient_street_address: '',
-    recipient_suburb: '',
-    recipient_city: '',
-    recipient_state: '',
-    recipient_postcode: '',
-    recipient_country: '',
-    delivery_notes: '',
-};
 
 /**
  * Step 2 of the guest flow: who is ordering and who receives the flowers.
@@ -55,17 +44,7 @@ const GuestRecipientEditor = () => {
                 setFirstName(customerFirst);
                 setLastName(customerLast);
                 setEmail(plan.customer_email || '');
-                setRecipient({
-                    recipient_first_name: plan.recipient_first_name || '',
-                    recipient_last_name: plan.recipient_last_name || '',
-                    recipient_street_address: plan.recipient_street_address || '',
-                    recipient_suburb: plan.recipient_suburb || '',
-                    recipient_city: plan.recipient_city || '',
-                    recipient_state: plan.recipient_state || '',
-                    recipient_postcode: plan.recipient_postcode || '',
-                    recipient_country: plan.recipient_country || '',
-                    delivery_notes: plan.delivery_notes || '',
-                });
+                setRecipient(recipientFromPlan(plan));
                 // A previous visit that delivered to the customer themselves.
                 if (customerFirst && plan.recipient_first_name === customerFirst && plan.recipient_last_name === customerLast) {
                     setDeliverToSelf(true);

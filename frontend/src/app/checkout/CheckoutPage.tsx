@@ -71,7 +71,9 @@ const CheckoutPage = () => {
     }
 
     const appearance: Appearance = { theme: 'stripe' };
-    const options: StripeElementsOptions = { clientSecret, appearance };
+    // loader: 'always' shows Stripe's skeleton UI while the payment form
+    // loads, instead of empty space under an orphaned Pay button.
+    const options: StripeElementsOptions = { clientSecret, appearance, loader: 'always' };
 
     const planIsSubscription = plan.billing_mode === 'recurring';
     const planName = planIsSubscription ? "Flower Subscription" : "Single Delivery";

@@ -1,6 +1,5 @@
-import Image from 'next/image';
 import { Calendar, MapPin, RefreshCw } from 'lucide-react';
-import { getImpactTier, CUSTOM_IMPACT_IMAGE } from '@/lib/pricingConstants';
+import ImpactTile from '@/shared_components/form_flow/ImpactTile';
 import { formatDate, capitalize } from '@/lib/utils';
 import type { Order } from '@/types/Order';
 
@@ -8,7 +7,6 @@ import type { Order } from '@/types/Order';
 // chosen, when it arrives, and who receives it.
 const OrderReviewGrid = ({ plan }: { plan: Order }) => {
   const isSubscription = plan.billing_mode === 'recurring';
-  const tier = getImpactTier(Number(plan.budget));
 
   const fullAddress = [
     plan.recipient_street_address,
@@ -22,23 +20,7 @@ const OrderReviewGrid = ({ plan }: { plan: Order }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {/* Impact Selection */}
-      <div className="flex items-center gap-4">
-        <div className="relative w-16 h-16 rounded-xl overflow-hidden shadow-sm border border-black/5 bg-[var(--color4)] flex-shrink-0">
-          <Image
-            src={tier?.image ?? CUSTOM_IMPACT_IMAGE}
-            alt={tier ? tier.name : 'Custom Selection'}
-            fill
-            sizes="64px"
-            className="object-cover"
-          />
-        </div>
-        <div>
-          <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Selection</span>
-          <h4 className="text-lg font-bold text-black font-playfair-display">
-            {tier ? tier.name : 'Custom Selection'}
-          </h4>
-        </div>
-      </div>
+      <ImpactTile budget={Number(plan.budget)} eyebrow="Selection" />
 
       {/* Schedule */}
       <div className="flex items-start gap-3">

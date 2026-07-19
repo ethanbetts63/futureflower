@@ -3,11 +3,18 @@ from decimal import Decimal
 
 import stripe
 from django.conf import settings
+from django.core.cache import cache
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # Stripe rejects charges below 50 cents.
 STRIPE_MINIMUM_CHARGE = Decimal('0.50')
+
+# Cached indefinitely: Products are permanent Stripe objects, and creating one
+# per checkout left thousands of identical duplicates in the account. If the
+# cache is ever cleared, a new Product is created once and re-cached — a rare
+# extra duplicate is an acceptable trade-off for not calling the Search API.
+_SUBSCRIPTION_PRODUCT_CACHE_KEY = 'stripe_subscription_product_id'
 
 
 def ensure_stripe_customer(user):
@@ -22,6 +29,17 @@ def ensure_stripe_customer(user):
         )
         user.stripe_customer_id = customer.id
         user.save()
+
+
+def _subscription_product_id():
+    """The single Stripe Product used for every recurring order's price."""
+    product_id = cache.get(_SUBSCRIPTION_PRODUCT_CACHE_KEY)
+    if product_id:
+        return product_id
+
+    product = stripe.Product.create(name='FutureFlower Subscription')
+    cache.set(_SUBSCRIPTION_PRODUCT_CACHE_KEY, product.id, timeout=None)
+    return product.id
 
 
 def validate_order_ready_for_payment(order):
@@ -82,7 +100,7 @@ def _start_one_time_payment(order):
 
     # A draft that briefly became recurring may have left an incomplete
     # subscription behind; cancel it so only one charge path exists.
-    _cancel_incomplete_subscription(order)
+    _clear_stale_subscription(order)
 
     reused_secret = reuse_or_cancel_pending_payment_intent(order, amount_in_cents)
     if reused_secret:
@@ -112,10 +130,11 @@ def _start_subscription_payment(order):
         delivery, so the recurring price bills on the charge-ahead schedule;
       - a one-off invoice item for the first delivery, which Stripe invoices
         immediately despite the trial — that first invoice's PaymentIntent is
-        what the browser confirms, so money is taken at signup;
-      - the recurring price built from the *undiscounted* subtotal, with any
-        discount applied as a duration='once' coupon, so a code discounts the
-        first delivery only and Stripe itself retires it afterwards.
+        what the browser confirms, so money is taken at signup. Any discount
+        is subtracted directly from this one-off item's amount, so it never
+        touches the recurring price and needs no Stripe coupon;
+      - the recurring price built from the *undiscounted* subtotal, so every
+        later delivery bills full price.
     """
     from payments.utils.subscription_dates import (
         calculate_second_delivery_date,
@@ -133,6 +152,9 @@ def _start_subscription_payment(order):
     # Recurring deliveries are always full price: budget + delivery fee,
     # discount excluded.
     recurring_cents = int(Decimal(order.subtotal) * 100)
+    # The first delivery is what the customer actually owes right now
+    # (discount included), clamped to Stripe's minimum.
+    first_invoice_cents = _first_charge_cents(order)
 
     second_delivery = calculate_second_delivery_date(order.start_date, order.frequency)
     trial_end_date = second_delivery - timedelta(days=settings.SUBSCRIPTION_CHARGE_LEAD_DAYS)
@@ -140,46 +162,31 @@ def _start_subscription_payment(order):
     if trial_end_ts <= datetime.now().timestamp():
         trial_end_ts = int(datetime.now().timestamp() + 60)
 
-    discounts = []
-    discount_amount = Decimal(order.discount_amount or 0)
-    if order.discount_code and discount_amount > 0:
-        # Clamp so the first invoice stays at or above Stripe's minimum charge.
-        max_off = Decimal(order.subtotal) - STRIPE_MINIMUM_CHARGE
-        amount_off_cents = int(min(discount_amount, max_off) * 100)
-        if amount_off_cents > 0:
-            coupon = stripe.Coupon.create(
-                duration='once',
-                amount_off=amount_off_cents,
-                currency=order.currency.lower(),
-                name=order.discount_code.code,
-            )
-            discounts = [{'coupon': coupon.id}]
-
     metadata = {'order_id': str(order.id), 'billing_mode': order.billing_mode}
     if order.discount_code:
         metadata['discount_code'] = order.discount_code.code
 
-    product = stripe.Product.create(name='FutureFlower Subscription')
+    product_id = _subscription_product_id()
     subscription = stripe.Subscription.create(
         customer=order.user.stripe_customer_id,
         items=[{
             'price_data': {
                 'currency': order.currency.lower(),
                 'unit_amount': recurring_cents,
-                'product': product.id,
+                'product': product_id,
                 'recurring': get_recurring_options(order.frequency),
             },
         }],
-        # The first delivery, invoiced and charged right now.
+        # The first delivery, invoiced and charged right now, at whatever the
+        # customer actually owes (discount already applied).
         add_invoice_items=[{
             'price_data': {
                 'currency': order.currency.lower(),
-                'unit_amount': recurring_cents,
-                'product': product.id,
+                'unit_amount': first_invoice_cents,
+                'product': product_id,
             },
         }],
         trial_end=trial_end_ts,
-        discounts=discounts,
         payment_behavior='default_incomplete',
         payment_settings={'save_default_payment_method': 'on_subscription'},
         expand=['latest_invoice.confirmation_secret'],
@@ -193,7 +200,7 @@ def _start_subscription_payment(order):
     # The client secret is "<pi id>_secret_<nonce>"; the webhook matches the
     # Payment record by the PaymentIntent id embedded in it.
     payment_intent_id = client_secret.split('_secret')[0]
-    _record_pending_payment(order, payment_intent_id, _first_charge_cents(order))
+    _record_pending_payment(order, payment_intent_id, first_invoice_cents)
     return client_secret
 
 
@@ -201,12 +208,11 @@ def _reuse_incomplete_subscription(order):
     """
     If the order already has an incomplete subscription whose first invoice
     matches the current total, reuse its client secret. Anything stale is
-    cancelled and cleared so a fresh subscription can be created.
+    cancelled and cleared (by _clear_stale_subscription, the single place
+    that issues the cancel call) so a fresh subscription can be created.
     """
     if not order.stripe_subscription_id:
         return None
-
-    from payments.models import Payment
 
     expected_cents = _first_charge_cents(order)
     try:
@@ -222,30 +228,33 @@ def _reuse_incomplete_subscription(order):
             and getattr(invoice, 'confirmation_secret', None)
         ):
             return invoice.confirmation_secret.client_secret
-        if subscription.status in ('incomplete', 'trialing', 'active'):
-            stripe.Subscription.cancel(order.stripe_subscription_id)
     except stripe.error.StripeError:
         pass
 
-    order.stripe_subscription_id = None
-    order.save(update_fields=['stripe_subscription_id'])
-    Payment.objects.filter(order=order, status='pending').delete()
+    _clear_stale_subscription(order)
     return None
 
 
 def _cancel_incomplete_subscription(order):
-    """Cancel and clear a leftover incomplete subscription on the order."""
+    """Cancel and clear a leftover incomplete subscription on the order, if
+    the order is still a draft (a paid order's subscription must survive)."""
     if not order.stripe_subscription_id or order.status != 'pending_payment':
         return
+    _clear_stale_subscription(order)
 
+
+def _clear_stale_subscription(order):
+    """Cancel the order's Stripe Subscription (if any) and clear local state
+    referencing it, so a fresh subscription/PaymentIntent can be created."""
     from payments.models import Payment
 
-    try:
-        stripe.Subscription.cancel(order.stripe_subscription_id)
-    except stripe.error.StripeError:
-        pass
-    order.stripe_subscription_id = None
-    order.save(update_fields=['stripe_subscription_id'])
+    if order.stripe_subscription_id:
+        try:
+            stripe.Subscription.cancel(order.stripe_subscription_id)
+        except stripe.error.StripeError:
+            pass
+        order.stripe_subscription_id = None
+        order.save(update_fields=['stripe_subscription_id'])
     Payment.objects.filter(order=order, status='pending').delete()
 
 
@@ -256,7 +265,9 @@ def reuse_or_cancel_pending_payment_intent(order, amount_in_cents):
     Otherwise the stale PaymentIntent/Payment record is cleaned up so a new
     one can be created.
 
-    Pass amount_in_cents=None to force cleanup without reuse.
+    Pass amount_in_cents=None to force cleanup without reuse — the existing
+    PaymentIntent is cancelled outright, without a wasted retrieve to compare
+    an amount that can never match.
 
     Returns a client secret to reuse, or None if the caller should create a
     new PaymentIntent.
@@ -267,9 +278,17 @@ def reuse_or_cancel_pending_payment_intent(order, amount_in_cents):
     if not existing_payment or not existing_payment.stripe_payment_intent_id:
         return None
 
+    if amount_in_cents is None:
+        try:
+            stripe.PaymentIntent.cancel(existing_payment.stripe_payment_intent_id)
+        except stripe.error.StripeError:
+            pass
+        existing_payment.delete()
+        return None
+
     try:
         payment_intent = stripe.PaymentIntent.retrieve(existing_payment.stripe_payment_intent_id)
-        if amount_in_cents is not None and payment_intent.amount == amount_in_cents:
+        if payment_intent.amount == amount_in_cents:
             return payment_intent.client_secret
         stripe.PaymentIntent.cancel(existing_payment.stripe_payment_intent_id)
         existing_payment.delete()

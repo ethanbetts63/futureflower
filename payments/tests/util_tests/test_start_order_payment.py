@@ -20,19 +20,21 @@ def stripe_intent(mocker):
 
 
 @pytest.fixture
-def stripe_subscription(mocker):
-    """Stand in for the native subscription flow: Product, Coupon, Subscription."""
-    mocker.patch.object(stripe.Product, 'create', return_value=mocker.Mock(id='prod_test_123'))
-    coupon = mocker.patch.object(stripe.Coupon, 'create', return_value=mocker.Mock(id='coupon_test_123'))
+def stripe_product(mocker):
+    """Stand in for the (cached, created-once) subscription Product."""
+    return mocker.patch.object(stripe.Product, 'create', return_value=mocker.Mock(id='prod_test_123'))
+
+
+@pytest.fixture
+def stripe_subscription(stripe_product, mocker):
+    """Stand in for the native subscription flow: Product, Subscription."""
     subscription = mocker.Mock(
         id='sub_test_123',
         latest_invoice=mocker.Mock(
             confirmation_secret=mocker.Mock(client_secret='pi_sub_123_secret_xyz'),
         ),
     )
-    create = mocker.patch.object(stripe.Subscription, 'create', return_value=subscription)
-    create.coupon_create = coupon
-    return create
+    return mocker.patch.object(stripe.Subscription, 'create', return_value=subscription)
 
 
 @pytest.fixture(autouse=True)
@@ -41,6 +43,22 @@ def no_stripe_customer_call(mocker):
         'payments.utils.checkout.ensure_stripe_customer',
         side_effect=lambda user: setattr(user, 'stripe_customer_id', 'cus_test_123'),
     )
+
+
+@pytest.fixture(autouse=True)
+def fake_product_cache(mocker):
+    """
+    The subscription Product id is cached indefinitely via Django's cache
+    framework, which is file-based and shared with the real dev environment.
+    Swap in an in-memory fake so tests neither pollute nor read that file, and
+    so each test starts with an empty cache regardless of run order.
+    """
+    store = {}
+    fake_cache = mocker.Mock()
+    fake_cache.get.side_effect = store.get
+    fake_cache.set.side_effect = lambda key, value, timeout=None: store.__setitem__(key, value)
+    mocker.patch('payments.utils.checkout.cache', fake_cache)
+    return fake_cache
 
 
 @pytest.mark.django_db
@@ -169,10 +187,27 @@ class TestStartSubscriptionPayment:
 
         kwargs = stripe_subscription.call_args.kwargs
         # One-off item for the first delivery, charged now.
-        assert kwargs['add_invoice_items'][0]['price_data']['unit_amount'] == int(order.subtotal * 100)
+        assert kwargs['add_invoice_items'][0]['price_data']['unit_amount'] == int(order.total_amount * 100)
         # Recurring billing starts only at trial end.
         assert kwargs['trial_end'] > 0
         assert kwargs['payment_behavior'] == 'default_incomplete'
+
+    def test_the_subscription_product_is_created_only_once(self, stripe_subscription, stripe_product, mocker):
+        """Products are permanent Stripe objects; creating one per checkout
+        left thousands of duplicates in the account."""
+        stripe_subscription.side_effect = [
+            mocker.Mock(
+                id='sub_test_1',
+                latest_invoice=mocker.Mock(confirmation_secret=mocker.Mock(client_secret='pi_sub_1_secret_a')),
+            ),
+            mocker.Mock(
+                id='sub_test_2',
+                latest_invoice=mocker.Mock(confirmation_secret=mocker.Mock(client_secret='pi_sub_2_secret_b')),
+            ),
+        ]
+        start_order_payment(_recurring_order())
+        start_order_payment(_recurring_order())
+        stripe_product.assert_called_once()
 
     def test_the_confirmed_card_is_kept_for_future_invoices(self, stripe_subscription):
         order = _recurring_order()
@@ -190,20 +225,19 @@ class TestStartSubscriptionPayment:
         assert recurring['unit_amount'] == int(order.subtotal * 100)
         assert recurring['unit_amount'] > int(order.total_amount * 100)
 
-    def test_discount_becomes_a_once_coupon(self, stripe_subscription):
-        order = _order_with_discount('5.00')
+    def test_discount_reduces_the_first_invoice_directly(self, stripe_subscription):
+        """
+        No Stripe coupon is needed: the first invoice is a one-off item whose
+        amount is already fully under our control, so the discount is simply
+        subtracted from it — same effect, one fewer Stripe object.
+        """
+        order = _order_with_discount('5.00', budget=Decimal('80.00'))
         start_order_payment(order)
 
-        coupon_kwargs = stripe_subscription.coupon_create.call_args.kwargs
-        assert coupon_kwargs['duration'] == 'once'
-        assert coupon_kwargs['amount_off'] == 500
-        assert stripe_subscription.call_args.kwargs['discounts'] == [{'coupon': 'coupon_test_123'}]
-
-    def test_no_discount_means_no_coupon(self, stripe_subscription):
-        order = _recurring_order()
-        start_order_payment(order)
-        stripe_subscription.coupon_create.assert_not_called()
-        assert stripe_subscription.call_args.kwargs['discounts'] == []
+        kwargs = stripe_subscription.call_args.kwargs
+        first_invoice = kwargs['add_invoice_items'][0]['price_data']['unit_amount']
+        assert first_invoice == int(order.total_amount * 100)
+        assert first_invoice < int(order.subtotal * 100)
 
     def test_records_a_payment_matching_the_first_invoice(self, stripe_subscription):
         order = _order_with_discount('5.00', budget=Decimal('80.00'))
@@ -230,3 +264,23 @@ class TestStartSubscriptionPayment:
 
         assert start_order_payment(order) == 'pi_existing_secret_abc'
         stripe_subscription.assert_not_called()
+
+    def test_a_stale_subscription_of_the_wrong_amount_is_cancelled_exactly_once(self, stripe_subscription, mocker):
+        """
+        Regression test: cancelling a stale subscription used to happen twice
+        (once inline, once in the shared cleanup helper) — cancelling an
+        already-cancelled Stripe subscription errors on the second call.
+        """
+        order = _recurring_order(stripe_subscription_id='sub_stale')
+        stale = mocker.Mock(
+            status='incomplete',
+            latest_invoice=mocker.Mock(amount_due=1, confirmation_secret=mocker.Mock(client_secret='pi_stale_secret')),
+        )
+        mocker.patch.object(stripe.Subscription, 'retrieve', return_value=stale)
+        cancel = mocker.patch.object(stripe.Subscription, 'cancel')
+
+        start_order_payment(order)
+
+        cancel.assert_called_once_with('sub_stale')
+        order.refresh_from_db()
+        assert order.stripe_subscription_id == stripe_subscription.return_value.id

@@ -4,21 +4,9 @@ import PlanEditorShell from '@/shared_components/form_flow/PlanEditorShell';
 import { Textarea } from '@/shared_components/ui/textarea';
 import { Label } from '@/shared_components/ui/label';
 import { usePlanEditor } from '@/hooks/usePlanEditor';
-import type { Order } from '@/types/Order';
+import { EMPTY_RECIPIENT, recipientFromPlan } from '@/lib/recipientData';
 import type { RecipientData } from '@/types/RecipientData';
 import type { OrderRecipientEditorProps } from '@/types/OrderRecipientEditorProps';
-
-const EMPTY: RecipientData = {
-    recipient_first_name: '',
-    recipient_last_name: '',
-    recipient_street_address: '',
-    recipient_suburb: '',
-    recipient_city: '',
-    recipient_state: '',
-    recipient_postcode: '',
-    recipient_country: '',
-    delivery_notes: '',
-};
 
 const OrderRecipientEditor = ({
     mode,
@@ -35,18 +23,8 @@ const OrderRecipientEditor = ({
         updatePlan,
         onSaveNavigateTo,
         backPath,
-        initialData: EMPTY,
-        fromPlan: (plan: Order) => ({
-            recipient_first_name: plan.recipient_first_name || '',
-            recipient_last_name: plan.recipient_last_name || '',
-            recipient_street_address: plan.recipient_street_address || '',
-            recipient_suburb: plan.recipient_suburb || '',
-            recipient_city: plan.recipient_city || '',
-            recipient_state: plan.recipient_state || '',
-            recipient_postcode: plan.recipient_postcode || '',
-            recipient_country: plan.recipient_country || '',
-            delivery_notes: plan.delivery_notes || '',
-        }),
+        initialData: EMPTY_RECIPIENT,
+        fromPlan: recipientFromPlan,
         toPayload: (data) => ({ ...data }),
         validate: (data) =>
             !data.recipient_first_name || !data.recipient_street_address || !data.recipient_city

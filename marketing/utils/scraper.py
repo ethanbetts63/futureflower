@@ -90,7 +90,7 @@ def search_itunes(term):
     try:
         resp = requests.get(
             "https://itunes.apple.com/search",
-            params={"media": "podcast", "term": term, "limit": 200},
+            params={"media": "podcast", "term": term, "limit": 200, "country": "AU"},
             timeout=15,
         )
         resp.raise_for_status()
@@ -113,7 +113,7 @@ def is_recent(date_str, days=30):
 
 def passes_itunes_filters(result):
     return (
-        result.get("trackCount", 0) <= 50
+        result.get("trackCount", 0) <= 100
         and is_recent(result.get("releaseDate", ""))
         and bool(result.get("feedUrl"))
     )

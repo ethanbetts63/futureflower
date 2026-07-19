@@ -39,3 +39,12 @@ export const CUSTOM_IMPACT_IMAGE =
 export const getImpactTier = (price: number): ImpactTier | undefined => {
   return IMPACT_TIERS.find((t) => t.price === price);
 };
+
+/** The name/image to show for a budget, whether it matches a preset tier or is custom. */
+export const resolveImpactDisplay = (price: number) => {
+  const tier = getImpactTier(price);
+  return {
+    name: tier ? tier.name : 'Custom Selection',
+    image: tier?.image ?? CUSTOM_IMPACT_IMAGE,
+  };
+};
