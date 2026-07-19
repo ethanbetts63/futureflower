@@ -23,6 +23,20 @@ User = get_user_model()
 CHECKOUT_COOKIE = 'guest_checkout_token'
 
 
+def _discount_already_used_by_email(code, email):
+    """
+    Whether this discount code has already been redeemed by this email.
+    Guests get a fresh placeholder user per order, so the email — set at claim
+    time — is the only identity that persists across checkouts. (Card
+    fingerprint tracking would be stronger; deliberately deferred.)
+    """
+    from partners.models import DiscountUsage
+    return DiscountUsage.objects.filter(
+        discount_code__code__iexact=code,
+        user__email__iexact=email,
+    ).exists()
+
+
 class GuestCheckoutView(APIView):
     """Guest checkout API. The opaque cookie authorizes exactly one draft order."""
 
@@ -153,6 +167,9 @@ class GuestCheckoutView(APIView):
     def discount(self, request, session):
         serializer = ValidateDiscountCodeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        code = serializer.validated_data.get('code', '')
+        if code and session.customer_email and _discount_already_used_by_email(code, session.customer_email):
+            return Response({'code': ['This discount code has already been used.']}, status=400)
         return Response(serializer.apply_discount(session.order))
 
     def accept_terms(self, session):
@@ -166,6 +183,21 @@ class GuestCheckoutView(APIView):
         order = session.order
         if not session.customer_email:
             return Response({'detail': 'Enter your contact details before payment.'}, status=400)
+
+        # The apply-discount check can be raced or skipped (the code may be
+        # applied before the email is known), so re-check here — the last gate
+        # before money moves. Enforced per email until per-card tracking lands.
+        if order.discount_code and _discount_already_used_by_email(
+            order.discount_code.code, session.customer_email
+        ):
+            order.discount_code = None
+            order.discount_amount = 0
+            order.save()
+            return Response(
+                {'detail': 'This discount code has already been used with this email. '
+                           'It has been removed — please review your total and try again.'},
+                status=400,
+            )
 
         problem = validate_order_ready_for_payment(order)
         if problem:

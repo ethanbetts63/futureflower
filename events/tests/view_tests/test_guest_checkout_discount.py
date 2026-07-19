@@ -74,12 +74,11 @@ class TestGuestCheckoutDiscount:
         assert order.discount_code is None
         assert order.discount_amount == 0
 
-    def test_a_code_may_be_reused_by_a_returning_customer(self):
+    def test_a_code_may_be_applied_before_any_email_is_known(self):
         """
-        Deliberate, for now: the previous 'new customers only' rule keyed off the
-        user, and every guest checkout mints a fresh placeholder user, so it never
-        fired for a guest anyway. DiscountUsage records each redemption for when a
-        real rule is written.
+        Anonymous application is allowed: the once-per-email rule can only be
+        checked once claim() has recorded who is paying, so apply-time lets it
+        through and the checkout action is the authoritative gate.
         """
         code = DiscountCodeFactory(code='SAVE5', discount_amount=Decimal('5.00'))
 
@@ -138,3 +137,78 @@ class TestGuestCheckoutDiscount:
         assert response.status_code == 400
         order.refresh_from_db()
         assert order.discount_code is None
+
+
+CLAIM_URL = '/api/events/guest-checkout/claim/'
+CHECKOUT_URL = '/api/events/guest-checkout/checkout/'
+
+
+def _claim(client, email):
+    response = client.post(
+        CLAIM_URL,
+        {'email': email, 'first_name': 'Test', 'last_name': 'Customer'},
+        format='json',
+    )
+    assert response.status_code == 200, response.data
+
+
+def _record_usage(code, email):
+    """A past redemption of this code by this email."""
+    from partners.models import DiscountUsage
+    from payments.tests.factories.payment_factory import PaymentFactory
+    from users.tests.factories.user_factory import UserFactory
+
+    user = UserFactory(email=email)
+    DiscountUsage.objects.create(
+        discount_code=code, user=user, payment=PaymentFactory(user=user)
+    )
+
+
+@pytest.mark.django_db
+class TestDiscountOncePerEmail:
+    """A discount code can be redeemed once per email address."""
+
+    def test_a_used_code_is_rejected_at_apply_time_once_the_email_is_known(self):
+        client = APIClient()
+        start_order(client)
+        code = DiscountCodeFactory(code='SAVE5', discount_amount=Decimal('5.00'))
+        _record_usage(code, 'repeat@example.com')
+        _claim(client, 'repeat@example.com')
+
+        response = client.post(DISCOUNT_URL, {'code': 'SAVE5'}, format='json')
+
+        assert response.status_code == 400
+
+    def test_checkout_strips_a_code_already_used_by_this_email(self):
+        """The code can be applied before the email is known; checkout is the
+        authoritative gate and must catch it just before money moves."""
+        client = APIClient()
+        order = start_order(client)
+        code = DiscountCodeFactory(code='SAVE5', discount_amount=Decimal('5.00'))
+        client.post(DISCOUNT_URL, {'code': 'SAVE5'}, format='json')
+        _record_usage(code, 'repeat@example.com')
+        _claim(client, 'REPEAT@EXAMPLE.COM')  # case must not matter
+
+        response = client.post(CHECKOUT_URL, {}, format='json')
+
+        assert response.status_code == 400
+        order.refresh_from_db()
+        assert order.discount_code is None
+        assert order.discount_amount == 0
+
+    def test_a_fresh_email_may_use_the_code(self, mocker):
+        mocker.patch(
+            'events.views.guest_checkout_view.start_order_payment',
+            return_value='pi_test_secret',
+        )
+        client = APIClient()
+        start_order(client)
+        code = DiscountCodeFactory(code='SAVE5', discount_amount=Decimal('5.00'))
+        _record_usage(code, 'someone-else@example.com')
+        client.post(DISCOUNT_URL, {'code': 'SAVE5'}, format='json')
+        _claim(client, 'first-timer@example.com')
+
+        response = client.post(CHECKOUT_URL, {}, format='json')
+
+        assert response.status_code == 200, response.data
+        assert response.data['clientSecret'] == 'pi_test_secret'

@@ -31,6 +31,11 @@ export const IMPACT_TIERS: ImpactTier[] = [
 
 export const TIER_PRICES = new Set(IMPACT_TIERS.map((t) => t.price));
 
+// A custom budget matches no preset tier, so it has no image of its own. Reuse
+// the Grand Gesture image as its stand-in wherever the selection is shown.
+export const CUSTOM_IMPACT_IMAGE =
+  IMPACT_TIERS.find((t) => t.name === 'The Grand Gesture')?.image ?? IMPACT_TIERS[IMPACT_TIERS.length - 1].image;
+
 export const getImpactTier = (price: number): ImpactTier | undefined => {
   return IMPACT_TIERS.find((t) => t.price === price);
 };

@@ -19,6 +19,22 @@ def stripe_intent(mocker):
     return mocker.patch.object(stripe.PaymentIntent, 'create', return_value=intent)
 
 
+@pytest.fixture
+def stripe_subscription(mocker):
+    """Stand in for the native subscription flow: Product, Coupon, Subscription."""
+    mocker.patch.object(stripe.Product, 'create', return_value=mocker.Mock(id='prod_test_123'))
+    coupon = mocker.patch.object(stripe.Coupon, 'create', return_value=mocker.Mock(id='coupon_test_123'))
+    subscription = mocker.Mock(
+        id='sub_test_123',
+        latest_invoice=mocker.Mock(
+            confirmation_secret=mocker.Mock(client_secret='pi_sub_123_secret_xyz'),
+        ),
+    )
+    create = mocker.patch.object(stripe.Subscription, 'create', return_value=subscription)
+    create.coupon_create = coupon
+    return create
+
+
 @pytest.fixture(autouse=True)
 def no_stripe_customer_call(mocker):
     mocker.patch(
@@ -74,11 +90,6 @@ class TestStartOrderPayment:
         start_order_payment(order)
         assert 'setup_future_usage' not in stripe_intent.call_args.kwargs
 
-    def test_recurring_orders_save_the_card_for_later_deliveries(self, stripe_intent):
-        order = OrderFactory(billing_mode='recurring', budget=Decimal('80.00'), frequency='monthly')
-        start_order_payment(order)
-        assert stripe_intent.call_args.kwargs['setup_future_usage'] == 'off_session'
-
     def test_the_order_is_identifiable_from_stripe_metadata(self, stripe_intent):
         order = OrderFactory(budget=Decimal('80.00'))
         start_order_payment(order)
@@ -110,3 +121,112 @@ class TestStartOrderPayment:
         assert start_order_payment(order) == 'pi_existing_secret'
         stripe_intent.assert_not_called()
         assert not Payment.objects.filter(order=order).exists()
+
+
+def _recurring_order(**overrides):
+    from datetime import date, timedelta
+
+    defaults = dict(
+        billing_mode='recurring',
+        budget=Decimal('80.00'),
+        frequency='monthly',
+        start_date=date.today() + timedelta(days=30),
+    )
+    defaults.update(overrides)
+    return OrderFactory(**defaults)
+
+
+def _order_with_discount(amount='5.00', **overrides):
+    from partners.models import DiscountCode
+
+    order = _recurring_order(**overrides)
+    order.discount_code = DiscountCode.objects.create(
+        code='TESTCODE', discount_amount=Decimal(amount)
+    )
+    order.discount_amount = Decimal(amount)
+    order.save()
+    return order
+
+
+@pytest.mark.django_db
+class TestStartSubscriptionPayment:
+    """Recurring orders create a real Stripe Subscription at checkout."""
+
+    def test_returns_the_first_invoice_client_secret(self, stripe_subscription, stripe_intent):
+        order = _recurring_order()
+        assert start_order_payment(order) == 'pi_sub_123_secret_xyz'
+        stripe_intent.assert_not_called()
+
+    def test_subscription_id_is_saved_on_the_order(self, stripe_subscription):
+        order = _recurring_order()
+        start_order_payment(order)
+        order.refresh_from_db()
+        assert order.stripe_subscription_id == 'sub_test_123'
+
+    def test_first_delivery_is_invoiced_immediately_despite_the_trial(self, stripe_subscription):
+        order = _recurring_order()
+        start_order_payment(order)
+
+        kwargs = stripe_subscription.call_args.kwargs
+        # One-off item for the first delivery, charged now.
+        assert kwargs['add_invoice_items'][0]['price_data']['unit_amount'] == int(order.subtotal * 100)
+        # Recurring billing starts only at trial end.
+        assert kwargs['trial_end'] > 0
+        assert kwargs['payment_behavior'] == 'default_incomplete'
+
+    def test_the_confirmed_card_is_kept_for_future_invoices(self, stripe_subscription):
+        order = _recurring_order()
+        start_order_payment(order)
+        kwargs = stripe_subscription.call_args.kwargs
+        assert kwargs['payment_settings'] == {'save_default_payment_method': 'on_subscription'}
+
+    def test_recurring_price_is_the_undiscounted_subtotal(self, stripe_subscription):
+        """A discount must not bake itself into every future delivery's price."""
+        order = _order_with_discount('5.00', budget=Decimal('80.00'))
+        start_order_payment(order)
+
+        kwargs = stripe_subscription.call_args.kwargs
+        recurring = kwargs['items'][0]['price_data']
+        assert recurring['unit_amount'] == int(order.subtotal * 100)
+        assert recurring['unit_amount'] > int(order.total_amount * 100)
+
+    def test_discount_becomes_a_once_coupon(self, stripe_subscription):
+        order = _order_with_discount('5.00')
+        start_order_payment(order)
+
+        coupon_kwargs = stripe_subscription.coupon_create.call_args.kwargs
+        assert coupon_kwargs['duration'] == 'once'
+        assert coupon_kwargs['amount_off'] == 500
+        assert stripe_subscription.call_args.kwargs['discounts'] == [{'coupon': 'coupon_test_123'}]
+
+    def test_no_discount_means_no_coupon(self, stripe_subscription):
+        order = _recurring_order()
+        start_order_payment(order)
+        stripe_subscription.coupon_create.assert_not_called()
+        assert stripe_subscription.call_args.kwargs['discounts'] == []
+
+    def test_records_a_payment_matching_the_first_invoice(self, stripe_subscription):
+        order = _order_with_discount('5.00', budget=Decimal('80.00'))
+        start_order_payment(order)
+
+        payment = Payment.objects.get(order=order)
+        assert payment.status == 'pending'
+        # The PaymentIntent id is embedded in the client secret.
+        assert payment.stripe_payment_intent_id == 'pi_sub_123'
+        # The customer pays the discounted total on the first invoice.
+        assert payment.amount == order.total_amount
+
+    def test_an_incomplete_subscription_with_matching_amount_is_reused(self, stripe_subscription, mocker):
+        order = _recurring_order(stripe_subscription_id='sub_existing')
+        expected_cents = int(max(order.total_amount, Decimal('0.50')) * 100)
+        existing = mocker.Mock(
+            status='incomplete',
+            latest_invoice=mocker.Mock(
+                amount_due=expected_cents,
+                confirmation_secret=mocker.Mock(client_secret='pi_existing_secret_abc'),
+            ),
+        )
+        mocker.patch.object(stripe.Subscription, 'retrieve', return_value=existing)
+
+        assert start_order_payment(order) == 'pi_existing_secret_abc'
+        stripe_subscription.assert_not_called()

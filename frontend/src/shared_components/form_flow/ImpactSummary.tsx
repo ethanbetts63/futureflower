@@ -1,16 +1,12 @@
 ﻿
 import Link from 'next/link';
 import Image from 'next/image';
-import { getImpactTier, IMPACT_TIERS } from '@/lib/pricingConstants';
+import { getImpactTier, CUSTOM_IMPACT_IMAGE } from '@/lib/pricingConstants';
 import type { ImpactSummaryProps } from '@/types/ImpactSummaryProps';
-
-// A custom budget matches no preset tier, so it has no image of its own; reuse
-// the Grand Gesture image as a stand-in rather than showing an empty placeholder.
-const customImage = IMPACT_TIERS.find((t) => t.name === 'The Grand Gesture')?.image;
 
 const ImpactSummary = ({ price, editUrl }: ImpactSummaryProps) => {
   const tier = getImpactTier(price);
-  const image = tier?.image ?? customImage;
+  const image = tier?.image ?? CUSTOM_IMPACT_IMAGE;
 
   return (
     <div className="py-6 border-b border-black/5 last:border-0">

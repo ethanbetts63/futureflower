@@ -18,8 +18,7 @@ import { MapPin, Calendar, RefreshCw, ShieldCheck } from 'lucide-react';
 import { getGuestOrder } from '@/api/guestCheckout';
 import type { Order } from '@/types';
 import { formatDate, capitalize } from '@/lib/utils';
-import { getImpactTier } from '@/lib/pricingConstants';
-import flowerIcon from '@/assets/flower_symbol.svg';
+import { getImpactTier, CUSTOM_IMPACT_IMAGE } from '@/lib/pricingConstants';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '');
 
@@ -123,13 +122,13 @@ const CheckoutPage = () => {
                             {/* Impact Selection  */}
                             <div className="flex items-center gap-4">
                                 <div className="relative w-16 h-16 rounded-xl overflow-hidden shadow-sm border border-black/5 bg-[var(--color4)] flex-shrink-0">
-                                    {tier?.image ? (
-                                        <Image src={tier.image} alt={tier.name} fill sizes="64px" className="object-cover" />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center">
-                                            <img src={flowerIcon} alt="" className="h-6 w-6 opacity-20" />
-                                        </div>
-                                    )}
+                                    <Image
+                                        src={tier?.image ?? CUSTOM_IMPACT_IMAGE}
+                                        alt={tier ? tier.name : 'Custom Selection'}
+                                        fill
+                                        sizes="64px"
+                                        className="object-cover"
+                                    />
                                 </div>
                                 <div>
                                     <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Selection</span>

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { IMPACT_TIERS, MIN_BUDGET } from '@/lib/pricingConstants';
-import { DELIVERY_FEE, DELIVERY_INCLUDED_THRESHOLD, minDeliveryDate } from '@/lib/systemConstants';
+import { minDeliveryDate } from '@/lib/systemConstants';
 import { type HomepageBrief, orderToBrief } from '@/lib/homepageBrief';
 import { OCCASIONS, occasionByName, occasionByValue, type Occasion } from '@/lib/occasions';
 import { startGuestCheckout, getGuestOrder } from '@/api/guestCheckout';

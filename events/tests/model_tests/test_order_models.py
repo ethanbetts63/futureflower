@@ -13,7 +13,11 @@ class TestOrderModels:
         assert plan.budget == 100
         assert isinstance(plan, Order)
 
-    def test_recurring_order_creation(self):
+    def test_recurring_order_creation(self, settings):
+        # Pin the fee settings: the configured threshold is a business value
+        # that moves (currently $1, so no order ever pays a fee).
+        settings.DELIVERY_INCLUDED_THRESHOLD = 100
+        settings.DELIVERY_FEE = 20
         plan = OrderFactory(billing_mode='recurring', budget=80)
         assert plan.status == 'pending_payment'
         assert plan.billing_mode == 'recurring'
@@ -35,14 +39,15 @@ class TestOrderModels:
         plan = OrderFactory(billing_mode='one_time', budget=80.00)
 
         assert plan.budget == Decimal('80.00')
-        assert plan.delivery_fee == Decimal('20.00')
-        assert plan.total_amount == Decimal('100.00')
+        assert plan.total_amount == plan.budget + plan.delivery_fee
 
     def test_a_paid_order_is_not_repriced_when_the_fee_setting_changes(self, settings):
         """
         The stored price is the record of what was charged. Activation saves the
         order again, so a later DELIVERY_FEE change must not rewrite history.
         """
+        settings.DELIVERY_INCLUDED_THRESHOLD = 100
+        settings.DELIVERY_FEE = 20
         plan = OrderFactory(billing_mode='one_time', budget=80)
         assert plan.total_amount == Decimal('100.00')
 
@@ -57,6 +62,8 @@ class TestOrderModels:
         assert plan.total_amount == Decimal('100.00')
 
     def test_a_draft_still_reprices_when_the_fee_setting_changes(self, settings):
+        settings.DELIVERY_INCLUDED_THRESHOLD = 100
+        settings.DELIVERY_FEE = 20
         plan = OrderFactory(billing_mode='one_time', budget=80)
 
         settings.DELIVERY_FEE = 40
