@@ -42,20 +42,6 @@ def validate_order_ready_for_payment(order):
 
 
 def start_order_payment(order):
-    """
-    Start the Stripe payment for an order and record the matching pending
-    Payment. Returns the client secret the browser confirms.
-
-    One-time orders get a plain PaymentIntent. Recurring orders get a real
-    Stripe Subscription created up front (see _start_subscription_payment);
-    either way the browser receives a PaymentIntent client secret and confirms
-    it with the same Payment Element flow.
-
-    Both checkout entry points (guest and authenticated) go through here, so the
-    amount Stripe charges and the amount recorded against the order cannot drift
-    apart. Callers are responsible for authorizing the order and for calling
-    validate_order_ready_for_payment first.
-    """
     ensure_stripe_customer(order.user)
 
     if order.billing_mode == 'recurring':
@@ -65,9 +51,6 @@ def start_order_payment(order):
 
 
 def _first_charge_cents(order):
-    """The amount of the first charge: total (discount included), clamped to
-    Stripe's minimum before converting so the recorded Payment always matches
-    what Stripe actually charges."""
     return int(max(Decimal(order.total_amount), STRIPE_MINIMUM_CHARGE) * 100)
 
 

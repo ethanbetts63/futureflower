@@ -1,10 +1,6 @@
 import type { Order } from '@/types/Order';
 import type { RecipientData } from '@/types/RecipientData';
 
-// The single source of truth for the recipient field list, shared by every
-// recipient editor (the guest flow's GuestRecipientEditor and the dashboard's
-// OrderRecipientEditor) so a field added to one is never silently missing
-// from the other.
 export const EMPTY_RECIPIENT: RecipientData = {
   recipient_first_name: '',
   recipient_last_name: '',
