@@ -23,9 +23,9 @@ const OrderReviewGrid = ({ plan }: { plan: Order }) => {
       <ImpactTile budget={Number(plan.budget)} eyebrow="Selection" />
 
       {/* Schedule */}
-      <div className="flex items-start gap-3">
-        <div className="p-2 bg-black/5 rounded-lg flex-shrink-0">
-          {isSubscription ? <RefreshCw className="h-4 w-4 text-black/40" /> : <Calendar className="h-4 w-4 text-black/40" />}
+      <div className="flex items-center gap-4">
+        <div className="flex items-center justify-center flex-shrink-0 rounded-xl border border-black/5 shadow-sm bg-[var(--color4)] w-16 h-16">
+          {isSubscription ? <RefreshCw className="h-6 w-6 text-black/40" /> : <Calendar className="h-6 w-6 text-black/40" />}
         </div>
         <div>
           <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Schedule</span>

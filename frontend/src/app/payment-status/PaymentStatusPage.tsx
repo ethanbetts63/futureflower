@@ -5,6 +5,7 @@ import { useStripe } from '@stripe/react-stripe-js';
 import type { PaymentIntentResult } from '@stripe/stripe-js';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { CheckCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared_components/ui/card';
 import { Button } from '@/shared_components/ui/button';
 import { Spinner } from '@/shared_components/ui/spinner';
@@ -23,6 +24,10 @@ const UniversalPaymentStatusPage = () => {
 
     const [message, setMessage] = useState<string | null>(null);
     const [isProcessing, setIsProcessing] = useState(true);
+    // Separate from paymentSucceeded: this tracks only the post-payment
+    // "activating the order" wait, so the spinner can stop once that
+    // resolves instead of spinning forever whenever paymentSucceeded is true.
+    const [isActivating, setIsActivating] = useState(false);
     const [paymentSucceeded, setPaymentSucceeded] = useState(false);
     const [tryAgainPath, setTryAgainPath] = useState('/');
     const [plan, setPlan] = useState<Order | null>(null);
@@ -49,6 +54,7 @@ const UniversalPaymentStatusPage = () => {
     const pollUntilActive = () => {
         if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
         let attempts = 0;
+        setIsActivating(true);
 
         pollIntervalRef.current = setInterval(async () => {
             attempts++;
@@ -58,6 +64,7 @@ const UniversalPaymentStatusPage = () => {
                     clearInterval(pollIntervalRef.current!);
                     setMessage('Payment confirmed. For refunds or subscription changes, contact our support team from the email address used at checkout.');
                     setIsProcessing(false);
+                    setIsActivating(false);
                     return;
                 }
             } catch {
@@ -71,6 +78,7 @@ const UniversalPaymentStatusPage = () => {
                     'Redirecting you now — your plan may take a moment to show as active.'
                 );
                 setIsProcessing(false);
+                setIsActivating(false);
             }
         }, POLL_INTERVAL_MS);
     };
@@ -205,10 +213,20 @@ const UniversalPaymentStatusPage = () => {
                         ) : (
                             <>
                                 {paymentSucceeded ? (
-                                    <div className="flex flex-col items-center gap-4">
-                                        <Spinner className="h-10 w-10" />
-                                        <p className="text-lg">{message}</p>
-                                    </div>
+                                    isActivating ? (
+                                        <div className="flex flex-col items-center gap-4">
+                                            <Spinner className="h-10 w-10" />
+                                            <p className="text-lg">{message}</p>
+                                        </div>
+                                    ) : (
+                                        <div className="flex flex-col items-center gap-4">
+                                            <CheckCircle className="h-14 w-14 text-green-500" />
+                                            <p className="text-lg">{message}</p>
+                                            <Button asChild>
+                                                <Link href="/">Done</Link>
+                                            </Button>
+                                        </div>
+                                    )
                                 ) : (
                                     <>
                                         <p className="text-lg mb-6">{message}</p>

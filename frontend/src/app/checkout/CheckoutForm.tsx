@@ -58,7 +58,19 @@ const CheckoutForm = ({ planId, source }: CheckoutFormProps) => {
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
-      <PaymentElement id="payment-element" onReady={() => setIsElementReady(true)} />
+      {!isElementReady && (
+        <div className="space-y-4 animate-pulse" aria-hidden="true">
+          <div className="h-11 rounded-lg bg-black/10" />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="h-11 rounded-lg bg-black/10" />
+            <div className="h-11 rounded-lg bg-black/10" />
+          </div>
+          <div className="h-11 rounded-lg bg-black/10" />
+        </div>
+      )}
+      <div className={isElementReady ? '' : 'hidden'}>
+        <PaymentElement id="payment-element" onReady={() => setIsElementReady(true)} />
+      </div>
 
       {isElementReady && (
         <Button disabled={isProcessing || !stripe || !elements} className="w-full mt-6 bg-black hover:bg-black/85 text-white">
