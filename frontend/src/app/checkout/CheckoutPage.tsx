@@ -2,7 +2,6 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { loadStripe } from '@stripe/stripe-js';
 import type { StripeElementsOptions, Appearance } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
@@ -13,12 +12,11 @@ import FlowBackButton from '@/shared_components/form_flow/FlowBackButton';
 import StepProgressBar from '@/shared_components/form_flow/StepProgressBar';
 import UnifiedSummaryCard from '@/shared_components/form_flow/UnifiedSummaryCard';
 import OrderTotalSummary from '@/shared_components/form_flow/OrderTotalSummary';
+import OrderReviewGrid from '@/shared_components/form_flow/OrderReviewGrid';
 import SummarySection from '@/shared_components/SummarySection';
-import { MapPin, Calendar, RefreshCw, ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { getGuestOrder } from '@/api/guestCheckout';
 import type { Order } from '@/types';
-import { formatDate, capitalize } from '@/lib/utils';
-import { getImpactTier, CUSTOM_IMPACT_IMAGE } from '@/lib/pricingConstants';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '');
 
@@ -76,20 +74,6 @@ const CheckoutPage = () => {
     const options: StripeElementsOptions = { clientSecret, appearance };
 
     const planIsSubscription = plan.billing_mode === 'recurring';
-    const isOrder = plan.billing_mode === 'one_time';
-
-    const fullAddress = [
-        plan.recipient_street_address,
-        plan.recipient_suburb,
-        plan.recipient_city,
-        plan.recipient_state,
-        plan.recipient_postcode,
-        plan.recipient_country
-    ].filter(Boolean).join(', ');
-
-    const flowerBudget = Number(plan.budget);
-    const tier = getImpactTier(flowerBudget);
-
     const planName = planIsSubscription ? "Flower Subscription" : "Single Delivery";
 
     return (
@@ -118,55 +102,7 @@ const CheckoutPage = () => {
                         }
                     >
                         {/* Review Section */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {/* Impact Selection  */}
-                            <div className="flex items-center gap-4">
-                                <div className="relative w-16 h-16 rounded-xl overflow-hidden shadow-sm border border-black/5 bg-[var(--color4)] flex-shrink-0">
-                                    <Image
-                                        src={tier?.image ?? CUSTOM_IMPACT_IMAGE}
-                                        alt={tier ? tier.name : 'Custom Selection'}
-                                        fill
-                                        sizes="64px"
-                                        className="object-cover"
-                                    />
-                                </div>
-                                <div>
-                                    <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Selection</span>
-                                    <h4 className="text-lg font-bold text-black font-playfair-display">
-                                        {tier ? tier.name : 'Custom Selection'}
-                                    </h4>
-                                </div>
-                            </div>
-
-                            {/* Schedule - Compact */}
-                            <div className="flex items-start gap-3">
-                                <div className="p-2 bg-black/5 rounded-lg flex-shrink-0">
-                                    {planIsSubscription ? <RefreshCw className="h-4 w-4 text-black/40" /> : <Calendar className="h-4 w-4 text-black/40" />}
-                                </div>
-                                <div>
-                                    <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Schedule</span>
-                                    <p className="font-bold text-black font-['Playfair_Display']">
-                                        {isOrder ? `Single Delivery — ${formatDate(plan.start_date)}` : capitalize(plan.frequency)}
-                                    </p>
-                                    {planIsSubscription && (
-                                        <p className="text-xs text-black/60">
-                                            Next: {formatDate(plan.start_date)}
-                                        </p>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Recipient - Compact */}
-                            <div className="flex items-start gap-3 md:col-span-2 bg-black/5 p-4 rounded-2xl">
-                                <MapPin className="h-4 w-4 text-black/40 mt-1 flex-shrink-0" />
-                                <div>
-                                    <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Recipient</span>
-                                    <p className="text-sm font-semibold">
-                                        {plan.recipient_first_name} {plan.recipient_last_name} • <span className="text-black/60 font-normal">{fullAddress}</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        <OrderReviewGrid plan={plan} />
 
                         <OrderTotalSummary plan={plan} isSubscription={planIsSubscription} />
 

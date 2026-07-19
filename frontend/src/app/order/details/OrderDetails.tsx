@@ -2,47 +2,37 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Calendar, RefreshCw, Tag, StickyNote } from 'lucide-react';
+import { RefreshCw, Tag } from 'lucide-react';
 import FlowBackButton from '@/shared_components/form_flow/FlowBackButton';
 import FlowNextButton from '@/shared_components/form_flow/FlowNextButton';
 import UnifiedSummaryCard from '@/shared_components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/shared_components/SummarySection';
-import RecipientSummary from '@/shared_components/form_flow/RecipientSummary';
-import CardMessageSummary from '@/shared_components/form_flow/CardMessageSummary';
-import SubscriptionScheduleSummary from '@/shared_components/form_flow/SubscriptionScheduleSummary';
-import FlowerPreferencesSummary from '@/shared_components/form_flow/FlowerPreferencesSummary';
-import ImpactSummary from '@/shared_components/form_flow/ImpactSummary';
 import PaymentInitiatorButton from '@/shared_components/form_flow/PaymentInitiatorButton';
 import DiscountCodeInput from '@/shared_components/form_flow/DiscountCodeInput';
-import OrderTotalSummary from '@/shared_components/form_flow/OrderTotalSummary';
+import OrderReviewGrid from '@/shared_components/form_flow/OrderReviewGrid';
 import { Checkbox } from '@/shared_components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared_components/ui/select';
-import { acceptGuestTerms, claimGuestCheckout, makeGuestOrderRecurring, startGuestCheckoutPayment } from '@/api/guestCheckout';
-import { formatDate } from '@/lib/utils';
-import { occasionLabel } from '@/lib/occasions';
+import { acceptGuestTerms, makeGuestOrderRecurring, startGuestCheckoutPayment } from '@/api/guestCheckout';
 import { FREQUENCIES } from '@/lib/frequencies';
 import { errorMessage } from '@/lib/errors';
 import { toast } from 'sonner';
 import type { Order } from '@/types/Order';
 
-const EDIT_BASE_PATH = '/order';
-// Every field the homepage brief form collects is edited back through it.
-// Editing the brief sends the user back to the homepage form, which prefills
-// from the existing draft; they continue forward through the flow to re-review.
-const BRIEF_EDIT_PATH = '/';
+const BACK_PATH = '/order/recipient';
+const SELF_PATH = '/order/details';
 
-interface OrderConfirmationProps {
+interface OrderDetailsProps {
   plan: Order;
   onRefreshPlan?: () => void;
 }
 
 /**
- * The final step of the guest ordering flow: review the brief, add contact
- * details, optionally turn it into a subscription, and pay.
- *
- * Its read-only counterpart for an order that already exists is PlanOverview.
+ * The final step of the guest ordering flow before payment: contact details,
+ * optional subscription, promotions, and the order total. The brief itself was
+ * already reviewed step by step, so nothing here re-summarizes it — the read-
+ * only view of an existing order is PlanOverview.
  */
-const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
+const OrderDetails = ({ plan, onRefreshPlan }: OrderDetailsProps) => {
   const router = useRouter();
   // The guest flow carries no id in the URL — the checkout cookie decides which
   // order this is — so the loaded plan is the only trustworthy source for one.
@@ -52,19 +42,12 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [makeRecurring, setMakeRecurring] = useState(false);
   const [recurringFrequency, setRecurringFrequency] = useState('monthly');
-  const [customerFirstName, setCustomerFirstName] = useState('');
-  const [customerLastName, setCustomerLastName] = useState('');
-  const [customerEmail, setCustomerEmail] = useState('');
 
-  const isRecurring = plan.billing_mode === 'recurring';
-
-  // Only one-off deliveries carry a card message.
-  const cardMessage = isRecurring ? '' : (plan.card_message || '');
-
+  // Contact details were claimed at the recipient step; the server rejects
+  // checkout if that never happened.
   const handleRecurringPayment = async () => {
     setIsSubmitting(true);
     try {
-      await claimGuestCheckout({ email: customerEmail, first_name: customerFirstName, last_name: customerLastName });
       const recurringOrder = await makeGuestOrderRecurring({
         frequency: recurringFrequency,
       });
@@ -73,7 +56,7 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
       sessionStorage.setItem('checkoutState', JSON.stringify({
         clientSecret: response.clientSecret,
         planId: String(recurringOrder.id),
-        backPath: `${EDIT_BASE_PATH}/confirmation`,
+        backPath: SELF_PATH,
       }));
       router.push('/checkout');
     } catch (err) {
@@ -84,21 +67,12 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
     }
   };
 
-  const claimBeforePayment = async () => {
-    if (!customerFirstName || !customerLastName || !customerEmail) {
-      throw new Error('Enter your name and email before payment.');
-    }
-    await claimGuestCheckout({ email: customerEmail, first_name: customerFirstName, last_name: customerLastName });
-    return startGuestCheckoutPayment();
-  };
-
   return (
       <UnifiedSummaryCard
-        title="Confirm Your Delivery"
-        description="Please review the details of your order before proceeding to payment."
+        title="Order Details"
         footer={
           <div className="flex flex-row justify-between items-center w-full gap-4">
-            <FlowBackButton to={`${EDIT_BASE_PATH}/recipient`} />
+            <FlowBackButton to={BACK_PATH} />
             {makeRecurring ? (
               <FlowNextButton
                 label="Next: Payment"
@@ -109,9 +83,9 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
             ) : (
               <PaymentInitiatorButton
                 orderId={orderId}
-                backPath={`${EDIT_BASE_PATH}/confirmation`}
+                backPath={SELF_PATH}
                 disabled={isSubmitting || !termsAccepted}
-                startPayment={claimBeforePayment}
+                startPayment={startGuestCheckoutPayment}
                 onPaymentInitiate={() => setIsSubmitting(true)}
                 onPaymentError={() => setIsSubmitting(false)}
               >
@@ -121,54 +95,9 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
           </div>
         }
       >
-        <RecipientSummary plan={plan} editUrl={`${EDIT_BASE_PATH}/recipient`} />
-
-        {isRecurring ? (
-          <SubscriptionScheduleSummary plan={plan} />
-        ) : (
-          <SummarySection label="Delivery Date" editUrl={BRIEF_EDIT_PATH}>
-            <div className="flex items-center gap-3">
-              <Calendar className="h-5 w-5 text-black/20 flex-shrink-0" />
-              <span className="font-bold font-playfair-display text-lg">
-                {formatDate(plan.start_date)}
-              </span>
-            </div>
-            {plan.delivery_notes && (
-              <div className="mt-3 flex items-start gap-3 bg-black/5 p-4 rounded-xl">
-                <StickyNote className="h-4 w-4 text-black/40 mt-0.5" />
-                <p className="text-sm text-black/70 italic leading-relaxed">
-                  "{plan.delivery_notes}"
-                </p>
-              </div>
-            )}
-          </SummarySection>
-        )}
-
-        {cardMessage && (
-          <CardMessageSummary
-            message={cardMessage}
-            editUrl={BRIEF_EDIT_PATH}
-            footnote={makeRecurring
-              ? 'Recurring deliveries arrive without a card message, so this one won\'t be included. Untick "Make this a recurring delivery" to send it.'
-              : undefined}
-          />
-        )}
-
-        <FlowerPreferencesSummary
-          flowerNotes={plan.flower_notes}
-          occasion={occasionLabel(plan.occasion)}
-          editUrl={BRIEF_EDIT_PATH}
-        />
-
-        <ImpactSummary price={Number(plan.budget)} editUrl={BRIEF_EDIT_PATH} />
-
-        <SummarySection label="Your Details">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <input value={customerFirstName} onChange={(event) => setCustomerFirstName(event.target.value)} placeholder="Your first name" className="h-11 rounded-md border border-black/10 bg-white px-3 text-sm" />
-            <input value={customerLastName} onChange={(event) => setCustomerLastName(event.target.value)} placeholder="Your last name" className="h-11 rounded-md border border-black/10 bg-white px-3 text-sm" />
-            <input value={customerEmail} onChange={(event) => setCustomerEmail(event.target.value)} placeholder="Your email" type="email" className="h-11 rounded-md border border-black/10 bg-white px-3 text-sm sm:col-span-2" />
-          </div>
-        </SummarySection>
+        <div className="pt-6 pb-2">
+          <OrderReviewGrid plan={plan} />
+        </div>
 
         <SummarySection label="Recurring Delivery">
           <div className="space-y-4">
@@ -227,8 +156,6 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
           </div>
         </SummarySection>
 
-        <OrderTotalSummary plan={plan} isSubscription={makeRecurring || isRecurring} />
-
         <SummarySection label="Terms & Conditions">
           <label className="flex items-start gap-3 cursor-pointer">
             <Checkbox
@@ -245,7 +172,7 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
               <Link href="/terms-and-conditions/customer" target="_blank" className="underline text-black hover:text-black/70">
                 Customer Terms & Conditions
               </Link>
-              .
+              .<span className="text-red-500">*</span>
             </span>
           </label>
         </SummarySection>
@@ -253,4 +180,4 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
   );
 };
 
-export default OrderConfirmation;
+export default OrderDetails;

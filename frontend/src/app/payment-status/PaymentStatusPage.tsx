@@ -3,12 +3,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { useStripe } from '@stripe/react-stripe-js';
 import type { PaymentIntentResult } from '@stripe/stripe-js';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared_components/ui/card';
 import { Button } from '@/shared_components/ui/button';
 import { Spinner } from '@/shared_components/ui/spinner';
 import { getGuestOrder } from '@/api/guestCheckout';
+import { getImpactTier, CUSTOM_IMPACT_IMAGE } from '@/lib/pricingConstants';
+import { formatDate, capitalize } from '@/lib/utils';
+import type { Order } from '@/types';
 
 const POLL_INTERVAL_MS = 2000;
 const MAX_POLL_ATTEMPTS = 15; // 30 seconds max
@@ -22,6 +26,7 @@ const UniversalPaymentStatusPage = () => {
     const [isProcessing, setIsProcessing] = useState(true);
     const [paymentSucceeded, setPaymentSucceeded] = useState(false);
     const [tryAgainPath, setTryAgainPath] = useState('/');
+    const [plan, setPlan] = useState<Order | null>(null);
 
     const pollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -30,6 +35,12 @@ const UniversalPaymentStatusPage = () => {
         return () => {
             if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
         };
+    }, []);
+
+    // The order summary is decoration for the wait — if it can't load
+    // (expired cookie, direct visit), the status flow works without it.
+    useEffect(() => {
+        getGuestOrder().then(setPlan).catch(() => {});
     }, []);
 
     // The guest checkout cookie identifies the order, so no id is needed here.
@@ -126,15 +137,47 @@ const UniversalPaymentStatusPage = () => {
         }
     }, [stripe, router, searchParams]);
 
+    const isSubscription = plan?.billing_mode === 'recurring';
+    const tier = plan ? getImpactTier(Number(plan.budget)) : undefined;
+
     return (
         <div className="min-h-screen w-full flex items-center py-12" style={{ backgroundColor: 'var(--color4)' }}>
-            <div className="container mx-auto max-w-2xl">
+            <div className="container mx-auto max-w-2xl px-4">
                 <Card className="bg-white text-black border-none shadow-md">
                     <CardHeader>
                         <CardTitle>Payment Status</CardTitle>
                         <CardDescription>The result of your transaction is shown below.</CardDescription>
                     </CardHeader>
                     <CardContent className="text-center">
+                        {plan && (
+                            <div className="mb-6 flex items-center gap-4 rounded-2xl border border-black/5 bg-black/[0.02] p-4 text-left">
+                                <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl border border-black/5 shadow-sm">
+                                    <Image
+                                        src={tier?.image ?? CUSTOM_IMPACT_IMAGE}
+                                        alt={tier ? tier.name : 'Custom Selection'}
+                                        fill
+                                        sizes="64px"
+                                        className="object-cover"
+                                    />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                    <h4 className="truncate text-lg font-bold text-black font-playfair-display">
+                                        {tier ? tier.name : 'Custom Selection'}
+                                    </h4>
+                                    <p className="text-sm text-black/60">
+                                        {isSubscription
+                                            ? `${capitalize(plan.frequency)} subscription — first delivery ${formatDate(plan.start_date)}`
+                                            : `Single delivery — ${formatDate(plan.start_date)}`}
+                                    </p>
+                                </div>
+                                <div className="flex-shrink-0 text-right">
+                                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/40">Total</p>
+                                    <p className="text-lg font-bold text-black font-playfair-display">
+                                        ${Number(plan.total_amount).toFixed(2)}
+                                    </p>
+                                </div>
+                            </div>
+                        )}
                         {isProcessing ? (
                             <div className="flex flex-col items-center gap-4">
                                 <Spinner className="h-10 w-10" />

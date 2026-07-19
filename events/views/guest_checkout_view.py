@@ -42,6 +42,11 @@ class GuestCheckoutView(APIView):
 
     authentication_classes = []
     permission_classes = [AllowAny]
+    # Exempt from the global anon throttle (200/day per IP): a single ordering
+    # session makes dozens of anonymous calls and the payment-status page polls
+    # this API, so the daily budget locks customers (and whole shared-NAT IPs)
+    # out mid-checkout. Access is already scoped by the checkout cookie.
+    throttle_classes = []
 
     def _set_cookie(self, response, token, request):
         get_token(request)
@@ -95,11 +100,22 @@ class GuestCheckoutView(APIView):
         return Response({'detail': 'Unknown checkout action.'}, status=404)
 
     def get(self, request, action):
-        session, error = self._require_session(request)
-        if error:
-            return error
+        # Reading is allowed for any order status — the payment-status page
+        # polls for activation and shows a summary after payment, when the
+        # order is no longer 'pending_payment'. Writes stay gated by
+        # _require_session's status check.
+        session = self._session(request)
+        if not session:
+            return Response({'detail': 'Your checkout session has expired. Please start again.'}, status=410)
         if action == 'order':
-            return Response(OrderSerializer(session.order).data)
+            data = OrderSerializer(session.order).data
+            # Contact details for prefilling the recipient step on a return
+            # visit. Empty until claim() has run; the placeholder user's
+            # generated email is never exposed.
+            data['customer_email'] = session.customer_email or ''
+            data['customer_first_name'] = session.order.user.first_name or ''
+            data['customer_last_name'] = session.order.user.last_name or ''
+            return Response(data)
         return Response({'detail': 'Unknown checkout action.'}, status=404)
 
     @transaction.atomic

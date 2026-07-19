@@ -10,7 +10,8 @@ import type { RecipientFormProps } from '@/types/RecipientFormProps';
 const RecipientForm = ({
   formData,
   onFormChange,
-  title = "Recipient Details"
+  title = "Recipient Details",
+  hideNameFields = false
 }: RecipientFormProps) => {
   const handleChange = (field: keyof RecipientData) => (e: React.ChangeEvent<HTMLInputElement>) => {
     onFormChange(field, e.target.value);
@@ -20,16 +21,18 @@ const RecipientForm = ({
     <div>
       <h3 className="text-xl font-semibold mb-4">{title}</h3>
       <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="recipient_first_name">First Name<span className="text-red-500">*</span></Label>
-            <Input id="recipient_first_name" value={formData.recipient_first_name} onChange={handleChange('recipient_first_name')} placeholder="Jane" />
+        {!hideNameFields && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="recipient_first_name">First Name<span className="text-red-500">*</span></Label>
+              <Input id="recipient_first_name" value={formData.recipient_first_name} onChange={handleChange('recipient_first_name')} placeholder="Jane" />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="recipient_last_name">Last Name<span className="text-red-500">*</span></Label>
+              <Input id="recipient_last_name" value={formData.recipient_last_name} onChange={handleChange('recipient_last_name')} placeholder="Doe" />
+            </div>
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="recipient_last_name">Last Name<span className="text-red-500">*</span></Label>
-            <Input id="recipient_last_name" value={formData.recipient_last_name} onChange={handleChange('recipient_last_name')} placeholder="Doe" />
-          </div>
-        </div>
+        )}
         <div className="grid gap-2">
           <Label htmlFor="recipient_street_address">Street Address<span className="text-red-500">*</span></Label>
           <Input id="recipient_street_address" value={formData.recipient_street_address} onChange={handleChange('recipient_street_address')} placeholder="123 Blossom Lane" />

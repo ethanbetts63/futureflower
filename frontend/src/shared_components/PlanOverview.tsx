@@ -36,7 +36,7 @@ interface PlanOverviewProps {
  * cancellation. Editing happens on the dedicated /dashboard/orders/:id/edit-*
  * pages, so nothing here is editable in place.
  *
- * Its pre-payment counterpart is OrderConfirmation.
+ * Its pre-payment counterpart is OrderDetails.
  */
 const PlanOverview = ({ plan }: PlanOverviewProps) => {
   const router = useRouter();

@@ -229,7 +229,7 @@ const AdminPartnerDetailPage = () => {
                         onClick={() => handlePay(c)}
                         title={!partner.stripe_connect_onboarding_complete ? 'Partner has not completed Stripe onboarding' : undefined}
                       >
-                        {payingId === c.id ? <Spinner className="h-3 w-3" /> : 'Pay Out'}
+                        {payingId === c.id ? <Spinner className="h-3 w-3 text-current" /> : 'Pay Out'}
                       </Button>
                     ) : (
                       <span className="text-xs text-black/30">—</span>

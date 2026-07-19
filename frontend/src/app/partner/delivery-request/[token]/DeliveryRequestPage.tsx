@@ -152,7 +152,7 @@ const DeliveryRequestPage = () => {
                     onClick={() => handleRespond('accept')}
                     disabled={isResponding}
                   >
-                    {isResponding ? <Spinner className="h-4 w-4 mr-2" /> : <CheckCircle className="h-4 w-4 mr-2" />}
+                    {isResponding ? <Spinner className="h-4 w-4 mr-2 text-current" /> : <CheckCircle className="h-4 w-4 mr-2" />}
                     Accept
                   </Button>
                   <Button
@@ -161,7 +161,7 @@ const DeliveryRequestPage = () => {
                     onClick={() => handleRespond('decline')}
                     disabled={isResponding}
                   >
-                    {isResponding ? <Spinner className="h-4 w-4 mr-2" /> : <XCircle className="h-4 w-4 mr-2" />}
+                    {isResponding ? <Spinner className="h-4 w-4 mr-2 text-current" /> : <XCircle className="h-4 w-4 mr-2" />}
                     Decline
                   </Button>
                 </div>
@@ -174,7 +174,7 @@ const DeliveryRequestPage = () => {
                     onClick={handleMarkDelivered}
                     disabled={isResponding}
                   >
-                    {isResponding ? <Spinner className="h-4 w-4 mr-2" /> : <CheckCircle className="h-4 w-4 mr-2" />}
+                    {isResponding ? <Spinner className="h-4 w-4 mr-2 text-current" /> : <CheckCircle className="h-4 w-4 mr-2" />}
                     Mark as Delivered
                   </Button>
                 </div>

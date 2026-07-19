@@ -37,7 +37,10 @@ const FlowBackButton = ({
   );
 
   const baseClassName = cn(
-    "bg-white text-black/70 font-semibold px-6 py-3 rounded-lg ring-1 ring-black/15 hover:text-black hover:ring-black/40 transition-colors cursor-pointer group shadow-sm flex items-center gap-4 min-w-[120px] border-none text-sm",
+    // hover:bg-white is load-bearing: the Button default variant's
+    // hover:bg-primary/90 would otherwise darken the background under the
+    // black text and make the label unreadable.
+    "bg-white hover:bg-white text-black/70 font-semibold px-6 py-3 rounded-lg ring-1 ring-black/15 hover:text-black hover:ring-black/40 transition-colors cursor-pointer group shadow-sm flex items-center gap-4 min-w-[120px] border-none text-sm",
     className
   );
 

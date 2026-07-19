@@ -116,7 +116,7 @@ const BusinessDetailsPage = () => {
                 <div className="flex flex-row justify-between items-center w-full gap-4">
                   <FlowBackButton to="/dashboard/partner" label="Dashboard" />
                   <Button type="submit" size="lg" disabled={isSubmitting}>
-                    {isSubmitting && <Spinner className="mr-2 h-4 w-4" />}
+                    {isSubmitting && <Spinner className="mr-2 h-4 w-4 text-current" />}
                     Save Changes
                   </Button>
                 </div>

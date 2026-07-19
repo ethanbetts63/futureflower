@@ -60,7 +60,7 @@ const CheckoutForm = ({ planId, source }: CheckoutFormProps) => {
       <Button disabled={isProcessing || !stripe || !elements} className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white">
         {isProcessing ? (
           <>
-            <Spinner className="mr-2 h-4 w-4" />
+            <Spinner className="mr-2 h-4 w-4 text-current" />
             Processing...
           </>
         ) : (

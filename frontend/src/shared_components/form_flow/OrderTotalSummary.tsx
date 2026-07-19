@@ -1,5 +1,7 @@
 import { DollarSign } from 'lucide-react';
 import SummarySection from '@/shared_components/SummarySection';
+import { getImpactTier } from '@/lib/pricingConstants';
+import { formatDate } from '@/lib/utils';
 import type { OrderTotalSummaryProps } from '@/types/OrderTotalSummaryProps';
 
 // The single price breakdown for the ordering flow. The figures are all
@@ -10,12 +12,16 @@ const OrderTotalSummary = ({ plan, isSubscription }: OrderTotalSummaryProps) => 
   const deliveryFee = Number(plan.delivery_fee);
   const discountAmount = Number(plan.discount_amount);
   const totalPlanAmount = Number(plan.total_amount);
+  const tier = getImpactTier(flowerBudget);
 
   return (
     <SummarySection label="Order Total">
       <div className="space-y-3 bg-black/5 rounded-2xl p-4 mt-1">
         <div className="flex items-center justify-between text-sm">
-          <span className="text-black/60">Bouquet budget</span>
+          <span className="text-black/60">
+            {tier ? tier.name : 'Custom Selection'}
+            {plan.start_date ? ` (delivered ${formatDate(plan.start_date)})` : ''}
+          </span>
           <span className="font-semibold">${flowerBudget.toFixed(2)}</span>
         </div>
         <div className="flex items-center justify-between text-sm">

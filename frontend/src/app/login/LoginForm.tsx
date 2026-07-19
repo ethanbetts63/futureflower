@@ -107,7 +107,7 @@ export function LoginForm({
                 <Button type="submit" className="w-full rounded-lg bg-black px-5 py-4 font-semibold text-white transition hover:bg-black/85 disabled:cursor-wait disabled:opacity-70" disabled={isSubmitting}>
                   {isSubmitting ? (
                     <div className="flex items-center">
-                      <Spinner className="mr-2 h-4 w-4" />
+                      <Spinner className="mr-2 h-4 w-4 text-current" />
                       <span>Logging In...</span>
                     </div>
                   ) : (

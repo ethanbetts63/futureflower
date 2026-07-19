@@ -27,7 +27,7 @@ const FlowNextButton = ({
       {asChild ? children : (
         <>
           <div className="flex items-center gap-2">
-            {isLoading && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
+            {isLoading && <Spinner className="mr-2 h-4 w-4 animate-spin text-current" />}
             <span>{label.startsWith('Next:') ? label : `Next: ${label}`}</span>
           </div>
           <ChevronRight className="h-4 w-4 text-white/70 group-hover:text-white transition-colors" />

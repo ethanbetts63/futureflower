@@ -20,7 +20,11 @@ class StripeWebhookView(APIView):
     """
     authentication_classes = []
     permission_classes = [AllowAny]
-    
+    # Never throttle Stripe: webhooks arrive anonymously and in bursts, and a
+    # throttled delivery is a dropped payment activation. The signature check
+    # below is the real gate.
+    throttle_classes = []
+
     def post(self, request, *args, **kwargs):
         payload = request.body
         sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')

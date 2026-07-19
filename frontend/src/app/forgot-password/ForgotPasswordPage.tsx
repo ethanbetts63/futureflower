@@ -68,7 +68,7 @@ const ForgotPasswordPage = () => {
                   <Button type="submit" disabled={isSubmitting} className="w-full rounded-lg bg-black px-5 py-4 font-semibold text-white transition hover:bg-black/85 disabled:cursor-wait disabled:opacity-70">
                     {isSubmitting ? (
                       <div className="flex items-center">
-                        <Spinner className="mr-2 h-4 w-4" />
+                        <Spinner className="mr-2 h-4 w-4 text-current" />
                         <span>Sending...</span>
                       </div>
                     ) : (

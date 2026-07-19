@@ -75,7 +75,7 @@ const PaymentInitiatorButton = ({
     >
       <div className="flex items-center gap-2">
         {isLoading ? (
-          <Spinner className="mr-2 h-4 w-4 animate-spin" />
+          <Spinner className="mr-2 h-4 w-4 animate-spin text-current" />
         ) : null}
         <span>{children}</span>
       </div>

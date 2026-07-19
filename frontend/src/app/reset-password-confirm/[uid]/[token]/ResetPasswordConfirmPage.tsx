@@ -108,7 +108,7 @@ const ResetPasswordConfirmPage = () => {
                   <Button type="submit" disabled={isSubmitting} className="w-full">
                     {isSubmitting ? (
                       <div className="flex items-center">
-                        <Spinner className="mr-2 h-4 w-4" />
+                        <Spinner className="mr-2 h-4 w-4 text-current" />
                         <span>Resetting Password...</span>
                       </div>
                     ) : (

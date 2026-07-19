@@ -45,6 +45,11 @@ export interface Order {
   updated_at: string;
   events: DeliveryEvent[];
   payments: Payment[];
+
+  /** Guest-checkout GET only: contact details captured by claim(), empty until then. */
+  customer_email?: string;
+  customer_first_name?: string;
+  customer_last_name?: string;
 }
 
 export type PartialOrder = Partial<Order>;

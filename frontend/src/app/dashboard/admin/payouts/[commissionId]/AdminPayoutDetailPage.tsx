@@ -132,7 +132,7 @@ const AdminPayoutDetailPage = () => {
                     title={!commission.stripe_connect_onboarding_complete ? 'Partner has not completed Stripe onboarding' : undefined}
                     className="px-6 py-3 rounded-lg text-sm font-semibold bg-black text-white hover:bg-black/85 transition-colors shadow-sm border-none"
                   >
-                    {submitting ? <Spinner className="h-4 w-4" /> : 'Approve'}
+                    {submitting ? <Spinner className="h-4 w-4 text-current" /> : 'Approve'}
                   </Button>
                 </div>
               )}
