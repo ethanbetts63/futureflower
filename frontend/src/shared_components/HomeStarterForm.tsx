@@ -256,7 +256,7 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
                   />
                 </div>
                 <p className="mt-2 text-xs leading-snug text-black">
-                  Minimum ${MIN_BUDGET}. Delivery included from ${DELIVERY_INCLUDED_THRESHOLD}; below that a ${DELIVERY_FEE} delivery fee is added.
+                  Minimum ${MIN_BUDGET}. 
                 </p>
               </div>
             </div>

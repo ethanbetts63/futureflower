@@ -71,7 +71,7 @@ const PricingTiers = () => {
                         Or name your own number.
                     </p>
                     <p className="mx-auto mt-1.5 max-w-xl text-sm leading-relaxed text-black/60">
-                        Set any custom budget from ${MIN_BUDGET} when you order — delivery is included from ${DELIVERY_INCLUDED_THRESHOLD}, and below that a ${DELIVERY_FEE} delivery fee is added.
+                        Set any custom budget from ${MIN_BUDGET}. 
                     </p>
                 </div>
             </div>
