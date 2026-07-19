@@ -28,6 +28,7 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
   const [cardMessage, setCardMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const budgetScrollRef = useRef<HTMLDivElement>(null);
+  const customBudgetInputRef = useRef<HTMLInputElement>(null);
 
   // Prefill from the existing draft, if any. Without this, returning to the form
   // — via a confirmation "Edit" link, or just navigating back to the homepage —
@@ -204,8 +205,11 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
                 </button>
               );
             })}
+            {/* Clicking anywhere on the tile focuses the input, whose onFocus
+                selects the custom budget — same behaviour as the preset tiles. */}
             <div
-              className={`relative flex w-64 shrink-0 snap-start flex-col overflow-hidden rounded-lg border bg-white text-left transition ${
+              onClick={() => customBudgetInputRef.current?.focus()}
+              className={`relative flex w-64 shrink-0 cursor-text snap-start flex-col overflow-hidden rounded-lg border bg-white text-left transition ${
                 !IMPACT_TIERS.some((tier) => tier.price === budget)
                   ? 'border-black text-black shadow-md ring-1 ring-black'
                   : 'border-black/10 text-black'
@@ -233,6 +237,7 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
                 <div className="relative mt-2">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-black">$</span>
                   <input
+                    ref={customBudgetInputRef}
                     id="homepage-custom-budget"
                     type="number"
                     min={MIN_BUDGET}
@@ -240,9 +245,11 @@ export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProp
                     value={customBudget}
                     onChange={(event) => handleCustomBudgetChange(event.target.value)}
                     onFocus={() => {
-                      if (!customBudget) {
-                        setBudget(MIN_BUDGET);
-                      }
+                      // Selecting the custom tile: fall back to a typed amount if
+                      // there is one (e.g. after clicking a preset then back),
+                      // otherwise start at the minimum.
+                      const parsed = Number.parseInt(customBudget, 10);
+                      setBudget(Number.isNaN(parsed) ? MIN_BUDGET : Math.max(parsed, MIN_BUDGET));
                     }}
                     placeholder={String(MIN_BUDGET)}
                     className="h-11 w-full rounded-md border border-black/10 bg-white pl-7 pr-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black"
