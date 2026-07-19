@@ -5,8 +5,8 @@ from partners.models.discount_code import DiscountCode
 User = get_user_model()
 
 ADMIN_USER = {
-    'username': 'ethan.betts.dev@gmail.com',
-    'email': 'ethan.betts.dev@gmail.com',
+    'username': 'admin@futureflower.app',
+    'email': 'admin@futureflower.app',
     'first_name': 'Ethan',
     'last_name': 'Betts',
     'is_superuser': True,

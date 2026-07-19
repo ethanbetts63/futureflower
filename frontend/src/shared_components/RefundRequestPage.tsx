@@ -2,7 +2,7 @@
 import UnifiedSummaryCard from '@/shared_components/form_flow/UnifiedSummaryCard';
 import FlowBackButton from '@/shared_components/form_flow/FlowBackButton';
 
-const REFUND_EMAIL = 'ethan.betts.dev@gmail.com';
+const REFUND_EMAIL = 'admin@futureflower.app';
 
 const RefundRequestPage = () => {
   return (

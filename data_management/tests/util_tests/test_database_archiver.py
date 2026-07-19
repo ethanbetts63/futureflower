@@ -15,7 +15,6 @@ class MockModel:
 
 @pytest.fixture
 def mock_command():
-    """Fixture to create a mock management command with stdout and stderr."""
     command = MagicMock()
     command.stdout = StringIO()
     command.stderr = StringIO()
@@ -31,7 +30,6 @@ class TestDatabaseArchiver:
     @patch('data_management.utils.archive_db.database_archiver.ModelLister')
     @patch('data_management.utils.archive_db.database_archiver.subprocess.run')
     def test_archive_success(self, mock_subprocess_run, mock_model_lister, mock_makedirs, mock_path_exists, mock_command, tmp_path):
-        """Test the successful archiving of models."""
         mock_model1 = MockModel('app1', 'Model1')
         mock_model2 = MockModel('app2', 'Model2')
         mock_model_lister.return_value.get_all_models.return_value = [mock_model1, mock_model2]
@@ -59,7 +57,6 @@ class TestDatabaseArchiver:
     @patch('data_management.utils.archive_db.database_archiver.ModelLister')
     @patch('data_management.utils.archive_db.database_archiver.subprocess.run')
     def test_archive_failure(self, mock_subprocess_run, mock_model_lister, mock_makedirs, mock_path_exists, mock_command, tmp_path):
-        """Test the handling of a failed dumpdata command."""
         mock_model = MockModel('app1', 'Model1')
         mock_model_lister.return_value.get_all_models.return_value = [mock_model]
         
@@ -76,7 +73,6 @@ class TestDatabaseArchiver:
 
     @patch('data_management.utils.archive_db.database_archiver.ModelLister')
     def test_no_models_found(self, mock_model_lister, mock_makedirs, mock_path_exists, mock_command):
-        """Test the case where no models are found to archive."""
         mock_model_lister.return_value.get_all_models.return_value = []
         
         archiver = DatabaseArchiver(command=mock_command)

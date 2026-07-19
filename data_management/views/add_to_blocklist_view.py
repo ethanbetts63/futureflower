@@ -13,31 +13,20 @@ logger = logging.getLogger(__name__)
 signer = Signer()
 
 class AddToBlocklistView(APIView):
-    """
-    View to handle the blocklist link clicked by a user in an email.
-    """
     permission_classes = [AllowAny]
 
     def get(self, request, signed_email, *args, **kwargs):
-        """
-        Verifies the signature and adds the email to the blocklist.
-        """
         try:
             email = signer.unsign(signed_email)
         except BadSignature:
-            # This could be a generic "invalid link" page in the future
             return Response(
                 {"detail": "Invalid block link."},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Use get_or_create to handle cases where the user clicks the link multiple times.
         blocked_email, created = BlockedEmail.objects.get_or_create(email=email)
 
         if created:
-            # Log that a new email was blocked
             logger.info("Email '%s' has been added to the blocklist.", email)
-        
-        # In the future, this could be a dedicated frontend page.
-        # For now, a simple message is sufficient.
+
         return redirect(f"{settings.SITE_URL}/blocklist-success/")

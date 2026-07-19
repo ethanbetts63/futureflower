@@ -10,7 +10,6 @@ class BaseArchiver:
         self.archive_dir = os.path.join(self.base_output_dir, self.date_stamp)
 
     def _get_base_output_dir(self):
-        # This can be overridden by subclasses if needed
         return os.path.join('data_management', 'data', 'archive', 'db_backups')
 
     def _ensure_directory_exists(self):

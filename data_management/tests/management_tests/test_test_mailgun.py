@@ -8,8 +8,6 @@ class TestTestMailgunCommand:
 
     @patch('data_management.management.commands.test_mailgun.requests.post')
     def test_mailgun_success(self, mock_post):
-        """Test the command when Mailgun returns a successful response."""
-        # Mock the response from requests.post
         mock_response = MagicMock()
         mock_response.status_code = 200
         mock_response.text = '{"message": "Queued. Thank you."}'
@@ -19,15 +17,13 @@ class TestTestMailgunCommand:
         call_command('test_mailgun', stdout=out)
         
         mock_post.assert_called_once()
-        # You can add more specific assertions about the call arguments here if needed
-        
+
         output = out.getvalue()
         assert "Successfully sent email!" in output
         assert 'Queued. Thank you.' in output
 
     @patch('data_management.management.commands.test_mailgun.requests.post')
     def test_mailgun_failure(self, mock_post):
-        """Test the command when Mailgun returns an error response."""
         mock_response = MagicMock()
         mock_response.status_code = 401
         mock_response.text = '{"message": "Forbidden"}'

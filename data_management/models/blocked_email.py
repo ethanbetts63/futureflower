@@ -1,9 +1,6 @@
 from django.db import models
 
 class BlockedEmail(models.Model):
-    """
-    Stores email addresses that have opted out of all communications.
-    """
     email = models.EmailField(
         unique=True, 
         db_index=True,

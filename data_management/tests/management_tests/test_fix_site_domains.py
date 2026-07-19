@@ -7,10 +7,6 @@ from django.contrib.sites.models import Site
 class TestFixSiteDomainsCommand:
 
     def test_updates_default_site(self):
-        """
-        Test that the command successfully updates the domain of the 'example.com' site.
-        """
-        # Ensure the default site exists
         site = Site.objects.get(pk=1)
         site.domain = 'example.com'
         site.name = 'example.com'
@@ -26,11 +22,6 @@ class TestFixSiteDomainsCommand:
         assert "Successfully updated site domain" in out.getvalue()
 
     def test_site_already_updated(self):
-        """
-        Test that the command handles the case where the site is already updated
-        or does not have the 'example.com' domain.
-        """
-        # Ensure the site does not have the 'example.com' domain
         site = Site.objects.get(pk=1)
         site.domain = 'www.futureflower.app'
         site.name = 'www.futureflower.app'

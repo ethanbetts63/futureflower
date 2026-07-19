@@ -6,12 +6,10 @@ from .model_lister import ModelLister
 class DatabaseArchiver(BaseArchiver):
     def __init__(self, command):
         super().__init__(command)
-        # Exclude Django's internal apps and others that don't need backing up
         apps_to_exclude = ['admin', 'auth', 'contenttypes', 'sessions', 'messages', 'staticfiles']
         self.model_lister = ModelLister(app_labels_to_exclude=apps_to_exclude)
 
     def archive(self):
-        """Archives each model to a separate JSON file using dumpdata."""
         print("Starting database archive...")
         models_to_archive = self.model_lister.get_all_models()
 

@@ -9,9 +9,6 @@ class TestUpdateCommand:
     @patch('data_management.management.commands.update.load_db_from_latest_archive')
     @patch('builtins.input', return_value='yes')
     def test_update_archive_yes(self, mock_input, mock_load_db):
-        """
-        Test that the --archive flag calls load_db_from_latest_archive when the user confirms.
-        """
         out = StringIO()
         call_command('update', '--archive', stdout=out)
         
@@ -21,9 +18,6 @@ class TestUpdateCommand:
     @patch('data_management.management.commands.update.load_db_from_latest_archive')
     @patch('builtins.input', return_value='no')
     def test_update_archive_no(self, mock_input, mock_load_db):
-        """
-        Test that the --archive flag does not call load_db_from_latest_archive when the user cancels.
-        """
         out = StringIO()
         call_command('update', '--archive', stdout=out)
         
@@ -31,7 +25,6 @@ class TestUpdateCommand:
         assert 'Database load cancelled.' in out.getvalue()
 
     def test_no_flags(self):
-        """Test that the command shows a warning if no flags are provided."""
         out = StringIO()
         call_command('update', stdout=out)
         assert 'No update flag specified' in out.getvalue()

@@ -2,10 +2,6 @@ from rest_framework import serializers
 from events.models import Event
 
 class EventSerializer(serializers.ModelSerializer):
-    """
-    Serializer for the Event model.
-    Primarily used for read-only operations to display event details.
-    """
     class Meta:
         model = Event
         fields = [

@@ -58,7 +58,7 @@ const PlanOverview = ({ plan }: PlanOverviewProps) => {
     try {
       await cancelOrder(orderId);
       setCancelDialogOpen(false);
-      toast.success('Your plan has been cancelled. To request a refund for remaining deliveries, email ethan.betts.dev@gmail.com.');
+      toast.success('Your plan has been cancelled. To request a refund for remaining deliveries, email admin@futureflower.app.');
       router.push('/order-support');
     } catch {
       setCancelError('Something went wrong. Please try again.');
@@ -148,7 +148,7 @@ const PlanOverview = ({ plan }: PlanOverviewProps) => {
             <AlertDialogTitle>Cancel this plan?</AlertDialogTitle>
             <AlertDialogDescription>
               All upcoming scheduled deliveries will be cancelled. This cannot be undone.
-              To request a refund for remaining deliveries, email ethan.betts.dev@gmail.com.
+              To request a refund for remaining deliveries, email admin@futureflower.app.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

@@ -7,7 +7,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            # The default site created by Django usually has pk=1, but getting by domain is safer.
             site_to_update = Site.objects.get(domain='example.com')
             new_domain = 'www.futureflower.app'
             
