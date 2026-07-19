@@ -13,7 +13,7 @@ import FlowerPreferencesSummary from '@/shared_components/form_flow/FlowerPrefer
 import ImpactSummary from '@/shared_components/form_flow/ImpactSummary';
 import PaymentHistoryCard from '@/shared_components/PaymentHistoryCard';
 import { cancelOrder } from '@/api/orders';
-import { formatDate } from '@/utils/utils';
+import { formatDate } from '@/lib/utils';
 import { toast } from 'sonner';
 import {
   AlertDialog,

@@ -4,7 +4,7 @@ import { Input } from '@/shared_components/ui/input';
 import { Textarea } from '@/shared_components/ui/textarea';
 import { ImpactTierSelector } from '@/shared_components/form_flow/ImpactTierSelector';
 import type { OrderStructureFormProps } from '@/types/OrderStructureFormProps';
-import { MIN_DAYS_BEFORE_CREATE, MIN_DAYS_BEFORE_EDIT, minDeliveryDate } from '@/utils/systemConstants';
+import { MIN_DAYS_BEFORE_CREATE, MIN_DAYS_BEFORE_EDIT, minDeliveryDate } from '@/lib/systemConstants';
 
 const OrderStructureForm = ({
     formData,

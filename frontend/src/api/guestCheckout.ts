@@ -1,4 +1,4 @@
-import { getCsrfToken } from '@/utils/utils';
+import { getCsrfToken } from '@/lib/utils';
 import { handleResponse } from './helpers';
 import { parseOrder } from './parseOrder';
 import type { DiscountValidationResult, Order, PartialOrder } from '@/types';

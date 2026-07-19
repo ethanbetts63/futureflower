@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/shared_components/ui/button';
 import { ChevronLeft } from 'lucide-react';
-import { cn } from '@/utils/utils';
+import { cn } from '@/lib/utils';
 import type { FlowBackButtonProps } from '@/types/FlowBackButtonProps';
 
 const FlowBackButton = ({ 

@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import { FaqV2 } from '@/shared_components/FaqV2';
-import { faqs } from '@/data/faqs';
+import { faqs } from '@/lib/faqs';
 import type { ArticleLayoutProps } from '@/types/ArticleLayoutProps';
 
 

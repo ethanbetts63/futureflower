@@ -10,7 +10,7 @@ import UnifiedSummaryCard from '@/shared_components/form_flow/UnifiedSummaryCard
 import SummarySection from '@/shared_components/SummarySection';
 import FlowBackButton from '@/shared_components/form_flow/FlowBackButton';
 import { Button } from '@/shared_components/ui/button';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 function formatDate(dtStr: string): string {
   return new Date(dtStr).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });

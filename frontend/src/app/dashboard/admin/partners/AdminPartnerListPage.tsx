@@ -6,7 +6,7 @@ import type { AdminPartner } from '@/types/AdminPartner';
 import { Loader2 } from 'lucide-react';
 import UnifiedSummaryCard from '@/shared_components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/shared_components/SummarySection';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 type StatusFilter = 'all' | 'pending' | 'active' | 'suspended' | 'denied';
 

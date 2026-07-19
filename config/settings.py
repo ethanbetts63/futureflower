@@ -34,7 +34,7 @@ ADMIN_NUMBER = os.environ.get("ADMIN_NUMBER")
 MIN_DAYS_BEFORE_CREATE = 3
 MIN_DAYS_BEFORE_EDIT = 7
 SUBSCRIPTION_CHARGE_LEAD_DAYS = 7
-MIN_BUDGET = 65
+MIN_BUDGET = 1
 # At or above this budget the delivery cost is absorbed by the budget and no
 # separate fee is charged. Below it, DELIVERY_FEE is added so the budget keeps
 # its full flower value.

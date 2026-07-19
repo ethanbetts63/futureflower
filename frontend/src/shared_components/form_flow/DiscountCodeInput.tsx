@@ -8,7 +8,7 @@ import { CheckCircle, XCircle } from 'lucide-react';
 import { applyGuestDiscount } from '@/api/guestCheckout';
 import type { DiscountValidationResult } from '@/types';
 import type { DiscountCodeInputProps } from '@/types/DiscountCodeInputProps';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 import { fieldErrors } from '@/api/ApiError';
 
 const DiscountCodeInput = ({

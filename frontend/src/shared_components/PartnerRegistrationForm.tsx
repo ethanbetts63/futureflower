@@ -9,12 +9,10 @@ import { Input } from '@/shared_components/ui/input';
 import { Label } from '@/shared_components/ui/label';
 import { Checkbox } from '@/shared_components/ui/checkbox';
 import { toast } from 'sonner';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared_components/ui/select';
-import { COUNTRIES } from '@/data/countries';
 import { registerPartner } from '@/api/partners';
 import { acceptTerms } from '@/api';
 import type { PartnerRegistrationData } from '@/types';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 import { fieldErrorSummary } from '@/api/ApiError';
 
 // Leaflet touches `window` at module load, so keep the map client-only to avoid
@@ -57,7 +55,6 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
     city: '',
     state: '',
     postcode: '',
-    country: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,11 +66,6 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
 
     if (form.password !== form.confirm_password) {
       toast.error('Passwords do not match.');
-      return;
-    }
-
-    if (!form.country) {
-      toast.error('Please select your country.');
       return;
     }
 
@@ -125,10 +117,6 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
     }
     if (form.password !== form.confirm_password) {
       toast.error('Passwords do not match.');
-      return;
-    }
-    if (!form.country) {
-      toast.error('Please select your country.');
       return;
     }
     setStep(2);
@@ -202,24 +190,6 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
             <Label htmlFor="phone">Phone</Label>
             <Input id="phone" name="phone" value={form.phone} onChange={handleChange} />
           </div>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="country">Country <span className="text-red-500">*</span></Label>
-          <Select
-            value={form.country}
-            onValueChange={(value) => setForm({ ...form, country: value })}
-            required
-          >
-            <SelectTrigger id="country" className="w-full">
-              <SelectValue placeholder="Select your country" />
-            </SelectTrigger>
-            <SelectContent className="bg-white">
-              {COUNTRIES.map((c) => (
-                <SelectItem key={c.code} value={c.code}>{c.name}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
         </div>
         </>
         )}

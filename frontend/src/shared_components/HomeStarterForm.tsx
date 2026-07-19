@@ -5,24 +5,19 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { IMPACT_TIERS, MIN_BUDGET } from '@/utils/pricingConstants';
-import { DELIVERY_FEE, DELIVERY_INCLUDED_THRESHOLD, minDeliveryDate } from '@/utils/systemConstants';
-import { type HomepageBrief, orderToBrief, briefToOrderPatch } from '@/lib/homepageBrief';
+import { IMPACT_TIERS, MIN_BUDGET } from '@/lib/pricingConstants';
+import { DELIVERY_FEE, DELIVERY_INCLUDED_THRESHOLD, minDeliveryDate } from '@/lib/systemConstants';
+import { type HomepageBrief, orderToBrief } from '@/lib/homepageBrief';
 import { OCCASIONS, occasionByName, occasionByValue, type Occasion } from '@/lib/occasions';
-import { startGuestCheckout, getGuestOrder, updateGuestOrder } from '@/api/guestCheckout';
-import { errorMessage } from '@/utils/errors';
+import { startGuestCheckout, getGuestOrder } from '@/api/guestCheckout';
+import { errorMessage } from '@/lib/errors';
 
 interface HomeStarterFormProps {
   defaultVibeName?: string;
-  /** 'edit' loads the existing draft and saves back to it, returning to the
-   *  confirmation summary. 'create' (default) starts/continues a draft and moves
-   *  on to the recipient step. */
-  mode?: 'create' | 'edit';
 }
 
-export default function HomeStarterForm({ defaultVibeName, mode = 'create' }: HomeStarterFormProps) {
+export default function HomeStarterForm({ defaultVibeName }: HomeStarterFormProps) {
   const router = useRouter();
-  const isEdit = mode === 'edit';
   const [selectedVibe, setSelectedVibe] = useState<Occasion>(
     () => occasionByName(defaultVibeName) ?? OCCASIONS[0],
   );
@@ -35,8 +30,9 @@ export default function HomeStarterForm({ defaultVibeName, mode = 'create' }: Ho
   const budgetScrollRef = useRef<HTMLDivElement>(null);
 
   // Prefill from the existing draft, if any. Without this, returning to the form
-  // — via the confirmation "Edit" link, or just navigating back to the homepage —
-  // shows defaults and overwrites the order with them on submit.
+  // — via a confirmation "Edit" link, or just navigating back to the homepage —
+  // shows defaults and overwrites the order with them on submit. `start` reuses
+  // the existing pending draft rather than creating a new order.
   useEffect(() => {
     let cancelled = false;
     getGuestOrder()
@@ -83,16 +79,11 @@ export default function HomeStarterForm({ defaultVibeName, mode = 'create' }: Ho
 
     setIsSubmitting(true);
     try {
-      if (isEdit) {
-        await updateGuestOrder(briefToOrderPatch(brief));
-        router.push('/order/confirmation');
-      } else {
-        await startGuestCheckout(brief);
-        router.push('/order/recipient');
-      }
+      await startGuestCheckout(brief);
+      router.push('/order/recipient');
     } catch (error) {
       setIsSubmitting(false);
-      toast.error(isEdit ? 'Could not save your changes' : 'Could not start your order', {
+      toast.error('Could not start your order', {
         description: errorMessage(error) || 'Please try again.',
       });
     }
@@ -320,9 +311,7 @@ export default function HomeStarterForm({ defaultVibeName, mode = 'create' }: Ho
         className="mt-6 flex w-full items-center justify-between rounded-lg bg-black px-5 py-4 text-left text-white transition hover:bg-black/85 disabled:cursor-wait disabled:opacity-70"
       >
         <span className="block text-sm font-semibold">
-          {isSubmitting
-            ? (isEdit ? 'Saving…' : 'Preparing your order…')
-            : (isEdit ? 'Save & Review Order' : 'Next: Recipient Details')}
+          {isSubmitting ? 'Preparing your order…' : 'Next: Recipient Details'}
         </span>
         {isSubmitting ? (
           <Loader2 className="h-5 w-5 animate-spin text-white/70" />

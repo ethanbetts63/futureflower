@@ -1,5 +1,5 @@
 import { MapPin, Truck } from 'lucide-react';
-import { DELIVERY_INCLUDED_THRESHOLD } from '@/utils/systemConstants';
+import { DELIVERY_INCLUDED_THRESHOLD } from '@/lib/systemConstants';
 
 export const HeroPills = () => {
   return (

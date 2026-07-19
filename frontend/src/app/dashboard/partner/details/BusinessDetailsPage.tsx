@@ -12,7 +12,7 @@ import FlowBackButton from '@/shared_components/form_flow/FlowBackButton';
 import { Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { getPartnerDashboard, updatePartnerDetails } from '@/api/partners';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 import { fieldErrorSummary } from '@/api/ApiError';
 
 const BusinessDetailsPage = () => {

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Input } from '@/shared_components/ui/input';
-import { IMPACT_TIERS, TIER_PRICES, MIN_BUDGET } from '@/utils/pricingConstants';
+import { IMPACT_TIERS, TIER_PRICES, MIN_BUDGET } from '@/lib/pricingConstants';
 import type { ImpactTierSelectorProps } from '@/types/ImpactTierSelectorProps';
 
 export const ImpactTierSelector = ({ value, onChange }: ImpactTierSelectorProps) => {

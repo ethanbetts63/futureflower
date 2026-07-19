@@ -5,7 +5,7 @@ import { usePlanEditor } from '@/hooks/usePlanEditor';
 import type { Order } from '@/types/Order';
 import type { OrderStructureData } from '@/types/OrderStructureData';
 import type { OrderStructureEditorProps } from '@/types/OrderStructureEditorProps';
-import { minDeliveryDate } from '@/utils/systemConstants';
+import { minDeliveryDate } from '@/lib/systemConstants';
 
 const OrderStructureEditor = ({
     mode,

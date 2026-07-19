@@ -1,7 +1,7 @@
 
 import { FaqV2 } from '@/shared_components/FaqV2';
 import type { FaqItem } from '@/types/FaqItem';
-import { DELIVERY_FEE, DELIVERY_INCLUDED_THRESHOLD } from '@/utils/systemConstants';
+import { DELIVERY_FEE, DELIVERY_INCLUDED_THRESHOLD } from '@/lib/systemConstants';
 
 const pricingFaqs: FaqItem[] = [
     {

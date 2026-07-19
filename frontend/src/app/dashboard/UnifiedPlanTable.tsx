@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared_components/ui/table';
 import { Spinner } from '@/shared_components/ui/spinner';
-import { showErrorToast } from '@/utils/utils';
+import { showErrorToast } from '@/lib/utils';
 import { Button } from '@/shared_components/ui/button';
 import { Eye, Plus } from 'lucide-react';
 import { getOrders } from '@/api/orders';
 import { type Order } from '@/types/Order';
 import { Badge } from '@/shared_components/ui/badge';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 const DISPLAY_TYPE: Record<Order['billing_mode'] & string, string> = {
   one_time: 'Single Delivery',

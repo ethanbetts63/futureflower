@@ -12,6 +12,7 @@ const playfair = Playfair_Display({
 import Providers from './providers';
 import NavBar from '@/shared_components/NavBar';
 import Footer from '@/shared_components/Footer';
+import { Toaster } from '@/shared_components/ui/sonner';
 import { buildWebsiteSchema, buildOrganizationSchema } from '@/lib/seo';
 
 export const metadata: Metadata = {
@@ -55,6 +56,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </Providers>
+        <Toaster />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

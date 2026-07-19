@@ -19,16 +19,18 @@ import OrderTotalSummary from '@/shared_components/form_flow/OrderTotalSummary';
 import { Checkbox } from '@/shared_components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared_components/ui/select';
 import { acceptGuestTerms, claimGuestCheckout, makeGuestOrderRecurring, startGuestCheckoutPayment } from '@/api/guestCheckout';
-import { formatDate } from '@/utils/utils';
+import { formatDate } from '@/lib/utils';
 import { occasionLabel } from '@/lib/occasions';
 import { FREQUENCIES } from '@/lib/frequencies';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 import { toast } from 'sonner';
 import type { Order } from '@/types/Order';
 
 const EDIT_BASE_PATH = '/order';
 // Every field the homepage brief form collects is edited back through it.
-const BRIEF_EDIT_PATH = '/order/brief';
+// Editing the brief sends the user back to the homepage form, which prefills
+// from the existing draft; they continue forward through the flow to re-review.
+const BRIEF_EDIT_PATH = '/';
 
 interface OrderConfirmationProps {
   plan: Order;

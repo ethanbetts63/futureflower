@@ -17,8 +17,8 @@ import SummarySection from '@/shared_components/SummarySection';
 import { MapPin, Calendar, RefreshCw, ShieldCheck } from 'lucide-react';
 import { getGuestOrder } from '@/api/guestCheckout';
 import type { Order } from '@/types';
-import { formatDate, capitalize } from '@/utils/utils';
-import { getImpactTier } from '@/utils/pricingConstants';
+import { formatDate, capitalize } from '@/lib/utils';
+import { getImpactTier } from '@/lib/pricingConstants';
 import flowerIcon from '@/assets/flower_symbol.svg';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '');

@@ -8,7 +8,7 @@ import logo128 from '@/assets/logo-128w.webp';
 import logo192 from '@/assets/logo-192w.webp';
 import logo256 from '@/assets/logo-256w.webp';
 import { assetSrc } from '@/lib/assets';
-import { cn } from '@/utils/utils';
+import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
 
 const MENU_LINK =

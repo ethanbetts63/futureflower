@@ -10,7 +10,7 @@ import UnifiedSummaryCard from '@/shared_components/form_flow/UnifiedSummaryCard
 import SummarySection from '@/shared_components/SummarySection';
 import type { EventCardProps } from '@/types/EventCardProps';
 import type { QueueSectionProps } from '@/types/QueueSectionProps';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr + 'T00:00:00');

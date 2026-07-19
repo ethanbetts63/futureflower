@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { cn } from "@/utils/utils"
+import { cn } from "@/lib/utils"
 import { Button } from "@/shared_components/ui/button"
 import { Card, CardContent } from "@/shared_components/ui/card"
 import { Input } from "@/shared_components/ui/input"

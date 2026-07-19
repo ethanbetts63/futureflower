@@ -14,7 +14,7 @@ import {
   TableRow,
   TableCell,
 } from '@/shared_components/ui/table';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 type SortKey = 'name' | 'email' | 'plans' | 'joined';
 type SortDir = 'asc' | 'desc';

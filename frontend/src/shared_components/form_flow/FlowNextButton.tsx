@@ -1,7 +1,7 @@
 
 import { Button } from '@/shared_components/ui/button';
 import { ChevronRight } from 'lucide-react';
-import { cn } from '@/utils/utils';
+import { cn } from '@/lib/utils';
 import { Spinner } from '@/shared_components/ui/spinner';
 import type { FlowNextButtonProps } from '@/types/FlowNextButtonProps';
 

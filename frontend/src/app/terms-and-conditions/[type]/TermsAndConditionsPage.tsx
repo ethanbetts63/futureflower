@@ -7,7 +7,7 @@ import type { TermsAndConditions } from '@/types/TermsAndConditions';
 import { Spinner } from '@/shared_components/ui/spinner';
 import UnifiedSummaryCard from '@/shared_components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/shared_components/SummarySection';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 const VALID_TYPES = ['florist', 'customer', 'affiliate'] as const;
 type TermsType = typeof VALID_TYPES[number];

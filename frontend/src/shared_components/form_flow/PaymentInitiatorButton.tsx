@@ -7,8 +7,8 @@ import { ChevronRight } from 'lucide-react';
 import { Button } from '@/shared_components/ui/button';
 import { Spinner } from '@/shared_components/ui/spinner';
 import type { PaymentInitiatorButtonProps } from '@/types/PaymentInitiatorButtonProps';
-import { cn } from '@/utils/utils';
-import { errorMessage } from '@/utils/errors';
+import { cn } from '@/lib/utils';
+import { errorMessage } from '@/lib/errors';
 
 const PaymentInitiatorButton = ({
   orderId,

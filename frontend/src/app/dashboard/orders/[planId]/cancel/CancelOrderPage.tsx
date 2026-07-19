@@ -19,7 +19,7 @@ import {
   AlertDialogAction,
 } from '@/shared_components/ui/alert-dialog';
 import { getOrder, cancelOrder } from '@/api/orders';
-import { formatDate } from '@/utils/utils';
+import { formatDate } from '@/lib/utils';
 import type { Order } from '@/types/Order';
 
 const CancelOrderPageInner = ({

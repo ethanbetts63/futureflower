@@ -1,7 +1,7 @@
 ﻿
 import Link from 'next/link';
 import Image from 'next/image';
-import { getImpactTier } from '@/utils/pricingConstants';
+import { getImpactTier } from '@/lib/pricingConstants';
 import flowerIcon from '@/assets/flower_symbol.svg';
 import type { ImpactSummaryProps } from '@/types/ImpactSummaryProps';
 

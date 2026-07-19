@@ -1,6 +1,6 @@
 import { Calendar, RefreshCw } from 'lucide-react';
 import SummarySection from '@/shared_components/SummarySection';
-import { formatDate } from '@/utils/utils';
+import { formatDate } from '@/lib/utils';
 import type { Order } from '@/types/Order';
 
 /** The schedule shown for a recurring order, both while ordering and afterwards. */

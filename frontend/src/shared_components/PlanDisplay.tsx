@@ -6,7 +6,7 @@ import type { Order } from '@/types/Order';
 import { toast } from 'sonner';
 import { Button } from '@/shared_components/ui/button';
 import type { PlanDisplayProps } from '@/types/PlanDisplayProps';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 function PlanDisplay<T extends Order = Order>({
     children,

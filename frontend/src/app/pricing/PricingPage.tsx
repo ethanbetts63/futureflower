@@ -7,8 +7,8 @@ import { RotatingBouquetHeroImage } from '@/shared_components/RotatingBouquetHer
 import PricingFloristAdvantage from './PricingFloristAdvantage';
 import PricingTiers from './PricingTiers';
 import PricingFaq from './PricingFaq';
-import { IMPACT_TIERS } from '@/utils/pricingConstants';
-import { DELIVERY_INCLUDED_THRESHOLD } from '@/utils/systemConstants';
+import { IMPACT_TIERS } from '@/lib/pricingConstants';
+import { DELIVERY_INCLUDED_THRESHOLD } from '@/lib/systemConstants';
 
 const SEND_HREF = '/';
 

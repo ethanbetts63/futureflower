@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 import type { ProfileFormProps } from '@/types/ProfileFormProps';
 import { fieldErrorSummary } from '@/api/ApiError';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 type ProfileFormData = Omit<UserProfile, 'id' | 'username'>;
 

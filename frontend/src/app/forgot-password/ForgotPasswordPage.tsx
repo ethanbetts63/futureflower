@@ -11,7 +11,7 @@ import { Card, CardContent } from '@/shared_components/ui/card';
 import { Spinner } from '@/shared_components/ui/spinner';
 import { toast } from "sonner";
 import { requestPasswordReset } from '@/api';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 type EmailFormData = {
   email: string;

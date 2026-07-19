@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import UnifiedSummaryCard from '@/shared_components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/shared_components/SummarySection';
 import FlowBackButton from '@/shared_components/form_flow/FlowBackButton';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 function toLocalDatetimeInputValue(date: Date): string {
   const pad = (n: number) => String(n).padStart(2, '0');

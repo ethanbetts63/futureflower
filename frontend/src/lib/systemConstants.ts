@@ -3,7 +3,7 @@
  */
 export const MIN_DAYS_BEFORE_CREATE = 3;
 export const MIN_DAYS_BEFORE_EDIT = 7;
-export const MIN_BUDGET = 65;
+export const MIN_BUDGET = 1;
 
 /**
  * The earliest delivery date the customer may pick, as a yyyy-mm-dd string.

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import type { Order, PartialOrder } from '@/types/Order';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 export interface UsePlanEditorConfig<T> {
   mode: 'create' | 'edit';

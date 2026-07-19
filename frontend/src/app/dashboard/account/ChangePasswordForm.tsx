@@ -4,7 +4,7 @@
 
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { changePassword } from '@/api';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 import { Button } from '@/shared_components/ui/button';
 import { Input } from '@/shared_components/ui/input';
 import { Form, FormControl, FormItem, FormLabel, FormMessage } from '@/shared_components/ui/form';

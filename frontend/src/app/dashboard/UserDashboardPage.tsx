@@ -14,7 +14,7 @@ import SummarySection from '@/shared_components/SummarySection';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import UnifiedSummaryCard from '@/shared_components/form_flow/UnifiedSummaryCard';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 const UserDashboardPage = () => {
   const [plans, setPlans] = useState<Order[]>([]);

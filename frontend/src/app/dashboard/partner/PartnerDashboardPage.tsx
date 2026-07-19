@@ -9,7 +9,7 @@ import { getPartnerDashboard, createDiscountCode } from '@/api/partners';
 import type { Partner } from '@/types';
 import type { DiscountCodesSectionProps } from '@/types/DiscountCodesSectionProps';
 import { useRouter } from 'next/navigation';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 const PartnerDashboardPage = () => {
   const [partner, setPartner] = useState<Partner | null>(null);

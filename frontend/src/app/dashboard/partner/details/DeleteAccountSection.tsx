@@ -16,7 +16,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/shared_components/ui/alert-dialog";
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 const DeleteAccountSection = () => {
     const [isDeleting, setIsDeleting] = useState(false);

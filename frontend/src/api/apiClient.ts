@@ -1,4 +1,4 @@
-import { getCsrfToken } from '../utils/utils';
+import { getCsrfToken } from '@/lib/utils';
 
 const SAFE_METHODS = /^(GET|HEAD|OPTIONS|TRACE)$/i;
 

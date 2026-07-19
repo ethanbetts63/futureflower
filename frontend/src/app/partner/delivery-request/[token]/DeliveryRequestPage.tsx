@@ -9,7 +9,7 @@ import { CheckCircle, XCircle, MapPin, Calendar, DollarSign } from 'lucide-react
 import { toast } from 'sonner';
 import { getDeliveryRequestByToken, respondToDeliveryRequest, markDeliveryComplete } from '@/api/partners';
 import type { DeliveryRequestDetail } from '@/types';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 const DeliveryRequestPage = () => {
   const params = useParams();

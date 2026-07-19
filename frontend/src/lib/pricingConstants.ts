@@ -2,7 +2,7 @@ import smallFlowers from '@/assets/small_flowers.png';
 import medFlowers from '@/assets/med_flowers.png';
 import largeFlowers from '@/assets/large_flowers.png';
 import type { ImpactTier } from '@/types/ImpactTier';
-import { MIN_BUDGET } from '@/utils/systemConstants';
+import { MIN_BUDGET } from '@/lib/systemConstants';
 
 export type { ImpactTier };
 export { MIN_BUDGET };

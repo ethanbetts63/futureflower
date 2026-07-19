@@ -1,8 +1,8 @@
 
 import Image from 'next/image';
 import { Truck } from 'lucide-react';
-import { IMPACT_TIERS, MIN_BUDGET } from '@/utils/pricingConstants';
-import { DELIVERY_FEE, DELIVERY_INCLUDED_THRESHOLD } from '@/utils/systemConstants';
+import { IMPACT_TIERS, MIN_BUDGET } from '@/lib/pricingConstants';
+import { DELIVERY_FEE, DELIVERY_INCLUDED_THRESHOLD } from '@/lib/systemConstants';
 
 const PricingTiers = () => {
     return (

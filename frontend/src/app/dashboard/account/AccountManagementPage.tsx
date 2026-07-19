@@ -11,7 +11,7 @@ import { ProfileForm } from '@/app/dashboard/account/ProfileForm';
 import { ChangePasswordForm } from '@/app/dashboard/account/ChangePasswordForm';
 import UnifiedSummaryCard from '@/shared_components/form_flow/UnifiedSummaryCard';
 import FlowBackButton from '@/shared_components/form_flow/FlowBackButton';
-import { errorMessage } from '@/utils/errors';
+import { errorMessage } from '@/lib/errors';
 
 const AccountManagementPage = () => {
     const [profile, setProfile] = useState<UserProfile | null>(null);
