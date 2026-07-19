@@ -1,12 +1,16 @@
 ﻿
 import Link from 'next/link';
 import Image from 'next/image';
-import { getImpactTier } from '@/lib/pricingConstants';
-import flowerIcon from '@/assets/flower_symbol.svg';
+import { getImpactTier, IMPACT_TIERS } from '@/lib/pricingConstants';
 import type { ImpactSummaryProps } from '@/types/ImpactSummaryProps';
+
+// A custom budget matches no preset tier, so it has no image of its own; reuse
+// the Grand Gesture image as a stand-in rather than showing an empty placeholder.
+const customImage = IMPACT_TIERS.find((t) => t.name === 'The Grand Gesture')?.image;
 
 const ImpactSummary = ({ price, editUrl }: ImpactSummaryProps) => {
   const tier = getImpactTier(price);
+  const image = tier?.image ?? customImage;
 
   return (
     <div className="py-6 border-b border-black/5 last:border-0">
@@ -25,19 +29,13 @@ const ImpactSummary = ({ price, editUrl }: ImpactSummaryProps) => {
       </div>
       <div className="flex items-start gap-5">
         <div className="relative flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden shadow-sm border border-black/5">
-          {tier ? (
-            <Image
-              src={tier.image}
-              alt={tier.name}
-              fill
-              sizes="96px"
-              className="object-cover"
-            />
-          ) : (
-            <div className="w-full h-full bg-[var(--color4)] flex items-center justify-center">
-              <img src={flowerIcon} alt="" className="h-8 w-8 opacity-20" />
-            </div>
-          )}
+          <Image
+            src={image}
+            alt={tier ? tier.name : 'Custom Selection'}
+            fill
+            sizes="96px"
+            className="object-cover"
+          />
         </div>
         <div>
           <h4 className="text-xl font-bold text-black font-playfair-display">

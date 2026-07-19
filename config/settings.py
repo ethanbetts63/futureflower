@@ -38,7 +38,7 @@ MIN_BUDGET = 1
 # At or above this budget the delivery cost is absorbed by the budget and no
 # separate fee is charged. Below it, DELIVERY_FEE is added so the budget keeps
 # its full flower value.
-DELIVERY_INCLUDED_THRESHOLD = 100
+DELIVERY_INCLUDED_THRESHOLD = 1
 DELIVERY_FEE = 20
 
 # SECURITY WARNING: don't run with debug turned on in production!

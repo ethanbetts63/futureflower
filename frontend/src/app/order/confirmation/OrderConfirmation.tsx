@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { Calendar, RefreshCw, Tag, StickyNote } from 'lucide-react';
 import FlowBackButton from '@/shared_components/form_flow/FlowBackButton';
 import FlowNextButton from '@/shared_components/form_flow/FlowNextButton';
-import StepProgressBar from '@/shared_components/form_flow/StepProgressBar';
 import UnifiedSummaryCard from '@/shared_components/form_flow/UnifiedSummaryCard';
 import SummarySection from '@/shared_components/SummarySection';
 import RecipientSummary from '@/shared_components/form_flow/RecipientSummary';
@@ -94,14 +93,6 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
   };
 
   return (
-    <div className="space-y-8">
-      <StepProgressBar
-        planName="Single Delivery Plan"
-        currentStep={3}
-        totalSteps={3}
-        isReview={true}
-      />
-
       <UnifiedSummaryCard
         title="Confirm Your Delivery"
         description="Please review the details of your order before proceeding to payment."
@@ -259,7 +250,6 @@ const OrderConfirmation = ({ plan, onRefreshPlan }: OrderConfirmationProps) => {
           </label>
         </SummarySection>
       </UnifiedSummaryCard>
-    </div>
   );
 };
 
