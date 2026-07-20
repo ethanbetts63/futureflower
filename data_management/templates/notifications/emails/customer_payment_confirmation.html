@@ -2,22 +2,64 @@
 
 {% block title %}Your FutureFlower order is confirmed{% endblock %}
 
-{% block preheader %}Your order for {{ recipient_name }} is confirmed — first delivery {{ start_date }}.{% endblock %}
+{% block preheader %}Your order for {{ recipient_name }} is confirmed — first delivery {{ order.start_date }}.{% endblock %}
 
 {% block content %}
 <h1 style="font-family: Georgia, 'Times New Roman', serif; font-size: 22px; font-weight: bold; color: #1a1a1a; margin: 0 0 16px 0;">Hi {{ first_name }},</h1>
 
 <p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #333333; margin: 0 0 24px 0; line-height: 26px;">
-    Your FutureFlower order has been confirmed. Here's a summary:
+    Your FutureFlower order has been confirmed. Please check the details below carefully — if anything looks wrong, reply to this email and we'll fix it before the first delivery.
 </p>
 
 <!-- Order details card -->
-<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f6f1; border-radius: 6px; margin-bottom: 28px;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f6f1; border-radius: 6px; margin-bottom: 16px;">
     <tr>
         <td style="padding: 20px 24px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #333333; line-height: 26px;">
             <p style="margin: 0 0 8px 0;"><strong>Recipient:</strong> {{ recipient_name }}</p>
-            <p style="margin: 0 0 8px 0;"><strong>First delivery:</strong> {{ start_date }}</p>
-            <p style="margin: 0;"><strong>Budget per bouquet:</strong> ${{ budget }}</p>
+            {% if address_lines %}
+            <p style="margin: 0 0 8px 0;"><strong>Delivery address:</strong><br>
+                {% for line in address_lines %}{{ line }}{% if not forloop.last %}<br>{% endif %}{% endfor %}
+            </p>
+            {% endif %}
+            <p style="margin: 0 0 8px 0;"><strong>First delivery:</strong> {{ order.start_date }}</p>
+            {% if order.preferred_delivery_time %}
+            <p style="margin: 0 0 8px 0;"><strong>Preferred delivery time:</strong> {{ order.preferred_delivery_time }}</p>
+            {% endif %}
+            {% if occasion_display %}
+            <p style="margin: 0 0 8px 0;"><strong>Occasion:</strong> {{ occasion_display }}</p>
+            {% endif %}
+            <p style="margin: 0;"><strong>Plan:</strong> {{ billing_label }}</p>
+        </td>
+    </tr>
+</table>
+
+{% if order.billing_mode == 'one_time' and order.card_message or order.flower_notes or order.delivery_notes %}
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f6f1; border-radius: 6px; margin-bottom: 16px;">
+    <tr>
+        <td style="padding: 20px 24px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #333333; line-height: 26px;">
+            {% if order.billing_mode == 'one_time' and order.card_message %}
+            <p style="margin: 0 0 8px 0;"><strong>Card message:</strong> {{ order.card_message }}</p>
+            {% endif %}
+            {% if order.flower_notes %}
+            <p style="margin: 0 0 8px 0;"><strong>Flower preferences:</strong> {{ order.flower_notes }}</p>
+            {% endif %}
+            {% if order.delivery_notes %}
+            <p style="margin: 0;"><strong>Delivery notes:</strong> {{ order.delivery_notes }}</p>
+            {% endif %}
+        </td>
+    </tr>
+</table>
+{% endif %}
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f6f1; border-radius: 6px; margin-bottom: 28px;">
+    <tr>
+        <td style="padding: 20px 24px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #333333; line-height: 26px;">
+            <p style="margin: 0 0 8px 0;"><strong>Budget per bouquet:</strong> ${{ order.budget }}</p>
+            <p style="margin: 0 0 8px 0;"><strong>Delivery fee:</strong> ${{ order.delivery_fee }}</p>
+            {% if order.discount_amount %}
+            <p style="margin: 0 0 8px 0;"><strong>Discount:</strong> -${{ order.discount_amount }}</p>
+            {% endif %}
+            <p style="margin: 0;"><strong>Total:</strong> ${{ order.total_amount }}</p>
         </td>
     </tr>
 </table>

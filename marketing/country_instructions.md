@@ -44,18 +44,31 @@ Start with the data already in the entry. Each one gives you `podcast_name`,
 - A well-known national broadcaster or network in the host name usually
   settles it either way
 
+- Company registration details settle a lot of cases: "registered in England
+  and Wales", an `LLC` or `Inc` suffix (US), or `Pty Ltd` and an ABN (Australia)
+- A shop or checkout defaulting to a currency (£, US$, A$) points to the
+  country the business operates from
+
 Only search the web when the entry itself is inconclusive. Search the podcast
 name plus a location word:
 
 ```text
-"The Aussie Baseball Podcast" podcast host
-"Meet Sandvik" podcast where based
-"Saigon Signal" podcast host location
+"<podcast name>" podcast host
+"<podcast name>" podcast where based
+"<host name>" "<podcast name>" location
 ```
 
 Use the podcast's own site, its Apple or Spotify listing, or the host's
-public profiles. Do not guess. If searching does not make it clear, use
-`unsure`.
+public profiles. The site footer, About page, contact page, and privacy
+policy are the usual places a location or registration detail appears.
+
+Spend about three lookups on an entry. If it is still unclear after that,
+stop and mark it `unsure` — that is a normal outcome, not a failure.
+
+Do not guess. In particular, a search result for someone with the same name
+as the host is not evidence unless it also ties back to this podcast. Common
+names collide, and a confident-looking match on the wrong person is worse
+than `unsure`.
 
 ---
 
@@ -67,14 +80,14 @@ public profiles. Do not guess. If searching does not make it clear, use
 {
   "aus": [
     {
-      "feed_url": "https://anchor.fm/s/112793e58/podcast/rss",
-      "podcast_name": "The Aussie Baseball Podcast"
+      "feed_url": "https://example.com/feed-a.rss",
+      "podcast_name": "Example Podcast A"
     }
   ],
   "not_aus": [
     {
-      "feed_url": "https://anchor.fm/s/dcc4f7c/podcast/rss",
-      "podcast_name": "Meet Sandvik"
+      "feed_url": "https://example.com/feed-b.rss",
+      "podcast_name": "Example Podcast B"
     }
   ],
   "unsure": []
@@ -87,8 +100,11 @@ Rules:
   matches decisions back to entries.
 - `podcast_name` is there so the file is readable. It is not used for matching.
 - Put each podcast in exactly one of the three lists.
+- This file is a **cumulative ledger**. It keeps every decision ever made, so
+  most entries in it will not be in `podcasts.jsonl` — those have already been
+  applied and cleared from the queue. That is expected. Never remove them.
 - Preserve existing decisions unless you have a clear reason to correct one.
-- Do not add podcasts that are not in `podcasts.jsonl`.
+- Only add podcasts that are currently in `podcasts.jsonl`.
 
 ---
 
@@ -101,8 +117,12 @@ python manage.py apply_country_review
 ```
 
 This drops the `not_aus` and `unsure` entries from `podcasts.jsonl`, leaving
-only Australian podcasts in the queue. Those rejected feeds are already
-recorded in `searched_feeds.py`, so they will never be scraped again.
+only Australian podcasts in the queue.
+
+Both buckets are treated the same way at this step, so mark `unsure` honestly
+rather than defensively — an `unsure` podcast will not be emailed. Its decision
+and `feed_url` stay in this file permanently, so it can be recovered later by
+re-fetching that feed, but it will not re-enter the pipeline on its own.
 
 Once that has run, move on to `ai_instructions.md` to write the subject lines
 and intros for the remaining entries.

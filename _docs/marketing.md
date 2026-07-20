@@ -4,6 +4,8 @@ Podcast outreach tool. Scrapes iTunes for podcast leads, stores them in a JSONL 
 
 ## Flow
 
+To run the whole thing, hand Claude `marketing/spinup_instructions.md` and it will coordinate every phase below, stopping for confirmation before anything is sent. The individual steps are:
+
 1. **Scrape** — run the scrape command to populate `podcasts.jsonl` with qualifying podcast leads
 2. **Country review** — bring `podcasts.jsonl` to Claude with `country_instructions.md`. Claude sorts each podcast into `aus` / `not_aus` / `unsure` in `country_review.json`, then `apply_country_review` drops everything that isn't Australian
 3. **Fill in the blanks** — open `podcasts.jsonl` and bring a batch to Claude. Claude writes the `subject` and `custom_intro` for each entry based on the podcast and latest episode
@@ -43,6 +45,7 @@ python manage.py send_outreach --count 5
 - `marketing/outbox/` — enriched entries ready to upload, one JSON file per recipient (gitignored)
 - `marketing/inbox/` — entries received from upload, waiting to be sent (gitignored)
 - `marketing/email.txt` — the outreach email template. The `__________________________________________` placeholder is replaced with each entry's `custom_intro`
+- `marketing/spinup_instructions.md` — orchestration prompt. Drop this on Claude to run the whole pipeline end to end
 - `marketing/country_instructions.md` — Claude's instructions for the country review step
 - `marketing/country_review.json` — country decisions, three lists keyed by `feed_url` (gitignored)
 - `marketing/searched_terms.py` — iTunes search terms already queried (aa → zz), prevents re-searching
