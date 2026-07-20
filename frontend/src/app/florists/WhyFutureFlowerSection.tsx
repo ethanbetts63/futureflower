@@ -11,7 +11,6 @@ export const WhyFutureFlowerSection = () => {
     <section className="bg-white py-14 text-black sm:py-16">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1fr] lg:gap-16 lg:px-8">
 
-        {/* Text column */}
         <div className="lg:order-2">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
             What we send you
@@ -27,7 +26,6 @@ export const WhyFutureFlowerSection = () => {
           </p>
         </div>
 
-        {/* Sample order brief */}
         <div className="rounded-xl bg-[#fbfaf7] p-6 shadow-sm shadow-black/5 ring-1 ring-black/5 sm:p-8 lg:order-1">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-[var(--colorgreen)]" />

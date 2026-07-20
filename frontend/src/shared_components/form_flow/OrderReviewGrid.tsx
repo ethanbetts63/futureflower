@@ -5,12 +5,6 @@ import type { Order } from '@/types/Order';
 
 interface OrderReviewGridProps {
   plan: Order;
-  /**
-   * The Schedule tile normally reflects the order as last saved on the
-   * server. On the details step, the recurring checkbox/frequency picker are
-   * only committed to the server on submit — pass the live selection here so
-   * the tile updates as the customer picks, instead of showing stale data.
-   */
   scheduleOverride?: { isSubscription: boolean; frequency: string | null };
 }
 

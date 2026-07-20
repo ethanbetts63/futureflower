@@ -40,7 +40,7 @@ const AccountManagementPage = () => {
 
     const handleProfileUpdate = (updatedProfile: UserProfile) => {
         setProfile(updatedProfile);
-        setIsEditing(false); // Turn off editing mode on successful save
+        setIsEditing(false);
     };
     
     if (loading) {

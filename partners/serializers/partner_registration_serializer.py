@@ -6,13 +6,11 @@ User = get_user_model()
 
 
 class PartnerRegistrationSerializer(serializers.Serializer):
-    # User fields
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
     first_name = serializers.CharField(max_length=150)
     last_name = serializers.CharField(max_length=150)
 
-    # Partner fields
     business_name = serializers.CharField(max_length=255, required=False, default='', allow_blank=True)
     phone = serializers.CharField(max_length=30, required=False, default='', allow_blank=True)
     partner_type = serializers.ChoiceField(
@@ -20,7 +18,6 @@ class PartnerRegistrationSerializer(serializers.Serializer):
         default='non_delivery'
     )
 
-    # Delivery partner fields
     street_address = serializers.CharField(max_length=255, required=False, default='', allow_blank=True)
     suburb = serializers.CharField(max_length=100, required=False, default='', allow_blank=True)
     city = serializers.CharField(max_length=100, required=False, default='', allow_blank=True)
@@ -28,7 +25,6 @@ class PartnerRegistrationSerializer(serializers.Serializer):
     postcode = serializers.CharField(max_length=20, required=False, default='', allow_blank=True)
     country = serializers.CharField(max_length=100, required=False, default='', allow_blank=True)
 
-    # Service area (pin + radius)
     latitude = serializers.FloatField(required=False, allow_null=True, default=None)
     longitude = serializers.FloatField(required=False, allow_null=True, default=None)
     service_radius_km = serializers.IntegerField(required=False, default=10, min_value=1, max_value=500)
@@ -80,7 +76,6 @@ class PartnerRegistrationSerializer(serializers.Serializer):
 
         partner = Partner.objects.create(**partner_fields)
 
-        # Create discount code for all partners
         code = DiscountCode.generate_code(validated_data.get('business_name', ''))
         DiscountCode.objects.create(partner=partner, code=code, discount_amount=5)
 

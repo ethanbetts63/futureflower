@@ -54,7 +54,6 @@ export function LoginForm({
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-                {/* Header */}
                 <div className="flex flex-col items-center gap-2 text-center">
                   <h1 className="text-2xl font-bold">Partner and staff access</h1>
                   <p className="text-muted-foreground text-balance text-sm">
@@ -62,7 +61,6 @@ export function LoginForm({
                   </p>
                 </div>
 
-                {/* Email Field */}
                 <FormField control={form.control} name="email" rules={{ required: 'Email is required' }} render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
@@ -79,7 +77,6 @@ export function LoginForm({
                   </FormItem>
                 )} />
 
-                {/* Password Field */}
                 <FormField control={form.control} name="password" rules={{ required: 'Password is required' }} render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center">
@@ -103,7 +100,6 @@ export function LoginForm({
                   </FormItem>
                 )} />
 
-                {/* Submit Button */}
                 <Button type="submit" className="w-full rounded-lg bg-black px-5 py-4 font-semibold text-white transition hover:bg-black/85 disabled:cursor-wait disabled:opacity-70" disabled={isSubmitting}>
                   {isSubmitting ? (
                     <div className="flex items-center">

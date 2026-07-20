@@ -1,4 +1,3 @@
-// futureflower/frontend/src/components/PlanDisplay.tsx
 "use client";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -36,8 +35,6 @@ function PlanDisplay<T extends Order = Order>({
         fetchData();
     }, [getPlan]);
 
-    // The plan fetch is a single quick GET; a flash of spinner looks worse
-    // than a moment of empty page background.
     if (loading) {
         return null;
     }

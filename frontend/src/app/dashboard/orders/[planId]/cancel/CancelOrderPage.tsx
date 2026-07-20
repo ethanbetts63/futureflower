@@ -1,4 +1,3 @@
-// frontend/src/app/dashboard/orders/[planId]/cancel/CancelOrderPage.tsx
 "use client";
 import { useCallback, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
@@ -58,7 +57,6 @@ const CancelOrderPageInner = ({
       }
     >
       <div className="py-6 space-y-6">
-        {/* Plan summary */}
         <div className="bg-black/5 rounded-2xl p-5 space-y-2">
           <p className="text-xs font-bold tracking-widest uppercase text-black/40">Plan Summary</p>
           <p className="font-semibold">
@@ -74,7 +72,6 @@ const CancelOrderPageInner = ({
           )}
         </div>
 
-        {/* Cancel options */}
         <RadioGroup
           value={cancelType}
           onValueChange={(v) => setCancelType(v as 'keep_current' | 'cancel_all')}

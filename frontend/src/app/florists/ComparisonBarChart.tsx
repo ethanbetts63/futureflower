@@ -33,7 +33,6 @@ export const ComparisonBarChart = ({ heading, bars, legend }: ComparisonBarChart
       ))}
     </div>
 
-    {/* Legend */}
     <div className="flex flex-wrap gap-x-6 gap-y-2 mt-4 text-xs font-medium text-black/60">
       {legend.map((item) => (
         <div key={item.label} className="flex items-center gap-2">
@@ -45,10 +44,6 @@ export const ComparisonBarChart = ({ heading, bars, legend }: ComparisonBarChart
   </div>
 );
 
-// Florist-facing comparison: what share of the order the florist receives.
-// Delivery is not a segment here — it is a cost the florist chooses to spend
-// out of money they have already been paid, so deducting it would understate
-// what actually lands in their account.
 export const floristComparisonBars: BarChartEntry[] = [
   {
     label: 'Competitors',

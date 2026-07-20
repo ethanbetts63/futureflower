@@ -20,7 +20,6 @@ export const SoWhatsTheCatchSection = () => {
       <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
 
-          {/* Text column */}
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
               The honest bit
@@ -40,10 +39,8 @@ export const SoWhatsTheCatchSection = () => {
             </p>
           </div>
 
-          {/* Swing tag graphic */}
           <div className="flex justify-center lg:justify-end lg:pr-8" aria-hidden="true">
             <div className="relative">
-              {/* Twine */}
               <svg
                 className="absolute -top-14 left-1/2 -translate-x-1/2"
                 width="80"
@@ -78,7 +75,6 @@ export const SoWhatsTheCatchSection = () => {
           </div>
         </div>
 
-        {/* Quiet supporting points */}
         <div className="mt-14 grid grid-cols-1 divide-y divide-black/10 border-t border-black/10 md:grid-cols-3 md:divide-x md:divide-y-0">
           {quietPoints.map(({ title, text }) => (
             <div key={title} className="py-6 md:px-7 md:first:pl-0">

@@ -1,6 +1,3 @@
-// The delivery frequencies for a subscription. `value` is the stored key (must
-// match Order.FREQUENCY_CHOICES on the backend); `label` is what the customer
-// sees. This is the single frontend source — don't inline the list elsewhere.
 export type Frequency = { value: string; label: string };
 
 export const FREQUENCIES: Frequency[] = [

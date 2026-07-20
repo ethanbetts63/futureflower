@@ -74,7 +74,6 @@ const AdminUserDetailPage = () => {
           description={user.email}
           footer={<FlowBackButton to="/dashboard/admin/users" />}
         >
-          {/* Account */}
           <SummarySection label="Account">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label="First Name" value={user.first_name} />
@@ -122,7 +121,6 @@ const AdminUserDetailPage = () => {
             </div>
           </SummarySection>
 
-          {/* Plans */}
           <SummarySection label={`Plans (${user.plans.length})`}>
             {user.plans.length === 0 ? (
               <p className="text-sm text-black/40 italic">No plans.</p>

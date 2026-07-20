@@ -1,13 +1,11 @@
 import { ApiError } from './ApiError';
 
-/** Pull the most useful message out of a DRF error body. */
 function messageFrom(data: unknown): string {
   if (typeof data !== 'object' || data === null) return 'An unknown API error occurred.';
 
   const body = data as Record<string, unknown>;
   if (typeof body.detail === 'string') return body.detail;
 
-  // Field-specific errors, e.g. { "start_date": ["This date is too soon."] }
   const firstKey = Object.keys(body)[0];
   if (firstKey === undefined) return 'An unknown API error occurred.';
 

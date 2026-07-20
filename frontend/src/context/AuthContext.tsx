@@ -6,10 +6,8 @@ import { ApiError } from '@/api/ApiError';
 import type { UserProfile } from '@/types/UserProfile';
 import type { AuthContextType } from '@/types/AuthContextType';
 
-// --- Context Creation ---
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// --- Provider Component ---
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,7 +17,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const fullProfile = await api.getUserProfile();
       setUser(fullProfile);
     } catch (error) {
-      // Only clear the user on authentication errors — don't log out on network blips
       const status = error instanceof ApiError ? error.status : null;
       if (status === 401 || status === 403) {
         localStorage.removeItem('hasSession');
@@ -33,9 +30,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    // On initial load, only attempt to restore the session if we have a stored
-    // indicator that a session was previously established. This avoids firing
-    // guaranteed-to-fail 401 requests for unauthenticated visitors.
     if (!localStorage.getItem('hasSession')) {
       setIsLoading(false);
       return;
@@ -57,34 +51,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  /**
-   * Central handler for successful authentication.
-   * Tokens are already set as HttpOnly cookies by the server — we just
-   * need to load the user profile to populate the context.
-   */
   const handleLoginSuccess = async () => {
     localStorage.setItem('hasSession', '1');
     setIsLoading(true);
     await loadUserProfile();
   };
 
-  /**
-   * Login handler for the traditional email/password form.
-   */
   const loginWithPassword = async (email: string, password: string) => {
     await api.loginUser(email, password);
     await handleLoginSuccess();
   };
 
-  /**
-   * Calls the server logout endpoint to clear HttpOnly cookies, then clears local state.
-   */
   const logout = async (onLogoutSuccess?: () => void) => {
     localStorage.removeItem('hasSession');
     try {
       await api.logoutUser();
     } catch {
-      // If the logout request fails (e.g. already expired), still clear local state
     }
     setUser(null);
     if (onLogoutSuccess) {
@@ -108,7 +90,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// --- Custom Hook ---
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {

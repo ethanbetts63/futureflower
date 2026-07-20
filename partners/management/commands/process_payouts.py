@@ -40,7 +40,6 @@ class Command(BaseCommand):
         )
 
         for partner in partners:
-            # Find accepted delivery requests where event is delivered and no payout yet
             delivered_requests = DeliveryRequest.objects.filter(
                 partner=partner,
                 status='accepted',
@@ -113,7 +112,6 @@ class Command(BaseCommand):
         )
 
         for partner in partners:
-            # Find approved commissions without payout line items
             approved_commissions = Commission.objects.filter(
                 partner=partner,
                 status='approved',
@@ -167,7 +165,6 @@ class Command(BaseCommand):
                     payout.status = 'completed'
                     payout.save()
 
-                    # Mark commissions as paid
                     approved_commissions.update(status='paid')
 
                     self.stdout.write(self.style.SUCCESS(

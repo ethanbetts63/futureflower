@@ -38,10 +38,8 @@ class AdminMarkOrderedView(APIView):
         event.ordering_evidence_text = ordering_evidence_text
         event.save()
 
-        # Cancel pending notifications for this event
         Notification.objects.filter(related_event=event, status='pending').update(status='cancelled')
 
-        # Create delivery-day notifications
         create_admin_delivery_day_notifications(event)
 
         return Response(AdminEventSerializer(event).data)

@@ -1,4 +1,3 @@
-# users/tests/serializer_tests/test_register_serializer.py
 import pytest
 from rest_framework import serializers
 from users.serializers.register_serializer import RegisterSerializer
@@ -88,5 +87,4 @@ def test_register_serializer_data_property():
     }
     serializer = RegisterSerializer(data=user_data)
     assert serializer.is_valid(raise_exception=True)
-    # The 'data' property shouldn't contain the password after validation
     assert 'password' not in serializer.data

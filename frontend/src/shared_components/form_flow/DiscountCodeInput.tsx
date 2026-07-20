@@ -15,7 +15,6 @@ const DiscountCodeInput = ({
   existingCode,
   onDiscountApplied,
 }: DiscountCodeInputProps) => {
-  // Initialize from existingCode on first render only
   const initialized = useRef(false);
   const [code, setCode] = useState(() => existingCode || '');
   const [isLoading, setIsLoading] = useState(false);

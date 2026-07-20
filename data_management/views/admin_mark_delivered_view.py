@@ -37,7 +37,6 @@ class AdminMarkDeliveredView(APIView):
         event.delivery_evidence_text = delivery_evidence_text
         event.save()
 
-        # Create fulfillment commission for the partner who accepted the delivery
         try:
             accepted_dr = DeliveryRequest.objects.filter(event=event, status='accepted').first()
             if accepted_dr and not Commission.objects.filter(event=event, commission_type='fulfillment').exists():

@@ -20,7 +20,7 @@ class PayoutLineItemFactory(DjangoModelFactory):
         model = PayoutLineItem
 
     payout = factory.SubFactory(PayoutFactory)
-    commission = None # Optional
-    delivery_request = None # Optional
+    commission = None
+    delivery_request = None
     amount = factory.Faker('pydecimal', left_digits=2, right_digits=2, min_value=1, max_value=50)
     description = factory.Faker('sentence')

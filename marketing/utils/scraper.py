@@ -1,5 +1,6 @@
 import json
 import re
+import socket
 import time
 import requests
 import xml.etree.ElementTree as ET
@@ -163,6 +164,24 @@ def parse_rss(feed_url):
     }
 
 
+def email_domain_resolves(email):
+    """
+    Check the email's domain has a DNS record.
+
+    Podcast feeds go stale and keep advertising domains that no longer exist.
+    Sending to one is a hard bounce, and bounce rates get the sending Gmail
+    account throttled, so it is worth one lookup here to never queue it.
+    """
+    domain = email.rpartition("@")[2].strip().lower()
+    if not domain:
+        return False
+    try:
+        socket.getaddrinfo(domain, None)
+        return True
+    except OSError:
+        return False
+
+
 def has_required_fields(rss):
     return all([
         rss.get("host_name"),
@@ -211,6 +230,11 @@ def scrape_term(term, searched_feeds, stdout_write, limit=None, planned_emails=N
         if rss["email"] in planned_emails:
             skipped += 1
             stdout_write(f"  ~ skipping <{rss['email']}> (already planned or contacted)")
+            continue
+
+        if not email_domain_resolves(rss["email"]):
+            skipped += 1
+            stdout_write(f"  ~ skipping <{rss['email']}> (domain does not resolve)")
             continue
 
         entry = {

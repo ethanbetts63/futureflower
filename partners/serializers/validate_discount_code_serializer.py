@@ -11,7 +11,6 @@ class ValidateDiscountCodeSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=30, required=False, allow_blank=True)
 
     def _lookup(self, code):
-        # Matching is case-insensitive only because MySQL's default collation is.
         return DiscountCode.objects.select_related('partner', 'partner__user').get(
             code=code, is_active=True
         )
@@ -49,9 +48,6 @@ class ValidateDiscountCodeSerializer(serializers.Serializer):
         order.discount_amount = discount_code.discount_amount
         order.save()
 
-        # Attribution for the partner's commission. The order keeps the user it
-        # was created for, so setting this on a guest's placeholder user survives
-        # the claim and is what process_referral_commission reads at payment time.
         customer = order.user
         if not customer.referred_by_partner:
             customer.referred_by_partner = discount_code.partner

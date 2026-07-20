@@ -57,7 +57,6 @@ class Command(BaseCommand):
             else:
                 consecutive_empty = 0
 
-            # Save after each term so a crash loses nothing
             save_searched_terms(searched_terms)
             save_searched_feeds(searched_feeds)
             save_planned_emails(planned_emails)

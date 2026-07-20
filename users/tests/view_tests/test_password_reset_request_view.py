@@ -1,4 +1,3 @@
-# users/tests/view_tests/test_password_reset_request_view.py
 import pytest
 from rest_framework.test import APIClient
 from users.tests.factories.user_factory import UserFactory
@@ -23,7 +22,6 @@ class TestPasswordResetRequestView:
 
         response = self.client.post(self.url, {'email': 'customer@example.com'}, format='json')
 
-        # Still a generic 200, so the response cannot be used to enumerate users.
         assert response.status_code == 200
         mock_send_email.assert_not_called()
 
@@ -57,20 +55,16 @@ class TestPasswordResetRequestView:
     def test_rate_limiting_prevents_frequent_sends(self, mocker):
         mock_send_email = mocker.patch('users.views.password_reset_request_view.send_password_reset_email', return_value=True)
         
-        # First request
         self.client.post(self.url, {'email': 'test@example.com'}, format='json')
         assert mock_send_email.call_count == 1
         
-        # Second request immediately after
         response = self.client.post(self.url, {'email': 'test@example.com'}, format='json')
         assert response.status_code == 200
-        # The mock should NOT have been called again
         assert mock_send_email.call_count == 1
 
     def test_rate_limiting_allows_sends_after_timeout(self, mocker):
         mock_send_email = mocker.patch('users.views.password_reset_request_view.send_password_reset_email', return_value=True)
         
-        # Set the last sent time to be in the past
         self.user.password_reset_last_sent_at = timezone.now() - timedelta(seconds=61)
         self.user.save()
         

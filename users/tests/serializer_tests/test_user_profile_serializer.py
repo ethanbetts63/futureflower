@@ -1,4 +1,3 @@
-# users/tests/serializer_tests/test_user_profile_serializer.py
 import pytest
 from users.serializers.user_profile_serializer import UserProfileSerializer
 from users.tests.factories.user_factory import UserFactory

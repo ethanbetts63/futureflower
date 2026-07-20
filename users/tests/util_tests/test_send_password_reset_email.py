@@ -11,7 +11,6 @@ def test_send_password_reset_email_success(mocker):
     """
     user = UserFactory()
     
-    # Mock requests.post
     mock_post = mocker.patch('users.utils.send_password_reset_email.requests.post')
     mock_response = MagicMock()
     mock_response.status_code = 200
@@ -21,7 +20,6 @@ def test_send_password_reset_email_success(mocker):
     
     assert result is True
     mock_post.assert_called_once()
-    # Basic check on call args
     args, kwargs = mock_post.call_args
     assert kwargs['data']['to'] == [user.email]
     assert kwargs['data']['subject'] == "Reset Your FutureFlower Password"
@@ -34,7 +32,6 @@ def test_send_password_reset_email_blocked_user(mocker):
     user = UserFactory()
     BlockedEmailFactory(email=user.email)
 
-    # Mock requests.post
     mock_post = mocker.patch('users.utils.send_password_reset_email.requests.post')
 
     result = send_password_reset_email(user)
@@ -49,7 +46,6 @@ def test_send_password_reset_email_api_failure(mocker):
     """
     user = UserFactory()
     
-    # Mock requests.post to return a non-200 status code
     mock_post = mocker.patch('users.utils.send_password_reset_email.requests.post')
     mock_response = MagicMock()
     mock_response.status_code = 500
@@ -67,7 +63,6 @@ def test_send_password_reset_email_exception(mocker):
     """
     user = UserFactory()
     
-    # Mock requests.post to raise an exception
     mock_post = mocker.patch('users.utils.send_password_reset_email.requests.post')
     mock_post.side_effect = Exception("Mailgun API Error")
 

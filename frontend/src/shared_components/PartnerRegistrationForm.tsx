@@ -15,8 +15,6 @@ import type { PartnerRegistrationData } from '@/types';
 import { errorMessage } from '@/lib/errors';
 import { fieldErrorSummary } from '@/api/ApiError';
 
-// Leaflet touches `window` at module load, so keep the map client-only to avoid
-// breaking server prerendering of the pages that embed this form.
 const ServiceAreaMap = dynamic(() => import('@/shared_components/ServiceAreaMap'), { ssr: false });
 
 interface PartnerRegistrationFormProps {
@@ -31,15 +29,12 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
   const [customerTermsAccepted, setCustomerTermsAccepted] = useState(false);
   const [partnerTermsAccepted, setPartnerTermsAccepted] = useState(false);
 
-  // Service area map state
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
   const [radiusKm, setRadiusKm] = useState(10);
 
   const isDelivery = partnerType === 'delivery';
 
-  // Delivery registration is split into two steps (account details, then store
-  // location + terms) so the form fits inside the hero. Referral stays single-step.
   const [step, setStep] = useState<1 | 2>(1);
 
   const [form, setForm] = useState({
@@ -153,7 +148,6 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
       <form onSubmit={handleSubmit} className="mt-5 space-y-6">
         {showAccountStep && (
         <>
-        {/* Account Details */}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="first_name">First Name <span className="text-red-500">*</span></Label>
@@ -194,7 +188,6 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
         </>
         )}
 
-        {/* Store Location (delivery step 2) */}
         {showLocationStep && (
           <div className="space-y-4 border-t border-black/10 pt-6">
             <h3 className="text-lg font-semibold">Store Location</h3>
@@ -236,7 +229,6 @@ const PartnerRegistrationForm = ({ partnerType, className = '' }: PartnerRegistr
           </div>
         )}
 
-        {/* Terms & Conditions */}
         {showTerms && (
         <div className="space-y-3 border-t border-black/10 pt-6">
           <label className="flex cursor-pointer items-start gap-3">

@@ -105,7 +105,6 @@ const AdminEventDetailPage = () => {
             </div>
           }
         >
-          {/* Delivery Details */}
           <SummarySection label="Delivery">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label="Recipient" value={`${event.recipient_first_name} ${event.recipient_last_name}`} />
@@ -129,7 +128,6 @@ const AdminEventDetailPage = () => {
             </div>
           </SummarySection>
 
-          {/* Order */}
           <SummarySection label="Order">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label="Budget" value={`$${event.budget}`} />
@@ -147,14 +145,12 @@ const AdminEventDetailPage = () => {
             </div>
           </SummarySection>
 
-          {/* Preferences */}
           <SummarySection label="Preferences">
             <div className="grid grid-cols-1 gap-4">
               {event.flower_notes && <Field label="Flower Notes" value={event.flower_notes} />}
             </div>
           </SummarySection>
 
-          {/* Customer */}
           <SummarySection label="Customer">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label="Name" value={`${event.customer_first_name} ${event.customer_last_name}`} />
@@ -170,7 +166,6 @@ const AdminEventDetailPage = () => {
             </div>
           </SummarySection>
 
-          {/* Status & Evidence */}
           <SummarySection label="Status">
             <div className="space-y-4">
               <div className="flex items-center gap-3">

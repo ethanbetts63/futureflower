@@ -1,4 +1,3 @@
-// frontend/src/app/dashboard/account/ChangePasswordForm.tsx
 
 "use client";
 
@@ -10,7 +9,6 @@ import { Input } from '@/shared_components/ui/input';
 import { Form, FormControl, FormItem, FormLabel, FormMessage } from '@/shared_components/ui/form';
 import { toast } from "sonner";
 
-// Define the shape of the form data
 type PasswordFormData = {
   old_password: string;
   new_password: string;
@@ -29,7 +27,6 @@ export const ChangePasswordForm = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting }, setError: setFormError, reset } = form;
 
   const onSubmit: SubmitHandler<PasswordFormData> = async (data) => {
-    // Manual Validation
     if (data.new_password.length < 8) {
         setFormError('new_password', { type: 'manual', message: 'Password must be at least 8 characters long' });
         return;
@@ -48,8 +45,6 @@ export const ChangePasswordForm = () => {
       toast.success("Password changed successfully!");
       reset();
     } catch (err) {
-      // handleResponse already surfaces the field error (e.g. a wrong old_password)
-      // as the message, so there is nothing more specific to dig out.
       toast.error(errorMessage(err));
     }
   };

@@ -65,12 +65,10 @@ class TestHandleSubscriptionDeleted:
 
         handle_subscription_deleted({'id': 'sub_test_5'})
 
-        # Plan was already cancelled — no further changes should be made
         scheduled.refresh_from_db()
         assert scheduled.status == 'scheduled'
 
     def test_unknown_subscription_id_does_not_raise(self):
-        # Should log and return gracefully, not raise
         handle_subscription_deleted({'id': 'sub_nonexistent'})
 
     def test_missing_id_does_not_raise(self):

@@ -17,8 +17,6 @@ interface ImpactTileProps {
   className?: string;
 }
 
-// The "what did they order" tile — image + resolved tier/custom name — shared
-// by every step that recaps the order (details, payment, payment-status).
 const ImpactTile = ({ budget, size = 64, eyebrow, subtitle, truncateName = false, className = '' }: ImpactTileProps) => {
   const { name, image } = resolveImpactDisplay(budget);
 

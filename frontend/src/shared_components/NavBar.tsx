@@ -65,7 +65,6 @@ const NavBar = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between md:grid md:grid-cols-3">
 
-          {/* Logo */}
           <Link href="/" onClick={close} aria-label="FutureFlower company logo" className="flex items-center gap-3 flex-shrink-0">
             <span className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white shadow-sm">
               <img
@@ -78,20 +77,17 @@ const NavBar = () => {
                 className="h-8 w-8 object-contain brightness-0"
               />
             </span>
-            {/* Title visible on sm only — on md+ it moves to the centre column */}
             <span className="hidden sm:block md:hidden font-playfair-display italic font-bold text-2xl text-black tracking-widest leading-none">
               FUTUREFLOWER
             </span>
           </Link>
 
-          {/* Centred title — md+ only */}
           <div className="hidden md:flex justify-center">
             <Link href="/" onClick={close} className="font-playfair-display italic font-bold text-3xl text-black tracking-widest leading-none">
               FUTUREFLOWER
             </Link>
           </div>
 
-          {/* Order + Animated hamburger */}
           <div className="flex items-center gap-4 md:justify-end">
             <Link
               href="/pricing"
@@ -122,7 +118,6 @@ const NavBar = () => {
         </div>
       </div>
 
-      {/* Dropdown menu */}
       <div className={`overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-screen' : 'max-h-0'}`}>
         <nav className="bg-white border-t border-black/10 px-6 py-3 flex flex-col">
           <Link href="/login" onClick={close} className={cn(MENU_LINK, 'border-b border-black/5')}>

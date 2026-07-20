@@ -2,8 +2,6 @@ from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 
-# This avoids a circular import by not importing the whole model,
-# but we need it for type hinting.
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from events.models import Order
@@ -43,21 +41,17 @@ def get_next_payment_date(order: 'Order') -> date | None:
     if not order.start_date or not order.frequency:
         return None
 
-    # 1. Calculate the anchor date (when the first payment is/was due)
     lead_days = settings.SUBSCRIPTION_CHARGE_LEAD_DAYS
     anchor_date = order.start_date - timedelta(days=lead_days)
 
     today = date.today()
 
-    # If the anchor date is in the future, that's the next payment date.
     if anchor_date > today:
         return anchor_date
 
-    # 2. If the anchor is in the past, find the next billing date in the future.
     next_date = anchor_date
     frequency = order.frequency
 
-    # Loop forward from the anchor date until we find a date in the future.
     while next_date <= today:
         if frequency == 'monthly':
             next_date += relativedelta(months=1)
@@ -68,7 +62,6 @@ def get_next_payment_date(order: 'Order') -> date | None:
         elif frequency == 'annually':
             next_date += relativedelta(years=1)
         else:
-            # Should not happen with valid data, but good to be safe.
             return None
             
     return next_date
@@ -84,4 +77,3 @@ def get_next_delivery_date(order: 'Order') -> date | None:
 
     lead_days = settings.SUBSCRIPTION_CHARGE_LEAD_DAYS
     return next_payment + timedelta(days=lead_days)
-

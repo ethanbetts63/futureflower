@@ -34,23 +34,13 @@ interface OrderDetailsProps {
  */
 const OrderDetails = ({ plan, onRefreshPlan }: OrderDetailsProps) => {
   const router = useRouter();
-  // The guest flow carries no id in the URL — the checkout cookie decides which
-  // order this is — so the loaded plan is the only trustworthy source for one.
   const orderId = String(plan.id);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // Hydrated from the order: a prior visit may have already recorded
-  // acceptance server-side (via acceptGuestTerms below), and this step can
-  // remount — e.g. navigating back to /order/recipient and forward again —
-  // which would otherwise reset the checkbox even though it's already saved.
   const [termsAccepted, setTermsAccepted] = useState(() => plan.terms_accepted ?? false);
-  // A return visit (e.g. a failed payment attempt) can load an order that is
-  // already recurring — start the toggle in sync with it, not always off.
   const [makeRecurring, setMakeRecurring] = useState(() => plan.billing_mode === 'recurring');
   const [recurringFrequency, setRecurringFrequency] = useState(() => plan.frequency || 'monthly');
 
-  // Contact details were claimed at the recipient step; the server rejects
-  // checkout if that never happened.
   const handleRecurringPayment = async () => {
     setIsSubmitting(true);
     try {
@@ -73,11 +63,6 @@ const OrderDetails = ({ plan, onRefreshPlan }: OrderDetailsProps) => {
     }
   };
 
-  // A return visit may have already made this order recurring (see
-  // handleRecurringPayment) before the customer unchecked the box here.
-  // billing_mode only ever changes via an explicit make-recurring/make-one-time
-  // call, so unchecking locally does nothing on its own — revert it server-side
-  // before starting a one-time payment, or checkout would still bill as a subscription.
   const startOneTimePayment = async () => {
     if (plan.billing_mode === 'recurring') {
       await makeGuestOrderOneTime();

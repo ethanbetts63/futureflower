@@ -8,8 +8,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write("Sending test email with Mailgun...")
         
-        # It's generally better to store sensitive keys in environment variables
-        # but for this test, we are using the one provided.
         api_key = os.getenv('MAILGUN_API_KEY')
         domain = 'mail.futureflower.app'
         

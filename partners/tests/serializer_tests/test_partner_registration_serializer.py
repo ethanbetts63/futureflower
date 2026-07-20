@@ -97,6 +97,6 @@ class TestPartnerRegistrationSerializer:
             mock_stripe.side_effect = Exception('Stripe error')
             serializer = PartnerRegistrationSerializer(data=data)
             assert serializer.is_valid()
-            user = serializer.save()  # Should not raise
+            user = serializer.save()
 
         assert User.objects.filter(email='newpartner@example.com').exists()

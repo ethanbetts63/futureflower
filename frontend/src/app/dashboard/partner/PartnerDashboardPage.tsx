@@ -69,13 +69,11 @@ const PartnerDashboardPage = () => {
               </div>
             </SummarySection>
 
-            {/* Discount Codes */}
             <DiscountCodesSection
               codes={partner.discount_codes}
               onCodesChange={(codes) => setPartner({ ...partner, discount_codes: codes })}
             />
 
-            {/* Earnings Summary */}
             <SummarySection label="Earnings Summary">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
@@ -97,7 +95,6 @@ const PartnerDashboardPage = () => {
               </div>
             </SummarySection>
 
-            {/* Payout Summary */}
             <SummarySection label="Payout Summary">
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -111,7 +108,6 @@ const PartnerDashboardPage = () => {
               </div>
             </SummarySection>
 
-            {/* Recent Commissions */}
             <SummarySection label="Recent Commissions">
               {partner.recent_commissions.length === 0 ? (
                 <p className="text-black/40">No commissions yet.</p>
@@ -135,7 +131,6 @@ const PartnerDashboardPage = () => {
               )}
             </SummarySection>
 
-            {/* Delivery Requests */}
             {partner.partner_type === 'delivery' && (
               <SummarySection label="Delivery Requests">
                 {partner.delivery_requests.length === 0 ? (
@@ -168,7 +163,6 @@ const PartnerDashboardPage = () => {
   );
 };
 
-// ─── Discount Codes Section ───────────────────────────────────────────────────
 
 const DiscountCodesSection = ({ codes, onCodesChange }: DiscountCodesSectionProps) => {
   const [creating, setCreating] = useState(false);
@@ -227,7 +221,6 @@ const DiscountCodesSection = ({ codes, onCodesChange }: DiscountCodesSectionProp
         ))}
       </div>
 
-      {/* Create new code */}
       <div className="mt-4">
         {creating ? (
           <div className="border border-black/10 rounded-lg p-4">

@@ -92,7 +92,6 @@ const AdminPartnerDetailPage = () => {
     try {
       await payCommission(partner.id, commission.id);
       toast.success(`Paid ${formatAmount(commission.amount)} to ${partner.business_name || partner.first_name}.`);
-      // Refresh partner data
       const updated = await getAdminPartner(partner.id);
       setPartner(updated);
     } catch (e) {

@@ -1,4 +1,3 @@
-// futureflower/frontend/src/components/PaymentInitiatorButton.tsx
 "use client";
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -43,7 +42,6 @@ const PaymentInitiatorButton = ({
       if (onPaymentSuccess) {
         onPaymentSuccess(clientSecret);
       } else {
-        // Default navigation behavior, store state in sessionStorage for Next.js
         sessionStorage.setItem('checkoutState', JSON.stringify({
           clientSecret,
           planId: String(orderId),

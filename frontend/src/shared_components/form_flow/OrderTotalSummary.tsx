@@ -4,9 +4,6 @@ import { getImpactTier } from '@/lib/pricingConstants';
 import { formatDate } from '@/lib/utils';
 import type { OrderTotalSummaryProps } from '@/types/OrderTotalSummaryProps';
 
-// The single price breakdown for the ordering flow. The figures are all
-// server-computed: the client must never re-derive a total, or it can show a
-// number the customer is not actually charged.
 const OrderTotalSummary = ({ plan, isSubscription }: OrderTotalSummaryProps) => {
   const flowerBudget = Number(plan.budget);
   const deliveryFee = Number(plan.delivery_fee);

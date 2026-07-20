@@ -1,4 +1,3 @@
-# users/tests/view_tests/test_user_profile_view.py
 import pytest
 from rest_framework.test import APIClient
 from users.tests.factories.user_factory import UserFactory
@@ -54,8 +53,6 @@ class TestUserProfileView:
         
         response = self.client.patch(self.url, update_data, format='json')
         
-        # This should fail because the email is already taken.
-        # The User model should enforce this. Let's assume a 400.
         assert response.status_code == 400
         assert 'email' in response.data
 
@@ -66,7 +63,6 @@ class TestUserProfileView:
         
         response = self.client.patch(self.url, update_data, format='json')
 
-        # The serializer should ignore this field if it's not in fields.
         assert response.status_code == 200
         assert response.data['is_staff'] is False
         self.user.refresh_from_db()

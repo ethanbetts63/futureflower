@@ -1,4 +1,3 @@
-# users/tests/view_tests/test_delete_user_view.py
 import pytest
 from rest_framework.test import APIClient
 from users.tests.factories.user_factory import UserFactory

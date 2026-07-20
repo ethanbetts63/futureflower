@@ -89,6 +89,7 @@ Podcasts are only kept if they pass all of the following:
 - Released an episode within the last 30 days
 - Language is English
 - RSS feed contains: email, host name, website, latest episode title and description
+- The contact email's domain resolves in DNS — stale feeds often advertise dead domains, and a hard bounce risks getting the sending Gmail account throttled
 
 Search queries hit the iTunes **AU** store (`country=AU`), but that only reflects
 which catalog is queried — it does not mean the podcast is Australian. Roughly

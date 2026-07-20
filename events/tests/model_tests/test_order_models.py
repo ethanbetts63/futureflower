@@ -14,14 +14,11 @@ class TestOrderModels:
         assert isinstance(plan, Order)
 
     def test_recurring_order_creation(self, settings):
-        # Pin the fee settings: the configured threshold is a business value
-        # that moves (currently $1, so no order ever pays a fee).
         settings.DELIVERY_INCLUDED_THRESHOLD = 100
         settings.DELIVERY_FEE = 20
         plan = OrderFactory(billing_mode='recurring', budget=80)
         assert plan.status == 'pending_payment'
         assert plan.billing_mode == 'recurring'
-        # $80 is under the threshold, so the fee is added on top of the budget.
         assert plan.delivery_fee == 20
         assert plan.total_amount == 100
 

@@ -33,7 +33,7 @@ class StripeConnectOnboardView(APIView):
                         'Referral affiliate earning commissions for referring customers to '
                         'FutureFlower, an online flower subscription and delivery service.'
                     ),
-                    'mcc': '7311',  # Advertising services
+                    'mcc': '7311',
                 }
 
             account = stripe.Account.create(**account_kwargs)

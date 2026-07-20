@@ -1,4 +1,3 @@
-# users/tests/view_tests/test_password_reset_confirm_view.py
 import pytest
 from rest_framework.test import APIClient
 from users.tests.factories.user_factory import UserFactory

@@ -1,4 +1,3 @@
-// frontend/src/shared_components/form_flow/OrderStructureForm.tsx
 import { Label } from '@/shared_components/ui/label';
 import { Input } from '@/shared_components/ui/input';
 import { Textarea } from '@/shared_components/ui/textarea';

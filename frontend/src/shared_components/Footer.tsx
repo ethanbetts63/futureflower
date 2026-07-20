@@ -18,7 +18,6 @@ const Footer = () => {
       <div className="container mx-auto py-10 px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
 
-          {/* Site Links */}
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Quick Links</p>
             <Link href="/florists" className="text-sm hover:underline">Florists</Link>
@@ -30,7 +29,6 @@ const Footer = () => {
             )}
           </div>
 
-          {/* Flower Delivery */}
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Flower Delivery</p>
             <Link href="/flower-subscription" className="text-sm hover:underline">Flower Subscription</Link>
@@ -45,7 +43,6 @@ const Footer = () => {
             <Link href="/flower-delivery-hobart" className="text-sm hover:underline">Flower Delivery Hobart</Link>
           </div>
 
-          {/* Articles */}
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Guides &amp; Articles</p>
             <Link href="/articles" className="text-sm hover:underline">All Articles</Link>
@@ -55,7 +52,6 @@ const Footer = () => {
             <Link href="/articles/best-flower-delivery-melbourne" className="text-sm hover:underline">Best Flower Delivery Melbourne</Link>
           </div>
 
-          {/* Legal Links */}
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Legal</p>
             <Link href="/terms-and-conditions/customer" className="text-sm hover:underline">Customer Terms & Conditions</Link>
@@ -63,7 +59,6 @@ const Footer = () => {
             <Link href="/terms-and-conditions/affiliate" className="text-sm hover:underline">Affiliate Terms & Conditions</Link>
           </div>
 
-          {/* Brand */}
           <div className="flex flex-col gap-3">
             <div className="flex h-16 w-16 items-center justify-center rounded-full border border-black/10 bg-white shadow-sm">
               <img

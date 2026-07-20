@@ -26,7 +26,6 @@ export const ContentIdeasSection = () => {
     <section className="bg-[#fbfaf7] py-14 text-black sm:py-16">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-stretch gap-10 px-5 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 lg:px-8">
 
-        {/* Text column */}
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
             Content that works
@@ -49,7 +48,6 @@ export const ContentIdeasSection = () => {
           </div>
         </div>
 
-        {/* Image column */}
         <div className="relative min-h-[320px] overflow-hidden rounded-xl lg:min-h-0">
           <Image
             src={floristImage}

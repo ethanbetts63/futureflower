@@ -1,6 +1,3 @@
-// The occasion is guidance for the florist, stored as its own field on the order
-// (Order.OCCASION_CHOICES on the backend). `value` is the stored key; `name` is
-// what the customer sees. Keep this list in step with the model's choices.
 export type Occasion = { value: string; name: string; tagline: string };
 
 export const OCCASIONS: Occasion[] = [

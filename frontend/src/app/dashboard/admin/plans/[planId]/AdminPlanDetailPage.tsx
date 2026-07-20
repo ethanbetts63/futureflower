@@ -94,7 +94,6 @@ const AdminPlanDetailPage = () => {
           description={`${plan.customer_first_name} ${plan.customer_last_name} · Created ${formatDate(plan.created_at)}`}
           footer={<FlowBackButton to="/dashboard/admin/plans" />}
         >
-          {/* Customer */}
           <SummarySection label="Customer">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label="Name" value={`${plan.customer_first_name} ${plan.customer_last_name}`} />
@@ -110,7 +109,6 @@ const AdminPlanDetailPage = () => {
             </div>
           </SummarySection>
 
-          {/* Plan Details */}
           <SummarySection label="Plan Details">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
@@ -125,7 +123,6 @@ const AdminPlanDetailPage = () => {
             </div>
           </SummarySection>
 
-          {/* Recipient */}
           <SummarySection label="Recipient">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label="Name" value={recipientName || null} />
@@ -143,7 +140,6 @@ const AdminPlanDetailPage = () => {
             </div>
           </SummarySection>
 
-          {/* Preferences */}
           <SummarySection label="Preferences">
             <div className="grid grid-cols-1 gap-4">
               {plan.flower_notes && (
@@ -152,7 +148,6 @@ const AdminPlanDetailPage = () => {
             </div>
           </SummarySection>
 
-          {/* Events */}
           {plan.events.length > 0 && (
             <SummarySection label={`Deliveries (${plan.events.length})`}>
               <div className="divide-y divide-black/5">

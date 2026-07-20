@@ -1,15 +1,3 @@
-# Local dev (default): drops every table, wipes and rebuilds migrations from the
-# current models, then regenerates the terms and conditions from their committed
-# HTML source (see generate.py --terms).
-#
-# Server (--server): pulls latest code and reuses the already-committed migrations
-# (no makemigrations), then does the same regeneration. The server must never
-# squash migrations — it applies whatever local dev already committed.
-#
-# There is nothing to restore from a backup here: everything the reset needs is
-# generated from source, so unlike the podcast pipeline this command takes no
-# archive. The admin user is created separately (generate --admin_user), not by
-# this reset.
 
 import shutil
 import subprocess
@@ -41,7 +29,6 @@ class Command(BaseCommand):
             self.stdout.write("Pulling latest app code...")
             self._run_git(["git", "pull"], cwd=base_dir)
 
-        # Drop every table so migrate can recreate the schema from scratch.
         self.stdout.write("Dropping all tables...")
         with connection.cursor() as cursor:
             cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
@@ -51,8 +38,6 @@ class Command(BaseCommand):
             cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
 
         if not server:
-            # Local squash only. The server reuses whatever migrations are committed,
-            # so it must never delete or regenerate them here.
             for migrations_dir in self._project_migration_dirs():
                 for f in migrations_dir.glob("*.py"):
                     if f.name != "__init__.py":

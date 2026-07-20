@@ -112,7 +112,6 @@
   }
 }
 
-/* Article rendering, matched to the AllBikes guide layout. */
 .prose-article,
 .prose-article .text-primary-foreground {
   color: hsl(0 0% 11%);

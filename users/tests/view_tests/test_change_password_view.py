@@ -1,4 +1,3 @@
-# users/tests/view_tests/test_change_password_view.py
 import pytest
 from rest_framework.test import APIClient
 from users.tests.factories.user_factory import UserFactory
@@ -82,7 +81,6 @@ class TestChangePasswordView:
 
         assert response.status_code == 400
         assert "new_password" in response.data
-        # This message comes from Django's default password validators
         assert "at least 8 characters" in str(response.data['new_password'])
 
     def test_change_password_new_password_too_common(self):

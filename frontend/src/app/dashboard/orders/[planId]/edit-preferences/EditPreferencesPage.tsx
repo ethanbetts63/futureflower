@@ -1,4 +1,3 @@
-// frontend/src/app/dashboard/orders/[planId]/edit-preferences/EditPreferencesPage.tsx
 "use client";
 import { useCallback } from 'react';
 import { useParams } from 'next/navigation';

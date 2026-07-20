@@ -20,7 +20,6 @@ const PricingFloristAdvantage = () => (
     <section className="bg-white py-14 text-black sm:py-16">
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
 
-            {/* Text column */}
             <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
                     The florist&rsquo;s choice advantage
@@ -53,7 +52,6 @@ const PricingFloristAdvantage = () => (
                 </div>
             </div>
 
-            {/* Image column */}
             <div className="relative min-h-[400px] overflow-hidden rounded-xl md:min-h-[540px]">
                 <Image
                     src="/images/home/bouquet-vase.jpg"

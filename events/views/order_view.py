@@ -55,10 +55,6 @@ class OrderViewSet(viewsets.ModelViewSet):
             )
 
         if order.billing_mode == 'recurring' and order.stripe_subscription_id:
-            # Ask Stripe what it thinks first, rather than cancelling and swallowing
-            # the error. Blanket-catching InvalidRequestError also hid a bad key or
-            # a malformed id, marking the order cancelled here while Stripe happily
-            # kept billing it — the one outcome worse than failing loudly.
             subscription = stripe.Subscription.retrieve(order.stripe_subscription_id)
             if subscription.status != 'canceled':
                 stripe.Subscription.cancel(order.stripe_subscription_id)
@@ -73,7 +69,6 @@ class OrderViewSet(viewsets.ModelViewSet):
         if cancel_type == 'cancel_all' or order.billing_mode != 'recurring':
             events_to_cancel = scheduled_events
         else:
-            # keep_current: keep the earliest scheduled event, cancel the rest
             scheduled_sorted = sorted(scheduled_events, key=lambda e: e.delivery_date)
             events_to_cancel = scheduled_sorted[1:]
 

@@ -14,7 +14,6 @@ class Command(BaseCommand):
         now = timezone.now()
         today = now.date()
 
-        # 1. 14 days before delivery: Create new DeliveryRequests
         target_date_14 = today + timedelta(days=14)
         events_needing_request = Event.objects.filter(
             delivery_date=target_date_14,
@@ -36,7 +35,6 @@ class Command(BaseCommand):
                 ))
                 continue
 
-            # Determine partner: user's referred_by_partner if within radius, else closest match
             chosen_partner = None
 
             referred_partner = getattr(user, 'referred_by_partner', None)
@@ -52,7 +50,6 @@ class Command(BaseCommand):
                     chosen_partner = referred_partner
 
             if not chosen_partner:
-                # Geographic match: find closest partner within their radius
                 candidates = Partner.objects.filter(
                     partner_type='delivery',
                     status='active',
@@ -85,12 +82,10 @@ class Command(BaseCommand):
                 first_notified_at=now,
                 expires_at=expires_at,
             )
-            # TODO: Send email notification
             self.stdout.write(self.style.SUCCESS(
                 f"Created DeliveryRequest {dr.id} for Event {event.id} → Partner {chosen_partner.id}"
             ))
 
-        # 2. 7 days before: Send second notification
         target_date_7 = today + timedelta(days=7)
         pending_requests_7 = DeliveryRequest.objects.filter(
             status='pending',
@@ -102,12 +97,10 @@ class Command(BaseCommand):
         for dr in pending_requests_7:
             dr.second_notified_at = now
             dr.save()
-            # TODO: Send second email notification
             self.stdout.write(self.style.SUCCESS(
                 f"Sent second notification for DeliveryRequest {dr.id}"
             ))
 
-        # 3. Expired: Handle expired requests
         expired_requests = DeliveryRequest.objects.filter(
             status='pending',
             expires_at__lt=now,

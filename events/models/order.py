@@ -101,7 +101,6 @@ class Order(models.Model):
         help_text="The occasion the bouquet is for, used as guidance for the florist."
     )
 
-    # --- Recipient Details ---
     recipient_first_name = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's first name.")
     recipient_last_name = models.CharField(max_length=100, blank=True, null=True, help_text="Recipient's last name.")
     recipient_street_address = models.CharField(max_length=255, blank=True, null=True, help_text="Recipient's street address.")
@@ -127,7 +126,6 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # --- Preferences ---
     flower_notes = models.TextField(
         blank=True,
         null=True,
@@ -138,7 +136,6 @@ class Order(models.Model):
         help_text="The ID from Stripe for managing a recurring order's subscription."
     )
 
-    # --- Card message (pre-payment staging) ---
     card_message = models.TextField(
         blank=True,
         null=True,
@@ -172,22 +169,12 @@ class Order(models.Model):
         self.save()
 
     def save(self, *args, **kwargs):
-        # Price is derived only while the order is still a draft. Once it leaves
-        # 'pending_payment' the stored figures are the record of what the customer
-        # was actually charged, and every later save — activation, cancellation,
-        # a subscription update — must leave them alone. Recomputing would reprice
-        # paid orders whenever DELIVERY_FEE changed, which customer terms 3.3
-        # ("Changes do not affect orders already paid for") forbids.
         if self.status == 'pending_payment':
             self._recalculate_price()
         super().save(*args, **kwargs)
 
     def _recalculate_price(self):
         if self.budget is not None:
-            # A DecimalField only coerces its value on the way to the database, so
-            # a budget assigned as a float or int is still one here and would blow
-            # up the money arithmetic below. to_python normalises it, and raises
-            # ValidationError on anything that isn't a number at all.
             self.budget = self._meta.get_field('budget').to_python(self.budget)
             self.delivery_fee = calculate_delivery_fee(self.budget)
             self.subtotal = (self.budget + self.delivery_fee).quantize(Decimal('0.01'))

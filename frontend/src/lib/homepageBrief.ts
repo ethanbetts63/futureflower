@@ -1,8 +1,5 @@
 import type { Order, PartialOrder } from '@/types/Order';
 
-// The brief the customer fills in on the homepage form. Occasion is a structured
-// key (see lib/occasions); the customer's own words live in flowerNotes, kept
-// separate so an edit can show the occasion picker again rather than a text dump.
 export type HomepageBrief = {
   occasion: string;
   budget: number;
@@ -11,7 +8,6 @@ export type HomepageBrief = {
   cardMessage?: string;
 };
 
-/** Translate a brief into the fields patched onto a draft order. */
 export function briefToOrderPatch(brief: HomepageBrief): PartialOrder {
   return {
     budget: brief.budget,
@@ -22,7 +18,6 @@ export function briefToOrderPatch(brief: HomepageBrief): PartialOrder {
   };
 }
 
-/** Seed the form from an existing draft order, so returning to edit prefills it. */
 export function orderToBrief(order: Order): HomepageBrief {
   return {
     occasion: order.occasion || '',

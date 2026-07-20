@@ -69,8 +69,6 @@ def _record_pending_payment(order, payment_intent_id, amount_in_cents):
 def _start_one_time_payment(order):
     amount_in_cents = _first_charge_cents(order)
 
-    # A draft that briefly became recurring may have left an incomplete
-    # subscription behind; cancel it so only one charge path exists.
     _clear_stale_subscription(order)
 
     reused_secret = reuse_or_cancel_pending_payment_intent(order, amount_in_cents)
@@ -116,15 +114,9 @@ def _start_subscription_payment(order):
     if reused_secret:
         return reused_secret
 
-    # A draft that switched from one_time may have left a plain PaymentIntent
-    # behind; cancel it so only one charge path exists.
     reuse_or_cancel_pending_payment_intent(order, amount_in_cents=None)
 
-    # Recurring deliveries are always full price: budget + delivery fee,
-    # discount excluded.
     recurring_cents = int(Decimal(order.subtotal) * 100)
-    # The first delivery is what the customer actually owes right now
-    # (discount included), clamped to Stripe's minimum.
     first_invoice_cents = _first_charge_cents(order)
 
     second_delivery = calculate_second_delivery_date(order.start_date, order.frequency)
@@ -148,8 +140,6 @@ def _start_subscription_payment(order):
                 'recurring': get_recurring_options(order.frequency),
             },
         }],
-        # The first delivery, invoiced and charged right now, at whatever the
-        # customer actually owes (discount already applied).
         add_invoice_items=[{
             'price_data': {
                 'currency': order.currency.lower(),
@@ -168,8 +158,6 @@ def _start_subscription_payment(order):
     order.stripe_subscription_id = subscription.id
     order.save()
 
-    # The client secret is "<pi id>_secret_<nonce>"; the webhook matches the
-    # Payment record by the PaymentIntent id embedded in it.
     payment_intent_id = client_secret.split('_secret')[0]
     _record_pending_payment(order, payment_intent_id, first_invoice_cents)
     return client_secret

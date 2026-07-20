@@ -2,11 +2,6 @@ import { getCsrfToken } from '@/lib/utils';
 
 const SAFE_METHODS = /^(GET|HEAD|OPTIONS|TRACE)$/i;
 
-/**
- * Attempts to refresh the access token by hitting the refresh endpoint.
- * The refresh token is sent automatically via its HttpOnly cookie.
- * Returns true if the refresh succeeded.
- */
 async function refreshToken(): Promise<boolean> {
     try {
         const response = await fetch('/api/token/refresh/', {
@@ -22,12 +17,6 @@ async function refreshToken(): Promise<boolean> {
 }
 
 
-/**
- * A custom fetch wrapper that handles cookie-based JWT authentication.
- * - Sends credentials (cookies) with every request
- * - Injects the CSRF token header for all mutating requests
- * - Automatically attempts a token refresh on 401 and retries once
- */
 export async function authedFetch(url: string, options: RequestInit = {}): Promise<Response> {
     options.credentials = 'include';
     options.headers = { ...(options.headers as Record<string, string>) };

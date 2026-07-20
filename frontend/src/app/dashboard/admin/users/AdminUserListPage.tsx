@@ -68,8 +68,6 @@ const AdminUserListPage = () => {
   }, [searchInput]);
 
   useEffect(() => {
-    // `cancelled` guards against an earlier, slower search overwriting a newer
-    // one — the rows keep showing the previous results until this one lands.
     let cancelled = false;
     getAdminUsers(activeSearch || undefined)
       .then((result) => { if (!cancelled) { setUsers(result); setError(null); } })

@@ -3,7 +3,6 @@ from payments.models import Payment
 from partners.models import Commission
 
 
-# Tiered referral commission based on bouquet budget
 REFERRAL_COMMISSION_TIERS = [
     (Decimal('100'), Decimal('5')),
     (Decimal('150'), Decimal('10')),
@@ -26,7 +25,6 @@ def process_referral_commission(payment):
     if not partner:
         return
 
-    # Only non-delivery partners earn referral commissions
     if partner.partner_type != 'non_delivery':
         return
 

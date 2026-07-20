@@ -77,7 +77,6 @@ const FloristsPage = () => {
 
       <SoWhatsTheCatchSection />
 
-      {/* FAQ */}
       <div className="bg-[var(--color4)]">
         <section className="pb-8">
           <FaqV2

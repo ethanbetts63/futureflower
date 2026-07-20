@@ -28,8 +28,6 @@ const OrderStructureEditor = ({
         initialData: { budget: 125, start_date: minDeliveryDate(isEdit), card_message: '' },
         fromPlan: (plan: Order) => {
             let startDate = plan.start_date || minDeliveryDate(isEdit);
-            // A draft can't keep a date earlier than the minimum lead time; a paid
-            // order keeps whatever date it was booked with.
             if (plan.status !== 'active' && startDate < minDeliveryDate(isEdit)) {
                 startDate = minDeliveryDate(isEdit);
             }

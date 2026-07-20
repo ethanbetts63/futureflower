@@ -94,7 +94,6 @@ const DeliveryRequestPage = () => {
             </CardHeader>
 
             <CardContent className="space-y-6 px-4 md:px-8">
-              {/* Delivery Date */}
               <div className="flex items-center gap-3">
                 <Calendar className="h-5 w-5 text-muted-foreground" />
                 <div>
@@ -103,7 +102,6 @@ const DeliveryRequestPage = () => {
                 </div>
               </div>
 
-              {/* Location */}
               <div className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <div>
@@ -117,7 +115,6 @@ const DeliveryRequestPage = () => {
                 </div>
               </div>
 
-              {/* Budget */}
               {request.budget && (
                 <div className="flex items-center gap-3">
                   <DollarSign className="h-5 w-5 text-muted-foreground" />
@@ -128,7 +125,6 @@ const DeliveryRequestPage = () => {
                 </div>
               )}
 
-              {/* Notes */}
               {request.delivery_notes && (
                 <div>
                   <p className="text-sm text-muted-foreground">Delivery Notes</p>
@@ -136,7 +132,6 @@ const DeliveryRequestPage = () => {
                 </div>
               )}
 
-              {/* Message */}
               {request.message && (
                 <div>
                   <p className="text-sm text-muted-foreground">Card Message</p>
@@ -144,7 +139,6 @@ const DeliveryRequestPage = () => {
                 </div>
               )}
 
-              {/* Action Buttons */}
               {request.status === 'pending' && (
                 <div className="flex gap-4 pt-4 border-t">
                   <Button

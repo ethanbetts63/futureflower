@@ -20,9 +20,6 @@ class StripeWebhookView(APIView):
     """
     authentication_classes = []
     permission_classes = [AllowAny]
-    # Never throttle Stripe: webhooks arrive anonymously and in bursts, and a
-    # throttled delivery is a dropped payment activation. The signature check
-    # below is the real gate.
     throttle_classes = []
 
     def post(self, request, *args, **kwargs):
@@ -35,13 +32,10 @@ class StripeWebhookView(APIView):
                 payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
             )
         except ValueError as e:
-            # Invalid payload
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except stripe.error.SignatureVerificationError as e:
-            # Invalid signature
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        # Handle the event by delegating to a specific function
         if event['type'] == 'payment_intent.succeeded':
             handle_payment_intent_succeeded(event['data']['object'])
 

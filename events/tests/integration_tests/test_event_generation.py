@@ -10,7 +10,6 @@ from payments.utils.webhook_handlers import handle_payment_intent_succeeded, han
 class TestEventGeneration:
     def test_one_time_order_activation_creates_event(self):
         plan = OrderFactory(billing_mode='one_time', status='pending_payment', frequency='monthly')
-        # Create the Payment object that the handler expects to find
         payment = Payment.objects.create(
             user=plan.user,
             order=plan,
@@ -36,14 +35,12 @@ class TestEventGeneration:
         mock_invoice = {
             'subscription': plan.stripe_subscription_id,
             'payment_intent': 'pi_sub_123',
-            'amount_paid': 10000 # $100.00
+            'amount_paid': 10000
         }
 
-        # Initially no events
         assert Event.objects.filter(order=plan).count() == 0
 
         handle_invoice_payment_succeeded(mock_invoice)
 
-        # Should create 1 payment and 1 event
         assert Payment.objects.filter(stripe_payment_intent_id='pi_sub_123').exists()
         assert Event.objects.filter(order=plan).count() == 1

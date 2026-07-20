@@ -18,8 +18,6 @@ export async function startGuestCheckout(brief: HomepageBrief): Promise<Order> {
   return parseOrder(await request('start', { brief: briefToOrderPatch(brief) }));
 }
 
-// The guest endpoints take no order id: the httponly checkout cookie authorizes
-// exactly one draft order, and the server resolves it from that alone.
 export async function getGuestOrder(): Promise<Order> {
   return parseOrder(await request('order', undefined, 'GET'));
 }
@@ -40,7 +38,6 @@ export async function makeGuestOrderOneTime(): Promise<Order> {
   return parseOrder(await request('make-one-time'));
 }
 
-// Pass an empty code to clear the discount.
 export async function applyGuestDiscount(code: string): Promise<DiscountValidationResult> {
   return request<DiscountValidationResult>('discount', { code });
 }

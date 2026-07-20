@@ -1,4 +1,3 @@
-// src/components/NextDeliveryCard.tsx
 import { Calendar, Hash, User, MapPin } from 'lucide-react';
 
 import type { NextDeliveryCardProps } from '@/types/NextDeliveryCardProps';

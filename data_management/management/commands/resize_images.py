@@ -41,14 +41,11 @@ class Command(BaseCommand):
         try:
             with Image.open(image_path) as img:
                 for width in widths:
-                    # Calculate new height to maintain aspect ratio
                     aspect_ratio = img.height / img.width
                     height = int(width * aspect_ratio)
 
-                    # Resize image
                     resized_img = img.resize((width, height), Image.Resampling.LANCZOS)
                     
-                    # Save the new image as webp with specified quality
                     new_filename = f"{name}-{width}w.webp"
                     new_filepath = os.path.join(directory, new_filename)
                     
