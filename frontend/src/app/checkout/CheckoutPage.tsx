@@ -1,4 +1,3 @@
-// futureflower/frontend/src/pages/CheckoutPage.tsx
 "use client";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -15,68 +14,62 @@ import OrderTotalSummary from '@/shared_components/form_flow/OrderTotalSummary';
 import OrderReviewGrid from '@/shared_components/form_flow/OrderReviewGrid';
 import SummarySection from '@/shared_components/SummarySection';
 import { ShieldCheck } from 'lucide-react';
-import { getGuestOrder } from '@/api/guestCheckout';
 import type { Order } from '@/types';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '');
 
-const CheckoutPage = () => {
+interface CheckoutHandoff {
+    /** null once read but absent — no payment was ever started for this visit. */
+    clientSecret: string | null;
+    backPath: string | null;
+}
+
+/**
+ * The payment step. Unlike the earlier steps this cannot be fully server
+ * rendered: Stripe Elements needs the browser, and the client secret is handed
+ * over from the details step through sessionStorage, which does not exist on
+ * the server.
+ *
+ * So it splits. The order summary comes from `initialOrder`, already fetched by
+ * app/checkout/page.tsx, and is in the HTML on first paint. Only the payment
+ * form itself waits for the sessionStorage handoff after mount.
+ */
+const CheckoutPage = ({ initialOrder }: { initialOrder: Order }) => {
     const router = useRouter();
-    const [clientSecret, setClientSecret] = useState<string | null>(null);
-    const [planId, setPlanId] = useState<string | null>(null);
-    const [backPath, setBackPath] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [plan, setPlan] = useState<Order | null>(null);
+    // null until read; reading it is what "resolved" means.
+    const [handoff, setHandoff] = useState<CheckoutHandoff | null>(null);
 
     useEffect(() => {
         const stored = sessionStorage.getItem('checkoutState');
         const state = stored ? JSON.parse(stored) : null;
-        const secret = state?.clientSecret;
-        const id = state?.planId;
-        const back = state?.backPath;
-
-        if (secret && id) {
-            // sessionStorage does not exist while this renders on the server, so
-            // the handoff from the confirmation page can only be read after mount
-            // — it cannot move into a lazy useState initializer.
-            // eslint-disable-next-line react-hooks/set-state-in-effect
-            setClientSecret(secret);
-            setPlanId(id);
-            setBackPath(back);
-
-            getGuestOrder()
-                .then(setPlan)
-                .catch((err) => console.error('Could not load plan summary:', err))
-                .finally(() => setIsLoading(false));
-        } else {
-            setIsLoading(false);
-        }
+        // sessionStorage does not exist while this renders on the server, so the
+        // handoff from the details step can only be read after mount — it cannot
+        // move into a lazy useState initializer without a hydration mismatch.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setHandoff({
+            clientSecret: state?.clientSecret ?? null,
+            backPath: state?.backPath ?? null,
+        });
     }, []);
 
-    if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-screen" style={{ backgroundColor: 'var(--color4)' }}>
-                <Spinner className="h-12 w-12" />
-            </div>
-        );
-    }
-
-    if (!clientSecret || !planId || !plan) {
-        if (!isLoading) {
-            toast.error("Checkout session is invalid or has expired.");
+    // Landing here without a client secret means no payment was ever started
+    // (a direct visit, or a reload after sessionStorage was cleared).
+    useEffect(() => {
+        if (handoff && !handoff.clientSecret) {
+            toast.error('Checkout session is invalid or has expired.');
             router.replace('/');
-            return null;
         }
-        return null;
-    }
+    }, [handoff, router]);
 
     const appearance: Appearance = { theme: 'stripe' };
     // loader: 'always' shows Stripe's skeleton UI while the payment form
     // loads, instead of empty space under an orphaned Pay button.
-    const options: StripeElementsOptions = { clientSecret, appearance, loader: 'always' };
+    const options: StripeElementsOptions | null = handoff?.clientSecret
+        ? { clientSecret: handoff.clientSecret, appearance, loader: 'always' }
+        : null;
 
-    const planIsSubscription = plan.billing_mode === 'recurring';
-    const planName = planIsSubscription ? "Flower Subscription" : "Single Delivery";
+    const planIsSubscription = initialOrder.billing_mode === 'recurring';
+    const planName = planIsSubscription ? 'Flower Subscription' : 'Single Delivery';
 
     return (
         <>
@@ -95,7 +88,7 @@ const CheckoutPage = () => {
                         description="Review your summary and complete your payment to finalize your booking."
                         footer={
                             <div className="flex flex-row items-center w-full gap-4">
-                                {backPath && <FlowBackButton to={backPath} />}
+                                {handoff?.backPath && <FlowBackButton to={handoff.backPath} />}
                                 <div className="flex-1 text-right text-xs text-black/40 flex items-center justify-end gap-1.5">
                                     <ShieldCheck className="h-3.5 w-3.5" />
                                     Secure Stripe Checkout
@@ -104,19 +97,25 @@ const CheckoutPage = () => {
                         }
                     >
                         {/* Review Section */}
-                        <OrderReviewGrid plan={plan} />
+                        <OrderReviewGrid plan={initialOrder} />
 
-                        <OrderTotalSummary plan={plan} isSubscription={planIsSubscription} />
+                        <OrderTotalSummary plan={initialOrder} isSubscription={planIsSubscription} />
 
                         {/* Payment Section */}
                         <SummarySection label="Payment Details">
                             <div>
-                                <Elements options={options} stripe={stripePromise}>
-                                    <CheckoutForm
-                                        planId={planId}
-                                        source="checkout"
-                                    />
-                                </Elements>
+                                {options ? (
+                                    <Elements options={options} stripe={stripePromise}>
+                                        <CheckoutForm
+                                            planId={String(initialOrder.id)}
+                                            source="checkout"
+                                        />
+                                    </Elements>
+                                ) : (
+                                    <div className="flex justify-center py-10">
+                                        <Spinner className="h-8 w-8" />
+                                    </div>
+                                )}
                             </div>
                         </SummarySection>
                     </UnifiedSummaryCard>

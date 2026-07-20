@@ -12,7 +12,7 @@ import DiscountCodeInput from '@/shared_components/form_flow/DiscountCodeInput';
 import OrderReviewGrid from '@/shared_components/form_flow/OrderReviewGrid';
 import { Checkbox } from '@/shared_components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared_components/ui/select';
-import { acceptGuestTerms, makeGuestOrderOneTime, makeGuestOrderRecurring, startGuestCheckoutPayment } from '@/api/guestCheckout';
+import { acceptGuestTerms, getGuestOrder, makeGuestOrderOneTime, makeGuestOrderRecurring, startGuestCheckoutPayment } from '@/api/guestCheckout';
 import { FREQUENCIES } from '@/lib/frequencies';
 import { errorMessage } from '@/lib/errors';
 import { toast } from 'sonner';
@@ -22,8 +22,7 @@ const BACK_PATH = '/order/recipient';
 const SELF_PATH = '/order/details';
 
 interface OrderDetailsProps {
-  plan: Order;
-  onRefreshPlan?: () => void;
+  initialOrder: Order;
 }
 
 /**
@@ -32,14 +31,26 @@ interface OrderDetailsProps {
  * already reviewed step by step, so nothing here re-summarizes it — the read-
  * only view of an existing order is PlanOverview.
  */
-const OrderDetails = ({ plan, onRefreshPlan }: OrderDetailsProps) => {
+const OrderDetails = ({ initialOrder }: OrderDetailsProps) => {
   const router = useRouter();
+
+  // Server-rendered by app/order/details/page.tsx, then kept here so applying a
+  // discount can refresh the totals in place.
+  const [plan, setPlan] = useState<Order>(initialOrder);
   const orderId = String(plan.id);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [termsAccepted, setTermsAccepted] = useState(() => plan.terms_accepted ?? false);
-  const [makeRecurring, setMakeRecurring] = useState(() => plan.billing_mode === 'recurring');
-  const [recurringFrequency, setRecurringFrequency] = useState(() => plan.frequency || 'monthly');
+  const [termsAccepted, setTermsAccepted] = useState(() => initialOrder.terms_accepted ?? false);
+  const [makeRecurring, setMakeRecurring] = useState(() => initialOrder.billing_mode === 'recurring');
+  const [recurringFrequency, setRecurringFrequency] = useState(() => initialOrder.frequency || 'monthly');
+
+  const refreshPlan = async () => {
+    try {
+      setPlan(await getGuestOrder());
+    } catch (err) {
+      console.error('Failed to refresh plan:', err);
+    }
+  };
 
   const handleRecurringPayment = async () => {
     setIsSubmitting(true);
@@ -159,7 +170,7 @@ const OrderDetails = ({ plan, onRefreshPlan }: OrderDetailsProps) => {
             <div className="flex-1">
               <DiscountCodeInput
                 existingCode={plan.discount_code_display}
-                onDiscountApplied={() => onRefreshPlan?.()}
+                onDiscountApplied={() => refreshPlan()}
               />
             </div>
           </div>

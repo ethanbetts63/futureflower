@@ -30,7 +30,9 @@ If the user said nothing about `--dev`, do not mention it.
 
 Target: **50 scraped candidates** in `marketing/podcasts.jsonl`, unless the user named a different number.
 
-This is a *scrape* target, not a finished-leads target. Phase 2 will discard most of these. Historically only about a third survive the country review, so 50 scraped yields roughly 15 Australian leads. **If the user asks for a number of Australian podcasts rather than a number to scrape, multiply by three and confirm the interpretation with them before starting.**
+This is a *scrape* target, not a finished-leads target. Phase 2 will discard most of these, and the survival rate swings hard depending on which search terms come up — observed runs have ranged from 5% to 35%. Do not promise the user a particular number of Australian leads from a given scrape target.
+
+**If the user asks for a number of Australian podcasts rather than a number to scrape, say that the yield is not predictable enough to work backwards from, and agree a scrape target with them instead.**
 
 Count the entries already in `marketing/podcasts.jsonl` and scrape only the shortfall:
 
@@ -55,11 +57,13 @@ Once `podcasts.jsonl` holds roughly the target number of entries, proceed to Pha
 
 Read `marketing/podcasts.jsonl` and collect the `podcast_name` and `feed_url` of every entry.
 
-Then read `marketing/country_review.json` and drop from that collection any `feed_url` already recorded in one of its three lists. Those have been reviewed on a previous run and re-reviewing them wastes agent time. If nothing is left after this, skip straight to running `apply_country_review` below.
+Then read `marketing/country_review.json` and drop from that collection any `feed_url` already recorded there. That file has exactly three keys — `aus`, `not_aus` and `unsure` — each holding a list of objects with `feed_url` and `podcast_name`. Collect the `feed_url` from all three. Those podcasts were reviewed on a previous run and re-reviewing them wastes agent time. If nothing is left after this, skip straight to running `apply_country_review` below.
+
+(Reading data files like this is expected. The "do not read" rule at the top applies only to the two instruction files.)
 
 Split the remainder into batches of **15**. Then, one agent at a time:
 
-- Give the agent its batch as an explicit list of `podcast_name` + `feed_url` pairs. Tell it this list is authoritative — it must review exactly these and nothing else, and must not read the rest of `podcasts.jsonl`.
+- Give the agent its batch as an explicit list, keyed on **`feed_url`** with `podcast_name` alongside for readability. Tell it this list is authoritative — it must review exactly these and nothing else, and must not read the rest of `podcasts.jsonl`. Key on `feed_url`, never on `podcast_name`: titles contain pipes, quotes and apostrophes that break list formatting, and are not guaranteed unique.
 - Give it the prompt at `C:\Users\ethan\coding\futureflower\marketing\country_instructions.md`.
 - Tell it **not** to run `apply_country_review`. You run that once, after every batch is done.
 
@@ -73,9 +77,10 @@ python manage.py apply_country_review
 
 This drops the `not_aus` and `unsure` entries, leaving only Australian podcasts in the queue. If it warns that entries had no decision, an agent missed some — spin up one more agent for exactly those before continuing.
 
-Report how many survived. Roughly one in three is normal.
+Report how many survived, as both a count and a percentage. Anywhere from 5% to 35% has been seen, so a low rate is not automatically a fault.
 
 - If **nothing** survived, stop and tell the user rather than proceeding with an empty queue.
+- If **under 15%** survived, finish `apply_country_review` but stop before Phase 3 and report. A handful of leads may not be worth a writing pass, and the user may prefer to scrape more first. Let them decide.
 - If **more than half** survived, the review agents may have been too lenient. Spot-check three of the `aus` calls yourself before starting Phase 3, and say what you found.
 
 ---
@@ -86,7 +91,7 @@ Only the Australian podcasts remain in `marketing/podcasts.jsonl` now.
 
 Split them into batches of **10** — or use a single agent if there are 10 or fewer. Then, one agent at a time:
 
-- Give the agent its batch as an explicit list of `podcast_name` + `email` pairs. Tell it this list is authoritative — it must fill in exactly these entries and leave every other line in the file untouched, even though it will see them while editing. This matters: agents share this file, and one straying outside its batch will overwrite another's work.
+- Give the agent its batch as an explicit list, keyed on **`feed_url`** with `podcast_name` alongside for readability. Do not key on `podcast_name` — titles contain pipes, quotes and apostrophes that break list formatting, and are not guaranteed unique. Tell it this list is authoritative — it must fill in exactly these entries and leave every other line in the file untouched, even though it will see them while editing. This matters: agents share this file, and one straying outside its batch will overwrite another's work.
 - Give it the prompt at `C:\Users\ethan\coding\futureflower\marketing\ai_instructions.md`.
 - Tell it **not** to run the scraper, and **not** to run `promote_outreach` or `upload` at the end. You handle those in Phase 4.
 
@@ -103,9 +108,11 @@ Once Phase 3 is complete, verify the queue before uploading anything. Entries le
 - A `subject` but no `custom_intro`, or the reverse
 - A `custom_intro` that does not start with "I just listened to"
 - Placeholder or template text that an agent left behind
-- An email whose domain no longer resolves. Podcast feeds go stale and keep advertising dead domains. Check each one with `socket.gethostbyname()` on the part after the `@`, and drop any that fail — a hard bounce costs far more than a missed lead, because bounce rates on a cold-outreach Gmail account get the account throttled or suspended.
+- An email whose domain no longer resolves. Check each one with `socket.gethostbyname()` on the part after the `@` and drop any that fail. The scraper already does this in Phase 1, so this is a deliberate re-check rather than a duplicate: entries can sit in the queue across runs, and domains die in between. A hard bounce costs far more than a missed lead, because bounce rates on a cold-outreach Gmail account get it throttled or suspended.
 
-Fix or blank out anything suspect. **Upload is the last reversible step — once an entry reaches the server it is queued for a real cold email, and there is no delete endpoint.** Do not skip this check.
+Make these fixes yourself by editing `podcasts.jsonl` directly — do not spin up an agent for them. Blanking both fields is always a safe repair, since `promote_outreach` will simply leave that entry in the queue.
+
+**Upload is the last reversible step — once an entry reaches the server it is queued for a real cold email, and there is no delete endpoint.** Do not skip this check.
 
 Then run:
 

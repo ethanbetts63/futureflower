@@ -201,6 +201,7 @@ def scrape_term(term, searched_feeds, stdout_write, limit=None, planned_emails=N
 
     written = 0
     skipped = 0
+    dns_rejected = 0
 
     for result in results:
         if limit is not None and written >= limit:
@@ -234,6 +235,7 @@ def scrape_term(term, searched_feeds, stdout_write, limit=None, planned_emails=N
 
         if not email_domain_resolves(rss["email"]):
             skipped += 1
+            dns_rejected += 1
             stdout_write(f"  ~ skipping <{rss['email']}> (domain does not resolve)")
             continue
 
@@ -260,6 +262,6 @@ def scrape_term(term, searched_feeds, stdout_write, limit=None, planned_emails=N
         written += 1
         stdout_write(f"  + {entry['podcast_name']}  <{entry['email']}>")
 
-    stdout_write(f"  Written: {written}  |  Skipped: {skipped}")
+    stdout_write(f"  Written: {written}  |  Skipped: {skipped}  |  Dead domains: {dns_rejected}")
     limit_reached = limit is not None and written >= limit
     return written, skipped, searched_feeds, planned_emails, limit_reached

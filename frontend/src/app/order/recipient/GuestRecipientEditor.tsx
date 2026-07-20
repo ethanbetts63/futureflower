@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import PlanEditorShell from '@/shared_components/form_flow/PlanEditorShell';
@@ -8,9 +8,9 @@ import { Checkbox } from '@/shared_components/ui/checkbox';
 import { Label } from '@/shared_components/ui/label';
 import { Input } from '@/shared_components/ui/input';
 import { Textarea } from '@/shared_components/ui/textarea';
-import { claimGuestCheckout, getGuestOrder, updateGuestOrder } from '@/api/guestCheckout';
+import { claimGuestCheckout, updateGuestOrder } from '@/api/guestCheckout';
 import { errorMessage } from '@/lib/errors';
-import { EMPTY_RECIPIENT, recipientFromPlan } from '@/lib/recipientData';
+import { recipientFromPlan } from '@/lib/recipientData';
 import type { Order } from '@/types/Order';
 import type { RecipientData } from '@/types/RecipientData';
 
@@ -23,45 +23,28 @@ import type { RecipientData } from '@/types/RecipientData';
  * Saving claims the checkout (records name/email on the order) and stores the
  * recipient in the same action. The dashboard's post-payment recipient editor
  * is OrderRecipientEditor.
+ *
+ * The draft arrives already loaded from the server component that renders this
+ * (app/order/recipient/page.tsx), so every field starts populated on first
+ * paint — there is no fetch-on-mount and therefore no empty-form flash.
  */
-const GuestRecipientEditor = () => {
+const GuestRecipientEditor = ({ initialOrder }: { initialOrder: Order }) => {
     const router = useRouter();
-    const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [deliverToSelf, setDeliverToSelf] = useState(false);
-    const [recipient, setRecipient] = useState<RecipientData>(EMPTY_RECIPIENT);
-
-    useEffect(() => {
-        let cancelled = false;
-        getGuestOrder()
-            .then((plan: Order) => {
-                if (cancelled) return;
-                const customerFirst = plan.customer_first_name || '';
-                const customerLast = plan.customer_last_name || '';
-                setFirstName(customerFirst);
-                setLastName(customerLast);
-                setEmail(plan.customer_email || '');
-                setRecipient(recipientFromPlan(plan));
-                // A previous visit that delivered to the customer themselves.
-                if (customerFirst && plan.recipient_first_name === customerFirst && plan.recipient_last_name === customerLast) {
-                    setDeliverToSelf(true);
-                }
-            })
-            .catch((err) => {
-                if (cancelled) return;
-                toast.error('Failed to load your order.', { description: errorMessage(err) });
-                router.push('/');
-            })
-            .finally(() => {
-                if (!cancelled) setIsLoading(false);
-            });
-        return () => {
-            cancelled = true;
-        };
-    }, [router]);
+    const [firstName, setFirstName] = useState(initialOrder.customer_first_name || '');
+    const [lastName, setLastName] = useState(initialOrder.customer_last_name || '');
+    const [email, setEmail] = useState(initialOrder.customer_email || '');
+    const [recipient, setRecipient] = useState<RecipientData>(() => recipientFromPlan(initialOrder));
+    // A previous visit that delivered to the customer themselves.
+    const [deliverToSelf, setDeliverToSelf] = useState(() => {
+        const customerFirst = initialOrder.customer_first_name || '';
+        const customerLast = initialOrder.customer_last_name || '';
+        return Boolean(
+            customerFirst
+            && initialOrder.recipient_first_name === customerFirst
+            && initialOrder.recipient_last_name === customerLast,
+        );
+    });
 
     const setRecipientField = (field: keyof RecipientData, value: string) => {
         setRecipient((prev) => ({ ...prev, [field]: value }));
@@ -99,7 +82,7 @@ const GuestRecipientEditor = () => {
             title="Who is receiving the flowers?"
             backPath="/"
             saveButtonText="Next: Final Details"
-            isLoading={isLoading}
+            isLoading={false}
             isSaving={isSaving}
             onSave={handleSave}
         >
