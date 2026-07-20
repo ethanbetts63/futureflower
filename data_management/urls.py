@@ -19,7 +19,6 @@ urlpatterns = [
     path('blocklist-success/', BlocklistSuccessView.as_view(), name='blocklist_success'),
     path('terms/latest/', LatestTermsAndConditionsView.as_view(), name='latest-terms'),
     path('terms/accept/', AcceptTermsView.as_view(), name='accept-terms'),
-    # Admin endpoints
     path('admin/dashboard/', AdminDashboardView.as_view(), name='admin-dashboard'),
     path('admin/plans/', AdminPlanListView.as_view(), name='admin-plan-list'),
     path('admin/plans/<int:pk>/', AdminPlanDetailView.as_view(), name='admin-plan-detail'),

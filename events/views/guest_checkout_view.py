@@ -91,6 +91,8 @@ class GuestCheckoutView(APIView):
             return self.claim(request, session)
         if action == 'make-recurring':
             return self.make_recurring(request, session)
+        if action == 'make-one-time':
+            return self.make_one_time(session)
         if action == 'accept-terms':
             return self.accept_terms(session)
         if action == 'discount':
@@ -115,8 +117,15 @@ class GuestCheckoutView(APIView):
             data['customer_email'] = session.customer_email or ''
             data['customer_first_name'] = session.order.user.first_name or ''
             data['customer_last_name'] = session.order.user.last_name or ''
+            data['terms_accepted'] = self._has_accepted_current_terms(session.order.user)
             return Response(data)
         return Response({'detail': 'Unknown checkout action.'}, status=404)
+
+    def _has_accepted_current_terms(self, user):
+        latest = TermsAndConditions.objects.filter(terms_type='customer').order_by('-published_at').first()
+        if not latest:
+            return False
+        return TermsAcceptance.objects.filter(user=user, terms=latest).exists()
 
     @transaction.atomic
     def start(self, request):
@@ -178,6 +187,11 @@ class GuestCheckoutView(APIView):
 
         order = session.order
         order.make_recurring(frequency)
+        return Response(OrderSerializer(order).data)
+
+    def make_one_time(self, session):
+        order = session.order
+        order.make_one_time()
         return Response(OrderSerializer(order).data)
 
     def discount(self, request, session):

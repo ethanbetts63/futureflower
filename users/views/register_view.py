@@ -28,7 +28,6 @@ class RegisterView(APIView):
 
         user = serializer.save()
 
-        # Generate JWT tokens for the new user
         refresh = RefreshToken.for_user(user)
 
         response = Response({

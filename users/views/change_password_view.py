@@ -1,4 +1,3 @@
-# users/views/change_password_view.py
 from rest_framework import status
 from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
@@ -10,7 +9,7 @@ class ChangePasswordView(UpdateAPIView):
     An endpoint for changing password.
     """
     serializer_class = ChangePasswordSerializer
-    model = None  # We are not updating a model directly, but the user object
+    model = None
     permission_classes = (IsAuthenticated,)
 
     def get_object(self, queryset=None):

@@ -13,7 +13,7 @@ def _set_auth_cookies(response, access_token, refresh_token=None, request=None):
     Secure flag is off in DEBUG mode to allow local development over HTTP.
     """
     if request is not None:
-        get_token(request)  # ensures csrftoken cookie is issued with this response
+        get_token(request)
 
     secure = not settings.DEBUG
     access_max_age = int(settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())

@@ -25,25 +25,21 @@ from partners.views import (
 )
 
 urlpatterns = [
-    # Phase 1
     path('register/', PartnerRegistrationView.as_view(), name='partner-register'),
     path('dashboard/', PartnerDashboardView.as_view(), name='partner-dashboard'),
     path('update/', PartnerUpdateView.as_view(), name='partner-update'),
     path('discount-codes/', DiscountCodeCreateView.as_view(), name='discount-code-create'),
 
-    # Phase 2
     path('delivery-requests/', DeliveryRequestListView.as_view(), name='delivery-request-list'),
     path('delivery-requests/<str:token>/details/', DeliveryRequestDetailView.as_view(), name='delivery-request-detail'),
     path('delivery-requests/<str:token>/respond/', DeliveryRequestRespondView.as_view(), name='delivery-request-respond'),
     path('delivery-requests/<str:token>/mark-delivered/', DeliveryRequestMarkDeliveredView.as_view(), name='delivery-request-mark-delivered'),
 
-    # Admin — commissions
     path('admin/commissions/', AdminCommissionListView.as_view(), name='admin-commission-list'),
     path('admin/commissions/<int:pk>/', AdminCommissionDetailView.as_view(), name='admin-commission-detail'),
     path('admin/commissions/<int:pk>/approve/', AdminApproveCommissionView.as_view(), name='admin-approve-commission'),
     path('admin/commissions/<int:pk>/deny/', AdminDenyCommissionView.as_view(), name='admin-deny-commission'),
 
-    # Admin — partners
     path('admin/pending/', AdminPendingPartnersView.as_view(), name='admin-pending-partners'),
     path('admin/list/', AdminPartnerListView.as_view(), name='admin-partner-list'),
     path('admin/<int:pk>/', AdminPartnerDetailView.as_view(), name='admin-partner-detail'),
@@ -51,7 +47,6 @@ urlpatterns = [
     path('admin/<int:pk>/deny/', AdminDenyPartnerView.as_view(), name='admin-deny-partner'),
     path('admin/<int:pk>/commissions/<int:commission_id>/pay/', AdminPayCommissionView.as_view(), name='admin-pay-commission'),
 
-    # Phase 3
     path('stripe-connect/onboard/', StripeConnectOnboardView.as_view(), name='stripe-connect-onboard'),
     path('stripe-connect/status/', StripeConnectStatusView.as_view(), name='stripe-connect-status'),
     path('payouts/', PayoutListView.as_view(), name='payout-list'),

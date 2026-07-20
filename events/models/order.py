@@ -161,6 +161,16 @@ class Order(models.Model):
         self.frequency = frequency
         self.save()
 
+    def make_one_time(self):
+        """
+        Reverts a draft order back to one-time billing. The counterpart to
+        make_recurring, for a customer who opted into a subscription and then
+        changed their mind before paying.
+        """
+        self.billing_mode = 'one_time'
+        self.frequency = None
+        self.save()
+
     def save(self, *args, **kwargs):
         # Price is derived only while the order is still a draft. Once it leaves
         # 'pending_payment' the stored figures are the record of what the customer

@@ -12,7 +12,7 @@ import DiscountCodeInput from '@/shared_components/form_flow/DiscountCodeInput';
 import OrderReviewGrid from '@/shared_components/form_flow/OrderReviewGrid';
 import { Checkbox } from '@/shared_components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared_components/ui/select';
-import { acceptGuestTerms, makeGuestOrderRecurring, startGuestCheckoutPayment } from '@/api/guestCheckout';
+import { acceptGuestTerms, makeGuestOrderOneTime, makeGuestOrderRecurring, startGuestCheckoutPayment } from '@/api/guestCheckout';
 import { FREQUENCIES } from '@/lib/frequencies';
 import { errorMessage } from '@/lib/errors';
 import { toast } from 'sonner';
@@ -39,7 +39,11 @@ const OrderDetails = ({ plan, onRefreshPlan }: OrderDetailsProps) => {
   const orderId = String(plan.id);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  // Hydrated from the order: a prior visit may have already recorded
+  // acceptance server-side (via acceptGuestTerms below), and this step can
+  // remount — e.g. navigating back to /order/recipient and forward again —
+  // which would otherwise reset the checkbox even though it's already saved.
+  const [termsAccepted, setTermsAccepted] = useState(() => plan.terms_accepted ?? false);
   // A return visit (e.g. a failed payment attempt) can load an order that is
   // already recurring — start the toggle in sync with it, not always off.
   const [makeRecurring, setMakeRecurring] = useState(() => plan.billing_mode === 'recurring');
@@ -69,6 +73,18 @@ const OrderDetails = ({ plan, onRefreshPlan }: OrderDetailsProps) => {
     }
   };
 
+  // A return visit may have already made this order recurring (see
+  // handleRecurringPayment) before the customer unchecked the box here.
+  // billing_mode only ever changes via an explicit make-recurring/make-one-time
+  // call, so unchecking locally does nothing on its own — revert it server-side
+  // before starting a one-time payment, or checkout would still bill as a subscription.
+  const startOneTimePayment = async () => {
+    if (plan.billing_mode === 'recurring') {
+      await makeGuestOrderOneTime();
+    }
+    return startGuestCheckoutPayment();
+  };
+
   return (
       <UnifiedSummaryCard
         title="Order Details"
@@ -87,7 +103,7 @@ const OrderDetails = ({ plan, onRefreshPlan }: OrderDetailsProps) => {
                 orderId={orderId}
                 backPath={SELF_PATH}
                 disabled={isSubmitting || !termsAccepted}
-                startPayment={startGuestCheckoutPayment}
+                startPayment={startOneTimePayment}
                 onPaymentInitiate={() => setIsSubmitting(true)}
                 onPaymentError={() => setIsSubmitting(false)}
               >
@@ -98,7 +114,13 @@ const OrderDetails = ({ plan, onRefreshPlan }: OrderDetailsProps) => {
         }
       >
         <div className="pt-6 pb-2">
-          <OrderReviewGrid plan={plan} />
+          <OrderReviewGrid
+            plan={plan}
+            scheduleOverride={{
+              isSubscription: makeRecurring,
+              frequency: makeRecurring ? recurringFrequency : null,
+            }}
+          />
         </div>
 
         <SummarySection label="Recurring Delivery">

@@ -21,12 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-# Stripe API Keys
 STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY", "")
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
 
-# Custom Application Settings
 SITE_URL = os.environ.get("SITE_URL")
 HASHING_SALT = os.environ.get("HASHING_SALT")
 ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
@@ -35,13 +33,9 @@ MIN_DAYS_BEFORE_CREATE = 3
 MIN_DAYS_BEFORE_EDIT = 7
 SUBSCRIPTION_CHARGE_LEAD_DAYS = 7
 MIN_BUDGET = 1
-# At or above this budget the delivery cost is absorbed by the budget and no
-# separate fee is charged. Below it, DELIVERY_FEE is added so the budget keeps
-# its full flower value.
 DELIVERY_INCLUDED_THRESHOLD = 1
 DELIVERY_FEE = 20
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = ['ethanbetts.pythonanywhere.com', 'api.futureflower.app', 'www.futureflower.app', '127.0.0.1', 'localhost']
@@ -55,7 +49,6 @@ if DEBUG:
         'http://localhost:5173',
     ])
 
-# Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -159,7 +152,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.User"
 
-# Cookie names for JWT tokens
 AUTH_COOKIE = 'access_token'
 AUTH_COOKIE_REFRESH = 'refresh_token'
 GUEST_CHECKOUT_LIFETIME = timedelta(days=7)
@@ -194,15 +186,12 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-# Email Settings (Mailgun)
 MAILGUN_API_KEY = os.environ.get("MAILGUN_API_KEY")
 MAILGUN_DOMAIN = os.environ.get("MAILGUN_DOMAIN")
 DEFAULT_FROM_EMAIL = "FutureFlower <postmaster@mail.futureflower.app>"
 
-# Twilio Settings
 TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
 
-# Internal API
 INTERNAL_API_KEY    = os.environ.get("INTERNAL_API_KEY")
 MARKETING_SERVER_URL = os.environ.get("MARKETING_SERVER_URL", "https://www.futureflower.app")
 TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN")

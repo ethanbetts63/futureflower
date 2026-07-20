@@ -20,7 +20,6 @@ class Notification(models.Model):
     )
 
     recipient_type = models.CharField(max_length=20, choices=RECIPIENT_TYPE_CHOICES)
-    # Only one of these will be set, depending on recipient_type:
     recipient_partner = models.ForeignKey(
         'partners.Partner',
         null=True, blank=True,
@@ -33,10 +32,9 @@ class Notification(models.Model):
         on_delete=models.SET_NULL,
         related_name='notifications',
     )
-    # Admin recipients are resolved from settings at send time — no FK needed.
 
     channel = models.CharField(max_length=10, choices=CHANNEL_CHOICES)
-    subject = models.CharField(max_length=255, null=True, blank=True)  # email only
+    subject = models.CharField(max_length=255, null=True, blank=True)
     body = models.TextField()
 
     scheduled_for = models.DateField()
@@ -45,7 +43,6 @@ class Notification(models.Model):
     sent_at = models.DateTimeField(null=True, blank=True)
     error_message = models.TextField(null=True, blank=True)
 
-    # Traceability
     related_event = models.ForeignKey(
         'events.Event',
         null=True, blank=True,

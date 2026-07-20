@@ -27,8 +27,6 @@ class PasswordResetRequestView(APIView):
         """
         serializer = self.serializer_class(data=request.data)
         if not serializer.is_valid():
-            # Even if validation fails (e.g., malformed email), we return a generic message.
-            # This is important to prevent leaking information.
             return Response(
                 {"detail": "If an account with this email exists, a password reset link has been sent."},
                 status=status.HTTP_200_OK
@@ -44,31 +42,23 @@ class PasswordResetRequestView(APIView):
                     status=status.HTTP_200_OK,
                 )
             
-            # --- Rate Limiting Logic ---
             if user.password_reset_last_sent_at:
                 time_since_last_send = timezone.now() - user.password_reset_last_sent_at
                 if time_since_last_send < timedelta(seconds=60):
-                    # Even if rate-limited, we don't inform the user.
-                    # We just silently don't send the email.
                     return Response(
                         {"detail": "If an account with this email exists, a password reset link has been sent."},
                         status=status.HTTP_200_OK
                     )
             
-            # --- Send the email ---
             was_sent = send_password_reset_email(user)
             
             if was_sent:
-                # Update the timestamp only on successful send
                 user.password_reset_last_sent_at = timezone.now()
                 user.save(update_fields=['password_reset_last_sent_at'])
                 
         except User.DoesNotExist:
-            # If the user does not exist, we do nothing.
-            # The response below will be returned, same as a success case.
             pass
         except Exception as e:
-            # Log the exception but do not expose it to the client
             logger.error("Unexpected error during password reset request: %s", e)
             pass
 

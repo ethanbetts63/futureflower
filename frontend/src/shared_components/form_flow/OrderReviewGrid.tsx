@@ -3,8 +3,20 @@ import ImpactTile from '@/shared_components/form_flow/ImpactTile';
 import { formatDate, capitalize } from '@/lib/utils';
 import type { Order } from '@/types/Order';
 
-const OrderReviewGrid = ({ plan }: { plan: Order }) => {
-  const isSubscription = plan.billing_mode === 'recurring';
+interface OrderReviewGridProps {
+  plan: Order;
+  /**
+   * The Schedule tile normally reflects the order as last saved on the
+   * server. On the details step, the recurring checkbox/frequency picker are
+   * only committed to the server on submit — pass the live selection here so
+   * the tile updates as the customer picks, instead of showing stale data.
+   */
+  scheduleOverride?: { isSubscription: boolean; frequency: string | null };
+}
+
+const OrderReviewGrid = ({ plan, scheduleOverride }: OrderReviewGridProps) => {
+  const isSubscription = scheduleOverride ? scheduleOverride.isSubscription : plan.billing_mode === 'recurring';
+  const frequency = scheduleOverride ? scheduleOverride.frequency : plan.frequency;
 
   const fullAddress = [
     plan.recipient_street_address,
@@ -26,7 +38,7 @@ const OrderReviewGrid = ({ plan }: { plan: Order }) => {
         <div>
           <span className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase block mb-0.5">Schedule</span>
           <p className="font-bold text-black font-['Playfair_Display']">
-            {isSubscription ? capitalize(plan.frequency) : `Single Delivery — ${formatDate(plan.start_date)}`}
+            {isSubscription ? capitalize(frequency) : `Single Delivery — ${formatDate(plan.start_date)}`}
           </p>
           {isSubscription && (
             <p className="text-xs text-black/60">

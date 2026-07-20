@@ -25,14 +25,11 @@ urlpatterns = [
     path("api/partners/", include("partners.urls")),
     path("api/marketing/", include("marketing.urls")),
 
-    # Sitemap
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 
-    # JWT Token Authentication Endpoints (cookie-based)
     path('api/token/', CookieTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', CookieTokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/logout/', LogoutView.as_view(), name='token_logout'),
 
-    # Catch-all for the React frontend, ignoring API, admin, and sitemap paths
     re_path(r'^(?!api/|admin/|sitemap\.xml).*$', TemplateView.as_view(template_name="index.html")),
 ]

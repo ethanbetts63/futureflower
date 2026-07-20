@@ -4,14 +4,12 @@ from django.conf import settings
 from data_management.models import TermsAndConditions
 from django.utils.timezone import now
 
-# Maps filename prefix to the terms_type choice value
 FILENAME_TYPE_MAP = {
     'florist': 'florist',
     'customer': 'customer',
     'affiliates': 'affiliate',
 }
 
-# Matches: florist_terms.html, customer_terms_v2.html, affiliates_terms_v1.0.html, etc.
 TERMS_FILE_PATTERN = re.compile(
     r'^(florist|customer|affiliates)_terms(?:_v([\d\.]+))?\.html$'
 )

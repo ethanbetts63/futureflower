@@ -32,7 +32,6 @@ class PasswordResetConfirmView(APIView):
             user = None
 
         if user is not None and (user.is_staff or user.is_superuser or hasattr(user, 'partner_profile')) and default_token_generator.check_token(user, token):
-            # If the token is valid, set the new password
             user.set_password(serializer.validated_data['password'])
             user.save()
             return Response(
@@ -40,7 +39,6 @@ class PasswordResetConfirmView(APIView):
                 status=status.HTTP_200_OK
             )
         else:
-            # If the user or token is invalid, return an error
             return Response(
                 {"detail": "This password reset link is invalid or has expired."},
                 status=status.HTTP_400_BAD_REQUEST

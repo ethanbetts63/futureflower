@@ -17,19 +17,15 @@ def send_password_reset_email(user: User):
     Sends an email to the user with a link to reset their password using the Mailgun API.
     """
     try:
-        # --- Blocklist Check ---
         if BlockedEmail.objects.filter(email=user.email).exists():
             logger.info("Password reset email to %s suppressed because it is on the blocklist.", user.email)
             return False
 
-        # Generate a token and user ID for the password reset URL
         token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         
-        # Construct the password reset URL for the frontend
         reset_url = f"{settings.SITE_URL}/reset-password-confirm/{uid}/{token}"
 
-        # Construct the unique blocklist URL
         signed_email = signer.sign(user.email)
         unsubscribe_url = f"{settings.SITE_URL}/api/data/blocklist/block/{signed_email}/"
 
@@ -44,7 +40,6 @@ def send_password_reset_email(user: User):
         html_content = render_to_string("users/emails/password_reset_email.html", context)
         text_content = render_to_string("users/emails/password_reset_email.txt", context)
 
-        # Send the email using Mailgun API
         response = requests.post(
             f"https://api.mailgun.net/v3/{settings.MAILGUN_DOMAIN}/messages",
             auth=("api", settings.MAILGUN_API_KEY),

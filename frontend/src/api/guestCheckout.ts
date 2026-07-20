@@ -36,6 +36,10 @@ export async function makeGuestOrderRecurring(payload: { frequency: string }): P
   return parseOrder(await request('make-recurring', payload));
 }
 
+export async function makeGuestOrderOneTime(): Promise<Order> {
+  return parseOrder(await request('make-one-time'));
+}
+
 // Pass an empty code to clear the discount.
 export async function applyGuestDiscount(code: string): Promise<DiscountValidationResult> {
   return request<DiscountValidationResult>('discount', { code });

@@ -50,6 +50,8 @@ export interface Order {
   customer_email?: string;
   customer_first_name?: string;
   customer_last_name?: string;
+  /** Guest-checkout GET only: whether the current customer terms are already accepted. */
+  terms_accepted?: boolean;
 }
 
 export type PartialOrder = Partial<Order>;

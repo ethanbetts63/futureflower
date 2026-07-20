@@ -6,7 +6,6 @@ from .views.guest_checkout_view import GuestCheckoutView
 
 router = DefaultRouter()
 router.register(r'orders', OrderViewSet, basename='order')
-# This must be last, as its empty prefix will catch anything not matched above.
 router.register(r'', EventViewSet, basename='event')
 
 urlpatterns = [
