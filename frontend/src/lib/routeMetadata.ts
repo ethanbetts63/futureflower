@@ -30,7 +30,7 @@ const publicRoutes: Record<string, RouteMetadata> = {
     // app/page.tsx shares the root segment with app/layout.tsx. So the brand must be
     // baked into the homepage title explicitly here (every other route gets it via
     // the template).
-    title: "Australian Florist-Led Flower Delivery | FutureFlower",
+    title: "Online Flower Delivery Aus| Delivery inc.",
     description:
       "Tell us the occasion, budget, and flower preferences. A local Australian florist designs a bouquet that fits.",
     path: "/",
