@@ -1,5 +1,14 @@
 # Restrict podcast scraping to Australia
 
+> **Follow-up (2026-07-20):** the `country=AU` param turned out to be far
+> weaker than assumed below. It selects the AU *store catalog*, not podcasts
+> produced in Australia — a live run returned 4 foreign shows out of 5. The
+> `"country": "AUS"` field in the API response echoes the queried store, not
+> the show's origin, and RSS feeds carry no location field (both an Australian
+> and a Swedish feed declared plain `en`). Geographic filtering is now handled
+> by an agent review step; see `marketing/country_instructions.md`. The changes
+> below still stand, they just aren't sufficient on their own.
+
 ## Context
 
 The marketing podcast-outreach scraper (`marketing/`) currently searches the

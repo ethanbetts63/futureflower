@@ -5,16 +5,20 @@ Podcast outreach tool. Scrapes iTunes for podcast leads, stores them in a JSONL 
 ## Flow
 
 1. **Scrape** — run the scrape command to populate `podcasts.jsonl` with qualifying podcast leads
-2. **Fill in the blanks** — open `podcasts.jsonl` and bring a batch to Claude. Claude writes the `subject` and `custom_intro` for each entry based on the podcast and latest episode
-3. **Promote** — run `promote_outreach` to move filled entries from `podcasts.jsonl` into `outbox/` as individual JSON files
-4. **Upload** — run `upload` from your local machine to push `outbox/` files to the live server's `inbox/`
-5. **Send** — run `send_outreach` on the server to fire off emails from `inbox/`. Sent entries are moved to `contacted_podcasts.jsonl` automatically
+2. **Country review** — bring `podcasts.jsonl` to Claude with `country_instructions.md`. Claude sorts each podcast into `aus` / `not_aus` / `unsure` in `country_review.json`, then `apply_country_review` drops everything that isn't Australian
+3. **Fill in the blanks** — open `podcasts.jsonl` and bring a batch to Claude. Claude writes the `subject` and `custom_intro` for each entry based on the podcast and latest episode
+4. **Promote** — run `promote_outreach` to move filled entries from `podcasts.jsonl` into `outbox/` as individual JSON files
+5. **Upload** — run `upload` from your local machine to push `outbox/` files to the live server's `inbox/`
+6. **Send** — run `send_outreach` on the server to fire off emails from `inbox/`. Sent entries are moved to `contacted_podcasts.jsonl` automatically
 
 ## Commands
 
 ```bash
 # Scrape the next N qualifying podcasts into podcasts.jsonl
 python manage.py scrape_pods --batch 10
+
+# Drop non-Australian entries using Claude's country_review.json decisions
+python manage.py apply_country_review
 
 # Promote enriched entries from podcasts.jsonl into outbox/
 python manage.py promote_outreach
@@ -39,6 +43,8 @@ python manage.py send_outreach --count 5
 - `marketing/outbox/` — enriched entries ready to upload, one JSON file per recipient (gitignored)
 - `marketing/inbox/` — entries received from upload, waiting to be sent (gitignored)
 - `marketing/email.txt` — the outreach email template. The `__________________________________________` placeholder is replaced with each entry's `custom_intro`
+- `marketing/country_instructions.md` — Claude's instructions for the country review step
+- `marketing/country_review.json` — country decisions, three lists keyed by `feed_url` (gitignored)
 - `marketing/searched_terms.py` — iTunes search terms already queried (aa → zz), prevents re-searching
 - `marketing/searched_feeds.py` — RSS feed URLs already attempted, prevents duplicate fetches across terms
 - `marketing/utils/scraper.py` — scraping logic
@@ -76,7 +82,12 @@ python manage.py send_outreach --count 5
 ## Scrape Filters
 
 Podcasts are only kept if they pass all of the following:
-- At least 50 episodes published
+- No more than 100 episodes published (targeting smaller shows)
 - Released an episode within the last 30 days
 - Language is English
 - RSS feed contains: email, host name, website, latest episode title and description
+
+Search queries hit the iTunes **AU** store (`country=AU`), but that only reflects
+which catalog is queried — it does not mean the podcast is Australian. Roughly
+four in five results are foreign shows that happen to be listed in Australia.
+The country review step is what actually enforces the Australian filter.
