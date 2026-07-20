@@ -20,6 +20,11 @@ const routes: Array<{ path: string; lastModified: string }> = [
   { path: "/valentines-day-flower-delivery", lastModified: "2026-07-20" },
   { path: "/mothers-day-flower-delivery", lastModified: "2026-07-20" },
   { path: "/flower-delivery-perth", lastModified: "2026-07-20" },
+  { path: "/flower-delivery-melbourne", lastModified: "2026-07-20" },
+  { path: "/flower-delivery-sydney", lastModified: "2026-07-20" },
+  { path: "/flower-delivery-brisbane", lastModified: "2026-07-20" },
+  { path: "/flower-delivery-adelaide", lastModified: "2026-07-20" },
+  { path: "/flower-delivery-hobart", lastModified: "2026-07-20" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

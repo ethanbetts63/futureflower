@@ -88,6 +88,36 @@ const publicRoutes: Record<string, RouteMetadata> = {
     path: "/flower-delivery-perth",
     ogImage: "/og-images/og-flower-delivery-perth.webp",
   },
+  "/flower-delivery-melbourne": {
+    title: "Flower Delivery Melbourne",
+    description:
+      "Fresh flower delivery in Melbourne from local florists. Pick a date, set a budget, and add your preferences.",
+    path: "/flower-delivery-melbourne",
+  },
+  "/flower-delivery-sydney": {
+    title: "Flower Delivery Sydney",
+    description:
+      "Fresh flower delivery in Sydney from local florists. Pick a date, set a budget, and add your preferences.",
+    path: "/flower-delivery-sydney",
+  },
+  "/flower-delivery-brisbane": {
+    title: "Flower Delivery Brisbane",
+    description:
+      "Fresh flower delivery in Brisbane from local florists. Pick a date, set a budget, and add your preferences.",
+    path: "/flower-delivery-brisbane",
+  },
+  "/flower-delivery-adelaide": {
+    title: "Flower Delivery Adelaide",
+    description:
+      "Fresh flower delivery in Adelaide from local florists. Pick a date, set a budget, and add your preferences.",
+    path: "/flower-delivery-adelaide",
+  },
+  "/flower-delivery-hobart": {
+    title: "Flower Delivery Hobart",
+    description:
+      "Fresh flower delivery in Hobart from local florists. Pick a date, set a budget, and add your preferences.",
+    path: "/flower-delivery-hobart",
+  },
   "/articles": {
     title: "Flower Delivery Guides",
     description:

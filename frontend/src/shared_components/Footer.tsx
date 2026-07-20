@@ -38,6 +38,11 @@ const Footer = () => {
             <Link href="/valentines-day-flower-delivery" className="text-sm hover:underline">Valentine's Day Flowers</Link>
             <Link href="/mothers-day-flower-delivery" className="text-sm hover:underline">Mother's Day Flowers</Link>
             <Link href="/flower-delivery-perth" className="text-sm hover:underline">Flower Delivery Perth</Link>
+            <Link href="/flower-delivery-melbourne" className="text-sm hover:underline">Flower Delivery Melbourne</Link>
+            <Link href="/flower-delivery-sydney" className="text-sm hover:underline">Flower Delivery Sydney</Link>
+            <Link href="/flower-delivery-brisbane" className="text-sm hover:underline">Flower Delivery Brisbane</Link>
+            <Link href="/flower-delivery-adelaide" className="text-sm hover:underline">Flower Delivery Adelaide</Link>
+            <Link href="/flower-delivery-hobart" className="text-sm hover:underline">Flower Delivery Hobart</Link>
           </div>
 
           {/* Articles */}
