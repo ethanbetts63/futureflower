@@ -5,7 +5,7 @@
 ## Tech Stack
 
 *   **Backend:** Django, Django Rest Framework
-*   **Frontend:** React, Vite, TypeScript, Tailwind CSS
+*   **Frontend:** Next.js (App Router), React, TypeScript, Tailwind CSS
 *   **Database:** MySQL
 *   **Payments:** Stripe
 *   **Email:** Mailgun
@@ -72,8 +72,9 @@ Follow these instructions to set up a local development environment.
     MAILGUN_API_KEY=your_mailgun_api_key
     MAILGUN_DOMAIN=your_mailgun_domain
 
-    # The base URL of the server, used for creating absolute URLs
-    API_SERVER_URL=http://127.0.0.1:8000
+    # The public base URL of the site, used for creating absolute URLs
+    # (password reset links, Stripe Connect return URLs, unsubscribe links)
+    SITE_URL=http://127.0.0.1:8000
     ```
 
 5.  **Run database migrations:**
@@ -105,11 +106,29 @@ Follow these instructions to set up a local development environment.
     npm install
     ```
 
-3.  **Run the frontend development server:**
+3.  **Set up frontend environment variables:**
+    Create a `.env` file in the `frontend` directory.
+    ```env
+    # Where the Next server and the /api rewrite reach Django.
+    # Defaults to http://127.0.0.1:8000 if unset.
+    DJANGO_API_URL=http://127.0.0.1:8000
+
+    # Stripe publishable key. This must match the mode of the backend's
+    # STRIPE_SECRET_KEY — a live key here against a test-mode secret on the
+    # backend leaves the payment form permanently blank.
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+    ```
+    `NEXT_PUBLIC_*` values are inlined at build time rather than read at
+    runtime, so in production they must be set in the hosting environment that
+    runs `next build` (Vercel's project settings). This file is gitignored and
+    never reaches a deploy.
+
+4.  **Run the frontend development server:**
     ```bash
     npm run dev
     ```
-    The frontend will be available at `http://localhost:5173` (or another port if 5173 is in use). The Vite dev server is configured to proxy API requests to the backend.
+    The frontend will be available at `http://localhost:3000`. Next.js rewrites
+    `/api/*` requests to `DJANGO_API_URL` (see `next.config.ts`).
 
 ## Running Tests
 

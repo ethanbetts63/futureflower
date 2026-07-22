@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { loadStripe } from '@stripe/stripe-js';
 import type { StripeElementsOptions, Appearance } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { toast } from 'sonner';
@@ -14,9 +13,8 @@ import OrderTotalSummary from '@/shared_components/form_flow/OrderTotalSummary';
 import OrderReviewGrid from '@/shared_components/form_flow/OrderReviewGrid';
 import SummarySection from '@/shared_components/SummarySection';
 import { ShieldCheck } from 'lucide-react';
+import { stripePromise } from '@/lib/stripeClient';
 import type { Order } from '@/types';
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '');
 
 interface CheckoutHandoff {
     /** null once read but absent — no payment was ever started for this visit. */
