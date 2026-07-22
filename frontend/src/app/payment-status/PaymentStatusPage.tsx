@@ -77,9 +77,8 @@ const UniversalPaymentStatusPage = () => {
                     'Your payment went through and your card has been charged, but your plan ' +
                     'has not finished activating yet. This usually resolves on its own within ' +
                     'a few minutes and you will get a confirmation email once it does. ' +
-                    'If that email has not arrived within an hour, contact us at ' +
-                    'admin@futureflower.app from the email address you used at checkout and ' +
-                    'we will sort it out — do not pay again.'
+                    'If that email has not arrived within an hour, get in touch through our ' +
+                    'order support page and we will sort it out — do not pay again.'
                 );
                 setIsProcessing(false);
                 setIsActivating(false);
@@ -222,9 +221,7 @@ const UniversalPaymentStatusPage = () => {
                                             <Clock className="h-14 w-14 text-amber-500" />
                                             <p className="text-lg">{message}</p>
                                             <Button asChild variant="outline">
-                                                <Link href="mailto:admin@futureflower.app?subject=Plan%20activation%20pending">
-                                                    Contact support
-                                                </Link>
+                                                <Link href="/order-support">Contact support</Link>
                                             </Button>
                                         </div>
                                     ) : (
