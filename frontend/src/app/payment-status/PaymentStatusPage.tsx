@@ -59,13 +59,27 @@ const UniversalPaymentStatusPage = () => {
                     return;
                 }
             } catch {
+                // Swallowed on purpose. A single failed poll says nothing —
+                // the order may simply not be activated yet, and the request
+                // is retried on the next tick. Only exhausting every attempt
+                // is meaningful, and that is handled below.
             }
 
             if (attempts >= MAX_POLL_ATTEMPTS) {
                 clearInterval(pollIntervalRef.current!);
+                // Activation is driven by Stripe's payment_intent.succeeded
+                // webhook, so exhausting the poll window means fulfilment has
+                // not happened yet — not that it succeeded quietly. Say so
+                // plainly and give the customer somewhere to go: the previous
+                // copy paired a green tick with a redirect that never ran.
+                setActivationPending(true);
                 setMessage(
-                    'Your payment was received but activation is taking a little longer than expected. ' +
-                    'Redirecting you now — your plan may take a moment to show as active.'
+                    'Your payment went through and your card has been charged, but your plan ' +
+                    'has not finished activating yet. This usually resolves on its own within ' +
+                    'a few minutes and you will get a confirmation email once it does. ' +
+                    'If that email has not arrived within an hour, contact us at ' +
+                    'admin@futureflower.app from the email address you used at checkout and ' +
+                    'we will sort it out — do not pay again.'
                 );
                 setIsProcessing(false);
                 setIsActivating(false);
@@ -202,6 +216,16 @@ const UniversalPaymentStatusPage = () => {
                                         <div className="flex flex-col items-center gap-4">
                                             <Spinner className="h-10 w-10" />
                                             <p className="text-lg">{message}</p>
+                                        </div>
+                                    ) : activationPending ? (
+                                        <div className="flex flex-col items-center gap-4">
+                                            <Clock className="h-14 w-14 text-amber-500" />
+                                            <p className="text-lg">{message}</p>
+                                            <Button asChild variant="outline">
+                                                <Link href="mailto:admin@futureflower.app?subject=Plan%20activation%20pending">
+                                                    Contact support
+                                                </Link>
+                                            </Button>
                                         </div>
                                     ) : (
                                         <div className="flex flex-col items-center gap-4">

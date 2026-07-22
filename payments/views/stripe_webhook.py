@@ -1,3 +1,5 @@
+import logging
+
 import stripe
 from django.conf import settings
 from django.http import HttpResponse
@@ -13,6 +15,9 @@ from payments.utils.webhook_handlers import (
     handle_account_updated,
     handle_transfer_created,
 )
+
+logger = logging.getLogger(__name__)
+
 
 class StripeWebhookView(APIView):
     """
@@ -31,9 +36,25 @@ class StripeWebhookView(APIView):
             event = stripe.Webhook.construct_event(
                 payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
             )
-        except ValueError as e:
+        except ValueError:
+            logger.exception(
+                "Stripe webhook rejected: payload was not valid JSON."
+            )
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        except stripe.error.SignatureVerificationError as e:
+        except stripe.error.SignatureVerificationError:
+            # Worth being loud and specific. A rejected webhook means the
+            # order is never activated even though the customer has been
+            # charged, and the usual cause is STRIPE_WEBHOOK_SECRET belonging
+            # to a different endpoint or Stripe mode than the events being
+            # sent — which is invisible from the outside and looks to the
+            # customer like a checkout that silently half-finished.
+            logger.error(
+                "Stripe webhook rejected: signature verification failed. Check that "
+                "STRIPE_WEBHOOK_SECRET matches the signing secret of the endpoint "
+                "sending these events, and that both are in the same Stripe mode "
+                "(a test-mode secret cannot verify live-mode events). Orders will "
+                "not activate until this is fixed."
+            )
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         if event['type'] == 'payment_intent.succeeded':
@@ -55,6 +76,6 @@ class StripeWebhookView(APIView):
             handle_transfer_created(event['data']['object'])
 
         else:
-            print(f"Unhandled event type {event['type']}")
+            logger.warning("Unhandled Stripe webhook event type: %s", event['type'])
 
         return HttpResponse(status=200)

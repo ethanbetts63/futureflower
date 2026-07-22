@@ -9,6 +9,21 @@ import stripeLogo from '@/assets/stripe-ar21.svg';
 import { assetSrc } from '@/lib/assets';
 import { useAuth } from '@/context/AuthContext';
 
+/**
+ * A footer link, with prefetching turned off.
+ *
+ * The footer sits in the root layout, so it renders on every page, and App
+ * Router <Link> prefetches each destination as it scrolls into view. That
+ * meant every page view fired an RSC request per footer link — twenty-odd
+ * fetches for pages the visitor is unlikely to open. Footer navigation is
+ * infrequent and deliberate, so it can afford to load on click.
+ */
+const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
+  <Link href={href} prefetch={false} className="text-sm hover:underline">
+    {children}
+  </Link>
+);
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { user } = useAuth();
@@ -20,43 +35,43 @@ const Footer = () => {
 
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Quick Links</p>
-            <Link href="/florists" className="text-sm hover:underline">Florists</Link>
-            <Link href="/affiliates" className="text-sm hover:underline">Affiliates</Link>
-            <Link href="/order-support" className="text-sm hover:underline">Order Support</Link>
-            <Link href="/login" className="text-sm hover:underline">Log in</Link>
+            <FooterLink href="/florists">Florists</FooterLink>
+            <FooterLink href="/affiliates">Affiliates</FooterLink>
+            <FooterLink href="/order-support">Order Support</FooterLink>
+            <FooterLink href="/login">Log in</FooterLink>
             {(user?.is_staff || user?.is_superuser) && (
-              <Link href="/admin-dashboard" className="text-sm hover:underline">Admin Dashboard</Link>
+              <FooterLink href="/admin-dashboard">Admin Dashboard</FooterLink>
             )}
           </div>
 
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Flower Delivery</p>
-            <Link href="/flower-subscription" className="text-sm hover:underline">Flower Subscription</Link>
-            <Link href="/birthday-flower-delivery" className="text-sm hover:underline">Birthday Flowers</Link>
-            <Link href="/valentines-day-flower-delivery" className="text-sm hover:underline">Valentine's Day Flowers</Link>
-            <Link href="/mothers-day-flower-delivery" className="text-sm hover:underline">Mother's Day Flowers</Link>
-            <Link href="/flower-delivery-perth" className="text-sm hover:underline">Flower Delivery Perth</Link>
-            <Link href="/flower-delivery-melbourne" className="text-sm hover:underline">Flower Delivery Melbourne</Link>
-            <Link href="/flower-delivery-sydney" className="text-sm hover:underline">Flower Delivery Sydney</Link>
-            <Link href="/flower-delivery-brisbane" className="text-sm hover:underline">Flower Delivery Brisbane</Link>
-            <Link href="/flower-delivery-adelaide" className="text-sm hover:underline">Flower Delivery Adelaide</Link>
-            <Link href="/flower-delivery-hobart" className="text-sm hover:underline">Flower Delivery Hobart</Link>
+            <FooterLink href="/flower-subscription">Flower Subscription</FooterLink>
+            <FooterLink href="/birthday-flower-delivery">Birthday Flowers</FooterLink>
+            <FooterLink href="/valentines-day-flower-delivery">Valentine's Day Flowers</FooterLink>
+            <FooterLink href="/mothers-day-flower-delivery">Mother's Day Flowers</FooterLink>
+            <FooterLink href="/flower-delivery-perth">Flower Delivery Perth</FooterLink>
+            <FooterLink href="/flower-delivery-melbourne">Flower Delivery Melbourne</FooterLink>
+            <FooterLink href="/flower-delivery-sydney">Flower Delivery Sydney</FooterLink>
+            <FooterLink href="/flower-delivery-brisbane">Flower Delivery Brisbane</FooterLink>
+            <FooterLink href="/flower-delivery-adelaide">Flower Delivery Adelaide</FooterLink>
+            <FooterLink href="/flower-delivery-hobart">Flower Delivery Hobart</FooterLink>
           </div>
 
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Guides &amp; Articles</p>
-            <Link href="/articles" className="text-sm hover:underline">All Articles</Link>
-            <Link href="/articles/best-flower-subscription-services-au" className="text-sm hover:underline">Best Subscriptions Australia</Link>
-            <Link href="/articles/best-flower-delivery-perth" className="text-sm hover:underline">Best Flower Delivery Perth</Link>
-            <Link href="/articles/best-flower-delivery-sydney" className="text-sm hover:underline">Best Flower Delivery Sydney</Link>
-            <Link href="/articles/best-flower-delivery-melbourne" className="text-sm hover:underline">Best Flower Delivery Melbourne</Link>
+            <FooterLink href="/articles">All Articles</FooterLink>
+            <FooterLink href="/articles/best-flower-subscription-services-au">Best Subscriptions Australia</FooterLink>
+            <FooterLink href="/articles/best-flower-delivery-perth">Best Flower Delivery Perth</FooterLink>
+            <FooterLink href="/articles/best-flower-delivery-sydney">Best Flower Delivery Sydney</FooterLink>
+            <FooterLink href="/articles/best-flower-delivery-melbourne">Best Flower Delivery Melbourne</FooterLink>
           </div>
 
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Legal</p>
-            <Link href="/terms-and-conditions/customer" className="text-sm hover:underline">Customer Terms & Conditions</Link>
-            <Link href="/terms-and-conditions/florist" className="text-sm hover:underline">Florist Terms & Conditions</Link>
-            <Link href="/terms-and-conditions/affiliate" className="text-sm hover:underline">Affiliate Terms & Conditions</Link>
+            <FooterLink href="/terms-and-conditions/customer">Customer Terms & Conditions</FooterLink>
+            <FooterLink href="/terms-and-conditions/florist">Florist Terms & Conditions</FooterLink>
+            <FooterLink href="/terms-and-conditions/affiliate">Affiliate Terms & Conditions</FooterLink>
           </div>
 
           <div className="flex flex-col gap-3">
