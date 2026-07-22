@@ -4,7 +4,7 @@ import { useStripe } from '@stripe/react-stripe-js';
 import type { PaymentIntentResult } from '@stripe/stripe-js';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Clock } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared_components/ui/card';
 import { Button } from '@/shared_components/ui/button';
 import { Spinner } from '@/shared_components/ui/spinner';
@@ -25,6 +25,10 @@ const UniversalPaymentStatusPage = () => {
     const [isProcessing, setIsProcessing] = useState(true);
     const [isActivating, setIsActivating] = useState(false);
     const [paymentSucceeded, setPaymentSucceeded] = useState(false);
+    // Charged, but the order never reached 'active' within the poll window.
+    // Distinct from success: the customer's money is gone and fulfilment is
+    // unconfirmed, so this must not be presented as a completed purchase.
+    const [activationPending, setActivationPending] = useState(false);
     const [tryAgainPath, setTryAgainPath] = useState('/');
     const [plan, setPlan] = useState<Order | null>(null);
     const [planLoading, setPlanLoading] = useState(true);
