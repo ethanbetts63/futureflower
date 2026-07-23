@@ -3,7 +3,7 @@
  */
 export const MIN_DAYS_BEFORE_CREATE = 3;
 export const MIN_DAYS_BEFORE_EDIT = 7;
-export const MIN_BUDGET = 1;
+export const MIN_BUDGET = 65;
 
 /**
  * The earliest delivery date the customer may pick, as a yyyy-mm-dd string.
@@ -19,7 +19,7 @@ export function minDeliveryDate(isEdit = false): string {
  * DELIVERY_INCLUDED_THRESHOLD in settings.py) and returns it on the order as
  * `delivery_fee` — always price the checkout from that, never from these.
  */
-export const DELIVERY_INCLUDED_THRESHOLD = 1;
+export const DELIVERY_INCLUDED_THRESHOLD = 65;
 export const DELIVERY_FEE = 20;
 
 export const MS_PER_DAY = 86400000;
