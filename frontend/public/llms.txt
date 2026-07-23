@@ -5,6 +5,8 @@
 FutureFlower is a platform that connects customers with independent local Australian florists. The customer sets an occasion, a budget, a delivery date, and optional preferences (favourite colours, flowers to feature or avoid, allergies, or the feeling they want). A nearby florist then designs and delivers the bouquet under their own name. FutureFlower does not grow, stock, or arrange flowers itself — every bouquet is made and delivered by a local florist. Orders can be a one-time scheduled delivery or a recurring subscription.
 
 ## Main pages
+- [Corporate Flower Subscriptions](https://www.futureflower.app/corporate-flower-subscriptions): Recurring office flower delivery for receptions, meeting rooms, client spaces, and shared workplace areas.
+- [Send Flowers to Australia from Overseas](https://www.futureflower.app/send-flowers-to-australia-from-overseas): Order from anywhere in the world for local florist fulfilment and delivery in Australia.
 - [Home](https://www.futureflower.app/): Start an order — choose an occasion, budget, delivery date, and preferences for a florist to work from.
 - [Pricing](https://www.futureflower.app/pricing): Budget tiers and transparent pricing. From $100 the budget you set is the exact amount charged, with delivery included; below $100 a $20 delivery fee is added on top and shown before payment.
 - [Flower Subscription](https://www.futureflower.app/flower-subscription): Recurring flower delivery — choose a frequency and budget, and a local florist designs a fresh seasonal bouquet each cycle. Pause, skip, or cancel anytime.

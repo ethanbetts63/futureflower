@@ -9,6 +9,8 @@ const routes: Array<{ path: string; lastModified: string }> = [
   { path: "/affiliates", lastModified: "2026-07-20" },
   { path: "/pricing", lastModified: "2026-07-20" },
   { path: "/flower-subscription", lastModified: "2026-07-20" },
+  { path: "/corporate-flower-subscriptions", lastModified: "2026-07-23" },
+  { path: "/send-flowers-to-australia-from-overseas", lastModified: "2026-07-23" },
   { path: "/articles", lastModified: "2026-07-20" },
   { path: "/articles/best-flower-subscription-services-au", lastModified: "2026-07-20" },
   { path: "/articles/best-flower-delivery-perth", lastModified: "2026-07-20" },

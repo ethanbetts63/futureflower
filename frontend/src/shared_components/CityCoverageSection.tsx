@@ -1,4 +1,5 @@
 import { MapPin } from 'lucide-react';
+import Link from 'next/link';
 import type { CityCoverage } from '@/lib/cityCoverage';
 
 interface CityCoverageSectionProps {
@@ -46,6 +47,16 @@ export const CityCoverageSection = ({ coverage }: CityCoverageSectionProps) => (
       <div className="mt-8 rounded-xl bg-[#eaf1e7] px-5 py-4 text-sm leading-relaxed text-black/65">
         <strong className="text-black">Need delivery somewhere else in {coverage.state}?</strong>{' '}
         Enter the recipient&apos;s address during checkout. Final availability depends on the exact address, delivery date and a local florist accepting the order.
+        <span className="mt-2 block">
+          Ordering from another country?{' '}
+          <Link
+            href="/send-flowers-to-australia-from-overseas"
+            className="font-semibold text-black underline underline-offset-4"
+          >
+            See how to send flowers to Australia from overseas
+          </Link>
+          .
+        </span>
       </div>
     </div>
   </section>

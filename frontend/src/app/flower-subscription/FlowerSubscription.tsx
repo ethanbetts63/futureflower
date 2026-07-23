@@ -2,6 +2,7 @@ import OccasionLandingPage, { type OccasionLandingPageConfig } from '@/shared_co
 import { buildServiceSchema } from '@/lib/seo';
 import type { FaqItem } from '@/types/FaqItem';
 import { CalendarClock, Leaf, Palette, RefreshCw, ShieldCheck } from 'lucide-react';
+import Link from 'next/link';
 
 const subscriptionFaqs: FaqItem[] = [
   {
@@ -107,6 +108,32 @@ const config: OccasionLandingPageConfig = {
   faqs: subscriptionFaqs,
 };
 
-const FlowerSubscription = () => <OccasionLandingPage config={config} />;
+const CorporateSubscriptionLink = () => (
+  <section className="border-y border-black/10 bg-white py-10">
+    <div className="mx-auto flex max-w-7xl flex-col gap-5 px-5 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
+          Flowers for work
+        </p>
+        <h2 className="mt-2 text-2xl font-bold font-playfair-display">
+          Setting up recurring flowers for an office?
+        </h2>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-black/60">
+          Build a standing brief for receptions, meeting rooms, and client spaces.
+        </p>
+      </div>
+      <Link
+        href="/corporate-flower-subscriptions"
+        className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-lg bg-black px-5 py-3 text-sm font-semibold text-white transition hover:bg-black/85"
+      >
+        Explore corporate subscriptions
+      </Link>
+    </div>
+  </section>
+);
+
+const FlowerSubscription = () => (
+  <OccasionLandingPage config={config} beforeFaq={<CorporateSubscriptionLink />} />
+);
 
 export default FlowerSubscription;

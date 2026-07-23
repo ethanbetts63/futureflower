@@ -59,6 +59,18 @@ const publicRoutes: Record<string, RouteMetadata> = {
       "Set up a recurring flower subscription designed by a local Australian florist. Choose your frequency and budget, pause anytime, and get fresh seasonal bouquets on repeat.",
     path: "/flower-subscription",
   },
+  "/corporate-flower-subscriptions": {
+    title: "Corporate Flower Subscriptions for Offices",
+    description:
+      "Recurring office flower delivery by local Australian florists. Set a workplace brief, budget, and weekly, fortnightly, or monthly schedule.",
+    path: "/corporate-flower-subscriptions",
+  },
+  "/send-flowers-to-australia-from-overseas": {
+    title: "Send Flowers to Australia from Overseas",
+    description:
+      "Send flowers to Australia from anywhere in the world. Set the occasion, budget, date, and preferences, and a local Australian florist delivers them.",
+    path: "/send-flowers-to-australia-from-overseas",
+  },
   "/birthday-flower-delivery": {
     title: "Birthday Flower Delivery",
     description:
