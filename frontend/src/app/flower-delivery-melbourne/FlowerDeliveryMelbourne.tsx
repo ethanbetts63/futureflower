@@ -4,8 +4,15 @@ import OccasionLandingPage, {
 } from '@/shared_components/OccasionLandingPage';
 import { buildServiceSchema } from '@/lib/seo';
 import type { FaqItem } from '@/types/FaqItem';
+import { CityCoverageSection } from '@/shared_components/CityCoverageSection';
+import { cityCoverage } from '@/lib/cityCoverage';
 
 const melbourneFaqs: FaqItem[] = [
+  {
+    question: 'Looking to send flowers to Melbourne?',
+    answer:
+      'Choose the occasion, budget, delivery date, and preferences above. A local Melbourne florist uses your brief to create a fresh, personalised arrangement and deliver it to the recipient, subject to availability for their address and date.',
+  },
   {
     question: 'How does flower delivery in Melbourne work?',
     answer:
@@ -121,6 +128,11 @@ const config: OccasionLandingPageConfig = {
   faqs: melbourneFaqs,
 };
 
-const FlowerDeliveryMelbourne = () => <OccasionLandingPage config={config} />;
+const FlowerDeliveryMelbourne = () => (
+  <OccasionLandingPage
+    config={config}
+    beforeFaq={<CityCoverageSection coverage={cityCoverage.melbourne} />}
+  />
+);
 
 export default FlowerDeliveryMelbourne;

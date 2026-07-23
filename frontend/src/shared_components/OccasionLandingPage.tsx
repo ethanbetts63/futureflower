@@ -12,6 +12,7 @@ import { FaqV2 } from '@/shared_components/FaqV2';
 import type { FaqItem } from '@/types/FaqItem';
 import { Check } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import type { ReactNode } from 'react';
 
 import petalImage from '@/assets/petal-1280w.webp';
 import floristMakingImage from '@/assets/florist-1280w.webp';
@@ -53,7 +54,12 @@ export interface OccasionLandingPageConfig {
   faqs: FaqItem[];
 }
 
-const OccasionLandingPage = ({ config }: { config: OccasionLandingPageConfig }) => {
+interface OccasionLandingPageProps {
+  config: OccasionLandingPageConfig;
+  beforeFaq?: ReactNode;
+}
+
+const OccasionLandingPage = ({ config, beforeFaq }: OccasionLandingPageProps) => {
   return (
     <main className="overflow-x-hidden bg-white text-black">
       <JsonLd path={config.seo.canonicalPath} structuredData={config.seo.structuredData} />
@@ -125,6 +131,8 @@ const OccasionLandingPage = ({ config }: { config: OccasionLandingPageConfig }) 
           ))}
         </div>
       </section>
+
+      {beforeFaq}
 
       <div className="bg-[#fbfaf7]">
         <section className="pb-8">

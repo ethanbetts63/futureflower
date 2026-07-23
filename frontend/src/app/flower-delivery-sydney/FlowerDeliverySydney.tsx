@@ -4,8 +4,15 @@ import OccasionLandingPage, {
 } from '@/shared_components/OccasionLandingPage';
 import { buildServiceSchema } from '@/lib/seo';
 import type { FaqItem } from '@/types/FaqItem';
+import { CityCoverageSection } from '@/shared_components/CityCoverageSection';
+import { cityCoverage } from '@/lib/cityCoverage';
 
 const sydneyFaqs: FaqItem[] = [
+  {
+    question: 'Looking to send flowers to Sydney?',
+    answer:
+      'Choose the occasion, budget, delivery date, and preferences above. A local Sydney florist uses your brief to create a fresh, personalised arrangement and deliver it to the recipient, subject to availability for their address and date.',
+  },
   {
     question: 'How does flower delivery in Sydney work?',
     answer:
@@ -121,6 +128,11 @@ const config: OccasionLandingPageConfig = {
   faqs: sydneyFaqs,
 };
 
-const FlowerDeliverySydney = () => <OccasionLandingPage config={config} />;
+const FlowerDeliverySydney = () => (
+  <OccasionLandingPage
+    config={config}
+    beforeFaq={<CityCoverageSection coverage={cityCoverage.sydney} />}
+  />
+);
 
 export default FlowerDeliverySydney;

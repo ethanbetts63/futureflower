@@ -4,8 +4,15 @@ import OccasionLandingPage, {
 } from '@/shared_components/OccasionLandingPage';
 import { buildServiceSchema } from '@/lib/seo';
 import type { FaqItem } from '@/types/FaqItem';
+import { CityCoverageSection } from '@/shared_components/CityCoverageSection';
+import { cityCoverage } from '@/lib/cityCoverage';
 
 const adelaideFaqs: FaqItem[] = [
+  {
+    question: 'Looking to send flowers to Adelaide?',
+    answer:
+      'Choose the occasion, budget, delivery date, and preferences above. A local Adelaide florist uses your brief to create a fresh, personalised arrangement and deliver it to the recipient, subject to availability for their address and date.',
+  },
   {
     question: 'How does flower delivery in Adelaide work?',
     answer:
@@ -121,6 +128,11 @@ const config: OccasionLandingPageConfig = {
   faqs: adelaideFaqs,
 };
 
-const FlowerDeliveryAdelaide = () => <OccasionLandingPage config={config} />;
+const FlowerDeliveryAdelaide = () => (
+  <OccasionLandingPage
+    config={config}
+    beforeFaq={<CityCoverageSection coverage={cityCoverage.adelaide} />}
+  />
+);
 
 export default FlowerDeliveryAdelaide;

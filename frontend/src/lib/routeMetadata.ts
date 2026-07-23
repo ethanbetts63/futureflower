@@ -25,12 +25,9 @@ const articleRoutes: Record<string, RouteMetadata> = Object.fromEntries(
 
 const publicRoutes: Record<string, RouteMetadata> = {
   "/": {
-    // NOTE: the "%s | FutureFlower" title template in app/layout.tsx does NOT apply
-    // to the homepage — Next.js only applies a template to CHILD segments, and
-    // app/page.tsx shares the root segment with app/layout.tsx. So the brand must be
-    // baked into the homepage title explicitly here (every other route gets it via
-    // the template).
-    title: "Online Flower Delivery Aus| Delivery inc.",
+    // The root title template does not apply to app/page.tsx, so this is the exact
+    // homepage title. The brand suffix is intentionally omitted here.
+    title: "Personalised Online Flower Delivery Australia",
     description:
       "Tell us the occasion, budget, and flower preferences. A local Australian florist designs a bouquet that fits.",
     path: "/",

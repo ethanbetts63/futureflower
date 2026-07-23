@@ -4,8 +4,15 @@ import OccasionLandingPage, {
 } from '@/shared_components/OccasionLandingPage';
 import { buildServiceSchema } from '@/lib/seo';
 import type { FaqItem } from '@/types/FaqItem';
+import { CityCoverageSection } from '@/shared_components/CityCoverageSection';
+import { cityCoverage } from '@/lib/cityCoverage';
 
 const perthFaqs: FaqItem[] = [
+  {
+    question: 'Looking to send flowers to Perth?',
+    answer:
+      'Choose the occasion, budget, delivery date, and preferences above. A local Perth florist uses your brief to create a fresh, personalised arrangement and deliver it to the recipient, subject to availability for their address and date.',
+  },
   {
     question: 'How does flower delivery in Perth work?',
     answer:
@@ -121,6 +128,11 @@ const config: OccasionLandingPageConfig = {
   faqs: perthFaqs,
 };
 
-const FlowerDeliveryPerth = () => <OccasionLandingPage config={config} />;
+const FlowerDeliveryPerth = () => (
+  <OccasionLandingPage
+    config={config}
+    beforeFaq={<CityCoverageSection coverage={cityCoverage.perth} />}
+  />
+);
 
 export default FlowerDeliveryPerth;

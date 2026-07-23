@@ -1,6 +1,7 @@
 import OccasionLandingPage, { type OccasionLandingPageConfig } from '@/shared_components/OccasionLandingPage';
 import { defaultTrustPoints } from '@/shared_components/occasionLandingContent';
 import type { FaqItem } from '@/types/FaqItem';
+import { WhyFutureFlowerSection } from '@/shared_components/WhyFutureFlowerSection';
 
 const homeFaqs: FaqItem[] = [
   {
@@ -62,6 +63,8 @@ const config: OccasionLandingPageConfig = {
   faqs: homeFaqs,
 };
 
-const HomePage = () => <OccasionLandingPage config={config} />;
+const HomePage = () => (
+  <OccasionLandingPage config={config} beforeFaq={<WhyFutureFlowerSection />} />
+);
 
 export default HomePage;
