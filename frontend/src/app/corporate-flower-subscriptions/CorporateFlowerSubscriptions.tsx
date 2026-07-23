@@ -35,9 +35,9 @@ const corporateFaqs: FaqItem[] = [
       'Not exactly. The florist follows your standing brief but works with fresh, seasonal availability, so each arrangement can evolve while remaining appropriate for your workplace and preferences.',
   },
   {
-    question: 'Can an office flower subscription be paused or cancelled?',
+    question: 'Can an office flower subscription be cancelled?',
     answer:
-      'Yes. You can pause or skip deliveries when the office is closed or cancel the subscription without a lock-in contract.',
+      'Yes. You can cancel the subscription from your account. If the office will be closed for a period, cancel the current subscription and create a new one when deliveries should resume.',
   },
   {
     question: 'Can we arrange flowers for multiple office locations?',
@@ -87,7 +87,7 @@ const config: OccasionLandingPageConfig = {
     {
       icon: ShieldCheck,
       title: 'Flexible when work changes',
-      text: 'Pause, skip, or cancel when the office closes, plans change, or the subscription is no longer needed.',
+      text: 'Cancel from your account when plans change, then create a new subscription whenever deliveries should resume.',
     },
   ],
   betterForEveryoneBenefits: [

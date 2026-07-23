@@ -47,6 +47,8 @@ const Footer = () => {
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1">Flower Delivery</p>
             <FooterLink href="/flower-subscription">Flower Subscription</FooterLink>
+            <FooterLink href="/corporate-flower-subscriptions">Corporate Flower Subscriptions</FooterLink>
+            <FooterLink href="/send-flowers-to-australia-from-overseas">Send Flowers from Overseas</FooterLink>
             <FooterLink href="/birthday-flower-delivery">Birthday Flowers</FooterLink>
             <FooterLink href="/valentines-day-flower-delivery">Valentine's Day Flowers</FooterLink>
             <FooterLink href="/mothers-day-flower-delivery">Mother's Day Flowers</FooterLink>
